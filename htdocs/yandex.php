@@ -1,0 +1,476 @@
+<?php
+
+/*
++--------------------------------------------------------------------------
+|   Invision Power Board v1.2
+|   ========================================
+|   by Getta Yur Mikhail (Song)
+|   (c) 2004 - 2005 Sources.RU
+|   http://www.sources.ru
+|   ========================================
+|   Web: http://forum.sources.ru
+|   Email: song@sources.ru
+|   Licence Info: Copyright 2005 (c) Song
++---------------------------------------------------------------------------
+|
+|   RSS output Script File for Invision Power Board
+|   To use it, look at description http://forum.sources.ru/index.php?showtopic=81342
+|
+|   THIS IS NOT FREEWARE PRODUCT. If you have this one, you buy it or you are friend of a author :)
+|   DO NOT DISTRIBUTE.
+|   You can donate some money to author of script: WM R252761111989, Z845880689560
++--------------------------------------------------------------------------
+*/
+
+//-----------------------------------------------
+// USER CONFIGURABLE ELEMENTS
+//-----------------------------------------------
+ 
+// Root path
+
+define( 'ROOT_PATH', "./" );
+
+//-----------------------------------------------
+// NO USER EDITABLE SECTIONS BELOW
+//-----------------------------------------------
+ 
+error_reporting  (E_ERROR | E_WARNING | E_PARSE);
+set_magic_quotes_runtime(0);
+
+class Debug {
+
+    function startTimer() 
+    {
+        global $starttime;
+        $mtime = microtime ();
+        $mtime = explode (' ', $mtime);
+        $mtime = $mtime[1] + $mtime[0];
+        $starttime = $mtime;
+    }
+
+    function endTimer() 
+    {
+        global $starttime;
+        $mtime = microtime ();
+        $mtime = explode (' ', $mtime);
+        $mtime = $mtime[1] + $mtime[0];
+        $endtime = $mtime;
+        $totaltime = round (($endtime - $starttime), 5);
+        return $totaltime;
+    }
+}
+
+
+
+class info {
+
+	var $skin_id    	= "0";     // Skin Dir name
+	var $skin_rid   	= "";      // Real skin id (numerical only)
+	var $lang_id    	= "en";
+	var $skin       	= "";
+
+	var $input      = array();
+	var $base_url   = "";
+	var $vars       = "";
+
+	function info() 
+	{
+		global $sess, $std, $DB, $INFO;
+		
+		$this->vars = &$INFO;
+	}
+}
+
+//--------------------------------
+// Import $INFO, now!
+//--------------------------------
+
+require ROOT_PATH."../conf_global.php";
+
+
+//--------------------------------
+// The clocks a' tickin'
+//--------------------------------
+		
+$Debug = new Debug;
+$Debug->startTimer();
+
+
+//--------------------------------
+// Require our global functions
+//--------------------------------
+
+require ROOT_PATH."sources/functions.php";
+$std   = new FUNC;
+
+require ROOT_PATH."sources/session.php";
+$sess  = new session();
+
+
+//--------------------------------
+// Load the DB driver and such
+//--------------------------------
+
+$INFO['sql_driver'] = !$INFO['sql_driver'] ? 'mySQL' : $INFO['sql_driver'];
+
+$to_require = ROOT_PATH."sources/Drivers/".$INFO['sql_driver'].".php";
+require ($to_require);
+
+$DB = new db_driver;
+
+$DB->obj['sql_database']     	= $INFO['sql_database'];
+$DB->obj['sql_user']         	= $INFO['sql_user'];
+$DB->obj['sql_pass']         	= $INFO['sql_pass'];
+$DB->obj['sql_host']         	= $INFO['sql_host'];
+$DB->obj['sql_tbl_prefix']   	= $INFO['sql_tbl_prefix'];
+
+// Get a DB connection
+if ( $DB->connect() )
+{
+	$ibforums 	 	= new info();
+	$ibforums->input 	= $std->parse_incoming();
+	
+	$ibforums->input['act'] = "yandex";
+
+	$ibforums->member 	= $sess->authorise();
+	$ibforums->skin       	= $std->load_skin();
+
+	//--------------------------------
+	//  Set up the skin stuff
+	//--------------------------------
+
+	$ibforums->skin_rid 	= $ibforums->skin['set_id'];
+	$ibforums->skin_id  	= 's'.$ibforums->skin['set_id'];
+
+	//--------------------------------
+	//  Set up our language choice
+	//--------------------------------
+
+	if ( !$ibforums->vars['default_language'] ) $ibforums->vars['default_language'] = 'en';
+
+	$ibforums->lang_id = $ibforums->member['language'] ? $ibforums->member['language'] : $ibforums->vars['default_language'];
+
+	if ( $ibforums->lang_id != $ibforums->vars['default_language'] and !is_dir(ROOT_PATH."lang/".$ibforums->lang_id) )
+	{
+		$ibforums->lang_id = $ibforums->vars['default_language'];
+	}
+
+	$ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $ibforums->lang_id);
+
+	//--------------------------------
+
+	$skin_universal = $std->load_template('skin_global');
+
+	//--------------------------------
+
+	$std->flood_begin();
+
+// Song * club tool
+
+	if ( $ibforums->member['id'] )
+	{
+		$DB->query("SELECT read_perms FROM ibf_forums WHERE id='".$ibforums->vars['club']."'");
+
+		if ( $club = $DB->fetch_row() ) $ibforums->member['club_perms'] = $club['read_perms'];
+	}
+
+// Song * club tool
+
+	// disable highlight to reduce power of parser
+	$ibforums->member['syntax'] = 'none';
+
+	$ibforums->member['rss'] = 1;
+
+	// cats
+	$categories = array();
+
+	if ( $ibforums->input['c'] ) 
+	{
+		$categories = explode(",", $ibforums->input['c']);
+		foreach ($categories as $idx => $cat) $categories[ $idx ] = intval($cat);
+	}
+               
+	// forums
+	$forums = array();
+
+	if ( !count($categories) )
+	{
+		if ( $ibforums->input['f'] )
+		{
+			$forums = explode(",", $ibforums->input['f']);
+			foreach ($forums as $idx => $forum) $forums[ $idx ] = intval($forum);
+		}
+	}
+
+	// tids
+	$tids = array();
+
+	if ( $ibforums->input['t'] )
+	{
+		$tids = explode(",", $ibforums->input['t']);
+		foreach ($tids as $idx => $tid) $tids[ $idx ] = intval($tid);
+	}
+
+	// pids
+	$pids = array();
+
+	if ( $ibforums->input['p'] ) 
+	{
+		$pids = explode(",", $ibforums->input['p']);
+		foreach($pids as $idx => $pid) $pids[ $idx ] = intval($pid);
+	}
+
+	$ibforums->base_url = $ibforums->vars['board_url'].'/index.'.$ibforums->vars['php_ext'].'?';
+
+	//----------------------------------------
+	// Header parse...
+	//----------------------------------------
+
+	$template = "
+      <item>
+        <guid isPermaLink='true'>{post_url}</guid>
+        <pubDate>{rfc_date}</pubDate>
+        <title>{thread_title}</title>
+        <link>{post_url}</link>
+        <description><![CDATA[{author}: {text}]]></description>
+        <author>{author}</author>
+        <category>{forum_name}</category>
+      </item>
+	";
+
+  	$to_echo = "<?xml version='1.0' encoding=\"windows-1251\"?>
+      <rss version='2.0'>
+      <channel>
+      <title>Форум на Исходниках.RU</title>
+      <link>http://forum.sources.ru</link>
+      <description>Форум на Исходниках.RU</description>
+      <generator>Форум на Исходниках.RU</generator>
+  	";
+
+	$mask = array();
+	$frms = array();
+
+	$DB->query("SELECT id, parent_id, read_perms, password, status, name, category FROM ibf_forums");
+
+	while ( $row = $DB->fetch_row() )
+	{
+		if ( $row['password'] or $std->check_perms($row['read_perms']) != TRUE or !$row['status'] )
+		{
+			$mask[ $row['id'] ] = $row['id'];
+		}
+
+		$frms[ $row['id'] ] = $row['name'];
+
+		if ( in_array($row['category'], $categories) or ( $ibforums->input['view'] == 'sub' and in_array($row['parent_id'], $forums) ) )
+		{
+			$forums[] = $row['id'];
+		}
+	}
+
+	if ( count($categories) and !count($forums) )
+	{
+		fatal_error("Не найдено разделов для категорий cat_id=".implode(",", $categories));
+	}
+
+	$query = "SELECT pid, author_name, post_date, forum_id, topic_id, author_id, post, use_sig, queued FROM ibf_posts ";
+
+	$query_last = "";
+
+	if ( count($mask) )
+	{
+		$query_last .= "not (forum_id".id_in($mask).") and ";
+	}
+
+	if ( count($pids) )
+	{
+		$query_last .= "pid".id_in($pids)." and ";
+	}
+
+	if ( count($tids) )
+	{
+		$query_last .= "topic_id".id_in($tids)." and ";
+	}
+
+	if ( count($forums) )
+	{
+		$query_last .= "forum_id".id_in($forums)." and edit_time > (".time()."-60*60*24*5) and ";
+	}
+
+	if ( $query_last )
+	{
+		$query_last = substr($query_last, 0, strlen($query_last) - 4);
+		
+		$query .= "WHERE ".$query_last;
+	}
+
+	$query .= "ORDER BY pid DESC LIMIT 75";
+
+	$DB->query($query);
+
+	if ( !$DB->get_num_rows() ) 
+	{
+		$std->flood_end();
+
+		$DB->close_db();
+
+		fatal_error("Запрос не вернул результатов. Проверьте правильность аргументов вызова.");
+	}
+
+	unset($tids);
+	unset($forums);
+
+	$posts  = array();
+	$tids   = array();
+
+	while ( $row = $DB->fetch_row() )
+	{
+		// if access denied
+		if ( isset($mask[ $row['forum_id'] ]) or $row['use_sig'] or $row['queued'] ) continue;
+
+		// store post
+		$posts[] = $row;
+
+		// store topic id
+		$tids[ $row['topic_id'] ] = $row['topic_id'];		
+	}
+
+	// querying title of topics and club property
+	if ( count($tids) )
+	{
+		$DB->query("SELECT tid,title,club FROM ibf_topics WHERE tid".id_in($tids));
+
+		while ( $topic = $DB->fetch_row() ) 
+		{
+			if ( $topic['club'] and $std->check_perms( $ibforums->member['club_perms'] ) != FALSE )
+			{
+				$topic['club'] = 0;
+			}
+
+			$tids[ $topic['tid'] ] = $topic;
+		}
+	}
+
+	$p = 0;
+
+	if ( count($posts) )
+	{
+		require ROOT_PATH."sources/lib/post_parser.php";
+
+		$parser = new post_parser(1);
+		$parser->rss_mode = true;
+		foreach ($posts as $post)
+		{
+			// if we cannot see club topics
+		        if ( !$tids[ $post['topic_id'] ]['title'] or $tids[ $post['topic_id'] ]['club'] ) continue;
+
+                        $txt 		   = $parser->prepare(
+						array(  
+							'TEXT'          => $post['post'],
+							'SMILIES'       => 1,
+							'CODE'          => 1,
+							'SIGNATURE'     => 0,
+							'HTML'          => 1,
+							'HID'	      => -1,
+							'TID'	      => $post['topic_id'],
+						     )
+								);
+			if ( !trim($txt) ) continue;
+
+			$p++;
+			$thread_title      = preg_replace("'&'si", "&amp;", $tids[ $post['topic_id'] ]['title']);
+
+			$author = $post['author_name'];
+			$author = str_replace( '<', '&lt;', $author );
+			$author = str_replace( '>', '&gt;', $author );
+                	$author = str_replace("\r","",$author); // \015 = 13 = 0x0D
+                	$author = preg_replace('#[\000-\010]#'," ",$author);
+                	$author = preg_replace('#[\013-\037]#'," ",$author);
+
+			$author = trim(stripslashes($author));
+
+
+			$to_echo  	  .= parse_template( $template, 
+				array (	
+					'thread_url'   	=> $ibforums->base_url."act=ST&f=".$post['forum_id']."&t=".$post['topic_id']."&hl=&#entry".$post['pid'],
+					'thread_title'  => $thread_title,
+					'forum_url'     => $ibforums->base_url."act=SF&f=".$post['forum_id'],
+					'topic_id'	=> $post['topic_id'],
+					'post_url'      => $ibforums->base_url."showtopic=".$post['topic_id']."&amp;view=findpost&amp;p=".$post['pid'],
+					'forum_name'    => $frms[ $post['forum_id'] ],
+					'date'          => $std->old_get_date($post['post_date'], 'LONG'),
+					'rfc_date'      => date('r', $post['post_date'] ),
+					'author'        => $author,
+					'text'          => $txt,
+					'profile_link'  => $ibforums->base_url."act=Profile&CODE=03&MID=".$post['author_id']
+				) 
+						);
+		}
+	}
+
+	$std->flood_end();
+
+	$DB->close_db();
+
+	if ( !$p )
+	{
+		fatal_error("Запрос не вернул результатов. Проверьте правильность аргументов вызова.");
+	}
+
+	$to_echo  .= "
+      </channel>
+      </rss>
+	";
+
+	@header('Content-Type: text/xml');
+	@header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+	@header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+	@header('Pragma: public');
+
+        if ( $ibforums->vars['disable_gzip'] != 1 )
+        {
+        	$buffer = ob_get_contents();
+        	ob_end_clean();
+        	ob_start('ob_gzhandler');
+        	print $buffer;
+        }
+
+	print $to_echo;
+
+} else fatal_error("Невозможно соединиться с БД.");
+
+exit();
+
+
+//+-------------------------------------------------
+// GLOBAL ROUTINES
+//+-------------------------------------------------
+
+function id_in($mas = array()) {
+
+	$count = count($mas);
+
+	if ( !$count ) return "=0";
+
+	$ids = implode(",", $mas);
+
+	if ( $count == 1) return "={$ids}"; else return " IN ({$ids})";
+}
+
+
+function parse_template( $template, $assigned = array() ) {
+	
+	foreach( $assigned as $word => $replace) $template = preg_replace( "/\{$word\}/i", "$replace", $template );
+	
+	return $template;
+}
+
+
+
+function fatal_error($message="") {
+
+	echo($message);
+
+	exit();
+}
+
+

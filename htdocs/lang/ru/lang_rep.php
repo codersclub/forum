@@ -1,0 +1,57 @@
+<?php
+
+
+$lang['multi_pages']  = "Страниц:";
+$lang['disallow_rep']  = "[Голосование <font color=\'red\'>запрещено</font>!]";
+$lang['add_success']  = "Рейтинг успешно добавлен.";
+$lang['rem_success']  = "Рейтинг успешно уменьшен.";
+$lang['del_success']  = "изменение рейтинга аннулировано.";
+$lang['no_post_right']  = "этот пользователь потерял право отвечать в форум из-за низкого рейтинга.";
+$lang['ptitle']  = "Изменение рейтинга";
+$lang['pnav']  = "Изменение рейтинга";
+$lang['stitle']  = "Статистика изменений рейтинга";
+$lang['snav']  = "Статистика %s рейтинга";
+$lang['btitle']  = "Статистика в целом по форуму";
+$lang['bnav']  = "Статистика рейтинга";
+$lang['fill']  = "Пожалуйста, заполните форму";
+$lang['whosename']  = "Кому изменяем рейтинг:";
+$lang['yourname']  = "Ваше имя:";
+$lang['reason']  = "Причина изменения рейтинга:";
+$lang['act']  = "Метод:";
+$lang['raise']  = "Увеличение рейтинга";
+$lang['lower']  = "Уменьшение рейтинга";
+$lang['go']  = "Готово";
+$lang['user']  = "пользователя";
+$lang['who']  = "От кого";
+$lang['whom']  = "Кому";
+$lang['where']  = "За топик";
+$lang['where_forum'] = "В разделе";
+$lang['why']  = "Причина";
+$lang['code']  = "Оценка";
+$lang['when']  = "Дата";
+$lang['undo_change']  = "Отменить";
+$lang['no_changes']  = "Нет данных";
+$lang['back']  = "Назад";
+$lang['no_topic']  = "Перемещена или удалена";
+$lang['vote_anon']  = "Анонимно";
+$lang['is_anon']  = "Аноним";
+$lang['allow_anon']  = "[Может голосовать анонимно]";
+$lang['disallow_anon']  = "[<font color=\'red\'>Не может</font> голосовать анонимно]";
+$lang['has_changed']  = "голосовал";
+$lang['has_times']  = "раз";
+$lang['sort_by_name']  = "Именам";
+$lang['sort_by_rep']  = "Количеству голосов, полученных";
+$lang['sort_by_rep_changes']  = "Количеству голосов, отданных";
+$lang['descending_order']  = "Порядке убывания";
+$lang['ascending_order']  = "Порядке возрастания";
+$lang['sorting_text']  = "Показать по <#SORT_KEY#> в <#SORT_ORDER#> с <#MAX_RESULTS#> результатами на страницу";
+$lang['sort_submit']  = "OK!";
+$lang['member']  = "Имя пользователя";
+$lang['given']  = ", отдано";
+$lang['details']  = "[Подробнее]";
+$lang['len_max']  = "Максимально допустимое число символов в сообщении: ";
+$lang['len_current']  = " Вы уже использовали ";
+$lang['len_symbols']  = " символов";
+$lang['rep_t']  = "тематического";
+$lang['rep_f']  = "флеймового";
+

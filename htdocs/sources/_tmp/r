@@ -1,0 +1,29 @@
+Сравнение файлов Register.php и E:\HOME\FORUM\HTDOCS\SOURCES\REGISTER.PHP
+***** Register.php
+        function create_account() {
+        global $ibforums, $INFO, $std, $DB, $print;
+        if ($_POST['act'] == "")
+***** E:\HOME\FORUM\HTDOCS\SOURCES\REGISTER.PHP
+        function create_account() {
+        global $ibforums, $std, $DB, $print;
+        if ($_POST['act'] == "")
+*****
+
+***** Register.php
+        //------------------------------                                
+        if ( $mem_group == $ibforums->vars['member_group'] and $INFO['auto_pm_on'] == 1 ) 
+        {
+                $pm_subject = str_replace("*username*",$in_username,$INFO['auto_pm_subject']);
+                $pm_message = str_replace("*username*",$in_username,$INFO['auto_pm_message']);
+                $std->sendpm($member_id, $pm_message, $pm_subject, $INFO['auto_pm_from']);
+        }
+***** E:\HOME\FORUM\HTDOCS\SOURCES\REGISTER.PHP
+        //------------------------------                                
+        if ( $mem_group == $ibforums->vars['member_group'] and $ibforums->vars['auto_pm_on'] == 1 ) 
+        {
+                $pm_subject = str_replace("*username*",$in_username,$ibforums->vars['auto_pm_subject']);
+                $pm_message = str_replace("*username*",$in_username,$ibforums->vars['auto_pm_message']);
+                $std->sendpm($member_id, $pm_message, $pm_subject, $ibforums->vars['auto_pm_from']);
+        }
+*****
+

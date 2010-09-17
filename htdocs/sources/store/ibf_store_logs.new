@@ -1,0 +1,27 @@
+-- MySQL dump 9.08
+--
+-- Host: localhost    Database: invision
+---------------------------------------------------------
+-- Server version	3.23.58
+
+--
+-- Table structure for table 'ibf_store_logs'
+--
+
+CREATE TABLE ibf_store_logs (
+  logid int(9) NOT NULL auto_increment,
+  fromid int(11) NOT NULL default '0',
+  fromname varchar(255) NOT NULL default '0',
+  toid int(11) NOT NULL default '0',
+  toname varchar(32) NOT NULL default '',
+  type varchar(255) NOT NULL default 'single',
+  sum int(11) NOT NULL default '0',
+  message text NOT NULL,
+  reason text NOT NULL,
+  time int(9) NOT NULL default '0',
+  PRIMARY KEY  (logid),
+  KEY fromid (fromid),
+  KEY toid (toid),
+  KEY type (type)
+) TYPE=MyISAM;
+

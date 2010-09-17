@@ -1,0 +1,203 @@
+html { overflow-x: auto }
+BODY { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 70%; color: #000; margin: 0px; padding: 0px; background-color: #FFF; text-align: center }
+TABLE, TR, TD { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 100%; color: #000 }
+.mstop {
+	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: #e4eaf2; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px
+}
+.msmain {
+	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-LEFT: 4px; BACKGROUND: #fafcfe; PADDING-BOTTOM: 4px; MARGIN: 0px auto 8px; BORDER-LEFT: #8394b2 4px solid; COLOR: #465584; PADDING-TOP: 4px; BORDER-BOTTOM: #000 1px dotted
+}
+.gmstop {
+	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: #faa298; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px
+}
+.gmsmain {
+	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-LEFT: 4px; BACKGROUND: #fafcfe; PADDING-BOTTOM: 4px; MARGIN: 0px auto 8px; BORDER-LEFT: #8394b2 4px solid; COLOR: #465584; PADDING-TOP: 4px; BORDER-BOTTOM: #000 1px dotted
+}
+
+.vizdes { font-size: 100%; color: #dddddd }
+.vizdes a:link, .vizdes  a:visited, .vizdes  a:active, .vizdes a:hover { text-decoration: underline; color: #dddddd }
+#ipbwrapper { text-align: left; width: 95%; margin-left: auto; margin-right: auto }
+a:link, a:visited, a:active { text-decoration: underline; color: #000 }
+a:hover { color: #465584; text-decoration: underline }
+
+TABLE.post_table {
+  background-color: #345487;
+  vertical-align:top;
+}
+TABLE.post_table TD{
+  background-color: #CCC;
+  padding: 3px 3px 3px 3px;
+}
+TABLE.post_table TH{
+  background-color: #9FBCE3;
+  padding: 3px 3px 3px 3px;
+}
+
+
+fieldset.search { padding: 6px; line-height: 150% }
+label { cursor: pointer }
+form { display: inline }
+img { vertical-align: middle; border: 0px }
+img.attach { border: 2px outset #EEF2F7; padding: 2px }
+.googleroot { padding: 6px; line-height: 130% }
+.googlechild { padding: 6px; margin-left: 30px; line-height: 130% }
+.googlebottom, .googlebottom a:link, .googlebottom a:visited, .googlebottom a:active { font-size: 100%; color: #3A4F6C }
+.googlish, .googlish a:link, .googlish a:visited, .googlish a:active { font-size: 127%; font-weight: bold; color: #00D }
+.googlepagelinks { font-size: 1.1em; letter-spacing: 1px }
+.googlesmall, .googlesmall a:link, .googlesmall a:active, .googlesmall a:visited { font-size: 91%; color: #434951 }
+li.helprow { padding: 0px; margin: 0px 0px 10px 0px }
+ul#help { padding: 0px 0px 0px 15px }
+option.cat { font-weight: bold }
+option.sub { font-weight: bold; color: #555 }
+.caldate { text-align: right; font-weight: bold; font-size: 100%; color: #777; background-color: #DFE6EF; padding: 4px; margin: 0px }
+.warngood { color: green }
+.warnbad { color: red }
+#padandcenter { margin-left: auto; margin-right: auto; text-align: center; padding: 14px 0px 14px 0px }
+#profilename { font-size: 254%; font-weight: bold }
+#calendarname { font-size: 200%; font-weight: bold }
+#photowrap { padding: 6px }
+#phototitle { font-size: 218%; border-bottom: 1px solid black }
+#photoimg { text-align: center; margin-top: 15px }
+#ucpmenu { line-height: 150%; width: 22%; border: 1px solid #345487; background-color: #F5F9FD }
+#ucpmenu p { padding: 2px 5px 6px 9px; margin: 0px }
+#ucpcontent { background-color: #F5F9FD; border: 1px solid #345487; line-height: 150%; width: auto }
+#ucpcontent p { padding: 10px; margin: 0px }
+#ipsbanner { position: absolute; top: 1px; right: 5% }
+#logostrip { border: 1px solid #345487; background-color: #6EA1E3; padding: 0px; margin: 0px }
+#submenu { border: 1px solid #BCD0ED; background-color: #DFE6EF; font-size: 91%; margin: 3px 0px 3px 0px; color: #3A4F6C; font-weight: bold }
+#submenu a:link, #submenu  a:visited, #submenu a:active { font-weight: bold; font-size: 91%; text-decoration: none; color: #3A4F6C }
+#userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
+#navstrip { font-weight: bold; padding: 6px 0px 6px 0px }
+.activeuserstrip { background-color: #BCD0ED; padding: 6px }
+.pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+.pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
+.pformleftqr { background-color: #F5F9FD; width: 15%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
+.pformleftw { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
+.pformright { background-color: #F5F9FD; padding: 6px; margin-top: 1px; border-top: 1px solid #C2CFDF }
+.signature { font-size: 91%; color: #339; line-height: 150% }
+.postdetails { font-size: 91% }
+.postcolor { font-size: 109%; line-height: 160% }
+.normalname { font-weight: bold; color: #003 }
+.normalname a:link, .normalname a:visited, .normalname a:active { font-size: 109% }
+.unreg { font-size: 100%; font-weight: bold; color: #900 }
+.pinned_topic { background-color: #D1DCEB }
+.post1 { background-color: #F5F9FD }
+.post2 { background-color: #EEF2F7 }
+.postlinksbar { background-color: #9FBCE3; padding: 7px; margin-top: 1px; font-size: 91% }
+.row1 { background-color: #F5F9FD }
+.row2 { background-color: #DFE6EF }
+.row3 { background-color: #EEF2F7 }
+.row4 { background-color: #E4EAF2 }
+.forum_icon { background-color: #E4EAF2 }
+.forum_icon a:link, .forum_icon a:visited, .forum_icon a:active, .forum_icon a:hover { text-decoration: none }
+.darkrow1 { background-color: #C2CFDF; color: #4C77B6 }
+.darkrow2 { background-color: #BCD0ED; color: #3A4F6C }
+.darkrow3 { background-color: #D1DCEB; color: #3A4F6C }
+.darkrow4 { background-color: #D1DCEB; color: #3A4F6C }
+.darkrow4 a:link, .darkrow4 a:visited, .darkrow4 a:active { text-decoration: none; color: #3A4F6C; font-weight: bold }
+.hlight { background-color: #DFE6EF }
+.dlight { background-color: #EEF2F7 }
+.titlemedium { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-color: #9FBCE3 }
+.titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #3A4F6C }
+.maintitle { vertical-align: middle; font-weight: bold; color: #FFF; padding: 8px 0px 8px 5px; background-color: #6699CC }
+.maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
+.maintitle a:hover { text-decoration: underline }
+.plainborder { border: 1px solid #345487; background-color: #F5F9FD }
+.tableborder { border: 1px solid #345487; background-color: #FFF; padding: 0; margin: 0 }
+.tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }
+.tablepad { background-color: #F5F9FD; padding: 6px }
+.tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
+.wrapmini { float: left; line-height: 1.5em; width: 25% }
+.pagelinks { float: left; line-height: 1.2em; width: 35% }
+.desc { font-size: 91%; color: #434951 }
+.edit { font-size: 82% }
+.searchlite { font-weight: bold; color: #F00; background-color: #FF0 }
+.QUOTE { font-family: Verdana, Arial; font-size: 100%; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+.CODE { font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;	overflow: auto;         line-height: 120%;}
+.copyright { font-family: Verdana, Tahoma, Arial, Sans-Serif; font-size: 9px; line-height: 109% }
+.codebuttons { font-size: 100%; font-family: verdana, helvetica, sans-serif; vertical-align: middle; BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; COLOR: #000000; BORDER-BOTTOM: #000000 1px solid; BACKGROUND-COLOR: #efefef }
+.forminput, .textinput, .radiobutton, .checkbox { font-size: 100%; font-family: verdana, helvetica, sans-serif; vertical-align: middle }
+.thin { padding: 6px 0px 6px 0px; line-height: 140%; margin: 2px 0px 2px 0px; border-top: 1px solid #FFF; border-bottom: 1px solid #FFF }
+.purple { color: purple; font-weight: bold }
+.red { color: red; font-weight: bold }
+.green { color: green; font-weight: bold }
+.blue { color: blue; font-weight: bold }
+.orange { color: #F90; font-weight: bold }
+.quotetop { background: #E4EAF2 url(violimages/css_img_quote.gif) no-repeat right; border: 1px dotted #000; border-bottom: 0; border-left: 4px solid #8394B2; color: #000; font-weight: bold; font-size: 10px; margin: 8px auto 0 auto; padding: 3px }
+.quotemain { background: #FAFCFE; border: 1px dotted #000; border-left: 4px solid #8394B2; border-top: 0; color: #465584; padding: 4px; margin: 0 auto 8px auto }
+.voteprefix {color:green}
+.movedprefix {color:red}
+.mirrorprefix {
+	color:green;
+}
+.mirrorhint {
+	color:gray;
+}
+.clubprefix {color:blue}
+.pinnedprefix {}
+
+.spoiler {
+  border: 1px solid black;
+  padding: 2px 0px;
+  margin-top: 5px
+}
+
+.spoiler_header {
+  padding-left: 16px;
+  height: 18px;
+  vertical-align: abs-middle;
+  font-size: 80%;
+}
+
+.spoiler .body {
+  border-top: 1px solid black;
+  padding: 0px 2px;
+}
+
+.open .spoiler_header {
+  background: url('<#IMG_DIR#>/minus.png') 4px center no-repeat;
+}
+
+.closed .spoiler_header {
+  background: url('<#IMG_DIR#>/plus.png') 4px center no-repeat;
+}
+span.attach_preview{
+	display:inline-block;
+	clear: none;
+	vertical-align: baseline;
+	text-align: center;
+}
+span.attach_preview p {
+	display:inline;
+	font-weight: bold;
+	font-size: 9px;
+}
+span.attach_preview img {
+	border: 1px solid black;
+	border-spacing: 0px;
+	padding: 0 0 0 0;
+	display:inline;
+}
+.pre_code span span {
+	margin-right: 0.2em;
+	margin-bottom: 3px;
+	border: 1px solid black;
+	padding: 0.1em 0.3em 0.1em 0.3em;
+	background-color: #efefef;
+}
+.pre_code span span:active {
+	background-color: #dedede;
+}
+.code {
+	margin-top: 1px !important;
+}
+.code span, .code span span {
+	margin-right: auto;
+	margin-bottom: auto;
+	border: none;
+	padding: inherit;
+	background-color: transparent;
+}
+span.attach_preview p img {
+	border: 0px;
+}

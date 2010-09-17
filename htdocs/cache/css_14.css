@@ -1,0 +1,946 @@
+HTML {
+	OVERFLOW-X: auto
+}
+BODY {
+	PADDING-LEFT: 0px;
+	PADDING-TOP: 0px;
+	PADDING-RIGHT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px 0px;
+	FONT-SIZE: 12px;
+	FONT-FAMILY: Verdana, Tahoma, Arial, sans-serif;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #222222;
+	TEXT-ALIGN: center
+}
+TABLE {
+	FONT-SIZE: 11px;
+	COLOR: #000;
+	FONT-FAMILY: Verdana, Tahoma, Arial, sans-serif;
+	TEXT-ALIGN: left
+}
+TR {
+}
+TD {
+    FONT-FAMILY: Verdana, Tahoma, Arial, sans-serif;
+    FONT-SIZE: 11px;
+    COLOR: #777777;
+}
+
+TABLE.post_table {
+  background-color: #345487;
+  vertical-align:top;
+}
+TABLE.post_table TD{
+  background-color: #CCC;
+  padding: 3px 3px 3px 3px;
+}
+TABLE.post_table TH{
+  background-color: #9FBCE3;
+  padding: 3px 3px 3px 3px;
+}
+
+
+#ipbwrapper {
+	MARGIN-LEFT: auto; WIDTH: 95%; MARGIN-RIGHT: auto; TEXT-ALIGN: left
+}
+A:link {
+	COLOR: #cccccc; TEXT-DECORATION: underline
+}
+A:visited {
+	COLOR: #cccccc; TEXT-DECORATION: underline
+}
+A:active {
+	COLOR: #cccccc; TEXT-DECORATION: underline
+}
+A:hover {
+	COLOR: #ffffff; TEXT-DECORATION: underline
+}
+FORM {
+	DISPLAY: inline
+}
+IMG {
+	VERTICAL-ALIGN: middle;
+	BORDER-RIGHT: 0px;
+	BORDER-TOP: 0px;
+	BORDER-LEFT: 0px;
+	BORDER-BOTTOM: 0px
+}
+LI.helprow {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 10px; PADDING-TOP: 0px
+}
+UL#help {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 15px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+
+#logostrip {
+	MARGIN-TOP: 4px;
+	COLOR: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/logo_bg_02.gif')  #000000;
+}
+#logostrip A {
+	FONT-SIZE: 10px;
+	COLOR: #FFFFFF;
+	TEXT-DECORATION: none
+}
+#logostrip A:link {
+	COLOR: #CCCCCC;
+	TEXT-DECORATION: none
+}
+#logostrip A:active {
+	COLOR: #CCCCCC;
+	TEXT-DECORATION: none
+}
+#logostrip A:visited {
+	COLOR: #CCCCCC;
+	TEXT-DECORATION: none
+}
+#logostrip A:hover {
+	COLOR: #FF9900;
+	TEXT-DECORATION: underline
+}
+.tablefooter {
+	HEIGHT: 12px;
+	BORDER-LEFT: #777777 1px solid;
+	BORDER-RIGHT: #333333 1px solid;
+	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/barf.gif') #666666
+}
+.menubar {
+	MARGIN: 0px 0px;
+}
+#submenu {
+	MARGIN: 0px 0px;
+/*	PADDING-TOP: 4px;
+	PADDING-BOTTOM: 4px;
+*/	FONT-SIZE: 10px;
+	FONT-WEIGHT: bold;
+	COLOR: #cccccc;
+	HEIGHT: 28px;
+	text-align: center;
+	vertical-align: middle;
+	BACKGROUND-COLOR: #000000;
+	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif') #0c0c0c
+}
+#submenu TD {
+	BORDER-LEFT: #666666 1px solid;
+	BORDER-RIGHT: #222222 1px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+}
+#submenu A:link {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 10px;
+	COLOR: #FF9900;
+	TEXT-DECORATION: none
+}
+#submenu A:visited {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 10px;
+	COLOR: #FF9900;
+	TEXT-DECORATION: none
+}
+#submenu A:active {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 10px;
+	COLOR: #FF9900;
+	TEXT-DECORATION: none
+}
+#submenu A:hover {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 10px;
+	COLOR: #FF9900;
+	TEXT-DECORATION: none
+}
+
+#userlinks {
+	MARGIN: 4px 0px;
+	BORDER-LEFT: #444444 2px solid;
+	BORDER-TOP: #444444 2px solid;
+	BORDER-RIGHT: #000000 2px solid;
+	BORDER-BOTTOM: #000000 2px solid;
+	FONT-SIZE: 10px;
+	COLOR: #FFFFFF;
+	HEIGHT: 18px;
+	text-align: center;
+	vertical-align: middle;
+	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/teaser_bg_2.gif') #0c0c0c
+}
+#userlinks A {
+	FONT-SIZE: 10px;
+	COLOR: #BB7700;
+	TEXT-DECORATION: none
+}
+#userlinks A:link {
+	FONT-SIZE: 10px;
+	COLOR: #BB7700;
+	TEXT-DECORATION: none
+}
+#userlinks A:visited {
+	COLOR: #BB7700;
+	TEXT-DECORATION: none
+}
+#userlinks A:active {
+	COLOR: #BB7700;
+	TEXT-DECORATION: none
+}
+#userlinks A:hover {
+	COLOR: #FF9900;
+	TEXT-DECORATION: underline
+}
+#navstrip {
+	FONT-WEIGHT: bold;
+	COLOR: #cccccc;
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 4px;
+	PADDING-BOTTOM: 6px;
+	PADDING-TOP: 6px
+}
+.board  {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 12px;
+	COLOR: #CC6600;
+	TEXT-DECORATION: none
+}
+.board:link {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 12px;
+	COLOR: #CC6600;
+	TEXT-DECORATION: none
+}
+.board:visited {
+	COLOR: #CC6600;
+	TEXT-DECORATION: none
+}
+.board:active {
+	COLOR: #FF9900;
+	TEXT-DECORATION: none
+}
+.board:hover {
+	COLOR: #FF9900;
+	TEXT-DECORATION: underline
+}
+.row1 {
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #404040 1px solid;
+	BORDER-TOP: #404040 2px solid;
+	BORDER-RIGHT: #202020 1px solid;
+	BORDER-BOTTOM: #202020 2px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 4px;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #303030
+}
+.row2 {
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #555555 1px solid;
+	BORDER-TOP: #555555 1px solid;
+	BORDER-RIGHT: #282828 1px solid;
+	BORDER-BOTTOM: #282828 1px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 4px;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #383838
+}
+.row3 {
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #555555 1px solid;
+	BORDER-TOP: #555555 1px solid;
+	BORDER-RIGHT: #333333 1px solid;
+	BORDER-BOTTOM: #333333 1px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 4px;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #404040
+}
+.row4 {
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #505050 1px solid;
+	BORDER-TOP: #505050 1px solid;
+	BORDER-RIGHT: #383838 1px solid;
+	BORDER-BOTTOM: #383838 1px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 4px;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #484848
+}
+.row5 {
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #585858 1px solid;
+	BORDER-TOP: #585858 1px solid;
+	BORDER-RIGHT: #484848 1px solid;
+	BORDER-BOTTOM: #484848 1px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 4px;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #505050
+}
+.row6 {
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #606060 1px solid;
+	BORDER-TOP: #606060 1px solid;
+	BORDER-RIGHT: #505050 1px solid;
+	BORDER-BOTTOM: #505050 1px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 4px;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #585858
+}
+.titlemedium {
+	HEIGHT: 28px;
+	MARGIN: 1px 0 px;
+	BORDER-LEFT: #444444 1px solid;
+	BORDER-RIGHT: #0c0c0c 1px solid;
+	FONT-WEIGHT: bold;
+	BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif');
+	COLOR: #666666;
+	PADDING-LEFT: 7px;
+	PADDING-RIGHT: 7px;
+	PADDING-BOTTOM: 7px;
+	PADDING-TOP: 7px
+}
+.titlemedium A:link {
+	COLOR: #97B543;
+	TEXT-DECORATION: none
+}
+.titlemedium A:visited {
+	COLOR: #97B543;
+	TEXT-DECORATION: none
+}
+.titlemedium A:active {
+	COLOR: #97B543;
+	TEXT-DECORATION: none
+}
+.titlemedium A:hover {
+	COLOR: #D4FF5E;
+	TEXT-DECORATION: none
+}
+.bottom {
+	PADDING-RIGHT: 6px;
+	PADDING-LEFT: 6px;
+	HEIGHT: 4px;
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #666666 1px solid;
+	BORDER-RIGHT: #333333 1px solid;
+	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/bottom.gif') #666666
+}
+
+.maintitle {
+    PADDING-LEFT: 6px;
+    PADDING-TOP: 8px;
+    PADDING-RIGHT: 6px;
+    PADDING-BOTTOM: 8px;
+    BORDER-LEFT: #444444 1px solid;
+    BORDER-RIGHT: #0c0c0c 1px solid;
+    FONT-WEIGHT: bold;
+    BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_back.gif');
+    VERTICAL-ALIGN: middle;
+    COLOR: #ff9900;
+}
+.maintitle A:link {
+    COLOR: #ff9900; TEXT-DECORATION: none
+}
+.maintitle A:visited {
+    COLOR: #ff9900; TEXT-DECORATION: none
+}
+.maintitle A:active {
+    COLOR: #ff9900; TEXT-DECORATION: none
+}
+.maintitle A:hover {
+    COLOR: #ffffff; TEXT-DECORATION: underline
+}
+
+.tableborder {
+	MARGIN: 0px 0px;
+	PADDING-LEFT: 0px;
+	PADDING-TOP: 0px;
+	PADDING-RIGHT: 0px;
+	PADDING-BOTTOM: 0px;
+}
+/*	BORDER-LEFT: #666666 1px solid;
+	BORDER-RIGHT: #333333 1px solid;
+	BORDER-TOP: #666666 1px solid;
+	BORDER-BOTTOM: #333333 1px solid;
+	BACKGROUND-COLOR: #000000
+*/
+.copyright {
+	FONT-SIZE: 9px; LINE-HEIGHT: 12px; FONT-FAMILY: Verdana, Tahoma, Arial, Sans-Serif
+}
+
+A.adm_gr	{
+	COLOR: #FF0000;
+	TEXT-DECORATION: none
+}
+A.coor_gr	{
+	COLOR: white;
+	TEXT-DECORATION: none
+}
+A.club_gr	{
+	COLOR: #009900;
+	TEXT-DECORATION: none
+}
+A.mod_gr	{
+	COLOR: #FF9900;
+	TEXT-DECORATION: none
+}
+A.memb_gr	{
+	COLOR: darkgray;
+	TEXT-DECORATION: none
+}
+.warn_gr	{
+	COLOR: black;
+	TEXT-DECORATION: none
+}
+A.warn_gr	{
+	COLOR: black;
+	TEXT-DECORATION: none
+}
+.bot_gr		{
+	COLOR: 666666;
+	FONT-STYLE: italic
+}
+.forminput {
+	BACKGROUND-COLOR: #999999;
+	COLOR: black;
+	FONT-SIZE: 11px;
+	VERTICAL-ALIGN: middle;
+	FONT-FAMILY: verdana, helvetica, sans-serif
+}
+.button {
+	BORDER-TOP: #666666 2px soft;
+	BORDER-BOTTOM: #383838 2px solid;
+	BORDER-LEFT: #444444 2px solid;
+	BORDER-RIGHT: #383838 2px solid;
+	BACKGROUND-COLOR: black;
+	COLOR: #BB7700;
+	CURSOR: hand;
+	FONT-SIZE: 11px;
+	VERTICAL-ALIGN: middle;
+	FONT-FAMILY: verdana, helvetica, sans-serif
+}
+.darkrow2 {
+	MARGIN: 0px 0px;
+	PADDING: 4px 4px 4px 4px;
+	BORDER-LEFT: #555555 1px solid;
+	BORDER-TOP: #555555 1px solid;
+	BORDER-RIGHT: #282828 1px solid;
+	BORDER-BOTTOM: #282828 1px solid;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #303030
+}
+.rules {
+	MARGIN: 8px 0px;
+	PADDING-LEFT: 4px;
+	PADDING-TOP: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	FONT-SIZE: 11px;
+	FONT-FAMILY: Verdana, Tahoma, Arial, sans-serif;
+	COLOR: #666666;
+	BACKGROUND-COLOR: #222222;
+	BORDER-TOP: #bb6600 1px solid;
+	BORDER-BOTTOM: #bb6600 1px solid;
+	BORDER-LEFT: #bb6600 1px solid;
+	BORDER-RIGHT: #bb6600 1px solid;
+}
+
+.post1 {
+    COLOR: #000;
+	BACKGROUND-COLOR: #999999
+}
+
+.post2 {
+    COLOR: #000;
+	BACKGROUND-COLOR: #AAAAAA
+}
+
+.darkrow1 {
+	COLOR: #4c77b6; BACKGROUND-COLOR: #222222
+}
+
+.postdetails {
+	FONT-SIZE: 10px;
+}
+
+.postdetails a {
+    color: #000;
+}
+
+.postdetails a:hover {
+    color: #ffdd00
+}
+
+.postcolor a{
+    color: #333333;
+}
+
+.postcolor a:hover{
+    color: #ff9900
+}
+
+.pformstrip {
+    PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; 
+    FONT-WEIGHT: bold; PADDING-BOTTOM: 7px; COLOR: #dddddd; 
+    PADDING-TOP: 7px; BACKGROUND-COLOR: #383838
+}
+
+.pformright {
+    PADDING-RIGHT: 6px; BORDER-TOP: #222222 1px solid; 
+    MARGIN-TOP: 1px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; 
+    PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
+}
+
+.pformright a{
+    color: #383838
+}
+
+.pformleft {
+    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px; 
+    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px; 
+    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 15%; 
+    PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
+}
+
+.pformleftw {
+    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px; 
+    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px; 
+    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 40%; 
+    PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
+}
+
+.tablefill {
+    BORDER-RIGHT: #222222 1px solid; PADDING-RIGHT: 6px; 
+    BORDER-TOP: #222222 1px solid; PADDING-LEFT: 6px; 
+    PADDING-BOTTOM: 6px; BORDER-LEFT: #222222 1px solid; 
+    PADDING-TOP: 6px; BORDER-BOTTOM: #222222 1px solid; 
+    BACKGROUND-COLOR: #aaaaaa;
+}
+.tablefill a {
+    color: #383838
+}
+
+.desc {
+    FONT-SIZE: 10px;
+    COLOR: #777
+}
+.desc A:link {
+    COLOR: #777; TEXT-DECORATION: underline
+}
+.desc A:visited {
+    COLOR: #777;
+}
+.desc A:active {
+    COLOR: #777;
+}
+.desc A:hover {
+    COLOR: #fff;
+}
+
+.activeuserstrip {
+    PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px; 
+    BACKGROUND-COLOR: #333333; color: #CCCCCC
+}
+.activeuserstrip a{
+    color: #CCCCCC
+}
+
+.activeuserstrip a:hover{
+    color: #FF9900
+}
+
+.pinned_topic {
+    BACKGROUND-COLOR: #777777;
+    COLOR: #333333;
+}
+
+#ucpmenu {
+    BORDER-RIGHT: #444444 1px solid; 
+    BORDER-TOP: #444444 1px solid; 
+    BORDER-LEFT: #444444 1px solid; 
+    WIDTH: 22%; 
+    LINE-HEIGHT: 150%; 
+    BORDER-BOTTOM: #444444 1px solid; 
+    BACKGROUND-COLOR: #585858
+}
+
+#ucpcontent {
+    BORDER-RIGHT: #444444 1px solid; 
+    BORDER-TOP: #444444 1px solid; 
+    BORDER-LEFT: #444444 1px solid; 
+    WIDTH: auto; 
+    LINE-HEIGHT: 150%; 
+    BORDER-BOTTOM: #444444 1px solid; 
+    BACKGROUND-COLOR: #aaaaaa
+}
+.tablepad {
+    PADDING-RIGHT: 6px; 
+    PADDING-LEFT: 6px; 
+    PADDING-BOTTOM: 6px; 
+    PADDING-TOP: 6px; 
+    BACKGROUND-COLOR: #383838
+}
+
+.mstop {
+    background: #666666;
+    border: 1px dotted #333333; 
+    border-bottom: 0;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 10px; 
+    margin: 8px auto 0 auto;
+    padding: 3px
+}
+
+.msmain {
+    background: #999999;
+    border: 1px dotted #333333; 
+    border-top: 0; 
+    color: #000000;
+    padding: 4px;
+    margin: 0 auto 8px auto 
+}
+
+/*
+.plainborder {
+	BORDER-RIGHT: #345487 1px solid;
+	BORDER-TOP: #345487 1px solid;
+	BORDER-LEFT: #345487 1px solid;
+	BORDER-BOTTOM: #345487 1px solid;
+	BACKGROUND-COLOR: #f5f9fd
+}
+*/
+.plainborder {
+    border: #444 1px solid;
+    BACKGROUND-COLOR: #222
+}
+
+/*.QUOTE {
+	BORDER-RIGHT: #000 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #000 1px solid; PADDING-LEFT: 2px; FONT-SIZE: 11px; PADDING-BOTTOM: 2px; BORDER-LEFT: #000 1px solid; COLOR: #465584; PADDING-TOP: 2px; BORDER-BOTTOM: #000 1px solid; FONT-FAMILY: Verdana, Arial; WHITE-SPACE: normal; BACKGROUND-COLOR: #999999
+}
+*/
+
+.QUOTE {
+	BORDER: #666 1px solid; 
+	PADDING: 2px; 
+	FONT-SIZE: 11px; 
+	COLOR: #383838; 
+	FONT-FAMILY: Verdana, Arial; WHITE-SPACE: normal; 
+	BACKGROUND-COLOR: #8e8e8e;
+	overflow: auto;
+}
+
+
+.CODE {
+	BORDER: #000 1px solid; 
+	PADDING: 2px; 
+	FONT-SIZE: 11px; 
+	COLOR: #465584; 
+	BACKGROUND-COLOR: #999999;
+	line-height: 120%;
+}
+
+
+
+
+
+
+
+
+
+
+
+IMG.attach {
+	PADDING-LEFT: 2px;
+	PADDING-TOP: 2px;
+	PADDING-RIGHT: 2px;
+	PADDING-BOTTOM: 2px;
+	BORDER-LEFT: #eef2f7 2px outset;
+	BORDER-TOP: #eef2f7 2px outset;
+	BORDER-RIGHT: #eef2f7 2px outset;
+	BORDER-BOTTOM: #eef2f7 2px outset
+}
+
+OPTION.cat {
+	FONT-WEIGHT: bold
+}
+OPTION.sub {
+	FONT-WEIGHT: bold; COLOR: #555
+}
+FIELDSET.search {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; LINE-HEIGHT: 150%; PADDING-TOP: 6px
+}
+LABEL {
+	CURSOR: pointer
+}
+.googleroot {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; LINE-HEIGHT: 130%; PADDING-TOP: 6px
+}
+.googlechild {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; MARGIN-LEFT: 30px; LINE-HEIGHT: 130%; PADDING-TOP: 6px
+}
+.googlebottom {
+	FONT-SIZE: 11px; COLOR: #3a4f6c
+}
+.googlebottom A:link {
+	FONT-SIZE: 11px; COLOR: #3a4f6c
+}
+.googlebottom A:visited {
+	FONT-SIZE: 11px; COLOR: #3a4f6c
+}
+.googlebottom A:active {
+	FONT-SIZE: 11px; COLOR: #3a4f6c
+}
+.googlish {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; COLOR: #00d
+}
+.googlish A:link {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; COLOR: #00d
+}
+.googlish A:visited {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; COLOR: #00d
+}
+.googlish A:active {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; COLOR: #00d
+}
+.googlepagelinks {
+	FONT-SIZE: 1.1em; LETTER-SPACING: 1px
+}
+.googlesmall {
+	FONT-SIZE: 10px; COLOR: #434951
+}
+.googlesmall A:link {
+	FONT-SIZE: 10px; COLOR: #434951
+}
+.googlesmall A:active {
+	FONT-SIZE: 10px; COLOR: #434951
+}
+.googlesmall A:visited {
+	FONT-SIZE: 10px; COLOR: #434951
+}
+.caldate {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 4px; MARGIN: 0px; COLOR: #777; PADDING-TOP: 4px; BACKGROUND-COLOR: #dfe6ef; TEXT-ALIGN: right
+}
+.warngood {
+	COLOR: green
+}
+.warnbad {
+	COLOR: red
+}
+#padandcenter {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 14px; MARGIN-LEFT: auto; MARGIN-RIGHT: auto; PADDING-TOP: 14px; TEXT-ALIGN: center
+}
+#profilename {
+	FONT-WEIGHT: bold; FONT-SIZE: 28px
+}
+#calendarname {
+	FONT-WEIGHT: bold; FONT-SIZE: 22px
+}
+#photowrap {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px
+}
+#phototitle {
+	FONT-SIZE: 24px; BORDER-BOTTOM: black 1px solid
+}
+#photoimg {
+	MARGIN-TOP: 15px; TEXT-ALIGN: center
+}
+
+#ucpmenu P {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 9px; PADDING-BOTTOM: 6px; MARGIN: 0px; PADDING-TOP: 2px
+}
+#ucpcontent P {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; MARGIN: 0px; PADDING-TOP: 10px
+}
+#ipsbanner {
+	RIGHT: 5%; POSITION: absolute; TOP: 1px
+}
+.signature {
+	FONT-SIZE: 10px; COLOR: #339; LINE-HEIGHT: 150%
+}
+.postcolor {
+	FONT-SIZE: 12px; LINE-HEIGHT: 160%
+}
+.normalname {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #003
+}
+.normalname A:link {
+	FONT-SIZE: 12px
+}
+.normalname A:visited {
+	FONT-SIZE: 12px
+}
+.normalname A:active {
+	FONT-SIZE: 12px
+}
+.unreg {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #900
+}
+.postlinksbar {
+	PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; FONT-SIZE: 10px; BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif'); PADDING-BOTTOM: 7px; PADDING-TOP: 7px; BACKGROUND-COLOR: #d1dceb
+}
+
+.darkrow3 {
+	MARGIN: 0px 0px;
+	BORDER-LEFT: #555555 1px solid;
+	BORDER-TOP: #555555 1px solid;
+	BORDER-RIGHT: #282828 1px solid;
+	BORDER-BOTTOM: #282828 1px solid;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 4px;
+	COLOR: #999999;
+	BACKGROUND-COLOR: #383838
+}
+.hlight {
+	BACKGROUND-COLOR: #dfe6ef
+}
+.dlight {
+	BACKGROUND-COLOR: #eef2f7
+}
+.tablebasic {
+	BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: 0px; WIDTH: 100%; PADDING-TOP: 0px; BORDER-BOTTOM: 0px
+}
+.wrapmini {
+	FLOAT: left; WIDTH: 25%; LINE-HEIGHT: 1.5em
+}
+.pagelinks {
+	FLOAT: left; WIDTH: 35%; LINE-HEIGHT: 1.2em
+}
+.edit {
+	FONT-SIZE: 9px;
+	COLOR: #666666
+
+}
+.searchlite {
+	FONT-WEIGHT: bold; COLOR: #f00; BACKGROUND-COLOR: #ff0
+}
+.codebuttons {
+	FONT-SIZE: 10px; VERTICAL-ALIGN: middle; FONT-FAMILY: verdana, helvetica, sans-serif
+}
+.radiobutton {
+	FONT-SIZE: 11px; VERTICAL-ALIGN: middle; FONT-FAMILY: verdana, helvetica, sans-serif
+}
+.checkbox {
+	FONT-SIZE: 11px; VERTICAL-ALIGN: middle; FONT-FAMILY: verdana, helvetica, sans-serif
+}
+.textinput {
+	FONT-SIZE: 12px; VERTICAL-ALIGN: middle; FONT-FAMILY: courier new, serif
+}
+.thin {
+	PADDING-TOP: 6px;
+	PADDING-LEFT: 0px;
+	PADDING-RIGHT: 0px;
+	PADDING-BOTTOM: 6px;
+	MARGIN: 2px 0px;
+	LINE-HEIGHT: 140%;
+	COLOR: #555555;
+	BORDER-TOP: #333333 1px solid;
+	BORDER-BOTTOM: #333333 1px solid
+}
+.purple {
+	FONT-WEIGHT: bold; COLOR: purple
+}
+.red {
+	FONT-WEIGHT: bold; COLOR: red
+}
+.green {
+	FONT-WEIGHT: bold; COLOR: green
+}
+.blue {
+	FONT-WEIGHT: bold; COLOR: blue
+}
+.orange {
+	FONT-WEIGHT: bold; COLOR: #f90
+}
+.hintshead {
+	BORDER-RIGHT: #97a2b0 1px solid; BORDER-TOP: #97a2b0 1px solid; FONT-SIZE: 10px; BORDER-LEFT: #97a2b0 1px solid; BORDER-BOTTOM: #97a2b0 1px solid; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; BACKGROUND-COLOR: #d1dceb
+}
+.hintstext {
+	FONT-SIZE: 10px; COLOR: #000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; BACKGROUND-COLOR: #f5f9fd
+}
+.quotetop {
+	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/css_img_quote.gif') #e4eaf2 no-repeat right 50%; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px
+}
+.quotemain {
+	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-LEFT: 4px; BACKGROUND: #fafcfe; PADDING-BOTTOM: 4px; MARGIN: 0px auto 8px; BORDER-LEFT: #8394b2 4px solid; COLOR: #465584; PADDING-TOP: 4px; BORDER-BOTTOM: #000 1px dotted
+}
+.voteprefix {
+	COLOR: green
+}
+.movedprefix {
+	COLOR: red
+}
+.mirrorprefix {
+	color:green;
+}
+.mirrorhint {
+	color:gray;
+}
+.clubprefix {
+	COLOR: blue
+}
+.pinnedprefix {
+	
+}
+.spoiler {
+  border: 1px solid black;
+  padding: 2px 0px;
+  margin-top: 5px
+}
+
+.spoiler_header {
+  padding-left: 16px;
+  height: 18px;
+  vertical-align: abs-middle;
+  font-size: 80%;
+}
+
+.spoiler .body {
+  border-top: 1px solid black;
+  padding: 0px 2px;
+}
+
+.open .spoiler_header {
+  background: url('http://forum.sources.ru/style_images/BlackLabel/minus.png') 4px center no-repeat;
+}
+
+.closed .spoiler_header {
+  background: url('http://forum.sources.ru/style_images/BlackLabel/plus.png') 4px center no-repeat;
+}
+span.attach_preview{
+	display:inline-block;
+	clear: none;
+	vertical-align: baseline;
+	text-align: center;
+}
+span.attach_preview p {
+	display:inline;
+	font-weight: bold;
+	font-size: 9px;
+}
+span.attach_preview img {
+	border: 1px solid black;
+	border-spacing: 0px;
+	padding: 0 0 0 0;
+	display:inline;
+}
+span.attach_preview p img {
+	border: 0px;
+}
+.donate td.donate_text {
+	color: #cccccc;
+}

@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Mod Howto</title>
+<meta HTTP-EQUIV="Pragma"  CONTENT="no-cache">
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 May 1996 04:57:00 GMT">
+
+<meta name="purpose" content="Template for howtos of modifications of Invisionboard">
+<meta name="date" content="21-Oktober 03">
+<meta name="author" content="Peter">
+<meta name="email" content="Peter@ibforen.de">
+<meta name="credits" content="Thanks to Black Tiger, member at ibforen.de, for optimizing this template">
+<meta name="keywords" content="ipb mod template">
+<meta name="mod" content="Member Ips">
+<meta name="mod_author" content="Peter">
+<meta name="mod_author_email" content="Peter@ibforen.de">
+<meta name="version" content="0.9">
+<style type='text/css'>
+form { display:inline }
+TABLE, TR, TD { font-family: Verdana, Tahoma, Arial; font-size: 8.5pt; color: #000000 ; border:5; cellpadding:5; cellspacing:5; }
+a:link, a:visited, a:active { text-decoration: underline; color: #000000 }
+a:hover { color: #465584 }
+.heading { font-size:18pt;line-height:125%; background-color: #62B6FE }
+.title1 {font-size:12pt;line-height:100%; background-color: #EEF2F7 }
+.searchtext { font-family: Verdana, Tahoma, Arial; font-size: 10pt; color:#000000; background-color: #EEF2F7 }
+.normaltext { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color:#000000; background-color: #EEF2F7 }
+.postcolor { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color:#000000; background-color: #EEF2F7 }
+.table { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color:#000000; background-color: #FFFFFF; }
+.code { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color: #333333; background-color: #FAFCFE; border: 1px solid Black; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+.CODE { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color: #333333; background-color: #FAFCFE; border: 1px solid Black; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+.QUOTE { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color: #333333; background-color: #FAFCFE; border: 1px solid Black; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+.oldcode { color: red }
+.newcode { color: blue }
+.newcode_insert { font-style:italic; color: blue }
+
+</style>
+</head>
+
+<body class='normaltext'>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;Member Ips&nbsp;&nbsp;0.9&nbsp;&nbsp;Invision Power Board  1.3</strong></font>
+</div>
+<div class='heading'>
+<table border='0' cellpadding='5' cellspacing='1' class='table'  width='100%'><tr>
+<td class='normaltext'  width='20%'  valign='top'>Mod Beschreibung</td>
+<td class='normaltext'  width='80%'  valign='top'>Welche IP-Adressen verwendet ein Mitglied? Neue Funktion im ModCP</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Mod Kompatibilität</td>
+<td class='normaltext'  width='80%'  valign='top'>Invision Power Board  1.3</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Mod Kategorie</td>
+<td class='normaltext'  width='80%'  valign='top'>Minor Mod</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Mod Autor</td>
+<td class='normaltext'  width='80%'  valign='top'>Peter</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Mod Emailadresse des Autors</td>
+<td class='normaltext'  width='80%'  valign='top'>Peter@ibforen.de</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Dokumentationspfad</td>
+<td class='normaltext'  width='80%'  valign='top'>sources/mods/member_ips/mod_member_ips_howto.htm</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Mod Version</td>
+<td class='normaltext'  width='80%'  valign='top'>0.9</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Hinweis</td>
+<td class='normaltext'  width='80%'  valign='top'>Weitergabe ohne Zustimmung ist untersagt. Download von ibforen.de oder ibplanet.com<br>
+Alle Änderungen sind am mod_token zu erkennen<br><br>
+Dieses html-howto wurde erstellt mit <b>The ModInstaller</b> von<br>
+Peter@ibforen.de,   released 2003-07-07<br>
+Erstellungsdatum: 21-Oktober 03<br><br>
+Es darf ohne ausdrückliche Genehmigung nicht weiterverwendet werden.</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Mod Token</td>
+<td class='normaltext'  width='80%'  valign='top'>mod_member_ips</td>
+</tr>
+</table>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;Inhalt</strong></font>
+</div>
+<div class='normaltext'>
+    <br>1  <a href='#history'>History und Change Logs</a><br>
+2  <a href='#changes'>Veränderungen</a><br>
+3  <a href='#copy'>Kopieren</a><br>
+4  <a href='#code'>Kodieren</a><br>
+5  <a href='#customize'>Anpassen</a><br>
+6  <a href='#comment_mod'>Kommentar</a><br>
+7  <a href='#old_history'>Ältere History und Change Logs</a><br>
+
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='history'>1.&nbsp;&nbsp;History und Change Logs</a></strong></font>
+</div>
+<div class='normaltext'>
+    <br><br>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='changes'>2.&nbsp;&nbsp;Veränderungen</a></strong></font>
+</div>
+<div class='heading'>
+<table border='0' cellpadding='5' cellspacing='1' class='table'  width='100%'><tr>
+<td class='normaltext' width='40%' align='left'><b>Changed file</b></td>
+<td class='normaltext' width='60%' align='left'><b>Changed function</b></td>
+</tr>
+<tr>
+<td class='normaltext'  width='40%'  valign='middle'>sources/mod_cp.php</td>
+<td class='normaltext'  width='60%'  valign='middle'>edit_user(..)</td>
+</tr>
+<tr>
+<td class='normaltext'  width='40%'  valign='middle'>sources/mod_cp.php</td>
+<td class='normaltext'  width='60%'  valign='middle'>complete_user_edit(..)</td>
+</tr>
+</table>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='copy'>3.&nbsp;&nbsp;Kopieren</a></strong></font>
+</div>
+<div class='normaltext'>
+    <br>Kopiere alle Dateien des Archivs in das Root-Verzeichnis deines Boards und behalte dabei die Struktur bei.<ul><li>sources &rArr; sources</li></ul>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='code'>4.&nbsp;&nbsp;Kodieren</a></strong></font>
+</div>
+<div class='title1'>
+    <br><br><font size='5'>Schritt&nbsp;&nbsp;1:</font>&nbsp;&nbsp;Öffne <b>sources/mod_cp.php</b>
+</div>
+<div class='searchtext'>
+    <br><img src='doc/images/bullet.gif' />&nbsp;&nbsp;<font size='5'>A.</font>&nbsp;<i>Suche in</i> <b>function&nbsp;edit_user(..)</b>
+</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;output&nbsp;.=&nbsp;$this-&gt;html-&gt;edit_user_form($editable);</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Füge darunter ein</i> <span class='newcode_insert'>den blauen Code</span>
+</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;output&nbsp;.=&nbsp;$this-&gt;html-&gt;edit_user_form($editable);</span>
+<span class='newcode'><br><br><br>
+//--&nbsp;mod_member_ips&nbsp;begin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(isset($ibforums-&gt;input[&#039;show_ips&#039;]))&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;\n&lt;tr&gt;&lt;td&nbsp;class=&#039;pformleft&#039;&gt;\nUsed&nbsp;IP&nbsp;Adresses&lt;/td&gt;\n&lt;td&nbsp;class=&#039;pformright&#039;&gt;\n&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$DB-&gt;query(&quot;SELECT&nbsp;DISTINCT&nbsp;ip_address&nbsp;FROM&nbsp;ibf_posts&nbsp;WHERE&nbsp;author_id&nbsp;=&nbsp;&nbsp;&#039;&quot;.$ibforums-&gt;input[&#039;memberid&#039;].&quot;&#039;&nbsp;ORDER&nbsp;BY&nbsp;ip_address&quot;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$num&nbsp;=&nbsp;$DB-&gt;get_num_rows();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;($num)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;&lt;textarea&nbsp;style=&#039;font:Courier&#039;&nbsp;cols=&#039;80&#039;&nbsp;rows=&#039;&quot;.(min(15,3+round($num/4))).&quot;&#039;&nbsp;name=&#039;ips&#039;&nbsp;readonly=&#039;readonly&#039;&nbsp;wrap=&#039;soft&#039;&gt;\n&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;Registered&nbsp;with&nbsp;&quot;.$member[&#039;ip_address&#039;];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;\n\nUsed&nbsp;ip&nbsp;addresses:\n&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;($r&nbsp;=&nbsp;$DB-&gt;fetch_row())&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;str_pad($r[&#039;ip_address&#039;],20);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;&lt;textarea&nbsp;cols=&#039;50&#039;&nbsp;rows=&#039;3&#039;&nbsp;name=&#039;ips&#039;&nbsp;class=&#039;forminput&#039;&nbsp;readonly=&#039;readonly&#039;&nbsp;wrap=&#039;soft&#039;&gt;\n&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;Registered&nbsp;with&nbsp;&quot;.$member[&#039;ip_address&#039;];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;\n&lt;br&nbsp;/&gt;No&nbsp;posts&nbsp;found.&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ip_row&nbsp;.=&nbsp;&quot;\n&lt;/textarea&gt;\n&lt;/td&gt;\n&lt;/tr&gt;\n&quot;;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;output&nbsp;=&nbsp;&nbsp;preg_replace(&quot;`(&lt;\/table&gt;)`is&quot;,&quot;$ip_row\\1&quot;,$this-&gt;output);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;output&nbsp;=&nbsp;&nbsp;preg_replace(&quot;`(&lt;input&nbsp;type.*?submit.*?&gt;)`is&quot;,&quot;\\1&amp;nbsp;&amp;nbsp;&lt;input&nbsp;type=&#039;submit&#039;&nbsp;name=&#039;show_ips&#039;&nbsp;value=&#039;IP&nbsp;Addresses&#039;&nbsp;class=&#039;forminput&#039;&nbsp;/&gt;&quot;,$this-&gt;output);<br>
+//--&nbsp;mod_member_ips&nbsp;end<br><br>
+</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br><img src='doc/images/bullet.gif' />&nbsp;&nbsp;<font size='5'>B.</font>&nbsp;<i>Suche in</i> <b>function&nbsp;complete_user_edit(..)</b>
+</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;complete_user_edit()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;$std,&nbsp;$ibforums,&nbsp;$DB,&nbsp;$print;</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Füge darunter ein</i> <span class='newcode_insert'>den blauen Code</span>
+</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;complete_user_edit()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;$std,&nbsp;$ibforums,&nbsp;$DB,&nbsp;$print;</span>
+<span class='newcode'><br><br><br>
+//--&nbsp;mod_member_ips&nbsp;begin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(isset($ibforums-&gt;input[&#039;show_ips&#039;]))&nbsp;$this-&gt;edit_user();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+//--&nbsp;mod_member_ips&nbsp;end<br><br>
+</span>
+
+    </td></tr>
+</table></div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='customize'>5.&nbsp;&nbsp;Anpassen</a></strong></font>
+</div>
+<div class='normaltext'>
+    <br><br>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='comment_mod'>6.&nbsp;&nbsp;Kommentar</a></strong></font>
+</div>
+<div class='normaltext'>
+    <br>Im Moderatoren Control Panel (ModCP) findest du unter <b>Mitglieder bearbeiten</b> einen neuen Button <b>IP Addresses</b><br>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='old_history'>7.&nbsp;&nbsp;Ältere History und Change Logs</a></strong></font>
+</div>
+<div class='normaltext'>
+    <br><br>
+</div>
+</body>
+</html>

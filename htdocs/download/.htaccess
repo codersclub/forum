@@ -1,0 +1,6 @@
+AuthType Basic
+AuthName "Login and Password required"
+AuthUserFile /usr/local/www/sources.forum/.htpasswd
+<Limit GET>
+require  valid-user
+</Limit>

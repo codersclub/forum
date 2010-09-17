@@ -1,0 +1,69 @@
+
+
+a.bt:visited {
+	font-family:  Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #28384C;
+	text-decoration: none;
+
+}
+a.bt:link {
+	font-family:  Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #28384C;
+	text-decoration: none;
+
+}
+a.bt:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #3F64CD;
+	text-decoration: underline;
+}
+
+P {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #181818;
+	text-decoration: none;
+}
+
+P.gr {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: Gray;
+	text-decoration: none;
+}
+P.chapter {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #181818;
+	text-decoration: none;
+	font-weight : bold;
+}
+.title {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #181818;
+	text-decoration: none;
+	font-weight : bold;
+}
+
+LI {
+	font-family: Verdana,  Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #181818;
+	text-decoration: none;
+}
+
+B {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: Red;
+	text-decoration: none;
+}
+
+

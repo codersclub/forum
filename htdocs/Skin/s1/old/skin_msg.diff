@@ -1,0 +1,11 @@
+--- /Skin/s1/skin_msg.php.old	2009-02-13 16:05:00.000000000 +0300
++++ /Skim/s1/skin_msg.php	2009-08-25 10:51:30.265625000 +0400
+@@ -171,7 +171,7 @@
+ </tr>
+ <tr>
+   <td class='pformleft'>{$ibforums->lang['msg_title']}</td>
+-  <td class='pformright' colspan='2'><input type='text' name='msg_title' size='40' tabindex="2" maxlength='40' value='{$data[O_TITLE]}' class='forminput'></td>
++  <td class='pformright' colspan='2'><input type='text' name='msg_title' size='90' tabindex="2" maxlength='128' value='{$data[O_TITLE]}' class='forminput'></td>
+ </tr>
+ 
+ EOF;

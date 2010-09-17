@@ -1,0 +1,176 @@
+function FUNC()
+
+// Post functions
+function mod_tag_exists($post, $gm_on = 0, $mm_on = 1)
+function delayed_time($post, $days_off, $to_do = 0, $moderator = array())
+function regex_moderator_message($message)
+function regex_global_moderator_message($message)
+function do_post($post = "")
+function premod_rights($mid, $queued = 0, $resolve = 0)
+function user_reply_flood($start_date = 0)
+
+
+// Member functions
+function set_up_guest( $name = 'Guest' )
+function user_ban_check( $forum = array() )
+function ip_control($forum, $ip)
+function rep_recount($mid = 0)
+function inc_user_count($field, $day, $month)
+function who_was_member( $mid )
+function who_was_guest_or_bot( $table, $field, $session_id, $ip_address)
+function delete_members($ids)
+function sendpm($sendto, $message, $title, $sender_id="", $popup=0, $do_send=0, $fatal = 1)
+function make_profile_link($name, $id="", $info = "")
+function make_password()
+function clean_email($email = "")
+function load_member($member_id=0)
+function unload_member()
+
+
+// Forum functions
+function select_parent($id)
+function do_update( $id,$pid )
+function update_forum_order_cache( $id,$pid ) 
+function subforums_addtorow($result, $children, $id, $level)
+function fill_array($row, $forums, $children, $total_list)
+function check_forum( $row = array() )
+function forums_array( $id, $current, $forums, $children, $forums_list = array() )
+function forum_filter( $forum = array(), $forums_id = array(), $mode = 0, $pid )
+function get_highlight_id($id)
+function menu_row($value, $current, $label, $mode = "")
+function get_board_visibility($board_id, $is_forum)
+function set_board_visibility($board_id, $is_forum, $visible)
+
+// Time & Date functions
+function current_day() 
+function current_month() 
+function yesterday_day($days_down = 1)
+function yesterday_month($days_down = 1)
+function old_get_date($date, $method)
+function get_date($date, $method, $html = 1)
+function get_time_offset()
+
+function code_tag_button($hid = 0)
+
+
+
+function str_to_sql ($str)
+function sql_to_html ($str)
+
+function txt_stripslashes($t)
+function txt_raw2form($t="")
+function txt_safeslashes($t="")
+function txt_htmlspecialchars($t="")
+function txt_UNhtmlspecialchars($t="")
+
+function return_md5_check()
+function trim_leading_comma($t)
+function trim_trailing_comma($t)
+function clean_comma($t)
+
+function clean_perm_string($t)
+function size_format($bytes="")
+
+function print_forum_rules($forum)
+function hdl_ban_line($bline)
+function check_perms($forum_perm="")
+function do_number_format($number)
+
+
+// Image functions
+function scale_image($arg)
+function show_gif_img($this_number="")
+function show_gd_img($content="")
+
+
+// Text prepare functions
+function my_nl2br($t="")
+function my_br2nl($t="")
+
+function load_template( $name, $id='' )
+
+
+function boink_it($url, $type = "" )
+
+
+function forum_new_posts($forum_data, $sub=0, $state=0, $moder_rights = "")
+
+function folder_icon( $topic, $dot="", $last_time = -1, $mark = -1)
+
+function text_tidy($txt = "")
+
+
+function compile_db_string($data)
+function build_pagelinks($data)
+function build_forum_jump($html=1, $override=0, $remove_redirects=0)
+function subforums_addtoform($id, &$children, $level='')
+function build_forum_jump_topics($html=1, $override=0, $remove_redirects=0)
+
+
+
+function load_skin()
+function load_words($current_lang_array, $area, $lang_type)
+
+function parse_incoming()
+function clean_key($key)
+function clean_value($val)
+function remove_tags($text="")
+function is_number($number="")
+function get_avatar($member_avatar="", $member_view_avatars=0, $avatar_dims="x")
+
+function JsError($error = array())
+function Error($error)
+function song_get_forumsread()
+function song_set_forumread( $fid )
+function song_set_topicread( $topic_log, $fid, $tid )
+function board_offline()
+function select_var($array)
+
+function flood_begin()
+function flood_end()
+
+
+// Indexed search
+function index_reindex_post ($pid=0, $tid=0, $fid=0, $post="")
+function index_reindex_title ( $tid=0, $fid=0, $title)
+function index_del_title($tid=0)
+function index_del_post($pid=0)
+function index_del_posts($pidlist="")
+function index_del_topic($tid=0)
+function index_del_topics($tidlist="")
+//function index_move_topics($tids,$movetoforum);
+function index_make_index($pid=0, $tid=0, $fid=0, $words=array())
+function index_wordlist ( $post = "")
+
+function is_new_fav_exists()
+
+
+function add_output($to_add)
+function nav($output_array)
+function nav_at_line($output_array)
+function do_output($output_array)
+function do_headers()
+function redirect_js_screen($do, $action, $params, $do_echo = "")
+function redirect_screen($text="", $url="", $type="")
+function pop_up_window($title = 'Invision Power Board', $text = "" )
+
+
+// Recount stats
+function clear_posts($topics, $forums)
+function topic_recount( $tids = array() )
+function forum_recount( $fids = array() )
+function stats_recount()
+
+
+// Authorization
+function authorise()
+function my_setcookie($name, $value = "", $sticky = 1)
+function my_getcookie($name)
+function get_session($session_id="")
+function plg_get_session()
+function create_member_session()
+function create_guest_session()
+function create_bot_session($bot)
+function update_member_session()
+function update_guest_session()
+function update_bot_session($bot)

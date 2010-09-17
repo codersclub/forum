@@ -1,0 +1,40 @@
+***** skin_global.php
+<td>&nbsp;</td>
+<td>
+&middot; 
+***** E:\HOME\FORUM\HTDOCS\SKIN\S1\SKIN_GLOBAL.PHP
+<td align=center>
+<!-- SLOGAN -->
+<b>Форум программистов</b>
+<br>
+Здесь мы разместим слоган,
+<br>
+который вместе придумаем</td>
+<td width=468 align=right>
+<!-- HEADER_BANNER -->
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+        codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0"
+        width="468" height="60" id="kasper" align="middle">
+        <param name="allowScriptAccess" value="sameDomain" />
+        <param name="allowFullScreen" value="false" />
+        <param name="movie" value="/asdf/kasper.swf" />
+        <param name="quality" value="high" />
+        <param name="bgcolor" value="#999999" />
+        <embed src="/asdf/kasper.swf" quality="high" bgcolor="#999999"
+        width="468" height="60" name="468x60" align="middle"
+        allowScriptAccess="sameDomain" allowFullScreen="false"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer" />
+</object>
+</td>
+</tr>
+<tr style='height:24px;'>
+<td align=right>
+Наши проекты:
+</td>
+<td colspan=2>
+&middot; 
+*****
+
+
+

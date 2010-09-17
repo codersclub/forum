@@ -1,0 +1,51 @@
+	#llist{
+	visibility:hidden;
+	cursor:default;
+	border:1px solid black;
+	padding:0px;
+	top:22px;left:0;
+	position:absolute;
+	width:118px;
+	background:#E7E9EE;
+	color:#000;
+	text-align:center;
+	overflow:auto;
+	z-index:7890;
+	}
+    
+	.code{
+		width:116px;
+		text-align:left;
+		padding:0 39px 0 2px;
+	}
+
+	#llist s
+	{
+	  /*font: 10px verdana, helvetica, sans-serif;*/
+	  display:block;
+	  width:100%;/*for IE*/
+	  padding:2px;
+	  line-height:100%;
+	  text-decoration:none;
+	}
+	#llist>s{width:auto}
+	#llist .sel
+	{
+	  border:1px solid #00D;	 
+	  padding:1px;
+	  background:#6EA1E3;
+	  color:black;
+	}
+
+	.ar
+	{    
+        width:13px;
+		text-align:center;
+    }
+
+	.line{border-left:1px dotted black;position:absolute;width:1px}
+
+	@media screen and(min-width:1px)
+	{
+	.ar{width:11px}
+	}

@@ -1,0 +1,9 @@
+<? 
+
+class ReplyPrivate {
+
+	function Process() {
+	}
+}
+
+?>

@@ -1,0 +1,182 @@
+#TITLE=Pascal
+
+;-------------------------------------------------------------------------------
+; Syntax highlighting for Pascal and Delphi source files.
+;
+; Copyright (c) 2000 by Michaі Jazіowiecki
+; michalj@prioris.mini.pw.edu.pl
+; http://prioris.mini.pw.edu.pl/~michalj                  (Polish language only)
+;
+; Supported dialects:
+;  - Borland Turbo Pascal 6.0 with Objects
+;  - Borland Turbo Pascal 7.0 with Objects
+;  - Borland Pascal 7.0 with Objects
+; All reserved words mentioned here are from Borland Pascal 7.0 with Objects,
+; but they work with other Borland Turbo Pascal versions and other Pascal
+; versions. However some words mentioned here as reserved may not be reserved in
+; those Pascal dialects (like in Watcom Pascal or GNU Pascal in ANSI/ISO Pascal
+; mode). Should work with Delphi files, too.
+;
+; Known bugs:
+;  - Compiler directives are shown as comments, because they are placed in
+;    comments. Even original IDE's (editors) for Borland Pascal 7 and Turbo
+;    Pascal 7 display compiler directives as comments! Compiler directives 
+;    are listed for completness.
+;  - Only five predefined symbols are listed, because other, like VER60 and
+;    VER70 are defined in some versions only (because they are determined by
+;    those versions; VER60 is defined in Turbo Pascal version 6.0, VER70 is
+;    defined in Borland Pascal and Turbo Pascal versions 7.0; Delphi 1.0 is
+;    Pascal version 8.0 with VER80 defined and so on).
+;  - There are no Delphi-specific or Pascal-for-Windows-specific types (like
+;    PStr or PBool), because there are too many of them.
+;
+;------------------------------------------------------------------------------
+
+
+#LINECOMMENT=//
+
+#COMMENTON=(*
+#COMMENTOFF=*)
+
+#COMMENTON={
+#COMMENTOFF=}
+
+#CHARS=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789
+#QUOTATION=`
+#QUOTATION='
+
+#DELIMITER=,
+#DELIMITER={
+#DELIMITER=}
+#DELIMITER=(
+#DELIMITER=)
+#DELIMITER=[
+#DELIMITER=]
+#DELIMITER=*
+#DELIMITER=%
+#DELIMITER=/
+#DELIMITER==
+#DELIMITER="
+#DELIMITER='
+#DELIMITER=~
+#DELIMITER=!
+#DELIMITER=&
+#DELIMITER=|
+#DELIMITER=<
+#DELIMITER=>
+#DELIMITER=?
+#DELIMITER=:
+#DELIMITER=;
+#DELIMITER=.
+#DELIMITER=#
+
+#QUOTATION1='
+#QUOTATION2=`
+
+#LINECOMMENT=
+#LINECOMMENT=
+
+#CASE=n
+
+#KEYWORD=[Reserved words]
+message
+published
+protected
+try
+finally
+except
+absolute
+and
+array
+asm
+assembler
+begin
+case
+const
+constructor
+destructor
+div
+do
+downto
+else
+end
+export
+exports
+external
+far
+file
+for
+forward
+function
+goto
+if
+implementation
+in
+inherited
+inline
+interface
+interrupt
+label
+library
+mod
+nil
+not
+object
+of
+or
+packed
+private
+procedure
+program
+public
+record
+repeat
+resident
+set
+shl
+shr
+string
+then
+to
+type
+unit
+until
+uses
+var
+virtual
+while
+with
+xor
+
+#KEYWORD=[Types]
+boolean
+char
+integer
+pointer
+real
+byte
+comp
+double
+extended
+longbool
+longint
+pchar
+shortbool
+shortint
+single
+word
+wordbool
+
+Модули с классами надо подключать ОДИН раз или использовать require_once.
+
+В файлах конфигурации заменить HTML-теги IBFами.
+
+#STYLE=Reserved words%~[b]%{0}[/b]
+#STYLE=Types%~%{0}
+#STYLE=Text%~%{0}
+#STYLE=Digits%~[color=blue]%{0}[/color]
+#STYLE=Delimiter%~%{0}
+#STYLE=Quotation%~[color=green]%{0}[/color]
+#STYLE=Comment%~ [color=A0A0A0][i]%{0}[/i][/color]
+
+

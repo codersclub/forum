@@ -1,0 +1,12 @@
+User-agent: *
+
+Disallow: /cpp/
+Disallow: /delphi/
+Disallow: /hardware/
+Disallow: /magazine/
+Disallow: /photo/
+Disallow: /storage/
+Disallow: /vb/
+Allow: /
+
+Host: forum.sources.ru

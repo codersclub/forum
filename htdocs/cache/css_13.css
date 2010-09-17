@@ -1,0 +1,19 @@
+.p	{table-layout:fixed}
+.CODE,pre{
+    margin:0;
+    white-space:-o-pre-wrap;
+    white-space:-moz-pre-wrap;
+    word-wrap:break-word;
+}
+PRE	{
+    MARGIN: 0px;
+    WORD-WRAP: break-word;
+}
+
+.open .body {    display: block; }
+.closed .body {    display: none; }
+.spoiler_header {   cursor: pointer; }
+
+.CODE pre{
+	border: 0px;
+}

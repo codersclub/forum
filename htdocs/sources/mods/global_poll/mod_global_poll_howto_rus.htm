@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="mod_translator" content="bizzznesmen">
+
+<title>Mod Howto</title>
+<meta HTTP-EQUIV="Pragma"  CONTENT="no-cache">
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 May 1996 04:57:00 GMT">
+
+<meta name="purpose" content="Template for howtos of modifications of Invisionboard">
+<meta name="date" content="13-August 03">
+<meta name="author" content="Peter">
+<meta name="email" content="Peter@ibforen.de">
+<meta name="credits" content="Thanks to Black Tiger, member at ibforen.de, for optimizing this template">
+<meta name="keywords" content="ipb mod template">
+<meta name="mod" content="Global Poll">
+<meta name="mod_author" content="Koksi">
+<meta name="mod_author_email" content="Koksi@ibforen.de">
+<meta name="version" content="1.2 b">
+<style type='text/css'>
+form { display:inline }
+TABLE, TR, TD { font-family: Verdana, Tahoma, Arial; font-size: 8.5pt; color: #000000 ; border:5px none; cellpadding:5; cellspacing:5 }
+a:link, a:visited, a:active { text-decoration: underline; color: #000000 }
+a:hover { color: #465584 }
+.heading { font-size:18pt;line-height:125%; background-color: #62B6FE }
+.title1 {font-size:12pt;line-height:100%; background-color: #EEF2F7 }
+.searchtext { font-family: Verdana, Tahoma, Arial; font-size: 10pt; color:#000000; background-color: #EEF2F7 }
+.normaltext { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color:#000000; background-color: #EEF2F7 }
+.postcolor { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color:#000000; background-color: #EEF2F7 }
+.table { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color:#000000; background-color: #FFFFFF; }
+.code { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color: #333333; background-color: #FAFCFE; border: 1px solid Black; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+.CODE { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color: #333333; background-color: #FAFCFE; border: 1px solid Black; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+.QUOTE { font-family: Verdana, Tahoma, Arial; font-size: 8pt; color: #333333; background-color: #FAFCFE; border: 1px solid Black; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+.oldcode { color: red }
+.newcode { color: blue }
+.newcode_insert { font-style:italic; color: blue }
+
+</style>
+</head>
+
+<body class='normaltext'>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;Global Poll&nbsp;&nbsp;1.2 b&nbsp;&nbsp;Invision Power Board  1.2</strong></font>
+</div>
+<div class='heading'>
+<table border='0' cellpadding='5' cellspacing='1' class='table'  width='100%'><tr>
+<td class='normaltext'  width='20%'  valign='top'>Описание мода:</td>
+<td class='normaltext'  width='80%'  valign='top'>Вставляет глобальный опрос на 
+главную станицу форума</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Версия <span lang="en-us">IPB:</span></td>
+<td class='normaltext'  width='80%'  valign='top'>Invision Power Board  1.2</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Категория мода:</td>
+<td class='normaltext'  width='80%'  valign='top'>Глобальные</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Автор мода</td>
+<td class='normaltext'  width='80%'  valign='top'>Koksi</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'><span lang="en-us">E-mail
+</span>автора:</td>
+<td class='normaltext'  width='80%'  valign='top'>Koksi@ibforen.de</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Инфо файл:</td>
+<td class='normaltext'  width='80%'  valign='top'>sources/mods/global_poll/mod_global_poll_howto_rus.htm</td>
+</tr>
+<tr>
+<td class='normaltext'  width='20%'  valign='top'>Версия мода</td>
+<td class='normaltext'  width='80%'  valign='top'>1.2 b</td>
+</tr>
+</table>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;Content</strong></font>
+</div>
+<div class='normaltext'>
+    <br>
+1 <a href="#changes">Изменения</a><br>
+2 <a href="#copy"><span lang="ru">Копирование</span></a><br>
+3 <a href="#code"><span lang="ru">Установка</span></a><br>
+<span lang="ru">4</span> <a href="#customize"><span lang="ru">Настройка</span></a><br>
+
+
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='changes'>1.&nbsp;&nbsp;</a></strong></font><strong><a name="changes"><font face="Arial, Helvetica, sans-serif" size="3">Изменения</font></a></strong>
+</div>
+<div class='heading'>
+<table border='0' cellpadding='5' cellspacing='1' class='table'  width='100%'><tr>
+<td class='normaltext' width='40%' align='left'><b>Изменённый файл:</b></td>
+<td class='normaltext' width='60%' align='left'><b>Изменённая функция:</b></td>
+</tr>
+<tr>
+<td class='normaltext'  width='40%'  valign='middle'>conf_global.php</td>
+<td class='normaltext'  width='60%'  valign='middle'>body</td>
+</tr>
+<tr>
+<td class='normaltext'  width='40%'  valign='middle'>sources/Boards.php</td>
+<td class='normaltext'  width='60%'  valign='middle'>Boards(..)</td>
+</tr>
+<tr>
+<td class='normaltext'  width='40%'  valign='middle'>sources/Admin/ad_settings.php</td>
+<td class='normaltext'  width='60%'  valign='middle'>post(..)</td>
+</tr>
+<tr>
+<td class='normaltext'  width='40%'  valign='middle'>sources/Admin/ad_settings.php</td>
+<td class='normaltext'  width='60%'  valign='middle'>ad_settings(..)</td>
+</tr>
+</table>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name="copy">2.&nbsp;&nbsp;Copy</a></strong></font>
+</div>
+<div class='normaltext'>
+    <br>Все файлы архива уже разложены по папкам. Убедитесь, что вы распаковали 
+    архив в корневую папку Вашего форума.<br>&nbsp;<p><span lang="en-us">*</span>Если 
+    у вас установлены готовые наборы с хаками, то вполе возможно, что в папке
+    <span lang="en-us">lang</span>, в подпапке <span lang="en-us">en </span>у 
+    вас находятся русские файлы, тогда вам следует зайти в данный архив
+    <span lang="en-us">lang-&gt;ru-&gt;</span>и скопировать файл<span lang="en-us"> <b>
+    mod_global_poll_lang.php</b></span> в корневой_каталог_Вашего_форума<span lang="en-us">-&gt;lang-&gt;en</span><p>
+    *<span lang="ru">Если на Вашем форуме установлено более одного скина, то 
+    скопируйте файл архива skin\s1\<b>mod_global_poll_skin.php </b>во все 
+    остальные папки со скинами </span>(skin\s<b>*</b>, <span lang="ru">где
+    </span><b>'<span lang="ru">*</span>' <span lang="ru">-</span></b><span lang="ru"> 
+    это номер установленного скина</span><br>
+</div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name='code'>3.&nbsp;&nbsp;Установка</a></strong></font></div>
+<div class='title1'>
+    <br><br><font size="5">Шаг&nbsp;&nbsp;1:</font>&nbsp;&nbsp;Откройте <b>conf_global.php</b>
+</div>
+<div class='searchtext'>
+    <br><img src='doc/images/bullet.gif' width="15" height="32" />&nbsp;&nbsp;Найдите</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>$INFO[&#039;post_titlechange&#039;]</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Вставьте <b>над </b><span lang="ru">
+    <font color="#FF0000">красным</font> <font color="#0000FF">синее</font></span>:</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='newcode'><br><br><br>
+//--&nbsp;mod_global_poll&nbsp;begin<br>
+$INFO[&#039;global_poll&#039;]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp;&#039;0&#039;;<br>
+//--&nbsp;mod_global_poll&nbsp;end<br><br>
+</span>
+<span class='oldcode'><br>$INFO[&#039;post_titlechange&#039;]</span>
+
+    </td></tr>
+</table></div>
+<div class='title1'>
+    <br><br><font size="5">Шаг&nbsp;&nbsp;2:</font>&nbsp;&nbsp;Откройте <b>sources/Boards.php</b>
+</div>
+<div class='searchtext'>
+    <br><img src='doc/images/bullet.gif' width="15" height="32" />&nbsp;&nbsp;<i>Найдите 
+    в</i> <b>function&nbsp;Boards(..)</b>
+</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>$this-&gt;process_all_cats();</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;Вставье <b>после</b><span lang="ru">
+    <font color="#FF0000">красного</font> <font color="#0000FF">синее</font></span>:</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>$this-&gt;process_all_cats();</span>
+<span class='newcode'><br><br><br>
+//--&nbsp;mod_global_poll&nbsp;begin<br>
+if&nbsp;(file_exists(ROOT_PATH.&quot;sources/mods/global_poll/mod_global_poll_func.php&quot;))&nbsp;<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require&nbsp;ROOT_PATH.&quot;sources/mods/global_poll/mod_global_poll_func.php&quot;;<br>
+}else{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&quot;Could&nbsp;not&nbsp;call&nbsp;required&nbsp;function&nbsp;from&nbsp;file&nbsp;&#039;sources/mods/global_poll/mod_global_poll_func.php&#039;&lt;br&gt;Does&nbsp;it&nbsp;exist?&quot;);<br>
+}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+$global_poll&nbsp;=&nbsp;new&nbsp;global_poll;<br>
+$this-&gt;output&nbsp;.=&nbsp;$global_poll-&gt;getOutput();&nbsp;&nbsp;&nbsp;&nbsp;<br>
+//--&nbsp;mod_global_poll&nbsp;end<br><br>
+</span>
+
+    </td></tr>
+</table></div>
+<div class='title1'>
+    <br><br><font size="5">Шаг&nbsp;&nbsp;3:</font>&nbsp;&nbsp;Откройте <b>sources/Admin/ad_settings.php</b>
+</div>
+<div class='searchtext'>
+    <br><img src='doc/images/bullet.gif' width="15" height="32" />&nbsp;&nbsp;<font size='5'>A.</font>&nbsp;<i>Найдите  </i>
+    <span lang="ru"><i>в</i></span> <b>function&nbsp;post(..)</b>
+</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>$ADMIN-&gt;html&nbsp;.=&nbsp;$SKIN-&gt;add_td_basic(&nbsp;&#039;Polls&#039;,&nbsp;&#039;left&#039;,&nbsp;&#039;catrow2&#039;&nbsp;);</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Вставьте <b>над </b><span lang="ru"><font color="#FF0000">красным</font>
+    <font color="#0000FF">синее</font></span>:</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='newcode'><br><br><br>
+//--&nbsp;mod_global_poll&nbsp;begin<br>
+if&nbsp;(file_exists(ROOT_PATH.&quot;sources/mods/global_poll/mod_global_poll_adm.php&quot;))&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require&nbsp;ROOT_PATH.&quot;sources/mods/global_poll/mod_global_poll_adm.php&quot;;<br>
+&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&quot;Could&nbsp;not&nbsp;call&nbsp;required&nbsp;function&nbsp;from&nbsp;file&nbsp;&#039;sources/mods/global_poll/mod_global_poll_adm.php&#039;&lt;br&gt;Does&nbsp;it&nbsp;exist?&quot;);<br>
+&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;$adminGlobalPoll&nbsp;=&nbsp;new&nbsp;AdminGlobalPoll;<br>
+&nbsp;&nbsp;&nbsp;$adminGlobalPoll-&gt;ad_settings();<br>
+//--&nbsp;mod_global_poll&nbsp;end<br><br>
+</span>
+<span class='oldcode'><br>$ADMIN-&gt;html&nbsp;.=&nbsp;$SKIN-&gt;add_td_basic(&nbsp;&#039;Polls&#039;,&nbsp;&#039;left&#039;,&nbsp;&#039;catrow2&#039;&nbsp;);</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br><img src='doc/images/bullet.gif' width="15" height="32" />&nbsp;&nbsp;<font size='5'>B.</font>&nbsp;<i>Найдите 
+    в</i> <b>function&nbsp;ad_settings(..)</b>
+</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>case&nbsp;&#039;dopost&#039;:</span>
+
+    </td></tr>
+</table></div>
+<div class='searchtext'>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Вставье <b>после</b><span lang="ru"> <font color="#FF0000">
+    красного</font> <font color="#0000FF">синее</font></span>:</div>
+<div class='normaltext'><table class='normaltext' border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>
+    <tr><td class='code'>
+    <span class='oldcode'><br>case&nbsp;&#039;dopost&#039;:</span>
+<span class='newcode'><br><br><br>
+//--&nbsp;mod_global_poll&nbsp;begin<br>
+if&nbsp;(file_exists(ROOT_PATH.&quot;sources/mods/global_poll/mod_global_poll_adm.php&quot;))&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require&nbsp;ROOT_PATH.&quot;sources/mods/global_poll/mod_global_poll_adm.php&quot;;<br>
+&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&quot;Could&nbsp;not&nbsp;call&nbsp;required&nbsp;function&nbsp;from&nbsp;file&nbsp;&#039;sources/mods/global_poll/mod_global_poll_adm.php&#039;&lt;br&gt;Does&nbsp;it&nbsp;exist?&quot;);<br>
+&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;$adminGlobalPoll&nbsp;=&nbsp;new&nbsp;AdminGlobalPoll;<br>
+&nbsp;&nbsp;&nbsp;$adminGlobalPoll-&gt;save_config();<br>
+//--&nbsp;mod_global_poll&nbsp;end<br><br>
+</span>
+
+    </td></tr>
+</table></div>
+<br>
+<div class="heading">
+  <font size="3" face="Arial, Helvetica, sans-serif"><strong>&nbsp;<a name="customize">4.&nbsp;&nbsp;Настройка</a></strong></font></div>
+<div class='normaltext'>
+    <br>Идите в acp &gt;&gt; System Settings &gt;&gt; Topics, Posts &amp; Polls &gt;&gt; Global Poll Mod<br>
+    Выберите опрос, который станет глобальным<p align="center"><b>ГОТОВО!</b><br>
+</div>
+<p align="right">Русский перевод: <span lang="en-us">
+<a title="инфо" href="http://www.ibresource.ru/forums/index.php?act=Profile&CODE=03&MID=395">
+bizzznesmen</a></span></p>
+</body>
+</html>
