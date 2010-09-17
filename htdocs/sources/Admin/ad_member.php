@@ -1194,8 +1194,9 @@ class ad_forums {
 		
 		//+-------------------------------
 		
-		$SKIN->td_header[] = array( "Title"      , "30%" );
-		$SKIN->td_header[] = array( "Min Posts"  , "10%" );
+		$SKIN->td_header[] = array( "Title"      , "23%" );
+		$SKIN->td_header[] = array( "Min Posts"  , "7%" );
+		$SKIN->td_header[] = array( "Max PMs per hour"  , "10%" );
 		$SKIN->td_header[] = array( "Pips"       , "20%" );
 		$SKIN->td_header[] = array( "&nbsp;"     , "20%" );
 		$SKIN->td_header[] = array( "&nbsp;"     , "20%" );
@@ -1236,6 +1237,7 @@ class ad_forums {
 				
 			$ADMIN->html .= $SKIN->add_td_row( array( "<b>".$r['title']."</b>" ,
 													  $r['posts'],
+													  intval($r['max_pms_per_hour']),
 													  $img,
 													  "<a href='{$SKIN->base_url}&act=mem&code=rank_edit&id={$r['id']}'>Edit</a>",
 													  "<a href='{$SKIN->base_url}&act=mem&code=rank_delete&id={$r['id']}'>Delete</a>",
@@ -1304,7 +1306,7 @@ class ad_forums {
 		//+-------------------------------
 		
 		$db_string = $DB->compile_db_insert_string( array (
-															 'posts'  => trim($IN['posts']),
+															 'posts'  => intval(trim($IN['posts'])),
 															 'title'  => trim($IN['title']),
 															 'pips'   => trim($IN['pips']),
 												  )       );
@@ -1367,9 +1369,10 @@ class ad_forums {
 		//+-------------------------------
 		
 		$db_string = $DB->compile_db_update_string( array (
-															 'posts'  => trim($IN['posts']),
+															 'posts'  => intval(trim($IN['posts'])),
 															 'title'  => trim($IN['title']),
 															 'pips'   => trim($IN['pips']),
+															'max_pms_per_hour' => intval(trim($IN['max_pms_per_hour'])),
 												  )       );
 												  
 		$DB->query("UPDATE ibf_titles SET $db_string WHERE id='".$IN['id']."'");
@@ -1440,7 +1443,11 @@ class ad_forums {
 												  $SKIN->form_input( "pips", $rank['pips'] )
 									     )      );
 									     									     
-		$ADMIN->html .= $SKIN->end_form($button);
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Count of PMs per hour</b><br>(Or pip image)" ,
+												  $SKIN->form_input( "max_pms_per_hour", $rank['max_pms_per_hour'] )
+									     )      );
+									     									     
+	     $ADMIN->html .= $SKIN->end_form($button);
 										 
 		$ADMIN->html .= $SKIN->end_table();
 		
@@ -3375,5 +3382,3 @@ class ad_forums {
 	
 }
 
-
-?>

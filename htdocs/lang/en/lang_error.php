@@ -225,11 +225,12 @@ no_older					=>	"There are no topics older than this one",
 stf_no_name					=>	"You must enter the name of the person you are sending this page to",
 no_view_topic					=>	"You do not have permission to view this topic",
 IBForums_error					=>	"Board Error",
-no_replies					=>	"Sorry, you do not have permission to reply to that topic",
-error_title					=>	"Board Message",
-no_chosen_member					=>	"You didn't enter or choose a name to send the message to!",
-pass_blank					=>	"Your password field was not complete",
-flood_control					=>	"Flood control <#EXTRA#> seconds is enabled on this board, <br>please wait <#EXTRA2#> seconds before replying or posting a new topic",
+'no_replies'					=>	"Sorry, you do not have permission to reply to that topic",
+'error_title'					=>	"Board Message",
+'no_chosen_member'					=>	"You didn't enter or choose a name to send the message to!",
+'pass_blank'					=>	"Your password field was not complete",
+'flood_control'					=>	"Flood control <#EXTRA#> seconds is enabled on this board, <br>please wait <#EXTRA2#> seconds before replying or posting a new topic",
+'pms_flood_control'			=> "You can not send more than <#EXTRA#> messages per hour.<br>Message can be sent after <#EXTRA2#> minutes.",
 no_message					=>	"You did not enter a message for the email",
 member_in_add_book				=>	"You already have that member stored in your address book",
 posting_off					=>	"Your posting permissions have been removed",
@@ -321,4 +322,3 @@ no_mail 					=> 	"You cannot work with e-mail. Reason: \"<#EXTRA#>\". Please con
 no_mail_to 					=> 	"Recipier does not allow to receive mails.",
 
 );
-?>

@@ -3099,8 +3099,8 @@ echo "-----------------<br>\n";
     	$print->add_output($html);
 
     	$print->do_output( array(
-  				OVERRIDE   => 1,
-    				TITLE      => $ibforums->lang['error_title'],
+  				'OVERRIDE'   => 1,
+    				'TITLE'      => $ibforums->lang['error_title'],
     				 )
   			);
     }
@@ -3290,8 +3290,8 @@ echo "-----------------<br>\n";
 // Song * enchased flood control, 23.02.05
 
     function flood_begin() {
-    global $ibforums, $DB, $sess;
-
+    global $ibforums, $DB, $sess, $std;
+	
 	if ( $ibforums->vars['flood_control'] > 0 )
 	 if ( $ibforums->member['id'] ) 
 	 {

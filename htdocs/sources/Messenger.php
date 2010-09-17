@@ -282,6 +282,43 @@ $std->flood_end();
         $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav ) );
     		
  	}
+ 	/**
+ 	 * PM-флуд-контроль
+ 	 */
+ 	function pm_flood_begin() {
+ 		global $DB, $std, $print, $ibforums;
+ 		
+ 		$limit = $DB->get_one("SELECT max_pms_per_hour FROM ibf_titles WHERE posts < '".$ibforums->member['posts']."' ORDER BY posts DESC LIMIT 1");
+ 		
+ 		if ($limit == 0) {
+ 			return;
+ 		}
+ 		
+ 		/*
+ 		 * from_id != member_id означает, что ищем в папках других юзверей. 
+ 		 * (т.к. на одно сообщение в таблице ibf_messages попадают 2 записи
+ 		 * 
+ 		 * vid != 'unsent' означает, что считаем только отправленные сообщени€ (игнориру€ черновики)
+ 		 */
+ 		$q = 'SELECT count(*) as msg_count, min(msg_date) as fist_message 
+ 			FROM ibf_messages 
+ 			WHERE from_id = '.intval($ibforums->member['id']).' 
+ 				AND from_id != member_id
+ 				AND vid != \'unsent\' 
+ 				AND msg_date > '.strtotime('-1 hour');
+ 		extract($DB->get_row($q)); // создаЄт $msg_count и $fist_message
+ 		
+ 		if ($msg_count >= $limit) {
+ 			
+ 			$minutes = (strtotime('+1 hour',$fist_message) - time()) / 60;
+ 			
+ 			$std->Error( array( 'LEVEL' => 1,
+						     'MSG'		=> 'pms_flood_control',
+						     'EXTRA'	=> $limit,
+ 							 'EXTRA2'	=> (int)$minutes,
+ 			) );
+ 		}
+ 	}
  	
  	/**********************************************************/
  	// PM Pop up:
@@ -1328,7 +1365,12 @@ $std->flood_end();
         
         $this->parser = new post_parser(1);
 
- 	$ibforums->input['MODE'] ? $this->send_msg() : $this->send_form();
+	 	if ($ibforums->input['MODE']) {
+	 		$this->pm_flood_begin();
+	 		$this->send_msg();
+	 	} else {
+	 		$this->send_form();
+	 	}
  		
  	}
  	
@@ -2510,4 +2552,3 @@ $std->flood_end();
         
 }
 
-?>

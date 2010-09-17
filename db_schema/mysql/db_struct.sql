@@ -1104,7 +1104,8 @@ CREATE TABLE `ibf_messages` (
   PRIMARY KEY (`msg_id`),
   KEY `member_id` (`member_id`),
   KEY `vid` (`vid`),
-  KEY `from_id` (`from_id`)
+  KEY `from_id` (`from_id`),
+  KEY `idx_sender_date` (`from_id`, `msg_date`)
 ) ENGINE=MyISAM AUTO_INCREMENT=358177 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1846,6 +1847,7 @@ CREATE TABLE `ibf_titles` (
   `posts` int(10) DEFAULT NULL,
   `title` varchar(128) DEFAULT NULL,
   `pips` varchar(128) DEFAULT NULL,
+  `max_pms_per_hour` INTEGER DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `posts` (`posts`)
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=cp1251;

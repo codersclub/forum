@@ -439,6 +439,33 @@ class db_driver {
 		return mysql_real_escape_string($str, $this->connection_id);
 	}
 	
+	/**
+	 * 
+	 * Returns first field of first row from query result
+	 * useful for queries like select count(*) ...
+	 * @param $the_query
+	 */
+	function get_one($the_query) {
+		$qid = $this->query($the_query);
+		$row = $this->fetch_row($qid);
+		$result = array_shift($row);
+		$this->free_result($qid);
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * Returns first row from of result
+	 * useful for queries like select ... LIMIT 1
+	 * @param $the_query
+	 */
+	function get_row($the_query) {
+		$qid = $this->query($the_query);
+		$result = $this->fetch_row($qid);
+		$this->free_result($qid);
+		return $result;
+	}
+	
 	/*========================================================================*/
     // Test to see if a field exists by forcing and trapping an error.
     // It ain't pretty, but it do the job don't it, eh?
@@ -472,4 +499,3 @@ class db_driver {
 } // end class
 
 
-?>
