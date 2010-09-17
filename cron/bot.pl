@@ -107,7 +107,41 @@ my @task_list = (
 		'SELECT'	=> '',
 		'DELETE'	=> 'DELETE FROM ibf_log_topics WHERE NOT (tid IN (SELECT tid FROM ibf_topics WHERE pinned=1 and approved=1)) AND logTime<$age',
 		'DTL'		=> 30
-	}
+	},
+	{
+		'TITLE'		=> "4.1 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_m_visitors
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "4.2 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_g_visitors
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "4.3 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_b_visitors
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "4.3 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_users_stat
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+#	{
+#		'TITLE'		=> "5 Delete delayed posts:\n",
+#		'SELECT'	=> '',
+#		'DELETE'	=> 'DELETE FROM ibf_posts WHERE delete_after != 0 and delete_after < '.time(),
+#		'DTL'		=> 30
+#	}
 );
 
 ##########################################

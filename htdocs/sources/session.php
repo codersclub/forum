@@ -697,7 +697,8 @@ class session {
 					$old_month = $std->yesterday_month(2);
 				
 // *************** DELETE VISITORS LOGS ******************************************************
-
+/*	to cron
+ 
 					// delete old logs of visits
 					$DB->query("DELETE FROM ibf_m_visitors
 						    WHERE
@@ -716,7 +717,7 @@ class session {
 							day<='".$old_day."' and
 							month='".$old_month."'");
 
-
+*/
 
 					if ( $this->member['modforums'] ) //Jureth
 					{
@@ -984,12 +985,6 @@ class session {
 
 		// delete attached files
 		Attach2::deleteAllPostAttachments($row);
-		/*
-		if ( $row['attach_id'] and is_file($ibforums->vars['upload_dir']."/".$row['attach_id']) )
-		{
-			@unlink($ibforums->vars['upload_dir']."/".$row['attach_id']);
-		}
-		*/
 	}
 
 	}
