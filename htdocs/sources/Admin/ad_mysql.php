@@ -580,7 +580,7 @@ class ad_mysql {
 			
 		}
 		
-		if ( preg_match( "/^INSERT|UPDATE|DELETE|ALTER/i", trim($sql) ) )
+		if ( preg_match( "/^INSERT|UPDATE|DELETE|ALTER|(CREATE|DROP)\s+(TABLE|INDEX)/i", trim($sql) ) )
 		{
 			// We can't show any info, and if we're here, there isn't
 			// an error, so we're good to go.
