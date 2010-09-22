@@ -287,8 +287,11 @@ $std->flood_end();
  	 */
  	function pm_flood_begin() {
  		global $DB, $std, $print, $ibforums;
- 		
- 		$limit = $DB->get_one("SELECT max_pms_per_hour FROM ibf_titles WHERE posts < '".$ibforums->member['posts']."' ORDER BY posts DESC LIMIT 1");
+ 		// бывает, из-за глюков, отрицательное значение
+ 		if ($ibforums->member['posts'] < 0) {
+ 			$ibforums->member['posts'] = 0;
+ 		}
+ 		$limit = $DB->get_one("SELECT max_pms_per_hour FROM ibf_titles WHERE posts <= '".$ibforums->member['posts']."' ORDER BY posts DESC LIMIT 1");
  		
  		if ($limit == 0) {
  			return;

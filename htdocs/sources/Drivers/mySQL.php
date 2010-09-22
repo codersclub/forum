@@ -446,10 +446,8 @@ class db_driver {
 	 * @param $the_query
 	 */
 	function get_one($the_query) {
-		$qid = $this->query($the_query);
-		$row = $this->fetch_row($qid);
-		$result = array_shift($row);
-		$this->free_result($qid);
+		$row = $this->get_row($the_query);
+		$result = is_array($row) ? array_shift($row) : NULL;
 		return $result;
 	}
 	
