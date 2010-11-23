@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `client_members`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `client_members` (
   `nickname` varchar(30) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL DEFAULT '',
@@ -38,7 +38,7 @@ CREATE TABLE `client_members` (
 
 DROP TABLE IF EXISTS `ibf_admin_foreign_visits`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_admin_foreign_visits` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `dt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -46,7 +46,7 @@ CREATE TABLE `ibf_admin_foreign_visits` (
   `content` text,
   PRIMARY KEY (`id`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM AUTO_INCREMENT=1753 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=2559 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE `ibf_admin_foreign_visits` (
 
 DROP TABLE IF EXISTS `ibf_admin_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_admin_logs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `act` varchar(255) DEFAULT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE `ibf_admin_logs` (
   `ip_address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8052 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=9175 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +75,7 @@ CREATE TABLE `ibf_admin_logs` (
 
 DROP TABLE IF EXISTS `ibf_admin_sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_admin_sessions` (
   `ID` varchar(32) NOT NULL DEFAULT '',
   `IP_ADDRESS` varchar(32) NOT NULL DEFAULT '',
@@ -95,7 +95,7 @@ CREATE TABLE `ibf_admin_sessions` (
 
 DROP TABLE IF EXISTS `ibf_b_visitors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_b_visitors` (
   `id` char(32) NOT NULL DEFAULT '',
   `ip_address` char(16) NOT NULL DEFAULT '',
@@ -111,7 +111,7 @@ CREATE TABLE `ibf_b_visitors` (
 
 DROP TABLE IF EXISTS `ibf_badtittles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_badtittles` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `mid` int(8) unsigned NOT NULL DEFAULT '0',
@@ -128,7 +128,7 @@ CREATE TABLE `ibf_badtittles` (
 
 DROP TABLE IF EXISTS `ibf_badwords`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_badwords` (
   `wid` int(3) NOT NULL AUTO_INCREMENT,
   `type` varchar(250) NOT NULL DEFAULT '',
@@ -144,7 +144,7 @@ CREATE TABLE `ibf_badwords` (
 
 DROP TABLE IF EXISTS `ibf_boards_visibility`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_boards_visibility` (
   `id` int(11) NOT NULL DEFAULT '0',
   `is_forum` tinyint(1) NOT NULL DEFAULT '0',
@@ -160,7 +160,7 @@ CREATE TABLE `ibf_boards_visibility` (
 
 DROP TABLE IF EXISTS `ibf_cache_store`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cache_store` (
   `cs_key` varchar(255) NOT NULL DEFAULT '',
   `cs_value` text NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE `ibf_cache_store` (
 
 DROP TABLE IF EXISTS `ibf_calendar_events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_calendar_events` (
   `eventid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `userid` mediumint(8) NOT NULL DEFAULT '0',
@@ -209,7 +209,7 @@ CREATE TABLE `ibf_calendar_events` (
 
 DROP TABLE IF EXISTS `ibf_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_categories` (
   `id` smallint(5) NOT NULL DEFAULT '0',
   `position` tinyint(3) DEFAULT NULL,
@@ -231,7 +231,7 @@ CREATE TABLE `ibf_categories` (
 
 DROP TABLE IF EXISTS `ibf_check_members`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_check_members` (
   `mid` int(10) unsigned NOT NULL DEFAULT '0',
   `last_visit` int(10) unsigned NOT NULL DEFAULT '0',
@@ -247,7 +247,7 @@ CREATE TABLE `ibf_check_members` (
 
 DROP TABLE IF EXISTS `ibf_cms_articles_watchdog`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_articles_watchdog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mid` int(11) NOT NULL DEFAULT '0',
@@ -263,7 +263,7 @@ CREATE TABLE `ibf_cms_articles_watchdog` (
 
 DROP TABLE IF EXISTS `ibf_cms_comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_comments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `comment` text NOT NULL,
@@ -280,7 +280,7 @@ CREATE TABLE `ibf_cms_comments` (
 
 DROP TABLE IF EXISTS `ibf_cms_comments_links`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_comments_links` (
   `base` int(11) NOT NULL DEFAULT '0',
   `refs` int(11) NOT NULL DEFAULT '0',
@@ -294,7 +294,7 @@ CREATE TABLE `ibf_cms_comments_links` (
 
 DROP TABLE IF EXISTS `ibf_cms_content`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_content` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `path` varchar(255) NOT NULL DEFAULT '',
@@ -313,7 +313,7 @@ CREATE TABLE `ibf_cms_content` (
 
 DROP TABLE IF EXISTS `ibf_cms_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_groups` (
   `gid` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `gname` varchar(15) NOT NULL DEFAULT '',
@@ -341,7 +341,7 @@ CREATE TABLE `ibf_cms_groups` (
 
 DROP TABLE IF EXISTS `ibf_cms_moderators`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_moderators` (
   `mid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `forum_id` int(5) NOT NULL DEFAULT '0',
@@ -361,7 +361,7 @@ CREATE TABLE `ibf_cms_moderators` (
 
 DROP TABLE IF EXISTS `ibf_cms_subscriptions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_subscriptions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `article_id` int(11) DEFAULT '0',
@@ -379,7 +379,7 @@ CREATE TABLE `ibf_cms_subscriptions` (
 
 DROP TABLE IF EXISTS `ibf_cms_uploads`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_uploads` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `version_id` int(11) NOT NULL DEFAULT '1',
@@ -403,7 +403,7 @@ CREATE TABLE `ibf_cms_uploads` (
 
 DROP TABLE IF EXISTS `ibf_cms_uploads_cat`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_uploads_cat` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -434,7 +434,7 @@ CREATE TABLE `ibf_cms_uploads_cat` (
 
 DROP TABLE IF EXISTS `ibf_cms_uploads_cat_links`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_uploads_cat_links` (
   `base` int(11) NOT NULL DEFAULT '0',
   `refs` int(11) NOT NULL DEFAULT '0',
@@ -448,7 +448,7 @@ CREATE TABLE `ibf_cms_uploads_cat_links` (
 
 DROP TABLE IF EXISTS `ibf_cms_uploads_file_links`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_uploads_file_links` (
   `base` int(11) NOT NULL DEFAULT '0',
   `refs` int(11) NOT NULL DEFAULT '0'
@@ -461,7 +461,7 @@ CREATE TABLE `ibf_cms_uploads_file_links` (
 
 DROP TABLE IF EXISTS `ibf_cms_uploads_files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_uploads_files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL DEFAULT '',
@@ -478,7 +478,7 @@ CREATE TABLE `ibf_cms_uploads_files` (
 
 DROP TABLE IF EXISTS `ibf_cms_views`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_cms_views` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT '0',
@@ -498,7 +498,7 @@ CREATE TABLE `ibf_cms_views` (
 
 DROP TABLE IF EXISTS `ibf_contacts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_contacts` (
   `id` mediumint(8) NOT NULL AUTO_INCREMENT,
   `contact_id` mediumint(8) NOT NULL DEFAULT '0',
@@ -510,7 +510,7 @@ CREATE TABLE `ibf_contacts` (
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`,`contact_id`),
   KEY `show_online` (`show_online`)
-) ENGINE=MyISAM AUTO_INCREMENT=2850 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=3196 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -519,7 +519,7 @@ CREATE TABLE `ibf_contacts` (
 
 DROP TABLE IF EXISTS `ibf_css`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_css` (
   `cssid` int(10) NOT NULL AUTO_INCREMENT,
   `css_name` varchar(128) NOT NULL DEFAULT '',
@@ -537,7 +537,7 @@ CREATE TABLE `ibf_css` (
 
 DROP TABLE IF EXISTS `ibf_email_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_email_logs` (
   `email_id` int(10) NOT NULL AUTO_INCREMENT,
   `email_subject` varchar(255) NOT NULL DEFAULT '',
@@ -552,7 +552,7 @@ CREATE TABLE `ibf_email_logs` (
   PRIMARY KEY (`email_id`),
   KEY `from_member_id` (`from_member_id`),
   KEY `email_date` (`email_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=993 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1044 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -561,7 +561,7 @@ CREATE TABLE `ibf_email_logs` (
 
 DROP TABLE IF EXISTS `ibf_emoticons`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_emoticons` (
   `id` smallint(3) NOT NULL AUTO_INCREMENT,
   `typed` varchar(32) NOT NULL DEFAULT '',
@@ -571,7 +571,7 @@ CREATE TABLE `ibf_emoticons` (
   PRIMARY KEY (`id`),
   KEY `skid` (`skid`),
   KEY `clickable` (`clickable`)
-) ENGINE=MyISAM AUTO_INCREMENT=327 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=361 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -580,7 +580,7 @@ CREATE TABLE `ibf_emoticons` (
 
 DROP TABLE IF EXISTS `ibf_emoticons_skins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_emoticons_skins` (
   `id` tinyint(2) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
@@ -594,7 +594,7 @@ CREATE TABLE `ibf_emoticons_skins` (
 
 DROP TABLE IF EXISTS `ibf_faq`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_faq` (
   `id` mediumint(8) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) NOT NULL DEFAULT '',
@@ -610,7 +610,7 @@ CREATE TABLE `ibf_faq` (
 
 DROP TABLE IF EXISTS `ibf_favorites`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_favorites` (
   `mid` int(11) NOT NULL DEFAULT '0',
   `tid` int(11) NOT NULL DEFAULT '0',
@@ -625,12 +625,12 @@ CREATE TABLE `ibf_favorites` (
 
 DROP TABLE IF EXISTS `ibf_forum_perms`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_forum_perms` (
   `perm_id` int(10) NOT NULL AUTO_INCREMENT,
   `perm_name` varchar(250) NOT NULL DEFAULT '',
   PRIMARY KEY (`perm_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -639,7 +639,7 @@ CREATE TABLE `ibf_forum_perms` (
 
 DROP TABLE IF EXISTS `ibf_forum_tracker`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_forum_tracker` (
   `frid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `member_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -648,7 +648,7 @@ CREATE TABLE `ibf_forum_tracker` (
   `last_sent` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`frid`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2484 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=2926 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -657,7 +657,7 @@ CREATE TABLE `ibf_forum_tracker` (
 
 DROP TABLE IF EXISTS `ibf_forums`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_forums` (
   `id` smallint(5) NOT NULL DEFAULT '0',
   `topics` mediumint(6) DEFAULT NULL,
@@ -719,7 +719,7 @@ CREATE TABLE `ibf_forums` (
 
 DROP TABLE IF EXISTS `ibf_forums_order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_forums_order` (
   `id` smallint(4) unsigned NOT NULL DEFAULT '0',
   `pid` smallint(4) unsigned NOT NULL DEFAULT '0',
@@ -734,7 +734,7 @@ CREATE TABLE `ibf_forums_order` (
 
 DROP TABLE IF EXISTS `ibf_g_visitors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_g_visitors` (
   `id` varchar(32) NOT NULL DEFAULT '',
   `ip_address` varchar(16) NOT NULL DEFAULT '',
@@ -750,7 +750,7 @@ CREATE TABLE `ibf_g_visitors` (
 
 DROP TABLE IF EXISTS `ibf_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_groups` (
   `g_id` int(3) unsigned NOT NULL AUTO_INCREMENT,
   `g_view_board` tinyint(1) DEFAULT NULL,
@@ -830,7 +830,7 @@ CREATE TABLE `ibf_groups` (
 
 DROP TABLE IF EXISTS `ibf_ip_table`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_ip_table` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `mid` int(8) unsigned NOT NULL DEFAULT '0',
@@ -843,7 +843,7 @@ CREATE TABLE `ibf_ip_table` (
   PRIMARY KEY (`id`),
   KEY `mid` (`mid`),
   KEY `ip_data` (`fid`,`ok1`,`ok2`,`ok3`,`ok4`)
-) ENGINE=MyISAM AUTO_INCREMENT=658 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=694 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -852,7 +852,7 @@ CREATE TABLE `ibf_ip_table` (
 
 DROP TABLE IF EXISTS `ibf_languages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_languages` (
   `lid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `ldir` varchar(64) NOT NULL DEFAULT '',
@@ -869,7 +869,7 @@ CREATE TABLE `ibf_languages` (
 
 DROP TABLE IF EXISTS `ibf_log_forums`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_log_forums` (
   `mid` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `fid` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -884,7 +884,7 @@ CREATE TABLE `ibf_log_forums` (
 
 DROP TABLE IF EXISTS `ibf_log_topics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_log_topics` (
   `mid` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `tid` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -901,7 +901,7 @@ CREATE TABLE `ibf_log_topics` (
 
 DROP TABLE IF EXISTS `ibf_m_visitors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_m_visitors` (
   `mid` int(10) unsigned NOT NULL DEFAULT '0',
   `day` tinyint(2) unsigned NOT NULL DEFAULT '0',
@@ -916,7 +916,7 @@ CREATE TABLE `ibf_m_visitors` (
 
 DROP TABLE IF EXISTS `ibf_macro`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_macro` (
   `macro_id` smallint(3) NOT NULL AUTO_INCREMENT,
   `macro_value` varchar(200) DEFAULT NULL,
@@ -934,7 +934,7 @@ CREATE TABLE `ibf_macro` (
 
 DROP TABLE IF EXISTS `ibf_macro_name`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_macro_name` (
   `set_id` smallint(3) NOT NULL DEFAULT '0',
   `set_name` varchar(200) DEFAULT NULL,
@@ -948,7 +948,7 @@ CREATE TABLE `ibf_macro_name` (
 
 DROP TABLE IF EXISTS `ibf_member_extra`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_member_extra` (
   `id` mediumint(8) NOT NULL DEFAULT '0',
   `notes` text,
@@ -968,7 +968,7 @@ CREATE TABLE `ibf_member_extra` (
 
 DROP TABLE IF EXISTS `ibf_members`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_members` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -1059,11 +1059,15 @@ CREATE TABLE `ibf_members` (
   `disable_mail_reason` varchar(255) DEFAULT NULL,
   `disable_group` tinyint(1) NOT NULL DEFAULT '0',
   `syntax` enum('client','server','none') NOT NULL DEFAULT 'client',
-  `syntax_lines_count` int(4),
+  `syntax_use_wrap` tinyint(1) DEFAULT NULL,
+  `syntax_use_line_colouring` tinyint(1) DEFAULT NULL,
+  `syntax_use_line_numbering` tinyint(1) DEFAULT NULL,
+  `syntax_lines_count` int(4) DEFAULT NULL,
   `show_new` tinyint(1) NOT NULL DEFAULT '0',
   `profile_delete_time` int(10) unsigned NOT NULL DEFAULT '0',
   `search_days` tinyint(1) NOT NULL DEFAULT '5',
   `dsite_group` smallint(3) DEFAULT NULL,
+  `post_wrap_size` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `mgroup` (`mgroup`),
@@ -1076,7 +1080,7 @@ CREATE TABLE `ibf_members` (
   KEY `joined` (`joined`),
   KEY `posts` (`posts`),
   KEY `sskin_id` (`sskin_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=104698 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=135582 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1085,7 +1089,7 @@ CREATE TABLE `ibf_members` (
 
 DROP TABLE IF EXISTS `ibf_messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_messages` (
   `msg_id` int(10) NOT NULL AUTO_INCREMENT,
   `msg_date` int(10) DEFAULT NULL,
@@ -1105,8 +1109,8 @@ CREATE TABLE `ibf_messages` (
   KEY `member_id` (`member_id`),
   KEY `vid` (`vid`),
   KEY `from_id` (`from_id`),
-  KEY `idx_sender_date` (`from_id`, `msg_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=358177 DEFAULT CHARSET=cp1251;
+  KEY `idx_sender_date` (`from_id`,`msg_date`)
+) ENGINE=MyISAM AUTO_INCREMENT=483981 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1115,7 +1119,7 @@ CREATE TABLE `ibf_messages` (
 
 DROP TABLE IF EXISTS `ibf_moderator_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_moderator_logs` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `forum_id` int(5) DEFAULT '0',
@@ -1131,7 +1135,7 @@ CREATE TABLE `ibf_moderator_logs` (
   `query_string` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=85181 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=107434 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1140,7 +1144,7 @@ CREATE TABLE `ibf_moderator_logs` (
 
 DROP TABLE IF EXISTS `ibf_moderators`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_moderators` (
   `mid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `forum_id` int(5) NOT NULL DEFAULT '0',
@@ -1174,11 +1178,12 @@ CREATE TABLE `ibf_moderators` (
   `multimod_edit` tinyint(1) NOT NULL DEFAULT '0',
   `hide_topic` tinyint(1) NOT NULL DEFAULT '1',
   `add_to_faq` tinyint(1) NOT NULL DEFAULT '0',
+  `mirror_topic` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mid`),
   KEY `forum_id` (`forum_id`),
   KEY `group_id` (`group_id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=914 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1070 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1187,7 +1192,7 @@ CREATE TABLE `ibf_moderators` (
 
 DROP TABLE IF EXISTS `ibf_pfields_content`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_pfields_content` (
   `member_id` mediumint(8) NOT NULL DEFAULT '0',
   `updated` int(10) DEFAULT '0',
@@ -1205,7 +1210,7 @@ CREATE TABLE `ibf_pfields_content` (
 
 DROP TABLE IF EXISTS `ibf_pfields_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_pfields_data` (
   `fid` smallint(5) NOT NULL AUTO_INCREMENT,
   `ftitle` varchar(200) NOT NULL DEFAULT '',
@@ -1228,7 +1233,7 @@ CREATE TABLE `ibf_pfields_data` (
 
 DROP TABLE IF EXISTS `ibf_polls`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_polls` (
   `pid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `tid` int(10) NOT NULL DEFAULT '0',
@@ -1248,7 +1253,27 @@ CREATE TABLE `ibf_polls` (
   `live_before` int(10) DEFAULT NULL,
   PRIMARY KEY (`pid`),
   UNIQUE KEY `tid` (`tid`)
-) ENGINE=MyISAM AUTO_INCREMENT=3414 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=3827 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_post_attachments`
+--
+
+DROP TABLE IF EXISTS `ibf_post_attachments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_post_attachments` (
+  `attach_id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `member_id` int(11) DEFAULT NULL,
+  `real_filename` varchar(64) DEFAULT NULL,
+  `filename` varchar(255) DEFAULT NULL,
+  `type` varchar(128) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `hits` int(11) DEFAULT '0',
+  PRIMARY KEY (`attach_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4361 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1257,7 +1282,7 @@ CREATE TABLE `ibf_polls` (
 
 DROP TABLE IF EXISTS `ibf_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_posts` (
   `pid` int(10) NOT NULL AUTO_INCREMENT,
   `append_edit` tinyint(1) NOT NULL DEFAULT '0',
@@ -1285,7 +1310,7 @@ CREATE TABLE `ibf_posts` (
   `delete_after` int(10) unsigned NOT NULL DEFAULT '0',
   `added_to_faq` tinyint(1) NOT NULL DEFAULT '0',
   `indexed` tinyint(1) NOT NULL DEFAULT '0',
-  `attach_exists` tinyint(1),
+  `attach_exists` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`pid`),
   KEY `author_id` (`author_id`),
   KEY `ip_address` (`ip_address`),
@@ -1296,24 +1321,8 @@ CREATE TABLE `ibf_posts` (
   KEY `delete_after` (`delete_after`),
   KEY `indexed` (`indexed`),
   KEY `queued` (`queued`)
-) ENGINE=MyISAM AUTO_INCREMENT=2306170 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=2756153 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ibf_post_attachments`
---
-DROP TABLE IF EXISTS `ibf_post_attachments`;
-
-CREATE TABLE `ibf_post_attachments` (
-  `attach_id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_id` int(11) DEFAULT NULL,
-  `real_filename` varchar(64) DEFAULT NULL,
-  `filename` varchar(255) DEFAULT NULL,
-  `type` varchar(128) DEFAULT NULL,
-  `size` int(11) DEFAULT NULL,
-  `hits` int(11) DEFAULT 0,
-  PRIMARY KEY (`attach_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 --
 -- Table structure for table `ibf_preview_user`
@@ -1321,7 +1330,7 @@ CREATE TABLE `ibf_post_attachments` (
 
 DROP TABLE IF EXISTS `ibf_preview_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_preview_user` (
   `mid` int(8) unsigned NOT NULL DEFAULT '0',
   `fid` int(4) unsigned NOT NULL DEFAULT '0',
@@ -1338,7 +1347,7 @@ CREATE TABLE `ibf_preview_user` (
 
 DROP TABLE IF EXISTS `ibf_reg_antispam`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_reg_antispam` (
   `regid` varchar(32) NOT NULL DEFAULT '',
   `regcode` varchar(8) NOT NULL DEFAULT '',
@@ -1355,7 +1364,7 @@ CREATE TABLE `ibf_reg_antispam` (
 
 DROP TABLE IF EXISTS `ibf_reputation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_reputation` (
   `msg_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `msg_date` int(10) DEFAULT NULL,
@@ -1370,7 +1379,7 @@ CREATE TABLE `ibf_reputation` (
   PRIMARY KEY (`msg_id`),
   KEY `stat` (`from_id`,`vis`),
   KEY `total` (`member_id`,`CODE`)
-) ENGINE=MyISAM AUTO_INCREMENT=82244 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=95841 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1379,7 +1388,7 @@ CREATE TABLE `ibf_reputation` (
 
 DROP TABLE IF EXISTS `ibf_search`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_search` (
   `pid` int(10) unsigned NOT NULL DEFAULT '0',
   `tid` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1398,7 +1407,7 @@ CREATE TABLE `ibf_search` (
 
 DROP TABLE IF EXISTS `ibf_search_forums`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_search_forums` (
   `mid` int(10) unsigned NOT NULL DEFAULT '0',
   `fid` smallint(5) unsigned NOT NULL DEFAULT '0',
@@ -1412,7 +1421,7 @@ CREATE TABLE `ibf_search_forums` (
 
 DROP TABLE IF EXISTS `ibf_search_results`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_search_results` (
   `id` varchar(32) NOT NULL DEFAULT '',
   `topic_id` text NOT NULL,
@@ -1436,13 +1445,13 @@ CREATE TABLE `ibf_search_results` (
 
 DROP TABLE IF EXISTS `ibf_search_words`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_search_words` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `word` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `word` (`word`)
-) ENGINE=MyISAM AUTO_INCREMENT=1848337 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=2164606 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1451,7 +1460,7 @@ CREATE TABLE `ibf_search_words` (
 
 DROP TABLE IF EXISTS `ibf_sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_sessions` (
   `id` varchar(32) NOT NULL DEFAULT '0',
   `member_name` varchar(64) DEFAULT NULL,
@@ -1461,7 +1470,7 @@ CREATE TABLE `ibf_sessions` (
   `running_time` int(10) DEFAULT NULL,
   `login_type` tinyint(1) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `member_group` smallint(3) DEFAULT 0,
+  `member_group` smallint(3) DEFAULT NULL,
   `in_forum` varchar(128) DEFAULT NULL,
   `in_topic` varchar(128) DEFAULT NULL,
   `last_post` int(10) DEFAULT NULL,
@@ -1484,7 +1493,7 @@ CREATE TABLE `ibf_sessions` (
 
 DROP TABLE IF EXISTS `ibf_skin_templates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_skin_templates` (
   `suid` int(10) NOT NULL AUTO_INCREMENT,
   `set_id` int(10) NOT NULL DEFAULT '0',
@@ -1504,7 +1513,7 @@ CREATE TABLE `ibf_skin_templates` (
 
 DROP TABLE IF EXISTS `ibf_skins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_skins` (
   `uid` int(10) NOT NULL AUTO_INCREMENT,
   `sname` varchar(100) NOT NULL DEFAULT '',
@@ -1533,7 +1542,7 @@ CREATE TABLE `ibf_skins` (
 
 DROP TABLE IF EXISTS `ibf_spider_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_spider_logs` (
   `sid` int(10) NOT NULL AUTO_INCREMENT,
   `bot` varchar(255) NOT NULL DEFAULT '',
@@ -1551,7 +1560,7 @@ CREATE TABLE `ibf_spider_logs` (
 
 DROP TABLE IF EXISTS `ibf_stats`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_stats` (
   `TOTAL_REPLIES` int(10) NOT NULL DEFAULT '0',
   `TOTAL_TOPICS` int(10) NOT NULL DEFAULT '0',
@@ -1577,7 +1586,7 @@ CREATE TABLE `ibf_stats` (
 
 DROP TABLE IF EXISTS `ibf_store_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_store_category` (
   `catid` int(9) NOT NULL AUTO_INCREMENT,
   `cat_name` varchar(255) NOT NULL DEFAULT 'none',
@@ -1592,14 +1601,14 @@ CREATE TABLE `ibf_store_category` (
 
 DROP TABLE IF EXISTS `ibf_store_inventory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_store_inventory` (
   `i_id` int(9) NOT NULL AUTO_INCREMENT,
   `owner_id` int(9) NOT NULL DEFAULT '0',
   `item_id` int(9) NOT NULL DEFAULT '0',
   `price_payed` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`i_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=185 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=186 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1608,7 +1617,7 @@ CREATE TABLE `ibf_store_inventory` (
 
 DROP TABLE IF EXISTS `ibf_store_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_store_logs` (
   `logid` int(9) NOT NULL AUTO_INCREMENT,
   `fromid` int(11) NOT NULL DEFAULT '0',
@@ -1624,7 +1633,7 @@ CREATE TABLE `ibf_store_logs` (
   KEY `fromid` (`fromid`),
   KEY `toid` (`toid`),
   KEY `type` (`type`)
-) ENGINE=MyISAM AUTO_INCREMENT=1183 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1265 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1633,7 +1642,7 @@ CREATE TABLE `ibf_store_logs` (
 
 DROP TABLE IF EXISTS `ibf_store_modlogs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_store_modlogs` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
   `fromid` int(11) NOT NULL DEFAULT '0',
@@ -1652,13 +1661,13 @@ CREATE TABLE `ibf_store_modlogs` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `ibf_store_quizinfo`
+-- Table structure for table `ibf_quiz_info`
 --
 
-DROP TABLE IF EXISTS `ibf_store_quizinfo`;
+DROP TABLE IF EXISTS `ibf_quiz_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
-CREATE TABLE `ibf_store_quizinfo` (
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_quiz_info` (
   `q_id` int(9) NOT NULL AUTO_INCREMENT,
   `quizname` varchar(255) NOT NULL DEFAULT 'None',
   `quizdesc` varchar(70) NOT NULL DEFAULT '',
@@ -1685,13 +1694,13 @@ CREATE TABLE `ibf_store_quizinfo` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `ibf_store_quizs`
+-- Table structure for table `ibf_quiz`
 --
 
-DROP TABLE IF EXISTS `ibf_store_quizs`;
+DROP TABLE IF EXISTS `ibf_quiz`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
-CREATE TABLE `ibf_store_quizs` (
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_quiz` (
   `mid` int(15) NOT NULL AUTO_INCREMENT,
   `quiz_id` int(9) NOT NULL DEFAULT '0',
   `question` text NOT NULL,
@@ -1702,13 +1711,13 @@ CREATE TABLE `ibf_store_quizs` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `ibf_store_quizwinners`
+-- Table structure for table `ibf_quiz_winners`
 --
 
-DROP TABLE IF EXISTS `ibf_store_quizwinners`;
+DROP TABLE IF EXISTS `ibf_quiz_winners`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
-CREATE TABLE `ibf_store_quizwinners` (
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_quiz_winners` (
   `quiz_id` int(9) NOT NULL DEFAULT '0',
   `memberid` int(9) NOT NULL DEFAULT '0',
   `ip_address` varchar(16) NOT NULL DEFAULT '',
@@ -1725,7 +1734,7 @@ CREATE TABLE `ibf_store_quizwinners` (
 
 DROP TABLE IF EXISTS `ibf_store_shopstock`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_store_shopstock` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `item_name` varchar(255) NOT NULL DEFAULT 'None',
@@ -1745,7 +1754,7 @@ CREATE TABLE `ibf_store_shopstock` (
   `item_limit` int(9) NOT NULL DEFAULT '0',
   `restock_type` varchar(255) NOT NULL DEFAULT '0_m',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1754,7 +1763,7 @@ CREATE TABLE `ibf_store_shopstock` (
 
 DROP TABLE IF EXISTS `ibf_syntax_access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_syntax_access` (
   `syntax_id` int(11) NOT NULL DEFAULT '0',
   `member_id` mediumint(8) NOT NULL DEFAULT '0',
@@ -1768,7 +1777,7 @@ CREATE TABLE `ibf_syntax_access` (
 
 DROP TABLE IF EXISTS `ibf_syntax_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_syntax_list` (
   `id` int(11) NOT NULL DEFAULT '0',
   `syntax` varchar(10) NOT NULL DEFAULT '',
@@ -1790,7 +1799,7 @@ CREATE TABLE `ibf_syntax_list` (
 
 DROP TABLE IF EXISTS `ibf_syntax_rules`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_syntax_rules` (
   `syntax_id` int(11) NOT NULL DEFAULT '0',
   `record` int(2) NOT NULL DEFAULT '0',
@@ -1826,7 +1835,7 @@ CREATE TABLE `ibf_syntax_rules` (
 
 DROP TABLE IF EXISTS `ibf_templates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_templates` (
   `tmid` int(10) NOT NULL AUTO_INCREMENT,
   `template` mediumtext,
@@ -1841,13 +1850,13 @@ CREATE TABLE `ibf_templates` (
 
 DROP TABLE IF EXISTS `ibf_titles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_titles` (
   `id` smallint(5) NOT NULL AUTO_INCREMENT,
   `posts` int(10) DEFAULT NULL,
   `title` varchar(128) DEFAULT NULL,
   `pips` varchar(128) DEFAULT NULL,
-  `max_pms_per_hour` INTEGER DEFAULT 0,
+  `max_pms_per_hour` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `posts` (`posts`)
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=cp1251;
@@ -1859,7 +1868,7 @@ CREATE TABLE `ibf_titles` (
 
 DROP TABLE IF EXISTS `ibf_tmpl_names`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_tmpl_names` (
   `skid` int(10) NOT NULL AUTO_INCREMENT,
   `skname` varchar(60) NOT NULL DEFAULT 'Invision Board',
@@ -1876,7 +1885,7 @@ CREATE TABLE `ibf_tmpl_names` (
 
 DROP TABLE IF EXISTS `ibf_topic_mmod`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_topic_mmod` (
   `mm_id` smallint(5) NOT NULL AUTO_INCREMENT,
   `mm_title` varchar(250) NOT NULL DEFAULT '',
@@ -1891,7 +1900,7 @@ CREATE TABLE `ibf_topic_mmod` (
   `topic_reply_content` text NOT NULL,
   `topic_reply_postcount` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mm_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1900,7 +1909,7 @@ CREATE TABLE `ibf_topic_mmod` (
 
 DROP TABLE IF EXISTS `ibf_topiclinks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_topiclinks` (
   `tid` int(10) unsigned NOT NULL DEFAULT '0',
   `link` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1915,11 +1924,11 @@ CREATE TABLE `ibf_topiclinks` (
 
 DROP TABLE IF EXISTS `ibf_topics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_topics` (
   `tid` int(10) NOT NULL AUTO_INCREMENT,
-  `title` varchar(250) NOT NULL DEFAULT '',
-  `description` varchar(70) DEFAULT NULL,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
   `state` varchar(8) DEFAULT NULL,
   `posts` int(10) DEFAULT NULL,
   `starter_id` mediumint(8) NOT NULL DEFAULT '0',
@@ -1947,8 +1956,8 @@ CREATE TABLE `ibf_topics` (
   `club` tinyint(1) NOT NULL DEFAULT '0',
   `pinned_date` int(10) DEFAULT NULL,
   `indexed` tinyint(1) NOT NULL DEFAULT '0',
-  `has_mirror` tinyint(1) DEFAULT '0',
-  `mirrored_topic_id` integer,
+  `has_mirror` tinyint(1) DEFAULT NULL,
+  `mirrored_topic_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`tid`),
   KEY `last_post` (`last_post`),
   KEY `del_index` (`state`,`moved_to`),
@@ -1959,7 +1968,7 @@ CREATE TABLE `ibf_topics` (
   KEY `approved` (`approved`),
   KEY `pinned` (`pinned`),
   KEY `mirrored_topic_id_index` (`mirrored_topic_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=276570 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=318840 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1968,7 +1977,7 @@ CREATE TABLE `ibf_topics` (
 
 DROP TABLE IF EXISTS `ibf_topicsinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_topicsinfo` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `tid` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1978,7 +1987,7 @@ CREATE TABLE `ibf_topicsinfo` (
   PRIMARY KEY (`id`),
   KEY `tid` (`tid`),
   KEY `date` (`date`)
-) ENGINE=MyISAM AUTO_INCREMENT=106 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=116 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1987,7 +1996,7 @@ CREATE TABLE `ibf_topicsinfo` (
 
 DROP TABLE IF EXISTS `ibf_tracker`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_tracker` (
   `trid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `member_id` mediumint(8) NOT NULL DEFAULT '0',
@@ -1997,7 +2006,7 @@ CREATE TABLE `ibf_tracker` (
   PRIMARY KEY (`trid`),
   KEY `member_id` (`member_id`),
   KEY `data` (`topic_id`,`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=80415 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=93048 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2006,7 +2015,7 @@ CREATE TABLE `ibf_tracker` (
 
 DROP TABLE IF EXISTS `ibf_users_stat`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_users_stat` (
   `day` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `month` tinyint(2) unsigned NOT NULL DEFAULT '0',
@@ -2024,7 +2033,7 @@ CREATE TABLE `ibf_users_stat` (
 
 DROP TABLE IF EXISTS `ibf_validating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_validating` (
   `vid` varchar(32) NOT NULL DEFAULT '',
   `member_id` mediumint(8) NOT NULL DEFAULT '0',
@@ -2047,7 +2056,7 @@ CREATE TABLE `ibf_validating` (
 
 DROP TABLE IF EXISTS `ibf_voters`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_voters` (
   `vid` int(10) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(16) NOT NULL DEFAULT '',
@@ -2058,7 +2067,7 @@ CREATE TABLE `ibf_voters` (
   `votes` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`vid`),
   KEY `tid` (`tid`,`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=176911 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=197589 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2067,7 +2076,7 @@ CREATE TABLE `ibf_voters` (
 
 DROP TABLE IF EXISTS `ibf_warn_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_warn_logs` (
   `wlog_id` int(10) NOT NULL AUTO_INCREMENT,
   `wlog_mid` mediumint(8) NOT NULL DEFAULT '0',
@@ -2081,7 +2090,7 @@ CREATE TABLE `ibf_warn_logs` (
   PRIMARY KEY (`wlog_id`),
   KEY `pid` (`pid`),
   KEY `wlog_mid` (`wlog_mid`,`wlog_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=7578 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=9662 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2090,7 +2099,7 @@ CREATE TABLE `ibf_warn_logs` (
 
 DROP TABLE IF EXISTS `ibf_warnings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_warnings` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `mid` int(8) unsigned NOT NULL DEFAULT '0',
@@ -2098,7 +2107,7 @@ CREATE TABLE `ibf_warnings` (
   `RestrictDate` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `RestrictDate` (`RestrictDate`,`mid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4421 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=5796 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2107,7 +2116,7 @@ CREATE TABLE `ibf_warnings` (
 
 DROP TABLE IF EXISTS `ip_table`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = cp1251 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ip_table` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `mid` int(8) unsigned NOT NULL DEFAULT '0',
@@ -2130,4 +2139,4 @@ CREATE TABLE `ip_table` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-07-07  6:43:09
+-- Dump completed on 2010-11-19  5:51:32
