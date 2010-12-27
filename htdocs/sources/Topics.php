@@ -344,13 +344,13 @@ class Topics {
 
 		if ( !$row['use_sig'] ) {
 	                $data = array(  TEXT          => $row['post'],
-					SMILIES       => $row['use_emo'],
-					CODE          => 1,
-					SIGNATURE     => 0,
-					HTML          => 1,
-					HID	      => $this->highlight,
-					TID	      => $this->topic['tid'],
-					MID	      => $row['author_id'],
+					'SMILIES'       => $row['use_emo'],
+					'CODE'          => 1,
+					'SIGNATURE'     => 0,
+					'HTML'          => 1,
+					'HID'	      => $this->highlight,
+					'TID'	      => $this->topic['tid'],
+					'MID'	      => $row['author_id'],
 				     );
 
 			$row['post'] = $this->parser->prepare($data);
@@ -434,7 +434,7 @@ class Topics {
 
 		// Song * delete post button 
 
-		if ( ( $post_count and !$this->first ) or $this->first ) {
+		if ( (( $post_count and !$this->first ) or $this->first) and !$row['use_sig']) {
 			$row['delete_button'] = ( $qr ) ? $this->delete_button($row['pid'], $poster, $row['queued']) : "";
 		}
 
@@ -450,12 +450,21 @@ class Topics {
 
 
 		// Song * edit post button 
-
+		if (!$row['use_sig'] or ($this->moderator['delete_post'] or $ibforums->member['g_is_supmod'])) {
 		$row['edit_button'] = ( $qr == FALSE ) ? ""
 						       : $this->edit_button($row['pid'], $poster, $row['post_date']);
+		}
 
 
-
+		// negram * history edit post button 
+		if ($row['edit_time'] != "" && $row['edit_name'] != "") {
+			
+			$row['edit_history_button'] = ( $qr == FALSE ) ? ""
+						       : $this->edit_history_button($row['pid'], $poster, $row['post_date']);
+		} else {
+			$row['edit_history_button'] = '';
+		}
+						       
 		// Song * restore/decline buttons
 
 		if ( !$row['queued'] and ( $this->moderator['delete_post'] or $ibforums->member['g_is_supmod'] ) )
@@ -705,21 +714,21 @@ class Topics {
 				preg_replace( "#\[(mod|ex|gm)\](.+?)\[/(mod|ex|gm)\]#ies", "\$this->mod_tags_cut('\\1','\\2')", $row['post']);
 
 				// change original post to the special
-				$row['post'] = $skin_universal->RenderDeletedRow();
+				$row['post'] = $skin_universal->RenderDeletedRow($row['use_sig']);
 
-				// if mod tags was 
+				// if mod tags was
 				if ( $this->mod_tags )
 				{
-			                $this->mod_tags = array(  
+					$this->mod_tags = array(
 
-						TEXT          => $this->mod_tags,
-						SMILIES       => $row['use_emo'],
-						CODE          => 1,
-						SIGNATURE     => 0,
-						HTML          => 1,
-						HID	      => -1,
-						TID	      => $this->topic['tid'],
-						MID	      => $row['author_id'],
+						'TEXT'          => $this->mod_tags,
+						'SMILIES'       => $row['use_emo'],
+						'CODE'          => 1,
+						'SIGNATURE'     => 0,
+						'HTML'          => 1,
+						'HID'	      => -1,
+						'TID'	      => $this->topic['tid'],
+						'MID'	      => $row['author_id'],
 						   );
 
 					$this->mod_tags = $this->parser->prepare($this->mod_tags);
@@ -2488,7 +2497,52 @@ class Topics {
 			return "";
 		}
 		
-		$button = "<a href=\"{$this->base_url}act=Post&amp;CODE=08&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input[st]}\"><{P_EDIT}></a> &middot;";
+		$button = "<a href=\"{$this->base_url}act=Post&amp;CODE=08&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}\"><{P_EDIT}></a> &middot;";
+		
+		if ($ibforums->member['g_is_supmod']) return $button;
+		
+		if ($this->moderator['edit_post']) return $button;
+		
+		if ($poster['id'] == $ibforums->member['id'] and ($ibforums->member['g_edit_posts']))
+		{
+		
+			// Have we set a time limit?
+			
+			if ($ibforums->member['g_edit_cutoff'] > 0)
+			{
+				if ( $post_date > ( time() - ( intval($ibforums->member['g_edit_cutoff']) * 60 ) ) )
+				{
+					return $button;
+				}
+				else
+				{
+					return "";
+				}
+			}
+			else
+			{
+				return $button;
+			}
+		}
+		
+		return "";
+	}
+	
+	
+	//--------------------------------------------------------------
+	// Render the edit button
+	//--------------------------------------------------------------
+	
+	function edit_history_button($post_id, $poster, $post_date)
+	{
+		global $ibforums;
+		
+		if ($ibforums->member['id'] == "" or $ibforums->member['id'] == 0)
+		{
+			return "";
+		}
+		
+		$button = "<a href=\"{$this->base_url}act=Post&amp;CODE=16&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}\"><{P_EDIT_HISTORY}></a> &middot;";
 		
 		if ($ibforums->member['g_is_supmod']) return $button;
 		

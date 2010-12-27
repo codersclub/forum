@@ -230,20 +230,96 @@ EOF;
 }
 
 
-function topictitle_fields($data) {
+/**
+ * 
+ * 
+ * @param array $data
+ * 0 => array(
+ * 	 'time'    => 'Today 12:15',
+ *   'member'  => 'ivan',
+ *   'old_text'=> 'Hello',
+ *   'new_text'=> 'Hello!'
+ *  ) 
+ */
+function edit_history(array $data, $forum_id, $topic_id, $post_id) {
+  global $ibforums;
+  $res ='<div class="tableborder">';
+  $classes = array('post1', 'post2');
+  $i = 0;
+  foreach ($data as $history_item) {
+    $class = $classes[++$i % 2]; 
+    $res .= <<<EOF
+<table width="100%" border="0" cellspacing="1" cellpadding="3">
+  <tr>
+    <th class="row4">{$history_item['time']} by {$history_item['member']}<br>Было (<a href="{$ibforums->base_url}act=Post&amp;CODE=08&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;restore_id={$history_item['id']}&amp;preview=1">восстановить</a>)
+    </th>
+    <th valign="bottom" class="row4">Стало</th>
+  </tr>
+  <tr>
+    <td width="50%" valign="top" class="$class">{$history_item['old_text']}</td>
+    <td width="50%" valign="top" class="$class">{$history_item['new_text']}</td>
+  </tr>
+</table>
+<div class="darkrow1" style="height:5px">
+</div>
+EOF;
+  }
+  $res .= '</div>';
+  return $res;
+}
+/**
+ * 
+ * 
+ * @param array $data
+ * 0 => array(
+ * 	 'time'    => 'Today 12:15',
+ *   'member'  => 'ivan',
+ *   'old_text'=> 'Hello',
+ *   'new_text'=> 'Hello!'
+ *  ) 
+ */
+function edit_history(array $data, $forum_id, $topic_id, $post_id) {
 global $ibforums;
-return <<<EOF
+$res ='<div class="tableborder">';
+$classes = array('post1', 'post2');
+$i = 0;
+foreach ($data as $history_item) {
+  $class = $classes[++$i % 2]; 
+  $res .= <<<EOF
+  <table width="100%" border="0" cellspacing="1" cellpadding="3">
+  <tr>
+  <th class="row4">{$history_item['time']} by {$history_item['member']}<br>Было (<a href="{$ibforums->base_url}act=Post&amp;CODE=08&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;restore_id={$history_item['id']}&amp;preview=1">восстановить</a>)
+  </td>
+  <th valign="bottom" class="row4">Стало</td>
+  </tr>
+	<tr>
+	<td width="50%" valign="top" class="$class">{$history_item['old_text']}</td>
+	<td width="50%" valign="top" class="$class">{$history_item['new_text']}</td>
+	</tr>
+	</table>
+	<div class="darkrow1" style="height:5px">
+</div>
+EOF;
+}
+$res .= '</div>';
+return $res;
+}
+
+
+function topictitle_fields($data) {
+  global $ibforums;
+  return <<<EOF
 
 <tr>
- <td colspan="2" class='pformstrip'>{$ibforums->lang['tt_topic_settings']}</td>
+  <td colspan="2" class='pformstrip'>{$ibforums->lang['tt_topic_settings']}</td>
 </tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['topic_title']}</td>
   <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicTitle' value='{$data[TITLE]}' tabindex='1' class='forminput'></td>
 </tr>
 <tr>
-   <td class='pformleft'>{$ibforums->lang['topic_desc']}</td>
-   <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicDesc' value='{$data[DESC]}' tabindex='2' class='forminput'></td>
+  <td class='pformleft'>{$ibforums->lang['topic_desc']}</td>
+  <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicDesc' value='{$data[DESC]}' tabindex='2' class='forminput'></td>
 </tr>
 
 EOF;

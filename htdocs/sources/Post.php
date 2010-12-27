@@ -535,14 +535,23 @@ class Post {
 			'11'  => array( '1'  , 'poll'         ),
 			'14'  => array( '0'  , 'poll_after'   ),
 			'15'  => array( '1'  , 'poll_after'   ),
+			'16'  => array( '0'  , 'edit_post_history'),
+			'17'  => array( '1'  , 'edit_post_history'),
 			   );
 							   
         // Make sure our input CODE element is legal.
 
 	$this->act = $this->obj['action_codes'][ $ibforums->input['CODE'] ];
-
-        if ( !isset($this->act) ) $std->Error( array( LEVEL => 1,
-						      MSG => 'missing_files') );
+        
+        if ( !isset($this->act) ) {
+        	$std->Error( array( 'LEVEL' => 1,
+				    'MSG' => 'missing_files') );
+        }
+        
+        if ( !isset($this->act) ) {
+        	$std->Error( array( 'LEVEL' => 1,
+						      'MSG' => 'missing_files') );
+        }
         
         // Require and run our associated library file for this action.
         // this imports an extended class for this Post class.
@@ -575,19 +584,6 @@ class Post {
         		$ibforums->input['UserName'] = str_replace( "<br>", "", $ibforums->input['UserName']);
         		$ibforums->input['UserName'] = $ibforums->input['UserName'] ? $ibforums->input['UserName'] : 'Guest';
     			$ibforums->input['UserName'] = $ibforums->vars['guest_name_pre'].$ibforums->input['UserName'].$ibforums->vars['guest_name_suf'];
-
-//        		if ( $ibforums->input['UserName'] != 'Guest' )
-//        		{
-//        			$DB->query("SELECT id
-//					    FROM ibf_members
-//					    WHERE
-//						LOWER(name)='".addslashes(trim(strtolower($ibforums->input['UserName'])))."'");
-//        			
-//        			if ( $DB->get_num_rows() )
-//        			{
-//        				$ibforums->input['UserName'] = $ibforums->vars['guest_name_pre'].$ibforums->input['UserName'].$ibforums->vars['guest_name_suf'];
-//        			}
-//        		}
         	}
         	
         	//-------------------------------------------------------------------------
@@ -620,8 +616,7 @@ class Post {
 						$std->boink_it($ibforums->base_url."act=ST&f=".$this->forum['id']."&t=".$topic['tid']);
 
 						exit();
-					} else
-					{
+					} else {
 						// It's a reply, so simply show the topic...
 						
 						$std->boink_it($ibforums->base_url."act=ST&amp;f=".$this->forum['id']."&amp;t=".$ibforums->input['t']."&amp;view=getlastpost");
@@ -636,9 +631,15 @@ class Post {
        
         	$post_functions->process(&$this);
 
-	} else $post_functions->show_form(&$this);
+	} else {
+		$post_functions->show_form(&$this);
+	} else {
+		$post_functions->show_form(&$this);
+	}
 
 	}
+
+}
 	
 	
 /*****************************************************/

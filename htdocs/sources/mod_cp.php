@@ -1741,8 +1741,7 @@ class Moderate {
 			
 			// Delete 'dem postings
 			
-			$DB->query("DELETE
-				    FROM ibf_posts
+			$DB->query("UPDATE ibf_posts SET use_sig = 2, edit_time='".time()."', delete_afer='".strtotime('+180 days')."'
 				    WHERE pid IN ($pids)");
 
 
