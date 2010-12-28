@@ -548,11 +548,6 @@ class Post {
 				    'MSG' => 'missing_files') );
         }
         
-        if ( !isset($this->act) ) {
-        	$std->Error( array( 'LEVEL' => 1,
-						      'MSG' => 'missing_files') );
-        }
-        
         // Require and run our associated library file for this action.
         // this imports an extended class for this Post class.
         
@@ -633,10 +628,6 @@ class Post {
 
 	} else {
 		$post_functions->show_form(&$this);
-	} else {
-		$post_functions->show_form(&$this);
-	}
-
 	}
 
 }
@@ -945,10 +936,10 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 				'post'        => $convert,
 				'author_name' => $ibforums->member['id'] ? $ibforums->member['name'] : $ibforums->input['UserName'],
 				'forum_id'    => $this->forum['id'],
-				'topic_id'    => "",
+				'topic_id'    => 0,
 				'queued'      => ( $this->obj['moderate'] == 1 || $this->obj['moderate'] == 3 ) ? 1 : 0,
-				'attach_id'   => "",
-				'attach_hits' => "",
+				'attach_id'   => 0,
+				'attach_hits' => 0,
 				'attach_type' => "",
 				'delete_after'=> $std->delayed_time($convert, $this->forum['days_off'], 0, $this->moderator),
 				 );
@@ -1014,8 +1005,8 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		}
 		*/
 		$attach_data = array(
-				'attach_id'   => "",
-				'attach_hits' => "",
+				'attach_id'   => 0,
+				'attach_hits' => 0,
 				'attach_type' => "",
 				'attach_file' => "",
 				);
@@ -1826,8 +1817,8 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		
 		$db_string = $std->compile_db_string( array (
 					'forum_id'    => $ibforums->input['f'],
-					'topic_id'    => $ibforums->input['t'],
-					'post_id'     => $ibforums->input['p'],
+					'topic_id'    => intval($ibforums->input['t']),
+					'post_id'     => intval($ibforums->input['p']),
 					'member_id'   => $ibforums->member['id'],
 					'member_name' => $ibforums->member['name'],
 					'ip_address'  => $ibforums->input['IP_ADDRESS'],

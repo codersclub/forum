@@ -516,4 +516,4 @@ function fatal_error($message="", $help="") {
 	echo("$message<br><br>$help");
 	exit;
 }
-?>
+

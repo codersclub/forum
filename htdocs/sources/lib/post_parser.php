@@ -1217,7 +1217,6 @@ class post_parser {
 	$txt = preg_replace("#&shy;#", "",$txt); 
 
 
-
         return $txt;
 
 	}
@@ -1906,7 +1905,8 @@ class post_parser {
 		//  END  : Contains the HTML code for the end wrapper
 		//-----------------------------
 		
-		$possible_use = array(   'CODE'  => array( 'CODE',  '' ),
+		$possible_use = array(
+					 'CODE'  => array( 'CODE',  '' ),
 					 'QUOTE' => array( 'QUOTE', 'Цитата'  ),
 					 'SQL'   => array( 'CODE' , 'SQL'),
 					 'HTML'  => array( 'CODE' , 'HTML'),
@@ -2505,11 +2505,13 @@ class post_parser {
 
 			if ( $IN['1'] == "red" or $IN['1'] == "RED" )
 			{
-				return "<span class='movedprefix'>".$IN['2']."</span>";
+				return "<span class='movedprefix'>{$IN['2']}</span>";
+
 			} else
 			{
-				return "<span style='color:".$IN['1']."'>".$IN['2']."</span>";
+				return "<span style='color:{$IN['1']}'>{$IN['2']}</span>";
 			}
+			
 
 // Song * Mastilior skin patch for red color, 30.04.05 
 

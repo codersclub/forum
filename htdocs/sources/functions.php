@@ -4565,7 +4565,7 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
     	{
 		@header("HTTP/1.0 200 OK");
 		@header("HTTP/1.1 200 OK");
-		@header("Content-type: text/html");
+		@header("Content-type: text/html; charset=".$ibforums->vars['charset']);
 			
 		if ($ibforums->vars['nocache'])
 		{
@@ -4706,9 +4706,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
     	echo ($html);
     	exit;
     } 
-    
-
-
     
 } // END class
     
