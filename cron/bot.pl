@@ -151,7 +151,7 @@ foreach my $task (@task_list) {
 	# Delete obsolete Records
 	##########################################
 	
-	if ($task->{'SELECT'}) {
+	if ($task->{'DELETE'}) {
 		$sql = $task->{'DELETE'};
         	$sql =~ s/\$age/$age/;
 
