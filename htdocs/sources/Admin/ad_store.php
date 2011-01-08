@@ -133,6 +133,8 @@ class ad_store {
 			case 'itemedit':
 				$this->itemedit();
 				break;
+
+
 			case 'quiz_settings':
 				$this->quiz_settings();
 				break;
@@ -151,6 +153,13 @@ class ad_store {
 			case 'do_quiz_update':	
 				$this->do_quiz_update();
 				break;
+			case 'edit_questions':
+				$this->edit_questions();
+				break;
+			case 'do_editquestions':
+				$this->update_questions();
+				break;
+
 			case 'edit_cat':
 				$this->select_category();
 				break;
@@ -186,12 +195,6 @@ class ad_store {
 				break;
 			case 'dorecount':
 				$this->dorecount();
-				break;
-			case 'edit_questions':
-				$this->edit_questions();
-				break;
-			case 'do_editquestions':
-				$this->update_questions();
 				break;
 			case 'do_item_delete':
 				$this->delete_item();
@@ -772,6 +775,7 @@ class ad_store {
 		$this->common_footer("");
 
 	}
+//-------------------------------------------------------------
 	function do_quiz_update() {
 		global $ADMIN,$IN,$DB;
 		$item_name = explode("||",$IN['item_names']);
@@ -789,6 +793,7 @@ class ad_store {
 			}
 			$quiz_items = implode("|",$quiz_items);
 		} else $quiz_items = ($IN['quiz_items'] == "none") ? "" : $IN['quiz_items'];
+
 		$DB->query("UPDATE ibf_quiz_info
                             SET quizname='{$IN['quiz_name']}',
 				quizdesc='{$IN['quiz_desc']}',	
@@ -815,9 +820,10 @@ class ad_store {
 		$ADMIN->html .= $SKIN->start_table("Quiz");
 		$ADMIN->html .= $SKIN->add_td_basic("<font color='red'><b>Not Case Senstive!</b></font>");
 		$ADMIN->html .= $SKIN->add_td_basic("Leave any Multiple Correct Answer, or Drop Down Answer field blank to not use that one.");
+
 		$DB->query("SELECT *
-                            FROM ibf_quiz
-                            WHERE quiz_id='{$IN['updateid']}'");
+                    FROM ibf_quiz
+                    WHERE quiz_id='{$IN['updateid']}'");
 		if($DB->get_num_rows() <= 0) $ADMIN->error("Could not find any Questions and Answers.");
 		$types = array( 'single'   => "Single Question & Answer.",
 				'multiq'   => "Single Question & Multiple Correct Answers.",
@@ -874,6 +880,7 @@ class ad_store {
 			if($question == "" || empty($question)) continue;
 			if($match[2] == 'single') {
 				$answer = addslashes(stripslashes($IN['q_'.$mid.'_answer']));
+
 				$DB->query("UPDATE ibf_quiz
                                             SET question='{$question}',
                                                 anwser='{$answer}'
@@ -892,6 +899,7 @@ class ad_store {
 						"{answer2_".$IN['q_'.$mid.'_2_correct'].":".$IN['q_'.$mid.'_answer_2'].'}||'.
 						"{answer3_".$IN['q_'.$mid.'_3_correct'].":".$IN['q_'.$mid.'_answer_3'].'}||'.
 						"{answer4_".$IN['q_'.$mid.'_4_correct'].":".$IN['q_'.$mid.'_answer_4'].'}';				
+
 				$DB->query("UPDATE ibf_quiz
                                             SET question='{$question}',
                                                 anwser='{$quiz_answers}'
@@ -940,6 +948,7 @@ class ad_store {
 
 			$ADMIN->html .= "<input type='hidden' name='updateid' value='{$IN['updateid']}'>";
 		}
+
 		$ADMIN->html .= $SKIN->add_td_row( array("<b>Quiz Name: </b><br>The Name for this Quiz.",
 							$SKIN->form_input("quiz_name",$quiz['name'])
 						 )      );
@@ -1029,10 +1038,13 @@ class ad_store {
 				}
 				$quiz_items = is_array($quiz_items) ? implode("|",$quiz_items) : $quiz_items;
 			} else $quiz_items = ($IN['quiz_items'] == "none") ? "" : $IN['quiz_items'];
+
 			$DB->query("INSERT INTO ibf_quiz_info
                                     VALUES('','{$IN['quiz_name']}','{$IN['quiz_desc']}','{$IN['perc_need']}','{$IN['winnings']}','{$time}','{$IN['q_run']}','{$IN['let_play']}','OPEN','{$IN['timeout']}','1','{$quiz_items}')");
+
 			$temp['quizid'] = $DB->get_insert_id();
 		}
+
 		if($IN['isadding']) {
 			$quizid = $temp['quizid'];		
 			unset($IN['isadding']);
@@ -1076,9 +1088,11 @@ class ad_store {
 		$ADMIN->html .= $SKIN->end_table();
 		$this->common_footer("Submit");
 	}	
+
 	function finishquiz() {
 		global $ADMIN,$SKIN,$DB,$IN;
-		$DB->query("UPDATE ibf_quiz+info
+
+		$DB->query("UPDATE ibf_quiz_info
                             SET pending='0'
                             WHERE q_id='{$IN['quizid']}'
                             LIMIT 1");
@@ -1118,6 +1132,7 @@ class ad_store {
 				"{answer2_".$IN['correct_2'].":".$IN['answer_2'].'}||'.
 				"{answer3_".$IN['correct_3'].":".$IN['answer_3'].'}||'.
 				"{answer4_".$IN['correct_4'].":".$IN['answer_4'].'}';
+
 		$DB->query("INSERT INTO ibf_quiz
                             VALUES('','{$IN['quizid']}','{$IN['quiz_question']}','{$quiz_answers}','{$IN['addtype']}')");
 	}
@@ -1215,6 +1230,7 @@ class ad_store {
 			
 	function qdelete() {
 		global $IN, $INFO, $DB, $SKIN, $ADMIN;
+
 		$DB->query("DELETE FROM ibf_quiz_info
                             WHERE q_id='{$IN['updateid']}'
                             LIMIT 1");
@@ -1224,6 +1240,8 @@ class ad_store {
 
 		$ADMIN->done_screen("Quiz Deleted", "Administration CP Home", "act=index");
 	}
+
+//-----------------------------------------------------------------------
 
 	function add() {
 		global $IN, $INFO, $ITEM, $DB, $SKIN, $ADMIN;
@@ -1526,6 +1544,7 @@ class ad_store {
 
 		$ADMIN->done_screen("Updated Item", "Administration CP Home", "act=index");
 	}
+
 	function do_stockadd_two() {
 		global $IN, $INFO, $ITEM, $DB, $SKIN, $ADMIN;
 		require_once(ROOT_PATH."/sources/storeitems/".$IN['item_module'].'.php');
@@ -1546,6 +1565,7 @@ class ad_store {
 		$ADMIN->done_screen("Forum Configurations updated", "Administration CP Home", "act=index");
 
 	}
+
 	function itemedit() {
 		global $IN, $INFO, $ITEM, $DB, $SKIN, $ADMIN;
 
@@ -1628,6 +1648,7 @@ class ad_store {
 		$this->common_footer("Go!");
 							   		
 	}
+
 	function edit_category() {
 		global $IN,$DB,$SKIN,$ADMIN;
 		if($IN['effect'] == 'del') {
@@ -1661,6 +1682,7 @@ class ad_store {
 		$this->common_footer();
 
 	}
+
 	function do_cat_edit() {
 		global $IN,$DB,$ADMIN;
 		$IN['cat_desc'] = addslashes($this->postparse($IN['cat_desc']));
@@ -1674,6 +1696,7 @@ class ad_store {
 		$ADMIN->done_screen("Category Updated!", "Administration CP Home", "act=index");
 
 	}
+
 	function do_add_category() {
 		global $IN, $INFO, $ITEM, $DB, $SKIN, $ADMIN;
 		$IN['cat_desc'] = addslashes($this->postparse($IN['cat_desc']));
@@ -1712,8 +1735,6 @@ class ad_store {
 
 		$ADMIN->done_screen("Forum Configurations updated", "Administration CP Home", "act=index");
 
-
-
 	}
 
 
@@ -1749,6 +1770,7 @@ class ad_store {
 		//$ADMIN->html .= $SKIN->start_table("IBStore");
 
 	}
+
 	function common_footer( $button="Submit Changes", $js="")
 	{
 

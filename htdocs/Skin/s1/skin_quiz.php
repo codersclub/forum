@@ -517,7 +517,9 @@ return <<<EOF
       <td class='row4'><a href='{$ibforums->base_url}act=quiz&code=show&quiz_id={$data['q_id']}'><b>{$data['quizname']}</b></a>
       <br><span class='desc'>{$data['quizdesc']}</span>{$data['queued_link']}</td>
       <td align='center' class='row2'><a href='{$ibforums->base_url}showuser={$data['starter_id']}'>{$data['starter_name']}</a></td>
+
       <!--Plays Left Middle-->	
+
       <td align='center' class='row4'>{$data['amount_won']}</td>
       <td align='center' class='row2'>{$data['quiz_status']}</td>
       <td align='center' class='row2'>{$data['status_days']} {$ibforums->lang['quiz_days']}</td>

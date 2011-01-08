@@ -15,8 +15,9 @@
 | Redistribution not permitted without permission from Zachary Anker.	 |	
 \*--------------------------------------------------------------------- */
 
-$store = new store;
-class store {
+$quiz = new quiz;
+
+class quiz {
     var $output     = "";
     var $temp_output= "";
     var $tempoutput = "";
@@ -27,7 +28,7 @@ class store {
     var $store_version = "2.5";
     var $nav        = array();
 
-function store()
+function quiz()
 {
   global $ibforums, $DB, $std, $print,$lib;
 
@@ -63,40 +64,6 @@ function store()
     $this->error("shop_offline");
   }
 
-  // Club tool
-/*
-	if ( $this->club and $std->check_perms( $ibforums->member['club_perms'] ) == FALSE )
-	{
-	    $std->Error( array( LEVEL => 1, MSG => 'is_broken_link') );
-	}
-
-	// User ban patch
-
-	$std->user_ban_check($this->forum);
-
-
-	// vot: get moderators
-	$moderators = $this->get_moderators();
-
-
-        //-------------------------------------
-        // Error out if the topic is not approved
-        //-------------------------------------
-
-	// Song * premoderation, 16.03.05
-
-	if ( !$this->topic['approved'] )
-	{
-	    $this->topic['state'] = "closed";
-
-	    if ( !$std->premod_rights(  $this->topic['starter_id'],
-					$this->mod[ $ibforums->member['id'] ]['topic_q'],
-					&$this->topic['app']) )
-	    {
-		$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
-	    }
-	}
-*/
 
 
   switch($ibforums->input['code']) {
@@ -208,7 +175,7 @@ function quiz_status($status='OPEN')
     $this->error('no_rights');
   }
 
-  $query =  "UPDATE ibf_store_quizinfo
+  $query =  "UPDATE ibf_quiz_info
 		SET quiz_status='{$status}'
 		WHERE q_id='{$qid}'
 		LIMIT 1";	
@@ -258,10 +225,10 @@ function do_delete_quiz()
 
 
   $DB->query(  "DELETE
-		FROM ibf_store_quizinfo
+		FROM ibf_quiz_info
 		WHERE q_id='{$qid}' LIMIT 1");
   $DB->query(  "DELETE
-		FROM ibf_store_quizs
+		FROM ibf_quiz
 		WHERE quiz_id='{$qid}'");
   $this->save_log("Quiz ID ".$qid." Was Deleted");
 
@@ -307,7 +274,7 @@ function edit_quiz()
   // Get the Quiz settings
 
   $DB->query("SELECT *
-      	FROM ibf_store_quizinfo
+      	FROM ibf_quiz_info
       	WHERE
       		q_id='{$qid}'
       		{$extra}
@@ -456,7 +423,7 @@ function update_quiz()
   } else $quiz_items = ($IN['quiz_items'] == "none") ? "" : $IN['quiz_items'];
 
 
-  $query =  "UPDATE ibf_store_quizinfo
+  $query =  "UPDATE ibf_quiz_info
 		SET
 			quizname='{$ibforums->input['quiz_name']}',
 			quizdesc='{$ibforums->input['quiz_desc']}',	
@@ -578,7 +545,7 @@ function update_questions()
     $question = str_replace("<br>","\n",$question);
     $answer = str_replace("<br>","\n",$answer);
 		
-    $query="UPDATE ibf_store_quizs
+    $query="UPDATE ibf_quiz
       	    SET
 		question='{$question}',
 		answer='{$answer}',
@@ -639,7 +606,7 @@ function edit_questions()
   // Get the Quiz settings
 
   $DB->query("SELECT *
-      	FROM ibf_store_quizinfo
+      	FROM ibf_quiz_info
       	WHERE
       		q_id='{$qid}'
       		{$extra}
@@ -667,7 +634,7 @@ function edit_questions()
   // Get all the Quiz questions
 
   $DB->query("SELECT *
-      	FROM ibf_store_quizs
+      	FROM ibf_quiz
       	WHERE quiz_id='{$qid}'");
 
   if($DB->get_num_rows() <= 0) $this->error("couldnotloadanswer");
@@ -848,7 +815,7 @@ function get_quiz_questions($qid=0)
   if(!qid) return $ans;
 
   $DB->query("SELECT *
-		FROM ibf_store_quizs
+		FROM ibf_quiz
 		WHERE quiz_id='{$qid}'
 		ORDER BY mid");
 
@@ -893,7 +860,7 @@ function get_user_answers($mid=0,$qid=0)
 			time_took,
 			amount_right,
 			answers
-		FROM ibf_store_quizwinners
+		FROM ibf_quiz_winners
 		WHERE
 			quiz_id='{$qid}' AND
 			memberid='{$mid}'
@@ -1002,7 +969,7 @@ function get_quiz_settings($qid=0)
   }
 
   $DB->query("SELECT *
-		FROM ibf_store_quizinfo
+		FROM ibf_quiz_info
 		WHERE
 			q_id='{$qid}'
 			{$extra}
@@ -1036,7 +1003,7 @@ function get_quiz_settings($qid=0)
 
 
     $DB->query("SELECT *
-		FROM ibf_store_quizinfo
+		FROM ibf_quiz_info
 		WHERE q_id='{$qid}'
 		LIMIT 1");
     if($DB->get_num_rows() == 0 ) {
@@ -1063,7 +1030,7 @@ function get_quiz_settings($qid=0)
 
     // Get all playing members
     $DB->query("SELECT f.*, m.name,m.id
-    	        FROM ibf_store_quizwinners f
+    	        FROM ibf_quiz_winners f
     	        LEFT JOIN ibf_members m ON (m.id=f.memberid)
     	        WHERE f.quiz_id='{$ibforums->input['quiz_id']}'
     	        ORDER BY amount_right DESC");
@@ -1115,7 +1082,7 @@ function get_quiz_settings($qid=0)
     // Get the Quiz settings
 
     $DB->query("SELECT *
-		FROM ibf_store_quizinfo
+		FROM ibf_quiz_info
 		WHERE q_id='{$qid}'
 		LIMIT 1");
 
@@ -1141,7 +1108,7 @@ function get_quiz_settings($qid=0)
     // Update the Quiz views counter 
     //----------------------------------------------
     
-    $DB->query("UPDATE ibf_store_quizinfo
+    $DB->query("UPDATE ibf_quiz_info
     	    SET views=views+1
     	    WHERE q_id='{$qid}'");
     
@@ -1212,12 +1179,12 @@ function get_quiz_settings($qid=0)
 
       if($row['quiz_status'] == 'CLOSED')
       {
-        $row['actions'] ="<a href='{$ibforums->base_url}act=quiz&code=open&quiz_id={$row['q_id']}'>Open</a>";
+        $row['actions'] ="<a href='{$ibforums->base_url}act=quiz&code=open&quiz_id={$row['q_id']}'>{$ibforums->lang['quiz_open']}</a>";
       } else {
-        $row['actions'] ="<a href='{$ibforums->base_url}act=quiz&code=close&quiz_id={$row['q_id']}'>Close</a>";
+        $row['actions'] ="<a href='{$ibforums->base_url}act=quiz&code=close&quiz_id={$row['q_id']}'>{$ibforums->lang['quiz_close']}</a>";
       }
       $row['actions'].=" &middot; <a href='{$ibforums->base_url}act=quiz&code=edit&quiz_id={$row['q_id']}'>{$ibforums->lang['quiz_edit']}</a>";
-      $row['actions'].=" &middot; <a href='{$ibforums->base_url}act=quiz&code=questions&quiz_id={$row['q_id']}'>Questions</a>";
+      $row['actions'].=" &middot; <a href='{$ibforums->base_url}act=quiz&code=questions&quiz_id={$row['q_id']}'>{$ibforums->lang['quiz_questions']}</a>";
     }
 
 
@@ -1276,7 +1243,7 @@ function get_quiz_settings($qid=0)
 
       if($row['quiz_status'] != 'CLOSED' && $row['status_days'] <= 0)
       {
-        $update = $DB->query("UPDATE ibf_store_quizinfo
+        $update = $DB->query("UPDATE ibf_quiz_info
   			    SET quiz_status='CLOSED'
   			    WHERE q_id='{$row['q_id']}'
   			    LIMIT 1");
@@ -1353,7 +1320,7 @@ function get_quiz_settings($qid=0)
     // Get all the Quiz
 
     $list_quiz = $DB->query("SELECT *
-    			 FROM ibf_store_quizinfo "
+    			 FROM ibf_quiz_info "
     			.$extra);
 
     while($quiz = $DB->fetch_row($list_quiz))
@@ -1381,11 +1348,13 @@ function get_quiz_settings($qid=0)
       $close_check = $this->quiz_check($quiz['q_id'],$quiz['let_only']);
 
       if($close_check) {
+
       	if($close_check['status']) $quiz['take_quiz'] = $close_check['status'] ? $ibforums->lang['played_quizalready'] : $quiz['take_quiz'];
+
       	if($close_check['status'] == 'close')
         {
 //     	  $quiz['take_quiz'] = $ibforums->lang['quiz_closed'];
-      	  $quiz['take_quiz'] = "";
+      	  $quiz['take_quiz'] = '';
       	}
       }
 //echo "3. ".$quiz['quiz_status']."<br>";
@@ -1400,7 +1369,7 @@ function get_quiz_settings($qid=0)
       {
         if($quiz['quiz_status'] != 'CLOSED' && $quiz['status_days'] <= 0)
         {
-          $update = $DB->query("UPDATE ibf_store_quizinfo
+          $update = $DB->query("UPDATE ibf_quiz_info
   			      SET quiz_status='CLOSED'
   			      WHERE q_id='{$quiz['q_id']}' LIMIT 1");
         }
@@ -1464,7 +1433,7 @@ function get_quiz_settings($qid=0)
     // Get the Quiz settings
 
     $DB->query("SELECT *
-		FROM ibf_store_quizinfo
+		FROM ibf_quiz_info
 		WHERE
 			q_id='{$qid}'
 			{$extra}
@@ -1492,7 +1461,7 @@ function get_quiz_settings($qid=0)
     // Check for the member played allready
 
     $DB->query("SELECT 1
-		FROM ibf_store_quizwinners
+		FROM ibf_quiz_winners
 		WHERE
 			quiz_id='{$qid}' AND
 			memberid='{$ibforums->member['id']}'
@@ -1512,7 +1481,7 @@ function get_quiz_settings($qid=0)
     // Get all the Quiz questions
 
     $DB->query("SELECT *
-		FROM ibf_store_quizs
+		FROM ibf_quiz
 		WHERE quiz_id='{$qid}'");
 
     if($DB->get_num_rows() <= 0) $this->error("couldnotloadanswer");
@@ -1693,7 +1662,7 @@ function get_quiz_settings($qid=0)
     }
 
     $DB->query("SELECT 1
-		FROM ibf_store_quizwinners
+		FROM ibf_quiz_winners
 		WHERE quiz_id='{$qid}' AND
 		      memberid='{$ibforums->member['id']}'
 		LIMIT 1");
@@ -1705,7 +1674,7 @@ function get_quiz_settings($qid=0)
 
 
     $DB->query("SELECT *
-		FROM ibf_store_quizinfo
+		FROM ibf_quiz_info
 		WHERE q_id='{$qid}'
 		LIMIT 1");
 
@@ -1754,7 +1723,7 @@ function get_quiz_settings($qid=0)
     //---------------------------------
 
     $DB->query("SELECT * 
-		FROM ibf_store_quizs
+		FROM ibf_quiz
 		WHERE quiz_id='{$qid}'
 		ORDER BY mid");
 
@@ -1945,7 +1914,7 @@ function get_quiz_settings($qid=0)
     //--------------------------------
     // Store all the user answers
 
-    $DB->query("INSERT INTO ibf_store_quizwinners
+    $DB->query("INSERT INTO ibf_quiz_winners
 		SET
 		quiz_id='{$ibforums->input['quiz_id']}',
 		memberid='{$ibforums->member['id']}',
@@ -2041,7 +2010,7 @@ function get_quiz_settings($qid=0)
 			time_took,
 			amount_right,
 			answers
-		FROM ibf_store_quizwinners
+		FROM ibf_quiz_winners
 		WHERE quiz_id='{$quiz_id}'");
     $played = $DB->get_num_rows();
 
@@ -2050,7 +2019,7 @@ function get_quiz_settings($qid=0)
 
     if($played >= $let_play && $let_play != 0)
     {
-      $DB->query("UPDATE ibf_store_quizinfo
+      $DB->query("UPDATE ibf_quiz_info
 		  SET quiz_status='CLOSED'
         	  WHERE q_id='{$quiz_id}' LIMIT 1");
       return array('status'	=> 'close',

@@ -455,6 +455,7 @@ $choice = array(
 	         "fav"	      => "fav",
 		 "store"      => "store/store",
 		 "checker"    => "SongFunc",
+                 "quiz"       => "Quiz",
                );
 
                 
