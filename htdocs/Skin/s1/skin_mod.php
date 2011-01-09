@@ -509,14 +509,12 @@ return <<<EOF
   <td class='pformright'>
     <select name='time' class='forminput'>
     <optgroup label="¬рем€ действи€">
+    <option value="1">1 день</option>
     <option value="3">3 дн€</option>
-    <option value="7">1 недел€</option>
-    <option value="10">10 дней</option>
-    <option value="14">2 недели</option>
-    <option value="21">3 недели</option>
-    <option value="30">1 мес€ц</option>
-    <option value="60">2 мес€ца</option>
-    <option value="90">3 мес€ца</option>
+    <option value="7">7 дней</option>
+    <option value="14">14 дней</option>
+    <option value="30">30 дней</option>
+        
     </optgroup></select>
    </td>
    <td class='pformright'><!-- --></td>
