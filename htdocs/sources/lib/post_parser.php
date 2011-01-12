@@ -1020,7 +1020,7 @@ class post_parser {
 		$this->quote_error = 0;
 		$this->quote_closed = 0;
 
-		$txt = preg_replace( "#(\[quote(.+?)?\].*\[/quote\])#ies" , "\$this->regex_parse_quotes('\\1', '{$in['TID']}')", $txt );
+		$txt = preg_replace( "#(\[quote([^\]]*)\].*\[/quote\])#ies" , "\$this->regex_parse_quotes('\\1', '{$in['TID']}')", $txt );
 		
 		//---------------------------------
 		// Do [CODE] tag
