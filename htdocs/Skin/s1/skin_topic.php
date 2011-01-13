@@ -135,7 +135,7 @@ function RenderRow($post, $author) {
        <td class='row4' valign='top'>
         <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>{$post['checkbox']}
          {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']}</span></div>
-	<div align='right' class='row4' style='float:right;padding-top:4px;padding-bottom:4px'>{$post['queued_link']}{$post['quick_quote']} {$post['add_to_faq']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['edit_history_button']} {$post['quote']} {$post['delete_delayed']}</div>
+	<div align='right' class='row4' style='float:right;padding-top:4px;padding-bottom:4px'>{$post['queued_link']}{$post['quick_quote']} {$post['add_to_faq']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['quote']} {$post['delete_delayed']}</div>
       </td>
     </tr>
     <tr>

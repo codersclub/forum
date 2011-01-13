@@ -705,17 +705,11 @@ return <<<EOF
 EOF;
 }
 
-function RenderDeletedRow($delete_level = 1 ) {
+function RenderDeletedRow() {
 global $ibforums;
-if ($delete_level == 2) {
-return <<<EOF
-{$ibforums->lang['del_by_user']}
-EOF;
-} else {
 return <<<EOF
 <span class='movedprefix' style='font-size:10pt;line-height:100%'>{$ibforums->lang['mod_del']}</span>
 EOF;
-}
 }
 
 

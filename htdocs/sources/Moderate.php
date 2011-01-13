@@ -2590,15 +2590,13 @@ class Moderate {
 		//---------------------------------------
 		// delete the post
 		//---------------------------------------
-		$DB->query("UPDATE ibf_posts SET use_sig = 2, edit_time='".time()."', delete_after='".strtotime('+180 days')."'
-		    WHERE pid='".$post['pid']."'");
-		/*
+		
 		$DB->query("DELETE
 			    FROM ibf_posts
 			    WHERE
 				topic_id='".$this->topic['tid']."'
 				AND pid='".$post['pid']."'");
-		*/
+		
 		//---------------------------------------
 		// Update the stats
 		//---------------------------------------

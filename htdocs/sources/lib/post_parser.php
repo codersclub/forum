@@ -1270,7 +1270,7 @@ class post_parser {
 	global $ibforums;
  
 	if ( !$message or !$ibforums->member['id'] ) return $message;
-	if ( !( $ibforums->member['is_mod'] or $ibforums->member['g_is_supmod'] ) ) return '';
+	if ( !( $ibforums->member['is_mod'] or $ibforums->member['g_is_supmod'] ) ) return $message;
 
 	return "[MM]".$message."[/MM]";
 

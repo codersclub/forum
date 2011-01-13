@@ -109,11 +109,39 @@ my @task_list = (
 		'DTL'		=> 30
 	},
 	{
-		'TITLE'		=> "4. Clear posts edit history (items older 180 days ):\n",
+		'TITLE'		=> "4.1 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_post_edit_history WHERE edit_time < $age',
+		'DELETE'	=> 'DELETE FROM ibf_m_visitors
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
 		'DTL'		=> 30
-	}
+	},
+	{
+		'TITLE'		=> "4.2 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_g_visitors
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "4.3 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_b_visitors
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "4.3 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_users_stat
+						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+#	{
+#		'TITLE'		=> "5 Delete delayed posts:\n",
+#		'SELECT'	=> '',
+#		'DELETE'	=> 'DELETE FROM ibf_posts WHERE delete_after != 0 and delete_after < '.time(),
+#		'DTL'		=> 30
+#	}
 );
 
 ##########################################
@@ -137,9 +165,9 @@ foreach my $task (@task_list) {
 	
 	if ($task->{'SELECT'}) {
 		$sql = $task->{'SELECT'};
-        	$sql =~ s/\$age/$age/;
-
-		$request = $dbh->prepare($task->{'SELECT'});
+		$sql =~ s/\$age/$age/;
+        
+		$request = $dbh->prepare($sql);
 		$request->execute();
 		while (my @row = $request->fetchrow_array() ) {
 		  $body .= "\t- ".$row[0]." = ".$row[1]."\n";
@@ -153,7 +181,7 @@ foreach my $task (@task_list) {
 	
 	if ($task->{'DELETE'}) {
 		$sql = $task->{'DELETE'};
-        	$sql =~ s/\$age/$age/;
+		$sql =~ s/\$age/$age/;
 
 		$body .= "Kill before: $day_to_live days (".timetostr($age).", TimeStamp=".$age.")\n";
 		$body .= "SQL: ".$sql.")\n";

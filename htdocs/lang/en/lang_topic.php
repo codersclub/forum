@@ -127,7 +127,5 @@ $lang['DELETE_DELAYED']  = "Delete selected messages after";
 $lang['topic_decided_1']  = "Did your question solve?";
 $lang['topic_decided_2']  = "If you have got an answer on your topic question, please leave check on checkbox at the left.<br>Also you can change topic status on status \"The question solved\", using link \"Вопрос решён\" above quick reply form at the right.";
 $lang['mod_del']  = "Decline by moderator";
-$lang['del_by_user']  = "Deleted by user";
-$lang['del_by_user']  = "Deleted by user";
 $lang['permited_by']  = "A message declined: <b>%s</b> - %s";
 

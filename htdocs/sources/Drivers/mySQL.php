@@ -493,35 +493,7 @@ class db_driver {
 		
 		return $return;
 	}
-
-	/**
-	 * выполняет запрос insert into table...
-	 *
-	 * @param array $fields
-	 * 		типа field => value
-	 * @param string $table
-	 */
-	function do_insert_query(array $fields, $table, $bypass=0, $fatal = 1)
-	{
     
-		$field_values = array_map(array($this,'quote'), $fields);
-			
-		$query = "INSERT INTO $table (`"
-				
-				. implode('`, `', array_keys($fields))
-				
-			. "`) VALUES ('"
-				
-				. implode("', '", $field_values)
-				
-			."')"
-		;
-		
-		return $this->query($query, $bypass, $fatal);
-			
-	}
-	
-
 } // end class
 
 
