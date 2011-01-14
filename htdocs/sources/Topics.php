@@ -58,11 +58,11 @@ class Topics {
     var $trid = 0;
     var $log_time = 0;
 
-    /***********************************************************************************/
-    //
-    // Our constructor, load words, load skin, print the topic listing
-    //
-    /***********************************************************************************/
+        /***********************************************************************************/
+	//
+	// Our constructor, load words, load skin, print the topic listing
+	//
+	/***********************************************************************************/
     
    function get_moderators() {
    global $ibforums, $std, $DB;
@@ -1135,40 +1135,40 @@ class Topics {
 		    SET views=views+1
 		    WHERE tid='".$this->topic['tid']."'");
 
-	$std->song_set_topicread( $this->forum['id'], $this->topic['tid'] );
+		$std->song_set_topicread( $this->forum['id'], $this->topic['tid'] );
 		
-	if ($this->topic['has_mirror']) {
-		$DB->query("UPDATE ibf_topics
+		if ($this->topic['has_mirror']) {
+			$DB->query("UPDATE ibf_topics
 				SET views=views+1
 			    WHERE mirrored_topic_id='{$this->topic['tid']}'");
 			
-		// update forums
-		$q = "SELECT forum_id, tid FROM ibf_topics WHERE mirrored_topic_id='{$this->topic['tid']}' ";
+			// update forums
+			$q = "SELECT forum_id, tid FROM ibf_topics WHERE mirrored_topic_id='{$this->topic['tid']}' ";
 			
-		$quid = $DB->query($q);
-		while ($row = $DB->fetch_row($quid)) {
-			$log_time = 0;
-			if ($ibforums->member['id']) {
-				$DB->query("SELECT logTime
-					    FROM ibf_log_topics
-					    WHERE
-						tid='".$row['tid']."' AND
-						mid='".$ibforums->member['id']."'");
+			$quid = $DB->query($q);
+			while ($row = $DB->fetch_row($quid)) {
+				$log_time = 0;
+				if ($ibforums->member['id']) {
+					$DB->query("SELECT logTime
+				    FROM ibf_log_topics
+				    WHERE
+					tid='".$row['tid']."' AND
+					mid='".$ibforums->member['id']."'");
 	
-				if ( $DB->get_num_rows() )
-				{
-					$log_time = $DB->fetch_row();	
+					if ( $DB->get_num_rows() )
+					{
+						$log_time = $DB->fetch_row();	
 			
-					$log_time = $log_time['logTime'];         	
+						$log_time = $log_time['logTime'];         	
 			
+					}
 				}
+				
+				$std->song_set_topicread( $row['forum_id'], $row['tid'] );
+				
 			}
-				
-			$std->song_set_topicread( $row['forum_id'], $row['tid'] );
-				
-		}
 			
-	}
+		}
 
         //----------------------------------------
         // If this is a sub forum, we need to get
@@ -1801,6 +1801,7 @@ class Topics {
 		$this->output = str_replace( "<!--IBF.QUICK_REPLY_CLOSED-->", $this->html->quick_reply_box_closed(), $this->output );
 
 		$q = 0;
+                $warning = "";
 
 		if ( ( $this->forum['preview_posts'] == 1 or $this->forum['preview_posts'] == 3 or $ibforums->member['mod_posts'] ) 
 			and $show == "show" 
@@ -1854,12 +1855,7 @@ class Topics {
 
 		// Post Warnings
 
-		$premod_message = "";
-		if ( $q ) {
-			 $premod_message = $ibforums->lang['mod_posts_warning'];
-			 $premod_message = "<div class='premod_message'>$premod_message</div>";
-		}
-		
+		if ( $q ) $warning = $ibforums->lang['mod_posts_warning'];
 
 
 		// Song * decided topics, 20.04.05
@@ -1871,24 +1867,23 @@ class Topics {
 		}
 
 
-		$this->output = str_replace( "<!--IBF.QUICK_REPLY_OPEN-->",
-			  $this->html->quick_reply_box_open(
-				$this->topic['forum_id'],
-				$this->topic['tid'], 
-				$show, 
-				$premod_message, 
-				$this->md5_check,
-				$std->code_tag_button($this->highlight),
-				$mod_buttons,
-				$topic_decided),
-			$this->output
-		);
+
+		$this->output = str_replace( "<!--IBF.QUICK_REPLY_OPEN-->"  , 
+		  $this->html->quick_reply_box_open($this->topic['forum_id'], 
+		  $this->topic['tid'], 
+		  $show, 
+		  $warning, 
+		  $this->md5_check,
+		  $std->code_tag_button($this->highlight),
+		  $mod_buttons,
+		  $topic_decided),
+		  $this->output );
 		  
-	        if ( ($std->check_perms($this->forum['upload_perms']) == TRUE) and ($ibforums->member['g_attach_max'] > 0) )
-	        {
+        if ( ($std->check_perms($this->forum['upload_perms']) == TRUE) and ($ibforums->member['g_attach_max'] > 0) )
+        {
 			$upload_field = $this->html->Upload_field( $std->size_format( $ibforums->member['g_attach_max'] * 1024 ) );
 		  	$this->output = str_replace( '<!--UPLOAD FIELD-->', $upload_field , $this->output );
-	        }
+        }
 		  
 		$this->html_add_smilie_box();
 		$this->html_checkboxes($this->topic['tid']);
@@ -1952,7 +1947,8 @@ class Topics {
 
 		     ) 		);
 
-    } // end of constructor
+	} // end of class
+
 
 
 

@@ -973,7 +973,8 @@ class Register {
 	//| Build up the hashes
 	//+--------------------------------------------
 	
-	$mem_group = $ibforums->vars['member_group'];
+//vot	$mem_group = $ibforums->vars['member_group'];
+	$mem_group = $ibforums->vars['newbie_group'];
 	
 	//+--------------------------------------------
 	//| Are we asking the member or admin to preview?
@@ -1053,7 +1054,8 @@ class Register {
 	// Отсылка ПМ новым пользователям
 	//------------------------------				
 
-	if ( $mem_group == $ibforums->vars['member_group'] and $ibforums->vars['auto_pm_on'] == 1 ) 
+//	if ( $mem_group == $ibforums->vars['member_group'] and $ibforums->vars['auto_pm_on'] == 1 ) 
+	if ( $mem_group == $ibforums->vars['newbie_group'] and $ibforums->vars['auto_pm_on'] == 1 ) 
 	{
 		$pm_subject = str_replace("*username*",$in_username,$ibforums->vars['auto_pm_subject']);
 
@@ -1114,7 +1116,8 @@ class Register {
 
 				 'vid'         => $validate_key,
 				 'member_id'   => $member['id'],
-				 'real_group'  => $ibforums->vars['member_group'],
+//vot				 'real_group'  => $ibforums->vars['member_group'],
+				 'real_group'  => $ibforums->vars['newbie_group'],
 				 'temp_group'  => $ibforums->vars['auth_group'],
 				 'entry_date'  => $time,
 				 'coppa_user'  => $coppa,
@@ -1214,15 +1217,16 @@ class Register {
 		// This is a COPPA user, so lets tell them they registered OK and redirect to the form.
 		
 		$db_str = $DB->compile_db_insert_string( array (
-														 'vid'         => $validate_key,
-														 'member_id'   => $member['id'],
-														 'real_group'  => $ibforums->vars['member_group'],
-														 'temp_group'  => $ibforums->vars['auth_group'],
-														 'entry_date'  => $time,
-														 'coppa_user'  => $coppa,
-														 'new_reg'     => 1,
-														 'ip_address'  => $member['ip_address']
-											   )       );
+					 'vid'         => $validate_key,
+					 'member_id'   => $member['id'],
+//					 'real_group'  => $ibforums->vars['member_group'],
+					 'real_group'  => $ibforums->vars['newbie_group'],
+					 'temp_group'  => $ibforums->vars['auth_group'],
+					 'entry_date'  => $time,
+					 'coppa_user'  => $coppa,
+					 'new_reg'     => 1,
+					 'ip_address'  => $member['ip_address']
+					   )       );
 		
 		$DB->query("INSERT INTO ibf_validating ({$db_str['FIELD_NAMES']}) VALUES({$db_str['FIELD_VALUES']})");
 		
@@ -1310,7 +1314,8 @@ class Register {
 				
 				if ( empty($validate['real_group']) )
 				{
-					$validate['real_group'] = $ibforums->vars['member_group'];
+//					$validate['real_group'] = $ibforums->vars['member_group'];
+					$validate['real_group'] = $ibforums->vars['newbie_group'];
 				}
 				
 				$DB->query("UPDATE ibf_members SET mgroup='".intval($validate['real_group'])."', 
@@ -1417,7 +1422,8 @@ class Register {
 				
 				if (empty($validate['real_group']))
 				{
-					$validate['real_group'] = $ibforums->vars['member_group'];
+//					$validate['real_group'] = $ibforums->vars['member_group'];
+					$validate['real_group'] = $ibforums->vars['newbie_group'];
 				}
 				
 				$DB->query("UPDATE ibf_members SET mgroup='".intval($validate['real_group'])."', 

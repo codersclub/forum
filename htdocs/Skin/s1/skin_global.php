@@ -485,15 +485,15 @@ var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 </td>
 <td colspan=2>
 &middot; 
-<a href="http://www.sources.ru/magazine/"><b>Журнал</b></a>
+<a href="http://magazine.sources.ru/"><b>Журнал</b></a>
 &middot; 
-<a href="http://alglib.sources.ru"><b>Алгоритмы</b></a>
+<a href="http://alglib.sources.ru/"><b>Алгоритмы</b></a>
 &middot; 
-<a href="http://e-science.sources.ru"><b>Естественные Науки</b></a>
+<a href="http://e-science.sources.ru/"><b>Естественные Науки</b></a>
 &middot;
-<a href="http://www.sources.ru/wiki/"><b>Wiki</b></a>
+<a href="http://wiki.sources.ru/"><b>Wiki</b></a>
 &middot;
-<a href="http://drkb.ru/"><b>DRKB</b></a>
+<a href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
 &middot;
 <a href="http://www.sources.ru/donate.php"><b>Помощь&nbsp;проекту</b></a>
 </td>

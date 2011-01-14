@@ -11,7 +11,7 @@ $lang['qli_go']  = "Go";
 $lang['by']  = "By";
 $lang['calender_f_title']  = "Forthcoming Calendar Events within the next %s days";
 $lang['no_calendar_events']  = "There are no forthcoming calendar events";
-$lang['newslink']  = "Partners news:";
+$lang['newslink']  = "Our partners news:";
 $lang['secondnewslink']  = "Latest news:";
 $lang['our_polls_link']  = "Latest polls:";
 $lang['welcome_back_text']  = "Welcome back; your last visit was on";
@@ -65,4 +65,3 @@ $lang['users_online_yesterday']  = "Visits yesterday: <b>#ALL#</b> (<b>#USERS#</
 $lang['online_record']  = "Most visits for a week: <b>#ALL#</b> (<b>#USERS#</b> users, <b>#GUESTS#</b> guests and <b>#BOTS#</b> bots) was <b>#DATE#</b>";
 $lang['your_friends']  = "<b>Friends of mine</b>:";
 
-?>

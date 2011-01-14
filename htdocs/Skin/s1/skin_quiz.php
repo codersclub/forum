@@ -508,8 +508,8 @@ EOF;
 
 
 function list_quiz($data) {
-global $ibforums;
-return <<<EOF
+  global $ibforums;
+  return <<<EOF
 
     <tr> 
       <td align='center' class='row4'>{$data['img']}</td>

@@ -269,7 +269,7 @@ class mod_fav extends mod_art {
 
                 $DB->query(" SELECT s.*, u.id AS art_id,u.name,u.version_id, u.article_id as rw_id
 
-                			 FROM ibf_cms_subscriptions AS s
+                	     FROM ibf_cms_subscriptions AS s
 
                              LEFT JOIN ibf_cms_uploads AS u
 

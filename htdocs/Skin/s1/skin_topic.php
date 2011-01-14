@@ -15,8 +15,8 @@ protected function post()
 
 
 function Show_attachments_img($post_id, $attach_id) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 <br>
@@ -30,8 +30,8 @@ EOF;
 
 
 function nameField_reg() {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 
@@ -40,8 +40,8 @@ EOF;
 
 
 function warn_level_warn($id, $percent) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 {$ibforums->lang['tt_warn']} (<a href="javascript:PopUp('{$ibforums->base_url}act=warn&amp;mid={$id}&amp;CODE=view','Pager','500','450','0','1','1','1')">{$percent}</a>%)
@@ -52,8 +52,8 @@ EOF;
 
 
 function Show_attachments_img_thumb($file_name, $width, $height, $post_id, $attach_id) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 <br>
@@ -67,8 +67,8 @@ EOF;
 
 
 function rep_options_links($stuff) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 <a href='{$ibforums->base_url}act=rep&CODE=02&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]'><{WARN_MINUS}></a><a href='{$ibforums->base_url}act=rep&CODE=01&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]'><{WARN_ADD}></a>
@@ -79,8 +79,8 @@ EOF;
 
 
 function get_box_enableemo($checked) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 <input type='checkbox' name='enableemo' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_emo']}
@@ -91,8 +91,8 @@ EOF;
 
 
 function quick_reply_box_closed() {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 	<a href="javascript:ShowHide('qr_open','qr_closed');" title="{$ibforums->lang['qr_open']}" accesskey="f"><{T_QREPLY}></a> · 
 
@@ -102,8 +102,8 @@ EOF;
 
 
 function start_poll_link($fid, $tid) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 <a href="{$ibforums->base_url}act=Post&amp;CODE=14&amp;f=$fid&amp;t=$tid">{$ibforums->lang['new_poll_link']}</a> &#124;&nbsp;
@@ -114,8 +114,8 @@ EOF;
 
 
 function mm_end() {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 </select>&nbsp;<input type='submit' value='{$ibforums->lang['mm_submit']}' class='forminput'></form>
@@ -126,8 +126,8 @@ EOF;
 
 
 function RenderRow($post, $author) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
     <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;'>
     <tr>
@@ -165,8 +165,8 @@ EOF;
 
 
 function ip_show($data) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 
 <span class='desc'><br>{$ibforums->lang['ip']}: $data</span>
@@ -177,14 +177,16 @@ EOF;
 
 
 function PageTop($data) {
-  global $ibforums, $skin_universal;
-  return <<<EOF
+global $ibforums, $skin_universal;
+return <<<EOF
 
 <script language='javascript' type='text/javascript'>
 var 
 base_url	    = "{$ibforums->base_url}",
 tid		    = "{$ibforums->input['t']}",
 session_id	    = "{$ibforums->session_id}",
+error_no_url        = "{$ibforums->lang['jscode_error_no_url']}",
+error_no_title      = "{$ibforums->lang['jscode_error_no_title']}",
 error_no_email      = "{$ibforums->lang['jscode_error_no_email']}",
 error_no_width      = "{$ibforums->lang['jscode_error_no_width']}",
 error_no_height     = "{$ibforums->lang['jscode_error_no_height']}",
@@ -203,6 +205,14 @@ js_characters	    = "{$ibforums->lang['js_characters']}",
 js_current	    = "{$ibforums->lang['js_current']}",
 error_no_url        = "{$ibforums->lang['jscode_error_no_url']}",
 error_no_title      = "{$ibforums->lang['jscode_error_no_title']}",
+error_no_email      = "{$ibforums->lang['jscode_error_no_email']}",
+error_no_width      = "{$ibforums->lang['jscode_error_no_width']}",
+error_no_height     = "{$ibforums->lang['jscode_error_no_height']}",
+text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}",
+text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}",
+text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}",
+list_prompt         = "{$ibforums->lang['js_tag_list']}",
+prompt_start        = "{$ibforums->lang['js_text_to_format']}",
 MessageMax  	    = "{$ibforums->lang['the_max_length']}",
 Override    	    = "{$ibforums->lang['override']}",
 rusLet		    = new Array("Ý","Ù","Ù","×","×","Ø","Ø","¨","¨","¨","¨","Þ","Þ","Þ","Þ","ß","ß","ß","ß","Æ","Æ","À","Á","Â","Ã","Ä","Å","Ç","ÈÉ","ÈÉ","ÛÉ","ÛÉ","È","É","Ê","ÊÑ","Ë","Ì","Í","Î","Ï","Ð","Ñ","Ò","Ó","Ô","Õ","Ö","Ù","Û","ý","ù","÷","ø","¸","¸","þ","þ","ÿ","ÿ","æ","à","á","â","ã","ä","å","ç","èé","èé","ûé","ûé","è","é","ê","êñ","ë","ì","í","î","ï","ð","ñ","ò","ó","ô","õ","ö","ù","ù","û","ú","ú","ü"),
@@ -230,10 +240,10 @@ if ( MessageMax < 0 ) MessageMax = 0;
 <div>{$data['TOPIC']['links']}</div>
 <div>{$data['TOPIC']['why_close']}</div>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-   <td align='left' width='20%' nowrap='nowrap'>{$data['TOPIC']['SHOW_PAGES']}&nbsp;{$data['TOPIC']['go_new']}&nbsp;{$data['TOPIC']['go_last']}</td>
-   <td align='right' width='80%'>{$data[TOPIC][REPLY_BUTTON]}{$data[TOPIC][TOPIC_BUTTON]}{$data[TOPIC][POLL_BUTTON]}{$data[TOPIC][SOLVE_UPPER_BUTTON]}</td>
-  </tr>
+<tr>
+ <td align='left' width='20%' nowrap='nowrap'>{$data['TOPIC']['SHOW_PAGES']}&nbsp;{$data['TOPIC']['go_new']}&nbsp;{$data['TOPIC']['go_last']}</td>
+ <td align='right' width='80%'>{$data[TOPIC][REPLY_BUTTON]}{$data[TOPIC][TOPIC_BUTTON]}{$data[TOPIC][POLL_BUTTON]}{$data[TOPIC][SOLVE_UPPER_BUTTON]}</td>
+</tr>
 </table>
 <br>
 <div class='tableborder'>
@@ -241,42 +251,41 @@ if ( MessageMax < 0 ) MessageMax = 0;
   <!--{IBF.POLL}-->
   {$data['TOPIC']['modform_open']}
   <div align='right' class='postlinksbar'>
-    <b><!--{IBF.START_NEW_POLL}-->{$data['TOPIC']['subscribe']} |
-    <a href='{$ibforums->base_url}act=Forward&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['forward']}</a> |
-    <a href='{$ibforums->base_url}act=Print&amp;client=choose&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['av_title']}</a>{$data['TOPIC']['fav_text']}</b>
+  <b><!--{IBF.START_NEW_POLL}-->{$data['TOPIC']['subscribe']} |
+  <a href='{$ibforums->base_url}act=Forward&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['forward']}</a> |
+  <a href='{$ibforums->base_url}act=Print&amp;client=choose&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['av_title']}</a>{$data['TOPIC']['fav_text']}</b>
   </div>
 
 EOF;
 }
 
 function quick_reply_box_open($fid="",$tid="",$show="hide", $warning = "", $key="", $syntax_select = "", $mod_buttons = "", $topic_decided = "") {
-  global $ibforums, $std;
-  $out = <<<EOF
+global $ibforums, $std;
+$out = <<<EOF
 {$warning}
 <div align='left' id='qr_open' style="display:$show;position:relative;">
-  <form name='REPLIER' action="{$ibforums->base_url}" method='post' onsubmit='return ValidateForm()' enctype='multipart/form-data'>
-    <input type='hidden' name='act' value='Post'>
-    <input type='hidden' name='CODE' value='03'>
-    <input type='hidden' name='f' value='$fid'>
-    <input type='hidden' name='t' value='$tid'>
-    <input type='hidden' name='st' value='{$ibforums->input['st']}'>
-    <input type='hidden' name='auth_key' value='$key'>
-    <input type='hidden' name='add_merge_edit' value='1'>
-    <div class="tableborder">
-      <table cellpadding="0" cellspacing="0" width="100%">
-      <!--IBF.NAME_FIELD-->
+<form name='REPLIER' action="{$ibforums->base_url}" method='post' onsubmit='return ValidateForm()' enctype='multipart/form-data'>
+<input type='hidden' name='act' value='Post'>
+<input type='hidden' name='CODE' value='03'>
+<input type='hidden' name='f' value='$fid'>
+<input type='hidden' name='t' value='$tid'>
+<input type='hidden' name='st' value='{$ibforums->input['st']}'>
+<input type='hidden' name='auth_key' value='$key'>
+<input type='hidden' name='add_merge_edit' value='1'>
+<div class="tableborder">
+<table cellpadding="0" cellspacing="0" width="100%">
+<!--IBF.NAME_FIELD-->
 EOF;
-
-  $out .= $this->post()->postbox_buttons('', $syntax_select, $mod_buttons, $topic_decided);
-  $out .= '<!--UPLOAD FIELD-->';
-  $out .= $this->post()->EndForm($ibforums->lang['submit_reply']);
-  $out .= <<<EOF
-      </table>
-    </div>
-  </form>
+$out .= $this->post()->postbox_buttons('', $syntax_select, $mod_buttons, $topic_decided);
+$out .= '<!--UPLOAD FIELD-->';
+$out .= $this->post()->EndForm($ibforums->lang['submit_reply']);
+$out .= <<<EOF
+</div>
+</table>
+</form>
 </div>
 EOF;
-  return $out;
+return $out;
 }
 
 function Upload_field($data) {

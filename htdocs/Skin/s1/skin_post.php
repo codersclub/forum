@@ -3,15 +3,15 @@
 class skin_post {
 
 function poll_options() {
-  global $ibforums;
-  $output = <<<EOF
+global $ibforums;
+$output = <<<EOF
 <script language='JavaScript'>
 function chk_multi() {
- document.REPLIER.multi_poll.checked = true
- document.REPLIER.weighted_poll.checked = false;
+document.REPLIER.multi_poll.checked = true
+document.REPLIER.weighted_poll.checked = false;
 } 
 function off_weighted() {
- document.REPLIER.weighted_poll.checked = false;
+document.REPLIER.weighted_poll.checked = false;
 } 
 </script>
 
@@ -22,66 +22,58 @@ function off_weighted() {
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['pe_make_multi']}</b></td>
  <td class='pformright' colspan='2'>
-  <input name='multi_poll' type='checkbox' class='forminput' id="multi_poll" value='1' size='40' onClick='javscript:off_weighted()'>
-  {$ibforums->lang['pe_min']}: <select name='multi_poll_min' class='forminput' onChange='javscript:chk_multi()'>
+ <input name='multi_poll' type='checkbox' class='forminput' id="multi_poll" value='1' size='40' onClick='javscript:off_weighted()'>
+ {$ibforums->lang['pe_min']}: <select name='multi_poll_min' class='forminput' onChange='javscript:chk_multi()'>
 EOF;
-
-  for ($i=1; $i<$ibforums->vars['max_poll_choices']; $i++) {
-    $output .= "<option value='$i'>$i</option>";
-  }
-
-  $output .= <<<EOF
-  </select>
-  {$ibforums->lang['pe_max']}: <select name='multi_poll_max' class='forminput' onChange='javscript:chk_multi()'>
+for ($i=1; $i<$ibforums->vars['max_poll_choices']; $i++) {
+ $output .= "<option value='$i'>$i</option>";
+}
+$output .= <<<EOF
+ </select>
+ {$ibforums->lang['pe_max']}: <select name='multi_poll_max' class='forminput' onChange='javscript:chk_multi()'>
 EOF;
-
-  for ($i=1; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
-    $output .= "<option value='$i'>$i</option>";
-  }
-
-  $output .= <<<EOF
-  </select> {$ibforums->lang['pe_make_multi_def']}
- </td>
+for ($i=1; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
+ $output .= "<option value='$i'>$i</option>";
+}
+$output .= <<<EOF
+ </select> {$ibforums->lang['pe_make_multi_def']}
+</td>
 </tr>
 
 <script language='Javascript'>
 function chk_weighted() {
- document.REPLIER.weighted_poll.checked = true;
- document.REPLIER.multi_poll.checked = false;
+document.REPLIER.weighted_poll.checked = true;
+document.REPLIER.multi_poll.checked = false;
 } 
 function off_multi() {
- document.REPLIER.multi_poll.checked = false;
+document.REPLIER.multi_poll.checked = false;
 } 
 </script>
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['pe_make_weighted']}</b></td>
  <td class='pformright' colspan='2'>
-  <input name='weighted_poll' type='checkbox' class='forminput' id="weighted_poll" value='1' size='40' onClick='javscript:off_multi()'>
-  {$ibforums->lang['pe_places']}: <select name='weighted_poll_places' class='forminput' onChange='javscript:chk_weighted()'>
+ <input name='weighted_poll' type='checkbox' class='forminput' id="weighted_poll" value='1' size='40' onClick='javscript:off_multi()'>
+{$ibforums->lang['pe_places']}: <select name='weighted_poll_places' class='forminput' onChange='javscript:chk_weighted()'>
 EOF;
-
-  for ($i=2; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
-    $output .= "<option value='$i'>$i</option>";
-  }
-  $output .= <<<EOF
-  </select> {$ibforums->lang['pe_make_weighted_def']}
- </td>
+for ($i=2; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
+ $output .= "<option value='$i'>$i</option>";
+}
+$output .= <<<EOF
+ </select> {$ibforums->lang['pe_make_weighted_def']}
+</td>
 </tr>
 <tr>
- <td class='pformleft'>{$ibforums->lang['poll_life_descr1']}</td>
- <td class='pformright'>
-  <input type='text' size='10' name='life' class='textinput'>
-  <br><br>
-  {$ibforums->lang['poll_life_descr2']}
- </td>
+<td class='pformleft'>{$ibforums->lang['poll_life_descr1']}</td>
+<td class='pformright'><input type='text' size='10' name='life' class='textinput'>
+<br><br>{$ibforums->lang['poll_life_descr2']}</td>
 </tr>
 EOF;
-  return $output;
+return $output;
 }
 
 function poll_end_form($data) {
-  global $ibforums;
-  return <<<EOF
+global $ibforums;
+return <<<EOF
 
 <tr>
   <td class='pformstrip' align='center' style='text-align:center' colspan="2">
@@ -134,6 +126,19 @@ return <<<EOF
     <td class='pformleft'>{$ibforums->lang['mod_options']}</td>
     <td class='pformright'>$jump</select></td>
   </tr>
+
+EOF;
+}
+
+
+function add_edit_box($checked="") {
+global $ibforums;
+return <<<EOF
+
+<tr>
+  <td class='pformleft'><b>{$ibforums->lang['edit_ops']}</b></td>
+  <td class='pformright'><input type='checkbox' name='add_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['append_edit']}</td>
+</tr>
 
 EOF;
 }
@@ -224,6 +229,7 @@ return <<<EOF
 EOF;
 }
 
+
 function topictitle_fields($data) {
 global $ibforums;
 return <<<EOF
@@ -276,18 +282,6 @@ EOF;
 }
 
 
-function add_edit_box($checked="") {
-global $ibforums;
-return <<<EOF
-
-<tr>
-  <td class='pformleft'><b>{$ibforums->lang['edit_ops']}</b></td>
-  <td class='pformright'><input type='checkbox' name='add_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['append_edit']}</td>
-</tr>
-
-EOF;
-}
-
 function get_box_enableemo($checked) {
 global $ibforums;
 return <<<EOF
@@ -332,29 +326,6 @@ return <<<EOF
 
 EOF;
 }
-
-function get_box_enablesig($checked) {
-global $ibforums;
-return <<<EOF
-
-<br><input type='checkbox' name='enablesig' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_sig']}
-
-EOF;
-}
-
-function add_merge_edit_box($checked="") {
-global $ibforums;
-return <<<EOF
-
-<tr>
-  <td class='pformleft'>{$ibforums->lang['edit_merge_ops']}</td>
-  <td class='pformright'><input type='checkbox' name='add_merge_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['edit_merge_answer']}</td>
-</tr>
-
-EOF;
-}
-
-
 
 function get_box_alreadytrack() {
 global $ibforums;
@@ -405,7 +376,7 @@ return $res;
 }
 
 function pm_postbox_buttons($data, $syntax_select = "") {
-  return $this->postbox_buttons($data, $syntax_select, '','');
+return $this->postbox_buttons($data, $syntax_select, '','');
 }
 
 
@@ -438,8 +409,6 @@ var error_no_height     = "{$ibforums->lang['jscode_error_no_height']}";
 var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}";
 var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}";
 var text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}";
-var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
-var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 var list_prompt         = "{$ibforums->lang['js_tag_list']}";
 var prompt_start        = "{$ibforums->lang['js_text_to_format']}";
 var tt_prompt		= "{$ibforums->lang['tt_prompt']}";
@@ -450,6 +419,20 @@ var js_no_message	= "{$ibforums->lang['js_no_message']}";
 var js_max_length	= "{$ibforums->lang['js_max_length']}";
 var js_characters	= "{$ibforums->lang['js_characters']}";
 var js_current		= "{$ibforums->lang['js_current']}";
+var error_no_url        = "{$ibforums->lang['jscode_error_no_url']}";
+var error_no_title      = "{$ibforums->lang['jscode_error_no_title']}";
+var error_no_email      = "{$ibforums->lang['jscode_error_no_email']}";
+var error_no_width      = "{$ibforums->lang['jscode_error_no_width']}";
+var error_no_height     = "{$ibforums->lang['jscode_error_no_height']}";
+var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}";
+var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}";
+var text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}";
+var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
+var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
+
+
+var list_prompt         = "{$ibforums->lang['js_tag_list']}";
+var prompt_start        = "{$ibforums->lang['js_text_to_format']}";
 var MessageMax  	= "{$ibforums->lang['the_max_length']}";
 var Override    	= "{$ibforums->lang['override']}";
 var rusLet		= new Array("Э","Щ","Щ","Ч","Ч","Ш","Ш","Ё","Ё","Ё","Ё","Ю","Ю","Ю","Ю","Я","Я","Я","Я","Ж","Ж","А","Б","В","Г","Д","Е","З","ИЙ","ИЙ","ЫЙ","ЫЙ","И","Й","К","КС","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Щ","Ы","э","щ","ч","ш","ё","ё","ю","ю","я","я","ж","а","б","в","г","д","е","з","ий","ий","ый","ый","и","й","к","кс","л","м","н","о","п","р","с","т","у","ф","х","ц","щ","щ","ы","ъ","ъ","ь");
@@ -486,6 +469,16 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['guest_name']}</td>
   <td class='pformright'><input type='text' size='40' maxlength='40' name='UserName' value='$data' class='textinput'></td>
 </tr>
+
+EOF;
+}
+
+
+function get_box_enablesig($checked) {
+global $ibforums;
+return <<<EOF
+
+<br><input type='checkbox' name='enablesig' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_sig']}
 
 EOF;
 }
@@ -562,129 +555,142 @@ EOF;
 }
 
 
-function postbox_buttons($data, $syntax_select = "", $mod_buttons = "", $topic_decided = "") {
-  global $ibforums;
-//$ipicture = $ibforums->vars['use_ipicture_button']
-//	? "<a href='http://ipicture.ru/' target='ipicture' style='text-decoration:none' title='{$ibforums->lang['ipicture_title']}'><input type='button' value=' iPicture ' class='codebuttons' name='ipicture'></a>"
-//	: "";
-  $ipicture = $ibforums->vars['use_ipicture_button']
-	? "<input type='button' value=' iPicture ' class='codebuttons' name='ipicture' title='{$ibforums->lang['ipicture_title']}' onclick='PopUp(\"http://ipicture.ru/\", \"iPicture\", 640,480,1,1,1)'>"
-	: "";
-		
-  return <<<EOF
+function add_merge_edit_box($checked="") {
+global $ibforums;
+return <<<EOF
 
-  <tr>
-    <td class='pformstrip' colspan='2'>{$ibforums->lang['ib_code_buttons']}</td>
-  </tr>
-  <tr>
-    <td class='pformright' align='center' colspan='2'>
-      <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode_{$ibforums->vars['ibf_script_version']}.js'></script>
-      <select name='ffont' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'FONT')">
-        <option value='0'>{$ibforums->lang['ct_font']}</option>
-        <option value='Arial' style='font-family:Arial'>{$ibforums->lang['ct_arial']}</option>
-        <option value='Times' style='font-family:Times'>{$ibforums->lang['ct_times']}</option>
-        <option value='Courier' style='font-family:Courier'>{$ibforums->lang['ct_courier']}</option>
-        <option value='Impact' style='font-family:Impact'>{$ibforums->lang['ct_impact']}</option>
-        <option value='Geneva' style='font-family:Geneva'>{$ibforums->lang['ct_geneva']}</option>
-        <option value='Optima' style='font-family:Optima'>Optima</option>
-      </select>
-
-      <select name='fsize' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'SIZE')">
-        <option value='0'>{$ibforums->lang['ct_size']}</option>
-        <option value='1'>{$ibforums->lang['ct_sml']}</option>
-        <option value='7'>{$ibforums->lang['ct_lrg']}</option>
-        <option value='14'>{$ibforums->lang['ct_lest']}</option>
-      </select>
-
-      <select name='fcolor' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'COLOR')">
-        <option value='0'>{$ibforums->lang['ct_color']}</option>
-        <option value='black' style='color:black'>{$ibforums->lang['ct_black']}</option>
-        <option value='blue' style='color:blue'>{$ibforums->lang['ct_blue']}</option>
-        <option value='red' style='color:red'>{$ibforums->lang['ct_red']}</option>
-        <option value='purple' style='color:purple'>{$ibforums->lang['ct_purple']}</option>
-        <option value='orange' style='color:orange'>{$ibforums->lang['ct_orange']}</option>
-        <option value='yellow' style='color:yellow'>{$ibforums->lang['ct_yellow']}</option>
-        <option value='gray' style='color:gray'>{$ibforums->lang['ct_grey']}</option>
-        <option value='green' style='color:green'>{$ibforums->lang['ct_green']}</option>
-      </select>
-
-
-      <input type='button' accesskey='b' value=' B ' onclick='simpletag("B")' class='codebuttons' name='B' title='Bold' style="font-weight:bold">
-      <input type='button' accesskey='i' value=' I ' onclick='simpletag("I")' class='codebuttons' name='I' title='Italic' style="font-style:italic">
-      <input type='button' accesskey='u' value=' U ' onclick='simpletag("U")' class='codebuttons' name='U' title='Underline' style="text-decoration:underline">
-      <input type='button' accesskey='s' value=' S ' onclick='simpletag("S")' class='codebuttons' name='S' title='Strike' style="text-decoration:line-through">
-      <input type='button' accesskey='o' value=' O ' onclick='simpletag("O")' class='codebuttons' name='O' title='Overline' style="text-decoration:overline">
-
-      <!-- barazuk: [o] [sub] [sup] -->
-      <input type='button' value='sub' onclick='simpletag("sub")' class='codebuttons' name='sub' title='Subscript'>
-      <input type='button' value='sup' onclick='simpletag("sup")' class='codebuttons' name='sup' title='Superscript'>
-
-      <input type='button' value=' L ' onclick='simpletag("L")' class='codebuttons' name='L' title='Left'">
-      <input type='button' accesskey='с' value=' C ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
-      <input type='button' accesskey='r' value=' R ' onclick='simpletag("R")' class='codebuttons' name='R' title='Rigth'">
-	   
-      <!-- e-moe: table buttons -->
-      <input value='table' onclick='tag_table()' class='codebuttons' name='table' title='Таблица' type='button'>
-      <input value='tr' onclick='simpletag("tr")' class='codebuttons' name='tr' title='Ряд' type='button'>
-      <input value='td' onclick='simpletag("td")' class='codebuttons' name='td' title='Ячейка' type='button'>
-      <input value='th' onclick='simpletag("th")' class='codebuttons' name='th' title='Шапка' type='button'>
-			 
-      <!-- barazuk: [HR] -->
-      <input type='button' value='hr' onclick='doInsert("[HR]", true)' class='codebuttons' name='hr' title='Horizontal Line'>&nbsp;
-
-			 
-
-      {$syntax_select}
-
-      <!--div style="height:3px"--><!-- --><!--/div-->
-
-      <input type='button' accesskey='l' value=' LIST ' onclick='tag_list()' class='codebuttons' name="LIST">&nbsp;
-      <input type='button' accesskey='q' value='QUOTE' onclick='simpletag("QUOTE")' class='codebuttons' name='QUOTE'>
-      <input type='button' accesskey='p' value='Spoiler' onclick='tag_spoiler()' class='codebuttons' name='spoiler'>
-      <input type='button' accesskey='h' value=' http:// ' onclick='tag_url()' class='codebuttons' name='url'>
-      <input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
-
-      <!-- iPicture.ru Button -->
-      {$ipicture}
-	   
-      <input type='button' accesskey='y' value='TRANSLIT' onClick='rusLang()'class='codebuttons' name="TRANSLIT">
-      <input type='button' accesskey='r' value='Русская клавиатура' onclick='javascript:keyb_pop()' class='codebuttons'>
-
-      &nbsp;&nbsp;
-      <input type='button' value='{$ibforums->lang['js_close_all_tags']}' onclick='javascript:closeall();' class='codebuttons'>
-      {$mod_buttons}
-    </td>
-  </tr>
-  {$topic_decided}
-  <tr>
-    <td class='pformstrip' colspan='2'>{$ibforums->lang['post']}</td>
-  </tr>
-  <tr>
-    <td class='pformleft' align='center' width='10%'>
-      <!--SMILIE TABLE-->
-      <br>
-      <div class='desc'><strong>&middot; <a href='javascript:bbc_pop()'>{$ibforums->lang['bbc_help']}</a> &middot;</strong></div>
-    </td>
-    <td class="pformright" valign='top'>
-      <textarea name='Post' rows='24'
-        onKeyPress='if (event.keyCode==10 || ((event.metaKey || event.ctrlKey) && event.keyCode==13))
-	this.form.submit.click()' tabindex='3' class='textinput' style='width:99%;'>$data</textarea>
-    </td>
-  </tr>
-  <tr>
-    <td class='pformleft'><b>{$ibforums->lang['po_options']}</b></td>
-    <td class='pformright'>
-      <!--IBF.EMO-->
-      <!--IBF.TRACK-->
-      <!--IBF.FAV-->
-      <!--IBF.MERGE-->
-      <!--IBF.OFFTOP-->
-      <!--IBF.BUMP-->
-    </td>
-  </tr>
+<tr>
+  <td class='pformleft'>{$ibforums->lang['edit_merge_ops']}</td>
+  <td class='pformright'><input type='checkbox' name='add_merge_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['edit_merge_answer']}</td>
+</tr>
 
 EOF;
 }
 
 
-} // Class
+function postbox_buttons($data, $syntax_select = "", $mod_buttons = "", $topic_decided = "") {
+global $ibforums;
+//$ipicture = $ibforums->vars['use_ipicture_button']
+//	? "<a href='http://ipicture.ru/' target='ipicture' style='text-decoration:none' title='{$ibforums->lang['ipicture_title']}'><input type='button' value=' iPicture ' class='codebuttons' name='ipicture'></a>"
+//	: "";
+$ipicture = $ibforums->vars['use_ipicture_button']
+	? "<input type='button' value=' iPicture ' class='codebuttons' name='ipicture' title='{$ibforums->lang['ipicture_title']}' onclick='PopUp(\"http://ipicture.ru/\", \"iPicture\", 640,480,1,1,1)'>"
+	: "";
+		
+return <<<EOF
+
+<tr><td class='pformstrip' colspan='2'>{$ibforums->lang['ib_code_buttons']}</td></tr>
+<tr>
+   <td class='pformright' align='center' colspan='2'>
+     <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode_{$ibforums->vars['ibf_script_version']}.js'></script>
+	   <select name='ffont' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'FONT')">
+	   <option value='0'>{$ibforums->lang['ct_font']}</option>
+	   <option value='Arial' style='font-family:Arial'>{$ibforums->lang['ct_arial']}</option>
+	   <option value='Times' style='font-family:Times'>{$ibforums->lang['ct_times']}</option>
+	   <option value='Courier' style='font-family:Courier'>{$ibforums->lang['ct_courier']}</option>
+	   <option value='Impact' style='font-family:Impact'>{$ibforums->lang['ct_impact']}</option>
+	   <option value='Geneva' style='font-family:Geneva'>{$ibforums->lang['ct_geneva']}</option>
+	   <option value='Optima' style='font-family:Optima'>Optima</option>
+	   </select>
+
+	   <select name='fsize' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'SIZE')">
+	   <option value='0'>{$ibforums->lang['ct_size']}</option>
+	   <option value='1'>{$ibforums->lang['ct_sml']}</option>
+	   <option value='7'>{$ibforums->lang['ct_lrg']}</option>
+	   <option value='14'>{$ibforums->lang['ct_lest']}</option>
+	   </select>
+
+	   <select name='fcolor' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'COLOR')">
+	   <option value='0'>{$ibforums->lang['ct_color']}</option>
+	   <option value='black' style='color:black'>{$ibforums->lang['ct_black']}</option>
+	   <option value='blue' style='color:blue'>{$ibforums->lang['ct_blue']}</option>
+	   <option value='red' style='color:red'>{$ibforums->lang['ct_red']}</option>
+	   <option value='purple' style='color:purple'>{$ibforums->lang['ct_purple']}</option>
+	   <option value='orange' style='color:orange'>{$ibforums->lang['ct_orange']}</option>
+	   <option value='yellow' style='color:yellow'>{$ibforums->lang['ct_yellow']}</option>
+	   <option value='gray' style='color:gray'>{$ibforums->lang['ct_grey']}</option>
+	   <option value='green' style='color:green'>{$ibforums->lang['ct_green']}</option>
+	   </select>
+
+
+	   <input type='button' accesskey='b' value=' B ' onclick='simpletag("B")' class='codebuttons' name='B' title='Bold' style="font-weight:bold">
+	   <input type='button' accesskey='i' value=' I ' onclick='simpletag("I")' class='codebuttons' name='I' title='Italic' style="font-style:italic">
+	   <input type='button' accesskey='u' value=' U ' onclick='simpletag("U")' class='codebuttons' name='U' title='Underline' style="text-decoration:underline">
+	   <input type='button' accesskey='s' value=' S ' onclick='simpletag("S")' class='codebuttons' name='S' title='Strike' style="text-decoration:line-through">
+	   <input type='button' accesskey='o' value=' O ' onclick='simpletag("O")' class='codebuttons' name='O' title='Overline' style="text-decoration:overline">
+
+	   <!-- barazuk: [o] [sub] [sup] -->
+	   <input type='button' value='sub' onclick='simpletag("sub")' class='codebuttons' name='sub' title='Subscript'>
+           <input type='button' value='sup' onclick='simpletag("sup")' class='codebuttons' name='sup' title='Superscript'>
+
+	   <input type='button' value=' L ' onclick='simpletag("L")' class='codebuttons' name='L' title='Left'">
+	   <input type='button' accesskey='с' value=' C ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
+	   <input type='button' accesskey='r' value=' R ' onclick='simpletag("R")' class='codebuttons' name='R' title='Rigth'">
+	   
+         <!-- e-moe: table buttons -->
+         <input value='table' onclick='tag_table()' class='codebuttons' name='table' title='Таблица' type='button'>
+	 <input value='tr' onclick='simpletag("tr")' class='codebuttons' name='tr' title='Ряд' type='button'>
+	 <input value='td' onclick='simpletag("td")' class='codebuttons' name='td' title='Ячейка' type='button'>
+	 <input value='th' onclick='simpletag("th")' class='codebuttons' name='th' title='Шапка' type='button'>
+			 
+	   <!-- barazuk: [HR] -->
+	   <input type='button' value='hr' onclick='doInsert("[HR]", true)' class='codebuttons' name='hr' title='Horizontal Line'>&nbsp;
+
+			 
+
+	   {$syntax_select}
+
+	   <!--div style="height:3px"--><!-- --><!--/div-->
+
+	   <input type='button' accesskey='l' value=' LIST ' onclick='tag_list()' class='codebuttons' name="LIST">&nbsp;
+	   <input type='button' accesskey='q' value='QUOTE' onclick='simpletag("QUOTE")' class='codebuttons' name='QUOTE'>
+	   <input type='button' accesskey='p' value='Spoiler' onclick='tag_spoiler()' class='codebuttons' name='spoiler'>
+	   <input type='button' accesskey='h' value=' http:// ' onclick='tag_url()' class='codebuttons' name='url'>
+	   <input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
+
+           <!-- iPicture.ru Button -->
+           {$ipicture}
+	   
+           <input type='button' accesskey='y' value='TRANSLIT' onClick='rusLang()'class='codebuttons' name="TRANSLIT">
+           <input type='button' accesskey='r' value='Русская клавиатура' onclick='javascript:keyb_pop()' class='codebuttons'>
+
+	   &nbsp;&nbsp;
+	   <input type='button' value='{$ibforums->lang['js_close_all_tags']}' onclick='javascript:closeall();' class='codebuttons'>
+	   {$mod_buttons}
+   </td>
+</tr>
+{$topic_decided}
+<tr>
+   <td class='pformstrip' colspan='2'>{$ibforums->lang['post']}</td>
+</tr>
+<tr>
+   <td class='pformleft' align='center' width='10%'>
+	   <!--SMILIE TABLE-->
+	   <br>
+           <div class='desc'><strong>&middot; <a href='javascript:bbc_pop()'>{$ibforums->lang['bbc_help']}</a> &middot;</strong></div>
+   </td>
+   <td class="pformright" valign='top'>
+    <textarea name='Post' rows='24'
+        onKeyPress='if (event.keyCode==10 || ((event.metaKey || event.ctrlKey) && event.keyCode==13))
+	this.form.submit.click()' tabindex='3' class='textinput' style='width:99%;'>$data</textarea>
+   </td>
+</tr>
+<tr>
+    <td class='pformleft'><b>{$ibforums->lang['po_options']}</b>
+    </td>
+    <td class='pformright'>
+	 <!--IBF.EMO-->
+	 <!--IBF.TRACK-->
+	 <!--IBF.FAV-->
+	 <!--IBF.MERGE-->
+	 <!--IBF.OFFTOP-->
+	 <!--IBF.BUMP-->
+    </td>
+</tr>
+
+EOF;
+}
+
+
+}
+?>
