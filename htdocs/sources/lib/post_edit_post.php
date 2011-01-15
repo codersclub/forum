@@ -22,6 +22,7 @@
 */
 
 
+require_once dirname(__FILE__).'/PostEditHistory.php';
 
 class post_functions extends Post {
 
@@ -645,6 +646,8 @@ class post_functions extends Post {
 		$DB->query("UPDATE ibf_posts
 			    SET $db_string
 			    WHERE pid='".$this->post['pid']."'");
+		
+		PostEditHistory::addItem($this->post['pid'], $this->orig_post['post']);
 
 
 
@@ -676,13 +679,36 @@ class post_functions extends Post {
 	
 		global $ibforums, $std, $DB, $print;
 		
+		if (isset($ibforums->input['restore_id'])) {
+			$history_item = PostEditHistory::getOneItem($this->orig_post['pid'], $ibforums->input['restore_id'] );
+			$ibforums->input['Post'] = $history_item['old_text'];
+			if (($this->moderator['mid'] != "" &&
+				$ibforums->member['id'] != 0) ||
+				$ibforums->member['g_is_supmod'] == 1)
+			{
+				$modflag = true;
+			} else {
+				$modflag = false;
+			}
+            $ibforums->input['Post'] = 
+			$this->post['post']	= $class->parser->convert( 
+				 array(
+					'TEXT'     => $ibforums->input['Post'],
+					'SMILIES'  => $ibforums->input['enableemo'],
+					'CODE'     => $class->forum['use_ibc'],
+					'HTML'     => $class->forum['use_html'],
+					'MOD_FLAG' => $modflag,
+					), 
+				$this->forum['id'] );
+		}
+		
 		//-------------------------------------------------
 		// Sort out the "raw" textarea input and make it safe incase
 		// we have a <textarea> tag in the raw post var.
 		//-------------------------------------------------
-
-		$raw_post = isset($_POST['Post'])  
-			  ? $std->txt_htmlspecialchars($_POST['Post']) 
+		
+		$raw_post = isset($ibforums->input['Post'])  
+			  ? $std->txt_htmlspecialchars($ibforums->input['Post']) 
 			  : $class->parser->unconvert($this->orig_post['post'], $class->forum['use_ibc'], $class->forum['use_html']);
 
 		if ( isset($raw_post) )
@@ -699,8 +725,8 @@ class post_functions extends Post {
 		
 		if ( $this->edit_title == 1 )
 		{
-			$topic_title = isset($_POST['TopicTitle']) ? $ibforums->input['TopicTitle'] : $this->topic['title'];
-			$topic_desc  = isset($_POST['TopicDesc'])  ? $ibforums->input['TopicDesc']  : $this->topic['description'];
+			$topic_title = isset($ibforums->input['TopicTitle']) ? $ibforums->input['TopicTitle'] : $this->topic['title'];
+			$topic_desc  = isset($ibforums->input['TopicDesc'])  ? $ibforums->input['TopicDesc']  : $this->topic['description'];
 			
 			$topic_title = $class->html->topictitle_fields( array( 'TITLE' => $topic_title, 'DESC' => $topic_desc ) );
 

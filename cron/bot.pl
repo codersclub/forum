@@ -109,33 +109,11 @@ my @task_list = (
 		'DTL'		=> 30
 	},
 	{
-		'TITLE'		=> "4.1 Remove topic visits logs:\n",
+		'TITLE'		=> "4. Clear posts edit history (items older 180 days ):\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_m_visitors
-						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DELETE'	=> 'DELETE FROM ibf_post_edit_history WHERE edit_time < $age',
 		'DTL'		=> 30
-	},
-	{
-		'TITLE'		=> "4.2 Remove topic visits logs:\n",
-		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_g_visitors
-						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
-		'DTL'		=> 30
-	},
-	{
-		'TITLE'		=> "4.3 Remove topic visits logs:\n",
-		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_b_visitors
-						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
-		'DTL'		=> 30
-	},
-	{
-		'TITLE'		=> "4.3 Remove topic visits logs:\n",
-		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_users_stat
-						    WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
-		'DTL'		=> 30
-	},
+ 	}
 #	{
 #		'TITLE'		=> "5 Delete delayed posts:\n",
 #		'SELECT'	=> '',

@@ -2586,7 +2586,7 @@ echo "-----------------<br>\n";
         return gmdate($this->time_options[$method], ($date + $this->offset) );
     }
 
-   function get_date($date, $method, $html = 1) {
+   function get_date($date, $method = '', $html = 1) {
    global $ibforums;
 
         if ( !$date ) return '--';
