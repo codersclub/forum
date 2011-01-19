@@ -399,7 +399,7 @@ class db_driver {
 		
 		foreach ($data as $k => $v)
 		{
-			$v = preg_replace( "/'/", "\\'", $v );
+			$v = $this->quote($v);// preg_replace( "/'/", "\\'", $v );
 			//$v = preg_replace( "/#/", "\\#", $v );
 			$field_names  .= "$k,";
 			$field_values .= "'$v',";

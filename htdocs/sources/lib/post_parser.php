@@ -1195,7 +1195,7 @@ class post_parser {
 
 	$txt = preg_replace( "#\[mm\](.+?)\[/mm\]#ies", "\$this->regex_moderator_message('\\1')", $txt);
 
-        $txt = preg_replace( "#\[mod\](.+?)\[/mod\]#ies", "\$this->regex_mod_tag('\\1')", $txt );
+        $txt = preg_replace_callback("#\[mod\](.+?)\[/mod\]#is", array($this, 'regex_mod_tag')/* "\$this->regex_mod_tag('\\1')"*/, $txt );
       
         $txt = preg_replace( "#\[ex\](.+?)\[/ex\]#ies", "\$this->regex_exclaime_tag('\\1')", $txt );
 
@@ -2140,9 +2140,9 @@ class post_parser {
 
         function regex_mod_tag($txt="") {
                 global $ibforums;
-
+				
                 if ( !$txt ) return;
-
+				$txt = $txt[1];
                 // Take a stab at removing most of the common
                 // smilie characters.
 
