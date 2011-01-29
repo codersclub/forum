@@ -705,10 +705,14 @@ class post_functions extends Post {
 		//-------------------------------------------------
 		// Sort out the "raw" textarea input and make it safe incase
 		// we have a <textarea> tag in the raw post var.
+		//
+		// использовать нужно именно $_POST['Post'], ибо переменная в $ibforums->input пропущена через FUNC::clean_value()
+		// и после пропускания ещё через txt_htmlspecialchars, получается ерунда. В дальнейшем, их надо бы согласовать как-нибудь
+		// но сначала надо разобраться какая ф-ция, как и где используется.
 		//-------------------------------------------------
 		
-		$raw_post = isset($ibforums->input['Post'])  
-			  ? $std->txt_htmlspecialchars($ibforums->input['Post']) 
+		$raw_post = isset($_POST['Post'])  
+			  ? $std->txt_htmlspecialchars($_POST['Post']) 
 			  : $class->parser->unconvert($this->orig_post['post'], $class->forum['use_ibc'], $class->forum['use_html']);
 
 		if ( isset($raw_post) )
