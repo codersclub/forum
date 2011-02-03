@@ -565,6 +565,9 @@ A.warn_gr	{
     BACKGROUND-COLOR: #777777;
     COLOR: #333333;
 }
+.pinned_topic .desc, .pinned_topic .desc a:link {
+	color: #222;
+}
 
 #ucpmenu {
     BORDER-RIGHT: #444444 1px solid; 
