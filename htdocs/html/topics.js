@@ -201,7 +201,7 @@ function startAutoDelete(default_days,el) {
 				$(select).replaceWith(
 						$('<a/>')
 							.attr('href',link)
-							.attr('onclick', 'return startAutoDelete(' + count + ',this)')
+							.click(function(e) {e.stopPropagation();e.preventDefault();return startAutoDelete(count,e.target);})
 							.text(text)
 						);
 			};
@@ -248,7 +248,8 @@ function stopAutoDelete(default_days,el)
 		});
 	};
 	$(el).text(post_delete1);
-	$(el).attr('onclick', 'return startAutoDelete(' + default_days + ',this)');
+	$(el).removeAttr('onclick');
+	$(el).click(function(e) {e.stopPropagation();e.preventDefault();return startAutoDelete(default_days,e.target);});
 	do_request();
 	changeAutodeleteMessage(el,'');
 	return false;
