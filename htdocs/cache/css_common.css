@@ -1,3 +1,8 @@
+img.icon_off{
+	opacity: 0.5;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+}
+
 .p	{table-layout:fixed}
 .code{
     margin:2px 0px 0px 0px;

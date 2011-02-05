@@ -1308,6 +1308,7 @@ class UserCP {
 		$show_img  	= "<select name='ICONS' class='forminput'>";
 		$show_ratting  	= "<select name='RATTING' class='forminput'>";
 		$show_filter  	= "<select name='FILTER' class='forminput'>";
+		$forum_icon  	= "<select name='FORUM_ICON' class='forminput'>";
 		$css_method  	= "<select name='CSS' class='forminput'>";
 		$syntax_method  = "<select name='SYNTAX' class='forminput'>";
 		$syntax_lines_count  = "<select name='SYNTAX_LINES_COUNT' class='forminput'>";
@@ -1356,6 +1357,10 @@ class UserCP {
 		$css_method  	.= $this->member['css_method'] == "inline" 
 				? "<option value='inline' selected='selected'>".$ibforums->lang['inline']."</option>\n<option value='external'>".$ibforums->lang['external']."</option>"
 	  		 	: "<option value='inline'>".$ibforums->lang['inline']."</option>\n<option value='external' selected='selected'>".$ibforums->lang['external']."</option>"; 
+
+		$forum_icon  	.= $this->member['forum_icon'] == 1 
+				? "<option value='1' selected='selected'>".$ibforums->lang['yes']."</option>\n<option value='0'>".$ibforums->lang['no']."</option>"
+	  		 	: "<option value='1'>".$ibforums->lang['yes']."</option>\n<option value='0' selected='selected'>".$ibforums->lang['no']."</option>"; 		
 		
 	        if ( $this->member['syntax'] == "client" )
 		{
@@ -1435,6 +1440,7 @@ class UserCP {
  									'SYNTAX_USE_LINE_COLOURING' => $this->yes_no_select($this->member['syntax_use_line_colouring'], 'SYNTAX_USE_LINE_COLOURING', 1),
  									'SHOW_NEW'	=> $show_new."</select>",
 								    'CSS'	=> $css_method."</select>",
+								    'FORUM_ICON'	=> $forum_icon."</select>",
 								    'TPS'  	=> $topic_select,
 								    'PPS'  	=> $post_select,
  		 							'PSP'  => "<input name='VIEW_POST_WRAP_SIZE' type='text' value='".$ibforums->member['post_wrap_size']."' class='forminput'>",

@@ -1109,6 +1109,10 @@ class ad_forums {
 												  $SKIN->form_input("FORUM_NAME", $f_name)
 									     )      );
 									     
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Icon</b>" ,
+												  $SKIN->form_input("FORUM_ICON", $forum['icon'])
+									     )      );
+									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Description</b><br>You may use HTML - linebreaks are converted 'Auto-Magically'" ,
 												  $SKIN->form_textarea("FORUM_DESC")
 									     )      );
@@ -1354,6 +1358,7 @@ class ad_forums {
 								'last_poster_id'   => "",
 								'last_poster_name' => "",
 								'name'             => $IN['FORUM_NAME'],
+								'icon'             => $IN['FORUM_ICON'],
 								'description'      => $std->my_nl2br( $std->txt_stripslashes($_POST['FORUM_DESC']) ),
 								'use_ibc'          => $IN['FORUM_IBC'],
 								'use_html'         => $IN['FORUM_HTML'],
@@ -1553,6 +1558,10 @@ class ad_forums {
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Name</b>" ,
 												  $SKIN->form_input("FORUM_NAME", $forum['name'])
+									     )      );
+		
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Icon</b>" ,
+												  $SKIN->form_input("FORUM_ICON", $forum['icon'])
 									     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Description</b><br>You may use HTML - linebreaks 'Auto-Magically' converted to &lt;br&gt;" ,
@@ -1810,6 +1819,7 @@ class ad_forums {
 		$db_string = $DB->compile_db_update_string( array (
 									
 								'name'              => $IN['FORUM_NAME'],
+								'icon'              => $IN['FORUM_ICON'],
 								'description'       => $std->my_nl2br( $std->txt_stripslashes($_POST['FORUM_DESC']) ),
 								'use_ibc'           => $IN['FORUM_IBC'],
 								'use_html'          => $IN['FORUM_HTML'],
@@ -1948,6 +1958,10 @@ class ad_forums {
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Name</b>" ,
 												  $SKIN->form_input("name", $forum['name'])
+									     )      );
+									     
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Icon</b>" ,
+												  $SKIN->form_input("FORUM_ICON", $forum['icon'])
 									     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Forum Description</b>" ,
@@ -2193,6 +2207,7 @@ class ad_forums {
 		
 		$db_string = $DB->compile_db_update_string( array (
 									'name'             => $IN['FORUM_NAME'],
+									'icon'             => $IN['FORUM_ICON'],
 									'description'      => $std->my_nl2br( $std->txt_stripslashes($_POST['desc']) ),
 									'category'         => $IN['CATEGORY'],
 									'subwrap'          => 1,

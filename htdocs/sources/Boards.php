@@ -152,6 +152,7 @@ class Boards {
   							     'position'    => $r['cat_position'],
         						     'state'       => $r['cat_state'],
         						     'name'        => $r['cat_name'],
+        						     'icon'        => $r['cat_icon'],
         						     'description' => $r['cat_desc'],
         						     'image'       => $r['image'],
         						     'url'         => $r['url'],
@@ -1277,9 +1278,12 @@ class Boards {
 
 					$forum_data[$k] = $v;
 				}
+				
+				$forum_data = $this->forum_icon($forum_data);
+				
 // Shaman
-				// do not paint tree if mode is filter
-                                if ( $ibforums->member['show_filter'] )
+// do not paint tree if mode is filter
+				if ( $ibforums->member['show_filter'] )
 				{
 					$forum_data['tree'] = '  <td colspan="2" class="row4" align="center">'.$forum_data['img_new_post'].'</td>';
         
@@ -1497,7 +1501,9 @@ class Boards {
 		
 		$forum_data['posts']  = $std->do_number_format($forum_data['posts']);
 		$forum_data['topics'] = $std->do_number_format($forum_data['topics']);
-
+		
+		$forum_data = $this->forum_icon($forum_data);
+		
 		$forum_data['description'] = str_replace( "/r/n", "<br>", $forum_data['description'] );
 // Shaman
 		if( 0 == $level ) 
@@ -1515,6 +1521,21 @@ class Boards {
                     
 	}
 	
+	/* Sunny (e-boxes@list.ru, 288-681-633): Forum Icon */
+	function forum_icon($forum_data){
+		global $ibforums;
+		
+		if(strlen($forum_data['icon']) > 4 && intval($ibforums->skin['uid']) != 13 && intval($ibforums->member['forum_icon']) == 1){
+			// класс для изображения
+			$class = preg_match("~_OFF~is", $forum_data['img_new_post']) ? ' class="icon_off"' : '';
+			
+			// создаем html
+			$forum_data['img_new_post'] = '<img'.$class.' src="'.$forum_data['icon'].'">';
+		}
+		
+		return $forum_data;
+	}
+	/* End */
 }
 
 ?>
