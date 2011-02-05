@@ -90,7 +90,7 @@ EOF;
 function csite_javascript() {
 global $ibforums;
 return <<<EOF
-<script type='text/javascript' src='{$ibforums->vars['html_url']}/global.js'></script>
+<script type='text/javascript' src='{$ibforums->vars['html_url']}/global.js?{$ibforums->vars['client_script_version']}'></script>
 EOF;
 }
 
@@ -115,7 +115,7 @@ global $ibforums;
 return <<<EOF
 <style type='text/css' media="all">
 <!--
-<link href="{$ibforums->vars['board_url']}/css/css_{$css}.css" rel="stylesheet" type="text/css">
+<link href="{$ibforums->vars['board_url']}/css/css_{$css}.css?{$ibforums->vars['client_script_version']}" rel="stylesheet" type="text/css">
 -->
 </style>
 EOF;

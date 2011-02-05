@@ -401,7 +401,7 @@ if (navigator.userAgent.indexOf('Mac')        >= 0) { win_ie_ver = 0; }
 if (navigator.userAgent.indexOf('Windows CE') >= 0) { win_ie_ver = 0; }
 if (navigator.userAgent.indexOf('Opera')      >= 0) { win_ie_ver = 0; }
 if (win_ie_ver >= 5.5) {
-  document.write('<scr' + 'ipt src="' +_editor_url+ 'editor.js"');
+  document.write('<scr' + 'ipt src="' +_editor_url+ 'editor.js?{$ibforums->vars['client_script_version']}"');
   document.write(' language="Javascript1.2"></scr' + 'ipt>');
 } else { document.write('<scr'+'ipt>function editor_generate() { return false; }</scr'+'ipt>'); }
 
@@ -1137,7 +1137,7 @@ document.REPLIER.Post.value = textar;
                                         ID="Radio1"> <B>Расширенный режим</B><BR>
                                 <INPUT class="radiobutton" onclick="setmode(this.value)" type="radio" CHECKED value="normal"
                                         name="bbmode" ID="Radio2"> <B>Нормальный режим</B>
-                                <SCRIPT src="{$ibforums->vars['html_url']}/ibfcode.js" type="text/javascript"></SCRIPT>
+                                <SCRIPT src="{$ibforums->vars['html_url']}/ibfcode.js?{$ibforums->vars['client_script_version']}" type="text/javascript"></SCRIPT>
                         </TD>
                         <TD class="pformright" height="86">
                         <INPUT class="codebuttons" onmouseover="hstat('bold')" style="FONT-WEIGHT: bold" accessKey="b" onclick='simpletag("B")' type="button" value=" B " name="B" ID="Button1">

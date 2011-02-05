@@ -115,7 +115,7 @@ EOF;
 function page_header($title, $row1, $row2) {
 global $ibforums;
 return <<<EOF
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js'></script>
+<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 <div class='tableborder'>
   <div class='maintitle'>$title</div>
   <table class='tablebasic' cellspacing='1' cellpadding='4'>

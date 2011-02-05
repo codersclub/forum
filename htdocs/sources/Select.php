@@ -205,7 +205,7 @@ class Search {
     	
     	$print->add_output("$this->output");
 //Jureth        $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav ) );
-        $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => ( $this->modfunctions ) ? "rows_js.js" : 0, NAV => $this->nav ) );
+        $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => ( $this->modfunctions ) ? "rows_js.js?{$ibforums->vars['client_script_version']}" : 0, NAV => $this->nav ) );
     		
  	}
  	

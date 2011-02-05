@@ -256,7 +256,8 @@ if (file_exists(ROOT_PATH."sources/mods/global_poll/mod_global_poll_adm.php")) {
 						'disable_gzip',
 						'header_redirect',
 						'debug_level',
-						'sql_debug',
+						'client_script_version',
+                        'sql_debug',
 						'auto_pm_on',
 						'auto_pm_from',
 						'auto_pm_subject',
@@ -2020,7 +2021,12 @@ if (file_exists(ROOT_PATH."sources/mods/global_poll/mod_global_poll_adm.php")) {
 										  						 	  ),
 										  						 $INFO['number_format']  )
 								 )      );
-								 
+		$ADMIN->html .= $SKIN->add_td_basic( 'Other', 'left', 'catrow2' );
+		
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Версия клиентских скриптов</b><br>(Измените это значение при обновлении скриптов, чтобы избежать проблем с кешированием у пользователей)" ,
+										  $SKIN->form_input( "client_script_version", $INFO['client_script_version'] )
+								 )      );
+		
  
 		$this->common_footer();
 	

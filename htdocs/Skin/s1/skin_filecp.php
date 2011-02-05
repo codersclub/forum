@@ -702,7 +702,7 @@ function CheckLength() {
    <td class='row4'>
 	   <input type='radio' class='radiobutton' name='bbmode' value='ezmode' onclick='setmode(this.value)' />&nbsp;<b>{$ibforums->lang['bbcode_guided']}</b><br />
 	   <input type='radio' class='radiobutton' name='bbmode' value='normal' onclick='setmode(this.value)' checked="checked" />&nbsp;<b>{$ibforums->lang['bbcode_normal']}</b>
-	   <script type='text/javascript' src='html/ibfcode.js'></script>
+	   <script type='text/javascript' src='html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
    </td>
    <td class='row4'>
 	   <input type='button' accesskey='b' value=' B '       onclick='simpletag("B")' class='codebuttons' name='B' style="font-weight:bold" onmouseover="hstat('bold')" />

@@ -117,7 +117,7 @@ function css_external($css, $img) {
 global $ibforums;
 return <<<EOF
 
-<LINK REL=STYLESHEET TYPE="text/css" HREF="{$ibforums->vars['board_url']}/cache/css_{$css}.css">
+<LINK REL=STYLESHEET TYPE="text/css" HREF="{$ibforums->vars['board_url']}/cache/css_{$css}.css?{$ibforums->vars['client_script_version']}">
 
 EOF;
 }
@@ -464,7 +464,7 @@ var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 </script>
 
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jquery-1.4.2.min.js'></script>
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js'></script>
+<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 
 <table border='0' width='100%' cellspacing='0' cellpadding='1'>
 <tr id='logostrip'>

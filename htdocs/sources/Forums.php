@@ -308,7 +308,7 @@ class Forums {
 
 
         $print->do_output( array( 'TITLE'    => $this->forum['name']." -> ".$ibforums->vars['board_name'],
-    			 	  'JS'       => ( $this->mod ) ? "rows_js.js" : "",
+    			 	  'JS'       => ( $this->mod ) ? "rows_js.js?{$ibforums->vars['client_script_version']}" : "",
         			  'NAV'      => $this->nav_extra,
 				  'RSS'	     => $skin_universal->rss("?f={$this->forum['id']}{$sub}"),
 			) 	);

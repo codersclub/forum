@@ -475,8 +475,8 @@ var engReg		= new Array(/E'/g,/SHCH/g,/Shch/g,/CH/g,/Ch/g,/SH/g,/Sh/g,/YO/g,/JO/
 MessageMax      	= parseInt(MessageMax);
 if ( MessageMax < 0 ) MessageMax = 0;
 </script>
-<script type='text/javascript' src='{$ibforums->vars['html_url']}/topics.js'></script>
-<script type='text/javascript' src='{$ibforums->vars['html_url']}/video.js'></script>
+<script type='text/javascript' src='{$ibforums->vars['html_url']}/topics.js?{$ibforums->vars['client_script_version']}'></script>
+<script type='text/javascript' src='{$ibforums->vars['html_url']}/video.js?{$ibforums->vars['client_script_version']}'></script>
 
 EOF;
 }
@@ -605,7 +605,7 @@ return <<<EOF
 <tr><td class='pformstrip' colspan='2'>{$ibforums->lang['ib_code_buttons']}</td></tr>
 <tr>
    <td class='pformright' align='center' colspan='2'>
-     <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode_{$ibforums->vars['ibf_script_version']}.js'></script>
+     <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
 	   <select name='ffont' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'FONT')">
 	   <option value='0'>{$ibforums->lang['ct_font']}</option>
 	   <option value='Arial' style='font-family:Arial'>{$ibforums->lang['ct_arial']}</option>
@@ -717,4 +717,3 @@ EOF;
 
 
 }
-?>

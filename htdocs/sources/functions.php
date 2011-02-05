@@ -4213,7 +4213,7 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
 	
 		if ( $count )
 		{
-			$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core_{$ibforums->vars['client_highlight_core_version']}.js'></script>\n";
+			$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core.js?{$ibforums->vars['client_script_version']}'></script>\n";
 		}
 	}
 
@@ -4665,7 +4665,7 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
 
 		if ( $count )
 		{
-			$css .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core_{$ibforums->vars['client_highlight_core_version']}.js'></script>\n";
+			$css .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core.js?{$ibforums->vars['client_script_version']}'></script>\n";
 		}
 	}
 

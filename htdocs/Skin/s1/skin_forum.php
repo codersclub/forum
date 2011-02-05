@@ -260,7 +260,7 @@ return <<<EOF
 <script language='javascript' type='text/javascript'>
 var js_base_url = "{$ibforums->js_base_url}";
 </script>
-<script type='text/javascript' src='html/forums.js'></script>
+<script type='text/javascript' src='html/forums.js?{$ibforums->vars['client_script_version']}'></script>
 <table border=0 width="100%"><tr>
 <td align='left'>Модераторы: {$data['moderators']}</td>
 <td align='right'>{$data['quick_search']}</td></tr></table>

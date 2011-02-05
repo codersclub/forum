@@ -184,7 +184,7 @@ if ($info['mod_forums']) $mod_forums = "	  <tr>
 	  </tr>";	  
 return <<<EOF
 
-<script type='text/javascript' src='html/profile.js'></script>
+<script type='text/javascript' src='html/profile.js?{$ibforums->vars['client_script_version']}'></script>
 <table class='tablebasic' cellspacing='0' cellpadding='2'>
 <tr>
  <td>{$info['photo']}</td>
@@ -412,7 +412,7 @@ return <<<EOF
 	 .row3 { background-color: #EEF2F7 }
 	 .row4 { background-color: #E4EAF2 }
   </style>
-  <script type='text/javascript' src='html/profile.js'></script>
+  <script type='text/javascript' src='html/profile.js?{$ibforums->vars['client_script_version']}'></script>
  </head>
 <body>
 <table width='100%' height='100%'>

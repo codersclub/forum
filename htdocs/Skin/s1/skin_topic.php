@@ -230,9 +230,9 @@ MessageMax          = parseInt(MessageMax);
 if ( MessageMax < 0 ) MessageMax = 0;
 </script>
 
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode_{$ibforums->vars['ibf_script_version']}.js'></script>
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/topics.js'></script>
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/video.js'></script>
+<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
+<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/topics.js?{$ibforums->vars['client_script_version']}'></script>
+<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/video.js?{$ibforums->vars['client_script_version']}'></script>
 
 <a name='top'></a>
 <!--IBF.FORUM_RULES-->

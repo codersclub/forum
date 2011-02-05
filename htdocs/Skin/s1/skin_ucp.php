@@ -602,7 +602,7 @@ var js_max_length	= "{$ibforums->lang['js_max_length']}";
 var js_current		= "{$ibforums->lang['js_current']}";
 var js_base_url		= "{$ibforums->js_base_url}";
 </script>
-<script type='text/javascript' src='html/usercp.js'></script>
+<script type='text/javascript' src='html/usercp.js?{$ibforums->vars['client_script_version']}'></script>
 <table cellspacing='0' cellpadding='0' width='100%'>
 <tr>
  <td id='ucpmenu' valign='top'>
@@ -679,7 +679,7 @@ return <<<EOF
 <table width="100%">
 <tr> 
   <td class="pformright" valign="top" align="center">
-        <script type='text/javascript' src='html/ibfcode_{$ibforums->vars['ibf_script_version']}.js'></script>
+        <script type='text/javascript' src='html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
 	   <input type='button' accesskey='b' value=' B ' onclick='simpletag("B")' class='codebuttons' name='B' title='Bold' style="font-weight:bold">
 	   <input type='button' accesskey='i' value=' I ' onclick='simpletag("I")' class='codebuttons' name='I' title='Italic' style="font-style:italic">
 	   <input type='button' accesskey='u' value=' U ' onclick='simpletag("U")' class='codebuttons' name='U' title='Underline' style="text-decoration:underline">
