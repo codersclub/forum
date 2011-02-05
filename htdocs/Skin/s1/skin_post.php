@@ -135,10 +135,7 @@ function add_edit_box($checked="") {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class='pformleft'><b>{$ibforums->lang['edit_ops']}</b></td>
-  <td class='pformright'><input type='checkbox' name='add_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['append_edit']}</td>
-</tr>
+<br><label><input type='checkbox' name='add_edit' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['append_edit']}</label>
 
 EOF;
 }
@@ -333,7 +330,7 @@ function get_box_enabletrack($checked) {
 global $ibforums;
 return <<<EOF
 
-<br><input type='checkbox' name='enabletrack' class='checkbox' value='1' $checked>&nbsp;{$ibforums->lang['enable_track']}
+<br><label><input type='checkbox' name='enabletrack' class='checkbox' value='1' $checked>&nbsp;{$ibforums->lang['enable_track']}</label>
 
 EOF;
 }
@@ -342,7 +339,7 @@ function get_box_enablefav($checked) {
 global $ibforums;
 return <<<EOF
 
-<br><input type='checkbox' name='fav' class='checkbox' value='1' $checked>&nbsp;{$ibforums->lang['enable_fav']}
+<br><label><input type='checkbox' name='fav' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_fav']}</label>
 
 EOF;
 }
@@ -351,7 +348,7 @@ function get_box_enable_offtop($checked) {
 global $ibforums;
 return <<<EOF
 
-<br><input type='checkbox' name='offtop' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_offtop']}
+<br><label><input type='checkbox' name='offtop' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_offtop']}</label>
 
 EOF;
 }
@@ -360,7 +357,7 @@ function get_box_bump($checked) {
 global $ibforums;
 return <<<EOF
 
-<br><input type='checkbox' name='bump' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['do_not_bump']}
+<br><label><input type='checkbox' name='bump' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['do_not_bump']}</label>
 
 EOF;
 }
@@ -512,15 +509,6 @@ EOF;
 }
 
 
-function get_box_enablesig($checked) {
-global $ibforums;
-return <<<EOF
-
-<br><input type='checkbox' name='enablesig' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_sig']}
-
-EOF;
-}
-
 
 function PostIcons() {
 global $ibforums;
@@ -597,10 +585,7 @@ function add_merge_edit_box($checked="") {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class='pformleft'>{$ibforums->lang['edit_merge_ops']}</td>
-  <td class='pformright'><input type='checkbox' name='add_merge_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['edit_merge_answer']}</td>
-</tr>
+<br><label><input type='checkbox' name='add_merge_edit' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['edit_merge_answer']}</label>
 
 EOF;
 }
@@ -720,10 +705,11 @@ return <<<EOF
 	 <!--IBF.EMO-->
 	 <!--IBF.TRACK-->
 	 <!--IBF.FAV-->
-	 <!--IBF.MERGE-->
 	 <!--IBF.OFFTOP-->
 	 <!--IBF.BUMP-->
-    </td>
+	 <!--IBF.MOD_ADD_EDIT_LABEL-->
+	 <!--IBF.MERGE_POST_LABEL-->
+	 </td>
 </tr>
 
 EOF;

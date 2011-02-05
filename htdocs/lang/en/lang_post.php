@@ -205,8 +205,6 @@ $lang['enable_offtop']  = "<b>Mark</b> this message as temporarily. A message wi
 $lang['topic_decided_1']  = "Did your question solve?";
 $lang['topic_decided_2']  = "If you have got an answer on your topic question, please leave check on checkbox at the left.<br>Also you can change topic status on status \"The question solved\", using link \"Вопрос решён\" above quick reply form at the right.";
 $lang['do_not_bump'] = "<b>Bump</b> topic after submit post";
-
-$lang['edit_merge_ops'] = "Glue the posting";
 $lang['edit_merge_answer'] = "<b>Glue</b> this post with the previous one, if the previous post is from you?";
 $lang['rr_options']  = "Topic view permissions";
 $lang['rrr_options']  = "Enable view the topic";

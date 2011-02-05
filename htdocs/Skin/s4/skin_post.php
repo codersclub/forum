@@ -8,7 +8,7 @@ function get_box_enableemo($checked) {
 global $ibforums;
 return <<<EOF
 
-<input type='checkbox' name='enableemo' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_emo']}
+<label><input type='checkbox' name='enableemo' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_emo']}</label>
 
 EOF;
 }
@@ -587,30 +587,6 @@ return <<<EOF
 EOF;
 }
 
-
-function add_edit_box($checked="") {
-global $ibforums;
-return <<<EOF
-
-<tr>
-  <td class='pformleft'><b>{$ibforums->lang['edit_ops']}</b></td>
-  <td class='pformright'><input type='checkbox' name='add_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['append_edit']}</td>
-</tr>
-
-EOF;
-}
-
-function add_merge_edit_box($checked="") {
-global $ibforums;
-return <<<EOF
-
-<tr>
-  <td class='pformleft'><b>{$ibforums->lang['edit_merge_ops']}</b></td>
-  <td class='pformright'><input type='checkbox' name='add_merge_edit' value='1' $checked class='forminput'>&nbsp;{$ibforums->lang['edit_merge_answer']}</td>
-</tr>
-
-EOF;
-}
 
 function topictitle_fields($data) {
 global $ibforums;

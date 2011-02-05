@@ -1518,7 +1518,9 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		$default_checked = array(
 			'emo'    => 'checked="checked"',
 			'tra'    => $ibforums->member['auto_track'] ? 'checked="checked"' : '',
-			        );
+			'edit'    => 'checked="checked"',
+			'merge'    => 'checked="checked"',
+		        );
 						        
 		// Make sure we're not previewing them and they've been unchecked!
 
@@ -1536,6 +1538,19 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 
 		if ( $ibforums->member['id'] )
 		{
+			if($type == "reply")
+			{
+				// Sunny: галочка "склеивание сообщений"
+				if(isset($ibforums->input['add_merge_edit']) and !$ibforums->input['add_merge_edit']) $default_checked['merge'] = "";
+				$this->output = str_replace('<!--IBF.MERGE_POST_LABEL-->', $this->html->add_merge_edit_box($default_checked['merge']), $this->output);
+			}
+			elseif($type == "edit" && $ibforums->member['g_edit_posts'] == 1)
+			{
+				// Sunny: галочка "надпись отредактировано"
+				if(isset($ibforums->input['add_edit']) and !$ibforums->input['add_edit']) $default_checked['edit'] = "";
+				$this->output = str_replace('<!--IBF.MOD_ADD_EDIT_LABEL-->', $this->html->add_edit_box($default_checked['edit']), $this->output);
+			}
+
 			if ( $type != "edit" )
 			{
 				// track topic

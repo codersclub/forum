@@ -307,7 +307,7 @@ class post_functions extends Post {
 //Спящий						 ($ibforums->member['is_mod'])) and
 //Спящий						 ($ibforums->input['add_merge_edit'] == 1))
 //Спящий                                            )
-					if ( $ibforums->input['add_merge_edit'] == 1 ) //Спящий
+					if ( $ibforums->input['add_merge_edit']  ) //Спящий
 					{
 						if ($ibforums->member['g_avoid_flood'] != 1)
 						{
@@ -815,12 +815,6 @@ class post_functions extends Post {
 		
 		$post_icons  = $class->html_post_icons();
 		
-//                if ( $ibforums->member['g_is_supmod'] or $ibforums->member['is_mod'] )
-//		{
-//			$edit_option = $class->html->add_merge_edit_box('checked');
-			$edit_option = $class->html->add_merge_edit_box('');
-//		}
-
 		if ($class->obj['can_upload'])
 		{
 			$upload_field = $class->html->Upload_field( $std->size_format( $ibforums->member['g_attach_max'] * 1024 ) );
@@ -834,7 +828,6 @@ class post_functions extends Post {
 		$class->output = preg_replace( "/<!--POST ICONS-->/"  , "$post_icons"   , $class->output );
 		$class->output = preg_replace( "/<!--UPLOAD FIELD-->/", "$upload_field" , $class->output );
 		$class->output = preg_replace( "/<!--MOD OPTIONS-->/" , "$mod_options"  , $class->output );
-		$class->output = preg_replace( "/<!--MERGE OPTIONS-->/","$edit_option"  , $class->output );
 		$class->output = preg_replace( "/<!--END TABLE-->/"   , "$end_form"     , $class->output );
 
 		// Song * IBF forum rules		

@@ -609,7 +609,7 @@ class post_functions extends Post {
 //Jureth		if ($ibforums->member['g_append_edit'])
 			if ($ibforums->member['g_append_edit'] and $this->orig_post['author_id']==$ibforums->member['id']) //Jureth
 			{
-				if ($ibforums->input['add_edit'] != 1)
+				if ($ibforums->input['add_edit'] != 'yes')
 				{
 					$this->post['append_edit'] = 0;
 				}
@@ -817,16 +817,6 @@ class post_functions extends Post {
 			}
 		}
 		
-//Jureth	if ( $ibforums->member['g_append_edit'] )
-		if ( $ibforums->member['g_append_edit'] and $ibforums->member['id']==$this->orig_post['author_id'] ) //Jureth
-		{
-			$checked = "";
-			
-			if ( $this->orig_post['append_edit'] ) $checked = "checked";
-			
-			$edit_option = $class->html->add_edit_box($checked);
-		}
-
 		$mod_options = $class->mod_options();
 		
 		//---------------------------------------
