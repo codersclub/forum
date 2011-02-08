@@ -958,7 +958,9 @@ CREATE TABLE `ibf_member_extra` (
   `photo_type` varchar(10) DEFAULT '',
   `photo_location` varchar(255) DEFAULT '',
   `photo_dimensions` varchar(200) DEFAULT '',
-  PRIMARY KEY (`id`)
+  `country` VARCHAR(2) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `country` (`country`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
