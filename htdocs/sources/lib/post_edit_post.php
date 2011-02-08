@@ -448,6 +448,7 @@ class post_functions extends Post {
 		$this->post['post_date']   = $this->orig_post['post_date'];
 		$this->post['author_name'] = $this->orig_post['author_name'];
 		$this->post['edit_name']   = $ibforums->member['name'];
+		$this->post['edit_time']   = time();
 		
 		//-------------------------------------------------
 		// If the post icon has changed, update the topic post icon
@@ -670,7 +671,7 @@ class post_functions extends Post {
 		// Redirect them back to the topic
 		//-------------------------------------------------
 		
-		$print->redirect_screen( $ibforums->lang['post_edited'], "act=ST&f={$class->forum['id']}&t={$this->topic['tid']}&st={$ibforums->input['st']}#entry{$this->post['pid']}");
+		$print->redirect_screen( $ibforums->lang['post_edited'], "showtopic={$this->topic['tid']}&view=findpost&p={$this->post['pid']}");
 		
 	}
 

@@ -2566,7 +2566,7 @@ class Moderate {
 		// Remove if exists.
 		//---------------------------------------
 		
-		Attach2::deleteAllPostAttachments($post);
+		// Attach2::deleteAllPostAttachments($post);
 		/*
 		if ( $post['attach_id'] )
 		{
@@ -2590,7 +2590,7 @@ class Moderate {
 		//---------------------------------------
 		// delete the post
 		//---------------------------------------
-		$DB->query("UPDATE ibf_posts SET use_sig = 2, edit_time='".time()."', delete_after='".strtotime('+180 days')."'
+		$DB->query("UPDATE ibf_posts SET use_sig = 2, edit_time='".time()."'
 		    WHERE pid='".$post['pid']."'");
 		/*
 		$DB->query("DELETE
@@ -3602,16 +3602,6 @@ class Moderate {
 		{
 		        $ids[ $post['author_id'] ] ++;
 
-				Attach2::deleteAllPostAttachments($post);
-				/*
-		        if ( $post['attach_id'] )
-			{
-				if ( is_file($this->upload_dir."/".$post['attach_id']) )
-				{
-					@unlink($this->upload_dir."/".$post['attach_id']);
-				}
-			}
-			*/
 		}
 
 		// Decrease the members post counters
@@ -3626,8 +3616,14 @@ class Moderate {
 
 		//---------------------------------------
 		// Remove posts
-		$DB->query("DELETE
-			    FROM ibf_posts
+		$str = $DB->compile_db_update_string(array(
+				'use_sig' => 1,
+				'decline_time' => time(),
+				'edit_name' => $ibforums->member['name'],
+				'append_edit'=> '1',
+		));
+		$DB->query("UPDATE ibf_posts
+				SET $str
 			    WHERE pid IN ({$ibforums->input['pidz']})");
 
 
@@ -4012,7 +4008,7 @@ class Moderate {
 			use_sig='".$state."',
 			has_modcomment='".$mod."',
 			append_edit='".$state."',
-			edit_time='".time()."',
+			decline_time='".time()."',
 			edit_name='".$ibforums->member['name']."' 
 		    WHERE pid='".$pid."'");
 
@@ -4038,13 +4034,13 @@ class Moderate {
                 
 		        $parser = new post_parser(1);
         
-                        $data = array(  TEXT          => $row['post'],
-                                        SMILIES       => 1,
-                                        CODE          => 1,
-                                        SIGNATURE     => 0,
-					HID	      => $std->get_highlight_id($this->forum['id']),
-					TID	      => $this->topic['tid'],
-					MID	      => $row['author_id'],
+                        $data = array(  'TEXT'          => $row['post'],
+                                        'SMILIES'       => 1,
+                                        'CODE'          => 1,
+                                        'SIGNATURE'     => 0,
+					'HID'	      => $std->get_highlight_id($this->forum['id']),
+					'TID'	      => $this->topic['tid'],
+					'MID'	      => $row['author_id'],
                                      );
         
 			$post = $parser->prepare($data);

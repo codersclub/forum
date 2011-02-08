@@ -425,11 +425,11 @@ class db_driver {
 		
 		foreach ($data as $k => $v)
 		{
-			$v = preg_replace( "/'/", "\\'", $v );
-			$return_string .= $k . "='".$v."',";
+			$v = is_null($v) ? 'NULL' : "'".$this->quote($v) . "'";
+			$return_string .= "$k = $v,";
 		}
 		
-		$return_string = preg_replace( "/,$/" , "" , $return_string );
+		$return_string = substr($return_string, 0, -1); // delete last comma
 		
 		return $return_string;
 	}

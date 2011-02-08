@@ -457,7 +457,7 @@ class Topics {
 
 
 		// negram * history edit post button 
-		if ($row['edit_time'] != "" && $row['edit_name'] != "") {
+		if ($row['edit_time'] && $row['edit_name'] != "") {
 			
 			$row['edit_history_button'] = ( $qr == FALSE ) ? ""
 						       : $this->edit_history_button($row['pid'], $poster, $row['post_date']);
@@ -736,9 +736,9 @@ class Topics {
 					$row['post'] .= "<br>".$this->mod_tags;
 				}
 
-				if ( $row['append_edit'] == 1 and $row['edit_time'] != "" and $row['edit_name'] != "" )
+				if ( $row['append_edit'] == 1 and $row['decline_time'] != "" and $row['edit_name'] != "" )
 				{
-					$e_time = $std->get_date( $row['edit_time'] , 'LONG' );
+					$e_time = $std->get_date( $row['decline_time'] , 'LONG' );
 					
 					$row['post'] .= "<br><br><span class='edit'>".sprintf($ibforums->lang['permited_by'], $row['edit_name'], $e_time)."</span>";
 				}

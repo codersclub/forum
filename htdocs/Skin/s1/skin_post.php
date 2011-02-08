@@ -242,6 +242,7 @@ global $ibforums;
 $res ='<div class="tableborder">';
 $classes = array('post1', 'post2');
 $i = 0;
+if (count($data)){
 foreach ($data as $history_item) {
   $class = $classes[++$i % 2]; 
   $res .= <<<EOF
@@ -259,6 +260,18 @@ foreach ($data as $history_item) {
 	<div class="darkrow1" style="height:5px">
 </div>
 EOF;
+}
+}else{
+  $res .= <<<EOF
+  <table width="100%" border="0" cellspacing="1" cellpadding="3">
+	<tr>
+	<td width="100%" valign="top" class="row4">{$ibforums->lang['post_history_empty']}</td>
+	</tr>
+	</table>
+	<div class="darkrow1" style="height:5px">
+</div>
+EOF;
+	
 }
 $res .= '</div>';
 return $res;

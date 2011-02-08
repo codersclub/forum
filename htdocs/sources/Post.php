@@ -918,11 +918,11 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		
 		$convert = $this->parser->convert( 
 				 array(
-					TEXT     => $ibforums->input['Post'],
-					SMILIES  => $ibforums->input['enableemo'],
-					CODE     => $this->forum['use_ibc'],
-					HTML     => $this->forum['use_html'],
-					MOD_FLAG => $modflag,
+					'TEXT'     => $ibforums->input['Post'],
+					'SMILIES'  => $ibforums->input['enableemo'],
+					'CODE'     => $this->forum['use_ibc'],
+					'HTML'     => $this->forum['use_html'],
+					'MOD_FLAG' => $modflag,
 					), 
 				$this->forum['id'] );
 
@@ -931,7 +931,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 				'use_emo'     => $ibforums->input['enableemo'],
 				'ip_address'  => $ibforums->input['IP_ADDRESS'],
 				'post_date'   => time(),
-				'edit_time'   => time(),
+				//'edit_time'   => time(), negram: setting edit time only on  edit, not on creation 
 				'icon_id'     => $ibforums->input['iconid'],
 				'post'        => $convert,
 				'author_name' => $ibforums->member['id'] ? $ibforums->member['name'] : $ibforums->input['UserName'],

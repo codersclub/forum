@@ -18,6 +18,7 @@
 |
 +--------------------------------------------------------------------------
 */
+require_once dirname(__FILE__).'/PostEditHistory.php';
 
 
 class post_functions extends Post {
@@ -327,7 +328,10 @@ class post_functions extends Post {
 						  " \n\n[color=gray][size=0]".$lang['added_post']." [mergetime]".time()."[/mergetime][/size][/color]\n".
 						  $this->post['post'];
 						unset($lang);
-        
+						
+						// добавить операцию "склеивания постов" в историю
+        				PostEditHistory::addItem($lastpost['pid'], $lastpost['post']);
+        				
 						// update forum properties
 						$class->forum['last_title']       = str_replace( "'", "&#39;", $this->topic['title'] );
 						$class->forum['last_id']          = $this->topic['tid'];

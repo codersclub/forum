@@ -779,7 +779,17 @@ class session {
 
 					  // clear attachments
 					  $this->clear_posts(&$topics, &$forums);
+					  
+					  // querying data for topics and forums recount
+					  $DB->query("SELECT attach_id, topic_id, forum_id FROM ibf_posts 
+						    WHERE
+							forum_id IN ({$this->member['modforums']}) and 
+							use_sig=2 and
+							edit_time<".$time."-60*60*24*180");
 
+					  // clear attachments
+					  $this->clear_posts(&$topics, &$forums);
+					  
 					  // delete moderatorial posts
 					  $DB->query("DELETE
 						FROM ibf_posts
@@ -787,7 +797,13 @@ class session {
 							forum_id IN ({$this->member['modforums']}) and 
 							use_sig=1 and post_date<".$time."-60*60*24*7");
 
-// ***** DELETE delayed posts ( various days, depends from forums settings ) *************************
+					  $DB->query("DELETE
+						FROM ibf_posts
+						WHERE
+							forum_id IN ({$this->member['modforums']}) and 
+							use_sig=2 and edit_time<".$time."-60*60*24*180");
+
+					  // ***** DELETE delayed posts ( various days, depends from forums settings ) *************************
 
 					  $DB->query("SELECT
 							attach_id,

@@ -228,10 +228,12 @@ class post_functions extends Post {
 		
 		$print->add_output($class->output);
 		
-		$class->nav_extra[] = "<a href='".$this->base_url."?showtopic={$this->topic['tid']}'>{$this->topic['title']}</a>";
-	        $print->do_output( array( 'TITLE'    => $this->title." -> ".$ibforums->vars['board_name'],
+		$class->nav_extra[] = "<a href='".$this->base_url."?showtopic={$this->topic['tid']}'>{$this->topic['title']}</a>(<a href='".$this->base_url."?showtopic={$this->topic['tid']}&st={$ibforums->input['st']}'>#</a><a href='".$this->base_url."?showtopic={$this->topic['tid']}&view=findpost&p={$this->orig_post['pid']}'>{$this->orig_post['pid']}</a>)";
+		$print->do_output( array( 'TITLE'    => $this->title." -> ".$ibforums->vars['board_name'],
         			 	  'NAV'      => $class->nav_extra,
         			  ) );
+		
+	    
 		
 	}
 	

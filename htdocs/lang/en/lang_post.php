@@ -209,4 +209,5 @@ $lang['edit_merge_answer'] = "<b>Glue</b> this post with the previous one, if th
 $lang['rr_options']  = "Topic view permissions";
 $lang['rrr_options']  = "Enable view the topic";
 $lang['rrr_club_options']  = "only for the <a href=\"http://forum.sources.ru/index.php?c=9\">Club</a> <a href=\"http://forum.sources.ru/index.php?act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0\">members</a>";
+$lang['post_history_empty']  = "History is empty";
 
