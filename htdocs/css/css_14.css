@@ -457,7 +457,7 @@ A.warn_gr	{
 	BORDER-RIGHT: #bb6600 1px solid;
 }
 
-.post1 {
+.post1, .row1 {
     COLOR: #000;
 	BACKGROUND-COLOR: #999999
 }
