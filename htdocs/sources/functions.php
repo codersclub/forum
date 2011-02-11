@@ -114,41 +114,59 @@ class FUNC {
 //---------------------------------------------------------------
 // POST functions
 //---------------------------------------------------------------
-
+	function get_mod_tags_regexp( $gm_on = 0, $mm_on = 1) {
+		$tags = 'ex|mod';
+		if ($gm_on) {
+			$tags .= '|gm';
+		}
+		if ($mm_on) {
+			$tags .= '|mm';
+		}
+		return '#(?!\[CODE[^\]]*\])\[('.$tags.')\](.*?)\[/\1\](?!\[/CODE\])#i';
+	}
+	
         function mod_tag_exists($post, $gm_on = 0, $mm_on = 1) {
-
-	return ( ( $gm_on and preg_match("#(?!\\[CODE.*?\\])\\[GM\\](.*?)\\[/GM\\](?!\\[/CODE\\])#i", $post) ) or
-		 ( $mm_on and preg_match("#(?!\\[CODE.*?\\])\\[MM\\](.*?)\\[/MM\\](?!\\[/CODE\\])#i", $post) ) or
-                 preg_match("#(?!\\[CODE.*?\\])\\[EX\\](.*?)\\[/EX\\](?!\\[/CODE\\])#i", $post) or
-                 preg_match("#(?!\\[CODE.*?\\])\\[MOD\\](.*?)\\[/MOD\\](?!\\[/CODE\\])#i", $post)
+        	$re = self::get_mod_tags_regexp($gm_on, $mm_on);
+        	return (bool)preg_match($re, $post);
+/*
+	return ( ( $gm_on and preg_match('#(?!\[CODE.*?\])\[GM\](.*?)\[/GM\](?!\[/CODE\])#i', $post) ) or
+		 ( $mm_on and preg_match('#(?!\[CODE.*?\])\[MM\](.*?)\[/MM\](?!\[/CODE\])#i', $post) ) or
+                 preg_match('#(?!\[CODE.*?\])\[EX\](.*?)\[/EX\](?!\[/CODE\])#i', $post) or
+                 preg_match('#(?!\[CODE.*?\])\[MOD\](.*?)\[/MOD\](?!\[/CODE\])#i', $post)
 	       );
-
+*/
 	}
 
 
 	//-------------------------------------
 	// Song * delayed time, 03.05.05
-	function delayed_time($post, $days_off, $to_do = 0, $moderator = array()) {
+	function delayed_time($post, $days_off, $to_do = 0, $moderator = array(), $is_new_post = false) {
 	global $ibforums;
 
 	if ( !$days_off and !$ibforums->vars['default_days_off'] )
 	{
 		return 0;
+	
 	}
-
-	$result = ( $to_do or 
-		    $this->mod_tag_exists($post) or
-		    ( $ibforums->input['offtop'] and 
-		      $days_off and 
-		      ( $moderator['delete_post'] or 
-		        $ibforums->member['g_is_supmod'] or 
-		        $ibforums->member['g_delay_delete_posts'] 
-		      ) 
-		    ) 
-		  ) ? time() + ( ( !$days_off ) ? $ibforums->vars['default_days_off'] : $days_off)*60*60*24 : 0;
-
+	
+	$member_has_rights = ($moderator['delete_post'] or $ibforums->member['g_is_supmod'] or $ibforums->member['g_delay_delete_posts']);
+		        
+	$to_do = $to_do || ( $ibforums->input['offtop'] and  $days_off and ( $member_has_rights ) );
+	
+	if ($this->mod_tag_exists($post) && $is_new_post) {
+		$to_do = $to_do || (trim(self::cut_mod_tags($post)) == '');
+	}
+	
+	
+		$result = ( $to_do ) ? 
+		  			time() + ( ( !$days_off ) ? $ibforums->vars['default_days_off'] : $days_off)*60*60*24 : 0;
+		  
 	return $result;
-
+	}
+	
+	function cut_mod_tags(&$post) {
+		$re = self::get_mod_tags_regexp();
+		return preg_replace($re, '', $post);
 	}
 
     /**

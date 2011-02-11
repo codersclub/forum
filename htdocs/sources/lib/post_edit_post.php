@@ -150,8 +150,8 @@ class post_functions extends Post {
 
 		
 		if ( !$can_edit ) $std->Error( array(
-						LEVEL => 1,
-						MSG => 'not_op') );
+						'LEVEL' => 1,
+						'MSG' => 'not_op') );
 		
 		// Is the topic locked?
 

@@ -926,7 +926,11 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 					), 
 				$this->forum['id'] );
 
-		$post = array(
+		$is_new_post = in_array(
+				$this->act[1], 
+				array('new_post', 'reply_post', 'q_reply_post')
+			);
+				$post = array(
 				'author_id'   => $ibforums->member['id'] ? $ibforums->member['id'] : 0,
 				'use_emo'     => $ibforums->input['enableemo'],
 				'ip_address'  => $ibforums->input['IP_ADDRESS'],
@@ -941,7 +945,8 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 				'attach_id'   => 0,
 				'attach_hits' => 0,
 				'attach_type' => "",
-				'delete_after'=> $std->delayed_time($convert, $this->forum['days_off'], 0, $this->moderator),
+				// negram: autodelete only on new post, not when edit
+				'delete_after'=> $std->delayed_time($convert, $this->forum['days_off'], 0, $this->moderator, $is_new_post),
 				 );
 					 
 	    // If we had any errors, parse them back to this class
