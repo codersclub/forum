@@ -495,7 +495,7 @@ var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 &middot;
 <a href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
 &middot;
-<a href="http://www.sources.ru/donate.php"><b>Помощь&nbsp;проекту</b></a>
+<a href="http://forum.sources.ru/donate.php"><b>Помощь&nbsp;проекту</b></a>
 </td>
 </tr>
 </table>
