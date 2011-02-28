@@ -265,21 +265,41 @@ function tag_url()
 {
     var FoundErrors = '';
     var enterURL   = prompt(text_enter_url, "http://");
-    var enterTITLE = prompt(text_enter_url_name, "My Webpage");
-
-    if (!enterURL) {
-        FoundErrors += " " + error_no_url;
+    
+    var selection_exists = 
+    	( document.REPLIER.Post.selectionStart != document.REPLIER.Post.selectionEnd );
+    
+    // IE6/opera <9 compatibility
+    if (!selection_exists && document.selection && document.selection.createRange) {
+        var sel = document.selection;
+        var rng = sel.createRange();
+        selection_exists = ((sel.type == "Text" || sel.type == "None") && rng != null && rng.text ); 
     }
-    if (!enterTITLE) {
-        FoundErrors += " " + error_no_title;
+    
+    if ( selection_exists )
+    {
+        if (!enterURL) {
+            alert("Error!"+error_no_url);
+            return;
+        }
+        doInsert("[URL="+enterURL+"]", "[/URL]", false);
     }
-
-    if (FoundErrors) {
-        alert("Error!"+FoundErrors);
-        return;
+    else
+    {
+        var enterTITLE = prompt(text_enter_url_name, "My Webpage");
+ 
+        if (!enterURL) {
+            FoundErrors += " " + error_no_url;
+        }
+        if (!enterTITLE) {
+            FoundErrors += " " + error_no_title;
+        }
+        if (FoundErrors) {
+            alert("Error!"+FoundErrors);
+            return;
+        } 
+        doInsert("[URL="+enterURL+"]"+enterTITLE+"[/URL]", "", false);
     }
-
-	doInsert("[URL="+enterURL+"]"+enterTITLE+"[/URL]", "", false);
 }
 
 function tag_image()
