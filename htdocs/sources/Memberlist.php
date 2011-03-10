@@ -327,7 +327,7 @@ class Memberlist {
 			   m.joined, m.mgroup, m.email,m.title, m.hide_email,
 			   m.location, m.aim_name, m.icq_number,
 	                   me.photo_location, me.photo_type,
-			   me.photo_dimensions, m.location, p.field_1 
+			   me.photo_dimensions, m.location, m.gender 
 		    FROM ibf_members m
 			LEFT JOIN ibf_member_extra me ON (me.id=m.id)
 			LEFT JOIN ibf_groups g ON (m.mgroup=g.g_id)
@@ -360,7 +360,7 @@ class Memberlist {
 		}
 
 		// Song * sex
-		if ( $member['field_1'] == 'f' ) {
+		if ( $member['gender'] == 'f' ) {
 			$member['sex'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/fem.gif' border='0'> ";
 
 		} else $member['sex'] = "";

@@ -147,7 +147,7 @@ return <<<EOF
         {$author['member_points']}	
         {$author['rep']}
         {$author['warn_text']}</span>
-        <!--$ author[field_1]-->
+        <!--$ author[gender]-->
 <div align='left' class='{$post['post_css']}' style='float:left;width:auto'>
 <b>{$post['ip_address']}</b></div>
 <img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='160' height='1'><br> 

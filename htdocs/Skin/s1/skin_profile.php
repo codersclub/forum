@@ -281,8 +281,8 @@ return <<<EOF
 		<td align='left' class='row1'>{$info['local_time']}</td>
 	  </tr>
 	  <tr>
-		<td class="row3" width='30%' valign='top'><b>{$ibforums->lang['homepage']}</b></td>
-		<td align='left' width='70%' class='row1'>{$info['homepage']}</td>
+		<td class="row3" valign='top'><b>{$ibforums->lang['gender']}</b></td>
+		<td align='left' class='row1'>{$info['gender']}</td>
 	  </tr>
 	  <tr>
 		<td class="row3" valign='top'><b>{$ibforums->lang['birthday']}</b></td>
@@ -291,6 +291,10 @@ return <<<EOF
 	  <tr>
 		<td class="row3" valign='top'><b>{$ibforums->lang['location']}</b></td>
 		<td align='left' class='row1'>{$info['location']}</td>
+	  </tr>
+	  <tr>
+		<td class="row3" width='30%' valign='top'><b>{$ibforums->lang['homepage']}</b></td>
+		<td align='left' width='70%' class='row1'>{$info['homepage']}</td>
 	  </tr>
 	  <tr>
 		<td class="row3" valign='top'><b>{$ibforums->lang['interests']}</b></td>

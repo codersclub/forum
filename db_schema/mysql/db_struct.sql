@@ -977,6 +977,7 @@ CREATE TABLE `ibf_members` (
   `mgroup` smallint(3) NOT NULL DEFAULT '0',
   `old_group` smallint(3) NOT NULL DEFAULT '0',
   `password` varchar(255) NOT NULL DEFAULT '',
+  `gender` ENUM( '', 'm', 'f' ) NOT NULL DEFAULT '';
   `email` varchar(255) NOT NULL DEFAULT '',
   `joined` int(10) NOT NULL DEFAULT '0',
   `ip_address` varchar(16) NOT NULL DEFAULT '',
@@ -1073,6 +1074,7 @@ CREATE TABLE `ibf_members` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `mgroup` (`mgroup`),
+  KEY `gender` (`gender`),
   KEY `bday_day` (`bday_day`),
   KEY `bday_month` (`bday_month`),
   KEY `ip_address` (`ip_address`),

@@ -158,7 +158,7 @@ return <<<EOF
         {$author['member_points']}	
         {$author['rep']}
         {$author['warn_text']}</span>
-        <!--$ author[field_1]-->
+        <!--$ author[gender]-->
 
 <div align='left' class='post1' style='float:left;width:auto'>
 <b>{$author['ip_address']}</b></div>
@@ -382,7 +382,7 @@ return <<<EOF
         {$member['member_points']}	
         {$member['rep']}
         {$member['warn_text']}</span>
-        <!--$ author[field_1]-->
+        <!--$ author[gender]-->
 
 <div align='left' class='post1' style='float:left;width:auto'>
 <b>{$member['ip_address']}</b></div>

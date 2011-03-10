@@ -2395,7 +2395,7 @@ echo "postparse msg='".$msg."'<br>";
 	    // Member sex
 	    $member['sex'] = "";
 
-	    if ( $member['field_1'] == "f" and !$member['field_6'] and 
+	    if ( $member['gender'] == "f" and 
 	       ( !$ibforums->member['id'] or ( $ibforums->member['view_img'] and
 		 $ibforums->member['show_icons'] ) 
                      ) 

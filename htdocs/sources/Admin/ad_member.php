@@ -1871,7 +1871,9 @@ class ad_forums {
 		
 		$ADMIN->page_detail = "You may pre-register members using this form.";
 		
-		$DB->query("SELECT g_id, g_title FROM ibf_groups ORDER BY g_title");
+		$DB->query("SELECT g_id, g_title
+                            FROM ibf_groups
+                            ORDER BY g_title");
 		
 		while ( $r = $DB->fetch_row() )
 		{
@@ -1890,7 +1892,8 @@ class ad_forums {
 		$custom_output = "";
 		$field_data     = array();
 		
-		$DB->query("SELECT * from ibf_pfields_content WHERE member_id='".$IN['MEMBER_ID']."'");
+		$DB->query("SELECT * from ibf_pfields_content
+                            WHERE member_id='".$IN['MEMBER_ID']."'");
 		
 		while ( $content = $DB->fetch_row() )
 		{
@@ -1898,12 +1901,17 @@ class ad_forums {
 			{
 				if ( preg_match( "/^field_(\d+)$/", $k, $match) )
 				{
+                 		    // Temporarily DISABLE Old Gender (field_1/6)
+                 		    //if(!($k=='field_1' || $k=='field_6')) {
 					$field_data[ $match[1] ] = $v;
+		                    //}	
 				}
 			}
 		}
 		
-		$DB->query("SELECT * from ibf_pfields_data WHERE fshowreg=1 ORDER BY forder");
+		$DB->query("SELECT * from ibf_pfields_data
+                            WHERE fshowreg=1
+                            ORDER BY forder");
 		
 		while( $row = $DB->fetch_row() )
 		{
@@ -1945,8 +1953,8 @@ class ad_forums {
 		}
 		
 		$ADMIN->html .= $SKIN->start_form( array( 1 => array( 'code'  , 'doadd' ),
-												  2 => array( 'act'   , 'mem'     ),
-									     )      );
+							  2 => array( 'act'   , 'mem'     ),
+						     )      );
 		
 		//+-------------------------------
 		
@@ -2058,7 +2066,10 @@ class ad_forums {
 		
 		while ( $row = $DB->fetch_row() )
 		{
+		   // vot: Temporarily disable OLD GENDER Fields!!!!!!
+		   //if( ($row['fid'] != 1) && ($row['fid'] != 6) ) {
 			$custom_fields[ 'field_'.$row['fid'] ] = $IN[ 'field_'.$row['fid'] ];
+		   //}	
 		}
 		
 		//+--------------------------------------------
@@ -2088,7 +2099,7 @@ class ad_forums {
                                 // ---
                                 // Add user to specific D-Site Group
                                 //--------------------------------------------------------------
-                                 'dsite_group' => intval( $IN['dsite_group'] ),
+                                // 'dsite_group' => intval( $IN['dsite_group'] ),
                                 
 				  )       );
 												  
@@ -2107,7 +2118,10 @@ class ad_forums {
 				
 			$db_string = $DB->compile_db_insert_string($custom_fields);
 				
-			$DB->query("INSERT INTO ibf_pfields_content (".$db_string['FIELD_NAMES'].") VALUES(".$db_string['FIELD_VALUES'].")");
+			$DB->query("INSERT INTO ibf_pfields_content
+                                       (".$db_string['FIELD_NAMES'].")
+                                    VALUES
+                                       (".$db_string['FIELD_VALUES'].")");
 		
 		}
 		
@@ -2116,9 +2130,9 @@ class ad_forums {
 		//+--------------------------------------------
 		
 		$DB->query("UPDATE ibf_stats SET ".
-			             "MEM_COUNT=MEM_COUNT+1, ".
-			             "LAST_MEM_NAME='" . trim($IN['name']) . "', ".
-			             "LAST_MEM_ID='"   . $member_id   . "'");
+        		           "MEM_COUNT=MEM_COUNT+1, ".
+        		           "LAST_MEM_NAME='" . trim($IN['name']) . "', ".
+        		           "LAST_MEM_ID='"   . $member_id   . "'");
 			             
 		$ADMIN->save_log("Created new member account for '{$IN['name']}'");
 		
@@ -2441,7 +2455,8 @@ class ad_forums {
 		
 		//+-------------------------------
 		
-		$DB->query("SELECT * FROM ibf_members WHERE id='".$IN['MEMBER_ID']."'");
+		$DB->query("SELECT * FROM ibf_members
+                            WHERE id='".$IN['MEMBER_ID']."'");
 		$mem = $DB->fetch_row();
 		
 		//+-------------------------------
@@ -2458,7 +2473,9 @@ class ad_forums {
 		
 		$units = array( 0 => array( 'h', 'Hours' ), 1 => array( 'd', 'Days' ) );
 		
-		$DB->query("SELECT g_id, g_title FROM ibf_groups ORDER BY g_title");
+		$DB->query("SELECT g_id, g_title
+                            FROM ibf_groups
+                            ORDER BY g_title");
 		
 		while ( $r = $DB->fetch_row() )
 		{
@@ -2490,7 +2507,8 @@ class ad_forums {
 		
 		$lang_array = array();
 		
-		$DB->query("SELECT ldir, lname FROM ibf_languages");
+		$DB->query("SELECT ldir, lname
+                            FROM ibf_languages");
 		
 		while ( $l = $DB->fetch_row() )
 		{
@@ -2499,7 +2517,8 @@ class ad_forums {
  		
  		//+-------------------------------
  		
- 		$DB->query("SELECT uid, sid, sname, default_set, hidden FROM ibf_skins");
+ 		$DB->query("SELECT uid, sid, sname, default_set, hidden
+                            FROM ibf_skins");
  		
  		$skin_array = array();
  		
@@ -2540,9 +2559,11 @@ class ad_forums {
 		//-----------------------------------------------
 		
 		$custom_output = "";
-		$field_data     = array();
+		$field_data    = array();
 		
-		$DB->query("SELECT * from ibf_pfields_content WHERE member_id='".$IN['MEMBER_ID']."'");
+		$DB->query("SELECT *
+                            FROM ibf_pfields_content
+                            WHERE member_id='".$IN['MEMBER_ID']."'");
 		
 		while ( $content = $DB->fetch_row() )
 		{
@@ -2550,17 +2571,24 @@ class ad_forums {
 			{
 				if ( preg_match( "/^field_(\d+)$/", $k, $match) )
 				{
+                 		    // Temporarily DISABLE Old Gender (field_1/6)
+                 		    //if(!($k=='field_1' || $k=='field_6')) {
 					$field_data[ $match[1] ] = $v;
+				    //}
 				}
 			}
 		}
 		
-		$DB->query("SELECT * from ibf_pfields_data ORDER BY forder");
+		$DB->query("SELECT *
+                            FROM ibf_pfields_data
+                            ORDER BY forder");
 		
 		while( $row = $DB->fetch_row() )
 		{
 			$form_element = "";
 			
+		    if ( $row['fid'] != '1' &&
+                             $row['fid'] != '6') {
 			if ( $row['ftype'] == 'drop' )
 			{
 				$carray = explode( '|', trim($row['fcontent']) );
@@ -2593,8 +2621,8 @@ class ad_forums {
 			{
 				$form_element = $SKIN->form_input( 'field_'.$row['fid'], $field_data[$row['fid']] );
 			}
-			
 			$custom_out .= $SKIN->add_td_row( array( "<b>{$row['ftitle']}</b><br>{$row['desc']}" , $form_element ) );
+		    }
 			
 		}
 		
@@ -2622,10 +2650,10 @@ class ad_forums {
 		//+-------------------------------
 		
 		$ADMIN->html .= $SKIN->start_form( array( 1 => array( 'code'  , 'doedit'  ),
-												  2 => array( 'act'   , 'mem'     ),
-												  3 => array( 'mid'   , $mem['id'] ),
-												  4 => array( 'curpass', $mem['password'] ),
-											) );
+							  2 => array( 'act'   , 'mem'     ),
+							  3 => array( 'mid'   , $mem['id'] ),
+							  4 => array( 'curpass', $mem['password'] ),
+						) );
 		
 		//+-------------------------------
 		
@@ -2639,36 +2667,36 @@ class ad_forums {
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>IP address when registered</b>" ,$mem['ip_address'] )      );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Remove member's photo</b>" ,
-												  $SKIN->form_checkbox("remove_photo", 0)
-									     )      );
+							  $SKIN->form_checkbox("remove_photo", 0)
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Warn Level</b>" ,
-												  $SKIN->form_input("warn_level", $mem['warn_level'])
-									     )      );
+							  $SKIN->form_input("warn_level", $mem['warn_level'])
+						     )      );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Member Title</b>" ,
-												  $SKIN->form_input("title", $mem['title'])
-									     )      );
+							  $SKIN->form_input("title", $mem['title'])
+						     )      );
 									     
 		if ($show_fixed != TRUE)
 		{
 			$ADMIN->html .= $SKIN->add_td_row( array( "<b>Member Group</b>" ,
-													  $SKIN->form_dropdown( "mgroup",
-																			$mem_group,
-																			$mem['mgroup']
-																		  )
-											 )      );
+								  $SKIN->form_dropdown( "mgroup",
+								$mem_group,
+								$mem['mgroup']
+								  )
+							 )      );
 		}
 		else
 		{
 			$ADMIN->html .= $SKIN->add_td_row( array( "<b>Member Group</b>" ,
-													  $SKIN->form_hidden( array( 1 => array( 'mgroup' , $mem['mgroup'] ) ) )."<b>Root Admin</b> (Can't Change)",
-											 )      );
+								  $SKIN->form_hidden( array( 1 => array( 'mgroup' , $mem['mgroup'] ) ) )."<b>Root Admin</b> (Can't Change)",
+							 )      );
 		}
 		
 		$ADMIN->html .= $SKIN->add_td_row( array(
-				"<b>Запретить автоматическую смену группы?</b><br>(например, автоматический переход в Клуб)" ,
-				$SKIN->form_yes_no("disable_group", $mem['disable_group'])
+						"<b>Запретить автоматическую смену группы?</b><br>(например, автоматический переход в Клуб)" ,
+						$SKIN->form_yes_no("disable_group", $mem['disable_group'])
 					     )      );
 
 
@@ -2761,12 +2789,12 @@ class ad_forums {
 		$ch_ch = ( $mem['org_perm_id'] ) ? 'checked' : '';
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Override group forum permission mask with...</b><br>You may choose more than one" ,
-												  "<input type='checkbox' name='override' value='1' $ch_ch> <b>Override Group Permission Mask with...</b><br>".
-												  $SKIN->form_multiselect( "permid[]",
-																		$perm_masks,
-																		$arr, 5, 'onfocus="saveit(this)" onchange="saveit(this)"'
-																	  )."<br><input style='margin-top:5px' id='editbutton' type='button' onclick='show_me();' value='Show me selected masks'>"
-										 ) , "subforum"   );
+							  "<input type='checkbox' name='override' value='1' $ch_ch> <b>Override Group Permission Mask with...</b><br>".
+							  $SKIN->form_multiselect( "permid[]",
+								$perm_masks,
+								$arr, 5, 'onfocus="saveit(this)" onchange="saveit(this)"'
+								  )."<br><input style='margin-top:5px' id='editbutton' type='button' onclick='show_me();' value='Show me selected masks'>"
+							 ) , "subforum"   );
 	
 		//-----------------------------------------------------------------------------------------------
 		// Mod posts bit
@@ -2801,9 +2829,9 @@ class ad_forums {
 						     
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Require moderator preview of all posts by this member?</b><br>If yes, all posts by this member will be put into the moderation queue. Untick box and clear number box to remove." ,
-												  "<input type='checkbox' name='mod_indef' value='1' $mod_tick> Moderator Preview indefinitely
-												  <br /><b>or for</b> ".$SKIN->form_input('mod_timespan', $mod_arr['timespan'], "text", "", '5' ) . '&nbsp;' . $SKIN->form_dropdown('mod_units', $units, $mod_arr['units'] ).$mod_extra
-									     )      );
+							  "<input type='checkbox' name='mod_indef' value='1' $mod_tick> Moderator Preview indefinitely
+							  <br /><b>or for</b> ".$SKIN->form_input('mod_timespan', $mod_arr['timespan'], "text", "", '5' ) . '&nbsp;' . $SKIN->form_dropdown('mod_units', $units, $mod_arr['units'] ).$mod_extra
+						     )      );
 									     
 		
 		$post_tick = 0;
@@ -2834,9 +2862,9 @@ class ad_forums {
 		}
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Restrict {$mem['name']} from posting?</b><br>Untick box and clear number box to remove restriction." ,
-												  "<input type='checkbox' name='post_indef' value='1' $post_tick> Restrict posting indefinitely
-												  <br /><b>or for</b> ".$SKIN->form_input('post_timespan', $post_arr['timespan'], "text", "", '5' ) . '&nbsp;' . $SKIN->form_dropdown('post_units', $units, $post_arr['units'] ).$post_extra
-									     ) , "subforum"     );
+							  "<input type='checkbox' name='post_indef' value='1' $post_tick> Restrict posting indefinitely
+							  <br /><b>or for</b> ".$SKIN->form_input('post_timespan', $post_arr['timespan'], "text", "", '5' ) . '&nbsp;' . $SKIN->form_dropdown('post_units', $units, $post_arr['units'] ).$post_extra
+						     ) , "subforum"     );
 									     
 									     
 		//-----------------------------------------------------------------------------------------------
@@ -2853,8 +2881,8 @@ class ad_forums {
 		$ADMIN->html .= $SKIN->start_table( "Password Control" );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>New Password</b><br>(Leave this blank if you do not wish to reset password!)" ,
-												  $SKIN->form_input("password")
-									     )      );
+							  $SKIN->form_input("password")
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->end_table();
 		
@@ -2870,26 +2898,26 @@ class ad_forums {
 		//+-------------------------------
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Language Choice</b>" ,
-												  $SKIN->form_dropdown( "language",
-																		$lang_array,
-												  						$mem['language'] != "" ? $mem['language'] : $INFO['default_language']
-												  					  )
-									     )      );
+							  $SKIN->form_dropdown( "language",
+								$lang_array,
+								$mem['language'] != "" ? $mem['language'] : $INFO['default_language']
+			  					  )
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Skin Choice</b>" ,
-												  $SKIN->form_dropdown( "skin",
-																		$skin_array,
-												  						$mem['skin'] != "" ? $mem['skin'] : $def_skin
-												  					  )
-									     )      );
+							  $SKIN->form_dropdown( "skin",
+								$skin_array,
+		  						$mem['skin'] != "" ? $mem['skin'] : $def_skin
+		  					  )
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Hide this members email address?</b>" ,
-												  $SKIN->form_yes_no("hide_email", $mem['hide_email'] )
-									     )      );
+							  $SKIN->form_yes_no("hide_email", $mem['hide_email'] )
+							     )      );
 									     						     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Email a PM reminder?</b>" ,
-												  $SKIN->form_yes_no("email_pm", $mem['email_pm'] )
-									     )      );		
+							  $SKIN->form_yes_no("email_pm", $mem['email_pm'] )
+						     )      );		
 		
 		$ADMIN->html .= $SKIN->end_table();
 		
@@ -2903,28 +2931,28 @@ class ad_forums {
 		$ADMIN->html .= $SKIN->start_table( "Contact Information" );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Email Address</b>" ,
-												  $SKIN->form_input("email", $mem['email'])
-									     )      );
+							  $SKIN->form_input("email", $mem['email'])
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>AIM Identity</b>" ,
-												  $SKIN->form_input("aim_name", $mem['aim_name'])
-									     )      );							     						     
+							  $SKIN->form_input("aim_name", $mem['aim_name'])
+						     )      );							     						     
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>ICQ Number</b>" ,
-												  $SKIN->form_input("icq_number", $mem['icq_number'])
-									     )      );
+							  $SKIN->form_input("icq_number", $mem['icq_number'])
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Yahoo Identity</b>" ,
-												  $SKIN->form_input("yahoo", $mem['yahoo'])
-									     )      );
+							  $SKIN->form_input("yahoo", $mem['yahoo'])
+						     )      );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>MSN Identity</b>" ,
-												  $SKIN->form_input("msnname", $mem['msnname'])
-									     )      );
+							  $SKIN->form_input("msnname", $mem['msnname'])
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Website Address</b>" ,
-												  $SKIN->form_input("website", $mem['website'])
-									     )      );
+							  $SKIN->form_input("website", $mem['website'])
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->end_table();
 		
@@ -2941,32 +2969,44 @@ class ad_forums {
 		
 		$mem['signature'] = $parser->unconvert( $mem['signature'] );
 		
+		// New Gender
+		$genders = array(
+                                array('', 'Unknown'),
+                                array('m', 'Male'),
+                                array('f', 'Female'),
+		                );
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Gender</b>" ,
+				                  $SKIN->form_dropdown( 'gender',
+                                                                        $genders,
+                                                                        $mem['gender'] ),
+						     )      );
+									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Avatar</b>" ,
-												  $SKIN->form_input("avatar", $mem['avatar'])
-									     )      );
+						  $SKIN->form_input("avatar", $mem['avatar'])
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Avatar Size</b>" ,
-												  $SKIN->form_input("avatar_size", $mem['avatar_size'])
-									     )      );
+						  $SKIN->form_input("avatar_size", $mem['avatar_size'])
+					     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Post Count</b>" ,
-												  $SKIN->form_input("posts", $mem['posts'])
-									     )      );
+						  $SKIN->form_input("posts", $mem['posts'])
+						     )      );
 									     
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Members Points</b>" ,	 
-		$SKIN->form_input("points", $mem['points'])
-									     )      );	
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Members Points</b>" ,
+							$SKIN->form_input("points", $mem['points'])
+						     )      );	
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Location</b>" ,
-												  $SKIN->form_input("location", $mem['location'])
-									     )      );
+							  $SKIN->form_input("location", $mem['location'])
+						     )      );
 									     
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Interests</b>" ,
-												  $SKIN->form_textarea("interests", str_replace( '<br>', "\n",$mem['interests']))
-									     )      );
+							  $SKIN->form_textarea("interests", str_replace( '<br>', "\n",$mem['interests']))
+						     )      );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Signature</b>" ,
-												  $SKIN->form_textarea("signature", $mem['signature'])
-									     )      );
+							  $SKIN->form_textarea("signature", $mem['signature'])
+						     )      );
 
 // Song
 
@@ -2985,35 +3025,36 @@ class ad_forums {
 		//+-------------------------------
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Allow this member to change others' Reputation?</b>" ,
-												  $SKIN->form_yes_no("rep_rep", $mem['allow_rep'])
-									     )      );
+							  $SKIN->form_yes_no("rep_rep", $mem['allow_rep'])
+						     )      );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Allow anonymous voting?</b><br>Will only work if board overall anonymous voting is allowed" ,
-												  $SKIN->form_yes_no("rep_anon", $mem['allow_anon'])
-									     )      );
+							  $SKIN->form_yes_no("rep_anon", $mem['allow_anon'])
+						     )      );
 		
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Recount this member's Reputation?" ,
-												  $SKIN->form_yes_no("rep_recount", 0)
-									     )      );
+							  $SKIN->form_yes_no("rep_recount", 0)
+						     )      );
 		
 		$ADMIN->html .= $SKIN->end_table();
 		//Reputation
 
 		$SKIN->td_header[] = array( "&nbsp;"  , "40%" );
 		$SKIN->td_header[] = array( "&nbsp;"  , "60%" );
+
 		$ADMIN->html .= $SKIN->start_table( "Контроль подписок и электронной почты" );
 
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Удалить все подписки пользователя на темы и форумы</b>?" ,
-												  $SKIN->form_checkbox("subscribe_delete", 0)
-									     )      );
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Запретить пользователю работу с электронной почтой</b>?" ,
-												  $SKIN->form_yes_no("disable_mail", $mem['disable_mail'])
+							  $SKIN->form_checkbox("subscribe_delete", 0)
+						     )      );
 
-									     )      );
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Запретить пользователю работу с электронной почтой</b>?" ,
+							  $SKIN->form_yes_no("disable_mail", $mem['disable_mail'])
+						     )      );
 
 		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Причина блокировки</b>" ,
-												  $SKIN->form_textarea("disable_mail_reason", $mem['disable_mail_reason'])
-									     )      );
+							  $SKIN->form_textarea("disable_mail_reason", $mem['disable_mail_reason'])
+						     )      );
 
 
 		//+-------------------------------
@@ -3114,6 +3155,7 @@ class ad_forums {
 					'title'        => $IN['title'],
 					'language'     => $IN['language'],
 					'skin'         => $IN['skin'],
+				'gender'       => $IN['gender'],
 					'hide_email'   => $IN['hide_email'],
 					'email_pm'     => $IN['email_pm'],
 					'email'        => $IN['email'],
@@ -3144,14 +3186,16 @@ class ad_forums {
                                         // ---
                                         // Edit user's D-Site Group
                                         //------------------------------------------------------------
-                                        'dsite_group' => intval( $IN['dsite_group'] ),
+                                        //'dsite_group' => intval( $IN['dsite_group'] ),
 				  );
 
 		if ( !$IN['warn_level'] ) $member['old_group'] = $IN['mgroup'];
 		
 		$db_string = $DB->compile_db_update_string($member);
 												  
-		$DB->query("UPDATE ibf_members SET $db_string".$password." WHERE id='".$IN['mid']."'");
+		$DB->query("UPDATE ibf_members
+                            SET $db_string".$password."
+                            WHERE id='".$IN['mid']."'");
 
 // Song * reputation
 
@@ -3248,17 +3292,18 @@ class ad_forums {
 			}
 			
 			$mem_array = array(
-							'title'        => $IN['title'],
-							'aim_name'     => $IN['aim_name'],
-							'icq_number'   => $IN['icq_number'],
-							'yahoo'        => $IN['yahoo'],
-							'msnname'      => $IN['msnname'],
-							'website'      => $IN['website'],
-							'location'     => $IN['location'],
-							'interests'    => $IN['interests'],
-							'id'		   => $IN['mid']
+					'title'        => $IN['title'],
+					'aim_name'     => $IN['aim_name'],
+					'icq_number'   => $IN['icq_number'],
+					'yahoo'        => $IN['yahoo'],
+					'msnname'      => $IN['msnname'],
+					'website'      => $IN['website'],
+					'location'     => $IN['location'],
+					'gender'       => $IN['gender'],
+					'interests'    => $IN['interests'],
+					'id'           => $IN['mid']
 
-							  );
+					  );
 			
 			$this->modules->on_profile_update($mem_array, $custom_fields);
 		}

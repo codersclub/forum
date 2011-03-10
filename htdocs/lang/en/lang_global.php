@@ -186,5 +186,11 @@ M_12			=>	"December",
 'valid_warning'     =>   "Your account <b>is not activated</b>, use of the forum is limited.<br>Instructions for activating sent to <b>*EMAIL*</b>.<br>To change e-mail address, use the <a href='?act=UserCP&CODE=08'>Control Panel</a>",
 //donate
 'like_sources'	=> "Like resource?",
-'donate_5rub'	=> "Donate"
+'donate_5rub'	=> "Donate",
+
+'gender'		=> "Gender",
+'gender_male'		=> "Male",
+'gender_female'		=> "Female",
+
+
 );

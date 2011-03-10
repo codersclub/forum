@@ -144,3 +144,9 @@ $lang['valid_warning']     =   "Ваша учетная запись <b>НЕ активирована</b>, испо
 // донат
 $lang['like_sources']	= "Нравится ресурс?";
 $lang['donate_5rub']	= "Дай пять";
+
+$lang['gender']         = "Пол";
+$lang['gender_male']    = "Муж.";
+$lang['gender_female']  = "Жен.";
+
+

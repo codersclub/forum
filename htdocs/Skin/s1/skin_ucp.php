@@ -332,6 +332,7 @@ return <<<EOF
 <div class='pformstrip'>{$ibforums->lang['profile_title']}</div>
 <table width='100%'>
 <!--{MEMBERTITLE}-->
+<!--{GENDER}-->
 <!--{BIRTHDAY}-->
 <tr>
   <td class='pformleft'>{$ibforums->lang['website']}</td>
@@ -526,6 +527,27 @@ return <<<EOF
   <select name='month' class='forminput'>{$month}</select> 
   <select name='year' class='forminput'>{$year}</select>
   </td>
+  </tr>
+
+EOF;
+}
+
+
+function gender($gender) {
+global $ibforums;
+
+$set_male   = ($gender=='m') ? "checked='checked'" : '';
+$set_female = ($gender=='f') ? "checked='checked'" : '';
+
+return <<<EOF
+
+  <tr>
+    <td class='pformleft'><b>{$ibforums->lang['gender']}</b></td>
+    <td class='pformright'>
+      <input type='radio' class='radiobutton' name='gender' value='m' {$set_male}   />&nbsp;<b>{$ibforums->lang['gender_male']}</b>
+      &nbsp;&nbsp;&nbsp;
+      <input type='radio' class='radiobutton' name='gender' value='f' {$set_female} />&nbsp;<b>{$ibforums->lang['gender_female']}</b>
+    </td>
   </tr>
 
 EOF;

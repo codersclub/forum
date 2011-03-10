@@ -1149,7 +1149,12 @@ class usercp_functions {
 		{
 			$ibforums->input['WebSite'] = 'http://'.$ibforums->input['WebSite'];
 		}
-		
+
+		if ( !preg_match( "#^[mf]$#", $ibforums->input['gender'] ) )
+		{
+			$ibforums->input['gender'] = '';
+		}
+
 		//----------------------------------
 		// Start off our array
 		//----------------------------------
@@ -1162,6 +1167,7 @@ class usercp_functions {
 			   'msnname'     => $ibforums->input['MSNName'],
 			   'integ_msg'   => $ibforums->input['integ_msg'],
 			   'location'    => $ibforums->input['Location'],
+			   'gender'      => $ibforums->input['gender'],
 			   'interests'   => $ibforums->input['Interests'],
 			   'bday_day'    => $ibforums->input['day'],
 			   'bday_month'  => $ibforums->input['month'],

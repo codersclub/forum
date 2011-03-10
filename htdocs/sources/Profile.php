@@ -573,10 +573,10 @@ class Profile {
     	$info['fav_posts']   = $favourite['f_posts'];
     	$info['percent']     = $percent;
     	$info['group_title'] = $member['group_title'];
-    	  $mod_forums_count = $this->Mod_Forums_Count($member['id']);
+   	$mod_forums_count = $this->Mod_Forums_Count($member['id']);
     	if ($mod_forums_count>0) $info['mod_forums']  = "$mod_forums_count <a href=\"javascript:PopUp('{$ibforums->base_url}act=Stats&CODE=oneleader&mid=".$member['id']."', 'forums', '500','400','0','1','1','1','1')\">".$ibforums->lang['rep_details']."</a>"; 
-      else if ($this->Mod_Forums_All($member['id'])>0) $info['mod_forums']  = $ibforums->lang['mod_all_forums'];
-      else   $info['mod_forums']  = '';
+        else if ($this->Mod_Forums_All($member['id'])>0) $info['mod_forums']  = $ibforums->lang['mod_all_forums'];
+        else   $info['mod_forums']  = '';
     	$info['board_posts'] = $board_posts;
     	$info['joined']      = $std->get_date( $member['joined'], 'JOINED' );
     	
@@ -671,7 +671,14 @@ class Profile {
 
 	} else $info['homepage'] = $ibforums->lang['no_info'];
 		
-    	
+    	if($member['gender'] =='m') {
+    	  $info['gender'] = $ibforums->lang['gender_male'];
+    	} elseif($member['gender'] =='f') {
+    	  $info['gender'] = $ibforums->lang['gender_female'];
+    	} else {
+    	  $info['gender'] = $ibforums->lang['no_info'];
+    	}
+
     	if ($member['bday_month'])
     	{
     		$info['birthday'] = $member['bday_day']." ".$ibforums->lang[ 'M_'.$member['bday_month'] ]." ".$member['bday_year'];

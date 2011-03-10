@@ -110,13 +110,15 @@ class UserCP {
 		
 	// Get more member info..
     	
-    	$DB->query("SELECT m.*, me.notes,me.ta_size,me.photo_type,me.photo_location,me.photo_dimensions 
+    	$DB->query("SELECT m.*, 
+                           me.country,me.bio,me.notes,me.ta_size,me.photo_type,me.photo_location,me.photo_dimensions 
   		    FROM ibf_members m 
     		    LEFT JOIN ibf_member_extra me ON (me.id=m.id) 
 		    WHERE m.id='".$this->member['id']."'");
     			   
     	$this->member = $DB->fetch_row();
 		
+	$this->bio   = $this->member['bio'];
 	$this->links = $this->member['links'];
 	$this->notes = $this->member['notes'];
 	$this->size  = $this->member['ta_size'] ? $this->member['ta_size'] : $this->size;
@@ -2082,6 +2084,14 @@ class UserCP {
 		$t_html = $this->html->birthday($day, $mon, $year);
 		
 		$this->output = preg_replace( "/<!--\{BIRTHDAY\}-->/", $t_html, $this->output );
+		
+ 		//-----------------------------------------------
+		// Format the Gender radio buttons..
+		//-----------------------------------------------
+
+		$t_html = $this->html->gender($this->member['gender']);
+		
+		$this->output = preg_replace( "/<!--\{GENDER\}-->/", $t_html, $this->output );
 		
 		//-----------------------------------------------
 		// Add in the custom fields if we need to.

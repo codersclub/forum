@@ -1,6 +1,5 @@
 <?php
 
-
 $lang['av_gallery_title']= "Галерея аватаров:";
 $lang['av_gall_submit'] = "Использовать выбранный аватар";
 $lang['av_gall_cancel'] = "Выйти из галереи аватаров";
