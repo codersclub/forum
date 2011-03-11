@@ -1577,6 +1577,7 @@ class Topics {
 			p.*,
 			s.id as s_id,
 			m.id, m.name, m.mgroup, m.email, m.joined,
+			m.gender,
 			m.avatar, m.avatar_size, m.posts, m.aim_name,
 			m.icq_number, m.signature,  m.website, m.yahoo,
 			m.integ_msg, m.title, m.hide_email, m.msnname,
