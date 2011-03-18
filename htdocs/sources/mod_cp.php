@@ -21,6 +21,7 @@
 +--------------------------------------------------------------------------
 */
 
+require_once ROOT_PATH.'/sources/lib/classes/topic.class.php';
 
 $idx = new Moderate;
 
@@ -1744,7 +1745,11 @@ class Moderate {
 			$DB->query("UPDATE ibf_posts SET use_sig = 2, edit_time='".time()."', delete_after='".strtotime('+180 days')."'
 				    WHERE pid IN ($pids)");
 
-
+			$topic = new topic;
+			$topic->tid = $this->topic_id;
+			$topic->forum_id = $this->forum_id;
+			$topic->update_last_post_time();
+			
 			// vot: Remove search words for this topics
 
 			$std->index_del_posts($pids);

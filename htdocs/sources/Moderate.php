@@ -21,10 +21,10 @@
 +--------------------------------------------------------------------------
 */
 
+require_once dirname(__FILE__).'/Attach.php';
+require_once ROOT_PATH.'/sources/lib/classes/topic.class.php';
 
 $idx = new Moderate;
-
-require_once dirname(__FILE__).'/Attach.php';
 
 class Moderate {
 
@@ -2561,23 +2561,6 @@ class Moderate {
 		
 
 
-		//---------------------------------------
-		// Is there an attachment to this post?
-		// Remove if exists.
-		//---------------------------------------
-		
-		// Attach2::deleteAllPostAttachments($post);
-		/*
-		if ( $post['attach_id'] )
-		{
-			if (is_file($this->upload_dir."/".$post['attach_id']))
-			{
-				unlink ($this->upload_dir."/".$post['attach_id']);
-			}
-		}
-		*/
-		
-
 
 		//---------------------------------------
 		// vot: delete the search words for this post
@@ -2592,13 +2575,7 @@ class Moderate {
 		//---------------------------------------
 		$DB->query("UPDATE ibf_posts SET use_sig = 2, edit_time='".time()."'
 		    WHERE pid='".$post['pid']."'");
-		/*
-		$DB->query("DELETE
-			    FROM ibf_posts
-			    WHERE
-				topic_id='".$this->topic['tid']."'
-				AND pid='".$post['pid']."'");
-		*/
+		
 		//---------------------------------------
 		// Update the stats
 		//---------------------------------------
@@ -2622,65 +2599,8 @@ class Moderate {
 		//---------------------------------------
 		// Get the latest post details
 		//---------------------------------------
-		
-		$DB->query("SELECT
-				post_date,
-				author_id,
-				author_name
-			    FROM ibf_posts 
-			    WHERE topic_id='".$this->topic['tid']."'
-				AND queued != 1 
-			    ORDER BY pid DESC
-			    LIMIT 1");
-
-		$last_post = $DB->fetch_row();
-			
-		$DB->query("UPDATE ibf_topics
-			    SET
-				last_post='".$last_post['post_date']."',
-				last_poster_id='"   .$last_post['author_id']."',
-				last_poster_name='" .$last_post['author_name']."',
-				posts=posts-1 
-			    WHERE tid='".$this->topic['tid']."'");
-										 
-		//---------------------------------------
-		// If we deleted the last post in a topic that was
-		// the last post in a forum, best update that :D
-		//---------------------------------------
-		
-		if ( $this->forum['last_id'] == $this->topic['tid'] )
-		{
-			$DB->query("SELECT
-					title,
-					tid,
-					last_post,
-					last_poster_id,
-					last_poster_name 
-				    FROM ibf_topics
-				    WHERE
-					forum_id='".$this->forum['id']."'
-					AND approved=1 
-				    ORDER BY last_post DESC
-				    LIMIT 1");
-		          
-			$tt = $DB->fetch_row();
-			
-			$db_string = $DB->compile_db_update_string(
-					array(
-					last_title       => $tt['title']            ? $tt['title']            : "",
-					last_id          => $tt['tid']              ? $tt['tid']              : "",
-					last_post        => $tt['last_post']        ? $tt['last_post']        : "",
-					last_poster_name => $tt['last_poster_name'] ? $tt['last_poster_name'] : "",
-					last_poster_id   => $tt['last_poster_id']   ? $tt['last_poster_id']   : "",
-				  )      );
-			
-			$DB->query("UPDATE
-					ibf_forums
-				    SET
-					$db_string,
-					posts=posts-1
-				    WHERE id='".$this->forum['id']."'");
-		}
+		$topic = topic::create_from_array($this->topic);
+		$topic->update_last_post_time();
 		
 		$this->moderate_log("Deleted a post");
 	
@@ -4012,6 +3932,9 @@ class Moderate {
 			edit_name='".$ibforums->member['name']."' 
 		    WHERE pid='".$pid."'");
 
+	$topic = topic::create_from_array($this->topic);
+	$topic->update_last_post_time();
+	
 	if ( !$ibforums->input['linkID'] )
 	{
 		$print->redirect_screen("", "showtopic=".$this->topic['tid']."&view=findpost&p=".$pid, "html");

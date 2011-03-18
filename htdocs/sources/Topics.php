@@ -1018,6 +1018,7 @@ class Topics {
 						    WHERE
 								queued != 1 AND
 								topic_id='".$this->topic['tid']."'
+								AND use_sig = 0
 								and post_date > $last_read_time
 						    ORDER BY post_date
 						    LIMIT 1");
@@ -3382,6 +3383,7 @@ class Topics {
 			    FROM ibf_posts
 			    WHERE
 				queued != 1 AND
+				use_sig = 0 AND
 				topic_id='".$this->topic['tid']."'");
 		$post = $DB->fetch_row();
 		

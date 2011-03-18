@@ -209,6 +209,18 @@ class db_driver {
         
     }
 
+    function fetch_object($query_id = "", $class_name = 'stdClass') {
+    
+    	if ($query_id == "")
+    	{
+    		$query_id = $this->query_id;
+    	}
+    	
+        $this->record_row = mysql_fetch_object($query_id, $class_name);
+        
+        return $this->record_row;
+        
+    }
     function fetch_simple_row($query_id = "") {
     
     	if ($query_id == "")
