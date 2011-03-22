@@ -1066,7 +1066,13 @@ class Forums {
 		
 		$First = $First ? $First : 0;
 		
- 		$query .= " and deleted=0 ORDER BY my_pinned, $sort_key $r_sort_by LIMIT $First,".$ibforums->vars['display_max_topics'];
+		if ($this->forum['has_mod_posts'] && $this->is_moderator($this->forum['id'])) {
+			$mod_order = ' (SELECT queued FROM ibf_posts WHERE queued = 1 AND topic_id = ibf_topics.tid LIMIT 1) DESC,  ';
+		} else {
+			$mod_order = '';
+		}
+		
+ 		$query .= " and deleted=0 ORDER BY $mod_order my_pinned, $sort_key $r_sort_by LIMIT $First,".$ibforums->vars['display_max_topics'];
 		
 		$DB->query($query);
 		
