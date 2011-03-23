@@ -2503,14 +2503,13 @@ class post_parser {
 			
 // Song * Mastilior skin patch for red color, 30.04.05 
 
-			if ( $IN['1'] == "red" or $IN['1'] == "RED" )
-			{
+			if ( $IN['1'] == "red" or $IN['1'] == "RED" ) {
 				return "<span class='movedprefix'>{$IN['2']}</span>";
-
-			} else
-			{
+			} elseif(preg_match('!^([0-9a-f]{6}|[0-9a-f]{3})$!i',$IN['1'])) {
+				return "<span style='color:#{$IN['1']}'>{$IN['2']}</span>";
+			} else {
 				return "<span style='color:{$IN['1']}'>{$IN['2']}</span>";
-			}
+ 			}
 			
 
 // Song * Mastilior skin patch for red color, 30.04.05 
