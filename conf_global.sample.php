@@ -57,7 +57,7 @@ $INFO['bank_on']			=	'0';
 $INFO['banner_bottom']			=	'<div align="center">Гаражные <a href="http://www.bestrol.ru/" title="рольставни">рольставни</a> ворота, встроенные рольставни</div>';
 $INFO['banner_middle']			=	'';
 $INFO['banner_top_nav']			=	'<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="468" height="60" id="finalmx" align="middle"><param name="allowScriptAccess" value="sameDomain" /><param name="movie" value="/asdf/msm.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><embed src="/asdf/msm.swf" quality="high" bgcolor="#ffffff" width="468" height="60" name="finalmx" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></object>';
-$INFO['base_dir']			=	'/www/sources.forum/htdocs/';
+$INFO['base_dir']			=	'./';
 $INFO['base_intrest']			=	'2';
 $INFO['board_desc']			=	'Website forums';
 $INFO['board_name']			=	'Форум на Исходниках.RU';
