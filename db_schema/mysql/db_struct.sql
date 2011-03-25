@@ -3,7 +3,13 @@
 -- Host: localhost    Database: invision
 -- ------------------------------------------------------
 -- Server version	5.1.35-log
+/*
 
+dump command:
+
+mysqldump --default-character-set=cp1251 --no-data invision > db_struct.sql
+
+*/
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -14,6 +20,29 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+SET NAMES cp1251;
+
+--
+-- Table structure for table `cc_module`
+--
+
+
+DROP TABLE IF EXISTS `cc_module`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cc_module` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `module` varchar(64) NOT NULL DEFAULT '',
+  `title` varchar(64) NOT NULL DEFAULT '',
+  `icon` varchar(64) NOT NULL DEFAULT '',
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `system` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `date` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `active` (`active`)
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=cp1251 PACK_KEYS=0;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `client_members`
@@ -46,7 +75,7 @@ CREATE TABLE `ibf_admin_foreign_visits` (
   `content` text,
   PRIMARY KEY (`id`),
   KEY `dt` (`dt`)
-) ENGINE=MyISAM AUTO_INCREMENT=2559 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=3100 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +95,7 @@ CREATE TABLE `ibf_admin_logs` (
   `ip_address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9175 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=9432 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -510,7 +539,7 @@ CREATE TABLE `ibf_contacts` (
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`,`contact_id`),
   KEY `show_online` (`show_online`)
-) ENGINE=MyISAM AUTO_INCREMENT=3196 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=3259 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -552,7 +581,7 @@ CREATE TABLE `ibf_email_logs` (
   PRIMARY KEY (`email_id`),
   KEY `from_member_id` (`from_member_id`),
   KEY `email_date` (`email_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=1044 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1061 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -571,7 +600,7 @@ CREATE TABLE `ibf_emoticons` (
   PRIMARY KEY (`id`),
   KEY `skid` (`skid`),
   KEY `clickable` (`clickable`)
-) ENGINE=MyISAM AUTO_INCREMENT=361 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=365 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -630,7 +659,7 @@ CREATE TABLE `ibf_forum_perms` (
   `perm_id` int(10) NOT NULL AUTO_INCREMENT,
   `perm_name` varchar(250) NOT NULL DEFAULT '',
   PRIMARY KEY (`perm_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -648,7 +677,7 @@ CREATE TABLE `ibf_forum_tracker` (
   `last_sent` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`frid`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2926 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=3088 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -666,6 +695,7 @@ CREATE TABLE `ibf_forums` (
   `last_poster_id` mediumint(8) NOT NULL DEFAULT '0',
   `last_poster_name` varchar(32) DEFAULT NULL,
   `name` varchar(128) NOT NULL DEFAULT '',
+  `icon` varchar(128) DEFAULT NULL COMMENT 'forum icon by sunny',
   `description` text,
   `position` tinyint(2) DEFAULT NULL,
   `use_ibc` tinyint(1) DEFAULT NULL,
@@ -821,7 +851,7 @@ CREATE TABLE `ibf_groups` (
   PRIMARY KEY (`g_id`),
   KEY `g_hide_from_list` (`g_hide_from_list`),
   KEY `g_title` (`g_title`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -843,7 +873,7 @@ CREATE TABLE `ibf_ip_table` (
   PRIMARY KEY (`id`),
   KEY `mid` (`mid`),
   KEY `ip_data` (`fid`,`ok1`,`ok2`,`ok3`,`ok4`)
-) ENGINE=MyISAM AUTO_INCREMENT=694 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=698 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -925,7 +955,7 @@ CREATE TABLE `ibf_macro` (
   `macro_set` smallint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`macro_id`),
   KEY `macro_set` (`macro_set`)
-) ENGINE=MyISAM AUTO_INCREMENT=1659 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1664 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -958,9 +988,9 @@ CREATE TABLE `ibf_member_extra` (
   `photo_type` varchar(10) DEFAULT '',
   `photo_location` varchar(255) DEFAULT '',
   `photo_dimensions` varchar(200) DEFAULT '',
-  `country` VARCHAR(2) NOT NULL DEFAULT '',
+  `country` varchar(2) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `country` (`country`)
+  KEY `ibf_member_extra` (`country`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -977,7 +1007,7 @@ CREATE TABLE `ibf_members` (
   `mgroup` smallint(3) NOT NULL DEFAULT '0',
   `old_group` smallint(3) NOT NULL DEFAULT '0',
   `password` varchar(255) NOT NULL DEFAULT '',
-  `gender` ENUM( '', 'm', 'f' ) NOT NULL DEFAULT '';
+  `gender` enum('','m','f') NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
   `joined` int(10) NOT NULL DEFAULT '0',
   `ip_address` varchar(16) NOT NULL DEFAULT '',
@@ -1057,6 +1087,7 @@ CREATE TABLE `ibf_members` (
   `show_icons` tinyint(1) NOT NULL DEFAULT '1',
   `show_ratting` tinyint(1) NOT NULL DEFAULT '1',
   `css_method` enum('inline','external') NOT NULL DEFAULT 'external',
+  `forum_icon` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'forum icon by sunny',
   `show_filter` tinyint(1) NOT NULL DEFAULT '0',
   `disable_mail` tinyint(1) NOT NULL DEFAULT '0',
   `disable_mail_reason` varchar(255) DEFAULT NULL,
@@ -1074,7 +1105,6 @@ CREATE TABLE `ibf_members` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `mgroup` (`mgroup`),
-  KEY `gender` (`gender`),
   KEY `bday_day` (`bday_day`),
   KEY `bday_month` (`bday_month`),
   KEY `ip_address` (`ip_address`),
@@ -1083,8 +1113,10 @@ CREATE TABLE `ibf_members` (
   KEY `fined` (`fined`),
   KEY `joined` (`joined`),
   KEY `posts` (`posts`),
-  KEY `sskin_id` (`sskin_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=135582 DEFAULT CHARSET=cp1251;
+  KEY `sskin_id` (`sskin_id`),
+  KEY `last_visit` (`last_visit`),
+  KEY `gender` (`gender`)
+) ENGINE=MyISAM AUTO_INCREMENT=139226 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1114,7 +1146,7 @@ CREATE TABLE `ibf_messages` (
   KEY `vid` (`vid`),
   KEY `from_id` (`from_id`),
   KEY `idx_sender_date` (`from_id`,`msg_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=483981 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=500568 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1139,7 +1171,7 @@ CREATE TABLE `ibf_moderator_logs` (
   `query_string` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=107434 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=110586 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1187,7 +1219,7 @@ CREATE TABLE `ibf_moderators` (
   KEY `forum_id` (`forum_id`),
   KEY `group_id` (`group_id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1070 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1078 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1257,7 +1289,7 @@ CREATE TABLE `ibf_polls` (
   `live_before` int(10) DEFAULT NULL,
   PRIMARY KEY (`pid`),
   UNIQUE KEY `tid` (`tid`)
-) ENGINE=MyISAM AUTO_INCREMENT=3827 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=3880 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1277,7 +1309,25 @@ CREATE TABLE `ibf_post_attachments` (
   `size` int(11) DEFAULT NULL,
   `hits` int(11) DEFAULT '0',
   PRIMARY KEY (`attach_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4361 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=8346 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_post_edit_history`
+--
+
+DROP TABLE IF EXISTS `ibf_post_edit_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_post_edit_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `old_text` text,
+  `editor_id` mediumint(8) DEFAULT NULL,
+  `editor_name` varchar(32) DEFAULT NULL,
+  `edit_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=15893 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1315,6 +1365,7 @@ CREATE TABLE `ibf_posts` (
   `added_to_faq` tinyint(1) NOT NULL DEFAULT '0',
   `indexed` tinyint(1) NOT NULL DEFAULT '0',
   `attach_exists` tinyint(1) DEFAULT NULL,
+  `decline_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`pid`),
   KEY `author_id` (`author_id`),
   KEY `ip_address` (`ip_address`),
@@ -1324,8 +1375,8 @@ CREATE TABLE `ibf_posts` (
   KEY `forum_id` (`forum_id`,`post_date`),
   KEY `delete_after` (`delete_after`),
   KEY `indexed` (`indexed`),
-  KEY `queued` (`queued`)
-) ENGINE=MyISAM AUTO_INCREMENT=2756153 DEFAULT CHARSET=cp1251;
+  KEY `posts_queued_posts` (`topic_id`,`queued`)
+) ENGINE=MyISAM AUTO_INCREMENT=2861755 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1342,6 +1393,74 @@ CREATE TABLE `ibf_preview_user` (
   `restrict_posts` char(100) DEFAULT NULL,
   `temp_ban` char(100) DEFAULT NULL,
   KEY `idx` (`mid`,`fid`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_quiz`
+--
+
+DROP TABLE IF EXISTS `ibf_quiz`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_quiz` (
+  `mid` int(15) NOT NULL AUTO_INCREMENT,
+  `quiz_id` int(9) NOT NULL DEFAULT '0',
+  `question` text NOT NULL,
+  `answer` text NOT NULL,
+  `type` enum('single','multiq','dropdown','radio','checkbox','opinion') NOT NULL DEFAULT 'single',
+  PRIMARY KEY (`mid`)
+) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_quiz_info`
+--
+
+DROP TABLE IF EXISTS `ibf_quiz_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_quiz_info` (
+  `q_id` int(9) NOT NULL AUTO_INCREMENT,
+  `quizname` varchar(255) NOT NULL DEFAULT 'None',
+  `quizdesc` varchar(70) NOT NULL DEFAULT '',
+  `starter_id` mediumint(8) NOT NULL DEFAULT '0',
+  `starter_name` varchar(32) NOT NULL DEFAULT '',
+  `views` int(11) NOT NULL DEFAULT '0',
+  `icon_id` tinyint(2) NOT NULL DEFAULT '0',
+  `pinned` tinyint(1) NOT NULL DEFAULT '0',
+  `approved` tinyint(1) NOT NULL DEFAULT '1',
+  `club` tinyint(1) NOT NULL DEFAULT '0',
+  `post` text NOT NULL,
+  `percent_needed` int(3) NOT NULL DEFAULT '0',
+  `amount_won` int(9) NOT NULL DEFAULT '0',
+  `started_on` int(14) NOT NULL DEFAULT '0',
+  `run_for` int(15) NOT NULL DEFAULT '0',
+  `let_only` int(9) NOT NULL DEFAULT '0',
+  `quiz_status` enum('OPEN','CLOSED') NOT NULL DEFAULT 'OPEN',
+  `timeout` int(9) NOT NULL DEFAULT '0',
+  `pending` tinyint(1) NOT NULL DEFAULT '1',
+  `quiz_items` text NOT NULL,
+  PRIMARY KEY (`q_id`),
+  KEY `starter_id` (`starter_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_quiz_winners`
+--
+
+DROP TABLE IF EXISTS `ibf_quiz_winners`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_quiz_winners` (
+  `quiz_id` int(9) NOT NULL DEFAULT '0',
+  `memberid` int(9) NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) NOT NULL DEFAULT '',
+  `amount_right` int(9) NOT NULL DEFAULT '0',
+  `time` int(10) NOT NULL DEFAULT '0',
+  `time_took` int(9) NOT NULL DEFAULT '0',
+  `answers` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1383,7 +1502,7 @@ CREATE TABLE `ibf_reputation` (
   PRIMARY KEY (`msg_id`),
   KEY `stat` (`from_id`,`vis`),
   KEY `total` (`member_id`,`CODE`)
-) ENGINE=MyISAM AUTO_INCREMENT=95841 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=98848 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1455,7 +1574,7 @@ CREATE TABLE `ibf_search_words` (
   `word` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `word` (`word`)
-) ENGINE=MyISAM AUTO_INCREMENT=2164606 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=2229688 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1612,7 +1731,7 @@ CREATE TABLE `ibf_store_inventory` (
   `item_id` int(9) NOT NULL DEFAULT '0',
   `price_payed` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`i_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=186 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=187 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1637,7 +1756,7 @@ CREATE TABLE `ibf_store_logs` (
   KEY `fromid` (`fromid`),
   KEY `toid` (`toid`),
   KEY `type` (`type`)
-) ENGINE=MyISAM AUTO_INCREMENT=1265 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1738 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1662,74 +1781,6 @@ CREATE TABLE `ibf_store_modlogs` (
   KEY `fromid` (`fromid`),
   KEY `toid` (`toid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=316 DEFAULT CHARSET=cp1251;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ibf_quiz_info`
---
-
-DROP TABLE IF EXISTS `ibf_quiz_info`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ibf_quiz_info` (
-  `q_id` int(9) NOT NULL AUTO_INCREMENT,
-  `quizname` varchar(255) NOT NULL DEFAULT 'None',
-  `quizdesc` varchar(70) NOT NULL DEFAULT '',
-  `starter_id` mediumint(8) NOT NULL DEFAULT '0',
-  `starter_name` varchar(32) NOT NULL DEFAULT '',
-  `views` int(11) NOT NULL DEFAULT '0',
-  `icon_id` tinyint(2) NOT NULL DEFAULT '0',
-  `pinned` tinyint(1) NOT NULL DEFAULT '0',
-  `approved` tinyint(1) NOT NULL DEFAULT '1',
-  `club` tinyint(1) NOT NULL DEFAULT '0',
-  `post` text NOT NULL,
-  `percent_needed` int(3) NOT NULL DEFAULT '0',
-  `amount_won` int(9) NOT NULL DEFAULT '0',
-  `started_on` int(14) NOT NULL DEFAULT '0',
-  `run_for` int(15) NOT NULL DEFAULT '0',
-  `let_only` int(9) NOT NULL DEFAULT '0',
-  `quiz_status` enum('OPEN','CLOSED') NOT NULL DEFAULT 'OPEN',
-  `timeout` int(9) NOT NULL DEFAULT '0',
-  `pending` tinyint(1) NOT NULL DEFAULT '1',
-  `quiz_items` text NOT NULL,
-  PRIMARY KEY (`q_id`),
-  KEY `starter_id` (`starter_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ibf_quiz`
---
-
-DROP TABLE IF EXISTS `ibf_quiz`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ibf_quiz` (
-  `mid` int(15) NOT NULL AUTO_INCREMENT,
-  `quiz_id` int(9) NOT NULL DEFAULT '0',
-  `question` text NOT NULL,
-  `answer` text NOT NULL,
-  `type` enum('single','multiq','dropdown','radio','checkbox','opinion') NOT NULL DEFAULT 'single',
-  PRIMARY KEY (`mid`)
-) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=cp1251;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ibf_quiz_winners`
---
-
-DROP TABLE IF EXISTS `ibf_quiz_winners`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ibf_quiz_winners` (
-  `quiz_id` int(9) NOT NULL DEFAULT '0',
-  `memberid` int(9) NOT NULL DEFAULT '0',
-  `ip_address` varchar(16) NOT NULL DEFAULT '',
-  `amount_right` int(9) NOT NULL DEFAULT '0',
-  `time` int(10) NOT NULL DEFAULT '0',
-  `time_took` int(9) NOT NULL DEFAULT '0',
-  `answers` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1972,7 +2023,7 @@ CREATE TABLE `ibf_topics` (
   KEY `approved` (`approved`),
   KEY `pinned` (`pinned`),
   KEY `mirrored_topic_id_index` (`mirrored_topic_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=318840 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=328948 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1991,7 +2042,7 @@ CREATE TABLE `ibf_topicsinfo` (
   PRIMARY KEY (`id`),
   KEY `tid` (`tid`),
   KEY `date` (`date`)
-) ENGINE=MyISAM AUTO_INCREMENT=116 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=117 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2010,7 +2061,7 @@ CREATE TABLE `ibf_tracker` (
   PRIMARY KEY (`trid`),
   KEY `member_id` (`member_id`),
   KEY `data` (`topic_id`,`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=93048 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=95511 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2071,7 +2122,7 @@ CREATE TABLE `ibf_voters` (
   `votes` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`vid`),
   KEY `tid` (`tid`,`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=197589 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=200178 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2094,7 +2145,7 @@ CREATE TABLE `ibf_warn_logs` (
   PRIMARY KEY (`wlog_id`),
   KEY `pid` (`pid`),
   KEY `wlog_mid` (`wlog_mid`,`wlog_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=9662 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=10340 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2111,7 +2162,7 @@ CREATE TABLE `ibf_warnings` (
   `RestrictDate` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `RestrictDate` (`RestrictDate`,`mid`)
-) ENGINE=MyISAM AUTO_INCREMENT=5796 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=6243 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2143,4 +2194,4 @@ CREATE TABLE `ip_table` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-11-19  5:51:32
+-- Dump completed on 2011-03-25 16:04:17
