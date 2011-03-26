@@ -22,7 +22,7 @@ use Time::Local;
 
 our ($need2send, $db_host, $db_port, $db_user, $db_password, $db_name);
 
-require './bot_config.pl';
+require '/www/sources.forum/cron/bot_config.pl';
 
 
 ########################################
