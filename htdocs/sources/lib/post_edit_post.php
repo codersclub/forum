@@ -682,7 +682,7 @@ class post_functions extends Post {
 		
 		if (isset($ibforums->input['restore_id'])) {
 			$history_item = PostEditHistory::getOneItem($this->orig_post['pid'], $ibforums->input['restore_id'] );
-			$ibforums->input['Post'] = $history_item['old_text'];
+			$_POST['Post'] = $history_item['old_text'];
 			if (($this->moderator['mid'] != "" &&
 				$ibforums->member['id'] != 0) ||
 				$ibforums->member['g_is_supmod'] == 1)
@@ -691,10 +691,10 @@ class post_functions extends Post {
 			} else {
 				$modflag = false;
 			}
-            $ibforums->input['Post'] = 
+             
 			$this->post['post']	= $class->parser->convert( 
 				 array(
-					'TEXT'     => $ibforums->input['Post'],
+					'TEXT'     => $_POST['Post'],
 					'SMILIES'  => $ibforums->input['enableemo'],
 					'CODE'     => $class->forum['use_ibc'],
 					'HTML'     => $class->forum['use_html'],
