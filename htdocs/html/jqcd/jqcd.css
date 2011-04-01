@@ -1,0 +1,91 @@
+@CHARSET "UTF-8";
+
+.jqcd{
+	position:absolute;
+}
+
+
+.jqcd_content{
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
+.jqcd_title{
+	width: 100%;
+	margin-top: 0px;
+}
+
+.jqcd_title:hover{
+	cursor: move;
+}
+
+.jqcd_title_text{
+	margin-left: 5px;
+	float: left;
+	width: 82%;
+	margin-top: 2px;
+	line-height: 18px;
+}
+
+.jqcd_close_btn{
+	display: block;
+	float: right;
+}
+
+.jqcd_close_btn:hover{
+	cursor: pointer;
+}
+
+
+.jqcd_buttons_panel{
+
+}
+
+
+.jqcd_modal_layer{
+	width: 100%; 
+	position: absolute; 
+	background-color: rgb(220,220,220); 
+	top:0; left:0;
+	filter:alpha(opacity=60); 
+    -moz-opacity: 0.6; 
+    opacity: 0.6;
+    z-index: 1000;
+    display: none;
+}
+
+.jqcd_resizer{
+	position: absolute;  
+	right:5px; bottom:5px; 
+}
+
+.jqcd_resizer:hover{
+	cursor:nw-resize;
+}
+
+/* For modal dialog */
+.jqcd_disabler{
+	position: absolute;	
+	filter:alpha(opacity=60); 
+    -moz-opacity: 0.6; 
+    opacity: 0.6;
+	left:0px; top:0px;
+	/*background-color: rgb(220,220,220);*/
+	display: none;
+}
+
+/*For IE only*/
+.jqcd_shadow{
+	position: absolute;
+	border: 1px solid red;
+	background-color: #999999;
+	top:-10px; left:-10px;
+    z-index: -10; 
+    zoom: 1;
+	filter:
+	progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=45,strength=5)
+	progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135,strength=5)
+	progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=225,strength=5)
+	progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=315,strength=5);
+	
+}

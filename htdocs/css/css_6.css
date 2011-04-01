@@ -1,3 +1,5 @@
+@import "/html/jqcd/skins/light-blue/skin.css";
+
 html { overflow-x: auto }
 .mstop {
 	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: #e4eaf2; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px

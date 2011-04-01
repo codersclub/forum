@@ -207,3 +207,53 @@ function preloadCodeButtons(tag_id)
 		loadImage(getImage(document.getElementById(disable_id)));
 	}
 }
+
+function PopUp(url, name, width,height,center,resize,scroll,posleft,postop) {
+	if (posleft != 0) { x = posleft }
+	if (postop  != 0) { y = postop  }
+
+	if (!scroll) { scroll = 1 }
+	if (!resize) { resize = 1 }
+
+	if ((parseInt (navigator.appVersion) >= 4 ) && (center)) {
+	  X = (screen.width  - width ) / 2;
+	  Y = (screen.height - height) / 2;
+	}
+	if (scroll != 0) { scroll = 1 }
+
+	var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',left='+X+',resizable='+resize+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no');
+}
+
+function PopUpCD(url, name, d_width,d_height,center,resize1,scroll,posleft,postop) {
+
+    if (last=document.getElementById('dialog')) document.body.removeChild(last);
+
+    con = "<div style='margin-left:-110px; position:absolute;left:50%; top:50%; cursor:default'><img src='img/ajax-loader.gif'></div>";
+    title = 'Загрузка...';
+
+    text = "<div id='dialog'><div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'>"+con+"</div></div></div></div>";
+
+    document.body.innerHTML += text;
+
+
+    $('#dialog').jqcd({
+      width: parseInt(d_width),
+      height: parseInt(d_height),
+      position: 'center',
+      title_text: title,
+      auto_open: true,
+      resize: resize1,
+      pic_path: '/img/',
+      has_buttons: true });
+
+    
+    $.get(url, function(data) {
+	    str = new String(data);
+	    con=str.substring(str.lastIndexOf('<body>')+6, str.indexOf('</body>'));
+	    title=str.substring(str.lastIndexOf('<title>')+7, str.indexOf('</title>')); 
+	    $('#dialog').jqcd_set_caption(title);
+	    $('#dialog').jqcd_set_content(con);  
+    });   
+
+
+}

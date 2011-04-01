@@ -1,3 +1,5 @@
+@import "/html/jqcd/skins/main/skin.css";
+
 html { overflow-x: auto }
 BODY { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 70%; color: #000; margin: 0px; padding: 0px; background-color: #FFF; text-align: center }
 TABLE, TR, TD { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 100%; color: #000 }
