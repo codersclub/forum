@@ -91,7 +91,7 @@ function secondnewslink($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
 
-<b>{$ibforums->lang['secondnewslink']} <a href='{$ibforums->base_url}showtopic=$tid'><font color="blue">$title</font></a></b><br>
+<b>{$ibforums->lang['secondnewslink']} <a href='{$ibforums->base_url}showtopic=$tid'><span style='color:blue'>$title</span></a></b><br>
 
 EOF;
 }
@@ -174,7 +174,7 @@ function newslink($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
 
-<b>{$ibforums->lang['newslink']} <a href='{$ibforums->base_url}showtopic=$tid'><font color="green">$title</font></a></b>
+<b>{$ibforums->lang['newslink']} <a href='{$ibforums->base_url}showtopic=$tid'><span style='color:green'>$title</span></a></b>
 
 EOF;
 }
@@ -280,7 +280,7 @@ return <<<EOF
           <td class='row4' width='95%'>
             <b>{$active[GUESTS]}</b> {$ibforums->lang['guests']}, <b>$active[MEMBERS]</b> {$ibforums->lang['public_members']} <b>$active[ANON]</b> {$ibforums->lang['anon_members']}
             <div class='thin'>{$active[NAMES]}<br><br>
-            [<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=4&sort_order=asc&sort_key=name&st=0"><font color='red'>администраторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=7&sort_order=asc&sort_key=name&st=0"><font color='blue'>модераторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=9&sort_order=asc&sort_key=name&st=0"><font color='green'>координаторы проектов</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0"><font color='navy'>участники клуба Sources.Ru</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=3&sort_order=asc&sort_key=name&st=0">участники</a>,&nbsp;<font color=gray>наказанные</font>]</div>
+            [<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=4&sort_order=asc&sort_key=name&st=0"><span style='color:red'>администраторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=7&sort_order=asc&sort_key=name&st=0"><font color='blue'>модераторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=9&sort_order=asc&sort_key=name&st=0"><font color='green'>координаторы проектов</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0"><font color='navy'>участники клуба Sources.Ru</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=3&sort_order=asc&sort_key=name&st=0">участники</a>,&nbsp;<font color=gray>наказанные</span>]</div>
             {$active['links']}
           </td>
         </tr>

@@ -101,8 +101,8 @@ $lang['link_profile']  = "Profile";
 $lang['report_link']  = "<font color=\'red\'>Alert moderator <b>about the violation</b> in this topic</font>";
 $lang['fav_add']  = "Add to Favorites";
 $lang['fav_remove']  = "Remove from Favorites";
-$lang['modcp_accept']  = "<font color=red><b>Accept</b></font>";
-$lang['modcp_reject']  = "<font color=red><b>Reject</b></font>";
+$lang['modcp_accept']  = "<span style='color:red'><b>Accept</b></span>";
+$lang['modcp_reject']  = "<span style='color:red'><b>Reject</b></span>";
 $lang['attachment_size'] = "Attachment size: %s kb";
 $lang['attachment_size_b']  = "%s B"; // http://en.wikipedia.org/wiki/Byte#Unit_symbol_or_abbreviation
 $lang['attachment_size_kb']  = "%s K";

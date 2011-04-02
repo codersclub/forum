@@ -115,8 +115,8 @@ return <<<EOF
   <td align='left'>{$data[SEARCH]}</td>
 </tr>
 <tr>
-  <td><font color="gray">{$ibforums->lang['want_highlight']}</font><br></td>
-  <td><font color="red">(более недоступно)</font></td>
+  <td><span style='color:gray'>{$ibforums->lang['want_highlight']}</span><br></td>
+  <td><span style='color:red'>(более недоступно)</span></td>
 </tr>
 <tr>
   <td>{$ibforums->lang['close_category']}<br></td>

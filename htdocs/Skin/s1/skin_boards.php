@@ -174,7 +174,7 @@ return <<<EOF
           <td class='row4' width='95%'>
             <b>{$active['GUESTS']}</b> {$ibforums->lang['guests']}, <b>{$active['MEMBERS']}</b> {$ibforums->lang['public_members']} <b>{$active['ANON']}</b> {$ibforums->lang['anon_members']}
             <div class='thin'>{$friends}{$active['NAMES']}<br><br>
-            [<a href="{$ibforums->base_url}act=Members&max_results=30&filter=4&sort_order=asc&sort_key=name&st=0"><span class='movedprefix'>администраторы</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=7&sort_order=asc&sort_key=name&st=0"><font color='blue'>модераторы</font></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=26&sort_order=asc&sort_key=name&st=0"><font color='purple'>ветераны</font></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=9&sort_order=asc&sort_key=name&st=0"><span class='voteprefix'>координаторы проектов</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0"><font color='navy'>участники клуба</font></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=3&sort_order=asc&sort_key=name&st=0">участники</a>,&nbsp;<font color=gray>наказанные</font>]</div>
+            [<a href="{$ibforums->base_url}act=Members&max_results=30&filter=4&sort_order=asc&sort_key=name&st=0"><span class='movedprefix'>администраторы</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=7&sort_order=asc&sort_key=name&st=0"><span style='color:blue'>модераторы</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=26&sort_order=asc&sort_key=name&st=0"><font color='purple'>ветераны</font></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=9&sort_order=asc&sort_key=name&st=0"><span class='voteprefix'>координаторы проектов</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0"><font color='navy'>участники клуба</font></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=3&sort_order=asc&sort_key=name&st=0">участники</a>,&nbsp;<font color=gray>наказанные</font>]</div>
             {$active['links']}
           </td>
         </tr>
@@ -292,7 +292,7 @@ function secondnewslink($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
 
-<b>{$ibforums->lang['secondnewslink']} <a href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><font color="blue">$title</font></a></b><br>
+<b>{$ibforums->lang['secondnewslink']} <a href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></b><br>
 
 EOF;
 }
@@ -302,7 +302,7 @@ function our_poll_link($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
  
-<b>{$ibforums->lang['our_polls_link']} <a href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><font color="blue">$title</font></a></b><br>
+<b>{$ibforums->lang['our_polls_link']} <a href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></b><br>
  
 EOF;
 }

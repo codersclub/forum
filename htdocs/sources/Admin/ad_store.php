@@ -818,7 +818,7 @@ class ad_store {
 		$this->common_header('do_editquestions', 'IBStore Quizs', 'Edit A Quizs Questions & Answers');
 	
 		$ADMIN->html .= $SKIN->start_table("Quiz");
-		$ADMIN->html .= $SKIN->add_td_basic("<font color='red'><b>Not Case Senstive!</b></font>");
+		$ADMIN->html .= $SKIN->add_td_basic("<span style='color:red'><b>Not Case Senstive!</b></span>");
 		$ADMIN->html .= $SKIN->add_td_basic("Leave any Multiple Correct Answer, or Drop Down Answer field blank to not use that one.");
 
 		$DB->query("SELECT *
@@ -1141,7 +1141,7 @@ class ad_store {
 		global $IN, $INFO, $DB, $SKIN, $ADMIN;
     
 		$ADMIN->html .= $SKIN->start_table("Quiz Questions & Answers");
-		$ADMIN->html .= $SKIN->add_td_basic("<b><font color='red'>Not Case Sensetive</font></b>");
+		$ADMIN->html .= $SKIN->add_td_basic("<b><span style='color:red'>Not Case Sensetive</span></b>");
 		if($IN['addtype']) {
 			$type = array('multiq' => "Multiple Correct Answers",'dropdown' => "Drop Down Answer");
 			$message = "New Question & Answer Added! <br />Currently adding a <b>".$type[$IN['action']]."</b>! Number of questions: {$IN['i']} <br />";
@@ -1182,7 +1182,7 @@ class ad_store {
 		global $IN, $INFO, $DB, $SKIN, $ADMIN;
     
 		$ADMIN->html .= $SKIN->start_table("Quiz Questions & Answers");
-		$ADMIN->html .= $SKIN->add_td_basic("<b><font color='red'>Not Case Sensetive</font></b>");
+		$ADMIN->html .= $SKIN->add_td_basic("<b><span style='color:red'>Not Case Sensetive</span></b>");
 		if($IN['addtype']) {
 			$message = "New <b>Single</b> Question & Answer Added! <br /> Number of questions: {$IN['i']}";
 		}

@@ -19,7 +19,7 @@ return <<<EOF
        </td>
       </tr>
       <tr>
-       <td><font face='arial' size='2' color='#000000'><b>{$ibforums->vars['board_name']} &gt; $forum_name &gt; <font color='red'>$topic_title</font></b></font></td>
+       <td><font face='arial' size='2' color='#000000'><b>{$ibforums->vars['board_name']} &gt; $forum_name &gt; <span style='color:red'>$topic_title</span></b></font></td>
       </tr>
      </table>
      <br>

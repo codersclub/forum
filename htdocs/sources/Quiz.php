@@ -2277,8 +2277,8 @@ echo "postparse msg='".$msg."'<br>";
 		    $rep = "<a href='{$ibforums->base_url}act=rep&amp;CODE=03&amp;type={$rep_suffix}&amp;mid=".$stuff['mid']."' target='_blank'>".$rep_link."</a>: ".$rep;
 		} else
 		{
-		    $down = ( $ibforums->member['view_img'] ) ? "<{REP_MINUS}>" : "<font color=red>-</font>";
-		    $up  =  ( $ibforums->member['view_img'] ) ? "<{REP_ADD}>"   : "<font color=green>+</font>";
+		    $down = ( $ibforums->member['view_img'] ) ? "<{REP_MINUS}>" : "<span style='color:red'>-</span>";
+		    $up  =  ( $ibforums->member['view_img'] ) ? "<{REP_ADD}>"   : "<span style='color:green'>+</span>";
         
 		    $link = "<a href='{$ibforums->base_url}act=rep&amp;CODE=03&amp;type={$rep_suffix}&amp;mid=".$stuff['mid']."' target='_blank'>".$rep_link."</a>: ";
 		    $link .= "<a href='{$ibforums->base_url}act=rep&amp;CODE=02&amp;mid=$stuff[mid]&amp;f=$stuff[f]&amp;t=$stuff[t]&amp;p=$stuff[p]' style='text-decoration:none' target='_blank'>".$down."</a>";
@@ -2305,7 +2305,7 @@ echo "postparse msg='".$msg."'<br>";
 	{
 	    if ( $ibforums->member['id'] != $member['id'] and ( $ibforums->member['g_is_supmod'] or $this->moderator['allow_warn'] ) )
 	    {
-		$down = ( $ibforums->member['view_img'] ) ? "<{WARN_MINUS}>" : "<font color=green>-</font>";
+		$down = ( $ibforums->member['view_img'] ) ? "<{WARN_MINUS}>" : "<span style='color:green'>-</span>";
 		$up  =  ( $ibforums->member['view_img'] ) ? "<{WARN_ADD}>"   : "<span class='movedprefix'>+</span>";
 
 		$member['warn_add']  = "<a href='{$ibforums->base_url}act=warn&amp;type=add&amp;";

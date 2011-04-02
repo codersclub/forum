@@ -299,7 +299,7 @@ var $parser;
 		}
 		else
 		{
-			$post_out .= "<font color='red'><b>Сообщение удалено модератором.</b></font>";
+			$post_out .= "<span style='color:red'><b>Сообщение удалено модератором.</b></span>";
 		}
 
 		$etime = "";

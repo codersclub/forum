@@ -443,7 +443,7 @@ class Reputation {
 
 					$i['title'] = ( $i['title'] ) 
 						    ? "<a href='{$ibforums->base_url}act=ST&f={$i['forum_id']}&t={$i['topic_id']}&view=findpost&p={$i['post']}'>{$i['title']}</a>"
-						    : "<font color='lightsteelblue'>{$ibforums->lang['no_topic']}</font>";
+						    : "<span style='color:lightsteelblue'>{$ibforums->lang['no_topic']}</span>";
 
 /* <--- Jureth --- */ 
 					$i['forum'] = ($i['title'] )
@@ -458,19 +458,19 @@ class Reputation {
 					} else
 					{
 						$i['name'] = ( $ibforums->member['g_access_cp'] ) 
-							   ? $i['name'] = "<a href='{$ibforums->base_url}act=rep&CODE=04&mid={$i['from_id']}'><b><font color='lightsteelblue'>{$i['name']}</b></a>,</font> "
+							   ? $i['name'] = "<a href='{$ibforums->base_url}act=rep&CODE=04&mid={$i['from_id']}'><b><span style='color:lightsteelblue'>{$i['name']}</b></a>,</span> "
 							   : "";
 						
 						if ( $i['CODE'] == '01' and $ibforums->vars['rep_good_anon'] )
 						{
-							$i['name'] .= "<font color='lightsteelblue'>{$ibforums->vars['rep_good_anon']}</font>";
+							$i['name'] .= "<span style='color:lightsteelblue'>{$ibforums->vars['rep_good_anon']}</span>";
 
 						} elseif ( $i['CODE'] == '02' and $ibforums->vars['rep_bad_anon'] )
 						{
-							$i['name'] .= "<font color='lightsteelblue'>{$ibforums->vars['rep_bad_anon']}</font>";
+							$i['name'] .= "<span style='color:lightsteelblue'>{$ibforums->vars['rep_bad_anon']}</span>";
 						} else
 						{
-							$i['name'].= "<font color='lightsteelblue'>{$ibforums->lang['is_anon']}</font>";
+							$i['name'].= "<span style='color:lightsteelblue'>{$ibforums->lang['is_anon']}</span>";
 						}
 					}
 					
@@ -601,7 +601,7 @@ class Reputation {
 
 					if ( !$i['title']) 
 					{
-						$i['title'] = "<font color='lightsteelblue'>{$ibforums->lang['no_topic']}</font>";
+						$i['title'] = "<span style='color:lightsteelblue'>{$ibforums->lang['no_topic']}</span>";
 					} else
 					{
 						$i['title'] = "<a href='{$ibforums->base_url}act=ST&f={$i['forum_id']}&t={$i['topic_id']}&view=findpost&p={$i['post']}'>{$i['title']}</a>";
@@ -622,7 +622,7 @@ class Reputation {
 					{
 						if ($ibforums->member['g_access_cp'])
 						{
-							$i['name'] = "<a href='{$ibforums->base_url}act=rep&CODE=03&mid={$i['member_id']}'><b><font color='lightsteelblue'>{$i['name']}<b></font></a>";
+							$i['name'] = "<a href='{$ibforums->base_url}act=rep&CODE=03&mid={$i['member_id']}'><b><span style='color:lightsteelblue'>{$i['name']}<b></span></a>";
 						} else
 						{
 							$i['name'] = "";

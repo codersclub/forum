@@ -268,7 +268,7 @@ function rules_link($url="", $title="") {
 global $ibforums;
 return <<<EOF
 
-<a href="$url" target="blank_"><img src="{$ibforums->vars['img_url']}/atb_rules.gif" border="0" alt=""><font color='red'>$title</font></a>
+<a href="$url" target="blank_"><img src="{$ibforums->vars['img_url']}/atb_rules.gif" border="0" alt=""><span style='color:red'>$title</span></a>
 
 EOF;
 }

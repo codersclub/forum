@@ -64,8 +64,8 @@ if(count($_FILES)){
 
         //<- Added by Barazuk 21/07/07
         $allowed = $mime_types[$detected_mime_crutch][0] == 1 ?
-          "<FONT color=green><B>allowed</B></FONT>" :
-          "<FONT color=red><B>deprecated</B></FONT>" ;
+          "<span style='color:green'><B>allowed</B></span>" :
+          "<span style='color:red'><B>deprecated</B></span>" ;
         //-> Added by Barazuk 21/07/07
 
         //<- Modified by Barazuk 21/07/07
@@ -73,8 +73,8 @@ if(count($_FILES)){
         */
         
         $allowed = $mime_types[$value['type']][0] == 1 ?
-          "<FONT color=green><B>allowed</B></FONT>" :
-          "<FONT color=red><B>deprecated</B></FONT>" ;
+          "<span style='color:green'><B>allowed</B></span>" :
+          "<span style='color:red'><B>deprecated</B></span>" ;
         echo "MIME type ".$value['type']." is $allowed<BR>\n";
         
         $type_titles = array(
@@ -88,9 +88,9 @@ if(count($_FILES)){
 	        $allowed = 
 	        	mime_type_is_allowed($file_type) 
 	        	?
-	          		"<FONT color=green><B>allowed</B></FONT>"
+	          		"<span style='color:green'><B>allowed</B></span>"
 	          	:
-	          		"<FONT color=red><B>failed</B></FONT>" ;
+	          		"<span style='color:red'><B>failed</B></span>" ;
 	        
 	        echo "{$type_titles[$check_type]}: {$file_type} is $allowed<BR>\n";
 	        
