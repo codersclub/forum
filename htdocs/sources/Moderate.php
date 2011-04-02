@@ -3900,14 +3900,25 @@ class Moderate {
 	
 	if ( !$passed ) $this->moderate_error();
 
-	$DB->query("SELECT
-			topic_id,
-			forum_id,
-			post,
-			queued,
-			author_id
-		    FROM ibf_posts
-		    WHERE pid='".$pid."'");
+	$DB->query("
+	SELECT
+			p.*,
+			m.id, m.name, m.mgroup, m.email, m.joined,
+			m.gender,
+			m.avatar, m.avatar_size, m.posts, m.aim_name,
+			m.icq_number, m.signature,  m.website, m.yahoo,
+			m.integ_msg, m.title, m.hide_email, m.msnname,
+			m.warn_level, m.warn_lastwarn,
+			m.points,  m.fined, m.rep, m.ratting, m.show_ratting,
+			g.g_id, g.g_title, g.g_icon, g.g_use_signature, 
+			g.g_use_avatar, g.g_dohtml
+			
+		    FROM ibf_posts p
+			  LEFT JOIN ibf_members m
+				ON (p.author_id=m.id) 
+			  LEFT JOIN ibf_groups g
+				ON (g.g_id=m.mgroup) 
+		    WHERE p.pid='".$pid."'");
 
 	$row = $DB->fetch_row();
 
@@ -3931,15 +3942,30 @@ class Moderate {
 			decline_time='".time()."',
 			edit_name='".$ibforums->member['name']."' 
 		    WHERE pid='".$pid."'");
-
+	
+	$row['use_sig'] = $state;
+	$row['decline_time'] = time();
+	$row['append_edit'] = $state;
+	$row['edit_name'] = $ibforums->member['name'];
+	$row['has_modcomment'] = $mod;
+	
 	$topic = topic::create_from_array($this->topic);
 	$topic->update_last_post_time();
 	
-	if ( !$ibforums->input['linkID'] )
+	if ( !$ibforums->input['ajax'] )
 	{
 		$print->redirect_screen("", "showtopic=".$this->topic['tid']."&view=findpost&p=".$pid, "html");
 	} else
 	{
+		require ROOT_PATH."/sources/Topics.php";
+		
+		header('Content-Type: text/html; charset=windows-1251');
+		
+		$count = 1;
+		$out = $idx->process_one_post($row, 0, $count, true);
+		echo $print->prepare_output( $out );
+		die;
+		/*
 		if ( $state )
 		{
 			$code = "19";
@@ -3976,6 +4002,7 @@ class Moderate {
 		$url = $ibforums->base_url."act=Mod&CODE=".$code."&f={$this->forum['id']}&t={$this->topic['tid']}&p={$ibforums->input['p']}&auth_key=".$std->return_md5_check();
         
 		$print->redirect_js_screen("{$ibforums->input['linkID']}", $label, $url, $extra);
+		*/
 	}
 
 	}

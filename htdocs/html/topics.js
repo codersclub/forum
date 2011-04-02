@@ -96,6 +96,17 @@ function JSRequest(url,p)
     return false
    }catch(e){return true}
 }
+function restoreAndDecline(el,p) {
+	var post_object = $('#post_' + p);
+	var url = el.href + '&ajax=on';
+	
+	$.get(url, function(data) {
+			post_object.replaceWith(data);
+		});
+	
+	
+	return false;
+}
 function setPostHTML(i,h)
 {
    i=D.getElementById(i);

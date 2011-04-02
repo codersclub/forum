@@ -4050,15 +4050,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
         	print ($ibforums->vars['ips_cp_purchase'] != "") ? $ibforums->vars['ips_cp_purchase'] : '0';
         	exit();
         }
-        
-	// Load the Macro Set
-
-        $TAGS = $DB->query("SELECT
-				macro_value,
-				macro_replace
-			    FROM ibf_macro
-			    WHERE macro_set={$ibforums->skin['macro_id']}");
-        
 	// Song * Adjust the Favorites Icon
 
 	$image = ( $ibforums->member['id'] && $this->is_new_fav_exists() )
@@ -4142,8 +4133,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
 		// timestamp by barazuk
 		$timestamp = $std->old_get_date(time(), 'LONG');
 
-//		$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; [ $gzip_status ] $sload</div>\n<br>";
-// barazuk		$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; $sload</div>\n<br>";
 		// timestamp by barazuk
 		$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; [ Generated: $timestamp ] &nbsp; $sload</div>\n<br>";
 
@@ -4155,7 +4144,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
         // NAVIGATION
         /********************************************************/
 
-//	$nav = $this->nav($output_array);
      
         //----------------------------------------------------------------------
         // Different Navigation bar views for forum and D-Site
@@ -4169,8 +4157,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
                 $nav = $this->nav($output_array);
 
         } else {
-
-//		$skin_universal = $std->load_template('skin_global');  //vot
 
                 global $DSITE;
                 $nav = $DSITE->site_bits['nav'];
@@ -4415,38 +4401,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
 
 
 
-
-	//-----------------------------------
-	// vot: header banner
-	$replace[] = "<!-- HEADER_BANNER -->";
-	$change[]  = $this->rotate_banner($ibforums->vars['banner_header']);
-
-	//-----------------------------------
-	// vot: top banner
-	$replace[] = "<% TOP NAV BANNER %>";
-	$change[]  = $this->rotate_banner($ibforums->vars['banner_top_nav']);
-
-	//-----------------------------------
-	// vot: middle banner
-	$replace[] = "<% MIDDLE BANNER %>";
-	$change[]  = $this->rotate_banner($ibforums->vars['banner_middle']);
-
-	//-----------------------------------
-	// vot: bottom banner
-	$replace[] = "<% BOTTOM BANNER %>";
-	$change[]  = $this->rotate_banner($ibforums->vars['banner_bottom']);
-
-
-	//-----------------------------------
-	// vot: bottom XAP banner
-	$replace[] = "<% XAP BANNER %>";
-	$change[]  = $this->xap_banner();
-
-
-
-
-
-
 	// Song * secondary navigation
 
 	$replace[] = "<!--IBF.NAVIGATION-->";
@@ -4466,76 +4420,13 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
       	
 
 
-      	//+--------------------------------------------
-	// Stick in banner?
-	//+--------------------------------------------
-	
-	if ( $ibforums->vars['ipshosting_credit'] )
-	{
-		$replace[] = "<!--IBF.BANNER-->";
-		$change[]  = $skin_universal->ibf_banner();
-	}
-	
-
-	//+--------------------------------------------
-	// Stick in chat link?
-	//+--------------------------------------------
-	
-	if ( $ibforums->vars['chat_account_no'] )
-	{
-		$ibforums->vars['chat_height'] += 50;
-		$ibforums->vars['chat_width']  += 50;
-		
-		$chat_link = ( $ibforums->vars['chat_display'] == 'self' ) 
-			   ? $skin_universal->show_chat_link_inline()
-			   : $skin_universal->show_chat_link_popup();
-		
-		$replace[] = "<!--IBF.CHATLINK-->";
-		$change[]  = $chat_link;
-	}
-
-
-      	//+--------------------------------------------
-      	//| Get the macros and replace them
-      	//+--------------------------------------------
-      	
-      	while ( $row = $DB->fetch_row($TAGS) )
-      	{
-		if ( $row['macro_value'] )
-		{
-			$replace[] = "<{".$row['macro_value']."}>";
-			$change[]  = $row['macro_replace'];
-		}
-	}
-		
-	$replace[] = "<#IMG_DIR#>";
-//vot	$change[]  = $ibforums->skin['img_dir'];
-	$change[]  = $ibforums->vars['img_url'];	// vot
-
-	$replace[] = "<#BASE_URL#>";     	// vot
-	$change[]  = $ibforums->base_url;	// vot
-
-// vot: removed the Song d-site patch
-// Song * d-site patch, 12.05.05
-//
-//	if ( $ibforums->vars['pre_board_url'] )
-//	{
-//		$replace[] = "img src='style_images/";
-////		$replace[] = "img src='smiles/";
-//
-//		$change[]  = "img src='".$ibforums->vars['pre_board_url']."/style_images/";
-////		$change[]  = "img src='".$ibforums->vars['pre_board_url']."/smiles/";
-//	}
-//
-// Song * d-site patch, 12.05.05
-
 
 	//---------------------------------------
 	// Do replace in template
 	//---------------------------------------
 
 	$ibforums->skin['template'] = str_replace($replace, $change, $ibforums->skin['template'] );
-
+	$ibforums->skin['template'] = $this->prepare_output($ibforums->skin['template']);
 	//---------------------------------------
 	// Close this DB connection
 	//---------------------------------------
@@ -4558,20 +4449,105 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
 
         print $ibforums->skin['template'];
         
-// Debug query list for Chainick (id=487)
-//	if ( $ibforums->member['id'] == 487 ) {
-//                print "\n<hr><div align = 'left'>";
-//                foreach ($DB->obj['cached_queries'] as $query) {
-//                        print "\n$query";
-//                        print "<hr>";
-//                        print "\n</div>";
-//                }
-//	}
-// end of debug query list
-
         exit;
     }
     
+    function prepare_output($template) {
+    	global $DB, $Debug, $skin_universal, $ibforums, $std;
+
+    	$replace = array();
+    	$change  = array();
+
+
+
+    	//-----------------------------------
+    	// vot: header banner
+    	$replace[] = "<!-- HEADER_BANNER -->";
+    	$change[]  = $this->rotate_banner($ibforums->vars['banner_header']);
+
+    	//-----------------------------------
+    	// vot: top banner
+    	$replace[] = "<% TOP NAV BANNER %>";
+    	$change[]  = $this->rotate_banner($ibforums->vars['banner_top_nav']);
+
+    	//-----------------------------------
+    	// vot: middle banner
+    	$replace[] = "<% MIDDLE BANNER %>";
+    	$change[]  = $this->rotate_banner($ibforums->vars['banner_middle']);
+
+    	//-----------------------------------
+    	// vot: bottom banner
+    	$replace[] = "<% BOTTOM BANNER %>";
+    	$change[]  = $this->rotate_banner($ibforums->vars['banner_bottom']);
+
+
+    	//-----------------------------------
+    	// vot: bottom XAP banner
+    	$replace[] = "<% XAP BANNER %>";
+    	$change[]  = $this->xap_banner();
+    	//+--------------------------------------------
+    	// Stick in banner?
+    	//+--------------------------------------------
+
+    	if ( $ibforums->vars['ipshosting_credit'] )
+    	{
+    		$replace[] = "<!--IBF.BANNER-->";
+    		$change[]  = $skin_universal->ibf_banner();
+    	}
+
+
+    	//+--------------------------------------------
+    	// Stick in chat link?
+    	//+--------------------------------------------
+
+    	if ( $ibforums->vars['chat_account_no'] )
+    	{
+    		$ibforums->vars['chat_height'] += 50;
+    		$ibforums->vars['chat_width']  += 50;
+
+    		$chat_link = ( $ibforums->vars['chat_display'] == 'self' )
+    		? $skin_universal->show_chat_link_inline()
+    		: $skin_universal->show_chat_link_popup();
+
+    		$replace[] = "<!--IBF.CHATLINK-->";
+    		$change[]  = $chat_link;
+    	}
+
+
+
+
+    	$replace[] = "<#IMG_DIR#>";
+    	$change[]  = $ibforums->vars['img_url'];	// vot
+
+    	$replace[] = "<#BASE_URL#>";     	// vot
+    	$change[]  = $ibforums->base_url;	// vot
+
+    	// Load the Macro Set
+
+    	$TAGS = $DB->query("SELECT
+					macro_value,
+					macro_replace
+				    FROM ibf_macro
+				    WHERE macro_set={$ibforums->skin['macro_id']}");
+
+    	//+--------------------------------------------
+    	//| Get the macros and replace them
+    	//+--------------------------------------------
+
+    	while ( $row = $DB->fetch_row($TAGS) )
+    	{
+    		if ( $row['macro_value'] )
+    		{
+    			$replace[] = "<{".$row['macro_value']."}>";
+    			$change[]  = $row['macro_replace'];
+    		}
+    	}
+    	$DB->free_result($TAGS);
+
+    	return str_replace($replace, $change, $template );
+
+    }
+
     //-------------------------------------------
     // print the headers
     //-------------------------------------------

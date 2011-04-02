@@ -129,7 +129,7 @@ function RenderRow($post, $author) {
 global $ibforums;
 return <<<EOF
 
-    <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;'>
+    <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;' id='post_{$post["pid"]}'>
     <tr>
        <td valign='middle' class='row4' width='15%'>{$author['member_group_img']} <a name='entry{$post["pid"]}'></a><span class='{$post["name_css"]}'>{$author['name']}</span>{$author['online']}</td>
        <td class='row4' valign='top'>
@@ -157,11 +157,41 @@ return <<<EOF
         {$post['signature']}
       </td>
     </tr>
+    
     </table>
-    <div class='darkrow1' style='height:5px'><!-- --></div>
-
 EOF;
 }
+
+function RenderDeletedRow($post, $author) {
+global $ibforums;
+$dtext = $post['use_sig'] == 1 ? 
+		"<span class='movedprefix' >{$ibforums->lang['mod_del']}</span>"
+	:
+		$ibforums->lang['del_by_user']
+	;
+return <<<EOF
+
+    <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;' id='post_{$post["pid"]}'>
+    <tr>
+       <td valign='middle' class='row4' width='15%'><a name='entry{$post["pid"]}'></a><span class='{$post["name_css"]}'>{$author['name']}</span> (<a href='{$ibforums->base_url}showuser={$author['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a>)</td>
+       <td class='row4' valign='top'>
+        <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>{$post['checkbox']}
+         {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']} $dtext</span></div>
+	<div align='right' class='row4' style='float:right;padding-top:4px;padding-bottom:4px'>{$post['queued_link']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['edit_history_button']} </div>
+      </td>
+    </tr>
+    
+    </table>
+EOF;
+}
+
+function RowSeparator() {
+return <<<EOF
+    <div class='darkrow1' style='height:5px'><!-- --></div>
+EOF;
+
+}
+
 
 
 function ip_show($data) {

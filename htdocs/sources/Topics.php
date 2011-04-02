@@ -57,7 +57,7 @@ class Topics {
     var $alter_post = 0;
     var $trid = 0;
     var $log_time = 0;
-
+	private $cached_members = array();
         /***********************************************************************************/
 	//
 	// Our constructor, load words, load skin, print the topic listing
@@ -198,9 +198,6 @@ class Topics {
 
 	}
 
-// Song * quote rights
-
-	$cached_members = array();
 	
 	//-------------------------------------
 	// Format and print out the topic list
@@ -208,7 +205,7 @@ class Topics {
 	
 	$post_count = 0;  // Use this as our master bater, er... I mean counter.
 	
-	if ( $pinned ) $postcount = 0; else $postcount = $this->first + $offset;
+	if ( $pinned ) $post_count = 0; else $post_count = $this->first + $offset;
 
 	$this->alter_post = 0;
 
@@ -220,14 +217,18 @@ class Topics {
 			continue;
 		}
 
-// Song * premoderation, 16.03.05
+		$this->output .= $this->process_one_post($row, $pinned, $post_count, $qr);
+		$this->output .= $this->html->RowSeparator();
+	} //while
 
-// Song * quote with post link, 26.11.04
+   }
+   
+   function process_one_post($row, $pinned, &$post_count, $qr) {
+    global $ibforums, $DB, $std, $print, $skin_universal;
+   		// Song * quote with post link, 26.11.04
 
 		// remember posts that have been on the page
 		$this->parser->cache_posts[ $row['pid'] ] = $row['pid'];
-
-// Song * quote with post link, 26.11.04
 
 		$poster = array();
 	
@@ -238,14 +239,14 @@ class Topics {
 
 		if ( $row['author_id'] ) {
 			// reset if the current post declined
-			if ( $row['use_sig'] and isset($cached_members[ $row['author_id'] ]) ) {
-				$cached_members[ $row['author_id'] ] = array();
+			if ( $row['use_sig'] and isset($this->cached_members[ $row['author_id'] ]) ) {
+				$this->cached_members[ $row['author_id'] ] = array();
 			}
 
 			// Is it in the hash?
-			if ( isset($cached_members[ $row['author_id'] ]['id']) ) {
+			if ( isset($this->cached_members[ $row['author_id'] ]['id']) ) {
 				// Ok, it's already cached, read from it
-				$poster = $cached_members[ $row['author_id'] ];
+				$poster = $this->cached_members[ $row['author_id'] ];
 
 // Song * correct cached fields for new post id
 
@@ -262,7 +263,7 @@ class Topics {
 				$poster = $this->parse_member( &$row );
 
 				// Add it to the cached list
-				if ( !$row['use_sig'] ) $cached_members[ $row['author_id'] ] = $poster;
+				if ( !$row['use_sig'] ) $this->cached_members[ $row['author_id'] ] = $poster;
 			}
 		} else {
 			// It's definately a guest...
@@ -374,7 +375,6 @@ class Topics {
        
 
 
-
 			$keywords = str_replace( "+", " ", $ibforums->input['hl'] );
 			
 			if ( preg_match("/,(and|or),/i", $keywords) ) {
@@ -398,13 +398,6 @@ class Topics {
        			}
 
 		}
-			
-
-
-
-
-
-
 
 		//--------------------------------------------------------------
 		
@@ -470,10 +463,10 @@ class Topics {
 		if ( !$row['queued'] and ( $this->moderator['delete_post'] or $ibforums->member['g_is_supmod'] ) )
 		 if ( $row['use_sig'] )
 		 {
-			$row['restore_decline'] = "<a href='{$this->base_url}act=Mod&amp;CODE=19&amp;auth_key=".$this->md5_check."&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return JSRequest(this.href,unique_id(this));\"><{P_RESTORE}></a> &middot;";
+			$row['restore_decline'] = "<a href='{$ibforums->base_url}act=Mod&amp;CODE=19&amp;auth_key=".$this->md5_check."&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return restoreAndDecline(this,{$row['pid']});\"><{P_RESTORE}></a> &middot;";
 		 } else
 		 {
-			$row['restore_decline'] = "<a href='{$this->base_url}act=Mod&amp;CODE=18&amp;auth_key=".$this->md5_check."&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return JSRequest(this.href,unique_id(this));\"><{P_DECLINE}></a> &middot;";
+			$row['restore_decline'] = "<a href='{$ibforums->base_url}act=Mod&amp;CODE=18&amp;auth_key=".$this->md5_check."&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return restoreAndDecline(this,{$row['pid']});\"><{P_DECLINE}></a> &middot;";
 		 }
 
 
@@ -702,19 +695,15 @@ class Topics {
 		if ( trim($row['post']) != '' ) 
 		{
 			$post_count++;
-	                $poster[postcount] = ++$postcount; 
+	                $poster['postcount'] = $post_count; 
 
-			// Song * message has been deleted by moderator, 13.11.2004
+	        
+			// Song * message has been deleted by moderator, 13.11.2004, or by author (negram, January 2011)
 
 			if ( $row['use_sig'] )
 			{
+				/*
 				$this->mod_tags = "";
-
-				// cut content of mod tags
-				preg_replace( "#\[(mod|ex|gm)\](.+?)\[/(mod|ex|gm)\]#ies", "\$this->mod_tags_cut('\\1','\\2')", $row['post']);
-
-				// change original post to the special
-				$row['post'] = $skin_universal->RenderDeletedRow($row['use_sig']);
 
 				// if mod tags was
 				if ( $this->mod_tags )
@@ -745,18 +734,21 @@ class Topics {
 
 				$row['signature'] = "";
 				$row['attachment'] = "";
-			}
-			
-			if(intval($ibforums->member['post_wrap_size']) != 0 && $ibforums->member['post_wrap_size'] < strlen(strip_tags($row['post'])) && $row['new_topic'] != 1)
-			{
-			   $row['post'] = '<div class="spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">Многа букав</div><div class="body">'.$row['post'].'</div></div>';
-			}
-						
-			$this->output .= $this->html->RenderRow( $row, $poster );
-		}
-			
-	} //while
+				*/
+				return $this->html->RenderDeletedRow( $row, $poster );
+				
+			} else {
 
+				if(intval($ibforums->member['post_wrap_size']) != 0 && $ibforums->member['post_wrap_size'] < strlen(strip_tags($row['post'])) && $row['new_topic'] != 1)
+				{
+				   $row['post'] = '<div class="spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">Многа букав</div><div class="body">'.$row['post'].'</div></div>';
+				}
+				
+				return $this->html->RenderRow( $row, $poster );
+				
+			}
+		}
+   	
    }
 
 
@@ -776,6 +768,7 @@ class Topics {
         
         $this->md5_check = $std->return_md5_check();
          
+        $this->base_url = $ibforums->base_url;
         //-------------------------------------
 	// Compile the language file
 	//-------------------------------------
@@ -952,13 +945,44 @@ class Topics {
 					  $this->mod[ $ibforums->member['id'] ]['topic_q'],
 					  &$this->topic['app']) )
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}
 	}
 
 
 
+		
+        //-------------------------------------
+        // Check viewing permissions, private forums,
+        // password forums, etc
+        //-------------------------------------
+        
+        if ( (!$this->topic['pinned']) and ( ( ! $ibforums->member['g_other_topics'] ) AND ( $this->topic['starter_id'] != $ibforums->member['id'] ) ) )
+        {
+        	$std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
+        }
+        
+        $bad_entry = $this->check_access();
 
+        if ( $bad_entry ) $std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
+        
+		if ( $ibforums->member['id'] and !$ibforums->member['g_is_supmod'] )
+		{
+			$DB->query("SELECT *
+				    FROM ibf_moderators
+				    WHERE
+					forum_id=".$this->forum['id']."
+					AND (member_id=".$ibforums->member['id']."
+					     OR (is_group=1
+						 AND group_id='".$ibforums->member['mgroup']."'))");
+	
+			$this->moderator = $DB->fetch_row();
+		}
+		
+        if ($ibforums->input['act'] == 'Mod') {
+        	return;
+        }
+	
         //--------------------------------------------------------------------
         // Are we looking for an older / newer topic?
         //--------------------------------------------------------------------
@@ -1119,23 +1143,8 @@ class Topics {
         	}
         }
         
-        $this->base_url = $ibforums->base_url;
         
 	$this->forum['JUMP'] = $std->build_forum_jump_topics();
-		
-        //-------------------------------------
-        // Check viewing permissions, private forums,
-        // password forums, etc
-        //-------------------------------------
-        
-        if ( (!$this->topic['pinned']) and ( ( ! $ibforums->member['g_other_topics'] ) AND ( $this->topic['starter_id'] != $ibforums->member['id'] ) ) )
-        {
-        	$std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
-        }
-        
-        $bad_entry = $this->check_access();
-
-        if ( $bad_entry ) $std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
         
         //----------------------------------------------
         // Update the topic views counter and topic logs
@@ -1252,18 +1261,6 @@ class Topics {
         // Are we a moderator?
         //-------------------------------------
 		
-	if ( $ibforums->member['id'] and !$ibforums->member['g_is_supmod'] )
-	{
-		$DB->query("SELECT *
-			    FROM ibf_moderators
-			    WHERE
-				forum_id=".$this->forum['id']."
-				AND (member_id=".$ibforums->member['id']."
-				     OR (is_group=1
-					 AND group_id='".$ibforums->member['mgroup']."'))");
-
-		$this->moderator = $DB->fetch_row();
-	}
 	
 	$this->mod_action = array( 'CLOSE_TOPIC'  => '00',
 				   'OPEN_TOPIC'   => '01',
@@ -1366,10 +1363,10 @@ class Topics {
 	if ( $this->topic['why_close'] )
 	{
 		$this->topic['why_close'] = $this->parser->prepare(array(
-					TEXT    => $this->topic['why_close'],
-					SMILIES => 1,
-					CODE    => 1,
-		  			HTML    => 0 
+					'TEXT'    => $this->topic['why_close'],
+					'SMILIES' => 1,
+					'CODE'    => 1,
+		  			'HTML'    => 0 
 					)
 					);		
 	}
@@ -2255,7 +2252,7 @@ class Topics {
                      ) 
                    )
 		{
-			$member['sex'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}' border='0'> ";
+			$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}' border='0'> ";
 		}
 
 		// add crlf
@@ -2266,7 +2263,7 @@ class Topics {
 
 		if ( $member['g_icon']  and ( !$ibforums->member['id'] or ( $ibforums->member['view_img'] and $ibforums->member['show_icons'] ) ) )
 		{
-			$member['member_group_img'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
+			$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
 		}
 
 		$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>"; 
