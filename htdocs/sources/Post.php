@@ -322,8 +322,6 @@ class Post {
 		}
 	}
 
-	if ( !$this->obj['moderate'] )
-	{
 		$DB->query("SELECT
 				mod_posts,
 				restrict_posts
@@ -366,7 +364,6 @@ class Post {
 				} else $this->obj['moderate'] = 1;
 			}
 		}
-	}
 
 	// /Song * new ban control
 	
