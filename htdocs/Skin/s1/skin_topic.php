@@ -176,7 +176,7 @@ return <<<EOF
        <td valign='middle' class='row4' width='15%'><a name='entry{$post["pid"]}'></a><span class='{$post["name_css"]}'>{$author['name']}</span> (<a href='{$ibforums->base_url}showuser={$author['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a>)</td>
        <td class='row4' valign='top'>
         <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>{$post['checkbox']}
-         {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']} $dtext</span></div>
+         {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']} &nbsp; &nbsp; $dtext</span></div>
 	<div align='right' class='row4' style='float:right;padding-top:4px;padding-bottom:4px'>{$post['queued_link']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['edit_history_button']} </div>
       </td>
     </tr>

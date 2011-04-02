@@ -4459,7 +4459,28 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
     	$change  = array();
 
 
+    	// Load the Macro Set
 
+    	$TAGS = $DB->query("SELECT
+					macro_value,
+					macro_replace
+				    FROM ibf_macro
+				    WHERE macro_set={$ibforums->skin['macro_id']}");
+
+    	//+--------------------------------------------
+    	//| Get the macros and replace them
+    	//+--------------------------------------------
+
+    	while ( $row = $DB->fetch_row($TAGS) )
+    	{
+    		if ( $row['macro_value'] )
+    		{
+    			$replace[] = "<{".$row['macro_value']."}>";
+    			$change[]  = $row['macro_replace'];
+    		}
+    	}
+    	$DB->free_result($TAGS);
+    	
     	//-----------------------------------
     	// vot: header banner
     	$replace[] = "<!-- HEADER_BANNER -->";
@@ -4521,28 +4542,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
 
     	$replace[] = "<#BASE_URL#>";     	// vot
     	$change[]  = $ibforums->base_url;	// vot
-
-    	// Load the Macro Set
-
-    	$TAGS = $DB->query("SELECT
-					macro_value,
-					macro_replace
-				    FROM ibf_macro
-				    WHERE macro_set={$ibforums->skin['macro_id']}");
-
-    	//+--------------------------------------------
-    	//| Get the macros and replace them
-    	//+--------------------------------------------
-
-    	while ( $row = $DB->fetch_row($TAGS) )
-    	{
-    		if ( $row['macro_value'] )
-    		{
-    			$replace[] = "<{".$row['macro_value']."}>";
-    			$change[]  = $row['macro_replace'];
-    		}
-    	}
-    	$DB->free_result($TAGS);
 
     	return str_replace($replace, $change, $template );
 
