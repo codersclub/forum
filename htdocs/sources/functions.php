@@ -2451,36 +2451,15 @@ echo "-----------------<br>\n";
 
     	if ( $id >= 0 and $skin_set == 1)
     	{
-/*
     		$DB->query("SELECT
 				s.*,
-				t.template,
-				Concat(c.css_text,'\n',cc.css_text) as css_text 
-    			    FROM
-				ibf_skins s,
-				ibf_css cc 
-    			    LEFT JOIN ibf_templates t
-				ON (t.tmid=s.tmpl_id) 
-    			    LEFT JOIN ibf_css c
-				ON (c.cssid=s.css_id) 
-    	           	    WHERE
-				cc.cssid=13 and
-				s.sid=$id".$extra);
-*/
-    		$DB->query("SELECT
-				s.*,
-				t.template,
-				Concat(c.css_text,'\n',cc.css_text) as css_text 
+				t.template
     			    FROM (
-				ibf_skins s,
-				ibf_css cc 
+				ibf_skins s
 				)
     			    LEFT JOIN ibf_templates t
 				ON (s.tmpl_id=t.tmid) 
-    			    LEFT JOIN ibf_css c
-				ON (c.cssid=s.css_id) 
     	           	    WHERE
-				cc.cssid=13 and
 				s.sid=$id".$extra);
     	           	   
 		// Didn't get a row?
@@ -2497,35 +2476,25 @@ echo "-----------------<br>\n";
     	    	
 	  	    	$DB->query("SELECT
 					s.*,
-					t.template,
-					Concat(c.css_text,'\n',cc.css_text) as css_text 
+					t.template
 	 			    FROM (
-					ibf_skins s,
-					ibf_css cc 
+					ibf_skins s
 					)
 	    			    LEFT JOIN ibf_templates t
 					ON (s.tmpl_id = t.tmid) 
-	    			    LEFT JOIN ibf_css c
-					ON (s.css_id=c.cssid) 
 	    	           	    WHERE
-					cc.cssid=13 and
 					s.default_set=1");
 		}
     	    
     	} else $DB->query("SELECT
 				s.*,
-				t.template,
-				Concat(c.css_text,'\n',cc.css_text) as css_text 
+				t.template
     			   FROM (
-				ibf_skins s,
-				ibf_css cc 
+				ibf_skins s
 				)
     			   LEFT JOIN ibf_templates t
 				ON (s.tmpl_id=t.tmid) 
-   			   LEFT JOIN ibf_css c
-				ON (s.css_id=c.cssid) 
     	           	   WHERE
-				cc.cssid=13 and
 				s.default_set=1");
     	
     	if ( !$row = $DB->fetch_row() )
@@ -3019,13 +2988,10 @@ echo "-----------------<br>\n";
     	{
     		$DB->query("SELECT
 				s.*,
-				t.template,
-				c.css_text
+				t.template
   			    FROM ibf_skins s
   			    LEFT JOIN ibf_templates t
 				ON (t.tmid=s.tmpl_id)
-    			    LEFT JOIN ibf_css c
-				ON (s.css_id=c.cssid)
     	           	    WHERE s.default_set=1");
     	           	   
 		$ibforums->skin = $DB->fetch_row();

@@ -171,11 +171,7 @@ class ad_settings {
 		}
 		
 		preg_match( "/($first"."$name)\s{0,}\{(.+?)\}/s", $set['css_text'], $match );
-		
-		//$definition = nl2br( str_replace( "\n\n", "\n", str_replace( "\r\n", "\n", $match[2]) ) );
-		
-		//preg_match_all( "/(\S+?):(.+?);?/s", trim($match[2]), $defs );
-		
+			
 		$defs = explode( ";", str_replace( "\n\n", "\n", str_replace( "\r\n", "\n", trim($match[2]) ) ) );
 		
 		$def_output = "";
