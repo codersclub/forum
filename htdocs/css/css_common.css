@@ -96,6 +96,7 @@ PRE	{
 	width			: 200px;
 	height			: 50px;
 	float			: right;
+	border-collapse: collapse;
 }
 .donate td {background:none;}
 .donate td.donate_text {
@@ -113,6 +114,8 @@ PRE	{
 .donate td.donate_button {
 	width			: 100%;
 	height			: 24px;
+	vertical-align		: top;
+	padding-top		: 0px;	
 }
 .donate td.donate_button input {
 	background-color: transparent;
@@ -124,6 +127,7 @@ PRE	{
 	width			: 100px;
 	background		: url('/img/5rub/ya_money.png') 10% 50% no-repeat;
 	margin-left		: 50px;
+	margin-top		: 1px;
 }
 #upload_container input, #upload_container button {
 	vertical-align: baseline;
