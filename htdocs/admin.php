@@ -257,8 +257,10 @@ if ( file_exists( $ips_file ) )
 			$ip = preg_replace( "/\s*$/", '' ,$ip );
 
 			if ( $ip ) {
-        			$ip = preg_replace( "/\.\*/", '.' , $ip );
-        			if (substr($IN['IP_ADDRESS'],0,strlen($ip)) == $ip ) 
+				// New IP algorithm by archimed7592
+				$ip = preg_quote($ip, "/");
+				$ip = preg_replace( "/\\\\\\*/", '[0-9]{1,3}' , $ip );
+				if ( preg_match( '/^'.$ip.'/', $IN['IP_ADDRESS'] ) )
         			{
         				$log = 1;
         				break;
