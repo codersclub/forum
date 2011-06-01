@@ -761,6 +761,22 @@ function do_admin_stuff() {
                          'csite_cat' => 'csite_cat',
                          'csite_view' => 'csite_view',
 			 'dsite_groups' => 'dsite_groups',
+                        //-------------------------------------
+                        // RSS choise (c) vot
+                        // Date added: 04.07.2006
+                        //-------------------------------------
+                        'rss_sources'      => 'rss',
+                        'rss_add_source'   => 'rss',
+                        'rss_edit_source'  => 'rss',
+                        'rss_save_source'  => 'rss',
+                        'rss_del_source'   => 'rss',
+                        'rss_channels'     => 'rss',
+                        'rss_add_channel'  => 'rss',
+                        'rss_edit_channel' => 'rss',
+                        'rss_save_channel' => 'rss',
+                        'rss_del_channel'  => 'rss',
+                        'rss_logs'         => 'rss',
+                        'rss_del_log'      => 'rss',
 			   );
 	
 					

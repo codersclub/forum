@@ -160,6 +160,16 @@ $PAGES = array(
                                                          6 =>array( 'Group management' , 'act=dsite_groups'	      ),
 
 						),
+				14 => array (
+							//------------------------------------------------------------
+							// RSS feeds import (c) vot
+							// Date added: 01.06.2007
+							//------------------------------------------------------------
+							 1 =>array( 'RSS Sources' , 'act=rss_sources' ),
+							 2 =>array( 'RSS Channels', 'act=rss_channels'),
+							 3 =>array( 'RSS Logs'    , 'act=rss_logs'    ),
+
+						),
 			   );
 			   
 			   
@@ -178,6 +188,7 @@ $CATS = array (
 				  11 => 'Board Logs',
 				  12 => "IBStore",
 				  13 => "Dynamic-Lite CMS",
+				  14 => "RSS Import",
 			  );
 			  
 $DESC = array (
@@ -195,6 +206,7 @@ $DESC = array (
 				  11 => "View admin, moderator and email logs (Root admin only)",
 				  12 => "IBStore Settings, Add Items, quiz ect",
 				  13 => "Dynamic-Lite Settings",
+				  14 => "Import RSS-News from Internet",
 			  );
 			  
 			  
