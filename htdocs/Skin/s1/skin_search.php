@@ -289,7 +289,9 @@ function win_pop()
 }
 -->
 </script>
-<form action="{$ibforums->base_url}act=Search&amp;CODE=01" method="post" name='sForm'>
+<form action="{$ibforums->base_url}" method="get" name='sForm'>
+<input type='hidden' name='act' value='Search'>
+<input type='hidden' name='CODE' value='01'>
 $hidden_fields
 <div class="tableborder">
 <table cellpadding='4' cellspacing='0' border='0' width='100%'>
@@ -303,7 +305,7 @@ $hidden_fields
 <tr>
 	<td class='row1' valign='top'>
 	  <input type='text' maxlength='100' size='40' name='keywords' id="keywords" class='forminput'>
-	  <br><br>
+	  <br><label><input type='checkbox' name='fulltext'>Полнотекстовый поиск <i>(beta)</i></label><br>
 	  {$search_txt}<!--IBF.BOOLEAN_EXPLAIN-->{$where}
 
 	</td>
@@ -539,6 +541,8 @@ $hidden_fields
   <div class="tablepad" align="center">
     <input type='text' maxlength='100' size='40' id="keywords" name='keywords' class='forminput'>
 	<br>
+	<label><input type='checkbox' name='fulltext'>Use fulltext engine</label>
+	<br>
 	<label for="keywords">{$search_txt}</label> <!--IBF.BOOLEAN_EXPLAIN-->
     {$where}
   </div>
@@ -766,7 +770,8 @@ return <<<EOF
 
 <tr>
  <td>
-  <form action="{$ibforums->base_url}act=Search" method="post">
+  <form action="{$ibforums->base_url}" method="get">
+  <input type='hidden' name='act' value='Search'>
   <input type='hidden' name='CODE' value='change_days'>
   <input type='hidden' name='CODE_MODE' value='{$ibforums->input['CODE_MODE']}'>
   <select name='search_days' class='forminput'>

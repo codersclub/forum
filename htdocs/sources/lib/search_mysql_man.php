@@ -27,7 +27,7 @@ class search_lib extends Search
 
     var $parser      = "";
     var $is          = "";
-    
+    public $realtime = false;
 	//--------------------------------------------
 	// Constructor
 	//--------------------------------------------

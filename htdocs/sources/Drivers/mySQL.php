@@ -246,8 +246,8 @@ class db_driver {
     // Fetch the number of rows in a result set
     /*========================================================================*/
     
-    function get_num_rows() {
-        return mysql_num_rows($this->query_id);
+    function get_num_rows($result = NULL) {
+        return mysql_num_rows($result ? $result : $this->query_id);
     }
     
     /*========================================================================*/
@@ -358,7 +358,7 @@ class db_driver {
 	    		You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>, if this
 	    		does not fix the error, you can contact the board administrator by clicking <a href='mailto:{$ibforums->vars['email_in']}?subject=SQL+Error'>here</a>
 	    		<br><br><b>Error Returned</b><br>
-	    		<form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlspecialchars($the_error)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
+	    		<form name='mysql'><textarea rows=\"15\" cols=\"160\">".htmlspecialchars($the_error)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
 	} else
 	{
 		$out = "<h1>Возникла SQL ошибка при обращении к БД форума. Подождите несколько минут и обновите страницу.<br>

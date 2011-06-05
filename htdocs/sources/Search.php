@@ -94,7 +94,7 @@ class Search {
             $print->do_output( array(
 				'TITLE'	=> $this->page_title,
 				'JS'	=> 0,
-				NAV	=> $this->nav ) );
+				'NAV'	=> $this->nav ) );
         }
     	
 
@@ -106,7 +106,7 @@ class Search {
     	
     	if ( !isset($ibforums->member['g_use_search']) )
     	{
-    		$std->Error( array( LEVEL => 1, MSG => 'cant_use_feature') );
+    		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'cant_use_feature') );
     	}
     	
 
@@ -140,17 +140,13 @@ class Search {
     	//--------------------------------------------
     	// Sort out the required search library
     	//--------------------------------------------
-    	
-    	$method = isset($ibforums->vars['search_sql_method']) ? $ibforums->vars['search_sql_method'] : 'man';
+    	if ($ibforums->input['fulltext']) {
+    		$method = 'sphinx';
+    	} else {
+    		$method = isset($ibforums->vars['search_sql_method']) ? $ibforums->vars['search_sql_method'] : 'man';
+    	}
     	$sql    = isset($ibforums->vars['sql_driver'])        ? $ibforums->vars['sql_driver']        : 'mysql';
 
-// vot debug
-
-//	if( $ibforums->member['id'] == 2 ) {
-//    	  $method = 'index';
-//	  $this->output .= "search_sql_method = $method<br>";
-//	  $this->output .= "search_sql_method = search_".strtolower($sql)."_".$method.".php<br>";
-//	}
 
     	$this->load_lib = 'search_'.strtolower($sql).'_'.$method.'.php';
 
@@ -284,7 +280,7 @@ class Search {
 
 		$fid = $ibforums->input['f'];
 
-                $_POST['forums'] = Array ( '' => 'all' );
+                $_REQUEST['forums'] = Array ( '' => 'all' );
 
 		if ( $fid )
 		{
@@ -297,10 +293,10 @@ class Search {
 			{
 				if ( $row['parent_id'] != -1 ) 
 				{
-					$_POST['forums'] = Array ( '' => $row['parent_id'] );
+					$_REQUEST['forums'] = Array ( '' => $row['parent_id'] );
 				} else 
 				{
-					$_POST['forums'] = Array ( '' => $fid );
+					$_REQUEST['forums'] = Array ( '' => $fid );
 				}
 			}
 		}
@@ -605,7 +601,7 @@ class Search {
 		//-----------------------------------
 		// Parse the keywords
 
-		if ( $type != 'nameonly' )  
+		if ( $type != 'nameonly' && false ) // эта проверка и так есть в search_mysql_index  
 		{
 
 			//--------------------------
@@ -646,42 +642,34 @@ class Search {
 		$result = $this->lib->do_main_search();
 
 
+		if (!$this->lib->realtime){
 
 
-		
-// vod: debug
-if($this->debug) {
-  $this->output .= "<hr>returned from this->lib->do_main_search()<br>\n";
-//  echo "lib_output: ".$result->lib_output;
-}
+			//------------------------------------------------
+			// Do we have any results?
+			//------------------------------------------------
+			
+			if ( !$result['topic_id'] and !$result['post_id'] )
+			{
+			    if($this->debug) 
+			    {
+			      $this->output .= "Error: no_search_results.<br>\n";
+			    }
+			    else
+			    {
+				$std->Error( array( 'LEVEL' => 1,
+						    'MSG' => 'no_search_results' ) );
+			    }
+			}
 
 
-		//------------------------------------------------
-		// Do we have any results?
-		//------------------------------------------------
-		
-		if ( !$result['topic_id'] and !$result['post_id'] )
-		{
-		    if($this->debug) 
-		    {
-		      $this->output .= "Error: no_search_results.<br>\n";
-		    }
-		    else
-		    {
-			$std->Error( array( 'LEVEL' => 1,
-					    'MSG' => 'no_search_results' ) );
-		    }
-		}
+			//------------------------------------------------
+			// If we are still here, store the data into the database...
+			//------------------------------------------------
 
+			$unique_id = md5(uniqid(microtime(),1));
 
-
-		//------------------------------------------------
-		// If we are still here, store the data into the database...
-		//------------------------------------------------
-		
-		$unique_id = md5(uniqid(microtime(),1));
-		
-		$str = $DB->compile_db_insert_string( array (
+			$str = $DB->compile_db_insert_string( array (
 				'id'         => $unique_id,
 				'search_date'=> time(),
 				'topic_id'   => $result['topic_id'],
@@ -692,18 +680,16 @@ if($this->debug) {
 				'ip_address' => $ibforums->input['IP_ADDRESS'],
 				'post_id'    => $result['post_id'],
 				'post_max'   => $result['post_max'],
-				)        );
-		
+			)        );
 
-		$res_d = $DB->query("INSERT
+
+			$res_d = $DB->query("INSERT
 				     INTO ibf_search_results
 				     ({$str['FIELD_NAMES']})
 				     VALUES ({$str['FIELD_VALUES']})");
 
 
-// vot debug    	  
-//		if($this->debug && ($ibforums->member[id] == 2)) {
-	  	    $this->output .= "
+			$this->output .= "
 
 			'id'		= $unique_id<br>
 			'lib_output'    = {$result['lib_output']}<br>
@@ -727,18 +713,15 @@ if($this->debug) {
 			'posts_query'	= {$result['posts_query']}<br><br>
 			'post_id'	= {$result['post_id']}<br>
 			'post_max'	= {$result['post_max']}<br>
-";
+			";
 
 
-// vot			$this->show_search_results($result);
-
-//		} else
-//		{
 			$print->redirect_screen( $ibforums->lang['search_redirect'] , "act=Search&CODE=show&searchid=$unique_id&search_in=".$this->search_in."&result_type=".$this->result_type."&highlite=".urlencode(trim($result['keywords'])) );
-//			$this->show_search_results();
-//		}
+		}else{
+			$amount = $this->lib->results_count();
+			$this->show_result_from_select($result['result'], $amount);
+		}
 	}
-
 
 
 	//------------------------------------------------------------------
@@ -786,107 +769,44 @@ if($this->debug) {
 	function show_search_results($result=array())
 	{
 		global $ibforums, $DB, $std;
-		
-  	    $this->output .= "<HR>show_search_results() started.<br>";
 
-//		$this->result_type = $ibforums->input['result_type'];
-//		$this->search_in   = $ibforums->input['search_in'];
-		
-//		$ibforums->input['search_in']
-//		$this->sort_key
-//		$this->sort_order
-//		$ibforums->member['id']
-//		$ibforums->input['IP_ADDRESS']
-//		$result['keywords']
-//		$result['wordlist']
-//		$result['wordidlist']
-//		$result['t_query']
-//		$result['p_query']
-//		$result['search_count']
-//
-//		$result['topics_query']
-//		$result['topic_id']
-//		$result['topic_max']
-//
-//		$result['posts_query']
-//		$result['post_id']
-//		$result['post_max']
+		$this->output .= "<HR>show_search_results() started.<br>";
 
 
-
-		
-//		//------------------------------------------------
-//		// We have a search ID, so lets get the parsed results.
-//		//------------------------------------------------
-//		
-//		$this->unique_id = $ibforums->input['searchid'];
-//		
-//		if ( !$this->unique_id ) $std->Error( array( 'LEVEL' => 1,
-//							     'MSG' => 'no_search_results' ) );
-//		
-//		$res_d = $DB->query("SELECT *
-//				     FROM ibf_search_results
-//				     WHERE id='{$this->unique_id}'");
-//
-//		$sr = $DB->fetch_row($res_d);
-//		
-//		$this->sort_order = $sr['sort_order'];
-//		$this->sort_key   = $sr['sort_key'];
-//
-//		$tmp_topics     = $sr['topic_id'];
+		//		//------------------------------------------------
+		//		// We have a search ID, so lets get the parsed results.
+		//		//------------------------------------------------
+		//
 
 		$tmp_topics     = $result['topic_id'];
 
 		$topic_max_hits = "";	//$sr['topic_max'];
 
-//		$tmp_posts      = $sr['post_id'];
-
 		$tmp_posts      = $result['post_id'];
 
 		$post_max_hits  = "";	//$sr['post_max'];
-		
 
+		$db_result = $result['result'];
 		//------------------------------------------------
 		// Remove duplicates from the topic_id and post_id
 		//------------------------------------------------
-		
-		$topics = ",";
-		$posts  = ",";
-		
-		foreach( explode( ",", $tmp_topics) as $tid )
-		{
-			if ( ! preg_match( "/,$tid,/", $topics ) )
-			{
-				$topics .= "$tid,";
-				$topic_max_hits++;
-			}
-		}
-		
-		//-------------------------------------
-		
-		foreach( explode( ",", $tmp_posts) as $pid )
-		{
-			if ( ! preg_match( "/,$pid,/", $posts ) )
-			{
-				$posts .= "$pid,";
-				$post_max_hits++;
-			}
-		}
-		
-		$topics = str_replace( ",,", ",", $topics );
-		$posts  = str_replace( ",,", ",", $posts  );
+
+		$topic_max_hits = self::unique_string_items($tmp_topics);
+		$post_max_hits  = self::unique_string_items($tmp_posts);
+
+		$topics = $tmp_topics;
+		$posts  = $tmp_posts;
+
 
 		//-------------------------------------
-		
-		if ($topics == "," and $posts == ",")
+
+		if ( !$topics and !$posts )
 		{
 			$std->Error( array(
 					'LEVEL' => 1,
 					'MSG' => 'no_search_results'
-					 ) );
+					) );
 		}
-
-//		$url_words = $this->convert_highlite_words($ibforums->input['highlite']);
 
 		$url_words = $result['keywords'];
 
@@ -901,7 +821,7 @@ if($this->debug) {
 			if ( $this->search_in == 'titles' )
 			{
 				// Song * NEW
-                                $this->fill_read_arrays($topics);
+				$this->fill_read_arrays($topics);
 				// /Song * NEW
 
 				$this->output .= $this->start_page($topic_max_hits);
@@ -914,7 +834,7 @@ if($this->debug) {
 						ibf_topics t,
 						ibf_forums f 
 					  WHERE
-						t.tid IN(0".$topics."0) AND
+						t.tid IN(".$topics.") AND
 						f.id=t.forum_id AND
 						t.approved=1 
 					  ORDER BY t.pinned DESC,";
@@ -926,7 +846,7 @@ if($this->debug) {
 				}
 
 				$query .= "t.".$this->sort_key." ".
-					  $this->sort_order.
+				$this->sort_order.
 					" LIMIT ".$this->first.",25";
 
 				$res_d = $DB->query($query);
@@ -941,7 +861,7 @@ if($this->debug) {
 				// Array for forum id of each message
 				$forum_posts = array();
 
-				if ( $posts != "," )
+				if ( $posts )
 				{
 					$res_d = $DB->query(
 					"SELECT
@@ -949,29 +869,31 @@ if($this->debug) {
 						topic_id
 					FROM ibf_posts
 					WHERE
-						pid IN(0{$posts}0)
+						pid IN({$posts})
 						AND queued != 1");
-					
+					if ($topics) {
+						$topics = explode(',', $topics);
+					}
 					while ( $pr = $DB->fetch_row($res_d) )
 					{
-						if ( !preg_match( "/,".$pr['topic_id'].",/", $topics ) )
+						if ( !in_array($pr['topic_id'], $topics ) )
 						{
-							$topics .= $pr['topic_id'].",";
+							$topics[] = $pr['topic_id'];
 							$topic_max_hits++;
 
 							$forum_posts[ $pr['topic_id'] ] = $pr['forum_id'];
 						}
 					}
-					
-					$topics = str_replace( ",,", ",", $topics );
+
+					$topics = implode(',', $topics);
 				}
 
 				// Song * NEW
-                                $this->fill_read_arrays($topics);
+				$this->fill_read_arrays($topics);
 
 
 				$this->output .= $this->start_page($topic_max_hits);
-							
+					
 				$query = "SELECT
 						t.*,
 						f.id as forum_id,
@@ -991,40 +913,39 @@ if($this->debug) {
 					$query .= "f.id ASC,";
 				}
 
-//if($ibforums->member['id']==2) echo "sort_key:".$this->sort_key."<br>";
 
 				$query .= "t.".$this->sort_key." ".
-					  $this->sort_order.
+				$this->sort_order.
 					" LIMIT ".$this->first.",25";
 
 				$res_d = $DB->query($query);
 			}
 
 			//--------------------------------------------
-			
+				
 			if ( $DB->get_num_rows($res_d) )
 			{
 				while ( $row = $DB->fetch_row($res_d) )
 				{
 					// Song * club tool
-					if ( $row['club'] and $std->check_perms( $ibforums->member['club_perms'] ) == FALSE ) 
+					if ( $row['club'] and $std->check_perms( $ibforums->member['club_perms'] ) == FALSE )
 					{
 						continue;
 					}
-	
+
 					$count++;
 					// Song * club tool
 
 					$row['keywords'] = $url_words;
 
-					if ( $row['pinned'] ) 
+					if ( $row['pinned'] )
 					{
 						$this->output .= $this->html->RenderPinnedRow( $this->parse_entry($row) );
 					} else
 					{
 						$this->output .= $this->html->RenderRow( $this->parse_entry($row) );
 					}
-				
+
 				}
 
 			} else
@@ -1044,11 +965,11 @@ if($this->debug) {
 			require ROOT_PATH."/sources/lib/post_parser.php";
 
 			$this->parser = new post_parser();
-       		
+			 
 			if ( $this->search_in == 'titles' )
 			{
 				$this->output .= $this->start_page($topic_max_hits, 1);
-				            
+
 				$res_d = $DB->query(
 					"SELECT
 						t.*,
@@ -1075,9 +996,9 @@ if($this->debug) {
 
 			} else //  ( $this->search_in == 'posts' )
 			{
-                                $this->parser->prepareIcons();
+				$this->parser->prepareIcons();
 
-				if ( $topics != "," )
+				if ( $topics )
 				{
 					$res_d = $DB->query(
 					"SELECT
@@ -1097,13 +1018,13 @@ if($this->debug) {
 							$post_max_hits++;
 						}
 					}
-					
+						
 					$posts = str_replace( ",,", ",", $posts );
 				}
-				
+
 				$this->output .= $this->start_page($post_max_hits, 1);
-				
-                                $res_d = $DB->query(
+
+				$res_d = $DB->query(
 					"SELECT
 						t.*,
 						p.pid,
@@ -1136,7 +1057,7 @@ if($this->debug) {
 					ORDER BY p.post_date DESC
 					LIMIT {$this->first},25");
 			}
-			
+			/*
 			while ( $row = $DB->fetch_row($res_d) )
 			{
 				// Song * ip address in a search
@@ -1154,27 +1075,27 @@ if($this->debug) {
 
 				// Song * club tool
 				if ( $row['club'] and
-				     $std->check_perms( $ibforums->member['club_perms'] ) == FALSE ) 
+				$std->check_perms( $ibforums->member['club_perms'] ) == FALSE )
 				{
-				 	continue;
+					continue;
 				}
 
 				$count++;
 				// /Song * club tool
 
-				$data = array(  TEXT      => $row['post'],
-                                                SMILIES   => $row['use_emo'],
-                                                CODE      => 1,
-                                                SIGNATURE => 0,
-                                                HTML      => 1,
-					        HID       => ( $row['forum_highlight'] ) ? $row['hid'] : -1,
-						TID       => $row['topic_id'],
-						MID	  => $row['author_id'],
-                                             );
+				$data = array(  'TEXT'      => $row['post'],
+				'SMILIES'   => $row['use_emo'],
+				'CODE'      => 1,
+				'SIGNATURE' => 0,
+				'HTML'      => 1,
+				'HID'       => ( $row['forum_highlight'] ) ? $row['hid'] : -1,
+				'TID'       => $row['topic_id'],
+				'MID'	  => $row['author_id'],
+				);
 
 				$row['post'] = $this->parser->prepare($data);
 
-				if ( !trim($row['post']) ) 
+				if ( !trim($row['post']) )
 				{
 					$count--;
 					continue;
@@ -1182,46 +1103,49 @@ if($this->debug) {
 
 				$row['keywords']  = $url_words;
 				$row['post_date'] = $std->get_date( $row['post_date'],'LONG' );
-				
+
 				//--------------------------------------------------------------
 				// Parse HTML tag on the fly
 				//--------------------------------------------------------------
-				
+
 				if ( $row['use_html'] == 1 )
 				{
 					// So far, so good..
-					
+						
 					if ( stristr( $row['post'], '[dohtml]' ) )
 					{
 						// [doHTML] tag found..
-						
+
 						$parse = ($row['use_html'] AND $row['g_dohtml']) ? 1 : 0;
-						
+
 						$row['post'] = $this->parser->post_db_parse($row['post'], $parse );
 					}
 				}
-				
+
 				//--------------------------------------------------------------
 				// Do word wrap?
 				//--------------------------------------------------------------
-				
+
 				if ( $ibforums->vars['post_wordwrap'] > 0 )
 				{
 					$row['post'] = $this->parser->my_wordwrap( $row['post'], $ibforums->vars['post_wordwrap']) ;
 				}
-				
+
 				$this->output .= $this->html->RenderPostRow( $this->parse_entry($row, 1) );
 			}
-			
-			$this->output .= $this->html->end_as_post(array( 'SHOW_PAGES' => $this->links ));
+			 *
+			 */
+				
+			// $this->output .= $this->html->end_as_post(array( 'SHOW_PAGES' => $this->links ));
+			$this->show_result_from_select($res_d, $post_max_hits, 1);
 		}
-		
+
 		// Song * club tool
 
 
-// vot debug    	  
-//		if($this->debug && ($ibforums->member[id] == 2)) {
-	  	    $this->output .= "
+		// vot debug
+		//		if($this->debug && ($ibforums->member[id] == 2)) {
+		$this->output .= "
 			<hr>
 			'search_in'	= {$this->search_in}<br>
 			'sort_key'	= {$this->sort_key}<br>
@@ -1243,20 +1167,212 @@ if($this->debug) {
 			'topics'	= {$topics}<br>
 			'posts'		= {$posts}<br>
 ";
-//		}
+		//		}
 
-return;			
+		return;
 
-// vot debug		
-if(! $this->debug) {
-		if ( $count <= 0 ) $std->Error( array(
+		// vot debug
+		if(! $this->debug) {
+			if ( $count <= 0 ) $std->Error( array(
 					'LEVEL' => 1,
 					'MSG' => 'no_search_results' ) );
-}
+		}
 		// /Song * club tool
 
 		$this->page_title = $ibforums->lang['search_results'];
-		
+
+		if ( $ibforums->input['nav'] == 'lv' )
+		{
+			$this->nav = array( $ibforums->lang['nav_since_lv'] );
+
+		} elseif ( $ibforums->input['nav'] == 'my_lv' )
+		{
+			$this->nav = array( $ibforums->lang['my_nav_since_lv'] );
+
+		} elseif ( $ibforums->input['nav'] == 'lt' )
+		{
+			$this->nav = array( $ibforums->lang['nav_lt'] );
+
+		} elseif ( $ibforums->input['nav'] == 'au' )
+		{
+			$this->nav = array( $ibforums->lang['nav_au'] );
+		} else
+		{
+			$this->nav = array( "<a href='{$this->base_url}&act=Search'>{$ibforums->lang['search_form']}</a>", $ibforums->lang['search_title'] );
+		}
+	}
+	
+	function show_result_from_select($result, $amount = 0, $is_post = 0) {
+		global $ibforums, $DB, $std;
+
+		if ($this->result_type == 'posts') {
+			
+			require ROOT_PATH . "/sources/lib/post_parser.php";
+			$this->output .= $this->start_page($amount, 1);
+
+			$this->parser = new post_parser();
+			$this->parser->prepareIcons();
+
+
+			while ($row = $DB->fetch_row($result)) {
+				// Song * ip address in a search
+
+				if ($ibforums->member['g_is_supmod']) {
+					$row['ip_address'] = "( <a href='{$ibforums->base_url}&act=modcp&CODE=ip&incoming={$row['ip_address']}' target='_blank'>{$row['ip_address']}</a> )";
+				} else {
+					$row['ip_address'] = "";
+				}
+
+				// /Song * ip address in a search
+				// Song * club tool
+				if ($row['club'] and
+					$std->check_perms($ibforums->member['club_perms']) == FALSE) {
+					continue;
+				}
+
+				$count++;
+				// /Song * club tool
+
+				$data = array(
+					'TEXT' => $row['post'],
+					'SMILIES' => $row['use_emo'],
+					'CODE' => 1,
+					'SIGNATURE' => 0,
+					'HTML' => 1,
+					'HID' => ( $row['forum_highlight'] ) ? $row['hid'] : -1,
+					'TID' => $row['topic_id'],
+					'MID' => $row['author_id'],
+				);
+
+				$row['post'] = $this->parser->prepare($data);
+
+				if (!trim($row['post'])) {
+					$count--;
+					continue;
+				}
+
+				$row['keywords'] = $url_words;
+				$row['post_date'] = $std->get_date($row['post_date'], 'LONG');
+
+				//--------------------------------------------------------------
+				// Parse HTML tag on the fly
+				//--------------------------------------------------------------
+
+				if ($row['use_html'] == 1) {
+					// So far, so good..
+
+					if (stristr($row['post'], '[dohtml]')) {
+						// [doHTML] tag found..
+
+						$parse = ($row['use_html'] AND $row['g_dohtml']) ? 1 : 0;
+
+						$row['post'] = $this->parser->post_db_parse($row['post'], $parse);
+					}
+				}
+
+				//--------------------------------------------------------------
+				// Do word wrap?
+				//--------------------------------------------------------------
+
+				if ($ibforums->vars['post_wordwrap'] > 0) {
+					$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
+				}
+
+				$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
+			}
+
+			$this->output .= $this->html->end_as_post(array('SHOW_PAGES' => $this->links));
+
+			$this->page_title = $ibforums->lang['search_results'];
+
+			if ($ibforums->input['nav'] == 'lv') {
+				$this->nav = array($ibforums->lang['nav_since_lv']);
+			} elseif ($ibforums->input['nav'] == 'my_lv') {
+				$this->nav = array($ibforums->lang['my_nav_since_lv']);
+			} elseif ($ibforums->input['nav'] == 'lt') {
+				$this->nav = array($ibforums->lang['nav_lt']);
+			} elseif ($ibforums->input['nav'] == 'au') {
+				$this->nav = array($ibforums->lang['nav_au']);
+			} else {
+				$this->nav = array("<a href='{$this->base_url}&act=Search'>{$ibforums->lang['search_form']}</a>", $ibforums->lang['search_title']);
+			}
+		} else {  // ( $this->result_type == 'topics' )
+
+			$this->output .= $this->start_page($amount);
+
+			if ($this->search_in == 'titles') {
+				// Song * NEW
+				$this->fill_read_arrays($topics);
+				// /Song * NEW
+
+			} else { // ( $this->search_in == 'posts' )
+				//--------------------------------------------
+				// we have tid and pid to sort out, woohoo NOT
+				//--------------------------------------------
+				// Array for forum id of each message
+				$forum_posts = array();
+
+				if ($posts) {
+					$res_d = $DB->query(
+									"SELECT
+						forum_id,
+						topic_id
+					FROM ibf_posts
+					WHERE
+						pid IN({$posts})
+						AND queued != 1");
+					if ($topics) {
+						$topics = explode(',', $topics);
+					}
+					while ($pr = $DB->fetch_row($res_d)) {
+						if (!in_array($pr['topic_id'], $topics)) {
+							$topics[] = $pr['topic_id'];
+							$topic_max_hits++;
+
+							$forum_posts[$pr['topic_id']] = $pr['forum_id'];
+						}
+					}
+
+					$topics = implode(',', $topics);
+				}
+				// Song * NEW
+				$this->fill_read_arrays($topics);
+
+
+			}
+
+			//--------------------------------------------
+
+			if ($DB->get_num_rows($result)) {
+				while ($row = $DB->fetch_row($result)) {
+					// Song * club tool
+					if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE) {
+						continue;
+					}
+
+					$count++;
+					// Song * club tool
+
+					$row['keywords'] = $url_words;
+
+					if ($row['pinned']) {
+						$this->output .= $this->html->RenderPinnedRow($this->parse_entry($row));
+					} else {
+						$this->output .= $this->html->RenderRow($this->parse_entry($row));
+					}
+				}
+			} else {
+				$std->Error(array('LEVEL' => 1,
+					'MSG' => 'no_search_results'));
+			}
+			$DB->free_result($result);
+			//--------------------------------------------
+
+			$this->output .= $this->html->end(array('SHOW_PAGES' => $this->links, 'modform_close' => ($this->modfunctions) ? $this->html->modform_close() : ""));
+		}
+
+		$this->page_title = $ibforums->lang['search_results'];
+
 		if ( $ibforums->input['nav'] == 'lv' )
 		{
 			$this->nav = array( $ibforums->lang['nav_since_lv'] );
@@ -1279,8 +1395,6 @@ if(! $this->debug) {
 	}
 
 
-
-
 	/******************************************************/
 	// Show Results
 	// Shows the results of the search
@@ -1292,18 +1406,7 @@ if(! $this->debug) {
 		
 		$this->result_type = $ibforums->input['result_type'];
 		$this->search_in   = $ibforums->input['search_in'];
-		
-// vot: MOVED TO CRON !!!
-//		//------------------------------------------------
-//		// Delete old search queries (older than 24 hours)
-//		//------------------------------------------------
-//		
-//		$t_time = time() - (60*60*24);
-//
-//		$res_d = $DB->query("DELETE
-//				     FROM ibf_search_results
-//				     WHERE search_date < '$t_time'");
-		
+				
 		//------------------------------------------------
 		// We have a search ID, so lets get the parsed results.
 		//------------------------------------------------
@@ -1331,36 +1434,18 @@ if(! $this->debug) {
 		//------------------------------------------------
 		// Remove duplicates from the topic_id and post_id
 		//------------------------------------------------
+
+		$topic_max_hits = self::unique_string_items($tmp_topics);
+		$post_max_hits  = self::unique_string_items($tmp_posts);
+
+		$topics = $tmp_topics;
+		$posts  = $tmp_posts;
 		
-		$topics = ",";
-		$posts  = ",";
 		
-		foreach( explode( ",", $tmp_topics) as $tid )
-		{
-			if ( ! preg_match( "/,$tid,/", $topics ) )
-			{
-				$topics .= "$tid,";
-				$topic_max_hits++;
-			}
-		}
-		
-		//-------------------------------------
-		
-		foreach( explode( ",", $tmp_posts) as $pid )
-		{
-			if ( ! preg_match( "/,$pid,/", $posts ) )
-			{
-				$posts .= "$pid,";
-				$post_max_hits++;
-			}
-		}
-		
-		$topics = str_replace( ",,", ",", $topics );
-		$posts  = str_replace( ",,", ",", $posts  );
 
 		//-------------------------------------
 		
-		if ($topics == "," and $posts == ",") $std->Error(array(
+		if (!$topics and !$posts) $std->Error(array(
 						'LEVEL' => 1,
 						'MSG' => 'no_search_results'
 						 ) );
@@ -1386,7 +1471,7 @@ if(! $this->debug) {
 				          FROM
 						ibf_topics t, ibf_forums f 
 					  WHERE
-						t.tid IN(0".$topics."0)
+						t.tid IN(".$topics.")
 						AND f.id=t.forum_id
 						AND t.approved=1 
 					  ORDER BY t.pinned DESC,";
@@ -1413,7 +1498,7 @@ if(! $this->debug) {
 				// Array for forum id of each message
 				$forum_posts = array();
 
-				if ( $posts != "," )
+				if ( $posts  )
 				{
 					$res_d = $DB->query(
 					"SELECT
@@ -1421,24 +1506,30 @@ if(! $this->debug) {
 						topic_id
 					FROM ibf_posts
 					WHERE
-						pid IN(0{$posts}0)
+						pid IN({$posts})
 						AND queued != 1");
 					
+					if ($topics) {
+						$topics = explode(',', $topics);
+					} else {
+						$topics = array();
+					}
+
 					while ( $pr = $DB->fetch_row($res_d) )
 					{
-						if ( !preg_match( "/,".$pr['topic_id'].",/", $topics ) )
+						if ( !in_array($pr['topic_id'], $topics) )
 						{
-							$topics .= $pr['topic_id'].",";
+							$topics[] = $pr['topic_id'];
 							$topic_max_hits++;
 
 							$forum_posts[ $pr['topic_id'] ] = $pr['forum_id'];
 						}
 					}
 					
-					$topics = str_replace( ",,", ",", $topics );
+					$topics = implode(',', $topics);
 				}
 				// Song * NEW
-                                $this->fill_read_arrays($topics);
+                $this->fill_read_arrays($topics);
 
 
 				$this->output .= $this->start_page($topic_max_hits);
@@ -1451,7 +1542,7 @@ if(! $this->debug) {
 					  LEFT JOIN ibf_forums f
 						ON (f.id=t.forum_id) 
 					  WHERE
-						t.tid IN(0".$topics."0)
+						t.tid IN(".$topics.")
 						AND t.approved=1 
 					  ORDER BY
 						t.pinned DESC,"; 
@@ -1502,7 +1593,6 @@ if(! $this->debug) {
 
 			//--------------------------------------------
 			
-//Jureth		$this->output .= $this->html->end(array( 'SHOW_PAGES' => $this->links ));
 			$this->output .= $this->html->end(array( 'SHOW_PAGES' => $this->links, 'modform_close' => ($this->modfunctions)?$this->html->modform_close():"" ));
 
 
@@ -1535,7 +1625,7 @@ if(! $this->debug) {
 					LEFT JOIN ibf_forums f
 						ON (f.id=t.forum_id)
 					WHERE
-						t.tid IN(0{$topics}-1)
+						t.tid IN({$topics})
 						AND p.queued != 1
 						AND t.approved=1 
 					ORDER BY p.post_date DESC
@@ -1545,7 +1635,7 @@ if(! $this->debug) {
 			{
                                 $this->parser->prepareIcons();
 
-				if ( $topics != "," )
+				if ( $topics  )
 				{
 					$res_d = $DB->query(
 					"SELECT
@@ -1553,7 +1643,7 @@ if(! $this->debug) {
 					FROM
 						ibf_posts
 					WHERE
-						topic_id IN(0{$topics}0) AND
+						topic_id IN({$topics}) AND
 						new_topic=1 AND
 						queued != 1");
 
@@ -1597,7 +1687,7 @@ if(! $this->debug) {
 					LEFT JOIN ibf_groups g
 						ON (m.mgroup=g.g_id) 
 					WHERE
-						p.pid IN(0{$posts}0) AND
+						p.pid IN({$posts}) AND
 						p.use_sig=0 AND
 						p.queued != 1 AND
 						t.approved=1 
@@ -1715,6 +1805,30 @@ if(! $this->debug) {
 	}
 
 
+	/**
+	 * из строки вида "1,1,2,3,4"
+	 * удал€ет повтор€ющиес€ значени€ и возвращает количество оставшихс€
+	 * @param string $items
+	 */
+	static function unique_string_items(&$items) {
+		$a = explode(',', $items);
+		$a = array_unique($a);
+		$a = array_filter($a, array('Search', 'array_filter_callback_clear_epmty'));
+		$count = count($a);
+		$items = implode(',', $a);
+		return $count;
+	}
+
+	/**
+	 * фильтр-ф-ци€ обратного вызова дл€ ф-ции чуть выше
+	 * удал€ет пустые элементы из массива
+	 * @param type $a
+	 * @return bool
+	 */
+	static function array_filter_callback_clear_epmty($a) {
+		return (bool)$a;
+	}
+
 	//-------------------------------------------------
  	function show_form()
  	{
@@ -1753,13 +1867,7 @@ if(! $this->debug) {
 			
 		while ( $i = $DB->fetch_row($res_d) )
 		{
-//if($this->debug) {
-//echo	$i[cat_name]." : ".
-//	$i[forum_name]." , ".
-//	$i[subwrap]." , ".
-//	$i[sub_can_post]." , ".
-//	$i[parent_id]."<br>";
-//}
+
 			$selected = '';
 			
 			if ($ibforums->input['f'] and
@@ -1777,30 +1885,22 @@ if(! $this->debug) {
 			}
 			
 			if ($i['subwrap'] == 1 and $i['sub_can_post'] != 1)
-//			if ($i['subwrap'] == 1)
 			{
 				$forum_keys[ $i['cat_id'] ][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"".$sub_css."$selected>&middot;&middot;&nbsp;{$i['forum_name']}$is_sub</option>\n";
 			}
 			else
 			{
-// vot				if ( $std->check_perms($i['read_perms']) == TRUE )
-// vot				{
+
 					if ( $i['parent_id'] > 0 )
 					{
 						// Song * endless forums, 20.12.04
 						$children[ $i['parent_id'] ][] = array($i['forum_id'], "<option value=\"{$i['forum_id']}\"$selected>&middot;&middot;&middot;&middot;<IBF_SONG_DEPTH>&nbsp;{$i['forum_name']}</option>\n");
-					//song	$children[ $i['parent_id'] ][] = "<option value=\"{$i['forum_id']}\"$selected>&middot;&middot;&middot;&middot;&nbsp;{$i['forum_name']}</option>\n";
 						// /Song * endless forums, 20.12.04
 
 					} else
 					{
 						$forum_keys[ $i['cat_id'] ][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"".$sub_css."$selected>&middot;&middot;&nbsp;{$i['forum_name']}$is_sub</option>\n";
 					}
-// vot				}
-// vot				else
-// vot				{
-// vot					continue;
-// vot				}
 			}
 			
 			if ($last_cat_id != $i['cat_id'])
@@ -1822,21 +1922,11 @@ if(! $this->debug) {
 				
 				foreach($forum_keys[$cat_id] as $idx => $forum_text)
 				{
-//echo "$cat_text : $forum_text : ".$subwrap[$idx]."<br>";
-
-//					if ( $subwrap[$idx] != 1 )
-//					{
-						$the_html .= $forum_text;
-//					} else
-//					{
-						if ( count($children[$idx]) > 0 )
-						{
-							// Song * endless forums, 20.12.04
-						//	$the_html .= $forum_text;
-							$the_html .= $this->subforums_addtoform($idx, $children);
-							// /Song * endless forums, 20.12.04
-						}
-//					}
+					$the_html .= $forum_text;
+					if ( count($children[$idx]) > 0 )
+					{
+						$the_html .= $this->subforums_addtoform($idx, $children);
+					}
 				}
 			}
 		}
@@ -1925,7 +2015,7 @@ if(! $this->debug) {
 	function fill_read_arrays($topics) {
 	global $ibforums, $DB;
 
-	if ( $ibforums->member['id'] )
+	if ( $ibforums->member['id'] && $topics )
 	{
 		// at first, collect data within visited topics
 		$DB->query("SELECT
@@ -1935,7 +2025,7 @@ if(! $this->debug) {
 			    FROM ibf_log_topics
 			    WHERE
 				mid='".$ibforums->member['id']."'
-				AND tid IN (0".$topics."0)");
+				AND tid IN ({$topics})");
 
 		while( $read = $DB->fetch_row() )
 		{
@@ -1959,6 +2049,7 @@ if(! $this->debug) {
 						? $this->read_mark[ $fid ] 
 						: $read['logTime'];
 		}
+		$DB->free_result();
 	}
 
 	}
@@ -1975,14 +2066,20 @@ if(! $this->debug) {
 		
 		$url_words = $this->convert_highlite_words($ibforums->input['highlite']);
 		
+		if ($this->lib->realtime) {
+			$baseurl = $this->base_url.$_SERVER['QUERY_STRING'];
+		} else {
+			$baseurl = $this->base_url."act=Search&nav={$ibforums->input['nav']}&CODE=show&CODE_MODE={$ibforums->input['CODE_MODE']}&searchid=".$this->unique_id."&search_in=".$this->search_in."&result_type=".$this->result_type."&new={$ibforums->input['new']}&hl=".$url_words;
+		}
+
 		$this->links = $std->build_pagelinks(
 			array( 
-				TOTAL_POSS  => $amount,
-				PER_PAGE    => 25,
-				CUR_ST_VAL  => $this->first,
-				L_SINGLE    => "",
-				L_MULTI     => $ibforums->lang['search_pages'],
-				BASE_URL    => $this->base_url."act=Search&nav={$ibforums->input['nav']}&CODE=show&CODE_MODE={$ibforums->input['CODE_MODE']}&searchid=".$this->unique_id."&search_in=".$this->search_in."&result_type=".$this->result_type."&new={$ibforums->input['new']}&hl=".$url_words,
+				'TOTAL_POSS'  => $amount,
+				'PER_PAGE'    => 25,
+				'CUR_ST_VAL'  => $this->first,
+				'L_SINGLE'    => "",
+				'L_MULTI'     => $ibforums->lang['search_pages'],
+				'BASE_URL'    => $baseurl,
 			     )
 			);
 
@@ -2379,10 +2476,10 @@ if(! $this->debug) {
     	// Check for an array
     	//------------------------------------------------
 
-    	if ( is_array( $_POST['forums'] )  )
+    	if ( is_array( $_REQUEST['forums'] )  )
     	{
 
-    		if ( in_array( 'all', $_POST['forums'] ) )
+    		if ( in_array( 'all', $_REQUEST['forums'] ) )
     		{
     			//--------------------------------------------
     			// Searching all forums..
@@ -2399,7 +2496,7 @@ if(! $this->debug) {
 			// Go loopy loo
 			//--------------------------------------------
 
-			foreach( $_POST['forums'] as $l )
+			foreach( $_REQUEST['forums'] as $l )
 			{
 				if ( preg_match( "/^c_/", $l ) )
 				{
@@ -2470,7 +2567,7 @@ if(! $this->debug) {
 				$forum_array[] = $i['id'];
 			}
 		}
-	} else  // ( is_array( $_POST['forums'] )  )
+	} else  // ( is_array( $_REUEST['forums'] )  )
 	{
 		//--------------------------------------------
 		// Not an array...
@@ -3296,7 +3393,7 @@ if(! $this->debug) {
 		if ( $DB->get_num_rows($res_d) )
 		{
 			$topic_list = array();
-			$tids = "";
+			$tids = array();
 
 			while ( $row = $DB->fetch_row($res_d) )
 			{
@@ -3309,15 +3406,14 @@ if(! $this->debug) {
 
 				$row['ip_address'] = "";
 
-				$topic_list[ $count ] = $row;
+				$topic_list[] = $row;
 
-				$count++;
-				$tids .= $row['tid'].",";
+				$tids[] .= $row['tid'];
 			}
 
 			if ( $tids )
 			{
-				$tids = ",".$tids;
+				$tids = implode(',', $tids);
 				$this->fill_read_arrays($tids);
 			}
 
