@@ -23,6 +23,7 @@ our ($debug, $db_host, $db_port, $db_user, $db_password, $db_name, $search_sql_m
 
 #require '/www/sources.forum/cron/rss_config.pl';
 require './rss_config.pl';
+#require '/etc/periodic/hourly/rss_config.pl';
 
 
 #-----------------------------------------------
@@ -58,8 +59,8 @@ $ARGC = $#ARGV + 1;
   if($debug) {
     print "RSS_BOT (News grabber), (c) 2006 by Valery Votintsev.\n";
     print "Arguments entered: ".$ARGC."\n";
-    for(my $i=0;$i<$n;$i++) {
-      print "ARGV[".$i."]".$ARGV[$i]."\n";
+    for(my $i=0;$i<$ARGC;$i++) {
+      print "ARGV[".$i."]=".$ARGV[$i]."\n";
     }
   }
 
@@ -69,7 +70,7 @@ $ARGC = $#ARGV + 1;
 if(($ARGC > 0) && ($ARGC < 2)) {
 
   print "*** Invalid number of arguments!\n";
-  print "USAGE: rss_bot \"url\" forum_id [post_id]\n";
+  print "USAGE: rss_bot.pl \"url\" forum_id [post_id]\n";
   print "where\n";
   print "      url - news URL with http:// prefix.\n";
   print "      forum_id - ID of the forum to place the news.\n";
@@ -539,8 +540,9 @@ sub process_item {
       # Check if TITLE defined
 
       if(!$item{'title'}) {
-#        $item{title} = $item{body};
-#        $item{title} =~ s/^\[b\](.+?)\[\/b\].*$/$1/is;
+        my $title = $item{body};
+        $title =~ s/^\[b\](.+?)\[\/b\].*$/$1/is;
+        $item{title} = $title;
       }
 
 
@@ -726,18 +728,22 @@ sub update_topic {
 
   my %item = @_;
 
-  my $title       = utf2win($item{title});
+#  my $title       = utf2win($item{title});
+  my $title       = $item{title};
+  Encode::_utf8_off($title);
+
 #  my $description = utf2win($item{description});
   my $description = utf2win($item{channel_descr});
+  Encode::_utf8_off($description);
 
   $query = "UPDATE ibf_topics
 	    SET	
-		title           ='".addslashes($title)."',
-		description     ='".addslashes($description)."'
+		title           ='".addslashes($title)."'
 	   WHERE
 		forum_id   ='".$item{forum_id}."' AND
 		tid        ='".$item{topic_id}."' 
 	";
+#		, description     ='".addslashes($description)."'
 
   if($debug) {	
     print "update_topic:\n";
@@ -777,11 +783,14 @@ sub update_post {
 #  my $description = utf2win($item{channel_descr});
 #  my $body        = utf2win($item{body});
 
+  my $body;;
+  $body = $item{body};
+  Encode::_utf8_off($body);
 
 
   $query = "UPDATE ibf_posts
 	    SET
-		post       ='".addslashes($item{body})."',
+		post       ='".addslashes($body)."',
 		author_id  ='".$item{user_id}."',
 		author_name='".$item{user_name}."',
 		ip_address ='127.0.0.1',
@@ -936,6 +945,9 @@ sub cnews_body_rewrite {
  my $link = shift;
  my $page = shift;
 
+#  my $body;;
+#  $body = $item{body};
+ Encode::_utf8_off($page);
  $page =~ s/\r//g;
 
  # Check for Page Charset
@@ -958,8 +970,8 @@ sub cnews_body_rewrite {
 
  # Convert Body to 1251
  if($charset eq 'utf-8') {
-#   $page = utf2win($page);
-#   print "cnews_body_rewrite: convert to 1251\n" if($debug);
+   $page = utf2win($page);
+   print "cnews_body_rewrite: convert to 1251\n" if($debug);
  }
 # $page = Encode::decode($page,'windows-1251');
 # $page = utf2win($page);
@@ -1047,6 +1059,8 @@ sub cnews_body_rewrite {
 
    
  }
+
+ $page =~ s/<p><b>Читайте на CNews<\/b>.+<\/p>//is;
 
  $page =~ s/<style.+<\/style>//igs;
  $page =~ s/<form.+<\/form>//igs;
@@ -1162,6 +1176,7 @@ sub rebuild_html
 
   # fix html bugs
   $newpage=~s/##[^[]*\[\/img\]/[\/img]/isg;
+  $newpage=~s/\[url\=\s*/[url=/ig;
 
 
   # Expand relative pathes
