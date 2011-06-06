@@ -577,14 +577,18 @@ class Topics {
 		// Song * quote
 		$poster['name'] = str_replace( array (" ", 	"&#39;", "'" ), 
 					       array ("&nbsp;", "", 	 ""  ), $poster['name']);
-		$name = $poster['name'];
+		$name            = $poster['name'];
 
 		$poster['name'] = str_replace( array ("[", 	    "]" 	 ), 
 					       array ("&amp;#091;", "&amp;#093;" ), $poster['name']);
 
                 $rname = ereg_replace("\'", "\\'", $poster['name']);
 
-		$poster['name'] = "<a onmouseover=\"get_name('[b]{$poster['name']}[/b]');\" href=\"javascript:Insert();\">";
+		if (!$row['use_sig']) {
+			$poster['name'] = "<a onmouseover=\"get_name('[b]{$poster['name']}[/b]');\" href=\"javascript:Insert();\">";
+		} else {
+			$poster['name'] = "<a href='{$ibforums->base_url}showuser={$poster['id']}' target='_blank'>";
+		}
 		// /Song * quote
 
 

@@ -163,21 +163,29 @@ EOF;
 }
 
 function RenderDeletedRow($post, $author) {
-global $ibforums;
-$dtext = $post['use_sig'] == 1 ? 
-		"<span class='movedprefix' >{$ibforums->lang['mod_del']}</span>"
-	:
-		$ibforums->lang['del_by_user']
-	;
+global $ibforums, $std;
+if ($post['use_sig'] == 1) {
+	$e_time = $std->get_date( $post['decline_time'] , 'LONG' );
+	$dtext = "<span class='edit' >".sprintf($ibforums->lang['permited_by'], $post['edit_name'], $e_time)."</span>";
+} else {
+	$e_time = $std->get_date( $post['edit_time'] , 'LONG' );
+	$dtext = $ibforums->lang['del_by_user'].' - '.$e_time;
+}
+//var_dump($author['warn_text'],$post['ip_address']);die;
 return <<<EOF
 
     <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;' id='post_{$post["pid"]}'>
     <tr>
-       <td valign='middle' class='row4' width='15%'><a name='entry{$post["pid"]}'></a><span class='{$post["name_css"]}'>{$author['name']}</span> (<a href='{$ibforums->base_url}showuser={$author['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a>)</td>
+       <td valign='middle' class='row4' width='15%'><a name='entry{$post["pid"]}'></a>
+       <span class='{$post["name_css"]}'>{$author['name']}</span>
+       {$author['warn_text']}
+		
+		<b>{$post['ip_address']}</b>
+       </td>
        <td class='row4' valign='top'>
-        <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>{$post['checkbox']}
+        <div align='left' class='row4' style='float:left;padding-top:1px;padding-bottom:1px'>{$post['checkbox']}
          {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']} &nbsp; &nbsp; $dtext</span></div>
-	<div align='right' class='row4' style='float:right;padding-top:4px;padding-bottom:4px'>{$post['queued_link']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['edit_history_button']} </div>
+	<div align='right' class='row4' style='float:right;padding-top:1px;padding-bottom:1px'>{$post['queued_link']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['edit_history_button']} </div>
       </td>
     </tr>
     
@@ -199,7 +207,7 @@ global $ibforums;
 return <<<EOF
 
 
-<span class='desc'><br>{$ibforums->lang['ip']}: $data</span>
+<span class='desc'>{$ibforums->lang['ip']}: $data</span>
 
 
 EOF;
