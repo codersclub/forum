@@ -569,7 +569,7 @@ sub process_item {
       print "------------------------------------\n";
     }
 
-#!!! exit; # EXIT AFTER the FIRST NEWS HANDLED
+#exit; # !!! EXIT AFTER the FIRST NEWS HANDLED
 
   }
 }	# process_item
@@ -850,13 +850,13 @@ sub insert_post {
 # $page = Encode::decode($page,'windows-1251');
 # $page = utf2win($page);
 
-  my $body;;
+  my $body;
   $body = $item{body};
   Encode::_utf8_off($body);
 
 #  $body = Encode::decode('WTF-8',$body);
 #  $body = Encode::decode('utf8',$body);
-  $body = utf2win($body);
+#  $body = utf2win($body);
 
   $query = "INSERT INTO ibf_posts
 	    SET
