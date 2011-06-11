@@ -1180,7 +1180,7 @@ class Boards {
 						if ( $ibforums->input['show'] or !$ibforums->member['close_category'] or 
 						     ( $ibforums->member['close_category'] and $status == "<{C_ON}>" ) or 
 						     ( isset($this->fs[ $forum_data['id'] ]) and $this->fs[ $forum_data['id'] ] == 0 ) or 
-						     $can_see_root != TRUE
+						     $can_see_root != TRUE or $forum_data['visible']
 					           )
 						{
 							// try write subforum if it's switched on in board layout or 
