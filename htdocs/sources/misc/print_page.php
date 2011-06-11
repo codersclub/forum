@@ -211,9 +211,7 @@ class Printable {
 
         $title = substr( str_replace( " ", "_" , preg_replace( "/&(lt|gt|quot|#124|#036|#33|#39);/", "", $this->topic['title'] ) ), 0, 12);
 
-	//$this->output .= "<br><br><font size='1'><center>Powered by Invision Power Board<br>&copy; 2002 Invision PS</center></font></body></html>";
 
-//	@flush();
 	@header("Content-type: $header");
 
 	if ($ibforums->input['client'] != 'printer')

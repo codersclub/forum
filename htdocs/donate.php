@@ -423,16 +423,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <FORM name="myform" method=POST onsubmit="return check(this);">
     <table border="0" align="center" width=400 cellspacing="0" cellpadding=4 bgcolor="#eeeef0">
       <tr>
-        <td align="center" colspan=2><font color=red><? echo $tMessage; ?></font></td>
+        <td align="center" colspan=2><span style='color:red'><? echo $tMessage; ?></span></td>
       </tr>
 
       <tr>
-        <td align="right"><font color=red>*</font> <strong>Ник</strong><br>(или&nbsp;ФИО)</td>
+        <td align="right"><span style='color:red'>*</font> <strong>Ник</strong><br>(или&nbsp;ФИО)</td>
         <td><input type="text" size="32" maxlength="32"
             name="name" value="<? echo $name; ?>"></td>
       </tr>
       <tr>
-        <td align="right"><font color=red>*</font> <strong>Дата платежа</strong><br>DD.MM.YYYY</td>
+        <td align="right"><span style='color:red'>*</font> <strong>Дата платежа</strong><br>DD.MM.YYYY</td>
         <td><input type="text" size="32" maxlength="32"
             id="date" name="date" value="<? echo $date; ?>">
           <img src='html/calendar/calendar.gif' id='calendar_start_time' style='cursor: pointer; border: 0px;' title='Календарь'>
@@ -452,7 +452,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </td>
       </tr>
       <tr>
-        <td align="right"><font color=red>*</font><strong>Валюта</strong></td>
+        <td align="right"><span style='color:red'>*</font><strong>Валюта</strong></td>
         <td><select name="currency">
           <option value="WMZ">WMZ</option>
           <option value="WME">WME</option>
@@ -463,7 +463,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </td>
       </tr>
       <tr>
-        <td align="right"><font color=red>*</font> <strong>Сумма</strong></td>
+        <td align="right"><span style='color:red'>*</font> <strong>Сумма</strong></td>
         <td><input type="text" size="32" maxlength="256"
             name="summ" value="<? echo $summ; ?>"></td>
       </tr>
@@ -474,7 +474,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       </tr>
       <tr align="center">
         <td colspan=2>
-        <font color=red>*</font> - обязательные для заполнения поля.
+        <span style='color:red'>*</font> - обязательные для заполнения поля.
         </td>
       </tr>
       <tr align="center">

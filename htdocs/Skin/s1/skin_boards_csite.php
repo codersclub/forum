@@ -140,7 +140,7 @@ return <<<EOF
 
 <div align='left' style='text-align:left;padding-bottom:4px'>
 <!-- IBF.SECONDNEWSLINK -->
-<font size='1px'><br></font>
+<span style='font-size:1px'><br></span>
 <!-- IBF.NEWSLINK -->
 </div><br>
 
@@ -280,7 +280,7 @@ return <<<EOF
           <td class='row4' width='95%'>
             <b>{$active[GUESTS]}</b> {$ibforums->lang['guests']}, <b>$active[MEMBERS]</b> {$ibforums->lang['public_members']} <b>$active[ANON]</b> {$ibforums->lang['anon_members']}
             <div class='thin'>{$active[NAMES]}<br><br>
-            [<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=4&sort_order=asc&sort_key=name&st=0"><span style='color:red'>администраторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=7&sort_order=asc&sort_key=name&st=0"><font color='blue'>модераторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=9&sort_order=asc&sort_key=name&st=0"><font color='green'>координаторы проектов</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0"><font color='navy'>участники клуба Sources.Ru</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=3&sort_order=asc&sort_key=name&st=0">участники</a>,&nbsp;<font color=gray>наказанные</span>]</div>
+            [<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=4&sort_order=asc&sort_key=name&st=0"><span style='color:red'>администраторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=7&sort_order=asc&sort_key=name&st=0"><span style='color:blue'>модераторы</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=9&sort_order=asc&sort_key=name&st=0"><span style='color:green'>координаторы проектов</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0"><span style='color:navy'>участники клуба Sources.Ru</font></a>,&nbsp;<a href="http://forum.sources.ru/index.php?act=Members&max_results=30&filter=3&sort_order=asc&sort_key=name&st=0">участники</a>,&nbsp;<span style='color:gray'>наказанные</span>]</div>
             {$active['links']}
           </td>
         </tr>

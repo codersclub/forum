@@ -43,7 +43,7 @@ $statistics = $DB->query('
 
 while ($stat1 = mysql_fetch_array($statistics)) {
 		
-$data['viewthread'] .= "<tr width=100%><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat1[forum_id]&t=$stat1[tid]>$stat1[title]</a></TD><TD width=10% class=row2><font color=888888>$stat1[views]</TD></TR>";
+$data['viewthread'] .= "<tr width=100%><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat1[forum_id]&t=$stat1[tid]>$stat1[title]</a></TD><TD width=10% class=row2><span style='color:#888888'>$stat1[views]</TD></TR>";
 	
 	}
 
@@ -62,7 +62,7 @@ $statistics = $DB->query('
 	
 while ($stat2 = mysql_fetch_array($statistics)) {
 		
-$data['replythread'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat2[forum_id]&t=$stat2[tid]>$stat2[title]</a></TD><TD width=10% class=row2><font color=888888>$stat2[posts]</TD></TR>";
+$data['replythread'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat2[forum_id]&t=$stat2[tid]>$stat2[title]</a></TD><TD width=10% class=row2><span style='color:#888888'>$stat2[posts]</TD></TR>";
 
 	}
 
@@ -81,7 +81,7 @@ $statistics = $DB->query('
 
 while ($stat3 = mysql_fetch_array($statistics)) {
 
-$data['poster'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat3[id]>$stat3[name]</a></TD><TD width=10% class=row2 align=center><font color=888888>$stat3[posts]</TD></TR>";
+$data['poster'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat3[id]>$stat3[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat3[posts]</TD></TR>";
 	
 	}
 
@@ -99,7 +99,7 @@ $statistics = $DB->query('
 
 while ($stat4 = mysql_fetch_array($statistics)) {
 
-$data['poll_question'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat4[forum_id]&t=$stat4[tid]>$stat4[poll_question]</a></TD><TD width=10% class=row2 align=center><font color=888888>$stat4[votes]</TD></TR>";
+$data['poll_question'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat4[forum_id]&t=$stat4[tid]>$stat4[poll_question]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat4[votes]</TD></TR>";
 
         }
 
@@ -121,7 +121,7 @@ $statistics = $DB->query('
 
 while ($stat5 = mysql_fetch_array($statistics)) {
 
-$data['threadstart'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat5[id]>$stat5[starter_name]</a></TD><TD width=10% class=row2 align=center><font color=888888>$stat5[clast_poster_id]</TD></TR>";
+$data['threadstart'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat5[id]>$stat5[starter_name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat5[clast_poster_id]</TD></TR>";
 
 	}
 
@@ -139,7 +139,7 @@ $statistics = $DB->query('
 
 while ($stat6 = mysql_fetch_array($statistics)) {
 
-$data['forumtopics'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat6[id]>$stat6[name]</a></TD><TD width=10% class=row2 align=center><font color=888888>$stat6[topics]</TD></TR>";
+$data['forumtopics'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat6[id]>$stat6[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat6[topics]</TD></TR>";
 
 	}
 
@@ -158,7 +158,7 @@ $statistics = $DB->query('
 
 while ($stat7 = mysql_fetch_array($statistics)) {
 
-$data['forumposts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat7[id]>$stat7[name]</a></TD><TD width=10% class=row2 align=center><font color=888888>$stat7[posts]</TD></TR>";
+$data['forumposts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat7[id]>$stat7[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat7[posts]</TD></TR>";
 
 	}
 
@@ -176,7 +176,7 @@ $statistics = $DB->query('
 
 while ($stat8 = mysql_fetch_array($statistics)) {
 
-$data['posts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat8[id]>$stat8[name]</a></TD><TD width=10% class=row2 align=center><font color=888888>$stat8[posts]</TD></TR>";
+$data['posts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat8[id]>$stat8[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat8[posts]</TD></TR>";
 
 	}
 
@@ -207,7 +207,7 @@ while ($row = mysql_fetch_array($pot))
 
 <a href='{$ibforums->base_url}showuser={$row[id]}'>{$row[name]}</a>
 
-</TD><TD width=10% class=row2 align=center><font color=888888>
+</TD><TD width=10% class=row2 align=center><span style='color:#888888'>
 
 {$row[tpost]}
 
@@ -246,7 +246,7 @@ while ($row = mysql_fetch_array($pot))
 
 <a href='{$ibforums->base_url}showuser={$row[id]}'>{$row[name]}</a>
 	
-</TD><TD width=10% class=row2 align=center><font color=888888>
+</TD><TD width=10% class=row2 align=center><span style='color:#888888'>
 
 {$row[tpost]}
 	
@@ -351,98 +351,98 @@ $november = number_format($november);
 $december = number_format($december);
 $data['topics_by_month'] = <<<EOF
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		January
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$january}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		February
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$february}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		March
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$march}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		April
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$april}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		May
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$may}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		June
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$june}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		July
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$july}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		August
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$august}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		Septemember
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$september}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		October
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$october}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		November
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$november}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		December
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$december}
 	</td>
 </tr>
@@ -508,98 +508,98 @@ $november = number_format($november);
 $december = number_format($december);
 $data['users_by_month'] .= <<<EOF
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		January
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$january}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		February
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$february}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		March
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$march}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		April
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$april}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		May
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$may}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		June
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$june}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		July
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$july}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		August
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$august}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		Septemember
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$september}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		October
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$october}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		November
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$november}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		December
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$december}
 	</td>
 </tr>
@@ -665,98 +665,98 @@ $november = number_format($november);
 $december = number_format($december);
 $data['posts_by_month'] = <<<EOF
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		January
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$january}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		February
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$february}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		March
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$march}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		April
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$april}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		May
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$may}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		June
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$june}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		July
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$july}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		August
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$august}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		Septemember
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$september}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		October
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$october}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		November
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$november}
 	</td>
 </tr>
 <tr>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		December
 	</td>
-	<td class='row2'><font color=888888>
+	<td class='row2'><span style='color:#888888'>
 		{$december}
 	</td>
 </tr>
@@ -777,7 +777,7 @@ while ($stats = mysql_fetch_array($statistics))
 	<td width='50%' class='row2' align='left'>
 		<a href="{$ibforums->base_url}showuser={$stats[id]}">{$stats[name]}</a>
 	</td>
-	<td width='50%' class='row2' align='left'><font color=888888>
+	<td width='50%' class='row2' align='left'><span style='color:#888888'>
 		&nbsp;{$date}
 	</td>
 </tr>
@@ -796,7 +796,7 @@ while ($stats = mysql_fetch_array($statistics))
  	$data['fastest_users'] .= <<<EOF
 <tr>
 	<td width='90%' class='row2' align='left'><a href="{$ibforums->base_url}showuser={$stats[id]}">{$stats[name]}</a></td>
-	<td width='10%' class='row2' align='left'><font color=888888>&nbsp;{$stats[rate]}</td>
+	<td width='10%' class='row2' align='left'><span style='color:#888888'>&nbsp;{$stats[rate]}</td>
 </tr>
 EOF;
 }

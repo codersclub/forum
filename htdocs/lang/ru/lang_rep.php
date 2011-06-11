@@ -2,7 +2,7 @@
 
 
 $lang['multi_pages']  = "Страниц:";
-$lang['disallow_rep']  = "[Голосование <font color=\'red\'>запрещено</font>!]";
+$lang['disallow_rep']  = "[Голосование <span style=\'color:red\'>запрещено</font>!]";
 $lang['add_success']  = "Рейтинг успешно добавлен.";
 $lang['rem_success']  = "Рейтинг успешно уменьшен.";
 $lang['del_success']  = "изменение рейтинга аннулировано.";
@@ -36,7 +36,7 @@ $lang['no_topic']  = "Перемещена или удалена";
 $lang['vote_anon']  = "Анонимно";
 $lang['is_anon']  = "Аноним";
 $lang['allow_anon']  = "[Может голосовать анонимно]";
-$lang['disallow_anon']  = "[<font color=\'red\'>Не может</font> голосовать анонимно]";
+$lang['disallow_anon']  = "[<span style=\'color:red\'>Не может</font> голосовать анонимно]";
 $lang['has_changed']  = "голосовал";
 $lang['has_times']  = "раз";
 $lang['sort_by_name']  = "Именам";

@@ -1,7 +1,7 @@
 <?php
 
 
-$lang['attached_links']  = "<font color=\"maroon\"><b>See also:</b></font>";
+$lang['attached_links']  = "<span style='color:maroon'><b>See also:</b></span>";
 $lang['entry_pinned_post']  = "Pinned post";
 $lang['entry_post']  = "Post";
 $lang['g_entry_post']  = "Global";
@@ -98,7 +98,7 @@ $lang['m_group']  = "Group:";
 $lang['back_top']  = "Back to top";
 $lang['member_no']  = "Member No.:";
 $lang['link_profile']  = "Profile";
-$lang['report_link']  = "<font color=\'red\'>Alert moderator <b>about the violation</b> in this topic</font>";
+$lang['report_link']  = "<span style='color:red'>Alert moderator <b>about the violation</b> in this topic</span>";
 $lang['fav_add']  = "Add to Favorites";
 $lang['fav_remove']  = "Remove from Favorites";
 $lang['modcp_accept']  = "<span style='color:red'><b>Accept</b></span>";

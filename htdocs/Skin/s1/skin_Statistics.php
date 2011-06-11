@@ -44,7 +44,7 @@ return <<<EOF
 
 <td nowrap align=left ><font face="verdana, arial, helvetica, sans-serif" size="1" color="black">{$data['viewthread']}</td>
 
-<td  class="row2" div align=right ><font face="verdana, arial, helvetica, sans-serif" size="1"><font color=888888>{$data['viewviews']}</td>
+<td  class="row2" div align=right ><font face="verdana, arial, helvetica, sans-serif" size="1"><span style='color:#888888'>{$data['viewviews']}</td>
 
 </tr>
 
@@ -95,7 +95,7 @@ return <<<EOF
 
 <td nowrap class="row2" width=100%><font face="verdana, arial, helvetica, sans-serif" size="1" color="black">{$data['replythread']}</td>
 
-<td class="row2" div align=right><font face="verdana, arial, helvetica, sans-serif" size="1"><font color=888888>{$data['posts33']}</td>
+<td class="row2" div align=right><font face="verdana, arial, helvetica, sans-serif" size="1"><span style='color:#888888'>{$data['posts33']}</td>
 
 </tr>
 
@@ -144,7 +144,7 @@ return <<<EOF
 
 <td nowrap class="row2" width=100%>{$data['poster']}</td>
 
-<td class="row2" align=center><font color=888888>{$data['posts23']}</td>
+<td class="row2" align=center><span style='color:#888888'>{$data['posts23']}</td>
 
 </tr>
 
@@ -190,7 +190,7 @@ return <<<EOF
 
 <td nowrap class="row2" width=100%>{$data['poll_question']}</td>
 
-<td class="row2" align=center><font color=888888>{$data['votes']}</td>
+<td class="row2" align=center><span style='color:#888888'>{$data['votes']}</td>
 
 </tr>
 
@@ -237,7 +237,7 @@ return <<<EOF
 
 <td nowrap class="row2" width=100%>{$data['name']}</td>
 
-<td class="row2" align=center><font color=888888>{$data['forumposts']}</td>
+<td class="row2" align=center><span style='color:#888888'>{$data['forumposts']}</td>
 
 </tr>
 
@@ -297,7 +297,7 @@ return <<<EOF
 
 <td nowrap class="row2" width=100%>{$data['name27']}</td>
 
-<td class="row2" align=center><font color=888888>{$data['posts']}</td>
+<td class="row2" align=center><span style='color:#888888'>{$data['posts']}</td>
 
 </tr>
 
@@ -351,7 +351,7 @@ return <<<EOF
 
 <td nowrap class="row2" width=100%>{$data['starter_name']}</td>
 
-<td class="row2" align=center><font color=888888>{$data['threadstart']}</td>
+<td class="row2" align=center><span style='color:#888888'>{$data['threadstart']}</td>
 
 </tr>
 
@@ -414,7 +414,7 @@ return <<<EOF
 
 <td nowrap class="row2" width=100%>{$data['name']}</td>
 
-<td class="row2" align=center><font color=888888>{$data['forumtopics']}</td>
+<td class="row2" align=center><span style='color:#888888'>{$data['forumtopics']}</td>
 
 </tr>
 
@@ -530,24 +530,24 @@ return <<<EOF
 		<td nowrap  class='pformstrip' align="center" width="90%">&nbsp;&nbsp;Instant Messenger</td>
 		<td nowrap  class='pformstrip' align="center" width="10%"># of Members</td>
 	<tr>
-		<td class='row2'><font color=888888>&nbsp;&nbsp;AIM</td>
-		<td class="row2" align=center><font color=888888>{$data[aim]}</td>
+		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;AIM</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data[aim]}</td>
 	</tr>
 	<tr>
-		<td class='row2'><font color=888888>&nbsp;&nbsp;MSN</td>
-		<td class="row2" align=center><font color=888888>{$data[msn]}</td>
+		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;MSN</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data[msn]}</td>
 	</tr>
 	<tr>
-		<td class='row2'><font color=888888>&nbsp;&nbsp;Yahoo</td>
-		<td class="row2" align=center><font color=888888>{$data[yahoo]}</td>
+		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;Yahoo</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data[yahoo]}</td>
 	</tr>
 	<tr>
-		<td class='row2'><font color=888888>&nbsp;&nbsp;ICQ</td>
-		<td class="row2" align=center><font color=888888>{$data[icq]}</td>
+		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;ICQ</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data[icq]}</td>
 	</tr>
 	<tr>
-		<td class='row2'><font color=888888>&nbsp;&nbsp;No Messenger Info Given</td>
-		<td class="row2" align=center><font color=888888>{$data[none]}</td>
+		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;No Messenger Info Given</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data[none]}</td>
 	</tr>
 
 </TD></TR></table>

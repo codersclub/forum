@@ -2,7 +2,7 @@
 
 
 $lang['multi_pages']  = "Pages:";
-$lang['disallow_rep']  = "[Voting <font color=\'red\'>disallowed</font>!]";
+$lang['disallow_rep']  = "[Voting <span style=\'color:red\'>disallowed</font>!]";
 $lang['add_success']  = "reputation successfully added.";
 $lang['rem_success']  = "reputation successfully removed.";
 $lang['del_success']  = "this reputation change undone.";
@@ -33,7 +33,7 @@ $lang['undo_change']  = "Undo this change";
 $lang['back']  = "Back";
 $lang['no_changes']  = "Empty";
 $lang['allow_anon']  = "[Anonymous voting allowed]";
-$lang['disallow_anon']  = "[Anonymous voting <font color=\'red\'>disallowed</font>]";
+$lang['disallow_anon']  = "[Anonymous voting <span style=\'color:red\'>disallowed</font>]";
 $lang['no_topic']  = "Moved or deleted";
 $lang['vote_anon']  = "Be anonymous";
 $lang['is_anon']  = "Anonymous";

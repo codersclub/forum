@@ -1,7 +1,7 @@
 <?php
 
 
-$lang['attached_links']  = "<font color=\"maroon\"><b>Ссылки по теме:</b></font>";
+$lang['attached_links']  = "<span style='color:maroon'><b>Ссылки по теме:</b></span>";
 $lang['entry_pinned_post']  = "Прикр. сообщ.";
 $lang['entry_post']  = "Сообщ.";
 $lang['g_entry_post']  = "ID";

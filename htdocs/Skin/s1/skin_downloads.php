@@ -650,7 +650,7 @@ return <<<EOF
 
 <table align="center" class='tableborder' cellspacing="1" cellpading="5" width="100%">
   <tr>
-    <td class='maintitle'><font size="2px"><b>{$ibforums->lang['file_desc']}</b></font></td>
+    <td class='maintitle'><span style='font-size:2px'><b>{$ibforums->lang['file_desc']}</b></span></td>
   </tr>
   <tr>
     <td width='100%' class='row4'>
@@ -769,7 +769,7 @@ return <<<EOF
 
 <table align="center" class='tableborder' cellspacing="1" cellpading="5" width="100%">
 <tr>
-  <td class='maintitle'><font size="2px"><b>{$ibforums->lang['file_desc']}</b></font></td>
+  <td class='maintitle'><span style='font-size:2px'><b>{$ibforums->lang['file_desc']}</b></span></td>
 </tr>
 <tr>
   <td width='100%' class='row4'>
@@ -824,7 +824,7 @@ return <<<EOF
 
 <table align="center" class='tableborder' cellspacing="1" cellpading="5" width="100%">
 <tr>
-<td class='maintitle' colspan='2'><font size="2px"><b>{$ibforums->lang['comments_header']}</b></font></td>
+<td class='maintitle' colspan='2'><span style='font-size:2px'><b>{$ibforums->lang['comments_header']}</b></span></td>
 </tr><tr><td width='100%' class='row4' colspan='2' align='left'><br>
 {$the_comments}<br>
 </td></tr>
