@@ -217,7 +217,7 @@ $INFO['gd_width']			=	'250';
 $INFO['gl_link']			=	'/rules.html';
 $INFO['gl_show']			=	'1';
 $INFO['gl_title']			=	'ПРАВИЛА';
-$INFO['global_message']			=	'<span style='color:red'>Это уже Новый сервак!</font>
+$INFO['global_message']			=	'<span style="color:red">Это уже Новый сервак!</font>
 О глюках сообщать <a href="http://forum.sources.ru/index.php?showtopic=276229&view=getnewpost">В ЭТОЙ ТЕМЕ</a>
 ';
 $INFO['global_poll']			=	'0';
