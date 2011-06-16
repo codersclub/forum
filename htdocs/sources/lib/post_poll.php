@@ -182,7 +182,7 @@ class post_functions extends Post {
 		
 		foreach ($polls as $polling)
 		{
-			if ( !$polling ) continue;
+			if ( trim($polling) == '' ) continue;
 
 			$poll_array[] = array( $count , $class->parser->bad_words($polling), 0 );
 
