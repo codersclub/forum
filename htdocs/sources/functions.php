@@ -3700,7 +3700,7 @@ global $ibforums;
     function update_favorites() {
       global $ibforums, $DB;
 
-      $favlist = explode(",", $ibforums->member['favorites']);
+      $favlist = explode(",", (string)$ibforums->member['favorites']);
       if(count($favlist)) {
         $mid = $ibforums->member['id'];
         foreach($favlist as $tid) {
