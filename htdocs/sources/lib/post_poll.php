@@ -290,18 +290,9 @@ class post_functions extends Post {
 				
 				$attach->setPostId($this->post['pid']);
 				
-				$array = $attach->toArray();
+				$attach->saveToDB();
+				
 				unset($array['attach_id']); // because it is not exists yet, see below
-				
-				$db_string = $DB->compile_db_insert_string( $array );
-				
-				$DB->query("INSERT INTO ibf_post_attachments
-						(" .$db_string['FIELD_NAMES']. ")
-					    VALUES
-						(". $db_string['FIELD_VALUES'] .")");
-				
-				$attach->setAttachId($DB->get_insert_id());
-				
 				
 			}
 		}

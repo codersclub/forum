@@ -71,7 +71,7 @@ class Attach2 {
 		return sprintf($ibforums->lang[ $sizes_strings[$i] ], round($size, 2));
 		
 	}
-	
+		
 	public function hits()
 	{
 		return (int)$this->hits;
@@ -87,7 +87,7 @@ class Attach2 {
 			return;
 		}		
 		$query = "UPDATE ibf_post_attachments SET `hits` = `hits` + 1 
-			WHERE post_id={$this->post_id} and attach_id={$this->attach_id}";
+			WHERE attach_id={$this->attach_id}";
 		$qid = $DB->query($query);
 		
 	}
@@ -266,11 +266,12 @@ class Attach2 {
 		settype($post_id, 'integer');
 		
 		$query = "SELECT *
-		    FROM ibf_post_attachments
-		    WHERE post_id=$post_id";
+		    FROM `ibf_post_attachments` a
+			INNER JOIN `ibf_attachments_link` al USING (`attach_id`)
+		    WHERE al.item_id=$post_id";
 		if ($attach_id !== NULL) {
 			settype($attach_id, 'integer');
-			$query .= "\nAND attach_id=$attach_id";
+			$query .= " AND attach_id=$attach_id";
 		}
 		
 		$qid = $DB->query($query);
@@ -279,6 +280,8 @@ class Attach2 {
 		while(($row = $DB->fetch_row($qid)) !== false) {
 			$result[] = self::createFromRow($row);
 		}
+		
+		$DB->free_result($qid);
 		
 		return $result;
 	}
@@ -291,13 +294,11 @@ class Attach2 {
 		    FROM ibf_post_attachments
 		    WHERE attach_id=$attach_id";
 		
-		$qid = $DB->query($query);
-		
-		if($row = $DB->fetch_row($qid)) {
+		if($row = $DB->get_row($query)) {
 			return self::createFromRow($row);
 		}
 		
-		return $false;
+		return false;
 		
 	}
 	
@@ -352,6 +353,19 @@ class Attach2 {
 						(". $db_string['FIELD_VALUES'] .")");
 				
 				$this->setAttachId($DB->get_insert_id());
+				
+				if ($this->post_id) {
+					
+					$array  = array(
+							'attach_id' => $this->attach_id,
+							'item_type' => 'post',
+							'item_id'   => $this->post_id
+						);
+						
+					$db_string = $DB->do_insert_query($array, 'ibf_attachments_link');
+					
+				}
+				
 			} else {
 				$db_string = $DB->compile_db_update_string( $array );
 				
@@ -373,8 +387,8 @@ class Attach2 {
 		global $DB;
 		
 		if (!$this->from_post_row) {
-			$DB->query("DELETE FROM `ibf_post_attachments`  
-					WHERE `attach_id` = {$this->attach_id}");			
+			$DB->query("DELETE FROM `ibf_post_attachments` WHERE `attach_id` = {$this->attach_id}");
+			$DB->query("DELETE FROM `ibf_attachments_link` WHERE `attach_id` = {$this->attach_id}");			
 		} else {
 			$this->post_row['attach_id']	= NULL;
 			$this->post_row['attach_type']	= NULL;
