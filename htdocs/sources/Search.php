@@ -1353,7 +1353,7 @@ class Search {
 					$count++;
 					// Song * club tool
 
-					$row['keywords'] = $url_words;
+					$row['keywords'] = $this->keywords ?: $this->convert_highlite_words($ibforums->input['highlite']);;
 
 					if ($row['pinned']) {
 						$this->output .= $this->html->RenderPinnedRow($this->parse_entry($row));
@@ -2155,7 +2155,7 @@ class Search {
 	function parse_entry($topic, $view_as_post=0) {
 		global $DB, $std, $ibforums;
 
-		$topic['last_text']   = $ibforums->lang[last_post_by];
+		$topic['last_text']   = $ibforums->lang['last_post_by'];
 
 		$topic['last_poster'] = ($topic['last_poster_id'] != 0)
 					? "<b><a href='{$this->base_url}showuser={$topic['last_poster_id']}'>{$topic['last_poster_name']}</a></b>"

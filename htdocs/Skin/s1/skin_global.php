@@ -463,7 +463,7 @@ var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
 var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 </script>
 
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jquery-1.4.2.min.js'></script>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jqcd/jqcd.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 

@@ -104,7 +104,7 @@ class search_lib extends Search
 		if ($ibforums->input['search_in'] == 'titles')
 		{
 			// @ - служебный символ для сфинкса в режиме match=extend
-			$keywords = str_replace('@', '', $keywords);
+			// $keywords = str_replace('@', '', $keywords);
 		}
 
 		//------------------------------------
@@ -129,7 +129,8 @@ class search_lib extends Search
 		foreach( array( 'last_post',
 				'posts',
 				'starter_name',
-				'forum_id' ) as $v )
+				'forum_id',
+				'relevancy' ) as $v )
 		{
 			if ($ibforums->input['sort_key'] == $v)
 			{
@@ -144,18 +145,21 @@ class search_lib extends Search
 				$sort_attr = 'author_name';
 			} elseif ($sort_attr == 'forum_id') {
 				$sort_attr = 'forum_title';
+			}  elseif ($sort_attr == 'relevancy') {
+				$sort_attr = '@weight ';
 			}
-			if ($ibforums->input['result_type'] == 'posts') {
-				if ($ibforums->input['sort_order'] == 'asc') {
-					$sort_attr = ";sort=attr_asc:$sort_attr";
-				} else {
-					$sort_attr = ";sort=attr_desc:$sort_attr";
-				}
-			} else {
+			
+			if ($ibforums->input['result_type'] == 'topics' && $this->is->search_in == 'posts') {
 				if ($ibforums->input['sort_order'] == 'asc') {
 					$sort_attr = ";groupsort=$sort_attr ASC";
 				} else {
 					$sort_attr = ";groupsort=$sort_attr DESC";
+				}
+			} else {
+				if ($ibforums->input['sort_order'] == 'asc') {
+					$sort_attr = ";sort=extended:$sort_attr ASC";
+				} else {
+					$sort_attr = ";sort=extended:$sort_attr DESC";
 				}
 			}
 		}
@@ -251,22 +255,22 @@ class search_lib extends Search
 				$sphinx_query .= ";offset=$start";
 			}
 			
+			$mode = 'all';
+			if ( $ibforums->input['space_determine'] ) {
+				$mode = ($ibforums->input['space_determine'] == 'phrase') ? 'phrase' : 'any';
+			}
 			/*
 			 * SQL_NO_CACHE нужен для того, чтобы обновилось/установилось значение переменной состояния 
 			 * sphinx_total_found (см. ниже, где присваивается значение $this->documents_found)
 			 */
 			if ($this->is->search_in == 'posts') {
-				$mode = 'all';
-				if ( $ibforums->input['space_determine'] ) {
-					$mode = 'any';
-				}
 				$topics_query =
 					"SELECT SQL_NO_CACHE
 						t.*,
 						f.id as forum_id,
 						f.name as forum_name
 
-					FROM t1
+					FROM ibf_sph_search_posts t1
 						INNER JOIN ibf_topics t ON (t1.topic_id = t.tid)
 						INNER JOIN ibf_forums f ON (t.forum_id = f.id)
 						INNER JOIN ibf_posts p ON (t1.id = p.pid)
@@ -280,7 +284,7 @@ class search_lib extends Search
 				if($ibforums->input['st']) {
 					$sphinx_query .= ";offset=$start";
 				}
-
+				
 				$posts_query = "SELECT SQL_NO_CACHE
 					t.*,
 					p.pid,
@@ -291,12 +295,12 @@ class search_lib extends Search
 					f.id as forum_id,
 					f.name as forum_name
 					-- , t1.*
-				FROM t1
+				FROM ibf_sph_search_posts t1
 						INNER JOIN ibf_topics t ON (t1.topic_id = t.tid)
 						INNER JOIN ibf_forums f ON (t.forum_id = f.id)
 						INNER JOIN ibf_posts p ON (t1.id = p.pid)
 				WHERE
-					t1.query='$keywords$sphinx_query{$sort_attr};limit=25'
+					t1.query='$keywords{$sphinx_query}{$sort_attr};limit=25;mode=$mode'
 					AND p.use_sig=0
 					AND p.queued <> 1";
 				
@@ -307,12 +311,12 @@ class search_lib extends Search
 						f.id as forum_id,
 						f.name as forum_name
 
-					FROM t1
-						INNER JOIN ibf_topics t ON (t1.topic_id = t.tid)
+					FROM ibf_sph_search_topics t1
+						INNER JOIN ibf_topics t ON (t1.id = t.tid)
 						INNER JOIN ibf_forums f ON (t.forum_id = f.id)
-						INNER JOIN ibf_posts p ON (t1.id = p.pid)
+						INNER JOIN ibf_posts p ON (t1.post_id = p.pid)
 					WHERE
-						t1.query='@title {$keywords}{$sphinx_query};groupby=attr:topic_id{$sort_attr};limit=25;groupby=attr:topic_id;mode=extended'
+						t1.query='{$keywords}{$sphinx_query};{$sort_attr};limit=25;mode=$mode'
 						AND t.approved=1
 					";
 
@@ -332,15 +336,15 @@ class search_lib extends Search
 					f.id as forum_id,
 					f.name as forum_name
 					-- , t1.*
-				FROM t1
-						INNER JOIN ibf_topics t ON (t1.topic_id = t.tid)
+				FROM ibf_sph_search_topics t1
+						INNER JOIN ibf_topics t ON (t1.id = t.tid)
 						INNER JOIN ibf_forums f ON (t.forum_id = f.id)
-						INNER JOIN ibf_posts p ON (t1.id = p.pid)
+						INNER JOIN ibf_posts p ON (t1.post_id = p.pid)
 				WHERE
-					t1.query='@title $keywords$sphinx_query{$sort_attr};limit=25;groupby=attr:topic_id;mode=extended'
+					t1.query='$keywords{$sphinx_query}{$sort_attr};limit=25;mode=$mode'
 					AND p.use_sig=0
 					AND p.queued <> 1";
-							}
+			}
 			
 			
 		} else
@@ -373,7 +377,8 @@ class search_lib extends Search
 			$sql = $posts_query;
 		}
 		
-
+		// var_dump($sql);
+		
 		$res = $DB->query($sql);
 		
 		$this->documents_found = $DB->get_row('SHOW STATUS LIKE  \'sphinx_total_found\'');

@@ -269,7 +269,8 @@ global $ibforums;
 return <<<EOF
 
 <br>
-<input type='checkbox' name='space_determine' value='1' class="checkbox">{$ibforums->lang['space_determine']}
+<label><input type='checkbox' name='space_determine' value='1' class="checkbox">{$ibforums->lang['space_determine']}</label>
+<label><br><input type='checkbox' name='space_determine' value='phrase' class="checkbox">{$ibforums->lang['space_determine_phrase']}</label>
 
 EOF;
 }
@@ -278,17 +279,9 @@ function Form($forums, $search_txt = "", $where = "") {
 global $ibforums;
 return <<<EOF
 <script type="text/javascript">
-<!--
-function go_gadget_simple()
-{
-	window.location = "{$ibforums->js_base_url}act=Search&mode=simple&f={$ibforums->input['f']}";
-}
-function win_pop()
-{
-    window.open('{$ibforums->js_base_url}act=Search&CODE=explain','WIN','width=400,height=300,resizable=yes,scrollbars=yes'); 
-}
--->
+var current_forum = "{$ibforums->input['f']}";
 </script>
+<script type="text/javascript" src="./html/search.js?{$ibforums->vars['client_script_version']}"></script>
 <form action="{$ibforums->base_url}" method="get" name='sForm'>
 <input type='hidden' name='act' value='Search'>
 <input type='hidden' name='CODE' value='01'>
@@ -305,7 +298,7 @@ $hidden_fields
 <tr>
 	<td class='row1' valign='top'>
 	  <input type='text' maxlength='100' size='40' name='keywords' id="keywords" class='forminput'>
-	  <br><label><input type='checkbox' name='fulltext'>Полнотекстовый поиск <i>(beta)</i></label><br>
+	  <br><label><input type='checkbox' name='fulltext'>{$ibforums->lang['use_fulltext_search']} <i>(beta)</i></label><br>
 	  {$search_txt}<!--IBF.BOOLEAN_EXPLAIN-->{$where}
 
 	</td>
@@ -368,6 +361,7 @@ $hidden_fields
 			 <option value='posts'>{$ibforums->lang['number_topics']}</option>
 			 <option value='starter_name'>{$ibforums->lang['poster_name']}</option>
 			 <option value='forum_id'>{$ibforums->lang['forum_name']}</option>
+			 <option value='relevancy'>{$ibforums->lang['relevance']}</option>
 			 </select>
 			 <br><input type='radio' name='sort_order' id="sort_desc" class="radiobutton" value='desc' checked="checked"><label for="sort_desc">{$ibforums->lang['descending']}</label>
 			 <br><input type='radio' name='sort_order' id="sort_asc" class="radiobutton" value='asc'><label for="sort_asc">{$ibforums->lang['ascending']}</label>

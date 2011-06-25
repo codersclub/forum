@@ -120,6 +120,7 @@ $lang = array (
 'number_topics'  => "Number of Replies",
 'poster_name' => "Poster Name",
 'forum_name'  => "Forum Name",
+'relevance'  => "Relevancy (fulltext only)",
 
 'in'  => "in",
 
@@ -144,7 +145,8 @@ $lang = array (
 'active_week'      => "Last Week",
 'active_month'     => "Last Month",
 'active_days'      => "days ago",
-'space_determine'  => "Use \"space\" as \"OR\" in a search.<br>",
+'space_determine'  => "Use \"space\" as \"OR\" in a search",
+'space_determine_phrase'  => "Search for phrase (fulltext only)",
 'select_button'    => "<b>Select forums in that search in</b>",
 'boardlay_title'   => "Select forums that in that you want to search new messages",
 'boardlay_sh'      => "To search or no",
@@ -158,6 +160,7 @@ $lang = array (
 'mod_mes'  	   => "A message for moderators",
 'glob_mod_mes'     => "A message of super moderator",
 
+'use_fulltext_search' => "Fulltext search",
+
 
 );
-?>
