@@ -2162,7 +2162,7 @@ class post_parser {
 
                 $txt = preg_replace( "#\s{2}#", "&nbsp; ", $txt );
 
-                $html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid blue;'><TD align=middle bgColor=#6060ff valign=center width=1%><FONT color=#ffffff size=+7 style='FONT-FAMILY: Times'><B>Ì</B></FONT></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
+                $html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid blue;'><TD align=middle bgColor=#6060ff valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em' ><B>Ì</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
 
                 return $html;
         }
@@ -2197,7 +2197,7 @@ class post_parser {
 
                 $txt = preg_replace( "#\s{2}#", "&nbsp; ", $txt );
 
-		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid red;'><TD align=middle bgColor=#ff6060 valign=center width=1%><FONT color=#ffffff size=+7 style='FONT-FAMILY: Times'><B>&nbsp;!&nbsp;</B></FONT></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
+		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid red;'><TD align=middle bgColor=#ff6060 valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em'><B>&nbsp;!&nbsp;</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
 
                 return $html;
         }

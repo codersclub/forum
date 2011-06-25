@@ -42,9 +42,9 @@ return <<<EOF
 
 <tr> 
 
-<td nowrap align=left ><font face="verdana, arial, helvetica, sans-serif" size="1" color="black">{$data['viewthread']}</td>
+<td nowrap align=left ><span style='font-family:verdana,arial,helvetica,sans-serif;size:xx-small;color:black'>{$data['viewthread']}</td>
 
-<td  class="row2" div align=right ><font face="verdana, arial, helvetica, sans-serif" size="1"><span style='color:#888888'>{$data['viewviews']}</td>
+<td  class="row2" div align=right ><span style='font-family:verdana,arial,helvetica,sans-serif;size:xx-small;color:#888888'>{$data['viewviews']}</span></td>
 
 </tr>
 
@@ -93,9 +93,9 @@ return <<<EOF
 
 <tr> 
 
-<td nowrap class="row2" width=100%><font face="verdana, arial, helvetica, sans-serif" size="1" color="black">{$data['replythread']}</td>
+<td nowrap class="row2" width=100%><span style='font-family:verdana,arial,helvetica,sans-serif;size:xx-small;color:black'>{$data['replythread']}</span></td>
 
-<td class="row2" div align=right><font face="verdana, arial, helvetica, sans-serif" size="1"><span style='color:#888888'>{$data['posts33']}</td>
+<td class="row2" div align=right><span style='font-family:verdana,arial,helvetica,sans-serif;size:xx-small;color:#888'>{$data['posts33']}</span></td>
 
 </tr>
 
@@ -767,19 +767,9 @@ return <<<EOF
 
 
 
-
-
-
-
-
-
-
-
 EOF;
 
 	}
 
 
 }
-
-?>

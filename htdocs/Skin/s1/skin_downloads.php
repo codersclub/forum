@@ -664,7 +664,7 @@ return <<<EOF
 
 <table align="center" class='tableborder' cellspacing="1" cellpading="5" width="100%">
   <tr>
-    <td class='maintitle' align='center'><font size='+1'>{$info['dl_link']}</font></td>
+    <td class='maintitle' align='center'><span style='font-size:large'>{$info['dl_link']}</span></td>
   </tr>
 </table>
 
@@ -784,7 +784,7 @@ return <<<EOF
 
     <table align="center" class='tableborder' cellspacing="1" cellpading="5" width="100%">
     <tr>
-      <td class='maintitle' align='center'><font size='+1'>{$info['dl_link']}</font></td>
+      <td class='maintitle' align='center'><span style='font-size:large'>{$info['dl_link']}</span></td>
     </tr>
     </table>
 
