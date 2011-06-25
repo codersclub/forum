@@ -14,44 +14,50 @@ class AuthMethodOpenId extends AuthBasic {
 		$len_u = $std->txt_stripslashes($_REQUEST['UserName']);
 			
 		$len_u = preg_replace("/&#([0-9]+);/", "-", $len_u );
-						
-		//-------------------------------------------------
-		// Make sure the username and password were entered
-		//-------------------------------------------------
-
-		if ($_REQUEST['UserName'] == "") {
-			$this->setLastErrorCode('no_username');
-			return false;
-		}
-	  
+		
 		if ($_REQUEST['openid_url'] == "" && !$this->isReturn()) {
-			$this->setLastErrorCode('openid_url_blank');
+			$this->setLastErrorCode('openid_url_is_empty');
 			return false;
 		}
 
-		//-------------------------------------------------
-		// Check for input length
-		//-------------------------------------------------
-
-		if (strlen($len_u) > 32) {
-			$this->setLastErrorCode('username_long');
+		if (!$this->url) {
+			$this->url = $_REQUEST['openid_url'];
+		}
+		
+		if ($_REQUEST['UserName']) {
+			$username = $_REQUEST['UserName'];
+		} else {
+			$username = $DB->get_one("SELECT name FROM ibf_members WHERE openid_url = '".$DB->quote($this->url)."'");
+		}
+		
+		if (!$username) {
+			$this->setLastErrorCode('openid_url_forbidden');
 			return false;
 		}
-
-		$this->setUsername($_REQUEST['UserName']);
+		
+		$this->setUsername($username);
 		
 		if ( !$this->isReturn() ) {
-			$this->url = $_REQUEST['openid_url'];
-			
+						
 			$member = $DB->get_row("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='".$DB->quote($this->username())."'");
 			
 			if ($this->url != $member['openid_url']) {
 				$this->setLastErrorCode('openid_url_forbidden');
 				return false;
 			}
+			
 		}
 		
 		return true;
+	}
+	
+	public function getFields() {
+		return array (
+				array(
+					'type' => 'url',
+					'name' => 'url'
+				),
+			);
 	}
 	
 	/**
@@ -63,14 +69,17 @@ class AuthMethodOpenId extends AuthBasic {
 	
 	public function authenticate() {
 		global $DB, $ibforums, $std, $print, $sess;
-
-		$username    = strtolower(str_replace( '|', '&#124;', $ibforums->input['UserName']) );
+		
+		if (!$this->username()) { 
+			$username    = strtolower(str_replace( '|', '&#124;', $ibforums->input['UserName']) );
+			$this->setUsername($username);
+		} 
 
 		//-------------------------------------------------
 		// Attempt to get the user details
 		//-------------------------------------------------
 
-		$member = $DB->get_row("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='".$DB->quote($username)."'");
+		$member = $DB->get_row("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='".$DB->quote($this->username())."'");
 		 
 		if (!$member) {
 			$this->setLastErrorCode('wrong_name');
@@ -83,7 +92,9 @@ class AuthMethodOpenId extends AuthBasic {
 		}
 		
 		if ( !$this->isReturn() ) {
-			$this->run();
+			if (!$this->run()) {
+			    return false;
+			}
 		} else {
 			if (!$this->finish()) {
 				return false;
@@ -198,10 +209,28 @@ class AuthMethodOpenId extends AuthBasic {
 	private function getReturnTo() {
 		global $ibforums;
 		
-		return Auth_OpenID::normalizeUrl("{$ibforums->base_url}act=Login&CODE=01&auth_method=openid&oidauth=continue&UserName=".$this->username());
+    	$result = sprintf("%s://%s:%s%s/index.php?act=Login&CODE=01&auth_method=openid&oidauth=continue&UserName=".$this->username(),
+                   $this->getScheme(), $_SERVER['SERVER_NAME'],
+                   $_SERVER['SERVER_PORT'],
+                   dirname($_SERVER['PHP_SELF']));
+        
+        if ($ibforums->input['CookieDate']) {
+        	$result .= '&CookieDate=1';
+        }
+        
+        if ($ibforums->input['Privacy']) {
+        	$result .= '&Privacy=1';
+        }
+        
+		return $result;
 	}
 
 	private function getTrustRoot() {
+   		return sprintf("%s://%s:%s%s/",
+                   $this->getScheme(), $_SERVER['SERVER_NAME'],
+                   $_SERVER['SERVER_PORT'],
+                   dirname($_SERVER['PHP_SELF']));
+                   
 		return sprintf("{$ibforums->base_url}",
 			$this->getScheme(), $_SERVER['SERVER_NAME'],
 			$_SERVER['SERVER_PORT'],
@@ -218,19 +247,24 @@ class AuthMethodOpenId extends AuthBasic {
 
 		// No auth request means we can't begin OpenID.
 		if (!$auth_request) {
-			displayError("Authentication error; not a valid OpenID.");
+			$this->setLastErrorCode('openid_not_valid');
+			return false;
+			// displayError("Authentication error; not a valid OpenID.");
 		}
 
-		$sreg_request = Auth_OpenID_SRegRequest::build(
-		// Required
-		array('nickname'),
-		// Optional
-		array('fullname', 'email'));
+		// только для регистрации
+		$sreg_request = NULL; /*Auth_OpenID_SRegRequest::build(
+				// Required
+				array('nickname'),
+				// Optional
+				array('fullname', 'email') 
+			);// */
 
 		if ($sreg_request) {
 			$auth_request->addExtension($sreg_request);
 		}
-
+		
+		/*
 		$policy_uris = null;
 		if (isset($_GET['policies'])) {
 			$policy_uris = $_GET['policies'];
@@ -240,6 +274,7 @@ class AuthMethodOpenId extends AuthBasic {
 		if ($pape_request) {
 			$auth_request->addExtension($pape_request);
 		}
+		*/
 
 		// Redirect the user to the OpenID server for authentication.
 		// Store the token for this authentication so we can verify the
@@ -248,13 +283,16 @@ class AuthMethodOpenId extends AuthBasic {
 		// For OpenID 1, send a redirect.  For OpenID 2, use a Javascript
 		// form to send a POST request to the server.
 		if ($auth_request->shouldSendRedirect()) {
-			$redirect_url = $auth_request->redirectURL(getTrustRoot(),
-			getReturnTo());
+			$redirect_url = $auth_request->redirectURL($this->getTrustRoot(),
+			$this->getReturnTo());
 
 			// If the redirect URL can't be built, display an error
 			// message.
 			if (Auth_OpenID::isFailure($redirect_url)) {
-				displayError("Could not redirect to server: " . $redirect_url->message);
+				$this->setLastErrorCode('opendid_couldnt_redirect');
+				$this->setLastErrorMessage($redirect_url->message);
+				return false;
+				// displayError("Could not redirect to server: " . $redirect_url->message);
 			} else {
 				// Send redirect.
 				header("Location: ".$redirect_url);
@@ -263,18 +301,20 @@ class AuthMethodOpenId extends AuthBasic {
 		} else {
 			// Generate form markup and render it.
 			$form_id = 'openid_message';
-			// var_dump($this->getReturnTo());
-			// die;
+			
 			$form_html = $auth_request->htmlMarkup($this->getTrustRoot(), $this->getReturnTo(),
-			false, array('id' => $form_id));
+				false, array('id' => $form_id));
 
 			// Display an error if the form markup couldn't be generated;
 			// otherwise, render the HTML.
 			if (Auth_OpenID::isFailure($form_html)) {
-				displayError("Could not redirect to server: " . $form_html->message);
+				$this->setLastErrorCode('opendid_couldnt_redirect');
+				$this->setLastErrorMessage($form_html->message);
+				return false;
+				//displayError("Could not redirect to server: " . $form_html->message);
 			} else {
 				print $form_html;
-	    		exit;
+				exit;
 			}
 		}
 	}
@@ -286,7 +326,7 @@ class AuthMethodOpenId extends AuthBasic {
 		// response.
 		$return_to = $this->getReturnTo();
 		$response = $consumer->complete($return_to);
-
+		
 		// Check the response status.
 		if ($response->status == Auth_OpenID_CANCEL) {
 			// This means the authentication was cancelled.
@@ -296,6 +336,7 @@ class AuthMethodOpenId extends AuthBasic {
 			// Authentication failed; display the error message.
 			//$msg = "OpenID authentication failed: " . $response->message;
 			$this->setLastErrorCode('openid_authentication_failed');
+			$this->setLastErrorMessage($response->message);
 			return false;
 		} else if ($response->status == Auth_OpenID_SUCCESS) {
 			// This means the authentication succeeded; extract the

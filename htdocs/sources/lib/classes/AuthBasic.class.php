@@ -3,6 +3,7 @@
 abstract class AuthBasic {
 	
 	private $lastErrorCode = '';
+	private $lastErrorMessage = '';
 	private $username;
 	
 	
@@ -10,6 +11,7 @@ abstract class AuthBasic {
 	
 	abstract function authenticate();
 	
+	abstract function getFields();
 	
 	function lastErrorCode() {
 		return $this->lastErrorCode;
@@ -17,6 +19,14 @@ abstract class AuthBasic {
 	
 	function setLastErrorCode($val) {
 		$this->lastErrorCode = $val;
+	}
+	
+	function lastErrorMessage() {
+		return $this->lastErrorMessage;
+	}
+	
+	function setLastErrorMessage($val) {
+		$this->lastErrorMessage = $val;
 	}
 	
 	function setUsername($val) {

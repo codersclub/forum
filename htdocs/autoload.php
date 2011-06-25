@@ -1,10 +1,7 @@
 <?php
 
-namespace Autoload;
 
-
-
-function do_autoload($class_name) {
+function _do_autoload($class_name) {
 	
 	$DIRNAME = dirname(__FILE__);
 	$fname = "$DIRNAME/sources/lib/classes/$class_name.class.php";
@@ -14,4 +11,4 @@ function do_autoload($class_name) {
 	
 }
 
-spl_autoload_register('Autoload\do_autoload');
+spl_autoload_register('_do_autoload');

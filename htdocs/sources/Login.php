@@ -264,7 +264,7 @@ class Login {
     }
 
     
-    function log_in_form($message="")
+    function log_in_form($message="", $error_message = '')
     {
     	
         global $ibforums, $DB, $std, $print;
@@ -301,7 +301,7 @@ class Login {
         	$message = $ibforums->lang[ $message ];
         	$message = preg_replace( "/<#NAME#>/", "<b>{$ibforums->input[UserName]}</b>", $message );
         
-			$this->output .= $this->login_html->errors($message);
+			$this->output .= $this->login_html->errors($message . ' '.$error_message);
 		}
 		
 		$this->output .= $this->login_html->ShowForm( $ibforums->lang['please_log_in'], $_SERVER['HTTP_REFERER'] );
@@ -331,7 +331,7 @@ class Login {
     	$method = $this->getAuthMethod();
     	
     	if (!$method->checkInput()) {
-    		$this->log_in_form( $method->lastErrorCode() );
+    		$this->log_in_form( $method->lastErrorCode(), $method->lastErrorMessage() );
     	}
 
     	//-------------------------------------------------
@@ -347,7 +347,7 @@ class Login {
     			$this->modules->on_login($member);
     		}
 
-    		$this->log_in_form( $method->lastErrorCode() );
+    		$this->log_in_form( $method->lastErrorCode(), $method->lastErrorMessage() );
     		
     	} else {
 

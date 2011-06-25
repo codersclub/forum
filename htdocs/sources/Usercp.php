@@ -971,10 +971,20 @@ class UserCP {
  		}
  			
  		//--------------------------------------------
- 		$openid    = strtolower( trim($ibforums->input['in_openid']) );
-
+ 		$openid    = trim($ibforums->input['in_openid']);
+		if (!preg_match('^https?://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,5}(/\S*)?$', $openid)) {
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'openid_not_valid' ) );
+		}
  		//--------------------------------------------
+		$check = $DB->get_one("SELECT id FROM ibf_members WHERE openid_url='".$DB->quote($openid)."'");
 		
+		
+		
+		if ($check && $check != $ibforums->member['id'])
+		{
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'openid_exists' ) );
+		}
+ 		
  		if ($ibforums->vars['bot_antispam'])
  		{
  			//---------------------------

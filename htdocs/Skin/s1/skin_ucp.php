@@ -1283,7 +1283,7 @@ return <<<EOF
 <table width="100%" style="padding:6px">
 <tr>
   <td width='40%'><strong>{$ibforums->lang['ce_new_openid']}</strong></td>
-  <td align='left'><input type='text' name='in_openid' value='' class='forminput'></td>
+  <td align='left'><input type='url' name='in_openid' value='' class='forminput'></td>
 </tr>
 <tr>
   <td><strong>{$ibforums->lang['ec_passy']}</strong></td>

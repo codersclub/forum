@@ -48,6 +48,19 @@ class AuthMethodPassword extends AuthBasic {
 		return true;
 	}
 	
+	public function getFields() {
+		return array (
+				array(
+					'type' => 'text',
+					'name' => 'UserName'
+				),
+				array(
+					'type' => 'password',
+					'name' => 'PassWord'
+				),
+			);
+	}
+	
 	public function authenticate() {
 		global $DB, $ibforums, $std, $print, $sess;
 
