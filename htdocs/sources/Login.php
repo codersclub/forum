@@ -37,6 +37,7 @@ class Login {
     	global $ibforums, $DB, $std, $print;
     	
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_login', $ibforums->lang_id);
+		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_error', $ibforums->lang_id);
     	
     	$this->login_html = $std->load_template('skin_login');
     	
@@ -265,6 +266,7 @@ class Login {
     
     function log_in_form($message="")
     {
+    	
         global $ibforums, $DB, $std, $print;
         
         //+--------------------------------------------
@@ -314,123 +316,80 @@ class Login {
         
     }
     
-    //+--------------------------------------------
+    /**
+     * 
+     * @return AuthBasic;
+     */
+    function getAuthMethod() {
+    	return AuthBasic::getAuthObject();
+    }
     
+    //+--------------------------------------------
     function do_log_in() {
     	global $DB, $ibforums, $std, $print, $sess;
     	
-    	$url = "";
+    	$method = $this->getAuthMethod();
     	
-    	//-------------------------------------------------
-	// More unicode..
-	//-------------------------------------------------
-		
-	$len_u = $std->txt_stripslashes($_POST['UserName']);
-		
-	$len_u = preg_replace("/&#([0-9]+);/", "-", $len_u );
-		
-	$len_p = $std->txt_stripslashes($_POST['PassWord']);
-		
-	$len_p = preg_replace("/&#([0-9]+);/", "-", $len_p );
-		
-    	//-------------------------------------------------
-    	// Make sure the username and password were entered
-    	//-------------------------------------------------
-    	
-    	if ($_POST['UserName'] == "")
-    	{
-    		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_username' ) );
+    	if (!$method->checkInput()) {
+    		$this->log_in_form( $method->lastErrorCode() );
     	}
-    
-     	if ($_POST['PassWord'] == "")
-     	{
-    		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'pass_blank' ) );
-    	}   
 
-		
-	//-------------------------------------------------
-	// Check for input length
-	//-------------------------------------------------
-	
-	if (strlen($len_u) > 32)
-	{
-		$std->Error( array( LEVEL => 1, MSG => 'username_long' ) );
-	}
-	
-	if (strlen($len_p) > 32)
-	{
-		$std->Error( array( LEVEL => 1, MSG => 'pass_too_long' ) );
-	}
-	
-	$username    = strtolower(str_replace( '|', '&#124;', $ibforums->input['UserName']) );
-	$password    = md5( $ibforums->input['PassWord'] );
-	
-	//-------------------------------------------------
-	// Attempt to get the user details
-	//-------------------------------------------------
+    	//-------------------------------------------------
+    	// Attempt to get the user details
+    	//-------------------------------------------------
+    	$member = $method->authenticate();
+    	if (!$member) {
+    		$this->logged_in = 0;
 
-	$DB->query("SELECT id, name, mgroup, password FROM ibf_members WHERE LOWER(name)='".addslashes($username)."'");
-	
-	if ( $DB->get_num_rows() )
-	{
-		$member = $DB->fetch_row();
-		
-		if ( empty($member['id']) or ($member['id'] == "") )
-		{
-			$this->log_in_form( 'wrong_name' );
-		}
-		
-		if ($member['password'] != $password)
-		{
-			$this->log_in_form( 'wrong_pass' );
-		}
-		
-		//------------------------------
-		
-		if ($ibforums->input['CookieDate'])
-		{
-			$std->my_setcookie("member_id"   , $member['id'], 1);
-			$std->my_setcookie("pass_hash"   , $password, 1);
-		}
-		
-		//------------------------------
-		
-		$poss_session_id = "";
-		
-		if ( $cookie_id = $std->my_getcookie('session_id') )
-		{
-			$poss_session_id = $std->my_getcookie('session_id');
+    		if ( USE_MODULES == 1 )
+    		{
+    			$this->modules->register_class(&$this);
+    			$this->modules->on_login($member);
+    		}
 
-		} elseif ( $ibforums->input['s'] ) $poss_session_id = $ibforums->input['s'];
-		
-		if ( $poss_session_id )
-		{
-			$session_id = $poss_session_id;
-			
-			// Delete any old sessions with this users IP addy that doesn't match our
-			// session ID.
-			
-			$DB->query("DELETE FROM ibf_sessions WHERE ip_address='".$ibforums->input['IP_ADDRESS']."' AND id <> '$session_id'");
-			
-			$db_string = $DB->compile_db_update_string( array (
+    		$this->log_in_form( $method->lastErrorCode() );
+    		
+    	} else {
+
+    		//------------------------------
+
+    		$poss_session_id = "";
+
+    		if ( $cookie_id = $std->my_getcookie('session_id') )
+    		{
+    			$poss_session_id = $std->my_getcookie('session_id');
+
+    		} elseif ( $ibforums->input['s'] ) {
+    			$poss_session_id = $ibforums->input['s'];
+    		}
+
+    		if ( $poss_session_id )
+    		{
+    			$session_id = $poss_session_id;
+    				
+    			// Delete any old sessions with this users IP addy that doesn't match our
+    			// session ID.
+    				
+    			$DB->query("DELETE FROM ibf_sessions WHERE ip_address='".$ibforums->input['IP_ADDRESS']."' AND id <> '$session_id'");
+    				
+    			$db_string = $DB->compile_db_update_string( array (
 					 'member_name'  => $member['name'],
 					 'member_id'    => $member['id'],
 					 'running_time' => time(),
 					 'member_group' => $member['mgroup'],
 					 'login_type'   => $ibforums->input['Privacy'] ? 1 : 0
-					  )       );
-						  
-			$db_query = "UPDATE ibf_sessions SET $db_string WHERE id='".$session_id."'";
+    			)       );
 
-		} else
-		{
-			$session_id = md5( uniqid(microtime()) );
-			
-			// Delete any old sessions with this users IP addy.
-			
-			$DB->query("DELETE FROM ibf_sessions WHERE ip_address='".$ibforums->input['IP_ADDRESS']."'");
-			
-			$db_string = $DB->compile_db_insert_string( array (
+    			$db_query = "UPDATE ibf_sessions SET $db_string WHERE id='".$session_id."'";
+
+    		} else {
+    			$session_id = md5( uniqid(microtime()) );
+    				
+    			// Delete any old sessions with this users IP addy.
+    				
+    			$DB->query("DELETE FROM ibf_sessions WHERE ip_address='".$ibforums->input['IP_ADDRESS']."'");
+    				
+    			$db_string = $DB->compile_db_insert_string( array (
 					 'id'           => $session_id,
 					 'member_name'  => $member['name'],
 					 'member_id'    => $member['id'],
@@ -439,89 +398,76 @@ class Login {
 					 'ip_address'   => substr($ibforums->input['IP_ADDRESS'], 0, 50),
 					 'browser'      => substr($std->clean_value($_SERVER['HTTP_USER_AGENT']), 0, 50),
 					 'login_type'   => $ibforums->input['Privacy'] ? 1 : 0
-					  )       );
-						 
-			$db_query = "INSERT INTO ibf_sessions (" .$db_string['FIELD_NAMES']. ") VALUES (". $db_string['FIELD_VALUES'] .")";
-		}
+    			)       );
+    				
+    			$db_query = "INSERT INTO ibf_sessions (" .$db_string['FIELD_NAMES']. ") VALUES (". $db_string['FIELD_VALUES'] .")";
+    		}
 
-		$DB->query( $db_query );
-		
-// Song * who was today online (members)
+    		$DB->query( $db_query );
 
-		$std->who_was_member($member['id']);
+    		// Song * who was today online (members)
 
-// Song * who was today online (members)
+    		$std->who_was_member($member['id']);
 
-		$ibforums->member           = $member;
-		$ibforums->session_id       = $session_id;
-		
-		if ($ibforums->input['referer'] && ($ibforums->input['act'] != 'Reg'))
-		{
-			$url = $ibforums->input['referer'];
-			$url = str_replace( "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}", "", $url );
-			$url = preg_replace( "!^\?!"       , ""   , $url );
-			$url = preg_replace( "!s=(\w){32}!", ""   , $url );
-			$url = preg_replace( "!act=(login|reg|lostpass)!i", "", $url );
-		}
-		
-		//-----------------------------------
-		// set our privacy cookie
-		//-----------------------------------
-		
-		if ($ibforums->input['Privacy'] == 1)
-		{
-			$std->my_setcookie( "anonlogin", 1 );
-		}
-		
-		//-----------------------------------
-		// Clear out any passy change stuff
-		//-----------------------------------
-		
-		$DB->query("DELETE FROM ibf_validating WHERE member_id={$ibforums->member['id']} AND lost_pass=1");
-		
-		//-----------------------------------
-		// Redirect them to either the board
-		// index, or where they came from
-		//-----------------------------------
-		
-		$std->my_setcookie("session_id", $ibforums->session_id, -1);
-		
-		$this->logged_in = 1;
-		
-		if ( USE_MODULES == 1 )
-		{
-			$this->modules->register_class(&$this);
-			$this->modules->on_login($member);
-		}
-		
-		if ( $ibforums->input['return'] != "" )
-		{
-			$return = urldecode($ibforums->input['return']);
-			
-			if ( preg_match( "#^http://#", $return ) )
-			{
-				$std->boink_it($return);
-			}
-		}
-		
-		$print->redirect_screen( "{$ibforums->lang[thanks_for_login]} {$ibforums->member['name']}", $url );
-		
-		
-	}
-	else
-	{
-		$this->logged_in = 0;
-		
-		if ( USE_MODULES == 1 )
-		{
-			$this->modules->register_class(&$this);
-			$this->modules->on_login($member);
-		}
-		
-		$this->log_in_form( 'wrong_name' );
-	}
-	
-	}
+    		// Song * who was today online (members)
+
+    		$ibforums->member           = $member;
+    		$ibforums->session_id       = $session_id;
+
+    		if ($ibforums->input['referer'] && ($ibforums->input['act'] != 'Reg'))
+    		{
+    			$url = $ibforums->input['referer'];
+    			$url = str_replace( "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}", "", $url );
+    			$url = preg_replace( "!^\?!"       , ""   , $url );
+    			$url = preg_replace( "!s=(\w){32}!", ""   , $url );
+    			$url = preg_replace( "!act=(login|reg|lostpass)!i", "", $url );
+    		}
+
+    		//-----------------------------------
+    		// set our privacy cookie
+    		//-----------------------------------
+
+    		if ($ibforums->input['Privacy'] == 1)
+    		{
+    			$std->my_setcookie( "anonlogin", 1 );
+    		}
+
+    		//-----------------------------------
+    		// Clear out any passy change stuff
+    		//-----------------------------------
+
+    		$DB->query("DELETE FROM ibf_validating WHERE member_id={$ibforums->member['id']} AND lost_pass=1");
+
+    		//-----------------------------------
+    		// Redirect them to either the board
+    		// index, or where they came from
+    		//-----------------------------------
+
+    		$std->my_setcookie("session_id", $ibforums->session_id, -1);
+
+    		$this->logged_in = 1;
+
+    		if ( USE_MODULES == 1 )
+    		{
+    			$this->modules->register_class(&$this);
+    			$this->modules->on_login($member);
+    		}
+
+    		if ( $ibforums->input['return'] != "" )
+    		{
+    			$return = urldecode($ibforums->input['return']);
+    				
+    			if ( preg_match( "#^http://#", $return ) )
+    			{
+    				$std->boink_it($return);
+    			}
+    		}
+
+    		$print->redirect_screen( "{$ibforums->lang[thanks_for_login]} {$ibforums->member['name']}", $url );
+
+
+    	}
+    }
 	
 
 	function do_log_out()

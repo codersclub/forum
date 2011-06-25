@@ -37,6 +37,7 @@ thanks_for_login					=>	"you are now logged in as:",
 
 log_out					=>	"Log Out",
 enter_name					=>	"Please enter your name",
+auth_method					=>	"Authentication method",
 
 cookies					=>	"<b>Remember me?</b><br>If enabled, you will be automatically logged in again when you visit.<br>This is not recommended for shared computers.",
 
@@ -50,5 +51,9 @@ cookie_yes					=>	"Yes",
 blank_fields					=>	"Please enter your name and password before continuing",
 log_out_submit					=>	"Log me out",
 log_in					=>	"Log In",
+'openid_verification_cancelled' => 'Operation has been cancelled',
+'openid_authentication_failed' => 'Authentication failed',
+'openid_url_forbidden' => 'This OpenID is forbidden to use',
+
 );
 ?>

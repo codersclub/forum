@@ -200,9 +200,12 @@ $lang = array (
 'total_capacity'    => "of total capacity",
 
 'change_email_title'  => "Change your registered email address",
+'change_openid_title'  => "Change your Open ID URL",
+'ce_new_openid'  => "Enter your new Open ID URL",
 
 'ce_new_email'  => "Enter your new email address",
 'ce_new_email2' => "Confirm the new email address",
+'ce_openid_current'  => "<b>Your current Open ID:</b> ",
 
 'ce_current'    => "<b>Your current email address:</b> ",
 'ce_auth'       => "<br><br>PLEASE NOTE: You will have to re-activate your account after changing your email address.<br>An email will be sent to the email address you specify below, outlining what you need to do.<br><br>Proceeding with this action will log you out. It is strongly recommended that you reset your password before changing your email address if you are unable to remember your password.",

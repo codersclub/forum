@@ -17,21 +17,10 @@ EOF;
 function ShowForm($message, $referer="") {
 global $ibforums;
 return <<<EOF
+<script  type="text/javascript" src='html/login.js'></script>
 <script language='JavaScript' type="text/javascript">
 <!--
-function ValidateForm() {
-	var Check = 0;
-	if (document.LOGIN.UserName.value == '') { Check = 1; }
-	if (document.LOGIN.PassWord.value == '') { Check = 1; }
-
-	if (Check == 1) {
-		alert("{$ibforums->lang['blank_fields']}");
-		return false;
-	} else {
-		document.LOGIN.submit.disabled = true;
-		return true;
-	}
-}
+$(window).load(function() {onAuthMethodChange();});
 //-->
 </script>     
 {$ibforums->lang['login_text']}
@@ -47,12 +36,25 @@ function ValidateForm() {
   <div class='pformstrip'>$message</div>
   <table class="tablebasic" cellspacing="1">
   <tr>
+    <td class='pformleftw'>{$ibforums->lang['auth_method']}</td>
+    <td class='pformright'>
+    <select name='auth_method' onchange="onAuthMethodChange()">
+    	<option value='password'>Password</option>
+    	<option value='openid'>OpenId</option>    	
+    </select>
+    </td>
+  </tr>
+  <tr>
     <td class='pformleftw'>{$ibforums->lang['enter_name']}</td>
     <td class='pformright'><input type='text' size='20' maxlength='64' name='UserName' class='forminput'></td>
   </tr>
-  <tr>
+  <tr id="auth_password">
     <td class='pformleftw'>{$ibforums->lang['enter_pass']}</td>
     <td class='pformright'><input type='password' size='20' name='PassWord' class='forminput'></td>
+  </tr>
+  <tr id="auth_openid">
+    <td class='pformleftw'>OpenId URL</td>
+    <td class='pformright'><input type='url' size='200' name='openid_url' class='forminput'></td>
   </tr>
   </table>
   <div class="pformstrip">{$ibforums->lang['options']}</div>		
