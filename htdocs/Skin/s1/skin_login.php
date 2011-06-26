@@ -16,22 +16,21 @@ EOF;
 
 function ShowForm($message, $referer="") {
 global $ibforums;
+$auth_methods = array(
+    'password' => 'Password',
+    'openid' => 'OpenId',
+);
+$methods = '';
+foreach($auth_methods as $name => $title) {
+    $selected = $ibforums->input['auth_method'] == $name ? ' selected' : '';
+    $methods .= "<option value='$name' $selected>$title</option>\n";
+}
 return <<<EOF
+<script  type="text/javascript" src='html/login.js?{$ibforums->vars['client_script_version']}'></script>
 <script language='JavaScript' type="text/javascript">
 <!--
-function ValidateForm() {
-	var Check = 0;
-	if (document.LOGIN.UserName.value == '') { Check = 1; }
-	if (document.LOGIN.PassWord.value == '') { Check = 1; }
-
-	if (Check == 1) {
-		alert("{$ibforums->lang['blank_fields']}");
-		return false;
-	} else {
-		document.LOGIN.submit.disabled = true;
-		return true;
-	}
-}
+var js_blank_fields = '{$ibforums->lang['blank_fields']}';
+$(window).load(function() {onAuthMethodChange();});
 //-->
 </script>     
 {$ibforums->lang['login_text']}
@@ -47,23 +46,35 @@ function ValidateForm() {
   <div class='pformstrip'>$message</div>
   <table class="tablebasic" cellspacing="1">
   <tr>
-    <td class='pformleftw'>{$ibforums->lang['enter_name']}</td>
-    <td class='pformright'><input type='text' size='20' maxlength='64' name='UserName' class='forminput'></td>
+    <td class='pformleftw'>{$ibforums->lang['auth_method']}</td>
+    <td class='pformright'>
+    <select name='auth_method' onchange="onAuthMethodChange()">
+    	$methods
+    </select>
+    </td>
   </tr>
-  <tr>
+  <tr name="auth_password">
+    <td class='pformleftw'>{$ibforums->lang['enter_name']}</td>
+    <td class='pformright'><input type='text' size='20' maxlength='64' name='UserName' class='forminput' value='{$ibforums->input['UserName']}'></td>
+  </tr>
+  <tr name="auth_password">
     <td class='pformleftw'>{$ibforums->lang['enter_pass']}</td>
-    <td class='pformright'><input type='password' size='20' name='PassWord' class='forminput'></td>
+    <td class='pformright'><input type='password' size='20' name='PassWord' class='forminput' value='{$ibforums->input['PassWord']}'></td>
+  </tr>
+  <tr name="auth_openid">
+    <td class='pformleftw'>OpenId URL</td>
+    <td class='pformright'><input type='url' size='60' name='openid_url' class='forminput' value='{$ibforums->input['openid_url']}'></td>
   </tr>
   </table>
   <div class="pformstrip">{$ibforums->lang['options']}</div>		
   <table class="tablebasic" cellspacing="1">
   <tr>
     <td class='pformleftw'>{$ibforums->lang['cookies']}</td>
-    <td class='pformright'><input type="radio" name="CookieDate" value="1" checked="checked">{$ibforums->lang['cookie_yes']}<br><input type="radio" name="CookieDate" value="0">{$ibforums->lang['cookie_no']}</td>
+    <td class='pformright'><label><input type="radio" name="CookieDate" value="1" checked="checked">{$ibforums->lang['cookie_yes']}</label><br><label><input type="radio" name="CookieDate" value="0">{$ibforums->lang['cookie_no']}</label></td>
   </tr>
   <tr>
     <td class='pformleftw'>{$ibforums->lang['privacy']}</td>
-    <td class='pformright'><input type="checkbox" name="Privacy" value="1">{$ibforums->lang['anon_name']}</td>
+    <td class='pformright'><label><input type="checkbox" name="Privacy" value="1">{$ibforums->lang['anon_name']}</label></td>
   </tr>
   </table>		
   <div class="pformstrip" align="center"><input type="submit" name='submit' value="{$ibforums->lang['log_in_submit']}" class='forminput'></div>

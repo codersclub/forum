@@ -193,7 +193,6 @@ class session {
         $cookie = array();
         $cookie['session_id']   = $std->my_getcookie('session_id');
         $cookie['member_id']    = $std->my_getcookie('member_id');
-        $cookie['pass_hash']    = $std->my_getcookie('pass_hash');
 
 	if ( isset($ibforums->vars['plg_custom_login']) && $ibforums->vars['plg_custom_login'] )
         {
@@ -290,7 +289,7 @@ class session {
 
 		// Do we have cookies stored?
 
-		} elseif ( $cookie['member_id'] != "" and $cookie['pass_hash'] != "" )
+		} elseif ( $cookie['member_id'] != "" )
 		{
 			$this->load_member($cookie['member_id']);
 			
@@ -302,7 +301,7 @@ class session {
 			} else
 			{
 				// check a password
-				if ( $this->member['password'] == $cookie['pass_hash'] )
+				if ( AuthBasic::checkSessionDataIsValid( $this->member ) )
 				{
 					$this->create_member_session();
 				} else
