@@ -664,8 +664,7 @@ var js_base_url		= "{$ibforums->js_base_url}";
 	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=04'>{$ibforums->lang['m_board_opt']}</a><br>
 	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=06'>{$ibforums->lang['m_skin_lang']}</a><br>
 	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=08'>{$ibforums->lang['m_email_change']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=52'>Open ID</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=28'>{$ibforums->lang['m_passy_opt']}</a><br>
+         &middot; <a href='{$base_url}act=UserCP&amp;CODE=28'>{$ibforums->lang['m_passy_opt']}</a><br>
          &middot; <a href='{$base_url}act=UserCP&amp;CODE=15'>{$ibforums->lang['m_board_lay']}</a> <br>
          {$delete}
 	 </p>
@@ -1256,34 +1255,6 @@ return <<<EOF
 <tr>
   <td><strong>{$ibforums->lang['ce_new_email2']}</strong></td>
   <td align='left'><input type='text' name='in_email_2' value='' class='forminput'></td>
-</tr>
-<tr>
-  <td><strong>{$ibforums->lang['ec_passy']}</strong></td>
-  <td align='left'><input type='password' name='password' value='' class='forminput'></td>
-</tr>
-</table>
-<!--ANTIBOT-->
-<div align="center" class="pformstrip"><input type="submit" name='change_email' value="{$ibforums->lang['account_email_submit']}" class='forminput'></div>
-</form>
-
-EOF;
-}
-function openid_change($txt="", $msg="") {
-global $ibforums;
-return <<<EOF
-
-<script language='Javascript' type="text/javascript">
-  do_msg('{$msg}');  
-</script>
-<form action='{$ibforums->base_url}' method='post' name='form1'>
-<input type='hidden' name='act' value='UserCP'>
-<input type='hidden' name='CODE' value='53'>
-<div class="pformstrip">{$ibforums->lang['change_openid_title']}</div>
-<p>$txt</p>
-<table width="100%" style="padding:6px">
-<tr>
-  <td width='40%'><strong>{$ibforums->lang['ce_new_openid']}</strong></td>
-  <td align='left'><input type='url' name='in_openid' value='' class='forminput'></td>
 </tr>
 <tr>
   <td><strong>{$ibforums->lang['ec_passy']}</strong></td>
