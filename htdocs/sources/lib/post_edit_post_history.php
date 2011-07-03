@@ -185,7 +185,13 @@ class post_functions extends Post {
 	
 		global $ibforums, $std, $DB, $print;
 		
+                $old_post_id = intval($ibforums->input['oldpost']);
+                if ($old_post_id==0) $old_post_id = 'none';
+                $old_post_text = "";
+		
 		$items = PostEditHistory::getItems($this->orig_post['pid']);
+		
+                $old_post_text = $this->orig_post['post'];  
 		
 		$prevoius_text = $class->parser->post_db_parse(
 		
@@ -198,13 +204,29 @@ class post_functions extends Post {
 			$class->forum['use_html'] AND $ibforums->member['g_dohtml'] ? 1 : 0
 		);
 		foreach ($items as $i => $history_item) {
-			$items[$i]['new_text']	= $prevoius_text;
+			$items[$i]['new_text']	= $class->parser->post_db_parse(
+			$class->parser->prepare( array(
+						'TEXT'    => $prevoius_text,
+		     			'CODE'    => $class->forum['use_ibc'],
+		     			'SMILIES' => 1,
+		     			'HTML'    => $class->forum['use_html']
+			)      ) ,
+
+			$class->forum['use_html'] AND $ibforums->member['g_dohtml'] ? 1 : 0);
 			
 			$items[$i]['time']		= $std->get_date($history_item['edit_time'], $method);
 			
 			$items[$i]['member']	= $history_item['editor_name'];
 			
-			$prevoius_text =
+                        $new_post_text = $old_post_text;
+                        $old_post_text = $history_item['old_text'];
+                        if ($old_post_id==$items[$i]['id']) 
+                        {
+                          $old_post_id="finished"; 
+                          break;
+                        }
+			
+			$prevoius_text = $history_item['old_text'];
 			$items[$i]['old_text'] =  $class->parser->post_db_parse(
 			$class->parser->prepare( array(
 						'TEXT'    => $history_item['old_text'],
@@ -216,6 +238,19 @@ class post_functions extends Post {
 			$class->forum['use_html'] AND $ibforums->member['g_dohtml'] ? 1 : 0);
 				
 		}
+		
+                if ($old_post_id=="finished") 
+                {
+		  $new_post_text = preg_replace("#(\[code\s*?=\s*?.*?|\s*\])(.*?)(.\[/code\])#ies", "'\\1'.str_replace(' ', 
+                                                  '&nbsp;', '\\2').'\\3'", $new_post_text);
+		  $old_post_text = preg_replace("#(\[code\s*?=\s*?.*?|\s*\])(.*?)(.\[/code\])#ies", "'\\1'.str_replace(' ', 
+                                                  '&nbsp;', '\\2').'\\3'", $old_post_text);
+                  $view_post_text = $print->diff_text($old_post_text,$new_post_text,
+                  "<div style='background:#80FF80'>","&nbsp;</div>","<div style='background:#FF8080'>","&nbsp;</div>","","&nbsp;<br>", 
+                  "<span style='background:#80FF80'>","</span> ","<span style='background:#FF8080'>","</span> ");
+                  $view_post_text = $class->html->posts_comparison($view_post_text);
+                  $print->pop_up_window($ibforums->lang['post_comparison'], $view_post_text);
+                } else {
 		
 		$class->output .= $class->html->edit_history( $items, $this->orig_post['forum_id'], $this->orig_post['topic_id'], $this->orig_post['pid'] );
 		
@@ -232,6 +267,7 @@ class post_functions extends Post {
 		$print->do_output( array( 'TITLE'    => $this->title." -> ".$ibforums->vars['board_name'],
         			 	  'NAV'      => $class->nav_extra,
         			  ) );
+		}
 		
 	    
 		

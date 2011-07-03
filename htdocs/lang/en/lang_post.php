@@ -146,6 +146,7 @@ $lang['ib_on']  = "iB Code is <b>on</b>";
 $lang['jscode_error_no_height']  = "You must enter a height";
 $lang['buttons_js']  = "Click or use the access key once to open and again to close";
 $lang['editing_post']  = "Editing Post ";
+$lang['post_comparison'] = "Changes";
 $lang['posting_new_topic']  = "Posting New Topic";
 $lang['jscode_text_enter_image']  = "Enter the complete URL for the image";
 $lang['jscode_text_enter_spoiler']  = "Enter the title for hidden text (can be empty)";

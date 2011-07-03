@@ -4507,6 +4507,7 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
     	$change[]  = $ibforums->vars['img_url'];	// vot
 
     	$replace[] = "<#BASE_URL#>";     	// vot
+
     	$change[]  = $ibforums->base_url;	// vot
 
     	return str_replace($replace, $change, $template );
@@ -4666,6 +4667,51 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
     	exit;
     } 
     
+    function diff_text($oldtext = "", $newtext = "" , $add_prefix="", $add_suffix="", $del_prefix="", $del_suffix="", $norm_prefix,$norm_suffix,
+               $add_p_word="", $add_s_word="", $del_p_word="", $del_s_word="") {
+    global $ibforums;
+    // add_prefix - будет записано перед добавленной строкой
+    // add_suffix - будет записано после добавленной строки
+    // del_prefix - будет записано перед удаленной строкой
+    // del_suffix - будет записано после удаленной строки
+    // norm_prefix - будет записано перед общей строкой
+    // norm_suffix - будет записано после общей строки
+
+    // add_p_word - будет записано перед добавленным словом
+    // add_s_word - будет записано после добавленного слова
+    // del_p_word - будет записано перед удаленным словом
+    // del_s_word - будет записано после удаленного слова
+
+    require $ibforums->vars['base_dir']."sources/lib/simplediff.php";
+    $diff = simpleDiff::diff_to_array(false, $oldtext, $newtext, true);
+
+    foreach ($diff as $i=>$line)
+    {
+        list($type, $old, $new) = $line;
+
+        if ($type == simpleDiff::INS)      $out .= $add_prefix.$new.$add_suffix;
+        elseif ($type == simpleDiff::DEL)  $out .= $del_prefix.$old.$del_suffix;
+        elseif ($type == simpleDiff::CHANGED) 
+        {
+            $lineDiff = simpleDiff::wdiff($old, $new);
+            // Don't show new things in deleted line
+            $lineDiff = str_replace('  ', ' ', $lineDiff);
+            $lineDiff = str_replace('-] [-', ' ', $lineDiff);
+            $lineDiff = preg_replace('!\[-(.*)-\]!U', "$del_p_word\\1$del_s_word", $lineDiff);
+            $lineDiff = preg_replace('!\{\+(.*)\+\}!U', "$add_p_word\\1$add_s_word", $lineDiff);
+
+            $out .= $norm_prefix.$lineDiff.$norm_suffix;
+        }
+        elseif ($type == simpleDiff::SAME)
+        {
+          $out .= $norm_prefix.$old.$norm_suffix;
+        } 
+    }
+     
+      return $out;    
+
+    } 
+
 } // END class
     
 
