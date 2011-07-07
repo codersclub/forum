@@ -3163,17 +3163,23 @@ echo "-----------------<br>\n";
  function get_topic_last_read($topic_id) {
  	global $ibforums, $DB;
  	settype($topic_id, 'integer');
- 	$quid = $DB->query("SELECT logTime
+ 	$quid = "SELECT logTime
 				    FROM ibf_log_topics
 				    WHERE
 					tid=$topic_id AND
 					mid='{$ibforums->member['id']}' 
-					LIMIT 1");
- 	if ($row = $DB->fetch_row($quid)) {
+					LIMIT 1";
+ 	if ($row = $DB->get_row($quid)) {
  		return intval($row['logTime']);
- 	} else {
- 		return 0;
  	}
+    // проверим на сколько давно топик создан. Если больше, чем месяц назад
+    // то следует редиректить на тот пост, что был сделан за этот самый месяц
+    $last = $DB->get_one("SELECT min(post_date) FROM ibf_posts WHERE topic_id = {$topic_id}");
+ 	 	
+ 	if ( $last < strtotime('-1 month') ) {
+ 		return strtotime('-1 month');
+	}
+	return 0;
  }
  
  function song_set_topicread( $fid, $tid ) {
