@@ -541,7 +541,7 @@ class post_functions extends Post {
 	function add_to_fav() {
 	global $ibforums;
 
-	if ( $ibforums->member['id'] and $ibforums->input['fav'] == 1 )
+	if ( $ibforums->member['id'] and $ibforums->input['fav'] )
 	{
 		require ROOT_PATH."sources/fav.php";
 

@@ -24,7 +24,7 @@ class fav {
 
 	        if ( !$ibforums->member['id'] ) 
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'fav_guest') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'fav_guest') );
 		}
 
 		$refer = $_SERVER['HTTP_REFERER'];
@@ -35,7 +35,7 @@ class fav {
 
 		if ( $ibforums->input['topic'] ) 
 		{
-			$this->add_topic(intval($ibforums->input['topic']), &$state);
+			$this->add_topic(intval($ibforums->input['topic']), $state);
 
 		        if ( $ibforums->input['track'] and $count and $delete )
 			{
@@ -57,7 +57,7 @@ class fav {
 
 
 
-    function add_topic($topic = 0, $delete = 0) {
+    function add_topic($topic = 0, &$delete = 0) {
     global $ibforums, $DB, $std;
 
 	if ( !$topic ) return;
