@@ -154,8 +154,8 @@ option.sub { font-weight: bold; color: #555 }
 .normalname a:link, .normalname a:visited, .normalname a:active { font-size: 12px }
 .unreg { font-size: 11px; font-weight: bold; color: #900 }
 .searchlite { font-weight: bold; color: #F00; background-color: #FF0 }
-.QUOTE { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;	overflow: auto; }
-.CODE {
+.quote { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;	overflow: auto; }
+.code {
 	font-size: 11px;
 	color: #465584;
 	background-color: #FAFCFE;

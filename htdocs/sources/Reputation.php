@@ -382,7 +382,7 @@ class Reputation {
 				$info = $DB->fetch_row();
 
 				$DB->query("SELECT COUNT(r.msg_id) as ups FROM ibf_reputation r, ibf_forums f 
-				            WHERE r.member_id='".$memid."' and r.CODE='01' and 
+				            WHERE r.member_id='".$memid."' and r.code='01' and 
 						  f.id=r.forum_id and f.inc_postcount={$ratting_type}");
 
 				if ( $count = $DB->fetch_row() ) $info['ups'] = $count['ups']; else $info['ups'] = 0;
@@ -550,7 +550,7 @@ class Reputation {
 				
 				$DB->query("SELECT COUNT(r.from_id) as ups 
 					    FROM ibf_reputation r 
-					    WHERE r.CODE='01' AND r.from_id='".$memid.$pfix);
+					    WHERE r.code='01' AND r.from_id='".$memid.$pfix);
 				
 				$row = $DB->fetch_row();
 				$info['ups'] = $row['ups'];

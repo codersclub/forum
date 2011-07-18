@@ -115,9 +115,9 @@ px; margin: 0px }
 .normalname a:link, .normalname a:visited, .normalname a:active { font-size: 12px }
 .unreg { font-size: 11px; font-weight: bold; color: #900 }
 .searchlite { font-weight: bold; color: #F00; background-color: #FF0 }
-.QUOTE { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #F8F8F8; border: 1px solid 
+.quote { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #F8F8F8; border: 1px solid 
 #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
-.CODE { font-family: Courier New, serif; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;	overflow: auto;         line-height: 120%;}
+.code { font-family: Courier New, serif; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;	overflow: auto;         line-height: 120%;}
 .copyright { font-family: Verdana, Tahoma, Arial, Sans-Serif; font-size: 9px; line-height: 12px }
 .codebuttons { font-size: 10px; font-family: verdana, helvetica, sans-serif; vertical-align: middle }
 .forminput, .textinput, .radiobutton, .checkbox { font-size: 11px; font-family: verdana, helvetica, sans-serif; vertical-

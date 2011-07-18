@@ -899,8 +899,8 @@ return <<<EOF
 	.tablebasic  { width:100%; padding:0px 0px 0px 0px; margin:0px; border:0px }
 	
 	.pformstrip { background-color: #D1DCEB; color:#3A4F6C;font-weight:bold;padding:7px;margin-top:1px }
-	.QUOTE { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
-	.CODE  { font-family: Courier, Courier New, Verdana, Arial;  font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+	.quote { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
+	.code  { font-family: Courier, Courier New, Verdana, Arial;  font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
 	
 	/* Main table top (dark blue gradient by default) */
 	.maintitle { vertical-align:middle;font-weight:bold; color:#FFF; background-color:D1DCEB;padding:8px 0px 8px 5px; background-image: url({$ibforums->vars['board_url']}/style_images/<#IMG_DIR#>/tile_back.gif) }

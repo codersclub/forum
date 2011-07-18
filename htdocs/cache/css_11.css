@@ -141,7 +141,7 @@ option.sub { color: #555; font-weight: bold }
 .edit { font-size: 9px }
 .searchlite { background-color: #ff0; color: #f00; font-weight: bold }
 .quote { background-color: #8f8f40; border: solid 1px #754c24; color: #ffffc0; font-family: verdana,arial; font-size: 11px; padding: 5px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/qback.gif') }
-.CODE { font-size: 12px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; 	overflow: auto;         line-height: 120%;}
+.code { font-size: 12px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; 	overflow: auto;         line-height: 120%;}
 .copyright { FONT-FAMILY: Verdana, Tahoma, Arial, Sans-Serif; FONT-SIZE: 9px; LINE-HEIGHT: 12px }
 .forminput, .codebuttons, .textinput { font-family: verdana,helvetica,sans-serif; font-size: 11px; vertical-align: middle; background-color: #cfcf90; color: #000000; border: solid 1px #754c24 }
 .codebuttons { font-size: 10px; border-left: solid 1px #ffffc0; border-top: solid 1px #ffffc0 }

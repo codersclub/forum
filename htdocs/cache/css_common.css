@@ -41,10 +41,10 @@ img.icon_off{
 .pre_code span {
 	cursor: pointer;
 }
-.CODE span {
+.code span {
 	cursor: auto;
 }
-.CODE ol li {
+.code ol li {
 	border-left: 2px solid green;
 	padding: 0em 0.5em 0em 0.5em;
 	margin: 0em 0em 0em 3em;
@@ -52,18 +52,18 @@ img.icon_off{
 	width: auto;
 }
 
-.CODE div.code_line {
+.code div.code_line {
 	margin: 0;
 	line-height: 1.5em;
 	width: auto;
 	border: 0 !important;
 }
-.CODE ol {
+.code ol {
 	padding: 0em 0em 0em 0.5em;
 	margin: 0px 0px 0px 0px;
 }
 
-PRE	{
+pre	{
     MARGIN: 0px;
     WORD-WRAP: break-word;
 }

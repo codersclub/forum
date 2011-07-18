@@ -125,8 +125,8 @@ option.sub { font-weight: bold; color: #555 }
 .normalname a:link, .normalname a:visited, .normalname a:active { font-size: 12px }
 .unreg { font-size: 11px; font-weight: bold; color: #990000 }
 .searchlite { font-weight: bold; color: #F00; background-color: #FF0 }
-.QUOTE { font-family: Verdana, Arial; font-size: 11px; padding: 4px; color: #333333; background-color: #f0f0f0; border: 1px solid #4969AA }
-.CODE { font-size: 11px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; color: #333333; background-color: #f0f0f0; border: 1px solid #4969AA;	overflow: auto;         line-height: 120%;}
+.quote { font-family: Verdana, Arial; font-size: 11px; padding: 4px; color: #333333; background-color: #f0f0f0; border: 1px solid #4969AA }
+.code { font-size: 11px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; color: #333333; background-color: #f0f0f0; border: 1px solid #4969AA;	overflow: auto;         line-height: 120%;}
 .copyright, .copyright a:link { font-family: Verdana, Tahoma, Arial, Sans-Serif; font-size: 9px; color: #000000 }
 .codebuttons { font-size: 10px; font-family: verdana, helvetica, sans-serif; vertical-align: middle }
 .forminput, .radiobutton, .checkbox { font-size: 11px; font-family: verdana, helvetica, sans-serif; vertical-align: middle }

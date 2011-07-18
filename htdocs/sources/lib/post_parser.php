@@ -290,6 +290,19 @@ class post_parser {
 
 	}
 
+	/**
+	 *
+	 * возвращает валидный, с точки зрения html, цвет
+	 * @param string $val
+	 * @return string
+	 */
+	static function color($val) {
+		if(preg_match('!^([0-9a-f]{6}|[0-9a-f]{3})$!i',$val)) {
+			return '#'.$val;
+		} else {
+			return $val;
+		}
+	}
 ///////////////////////////////////////////////////////////////////////////
 
 
@@ -427,7 +440,11 @@ class post_parser {
 			$view = str_replace('<li></li>','<li>&nbsp;</li>', $view);
 			$view = str_replace('<li> ','<li>&nbsp;', $view);
 			// server highlight form
-			$view = "<div style='color:{$cfg->fore_color}; background-color:{$cfg->back_color}'>".$view."</div>";
+			$view = sprintf('<div style=\'color:%s; background-color:%s\'>%s</div>',
+					self::color($cfg->fore_color),
+					self::color($cfg->back_color),
+					$view
+				);//
 		} else
 		{
 			$code = $this->syntax_code_to_view($code);
@@ -441,7 +458,12 @@ class post_parser {
 				$print->syntax[ $syntax ] = $cfg->version;
 			}
 
-			$view = "<div style='color:{$cfg->fore_color}; background-color:{$cfg->back_color}' id='code_{$this->code_count}'>".$code."</div>";
+			$view = sprintf('<div style=\'color:%s; background-color:%s\' id=\'code_%d\'>%s</div>',
+					self::color($cfg->fore_color),
+					self::color($cfg->back_color),
+					$this->code_count,
+					$code
+				);
 		}
 	} else
 	{	
@@ -1995,12 +2017,14 @@ class post_parser {
 		} 
 		
 
-// vot		return array( 'START' => "<table {$class}border='0' align='center' width='95%' cellpadding='3' cellspacing='1'>{$label}<tr><td><div id='{$possible_use[ $in[STYLE] ][0]}'{$extra}>",
-// vot			      'END'   => "</div></td></tr></table>"
-// vot			    );
+		return array( 'START' => "<div{$pre_div_class}>{$label}<div class='".strtolower($possible_use[ $in['STYLE'] ][0])." $class'{$extra}>",
+                             'END'   => "</div></div>"
+        	);
+        /*
 		return array( 'START' => "<div{$pre_div_class}>{$label}<div class='{$possible_use[ $in['STYLE'] ][0]} $class'{$extra}>",
 			      'END'   => "</div></div>"
 			    );
+        */
 	}
 
 

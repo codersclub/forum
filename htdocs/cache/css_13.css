@@ -1,5 +1,5 @@
 .p	{table-layout:fixed}
-.CODE,pre{
+.code,pre{
     margin:0;
     white-space:-o-pre-wrap;
     white-space:-moz-pre-wrap;
@@ -14,6 +14,6 @@ PRE	{
 .closed .body {    display: none; }
 .spoiler_header {   cursor: pointer; }
 
-.CODE pre{
+.code pre{
 	border: 0px;
 }

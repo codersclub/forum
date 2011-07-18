@@ -632,12 +632,12 @@ A.warn_gr	{
     BACKGROUND-COLOR: #222
 }
 
-/*.QUOTE {
+/*.quote {
 	BORDER-RIGHT: #000 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #000 1px solid; PADDING-LEFT: 2px; FONT-SIZE: 11px; PADDING-BOTTOM: 2px; BORDER-LEFT: #000 1px solid; COLOR: #465584; PADDING-TOP: 2px; BORDER-BOTTOM: #000 1px solid; FONT-FAMILY: Verdana, Arial; WHITE-SPACE: normal; BACKGROUND-COLOR: #999999
 }
 */
 
-.QUOTE {
+.quote {
 	BORDER: #666 1px solid; 
 	PADDING: 2px; 
 	FONT-SIZE: 11px; 
@@ -648,7 +648,7 @@ A.warn_gr	{
 }
 
 
-.CODE {
+.code {
 	BORDER: #000 1px solid; 
 	PADDING: 2px; 
 	FONT-SIZE: 11px; 

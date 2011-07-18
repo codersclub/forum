@@ -48,8 +48,8 @@ $css_names = array(
 '.normalname'	 => 'Post View: Member name (reg)',
 '.unreg'		 => 'Post View: Unreg name',
 '.searchlite'    => 'Global: Search highlighting',
-'.QUOTE'         => 'Quote Box',
-'.CODE'		     => 'Code Box',
+'.quote'         => 'Quote Box',
+'.code'		     => 'Code Box',
 
 );
 
