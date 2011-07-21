@@ -64,7 +64,11 @@ img.icon_off{
 
 pre	{
     MARGIN: 0px;
-    WORD-WRAP: break-word;
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
 .open .body {    display: block; }

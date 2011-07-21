@@ -4513,7 +4513,6 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
     	$change[]  = $ibforums->vars['img_url'];	// vot
 
     	$replace[] = "<#BASE_URL#>";     	// vot
-
     	$change[]  = $ibforums->base_url;	// vot
 
     	return str_replace($replace, $change, $template );
@@ -4699,7 +4698,7 @@ $content .= $tnx->show_link(); // выводим оставшиеся, желательно в другом месте 
         elseif ($type == simpleDiff::DEL)  $out .= $del_prefix.$old.$del_suffix;
         elseif ($type == simpleDiff::CHANGED) 
         {
-            $lineDiff = simpleDiff::wdiff($old, $new);
+            $lineDiff = simpleDiff::wdiff($old.' ', $new.' ');
             // Don't show new things in deleted line
             $lineDiff = str_replace('  ', ' ', $lineDiff);
             $lineDiff = str_replace('-] [-', ' ', $lineDiff);

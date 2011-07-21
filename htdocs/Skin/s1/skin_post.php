@@ -281,7 +281,9 @@ function posts_comparison($text) {
 global $ibforums;
 return <<<EOF
 <div id="ipbwrapper">
+<pre>
 {$text}
+</pre>
 </div>
 EOF;
 }

@@ -193,16 +193,8 @@ class post_functions extends Post {
 		
                 $old_post_text = $this->orig_post['post'];  
 		
-		$prevoius_text = $class->parser->post_db_parse(
+		$prevoius_text = $this->orig_post['post'];
 		
-			$class->parser->prepare( array(
-						'TEXT'    => $this->orig_post['post'],
-		     			'CODE'    => $class->forum['use_ibc'],
-		     			'SMILIES' => 1,
-		     			'HTML'    => $class->forum['use_html']
-			)      ) ,
-			$class->forum['use_html'] AND $ibforums->member['g_dohtml'] ? 1 : 0
-		);
 		foreach ($items as $i => $history_item) {
 			$items[$i]['new_text']	= $class->parser->post_db_parse(
 			$class->parser->prepare( array(
@@ -220,7 +212,7 @@ class post_functions extends Post {
 			
                         $new_post_text = $old_post_text;
                         $old_post_text = $history_item['old_text'];
-                        if ($old_post_id==$items[$i]['id']) 
+                        if ($old_post_id==$history_item['id']) 
                         {
                           $old_post_id="finished"; 
                           break;
@@ -229,7 +221,7 @@ class post_functions extends Post {
 			$prevoius_text = $history_item['old_text'];
 			$items[$i]['old_text'] =  $class->parser->post_db_parse(
 			$class->parser->prepare( array(
-						'TEXT'    => $history_item['old_text'],
+						'TEXT'    => $prevoius_text,
 		     			'CODE'    => $class->forum['use_ibc'],
 		     			'SMILIES' => 1,
 		     			'HTML'    => $class->forum['use_html']
@@ -241,13 +233,9 @@ class post_functions extends Post {
 		
                 if ($old_post_id=="finished") 
                 {
-		  $new_post_text = preg_replace("#(\[code\s*?=\s*?.*?|\s*\])(.*?)(.\[/code\])#ies", "'\\1'.str_replace(' ', 
-                                                  '&nbsp;', '\\2').'\\3'", $new_post_text);
-		  $old_post_text = preg_replace("#(\[code\s*?=\s*?.*?|\s*\])(.*?)(.\[/code\])#ies", "'\\1'.str_replace(' ', 
-                                                  '&nbsp;', '\\2').'\\3'", $old_post_text);
                   $view_post_text = $print->diff_text($old_post_text,$new_post_text,
-                  "<div style='background:#80FF80'>","&nbsp;</div>","<div style='background:#FF8080'>","&nbsp;</div>","","&nbsp;<br>", 
-                  "<span style='background:#80FF80'>","</span> ","<span style='background:#FF8080'>","</span> ");
+                             "<div style='background:#80FF80'>"," </div>","<div style='background:#FF8080'>"," </div>",""," \n", 
+                             "<span style='background:#80FF80'>","</span>","<span style='background:#FF8080'>","</span>");
                   $view_post_text = $class->html->posts_comparison($view_post_text);
                   $print->pop_up_window($ibforums->lang['post_comparison'], $view_post_text);
                 } else {
