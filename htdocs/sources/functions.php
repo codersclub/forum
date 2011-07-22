@@ -3942,61 +3942,23 @@ if (
     //-------------------------------------------
     // vot: Output the XAP network banner.
     //-------------------------------------------
-/*
-    function xap_code($login)	// modified by vot
-    {
-     $path = ''; $file = ''; $site = str_replace('www.', '', $_SERVER["HTTP_HOST"]);
-     if (strlen($_SERVER["REQUEST_URI"]) > 180) return; if ($_SERVER["REQUEST_URI"] == '') $_SERVER["REQUEST_URI"] = '/';
-     $file = base64_encode("$_SERVER[REQUEST_URI]");
-     $path_code = md5($file); $user_pref = substr($login, 0, 2);
-     $path = substr($path_code, 0, 1).'/'.substr($path_code, 1, 2).'/';
-     $domain = "$login.tnx.net";
-     $path = "/users/$user_pref/$login/$site/$path$file.txt";
-     $str=''; // vot
-     
-     if ($fp = @fsockopen ("$domain", 80, $errno, $errstr, 7))
-     {
-       fputs ($fp, "GET $path HTTP/1.0\r\nhost: $domain\r\n\r\n");
-       $fl = 0;
-       while (!feof($fp)) {
-           $str = trim(fgets($fp,4096));
-           if ($str == 'HTTP/1.1 404 Not Found')
-	   {		// vot
-	     $str='';	// vot
-	     break;	// vot
-	   }
-           if ($fl == 1) break; // vot echo $str;
-           if ($str == "") $fl = 1;
-       }
-       fclose ($fp);
-     }
-     return $str;
-    }
-// vot    xap_code(strtolower("vot"));
-*/
 
     function xap_banner()
     {
         global $ibforums, $std;
-/*
-    //if ($std->check_perms( $ibforums->member['club_perms'] ) or
-    if (
-        $ibforums->member['is_mod'] or
-        $ibforums->member['g_is_supmod']
-       ) return $content;
+        
+        $cache_dir = dirname(__FILE__).'/lib/TNX-something-long-random-string-324sd54ywey/'; // здесь ќЅя«ј“≈Ћ№Ќќ укажите свое название папки вместо cache, минимум 12 символов!
+        
+        require_once( $cache_dir . 'tnx.php');
+        $tnx = new TNX_n('vot', $cache_dir); // ваш логин в системе
+        
+		$content = "<!-- XAP banner -->\n";
+        $content .=  $tnx->show_link(1); // выводим первую ссылку
+        $content .=  $tnx->show_link(1); // выводим вторую ссылку, желательно в другом месте страницы, ниже
+        $content .=  $tnx->show_link(1); // выводим третью ссылку, желательно в другом месте страницы, ниже
+        $content .=  $tnx->show_link(); // выводим оставшиес€, желательно в другом месте страницы, ниже
 
-//	$content = xap_code("vot");
-        return "<!-- XAP -->\n".$this->xap_code("vot");
-// vot test        return "<a href='#'>Test XAP code return</a>";
-*/
-$tnx = new TNX_l();
-$content = "<!-- XAP banner -->\n";
-$content .= $tnx->show_link(1); // выводим первую ссылку
-$content .= $tnx->show_link(1); // выводим вторую ссылку, желательно в другом месте страницы, ниже
-$content .= $tnx->show_link(1); // выводим третью ссылку, желательно в другом месте страницы, ниже
-$content .= $tnx->show_link(); // выводим оставшиес€, желательно в другом месте страницы, ниже
-
-       return $content;
+        return $content;
        
     }
 
