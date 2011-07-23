@@ -1206,7 +1206,7 @@ class modfunctions
 	 */
 	function topic_delete_mirrors($topic_id, array $forum_ids) {
 		global $DB;
-		array_walk($forum_ids, 'intval');
+		array_walk($forum_ids, function(&$v){$v = intval($v);});
 		$topic_id = intval($topic_id);
 		
 		if ($forum_ids) {
