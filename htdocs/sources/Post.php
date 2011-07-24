@@ -148,7 +148,7 @@ class Post {
 
         	if ( !$ibforums->input['t'] )
         	{
-        		$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+        		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
         	}
         }
         
@@ -158,7 +158,7 @@ class Post {
 
         	if ( !$ibforums->input['p'] )
         	{
-        		$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+        		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
         	}
         }
         
@@ -188,7 +188,7 @@ class Post {
 			ibf_forums f,
 			ibf_categories c 
 		    WHERE
-			f.id='".$ibforums->input[f]."'
+			f.id='".$ibforums->input['f']."'
 			AND c.id=f.category");
         
         $this->forum = $DB->fetch_row();
@@ -235,14 +235,14 @@ class Post {
 
 	} else $pass = 1;
 	
-	if ( !$pass ) $std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
+	if ( !$pass ) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_view_topic') );
 	
         //--------------------------------------
         // Error out if we can not find the forum
         //--------------------------------------
         
-        if ( !$this->forum['id'] ) $std->Error( array( LEVEL => 1,
-							MSG => 'missing_files') );
+        if ( !$this->forum['id'] ) $std->Error( array( 'LEVEL' => 1,
+							'MSG' => 'missing_files') );
         
         $this->base_url = $ibforums->base_url;
         
@@ -463,8 +463,8 @@ class Post {
         	if ( $row['restrict_posts'] )
         	{
         		if ( $row['restrict_posts'] == 1 ) $std->Error( array( 
-							LEVEL => 1, 
-							MSG => 'posting_off') ); else
+							'LEVEL' => 1, 
+							'MSG' => 'posting_off') ); else
 			{
 				$post_arr = $std->hdl_ban_line( $row['restrict_posts'] );
                  		
@@ -526,6 +526,8 @@ class Post {
    			'01'  => array( '1'  , 'new_post'     ),
   			'02'  => array( '0'  , 'reply_post'   ),
 			'03'  => array( '1'  , 'reply_post'   ),
+			'06'  => array( '0'  , 'q_reply_post' ),
+			'07'  => array( '1'  , 'q_reply_post' ),
 			'08'  => array( '0'  , 'edit_post'    ),
 			'09'  => array( '1'  , 'edit_post'    ),
 			'10'  => array( '0'  , 'poll'         ),
