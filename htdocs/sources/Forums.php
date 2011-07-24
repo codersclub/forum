@@ -145,12 +145,10 @@ class Forums {
 	}
 
 	// Song * forum filter, 19.11.2004
-        $DB->query("SELECT f.*, c.id as cat_id, c.name as cat_name 
+        $this->forum = $DB->get_row("SELECT f.*, c.id as cat_id, c.name as cat_name 
 		    FROM ibf_forums f 
         	    LEFT JOIN ibf_categories c ON (c.id=f.category) 
         	    WHERE f.id='".$ibforums->input['f']."'");
-        
-        $this->forum = $DB->fetch_row();
 
 	// for forums that have access to post to root level
 	if ( $this->forum['sub_can_post'] and $this->forum['parent_id'] == -1 and !$this->mode_id )
@@ -170,7 +168,7 @@ class Forums {
         // Error out if we can not find the forum
         //----------------------------------------
         
-        if ( !$this->forum['id'] ) $std->Error( array( LEVEL => 1, MSG => 'is_broken_link') );
+        if ( !$this->forum['id'] ) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'is_broken_link') );
 
         //----------------------------------------
         // Is it a redirect forum?

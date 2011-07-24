@@ -517,7 +517,7 @@ class FUNC {
 
 	}
 
-	function fill_array($row, $forums, $children, $total_list) {
+	function fill_array($row, &$forums, &$children, &$total_list) {
 
 	if ( $row['parent_id'] > 0 ) 
 	{
@@ -557,11 +557,10 @@ class FUNC {
 		// querying upper forum
 		if ( $id != $current['id'] )
 		{
-			$DB->query("SELECT *
+			$main = $DB->get_row("SELECT *
 				    FROM ibf_forums
 				    WHERE id='".$id."'");
-
-			$main = $DB->fetch_row();
+                        
 		} else
 		{
 			$main = $current;
