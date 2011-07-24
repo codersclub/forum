@@ -461,6 +461,8 @@ var error_no_email      = "{$ibforums->lang['jscode_error_no_email']}"; //lang_p
 var error_no_email_name = "{$ibforums->lang['jscode_error_no_email_name']}"; //lang_post: Вы должны ввести имя";
 var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
 var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
+var upload_attach_too_big = "{$ibforums->lang['upload_to_big']}";
+var max_attach_size = {$ibforums->member['g_attach_max']};
 </script>
 
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js'></script>

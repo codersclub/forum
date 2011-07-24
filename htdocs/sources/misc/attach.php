@@ -66,6 +66,7 @@ class attach {
         	 */
         	if ( !$ibforums->topic_cache['tid'] )
         	{
+        		$post_id = $attach->postId() ?: $attach->itemId();
         		$DB->query("SELECT
         			f.id as fid,
         			f.parent_id as parent_id,
@@ -85,7 +86,7 @@ class attach {
 						ibf_posts p
 						
 				    WHERE p.forum_id = f.id 
-				    	AND p.pid = {$attach->postId()}
+				    	AND p.pid = {$post_id}
 				    	AND p.topic_id = t.tid
 					");
 
@@ -124,7 +125,7 @@ class attach {
 
         		if ( !$std->premod_rights($this->topic['starter_id'],
 	        		$this->mod[ $ibforums->member['id'] ]['topic_q'], // TODO: find where mod[]
-	        		&$this->topic['app']) )
+	        		$this->topic['app']) )
         		{
         			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
         		}

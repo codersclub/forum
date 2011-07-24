@@ -620,7 +620,7 @@ class UserCP {
  		
  		if ( USE_MODULES == 1 )
 		{
-			$this->modules->register_class(&$this);
+			$this->modules->register_class($this);
     		$this->modules->on_pass_change($ibforums->member['id'], $new_pass);
    		}
  		
@@ -804,7 +804,7 @@ class UserCP {
  		
  		if ( USE_MODULES == 1 )
 		{
-			$this->modules->register_class(&$this);
+			$this->modules->register_class($this);
     		$this->modules->on_email_change($ibforums->member['id'], $email_one);
    		}
 		

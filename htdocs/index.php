@@ -42,7 +42,6 @@ define ( 'USE_MODULES', 1 );
  
 error_reporting  (E_ERROR | E_WARNING | E_PARSE);
 //error_reporting  (E_ALL);
-set_magic_quotes_runtime(0);
 require_once './autoload.php';
 
 class Debug {

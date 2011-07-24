@@ -51,14 +51,14 @@ class post_functions extends Post {
 		// Is it legitimate?
 		if ( !$this->topic['tid'] ) 
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}
 
 		// Song * Old Topics Flood, 15.03.05
 
 		if ( $std->user_reply_flood($this->topic['start_date']) )
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}		
 
 
@@ -115,7 +115,7 @@ class post_functions extends Post {
 	
 
 	//------------------------------
-	function process($class) {
+	function process(Post $class) {
 	
 		global $ibforums, $std, $DB, $print;
 		
@@ -139,21 +139,21 @@ class post_functions extends Post {
 	
 	
 	//------------------------------
-	function add_reply($class) {
+	function add_reply(Post $class) {
 		
 		global $ibforums, $std, $DB, $print, $sess;
 		
 		//-------------------------------------------------
 		// Update the post info with the upload array info
 		//-------------------------------------------------
-		/*
-		$this->post['attach_id']   = $this->upload['attach_id'];
-		$this->post['attach_type'] = $this->upload['attach_type'];
-		$this->post['attach_hits'] = $this->upload['attach_hits'];
-		$this->post['attach_file'] = $this->upload['attach_file'];
-		*/
 		$this->post['attach_exists'] = is_array($this->upload) ? (bool)count($this->upload) : false;
 		
+		$draft = TopicDraft::getDraft( $this->topic['tid'] );
+		if ($draft) {
+			$attachments = $draft->getAttachments();
+		} else {
+			$attachments = array();
+		}
 		//-------------------------------------------------
 		// Insert the post into the database to get the
 		// last inserted value of the auto_increment field
@@ -266,7 +266,8 @@ class post_functions extends Post {
 
 		if ( !$this->post['delete_after'] and
 		     !$this->post['attach_exists'] and
-		     !$std->mod_tag_exists($this->post['post'], 1) )
+		     !$std->mod_tag_exists($this->post['post'], 1) and 
+		     !$attachments )
 		{
 			$DB->query("SELECT
 					pid,
@@ -329,7 +330,6 @@ class post_functions extends Post {
 						  $this->post['post'];
 						unset($lang);
 						
-						// добавить операцию "склеивания постов" в историю
         				PostEditHistory::addItem($lastpost['pid'], $lastpost['post']);
         				
 						// update forum properties
@@ -360,11 +360,6 @@ class post_functions extends Post {
 							$class->forum['id'],
 							$this->post['post']);
 	
-
-
-
-
-
 
 
 						// Song * club tool
@@ -452,35 +447,33 @@ class post_functions extends Post {
 		
 		$this->post['pid'] = $DB->get_insert_id();
 		
-		$attach_append = "\n";
-		
-		if ($this->post['attach_exists']) {
-			foreach($this->upload as $i => $attach) {
-				($attach instanceof Attach2);
-				
-				$attach->setPostId($this->post['pid']);
-				
-				$array = $attach->saveToDB();
-				
-				unset($array['attach_id']); // because it is not exists yet, see below
-				
-				if (strpos($this->post['post'], "[attach=#{$i}]") !== false) {
-					$this->post['post'] = str_replace("[attach=#{$i}]", "[attach=".$attach->attachId()."]", $this->post['post']);
-				} else {
-					$attach_append .= "\n[attach={$attach->attachId()}][/attach]";
+		if ($draft) {
+			if ($attachments) {
+				foreach($attachments as $a) {
+					$a->moveTo( $this->post['pid'], Attach2::ITEM_TYPE_POST );
 				}
-								
+				
+				$db_string = $DB->compile_db_update_string(array('attach_exists' => 1));
+				$DB->query("UPDATE ibf_posts
+					    SET
+						$db_string
+					    WHERE pid='{$this->post['pid']}'");
+				
 			}
-			
-			$db_string = $DB->compile_db_update_string(array('post' => $this->post['post'].$attach_append));
+			$draft->delete();
+		}
+		
+		if ( $this->post['attach_exists'] ) {
+
+			$class->replace_attachments_tags( $this->post['post'], $this->upload, $this->post['pid'] );
+
+			$db_string = $DB->compile_db_update_string(array('post' => $this->post['post']));
 			$DB->query("UPDATE ibf_posts
 				    SET
 					$db_string
 				    WHERE pid='{$this->post['pid']}'");
 		}
 		
-
-
 
 
 
@@ -496,10 +489,6 @@ class post_functions extends Post {
 				$class->forum['id'],
 				$this->post['post']);
 	
-
-
-
-
 
 
 		if ( $class->obj['moderate'] == 1 or $class->obj['moderate'] == 3 )
@@ -639,7 +628,7 @@ class post_functions extends Post {
 						
 						if ( USE_MODULES == 1 )
 						{
-							$class->modules->register_class(&$class);
+							$class->modules->register_class($class);
 							$class->modules->on_group_change($ibforums->member['id'], $gid);
 						}
 					}
@@ -731,7 +720,7 @@ class post_functions extends Post {
 	}
 
 	//-------------------------------
-	function show_form($class) {
+	function show_form(Post $class) {
 	
 		global $ibforums, $std, $DB, $print;
 		
@@ -762,6 +751,36 @@ class post_functions extends Post {
 		
 		if ( $class->obj['preview_post'] )
 		{
+			$attach_exists = is_array($this->upload) ? (bool)count($this->upload) : false;
+
+			$draft = TopicDraft::createDraft( $this->topic['tid'], $this->post['post'] );
+			
+			if ( $attach_exists ) {
+				$class->replace_attachments_tags( $raw_post, $this->upload, $draft->id(), 'topic_draft' );
+				$draft->setText( $raw_post );
+				$draft->save();
+			}
+			
+			$this->upload = array_merge($this->upload ?: array(), $draft->getAttachments());
+			
+			if ( $this->upload ) {
+				$class->process_edituploads( $this->upload, Attach2::ITEM_TYPE_TOPIC_DRAFT );
+			}
+			
+		} else {
+			
+			$draft = TopicDraft::getDraft( $this->topic['tid'] );
+			
+			if ($draft) {
+				$raw_post = $draft->text();
+				$this->upload = array_merge($this->upload, $draft->getAttachments());
+			}
+			
+		}
+		
+		if ( $draft ) {
+			$this->post['post'] = $raw_post;
+			
 			$this->post['post'] = $class->parser->post_db_parse(
 					     $class->parser->prepare( array(
 						 'TEXT'    => $this->post['post'],
@@ -770,8 +789,8 @@ class post_functions extends Post {
 						 'HTML'    => $class->forum['use_html']
      						)      ) ,
 					     $class->forum['use_html'] AND $ibforums->member['g_dohtml'] ? 1 : 0);
-
-			$class->output .= $class->html->preview( $this->post['post'] );
+			
+			$class->output .= $class->html->preview( $this->post['post'], $class->upload_errors );
 		}
 		
 		$class->check_upload_ability();
@@ -811,9 +830,17 @@ class post_functions extends Post {
 		
 		$post_icons  = $class->html_post_icons();
 		
-		if ($class->obj['can_upload'])
-		{
-			$upload_field = $class->html->Upload_field( $std->size_format( $ibforums->member['g_attach_max'] * 1024 ) );
+		
+		if ( $class->obj['can_upload'] ) {
+			
+			if ( $this->upload ) {
+				$upload_field .= $class->html->edit_upload_field( 
+					$std->size_format( $ibforums->member['g_attach_max'] * 1024 ),
+					$this->upload );
+				
+			} else {
+				$upload_field = $class->html->Upload_field( $std->size_format( $ibforums->member['g_attach_max'] * 1024 ) );
+			}
 		}
 		
 		//---------------------------------------

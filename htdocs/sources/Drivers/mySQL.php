@@ -533,7 +533,34 @@ class db_driver {
 			
 	}
 	
-
+	/**
+	* выполняет запрос replace into table...
+	*
+	* @param array $fields
+	* 		типа field => value
+	* @param string $table
+	*/
+	function do_replace_query(array $fields, $table, $bypass=0, $fatal = 1)
+	{
+	
+		$field_values = array_map(array($this,'quote'), $fields);
+			
+		$query = "REPLACE INTO $table (`"
+	
+		. implode('`, `', array_keys($fields))
+	
+		. "`) VALUES ('"
+					
+		. implode("', '", $field_values)
+	
+		."')"
+		;
+	
+		return $this->query($query, $bypass, $fatal);
+			
+	}
+	
+	
 } // end class
 
 

@@ -1315,7 +1315,7 @@ class usercp_functions {
  		if ( USE_MODULES == 1 )
 		{
 			$set['id'] = $ibforums->member['id'];
-			$this->class->modules->register_class(&$this);
+			$this->class->modules->register_class($this);
 	    		$this->class->modules->on_profile_update($set, $custom_fields);
    		}
 		

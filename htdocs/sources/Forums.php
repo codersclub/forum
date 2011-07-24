@@ -244,7 +244,7 @@ class Forums {
 		// Song * forum filter + endless forums, 20.12.04
 	
 		// build structure of forums + combobox for filter
-		$this->forums_id = $std->forums_array($this->main_id, $this->forum, &$this->forums, &$this->children, &$this->forums_list);
+		$this->forums_id = $std->forums_array($this->main_id, $this->forum, $this->forums, $this->children, $this->forums_list);
 
 		// user board layout, fill only for filter, for mode "all visible forums"
 		if ( count($this->forums_id) > 0 and $ibforums->member['show_filter'] and $this->mode_id == -1 )
@@ -319,7 +319,7 @@ class Forums {
     
 	// Song * forum filter + endless forums, 29.12.04
 
-	function add_to_array($result, $id) {
+	function add_to_array(&$result, $id) {
 
 	if ( !isset($this->see[ $id ]) or $this->see[ $id ] == 1 ) 
 	{
@@ -328,7 +328,7 @@ class Forums {
 
 	}
 
-	function add_sub_ids($result, $ids, $children, $id) {
+	function add_sub_ids($result, &$ids, $children, $id) {
 
 	if ( isset($children[ $id ]) and count($children[ $id ] ) > 0 ) 
 	{
@@ -336,9 +336,9 @@ class Forums {
 		{
 			$ids[] = $child['id'];
 
-			$this->add_to_array(&$result, $child['id']);
+			$this->add_to_array($result, $child['id']);
 
-        		$result = $this->add_sub_ids($result, &$ids, $children, $child['id']);
+        		$result = $this->add_sub_ids($result, $ids, $children, $child['id']);
 		}
 	}
 
@@ -370,10 +370,10 @@ class Forums {
 
 	// add current forum
 	$all[] = $id;
-	$this->add_to_array(&$ids, $id);
+	$this->add_to_array($ids, $id);
 
 	// add children of current forum
-     	$ids = $this->add_sub_ids($ids, &$all, $this->children, $id);
+     	$ids = $this->add_sub_ids($ids, $all, $this->children, $id);
 
 	// count of returned forums
 	$count = count($ids);
@@ -1091,7 +1091,7 @@ class Forums {
 
 			// Song * premoderation, 16.03.05
 
-			if ( !$topic['approved'] and !$std->premod_rights($topic['starter_id'], $this->mods[ $this->forum['id'] ][ $ibforums->member['id'] ]['topic_q'], &$topic['app']) )
+			if ( !$topic['approved'] and !$std->premod_rights($topic['starter_id'], $this->mods[ $this->forum['id'] ][ $ibforums->member['id'] ]['topic_q'], $topic['app']) )
 			{
 				continue;
 			}

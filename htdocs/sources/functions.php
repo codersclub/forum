@@ -233,7 +233,7 @@ class FUNC {
 
 	// Song * premoderation, 16.03.05
 
-	function premod_rights($mid, $queued = 0, $resolve = 0) {
+	function premod_rights($mid, $queued = 0, &$resolve = 0) {
 	global $ibforums;
 
 	$resolve = 0;
@@ -547,7 +547,7 @@ class FUNC {
 
 	}
 
-	function forums_array( $id, $current, $forums, $children, $forums_list = array() ) {
+	function forums_array( $id, $current, &$forums, &$children, &$forums_list = array() ) {
 	global $DB;
 
 	$result = array();
@@ -583,13 +583,13 @@ class FUNC {
 			if ( $DB->get_num_rows() > 0 )
 			{
 				// at first include upper forum
-				$this->fill_array($main, &$forums, &$children, &$forums_list);
+				$this->fill_array($main, $forums, $children, $forums_list);
 
 				// collect parent forums
 				while ( $row = $DB->fetch_row() ) if ( $this->check_forum($row) )
 				{
 					// check rights
-					$this->fill_array($row, &$forums, &$children, &$forums_list);
+					$this->fill_array($row, $forums, $children, $forums_list);
 				}
 			}
 

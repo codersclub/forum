@@ -777,7 +777,7 @@ class session {
 							post_date<".$time."-60*60*24*7");
 
 					  // clear attachments
-					  $this->clear_posts(&$topics, &$forums);
+					  $this->clear_posts($topics, $forums);
 					  
 					  // querying data for topics and forums recount
 					  $DB->query("SELECT attach_id, topic_id, forum_id FROM ibf_posts 
@@ -787,7 +787,7 @@ class session {
 							edit_time<".$time."-60*60*24*180");
 
 					  // clear attachments
-					  $this->clear_posts(&$topics, &$forums);
+					  $this->clear_posts($topics, $forums);
 					  
 					  // delete moderatorial posts
 					  $DB->query("DELETE
@@ -815,7 +815,7 @@ class session {
 							delete_after<".$time);
 
 					  // clear attachments
-					  $this->clear_posts(&$topics, &$forums);
+					  $this->clear_posts($topics, $forums);
 
 					  // delete delayed posts
 					  $DB->query("DELETE FROM ibf_posts
@@ -990,7 +990,7 @@ class session {
 	// Song * topic and forum recount within deleting of moderatorial posts, 15.02.05
 
 	//---------------------------------------------------
-	function clear_posts($topics, $forums) {
+	function clear_posts(&$topics, &$forums) {
 	global $ibforums, $DB;
 
 	while ( $row = $DB->fetch_row() )

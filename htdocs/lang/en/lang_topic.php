@@ -129,4 +129,5 @@ $lang['topic_decided_2']  = "If you have got an answer on your topic question, p
 $lang['mod_del']  = "Decline by moderator";
 $lang['del_by_user']  = "Deleted by author";
 $lang['permited_by']  = "A message declined: <b>%s</b> - %s";
+$lang['topic_draft']  = "Draft";
 

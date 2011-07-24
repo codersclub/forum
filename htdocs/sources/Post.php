@@ -45,6 +45,7 @@ class Post {
     var $module     = "";
     var $act	    = array();
     var	$nav_extra  = array();
+	public $upload_errors = array();
 
 
     //-------------------------------------------------------
@@ -118,8 +119,9 @@ class Post {
 	// Compile the language file
 	//--------------------------------------
 		
-        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_post',  $ibforums->lang_id);
         $ibforums->lang = $std->load_words($ibforums->lang, 'lang_topic', $ibforums->lang_id);
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_error', $ibforums->lang_id);
         
         $this->html     = $std->load_template('skin_post');
         
@@ -524,8 +526,6 @@ class Post {
    			'01'  => array( '1'  , 'new_post'     ),
   			'02'  => array( '0'  , 'reply_post'   ),
 			'03'  => array( '1'  , 'reply_post'   ),
-			'06'  => array( '0'  , 'q_reply_post' ),
-			'07'  => array( '1'  , 'q_reply_post' ),
 			'08'  => array( '0'  , 'edit_post'    ),
 			'09'  => array( '1'  , 'edit_post'    ),
 			'10'  => array( '0'  , 'poll'         ),
@@ -550,7 +550,7 @@ class Post {
         
         require ROOT_PATH."/sources/lib/post_".$this->act[1].".php";
         
-        $post_functions = new post_functions(&$this);
+        $post_functions = new post_functions($this);
         
         // If the first CODE array bit is set to "0" - show the relevant form.
         // If it's set to "1" process the input.
@@ -621,10 +621,10 @@ class Post {
         	
         	//----------------------------------
        
-        	$post_functions->process(&$this);
+        	$post_functions->process($this);
 
 	} else {
-		$post_functions->show_form(&$this);
+		$post_functions->show_form($this);
 	}
 
 	}
@@ -903,14 +903,14 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		{
 			if ( !$_POST['preview'] )
 			{
-				$std->Error( array( LEVEL => 1,
-						    MSG => 'no_post') );
+				$std->Error( array( 'LEVEL' => 1,
+						    'MSG' => 'no_post') );
 			}
 		}
 		
 		if ( strlen( $_POST['Post'] ) > ($ibforums->vars['max_post_length']*1024) )
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'post_too_long') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'post_too_long') );
 		}
 		
 		$convert = $this->parser->convert( 
@@ -939,9 +939,6 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 				'forum_id'    => $this->forum['id'],
 				'topic_id'    => 0,
 				'queued'      => ( $this->obj['moderate'] == 1 || $this->obj['moderate'] == 3 ) ? 1 : 0,
-				'attach_id'   => 0,
-				'attach_hits' => 0,
-				'attach_type' => "",
 				// negram: autodelete only on new post, not when edit
 				'delete_after'=> $std->delayed_time($convert, $this->forum['days_off'], 0, $this->moderator, $is_new_post),
 				 );
@@ -971,41 +968,20 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		//-------------------------------------------------
 		$attachments = array();
 		if (!isset($_FILES['FILE_UPLOAD']['name'])) {
-			
+			// nothing is uploaded 
 			return false;
 		}
 		foreach($_FILES['FILE_UPLOAD']['name'] as $i => $name ) {
-			$a = Attach2::createFromPOST('FILE_UPLOAD', $i);
+			$error = '';
+			$a = Attach2::createFromPOST('FILE_UPLOAD', $i, $error);
 			
 			if ($a) {
-				
 				$attachments[$i] = $a;
+			} elseif ($error) {
+				$this->upload_errors[] = $error;
 			}
 		}
 		
-		/*
-		$FILE_NAME = $_FILES['FILE_UPLOAD']['name'];
-		$FILE_SIZE = $_FILES['FILE_UPLOAD']['size'];
-		$FILE_TYPE = $_FILES['FILE_UPLOAD']['type'];
-		$FILE_ERROR = $_FILES['FILE_UPLOAD']['error'];
-		
-		// Naughty Opera adds the filename on the end of the
-		// mime type - we don't want this.
-		
-		$FILE_TYPE = preg_replace( "/^(.+?);.*$/", "\\1", $FILE_TYPE );
-		*/
-		// Barazuk MIME patch
-		/*
-		if($FILE_TYPE == "application/octet-stream" ||
-		   $FILE_TYPE == "unknown/unknown" ) {
-		  	$FILE_TYPE = detect_mime_type($_FILES['FILE_UPLOAD']['tmp_name']);
-		   }
-		*/
-		/*
-		if ( ! mime_type_is_allowed($FILE_TYPE) ) {
-			$FILE_TYPE = detect_mime_type($_FILES['FILE_UPLOAD']['tmp_name']);
-		}
-		*/
 		$attach_data = array(
 				'attach_id'   => 0,
 				'attach_hits' => 0,
@@ -1022,13 +998,8 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		// I love universal languages that aren't universal.
 		
 		if (count($attachments) == 0) {
-			return false;//$attach_data;
+			return false;
 		}
-		/*
-		if ($_FILES['FILE_UPLOAD']['name'] == ""
-		   or !$_FILES['FILE_UPLOAD']['name']
-		   or ($_FILES['FILE_UPLOAD']['name'] == "none") ) return $attach_data;
-		*/
 		//-------------------------------------------------
 		// Return empty handed if we don't have permission to use
 		// uploads
@@ -1036,31 +1007,37 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		
 		if ( ($this->can_upload != 1)
 		 and ($ibforums->member['g_attach_max'] < 1) ) {
-		 	return false;//$attach_data;
+			$this->upload_errors[] = 'You can not use uploads';
+		 	return false;
 		 }
 		
 		//-------------------------------------------------
 		// Load our mime types config file.
 		//-------------------------------------------------
-		
-		// require "./conf_mime_types.php";
-		
-		
 		foreach($attachments as $i => $a) {
 			
 			($a instanceof Attach2); // for code completer :)
 			
+			//-------------------------------------------------
+			// Are we allowing this type of file?
+			//-------------------------------------------------
 			if (!$a->haveAllowedType()) {
 				$a->setType($a->detectType());
 			}
 			if (!$a->haveAllowedType()) {
-				$this->obj['post_errors'] = 'invalid_mime_type';
-				return false;
+				$this->upload_errors[] = $ibforums->lang['invalid_mime_type'];
+				unset($attachments[$i]);
+				continue;
 			}
 			
+			//-------------------------------------------------
+			// Check the file size
+			//-------------------------------------------------
+			
 			if ($a->size() > ($ibforums->member['g_attach_max']*1024)) {
-				$std->Error( array( LEVEL => 1, MSG => 'upload_to_big') );
-				return false;
+				$this->upload_errors[] = $ibforums->lang['upload_to_big'];
+				unset($attachments[$i]);
+				continue;
 			}
 			
 			$name = trim($a->filename());
@@ -1081,80 +1058,6 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 				$a->setType('text/plain');
 			}
 		}
-		//-------------------------------------------------
-		// Check the file size
-		//-------------------------------------------------
-		/*
-		if ($FILE_ERROR || ($FILE_SIZE > ($ibforums->member['g_attach_max']*1024)))
-		{
-			$std->Error( array( LEVEL => 1, MSG => 'upload_to_big') );
-		}
-		*/
-		
-		//-------------------------------------------------
-		// Are we allowing this type of file?
-		//-------------------------------------------------
-		
-		//-------------------------------------------------
-		// Make the uploaded file safe
-		//-------------------------------------------------
-		/*
-		$FILE_NAME = trim($FILE_NAME);
-		$FILE_NAME = preg_replace( "/[^\w\.]/", "_", $FILE_NAME );
-		
-		$real_file_name = "post-".$this->forum['id']."-".time();  // Note the lack of extension!
-		
-		if (preg_match( "/\.(cgi|pl|js|asp|php|html|htm|jsp|jar)/", $FILE_NAME ))
-		{
-			$FILE_TYPE = 'text/plain';
-		}
-		*/
-		//-------------------------------------------------
-		// Add on the extension...
-		//-------------------------------------------------
-		/*
-		$ext = '.ibf';
-		
-		switch($FILE_TYPE)
-		{
-			case 'image/gif':
-				$ext = '.gif';
-				break;
-			case 'image/jpeg':
-				$ext = '.jpg';
-				break;
-			case 'image/pjpeg':
-				$ext = '.jpg';
-				break;
-			case 'image/x-png':
-				$ext = '.png';
-				break;
-			default:
-				$ext = '.ibf';
-				break;
-		}
-		*/
-		/*
-		$real_file_name .= $ext;
-		
-		if ( ! mime_type_is_allowed($FILE_TYPE) )
-		{
-			$this->upload_log_typefails($real_file_name);
-			$this->obj['post_errors'] = 'invalid_mime_type';
-			return $attach_data;
-		}
-		*/
-		//-------------------------------------------------
-		// If we are previewing the post, we don't want to
-		// add the attachment to the database, so we return
-		// the array with the filename. We would have returned
-		// earlier if there was an error
-		//-------------------------------------------------
-		
-		if ($this->obj['preview_post'])
-		{
-			return $attachments; //array( 'FILE_NAME' => $FILE_NAME );
-		}
 		
 		//-------------------------------------------------
 		// Copy the upload to the uploads directory
@@ -1164,38 +1067,98 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 			($a instanceof Attach2); // for code completer :)
 			
 			if (!$a->moveToUploadDirectory($ibforums->vars['upload_dir'])) {
-				$this->obj['post_errors'] = 'upload_failed';
-				return $attach_data;
+				$this->upload_errors[] = $ibforums->lang['upload_failed'];
+				continue;
 			}
 			chmod( $ibforums->vars['upload_dir']."/".$a->realFilename(), 0666 );
 		}
 		return $attachments;
-		/*
-		if (! @move_uploaded_file( $_FILES['FILE_UPLOAD']['tmp_name'], $ibforums->vars['upload_dir']."/".$real_file_name) )
-		{
-			$this->obj['post_errors'] = 'upload_failed';
-			return $attach_data;
-		}
-		else
-		{
-			@chmod( $ibforums->vars['upload_dir']."/".$real_file_name, 0777 );
-		}
-		*/
+	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param text &$post
+	 * 			текст поста, в котором производить замены.
+	 * 
+	 * @param array $attachments
+	 * 			массив аттачей, будут сохранены в БД, этой функцией
+	 * 
+	 * @param int $save_id
+	 * 			$save_id id элемента где аттачи должны храниться
+	 * 
+	 * @param string $save_to
+	 * 			тип элемента, где будет храниться: topic_draft, post
+	 */
+	function replace_attachments_tags(&$post, array $attachments, $save_id, $save_to = 'post') {
 		
-		//-------------------------------------------------
-		// set the array, and enter the info into the DB
-		// We don't have an extension on the file in the
-		// hope that it make it more difficult to execute
-		// a script on our server.
-		//-------------------------------------------------
-		/*
-		$attach_data['attach_id']   = $real_file_name;
-		$attach_data['attach_hits'] = 0;
-		$attach_data['attach_type'] = $FILE_TYPE;
-		$attach_data['attach_file'] = $FILE_NAME;
+		foreach($attachments as $i => $attach) {
+			
+			($attach instanceof Attach2);
 		
-		return $attach_data;
-		*/
+			$attach->setPostId( $save_id );
+		
+			$array = $attach->saveToDB($save_to);
+		
+			if (strpos($post, "[attach=#{$i}]") !== false) {
+				$post = str_replace("[attach=#{$i}]", "[attach=".$attach->attachId()."]", $post);
+			} else {
+				$attach_append .= "\n[attach={$attach->attachId()}][/attach]";
+			}
+		
+		}
+		$post .= $attach_append;
+	}
+
+	
+	function process_edituploads(array &$attachments, $delete_from = 'post') {
+		global $ibforums;
+		
+		$attachments = Attach2::reindexArray($attachments);
+		
+		$new_attachment_index = 0;
+		
+                !$ibforums->input['editupload'] && $ibforums->input['editupload'] = array();
+                
+		foreach($ibforums->input['editupload'] as $filename => $editupload) {
+		
+			$filename = intval($filename);
+		
+			if ($editupload == 'keep') {
+				; // nothing to do
+			} else {
+				if (isset($attachments[$filename])) {
+		
+					$attach = &$attachments[$filename];
+		
+					if ($editupload == 'new' && isset($new_attachments[$new_attachment_index])) {
+							
+						@unlink($ibforums->vars['upload_dir']."/".$attach->realFilename());
+							
+						$new_attach = $new_attachments[$new_attachment_index];
+						$new_attach->setPostId($this->orig_post['pid']);
+						$attach->acceptAttach($new_attach);
+						$attach->saveToDB();
+							
+						$attach_append .= "\n[attach={$attach->attachId()}][/attach]";
+							
+						unset($new_attachments[$new_attachment_index]);
+							
+						$new_attachment_index++;
+							
+					} elseif ($editupload == 'delete') {
+						
+						@unlink($ibforums->vars['upload_dir']."/".$attach->realFilename());
+							
+						$attach->delteFromDB( $delete_from );
+						; // file is alredy deleted
+						unset($attachments[$filename]);
+							
+					}
+				}
+			}
+		}
+		
 	}
 
 	/**

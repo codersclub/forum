@@ -343,7 +343,7 @@ class Login {
 
     		if ( USE_MODULES == 1 )
     		{
-    			$this->modules->register_class(&$this);
+    			$this->modules->register_class($this);
     			$this->modules->on_login($member);
     		}
 
@@ -449,7 +449,7 @@ class Login {
 
     		if ( USE_MODULES == 1 )
     		{
-    			$this->modules->register_class(&$this);
+    			$this->modules->register_class($this);
     			$this->modules->on_login($member);
     		}
 

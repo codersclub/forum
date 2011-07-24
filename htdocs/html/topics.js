@@ -119,61 +119,44 @@ function setPostHTML(i,h)
 function clearFirstUploadField() {
 	D.getElementById('first_upload_container').innerHTML = D.getElementById('first_upload_container').innerHTML;
 }
+function checkUploadSize(e) {
+	if (this.files && this.files[0].size) {
+		if ( this.files[0].size > (max_attach_size * 1024) ) {
+			// alert(upload_attach_too_big);
+			$(this).siblings('span').text(upload_attach_too_big);
+		} else {
+			$(this).siblings('span').text('');
+		}
+	}
+}
+function deleteUploadBox() {
+	$(this).parent().remove();
+}
+$(window).load(function() {
+	$('#first_upload_container input[type=file]').
+		change(checkUploadSize);
+});
 function addUpload()
 {
 	var number = 0;
 	addUpload = function () {
 		function do_add() {
-			var i = D.getElementById('upload_container');
-			this.br = D.createElement('br');
+			var cur_number = ++number;
+			var i = $('#upload_container');
+			var node = $('#first_upload_container').clone();
+			node.removeAttr('id');
+			node.children().removeAttr('onclick');
 			
-			this.minus = D.createElement('button');
-			this.minus.me = this;
-			this.minus.innerHTML = '-';
-
-			this.a = D.createElement('button');
-			this.a.innerHTML = "[attach]";
-			this.a.me = this;
+			node.children('[name=deleteBox]').click(deleteUploadBox);
+			node.children('[name=addTag]').click(function(){ tag_attach(cur_number) });
+			node.children('[type=file]')
+				.attr('name','FILE_UPLOAD[' + cur_number + ']' )
+				.change(checkUploadSize);
 			
-			var c = D.getElementById('first_upload_element').cloneNode(false);
-			c.id = c.id + number++;
-			c.name = 'FILE_UPLOAD[' + number + ']';
-			c.value = '';
-			this.number = number;
+			i.append(node);
 			
-			this.upload = c;
-			i.appendChild(this.br);
-			i.appendChild(c);
-			i.appendChild(this.minus);
-			i.appendChild(this.a);
-			
-			var del = function() {
-				var i = D.getElementById('upload_container');
-				i.removeChild(this.me.br);
-				i.removeChild(this.me.upload);
-				i.removeChild(this.me.minus);
-				i.removeChild(this.me.a);
-				delete this.me;
-				delete this;
-			};
-			var add_attach = function (event) {
-				tag_attach(this.me.number);
-				if (event.preventDefault) event.preventDefault()
-				if (event.stopPropagation) event.stopPropagation()
-				return false;
-			};
-			
-			
-			if (this.minus.addEventListener) {
-				 this.minus.addEventListener('click', del, false);
-				 this.a.addEventListener('click', add_attach, false);
-				 //this.a.onclick = "return false";
-			} else {
-				this.minus.onclick = del;
-				this.a.onclick = add_attach;
-			}
 		};
-		new do_add();
+		do_add();
 		
 	}
 	return addUpload();

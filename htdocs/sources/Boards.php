@@ -571,7 +571,7 @@ class Boards {
 		// Song * record of visit
 	
 		// today record
-		$this->get_record(&$stats, $members, $guests, $bots, &$query);
+		$this->get_record($stats, $members, $guests, $bots, $query);
 
 		if ( $query )
 		{
@@ -581,7 +581,7 @@ class Boards {
 		}
 
 		// yesterday record
-		$this->get_record(&$stats, $stat['members'], $stat['guests'], $stat['bots'], &$query, 1);
+		$this->get_record($stats, $stat['members'], $stat['guests'], $stat['bots'], $query, 1);
 
 		// Song * category record, 15.03.05
 
@@ -739,7 +739,7 @@ class Boards {
 
 
 	//----------------------------------------------------------
-	function get_record($stats, $members, $guests, $bots, $query, $daysdown = 0) {
+	function get_record(&$stats, $members, $guests, $bots, &$query, $daysdown = 0) {
 	global $std, $ibforums;
 
 	$query = "";

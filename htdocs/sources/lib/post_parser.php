@@ -75,6 +75,8 @@ class post_parser {
 	public $rss_mode	= false;
 	
 	public $attachments = array();
+	public $attachments_to_render = array();
+	
 	public $post_attachments = array();
 	public $siu_thumb = false;
 // ******************************************************************************
@@ -736,7 +738,7 @@ class post_parser {
 		
 		$attach = NULL;
 		if ($p == '') {
-			$attach = Attach2::getById($id);
+			$attach = $this->attachments_to_render[$id] ?: Attach2::getById($id);
 		} elseif($p == 'p') {
 			$qid = $DB->query("SELECT
 					pid,
@@ -801,7 +803,7 @@ class post_parser {
 					$img_size[1] <= $ibforums->vars['siu_height'] 
 					)
 				{
-					$text = "<span class='attach_preview'><p>{$text}:</p><br><img src='{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$attach->postId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$ibforums->lang['pic_attach_thumb']}'></span>";
+					$text = "<span class='attach_preview'><p>{$text}:</p><br><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$ibforums->lang['pic_attach_thumb']}'></span>";
 				} else {
 					$im = $std->scale_image( array(
 										'max_width'  => $ibforums->vars['siu_width'],
@@ -809,7 +811,7 @@ class post_parser {
 										'cur_width'  => $img_size[0],
 										'cur_height' => $img_size[1]
 					)      );
-					$text = "<span class='attach_preview'><p>{$text}:</p><br><a href='{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$attach->postId()}&amp;attach_id={$attach->attachId()}' title='{$alt}' target='_blank'><img src='{$ibforums->vars['upload_url']}/{$attach->realFilename()}' width='{$im['img_width']}' height='{$im['img_height']}' class='attach' alt='{$alt}'></a></span>";
+					$text = "<span class='attach_preview'><p>{$text}:</p><br><a href='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' title='{$alt}' target='_blank'><img src='{$ibforums->vars['upload_url']}/{$attach->realFilename()}' width='{$im['img_width']}' height='{$im['img_height']}' class='attach' alt='{$alt}'></a></span>";
 				}
 			} else {
 				
@@ -817,7 +819,7 @@ class post_parser {
 					$text = $ibforums->lang['pic_attach'];
 				}
 				
-				$text = "<span class='attach_preview'><p>{$text}:</p><img src='{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$attach->postId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$alt}'></span>";
+				$text = "<span class='attach_preview'><p>{$text}:</p><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$alt}'></span>";
 				
 			}
 		} else {
@@ -825,8 +827,8 @@ class post_parser {
 			!trim($text) && $text = $ibforums->lang['attached_file'];
 			
 			$text = "<strong><span class='edit'>{$text}:</strong> "
-				. "<a href='{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$attach->postId()}&amp;attach_id={$attach->attachId()}' "
-			 	. "title='{$ibforums->lang['attach_dl']}' target='_blank'>{$attach->getImageOfType()}</a>&nbsp;<a href='{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$attach->postId()}&amp;attach_id={$attach->attachId()}' title='{$ibforums->lang['attach_dl']}' target='_blank'>{$attach->filename()}</a>";
+				. "<a href='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' "
+			 	. "title='{$ibforums->lang['attach_dl']}' target='_blank'>{$attach->getImageOfType()}</a>&nbsp;<a href='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' title='{$ibforums->lang['attach_dl']}' target='_blank'>{$attach->filename()}</a>";
 			$text .= " ({$attach->sizeAsString()}, {$ibforums->lang['attach_hits']}: {$attach->hits()})";
 			$text .= "</span>";
 		}
@@ -967,7 +969,9 @@ class post_parser {
 	if ( !isset($in['TID']) ) $in['TID'] = 0;
 	if ( !isset($in['MID']) ) $in['MID'] = 0;
 	if ( !isset($in['HID']) ) $in['HID'] = -1;
-
+	
+	$this->attachments_to_render = isset($in['ATTACHMENTS']) ? Attach2::reindexArray( $in['ATTACHMENTS'] ) : array();
+	
 	$this->in_sig = $in['SIGNATURE'];
 	$txt = $in['TEXT'];
 

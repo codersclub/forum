@@ -6,6 +6,9 @@ require_once dirname(__FILE__).'/mimecrutch.php';
 if (!class_exists('Attach2')) {
 class Attach2 {
 	
+	const ITEM_TYPE_POST = 'post';
+	const ITEM_TYPE_TOPIC_DRAFT = 'topic_draft';
+	
 	protected $attach_id;
 	protected $type;
 	protected $filename;
@@ -14,8 +17,20 @@ class Attach2 {
 	protected $post_id;
 	protected $hits = 0;
 	
+	private $item_id;
+	private $item_type = self::ITEM_TYPE_POST;
+	
 	protected $realFilename;
 	
+	static $error_types = array( 
+			UPLOAD_ERR_INI_SIZE  => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.', 
+			UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.', 
+			UPLOAD_ERR_PARTIAL   => 'The uploaded file was only partially uploaded.', 
+			UPLOAD_ERR_NO_FILE   => 'No file was uploaded.', 
+			UPLOAD_ERR_NO_TMP_DIR=> 'Missing a temporary folder.', 
+			UPLOAD_ERR_CANT_WRITE=> 'Failed to write file to disk.', 
+			UPLOAD_ERR_EXTENSION => 'A PHP extension stopped the file upload.' 
+			);
 	/**
 	 * old attach system compatibility
 	 * @var array 
@@ -131,7 +146,17 @@ class Attach2 {
 		$this->attach_id = $arg;
 	}
 	
-	public static function createFromPOST($field_name, $index)
+	public function itemId()
+	{
+		return $this->item_id;
+	}
+	
+	public function itemType()
+	{
+		return $this->item_type;
+	}
+	
+	public static function createFromPOST($field_name, $index, &$error_message = -1)
 	{
 		if (!isset($_FILES[$field_name]['name'][$index])) {
 			return NULL;
@@ -140,6 +165,9 @@ class Attach2 {
 			return NULL;
 		}
 		if ($_FILES[$field_name]['error'][$index] != UPLOAD_ERR_OK) {
+			if ($error_message !== -1) {
+				$error_message = self::$error_types[ $_FILES[$field_name]['error'][$index] ];
+			}
 			return NULL;
 		}
 		
@@ -236,6 +264,8 @@ class Attach2 {
 		$a->attach_id	= $row['attach_id'];
 		$a->realFilename= $row['real_filename'];
 		
+		$a->item_id  = $row['item_id'] ?: $a->post_id; // bakward compatibility
+		$a->item_type= $row['item_type'] ?: self::ITEM_TYPE_POST;
 		
 		return $a;
 	}
@@ -259,16 +289,17 @@ class Attach2 {
 		return $result;
 	}
 	
-	public static function getPostAttachmentsList($post_id, $attach_id = NULL)
-	{
+	private static function getAttachmentsList($id, $attach_type = self::ITEM_TYPE_POST, $attach_id = NULL) {
+		
 		global $DB;
 		
-		settype($post_id, 'integer');
+		settype($id, 'integer');
 		
 		$query = "SELECT *
 		    FROM `ibf_post_attachments` a
 			INNER JOIN `ibf_attachments_link` al USING (`attach_id`)
-		    WHERE al.item_id=$post_id";
+		    WHERE al.item_id=$id AND al.item_type = '".$DB->quote( $attach_type ). "'";
+		
 		if ($attach_id !== NULL) {
 			settype($attach_id, 'integer');
 			$query .= " AND attach_id=$attach_id";
@@ -284,6 +315,15 @@ class Attach2 {
 		$DB->free_result($qid);
 		
 		return $result;
+	}
+	
+	public static function getPostAttachmentsList($post_id, $attach_id = NULL)
+	{
+		return self::getAttachmentsList($post_id, self::ITEM_TYPE_POST, $attach_id);
+	}
+	
+	public static function getTopicDraftAttachmentsList($draft_id) {
+		return self::getAttachmentsList($draft_id, self::ITEM_TYPE_TOPIC_DRAFT);		
 	}
 	
 	public static function getById($attach_id)
@@ -335,7 +375,7 @@ class Attach2 {
 		return $result;
 	}
 	
-	public function saveToDB()
+	public function saveToDB($save_to = 'post')
 	{
 		global $DB;
 		
@@ -344,6 +384,10 @@ class Attach2 {
 			
 			if (!$this->attach_id) {
 				unset($array['attach_id']); // because it is not exists yet, see below
+				
+				if ($save_to != 'post') {
+					unset($array['post_id']);
+				}
 				
 				$db_string = $DB->compile_db_insert_string( $array );
 				
@@ -354,11 +398,11 @@ class Attach2 {
 				
 				$this->setAttachId($DB->get_insert_id());
 				
-				if ($this->post_id) {
+				if ($this->post_id || $save_to != 'post') { // post - default value, for backward compatibility
 					
 					$array  = array(
 							'attach_id' => $this->attach_id,
-							'item_type' => 'post',
+							'item_type'      => $save_to /*'post'*/,
 							'item_id'   => $this->post_id
 						);
 						
@@ -384,6 +428,7 @@ class Attach2 {
 	
 	public function delteFromDB()
 	{
+		// TODO: сделать удаление только нужного объекта, а из ibf_attachments_link удалять только если не осталось ссылок в ibf_attachments_link
 		global $DB;
 		
 		if (!$this->from_post_row) {
@@ -419,11 +464,29 @@ class Attach2 {
 				$attach->delteFromDB();
 				if (is_file($ibforums->vars['upload_dir']."/".$attach->realFilename())) {
 					@unlink($ibforums->vars['upload_dir']."/".$row['attach_id']);
-					
 				}
 			}
 		}
 	} 
+	
+	function moveTo($id, $item_type) {
+		global $DB;
+		
+		$item_type = $DB->quote($item_type);
+		$id  = intval($id);
+		
+		$query = 
+		"UPDATE ibf_attachments_link 
+			SET item_type = '$item_type', item_id = $id 
+			WHERE attach_id = $this->attach_id 
+				AND item_type = '$this->item_type' 
+				AND item_id = $this->item_id";
+		
+		$DB->query($query);
+		
+		$this->item_id = $id;
+		$this->item_type = $item_type;
+	}
 	
 }
 

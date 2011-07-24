@@ -727,7 +727,7 @@ class ad_forums {
 		
 		if ( USE_MODULES == 1 )
 		{
-			$this->modules->register_class(&$this);
+			$this->modules->register_class($this);
 			$this->modules->on_name_change($mid, $new_name );
 		}
 		
@@ -920,7 +920,7 @@ class ad_forums {
 			
 			if ( USE_MODULES == 1 )
 			{
-				$this->modules->register_class(&$this);
+				$this->modules->register_class($this);
 				$this->modules->on_delete($ids);
 			}
 			
@@ -1747,7 +1747,7 @@ class ad_forums {
 		
 		if ( USE_MODULES == 1 )
 		{
-			$this->modules->register_class(&$this);
+			$this->modules->register_class($this);
 			$this->modules->on_delete($ids);
 		}
 		
@@ -1849,7 +1849,7 @@ class ad_forums {
 
 		if ( USE_MODULES == 1 )
 		{
-			$this->modules->register_class(&$this);
+			$this->modules->register_class($this);
 			$this->modules->on_delete($IN['MEMBER_ID']);
 		}
 		
@@ -3279,7 +3279,7 @@ class ad_forums {
 		
 		if ( USE_MODULES == 1 )
 		{
-			$this->modules->register_class(&$this);
+			$this->modules->register_class($this);
 			
 			if ( md5($IN['password']) != $memb['password'] )
 			{

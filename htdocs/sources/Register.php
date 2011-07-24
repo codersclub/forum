@@ -673,7 +673,7 @@ class Register {
 		
 		if ( USE_MODULES == 1 )
 		{
-			$this->modules->register_class(&$this);
+			$this->modules->register_class($this);
     		$this->modules->on_register_form();
    		}
    	}
@@ -1094,7 +1094,7 @@ class Register {
 	
 	if ( USE_MODULES == 1 )
 	{
-		$this->modules->register_class(&$this);
+		$this->modules->register_class($this);
 		$this->modules->on_create_account($member);
 	
 		if ( $this->modules->error == 1 ) return;
@@ -1648,7 +1648,7 @@ class Register {
 				
 				if ( USE_MODULES == 1 )
 				{
-					$this->modules->register_class(&$this);
+					$this->modules->register_class($this);
 					$this->modules->on_delete($mids);
 				}
 			}

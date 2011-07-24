@@ -53,7 +53,7 @@ class post_functions extends Post {
 
 	}
 	
-	function process($class) {
+	function process(Post $class) {
 	
 		global $ibforums, $std, $DB, $print;
 		
@@ -112,7 +112,7 @@ class post_functions extends Post {
 	
 
 	//---------------------------------
-	function add_new_topic($class) {
+	function add_new_topic(Post $class) {
 		
 		global $ibforums, $std, $DB, $print, $sess;
 		
@@ -282,12 +282,6 @@ class post_functions extends Post {
 		// Update the post info with the upload array info
 		//-------------------------------------------------
 		
-		/*
-		$this->post['attach_id']   = $this->upload['attach_id'];
-		$this->post['attach_type'] = $this->upload['attach_type'];
-		$this->post['attach_hits'] = $this->upload['attach_hits'];
-		$this->post['attach_file'] = $this->upload['attach_file'];
-		*/
 		$this->post['attach_exists'] = is_array($this->upload) ? (bool)count($this->upload) : false;
    		$this->post['new_topic']   = 1;
 		
@@ -319,26 +313,13 @@ class post_functions extends Post {
 		$attach_append = "\n";
 		
 		if ($this->post['attach_exists']) {
-			foreach($this->upload as $i => $attach) {
-				($attach instanceof Attach2);
-				
-				$attach->setPostId($this->post['pid']);
-				
-				$attach->saveToDB();
-				
-				unset($array['attach_id']); // because it is not exists yet, see below
-				
-				if (strpos($this->post['post'], "[attach=#{$i}]") !== false) {
-					$this->post['post'] = str_replace("[attach=#{$i}]", "[attach=".$attach->attachId()."]", $this->post['post']);
-				} else {
-					$attach_append .= "\n[attach={$attach->attachId()}][/attach]";
-				}
-			}
+			
+			$class->replace_attachments_tags($this->post['post'], $this->upload, $this->post['pid']);
 			
 			/*
 			 * append post with [attach] tags. One tag per attachment 
 			 */
-			$db_string = $DB->compile_db_update_string(array('post' => $this->post['post'].$attach_append));
+			$db_string = $DB->compile_db_update_string(array('post' => $this->post['post']));
 			$DB->query("UPDATE ibf_posts
 				    SET
 					$db_string
@@ -485,7 +466,7 @@ class post_functions extends Post {
 						
 						if ( USE_MODULES == 1 )
 						{
-							$class->modules->register_class(&$class);
+							$class->modules->register_class($class);
 							$class->modules->on_group_change($ibforums->member['id'], $gid);
 						}
 					}
@@ -555,7 +536,7 @@ class post_functions extends Post {
 
 
 	//----------------------------
-	function show_form(&$class) {
+	function show_form(Post $class) {
 	
 		global $ibforums, $std, $DB, $print;
 		
@@ -582,6 +563,16 @@ class post_functions extends Post {
 		
 		if ( $class->obj['preview_post'] )
 		{
+			$attach_exists = is_array($this->upload) ? (bool)count($this->upload) : false;
+
+			$draft = TopicDraft::createNewTopicDraft( $class->forum['id'], $topic_title, $topic_desc, $this->post['post'] );
+			
+			if ( $attach_exists ) {
+				$class->replace_attachments_tags( $raw_post, $this->upload, $draft->id(), 'topic_draft' );
+				$draft->setText( $raw_post );
+				$draft->save();
+			}
+			
 			$this->post['post'] = $class->parser->post_db_parse(
 						     $class->parser->prepare( array(
 						'TEXT'    => $this->post['post'],
@@ -590,8 +581,25 @@ class post_functions extends Post {
 			     			'HTML'    => $class->forum['use_html']
      						)      ) ,
 					      $class->forum['use_html'] AND $ibforums->member['g_dohtml'] ? 1 : 0 );
+			
+			$this->upload = array_merge($this->upload ?: array(), $draft->getAttachments());
+			
+			if ( $this->upload ) {
+				$class->process_edituploads( $this->upload, Attach2::ITEM_TYPE_TOPIC_DRAFT );
+			}
 
 			$class->output .= $class->html->preview( $this->post['post'] );
+		} else {
+			
+			$draft = TopicDraft::getNewTopicDraft( $class->forum['id'] );
+			
+			if ($draft) {
+				$raw_post = $draft->text();
+				$this->upload = array_merge($this->upload, $draft->getAttachments());
+                                $topic_title = $draft->topic_title();
+                                $topic_desc  = $draft->topic_description();
+			}
+			
 		}
 		
 		$class->check_upload_ability();

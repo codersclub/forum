@@ -213,7 +213,7 @@ class Topics {
 
 // Song * premoderation, 16.03.05
 
-		if ( $row['queued'] and !$std->premod_rights($row['author_id'], $this->mod[ $ibforums->member['id'] ]['post_q'], &$row['app']) ) {
+		if ( $row['queued'] and !$std->premod_rights($row['author_id'], $this->mod[ $ibforums->member['id'] ]['post_q'], $row['app']) ) {
 			continue;
 		}
 
@@ -260,7 +260,7 @@ class Topics {
 				$row['name_css'] = 'normalname';
 			} else {
 				$row['name_css'] = 'normalname';
-				$poster = $this->parse_member( &$row );
+				$poster = $this->parse_member( $row );
 
 				// Add it to the cached list
 				if ( !$row['use_sig'] ) $this->cached_members[ $row['author_id'] ] = $poster;
@@ -340,11 +340,14 @@ class Topics {
 		}
 
 
-
+		if ( ($row['attach_id'] or $row['attach_exists'])and !$row['use_sig'] ) {
+				
+			$attachments = Attach2::getPostAttachmentsFromRow($row);
+		}
 		//--------------------------------------------------------------
 
 		if ( !$row['use_sig'] ) {
-	                $data = array(  TEXT          => $row['post'],
+	                $data = array(  'TEXT'          => $row['post'],
 					'SMILIES'       => $row['use_emo'],
 					'CODE'          => 1,
 					'SIGNATURE'     => 0,
@@ -352,6 +355,7 @@ class Topics {
 					'HID'	      => $this->highlight,
 					'TID'	      => $this->topic['tid'],
 					'MID'	      => $row['author_id'],
+					'ATTACHMENTS' => $attachments
 				     );
 
 			$row['post'] = $this->parser->prepare($data);
@@ -780,6 +784,8 @@ class Topics {
         $ibforums->lang = $std->load_words($ibforums->lang, 'lang_topic', $ibforums->lang_id);
 
         $ibforums->lang = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
+        
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_error', $ibforums->lang_id);
 
         $this->html     = $std->load_template('skin_topic');
         
@@ -947,7 +953,7 @@ class Topics {
 
 		if ( !$std->premod_rights($this->topic['starter_id'],
 					  $this->mod[ $ibforums->member['id'] ]['topic_q'],
-					  &$this->topic['app']) )
+					  $this->topic['app']) )
 		{
 			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}
@@ -1315,7 +1321,7 @@ class Topics {
                                                   
 	if ( $this->forum['decided'] )
 	{
-		$this->decided_button(&$this->topic['SOLVE_UPPER_BUTTON'], &$this->topic['SOLVE_DOWN_BUTTON']);
+		$this->decided_button($this->topic['SOLVE_UPPER_BUTTON'], $this->topic['SOLVE_DOWN_BUTTON']);
 	}
 
 	if ( $this->topic['POLL_BUTTON'] and $this->topic['SOLVE_UPPER_BUTTON'] )
@@ -2199,7 +2205,7 @@ class Topics {
 
 
 	//---------------------------------------------------
-	function parse_member( $member = array() ) {
+	function parse_member( &$member = array() ) {
 	global $ibforums, $std, $DB;
 
 	if ( !$member['use_sig'] ) {	
@@ -2892,7 +2898,7 @@ class Topics {
 	//----------------------------------------------------
 	// Song * decided topics, 20.04.05
 
-	function decided_button($upper_button, $down_button) {
+	function decided_button(&$upper_button, &$down_button) {
 	global $ibforums;
 
 	$upper_button = "";
@@ -2980,8 +2986,15 @@ class Topics {
 			return "<{A_POLLONLY_B}> &middot;";
 		}
 		
-		return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=".$this->forum['id']."&amp;t=".$this->topic['tid']."'><{A_REPLY}></a> · ";
+		$reply_title = TopicDraft::draftExists($this->topic['tid']) ? $ibforums->lang['topic_draft'] : '<{A_REPLY}>';
+		
+		return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=".$this->forum['id']."&amp;t=".$this->topic['tid']."'>$reply_title</a> · ";
 	
+	}
+	
+	static function topic_has_draft($tid) {
+		global $ibforums, $std;
+		
 	}
 	
 

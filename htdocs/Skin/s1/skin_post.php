@@ -213,12 +213,14 @@ EOF;
 }
 
 
-function preview($data) {
+function preview($data, $upload_erros = '') {
 global $ibforums;
+$upload_erros = $this->upload_errors($upload_erros);
+// 
 return <<<EOF
-
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['post_preview']}</div>
+  $upload_erros
   <div class="row1" style="padding:6px"><div class='postcolor'>$data</div></div>
 </div>
 <br>
@@ -581,9 +583,9 @@ return <<<EOF
     <td class='pformleft'>{$ibforums->lang['upload_text']} $data</td>
     <td class='pformright'>
     <div id="upload_container">
-    <span id='first_upload_container'>
-    <input class='textinput' type='file' size='30' name='FILE_UPLOAD[0]' id='first_upload_element'><button type="buton" onclick='clearFirstUploadField()'>-</button><button type='button' onclick='tag_attach(0)'>[attach]</button>
-    </span>
+    <div id='first_upload_container'>
+    <input class='textinput' type='file' size='30' name='FILE_UPLOAD[0]' id='first_upload_element'><button type="button" onclick='clearFirstUploadField()' name='deleteBox'>-</button><button type='button' onclick='tag_attach(0)' name='addTag'>[attach]</button> <span></span>
+    </div>
     </div>
     <button onclick="addUpload()" type="button">{$ibforums->lang['upload_add_one_file']}</button>
     </td>
@@ -617,9 +619,7 @@ EOF;
 
 function postbox_buttons($data, $syntax_select = "", $mod_buttons = "", $topic_decided = "") {
 global $ibforums;
-//$ipicture = $ibforums->vars['use_ipicture_button']
-//	? "<a href='http://ipicture.ru/' target='ipicture' style='text-decoration:none' title='{$ibforums->lang['ipicture_title']}'><input type='button' value=' iPicture ' class='codebuttons' name='ipicture'></a>"
-//	: "";
+
 $ipicture = $ibforums->vars['use_ipicture_button']
 	? "<input type='button' value=' iPicture ' class='codebuttons' name='ipicture' title='{$ibforums->lang['ipicture_title']}' onclick='PopUp(\"http://ipicture.ru/\", \"iPicture\", 640,480,1,1,1)'>"
 	: "";
@@ -737,6 +737,19 @@ return <<<EOF
 </tr>
 
 EOF;
+}
+
+function upload_errors($errors) {
+global $ibforums;
+if (!$errors) return '';
+$errors = join('</li><li>', $errors);
+
+return <<<EOF
+<div class="pformstrip">{$ibforums->lang['upload_errors']}
+<ul><li>$errors</li></ul>
+</div>
+EOF;
+
 }
 
 

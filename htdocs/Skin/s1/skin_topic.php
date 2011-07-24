@@ -171,7 +171,6 @@ if ($post['use_sig'] == 1) {
 	$e_time = $std->get_date( $post['edit_time'] , 'LONG' );
 	$dtext = $ibforums->lang['del_by_user'].' - '.$e_time;
 }
-//var_dump($author['warn_text'],$post['ip_address']);die;
 return <<<EOF
 
     <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;' id='post_{$post["pid"]}'>

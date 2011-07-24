@@ -213,7 +213,7 @@ class post_functions extends Post {
 	}
 	
 	//------------------------------------------
-	function complete_edit($class) {
+	function complete_edit( Post $class ) {
 		
 		global $ibforums, $std, $DB, $print;
 		
@@ -321,16 +321,10 @@ class post_functions extends Post {
 		// Do we have to adjust the attachments?
 		$new_attachments = $class->process_upload();
 		
-		$attach_append = "";
-		
 		if ( $attachments = Attach2::getPostAttachmentsFromRow($this->orig_post) )
 		{
-			$attachments = Attach2::reindexArray($attachments);
-			
-			$new_attachment_index = 0;
-			
-			
-			foreach($ibforums->input['editupload'] as $filename => $editupload) {
+			$class->process_edituploads( $attachments );
+			/* foreach($ibforums->input['editupload'] as $filename => $editupload) {
 				
 				$filename = intval($filename);
 				
@@ -368,49 +362,8 @@ class post_functions extends Post {
 						}
 					}
 				}
-			}
-			/*
-			if ( isset($ibforums->input['editupload']) AND
-			     ($ibforums->input['editupload'] != 'keep') )
-			{
-				// We're either uploading a new attachment,
-				// or deleting one, so lets
-				// remove the old attachment first eh?
-				
-				if ( is_file($ibforums->vars['upload_dir']."/".$this->orig_post['attach_id']) )
-				{
-					@unlink($ibforums->vars['upload_dir']."/".$this->orig_post['attach_id']);
-				}
-
-				$this->post['attach_size'] = "";
-
-				if ( $ibforums->input['editupload'] == 'new' )
-				{
-					// w00t, we're uploading a new ..um.. upload
-
-					$new_upload = $class->process_upload();
-					
-					if ( $class->obj['post_errors'] ) $this->show_form($class);
-					   
-					$this->post['attach_id']   = $new_upload['attach_id'];
-					$this->post['attach_type'] = $new_upload['attach_type'];
-					$this->post['attach_hits'] = $new_upload['attach_hits'];
-					$this->post['attach_file'] = $new_upload['attach_file'];
-		
-				} elseif ( $ibforums->input['editupload'] == 'delete' )
-				{
-					// Simply remove the DB data as we've already removed the file
-					
-					$this->post['attach_id']   = "";
-					$this->post['attach_type'] = "";
-					$this->post['attach_hits'] = "";
-					$this->post['attach_file'] = "";
-				}
-			} else
-			{
-				// We are keeping the old attachment
-			}
-			*/
+			} */
+			
 			$this->post['attach_id']   = $this->orig_post['attach_id'];
 			$this->post['attach_type'] = $this->orig_post['attach_type'];
 			$this->post['attach_hits'] = $this->orig_post['attach_hits'];
@@ -418,25 +371,8 @@ class post_functions extends Post {
 		}
 		if ($new_attachments && count($new_attachments) > 0) {
 			
-			foreach($new_attachments as $i => $attach) {
-				
-				$attach->setPostId($this->orig_post['pid']);
-				$attach->saveToDB();
-				
-				$attachments[$i] = $attach;
-				
-				if (strpos($this->post['post'], "[attach=#{$i}]") !== false) {
-					$this->post['post'] = str_replace("[attach=#{$i}]", "[attach=".$attach->attachId()."]", $this->post['post']);
-				} else {
-					$attach_append .= "\n[attach={$attach->attachId()}][/attach]";
-				}
-								
-			}
+			$class->replace_attachments_tags($this->post['post'], $new_attachments, $this->orig_post['pid']);
 			
-		}
-		
-		if ($attach_append != '') {
-			$this->post['post'] .= "\n$attach_append";
 		}
 		
 		$this->post['attach_exists'] = (isset($attachments) and (bool)count($attachments));
