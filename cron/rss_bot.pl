@@ -1148,6 +1148,7 @@ sub rebuild_html
   $newpage=~s/<a[^>]*href=\s*[\"\']*([^\'\">]+)[\"\']*[^>]*>/[url=$1]/ig;	# <a> => [url]
   $newpage=~s/<\/a>/[\/url]/isg;		# <a> => [/url]
 # !!! DOES NOT WORK
+  $newpage=~s/src\=([\"\'])\s/src=${1}/ig;	# src=" http..."
   $newpage=~s/<img[^>]*src=["']([^"']+)["'][^>]*>/[img]${1}[\/img]/ig;	# <img> => [img][/img]	
 
 
