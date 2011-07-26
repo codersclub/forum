@@ -2902,6 +2902,7 @@ echo "-----------------<br>\n";
 	 
 	$this_dims = explode( "x", $avatar_dims );
 	if (!$this_dims[0]) $this_dims[0] = $davatar_dims[0];
+        if ($this_dims[0] > $davatar_dims[0]) $this_dims[0] = $davatar_dims[0];
 	if (!$this_dims[1]) $this_dims[1] = $davatar_dims[1];
 		
 	if ( preg_match( "/^http:\/\//", $member_avatar ) )

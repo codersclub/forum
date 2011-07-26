@@ -131,7 +131,7 @@ return <<<EOF
 
     <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;' id='post_{$post["pid"]}'>
     <tr>
-       <td valign='middle' class='row4' width='15%'>{$author['member_group_img']} <a name='entry{$post["pid"]}'></a><span class='{$post["name_css"]}'>{$author['name']}</span>{$author['online']}</td>
+       <td valign='middle' class='row4' width='140'>{$author['member_group_img']} <a name='entry{$post["pid"]}'></a><span class='{$post["name_css"]}'>{$author['name']}</span>{$author['online']}</td>
        <td class='row4' valign='top'>
         <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>{$post['checkbox']}
          {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']}</span></div>
