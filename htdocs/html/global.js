@@ -160,14 +160,14 @@ function syntax_numbering(el,tag_id)
 	 * отключаю нумерацию именно таким способом, ибо FF копирует "<li>трал€л€</li>" как "# трал€л€" вместо "трал€л€"
 	 */
 	if (hasClass(div, 'code_numbered')) {
-		div.innerHTML = div.innerHTML.replace(/<li>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>');
+		div.innerHTML = div.innerHTML.replace(/<li[^>]*>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>');
 		div.childNodes[0].childNodes[0].style.marginLeft = '0px';
 		div.childNodes[0].childNodes[0].style.paddingLeft = '0px';
 		div.numbered = false;
 		syntax_change_button('numbering', false, tag_id);
 		removeClass(div, 'code_numbered');
 	} else {
-		div.innerHTML = div.innerHTML.replace(/<div class="?code_line"?>/gi, '<li>').replace(/<\/div>/gi, '</li>');
+		div.innerHTML = div.innerHTML.replace(/<div[^>]* class="?code_line"?[^>]*>/gi, '<li>').replace(/<\/div>/gi, '</li>');
 		div.numbered = true;
 		div.childNodes[0].childNodes[0].style.marginLeft = '';
 		div.childNodes[0].childNodes[0].style.paddingLeft = '';
