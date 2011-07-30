@@ -252,7 +252,7 @@ foreach ($data as $history_item) {
   <tr>
   <th class="row4">{$history_item['time']} by {$history_item['member']}<br>Было (<a href="{$ibforums->base_url}act=Post&amp;CODE=08&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;restore_id={$history_item['id']}&amp;preview=1">восстановить</a>)
   </td>
-  <th valign="bottom" class="row4">Стало (<a href="javascript:PopUpCD('{$ibforums->base_url}act=Post&amp;CODE=16&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;st=0&amp;oldpost={$history_item['id']}','posts_compare','500','300','0','1','1','1','1')">отобразить изменения</a>)</td>
+  <th valign="bottom" class="row4">Стало (<a href="javascript:PopUpCD('{$ibforums->base_url}act=Post&amp;CODE=16&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;st=0&amp;oldpost={$history_item['id']}','500','300')">отобразить изменения</a>)</td>
   </tr>
 	<tr>
 	<td width="50%" valign="top" class="$class">{$history_item['old_text']}</td>

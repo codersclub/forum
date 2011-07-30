@@ -224,14 +224,13 @@ function PopUp(url, name, width,height,center,resize,scroll,posleft,postop) {
 	var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',left='+X+',resizable='+resize+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no');
 }
 
-function PopUpCD(url, name, d_width,d_height,center,resize1,scroll,posleft,postop) {
-
+function PopUpCD(url, d_width,d_height) {
+// First string will be used for title
     if (last=document.getElementById('dialog')) document.body.removeChild(last);
 
-    con = "<div style='margin-left:-110px; position:absolute;left:50%; top:50%; cursor:default'><img src='img/ajax-loader.gif'></div>";
     title = 'Загрузка...';
 
-    text = "<div id='dialog'><div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'>"+con+"</div></div></div></div>";
+    text = "<div id='dialog'><div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'></div></div></div></div>";
 
     document.body.innerHTML += text;
 
@@ -242,15 +241,15 @@ function PopUpCD(url, name, d_width,d_height,center,resize1,scroll,posleft,posto
       position: 'center',
       title_text: title,
       auto_open: true,
-      resize: resize1,
+      resize: true,
       pic_path: '/img/',
       has_buttons: true });
 
     
     $.get(url, function(data) {
 	    str = new String(data);
-	    con=str.substring(str.lastIndexOf('<body>')+6, str.indexOf('</body>'));
-	    title=str.substring(str.lastIndexOf('<title>')+7, str.indexOf('</title>')); 
+	    con=str.substring(str.indexOf('\n')+1);
+	    title=str.substring(0, str.indexOf('\n')); 
 	    $('#dialog').jqcd_set_caption(title);
 	    $('#dialog').jqcd_set_content(con);  
     });   

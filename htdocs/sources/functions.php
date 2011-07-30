@@ -4550,6 +4550,50 @@ if (
      }
 
     //-------------------------------------------
+    // print text only, 
+    // without css, title and initial tags
+    // macros are optional
+    //-------------------------------------------
+    function text_only($text = "", $macro=false) {
+    global $ibforums, $skin_universal, $DB;
+    
+      $html = $text;     
+
+      if ($macro) 
+      {
+	// Load Macro Values
+    	$TAGS = $DB->query("SELECT
+				macro_value,
+				macro_replace
+			    FROM ibf_macro
+			    WHERE macro_set='{$ibforums->skin['macro_id']}'");
+    	while ( $row = $DB->fetch_row($TAGS) )
+      	{
+		if ($row['macro_value'] != "")
+		{
+			$html = str_replace( "<{".$row['macro_value']."}>", $row['macro_replace'], $html );
+		}
+	}
+	$html = str_replace( "<#IMG_DIR#>", $ibforums->vars['img_url'], $html );
+      }
+
+    	$DB->close_db();
+
+    	if ( $ibforums->vars['disable_gzip'] != 1 )
+        {
+        	$buffer = ob_get_contents();
+        	ob_end_clean();
+        	ob_start('ob_gzhandler');
+        	print $buffer;
+        }
+
+        $this->do_headers();
+        
+    	echo ($html);
+    	exit;
+    } 
+
+    //-------------------------------------------
     // print a minimalist screen suitable for small
     // pop up windows
     //-------------------------------------------

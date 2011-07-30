@@ -574,7 +574,7 @@ class Profile {
     	$info['percent']     = $percent;
     	$info['group_title'] = $member['group_title'];
    	$mod_forums_count = $this->Mod_Forums_Count($member['id']);
-    	if ($mod_forums_count>0) $info['mod_forums']  = "$mod_forums_count <a href=\"javascript:PopUp('{$ibforums->base_url}act=Stats&CODE=oneleader&mid=".$member['id']."', 'forums', '500','400','0','1','1','1','1')\">".$ibforums->lang['rep_details']."</a>"; 
+    	if ($mod_forums_count>0) $info['mod_forums']  = "$mod_forums_count <a href=\"javascript:PopUpCD('{$ibforums->base_url}act=Stats&CODE=oneleader&mid=".$member['id']."','500','400')\">".$ibforums->lang['rep_details']."</a>"; 
         else if ($this->Mod_Forums_All($member['id'])>0) $info['mod_forums']  = $ibforums->lang['mod_all_forums'];
         else   $info['mod_forums']  = '';
     	$info['board_posts'] = $board_posts;

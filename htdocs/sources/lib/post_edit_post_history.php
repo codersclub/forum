@@ -237,7 +237,7 @@ class post_functions extends Post {
                              "<div style='background:#80FF80'>"," </div>","<div style='background:#FF8080'>"," </div>",""," \n", 
                              "<span style='background:#80FF80'>","</span>","<span style='background:#FF8080'>","</span>");
                   $view_post_text = $class->html->posts_comparison($view_post_text);
-                  $print->pop_up_window($ibforums->lang['post_comparison'], $view_post_text);
+                  $print->text_only($ibforums->lang['post_comparison']."\n".$view_post_text, true);
                 } else {
 		
 		$class->output .= $class->html->edit_history( $items, $this->orig_post['forum_id'], $this->orig_post['topic_id'], $this->orig_post['pid'] );

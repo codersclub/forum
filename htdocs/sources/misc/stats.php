@@ -585,7 +585,7 @@ class stats {
       $this->output .= $this->html->close_strip();    
     }
     	
-      $print->pop_up_window( $ibforums->lang['leader_forums'], $this->output );
+      $print->text_only($ibforums->lang['leader_forums']."\n".$this->output, true);
  	    $this->output = '';
   }
 	
