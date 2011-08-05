@@ -92,7 +92,7 @@ class ad_settings {
 	
 	function export()
 	{
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 		
 		if ($IN['id'] == "")
 		{
@@ -217,9 +217,10 @@ class ad_settings {
 		//+-------------------------------
 		// Make the css file...
 		//+-------------------------------
+		$css_text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$row['css_id']}.css");
 		
 		$FH = fopen($archive_dir."/".$new_dir."/".$css_name, 'w');
-		fwrite($FH, $css['css_text'], strlen($css['css_text']));
+		fwrite($FH, $css_text, strlen($css_text));
 		fclose($FH);
 		
 		@chmod($archive_dir."/".$new_dir."/".$css_name, 0777);

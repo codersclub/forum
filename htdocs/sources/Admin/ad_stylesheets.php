@@ -119,7 +119,7 @@ class ad_settings {
 	//+-------------------------------
 
 	function do_resynch() {
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
 		//+-------------------------------
 
@@ -129,7 +129,7 @@ class ad_settings {
 
 		//+-------------------------------
 
-		$DB->query("SELECT cssid, css_text, css_name, css_comments FROM ibf_css WHERE cssid='".$IN['id']."'");
+		$DB->query("SELECT cssid, css_name, css_comments FROM ibf_css WHERE cssid='".$IN['id']."'");
 
 		if ( ! $cssinfo = $DB->fetch_row() ) {
 			$ADMIN->error("Could not query the CSS details from the database");
@@ -145,15 +145,15 @@ class ad_settings {
 			} else {
 				$ADMIN->error("Could not locate cached CSS file @ $cache_file");
 			}
+			file_put_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css", $cache_data);
 
-			$dbr = $DB->compile_db_update_string( array( 'css_text' => $cache_data ) );
-
-			$DB->query("UPDATE ibf_css SET $dbr WHERE cssid='".$IN['id']."'");
 		} else {
 			$cache_file = ROOT_PATH."css/css_".$IN['id'].".css";
 
+			$css_text = file_put_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
+			
 			$FH = fopen( $cache_file, 'w' );
-			fputs( $FH, $cssinfo['css_text'], strlen($cssinfo['css_text']) );
+			fputs( $FH, $css_text, strlen($css_text) );
 			fclose($FH);
 		}
 
@@ -296,7 +296,6 @@ class ad_settings {
 		if ($type == 'new') {
 			$dbs = $DB->compile_db_insert_string( array (
 						'css_name'     => $real_name,
-						'css_text'     => $css,
 						'css_comments' => $comments,
 						'updated'      => time(),
 							)       );
@@ -322,7 +321,7 @@ class ad_settings {
 	//----------------------------------------------------
 
 	function optimize() {
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
 		if ($IN['id'] == "") {
 			$ADMIN->error("You must specify an existing CSS ID, go back and try again");
@@ -337,10 +336,10 @@ class ad_settings {
 		}
 
 		//+-------------------------------
+		$css_text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
+		$orig_size = strlen($css_text);
 
-		$orig_size = strlen($row['css_text']);
-
-		$orig_text = str_replace( "\r\n", "\n", $row['css_text']);
+		$orig_text = str_replace( "\r\n", "\n", $css_text);
 		$orig_text = str_replace( "\r"  , "\n", $orig_text);
 		$orig_text = str_replace( "\n\n", "\n", $orig_text);
 
@@ -398,10 +397,7 @@ class ad_settings {
 		}
 
 		// Update the DB
-
-		$dbs = $DB->compile_db_update_string( array( 'css_text' => $final ) );
-
-		$DB->query("UPDATE ibf_css SET $dbs WHERE cssid='".$IN['id']."'");
+		file_put_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css", $final);
 
 		$saved    = $orig_size - $final_size;
 		$pc_saved = 0;
@@ -420,7 +416,7 @@ class ad_settings {
 	//----------------------------------------------------
 
 	function export() {
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
 		if ($IN['id'] == "") {
 			$ADMIN->error("You must specify an existing CSS ID, go back and try again");
@@ -441,7 +437,7 @@ class ad_settings {
 		@header("Content-type: unknown/unknown");
 		@header("Content-Disposition: attachment; filename=$name,{$row['cssid']}.css");
 
-		print $row['css_text'];
+		readfile($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
 
 		exit();
 
@@ -503,7 +499,6 @@ class ad_settings {
 		$css = stripslashes($_POST['css']);
 
 		$barney = array( 'css_name'     => stripslashes($_POST['name']),
-						'css_text'     => $css,
 						'updated'      => time(),
 					   );
 
@@ -608,7 +603,7 @@ class ad_settings {
 	
 	
 	function do_form( $type='add' ) {
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 		
 		//+-------------------------------
 		
@@ -618,7 +613,7 @@ class ad_settings {
 		
 		//+-------------------------------
 		
-		$DB->query("SELECT cssid, css_text, css_name, updated FROM ibf_css WHERE cssid='".$IN['id']."'");
+		$DB->query("SELECT cssid, css_name, updated FROM ibf_css WHERE cssid='".$IN['id']."'");
 		
 		if ( ! $cssinfo = $DB->fetch_row() ) {
 			$ADMIN->error("Could not query the CSS details from the database");
@@ -626,7 +621,7 @@ class ad_settings {
 		
 		//+-------------------------------
 		
-		$css = $cssinfo['css_text'];
+		$css = file_get_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
 		
 		if ($type == 'add') {
 			$code = 'doadd';
@@ -836,7 +831,7 @@ class ad_settings {
 	//-------------------------------------------------------------
 
 	function colouredit() {
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
 		//+-------------------------------
 
@@ -846,13 +841,13 @@ class ad_settings {
 
 		//+-------------------------------
 
-		$DB->query("SELECT cssid, css_text, css_name, updated FROM ibf_css WHERE cssid='".$IN['id']."'");
+		$DB->query("SELECT cssid, css_name, updated FROM ibf_css WHERE cssid='".$IN['id']."'");
 
 		if ( ! $cssinfo = $DB->fetch_row() ) {
 			$ADMIN->error("Could not query the CSS details from the database");
 		}
 
-		$css = $cssinfo['css_text'];
+		$css = file_get_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
 
 		//+-------------------------------
 		// DB same as cache version?
@@ -1014,7 +1009,7 @@ class ad_settings {
 	//-------------------------------------------------------------
 
 	function do_colouredit() {
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
 		//+-------------------------------
 
@@ -1024,13 +1019,13 @@ class ad_settings {
 
 		//+-------------------------------
 
-		$DB->query("SELECT cssid, css_text, css_name, updated FROM ibf_css WHERE cssid='".$IN['id']."'");
+		$DB->query("SELECT cssid, css_name, updated FROM ibf_css WHERE cssid='".$IN['id']."'");
 
 		if ( ! $cssinfo = $DB->fetch_row() ) {
 			$ADMIN->error("Could not query the CSS details from the database");
 		}
 
-		$css = $cssinfo['css_text'];
+		$css = file_get_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
 
 		//+-------------------------------
 		// Start the CSS matcher thingy
@@ -1102,7 +1097,6 @@ class ad_settings {
 		}
 
 		$barney = array( 
-				 'css_text'     => $final,
 				 'updated'      => time(),
 			   );
 
@@ -1325,4 +1319,3 @@ class ad_settings {
 }
 
 
-?>

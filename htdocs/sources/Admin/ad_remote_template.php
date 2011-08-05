@@ -139,13 +139,13 @@ class ad_settings {
 	
 	function css_preview()
 	{
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 		
 		//+---------------------------------------
 		// GET THE TEMPLATES THAT THIS CSS USES
 		//+---------------------------------------
 		
-		$DB->query("SELECT css_text, css_name FROM ibf_css WHERE cssid='".$IN['id']."'");
+		$DB->query("SELECT css_name FROM ibf_css WHERE cssid='".$IN['id']."'");
 		
 		if ( ! $set = $DB->fetch_row() )
 		{
@@ -169,8 +169,8 @@ class ad_settings {
 			$like = "id='{$name}'";
 			$first = '#';
 		}
-		
-		preg_match( "/($first"."$name)\s{0,}\{(.+?)\}/s", $set['css_text'], $match );
+		$text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
+		preg_match( "/($first"."$name)\s{0,}\{(.+?)\}/s", $text, $match );
 			
 		$defs = explode( ";", str_replace( "\n\n", "\n", str_replace( "\r\n", "\n", trim($match[2]) ) ) );
 		
@@ -197,7 +197,7 @@ class ad_settings {
 			}
 		}
 	
-		$css = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", $skin['img_dir'], $set['css_text'] )."\n//-->\n</style>";
+		$css = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", $skin['img_dir'], $text )."\n//-->\n</style>";
 		
     	$html = "<html>
     	           <head>
@@ -505,7 +505,7 @@ class ad_settings {
 	
 	function print_compare_new()
 	{
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 		
 		$DB->query("SELECT * FROM ibf_skin_templates WHERE suid='".$IN['suid']."'");
 		
@@ -517,11 +517,8 @@ class ad_settings {
 		$DB->query("SELECT css_id, img_dir FROM ibf_skins WHERE set_id='".$template['set_id']."'");
 		$r = $DB->fetch_row();
 		
-		$DB->query("SELECT css_text FROM ibf_css WHERE cssid='".$r['css_id']."'");
-		
-		$css = $DB->fetch_row();
-		
-		$css_text = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", "style_images/".$r['img_dir'], $css['css_text'] )."\n//-->\n</style>";
+		$css_text = $text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$r['css_id']}.css");
+		$css_text = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", "style_images/".$r['img_dir'], $css_text )."\n//-->\n</style>";
 		
 		print "<html><head>
 				$css_text
@@ -724,7 +721,7 @@ class ad_settings {
 	
 	function do_preview()
 	{
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 		
 		
 		if ($IN['suid'] == "")
@@ -808,11 +805,8 @@ class ad_settings {
 			$DB->query("SELECT css_id, img_dir FROM ibf_skins WHERE set_id='".$template['set_id']."'");
 			$r = $DB->fetch_row();
 			
-			$DB->query("SELECT css_text FROM ibf_css WHERE cssid='".$r['css_id']."'");
-			
-			$css = $DB->fetch_row();
-			
-			$css_text = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", "style_images/".$r['img_dir'], $css['css_text'] )."\n//-->\n</style>";
+			$css_text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$r['css_id']}.css");
+			$css_text = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", "style_images/".$r['img_dir'], $css_text )."\n//-->\n</style>";
 			
 			@header("Content-type: text/html");
 			print "<html><head><title>Preview</title>$css_text</head><body>$table \n";

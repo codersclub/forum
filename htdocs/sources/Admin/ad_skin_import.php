@@ -161,7 +161,7 @@ class ad_langs {
 	
 	function set_import()
 	{
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 		
 		$images_dir    = $INFO['base_dir']."style_images";
 		$skins_dir     = $INFO['base_dir']."Skin";
@@ -309,10 +309,11 @@ class ad_langs {
 			
 			$css_string = $DB->compile_db_update_string( array(
 																 'css_name' => stripslashes( $this->name_translated )." (Import)",
-																 'css_text' => $css,
 													   )      );
 												   
 			$DB->query("UPDATE ibf_css SET $css_string WHERE cssid='{$next_id['css']}'");
+			
+			file_put_contents($ibforums->vars['base_dir']."/css/css_{$next_id['css']}.css", $css);
 			
 		}
 		else
