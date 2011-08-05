@@ -1,25 +1,8 @@
-/* jQuery custom Dialog v 1.0 RC
+/* jQuery custom Dialog v 1.0 RC2
  * Распространяется по лицензии GNU GPL v3 
  * 
 */
 
-
-jQuery.fn.extend({
-    disableSelection : function() {
-            this.each(function() {
-                    this.onselectstart = function() { return false; };
-                    this.unselectable = "on";
-                    jQuery(this).css('-moz-user-select', 'none');
-            });
-    },
-    enableSelection : function() {
-            this.each(function() {
-                    this.onselectstart = function() {};
-                    this.unselectable = "off";
-                    jQuery(this).css('-moz-user-select', 'auto');
-            });
-    }
-});
 
 $(window).resize(function() {
 	$("#jqcd_modal_layer").height($(document).height());
@@ -29,7 +12,7 @@ function jqcd_create(id, opts, content){
 	
 	$('body').append('<div id="'+id+'"><div class="jqcd_dialog"><div class="jqcd_content" style="padding-left: 10px; padding-right: 10px;"></div></div></div>');	
 	$('#'+id).jqcd(opts);
-	$('#'+id).set_content(content);
+	$('#'+id).jqcd_set_content(content);
 }
 
 (function($) {
@@ -190,7 +173,6 @@ function jqcd_create(id, opts, content){
 			mouse_y = e.pageY;
 			clicked = true;
 			dlg.jqcd_set_top(dlg);
-			$('body *').disableSelection(); 	
 			e.preventDefault();	
 		});
 
@@ -198,7 +180,6 @@ function jqcd_create(id, opts, content){
 			mouse_x = e.pageX;
 			mouse_y = e.pageY;
 			resize_clicked = true;
-			$('body *').disableSelection();
 			$('body').css('cursor', 'nw-resize');
 			dlg.css('cursor', 'nw-resize');
 			e.preventDefault();	
@@ -220,14 +201,14 @@ function jqcd_create(id, opts, content){
 				tb_clicked = false;
 			}
 			resize_clicked = false;
-			$('body *').enableSelection(); 
-			dlg.css('cursor', 'default');
-			$('body').css('cursor', 'default');
+			dlg.css('cursor', 'auto');
+			$('body').css('cursor', 'auto');
 		});
-
+		
+		
 		$(document).mousemove(function(e){
 			if(tb_clicked)
-				return;
+				return false;
 			if(resize_clicked||clicked)
 			{
 				dx = mouse_x-e.pageX;
@@ -237,16 +218,16 @@ function jqcd_create(id, opts, content){
 			{
 				var dwd = dlg.width()-dx;
 				var dyd = dlg.height()-dy;
+				var min_height = opts['min_height'];
 				if(dwd>opts['min_width']&&dx!=0)
 				{
 					dlg.width(dwd);
 					mouse_x = mouse_x-dx;
 					
 					th = dlg.jqcd_adjust_title(title_text, title, content_layer, dialog_content);
+					min_height = opts['min_height'];
 					if(opts['min_height']==0)
 						min_height = border+th+opts['button_panel_height'];
-					else
-						min_height = opts['min_height'];
 					if(dlg.height()<min_height)
 						dlg.height(min_height);
 				}
@@ -261,10 +242,10 @@ function jqcd_create(id, opts, content){
 					oshadow.width(dlg.width()-2);
 					oshadow.height(dlg.height()-2);
 				}
-				return;
+				return false;
 			}
 			if(clicked)
-			{
+			{				
 				var offset = dlg.offset();
 				var dwdo = $(window).width()-dlg.outerWidth();
 				var ldx = offset.left-dx;
@@ -285,7 +266,8 @@ function jqcd_create(id, opts, content){
 				else
 					offset.top = 0;
 				
-				dlg.offset(offset);			
+				dlg.offset(offset);
+				return false;
 			}
 		});
 		

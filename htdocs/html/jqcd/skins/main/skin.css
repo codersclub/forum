@@ -43,11 +43,11 @@
 	height: 24px;
 	margin-right: 2px;
 	margin-top: 2px;
-	background-image: url('btn_normal.png');
+	background: url('btn_normal.png');
 }
 
 .jqcd_close_btn_hover{
-	background-image: url('btn_hover.png');
+	background: url('btn_hover.png');
 }
 
 
