@@ -586,7 +586,7 @@ class Topics {
 		$poster['name'] = str_replace( array ("[", 	    "]" 	 ), 
 					       array ("&amp;#091;", "&amp;#093;" ), $poster['name']);
 
-                $rname = ereg_replace("\'", "\\'", $poster['name']);
+                $rname = str_replace("\'", "\\'", $poster['name']);
 
 		if (!$row['use_sig']) {
 			$poster['name'] = "<a onmouseover=\"get_name('[b]{$poster['name']}[/b]');\" href=\"javascript:Insert();\">";

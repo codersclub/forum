@@ -424,7 +424,7 @@ $res .= <<<EOF
        </table>
 			{$ibforums->lang['upload_add_files_to_post']}
 		    <div id="upload_container">
-    		<span id='first_upload_container'>
+    		<span id='first_upload_container'><span name=uploadnumber>0. </span>
 		    <input class='textinput' type='file' size='30' name='FILE_UPLOAD[0]' id='first_upload_element'><button type="buton" onclick='clearFirstUploadField()'>-</button><button type='button' onclick='tag_attach(0)'>[attach]</button>
 		    </span>
 		    </div>
@@ -583,7 +583,7 @@ return <<<EOF
     <td class='pformleft'>{$ibforums->lang['upload_text']} $data</td>
     <td class='pformright'>
     <div id="upload_container">
-    <div id='first_upload_container'>
+    <div id='first_upload_container'><span name=uploadnumber>0. </span>
     <input class='textinput' type='file' size='30' name='FILE_UPLOAD[0]' id='first_upload_element'><button type="button" onclick='clearFirstUploadField()' name='deleteBox'>-</button><button type='button' onclick='tag_attach(0)' name='addTag'>[attach]</button> <span></span>
     </div>
     </div>

@@ -123,9 +123,9 @@ function checkUploadSize(e) {
 	if (this.files && this.files[0].size) {
 		if ( this.files[0].size > (max_attach_size * 1024) ) {
 			// alert(upload_attach_too_big);
-			$(this).siblings('span').text(upload_attach_too_big);
+			$(this).siblings('span:last').text(upload_attach_too_big);
 		} else {
-			$(this).siblings('span').text('');
+			$(this).siblings('span:last').text('');
 		}
 	}
 }
@@ -145,16 +145,18 @@ function addUpload()
 			var i = $('#upload_container');
 			var node = $('#first_upload_container').clone();
 			node.removeAttr('id');
+			node.html(node.html()); // hack: clear the content of input[type=file], because `input.value=''` doesn't work at all
 			node.children().removeAttr('onclick');
+			node.children('span:last').text('');
+			node.children('span[name=uploadnumber]').text(cur_number + '. ');
 			
 			node.children('[name=deleteBox]').click(deleteUploadBox);
-			node.children('[name=addTag]').click(function(){ tag_attach(cur_number) });
+			node.children('[name=addTag]').click(function(){ tag_attach(cur_number); });
 			node.children('[type=file]')
 				.attr('name','FILE_UPLOAD[' + cur_number + ']' )
 				.change(checkUploadSize);
 			
 			i.append(node);
-			
 		};
 		do_add();
 		

@@ -1949,13 +1949,9 @@ class post_parser {
 			     !$ibforums->vars['plg_offline_client'] and 
 			     !$this->cache_posts[ $in['PID'] ] )
 			{
-//vot				$label = "<a href='{$ibforums->base_url}?showtopic={$in['TID']}&view=findpost&p={$in['PID']}'>{$label}</a>";
 				$label = "<a href='{$ibforums->base_url}showtopic={$in['TID']}&view=findpost&p={$in['PID']}'>{$label}</a>";
 			}
 
-			// /Song * quote with post link, 26.11.04
-
-//vot			$label = "<tr><td>{$label} {$in[EXTRA]}</td></tr>";
 			$label = "{$label} {$in['EXTRA']}";
 		}
 
@@ -1965,8 +1961,8 @@ class post_parser {
 		{
  			
 
-			if ( isset($in['BCOLOR']) ) $style .= "background-color:{$in['BCOLOR']};";
-			if ( isset($in['FCOLOR']) ) $style .= "color:{$in['FCOLOR']};";
+			if ( isset($in['BCOLOR']) ) $style .= 'background-color:'.self::color($in['BCOLOR']).';';
+			if ( isset($in['FCOLOR']) ) $style .= 'color:'.self::color($in['FCOLOR']).';';
 					
 
 // vot: BAD MESSAGE. Require language file
@@ -2024,11 +2020,6 @@ class post_parser {
 		return array( 'START' => "<div{$pre_div_class}>{$label}<div class='".strtolower($possible_use[ $in['STYLE'] ][0])." $class'{$extra}>",
                              'END'   => "</div></div>"
         	);
-        /*
-		return array( 'START' => "<div{$pre_div_class}>{$label}<div class='{$possible_use[ $in['STYLE'] ][0]} $class'{$extra}>",
-			      'END'   => "</div></div>"
-			    );
-        */
 	}
 
 
@@ -2182,8 +2173,6 @@ class post_parser {
                 $txt = preg_replace( "#\]#"     , "&#93;", $txt );
                 $txt = preg_replace( "#\)#"     , "&#41;", $txt );
                 $txt = preg_replace( "#\(#"     , "&#40;", $txt );
-                //$txt = preg_replace( "#\r#"     , "<br>", $txt );
-                //$txt = preg_replace( "#\n#"     , "<br>", $txt );
                 $txt = preg_replace( "#\s{1};#" , "&#59;", $txt );
 
                 // Ensure that spacing is preserved
@@ -2217,8 +2206,6 @@ class post_parser {
                 $txt = preg_replace( "#\]#"     , "&#93;", $txt );
                 $txt = preg_replace( "#\)#"     , "&#41;", $txt );
                 $txt = preg_replace( "#\(#"     , "&#40;", $txt );
-               // $txt = preg_replace( "#\r#"     , "<br>", $txt );
-                //$txt = preg_replace( "#\n#"     , "<br>", $txt );
                 $txt = preg_replace( "#\s{1};#" , "&#59;", $txt );
 
                 // Ensure that spacing is preserved
@@ -2244,11 +2231,6 @@ class post_parser {
 		$txt = $the_txt;
 		
 		// Too many embedded code/quote/html/sql tags can crash Opera and Moz
-		
-		/*if (preg_match( "/\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\]/is", $txt) ) {
-			$this->quote_error++;
-			return $txt;
-		}*/
 
 		$this->quote_html = $this->wrap_style( array( 'STYLE' => 'QUOTE' ) );
 		
