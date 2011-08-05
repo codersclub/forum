@@ -54,19 +54,19 @@ class post_functions extends Post {
 		
 		if (! $ibforums->member['g_post_polls'])
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'no_start_polls') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_start_polls') );
 		}
 		
 		if ( ! $class->forum['allow_poll'] )
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'no_start_polls') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_start_polls') );
 		}
 			
 		$this->m_group = $ibforums->perm_id;
 		
 		if ( $std->check_perms($class->forum['start_perms']) != TRUE )
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'no_start_polls') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_start_polls') );
 		}
 
 	}
@@ -164,7 +164,7 @@ class post_functions extends Post {
 		} else $this->add_new_poll($class);
 	}
 	
-	function add_new_poll($class) {
+	function add_new_poll(Post $class) {
 		
 		global $ibforums, $std, $DB, $print, $sess;
 		
@@ -257,12 +257,6 @@ class post_functions extends Post {
 		
 		// Update the post info with the upload array info
 		
-		/*
-		$this->post['attach_id']   = $this->upload['attach_id'];
-		$this->post['attach_type'] = $this->upload['attach_type'];
-		$this->post['attach_hits'] = $this->upload['attach_hits'];
-		$this->post['attach_file'] = $this->upload['attach_file'];
-		*/
 		$this->post['attach_exists'] = is_array($this->upload) ? (bool)count($this->upload) : false;
 		$this->post['new_topic']   = 1;
 		
@@ -402,7 +396,7 @@ class post_functions extends Post {
 						
 						if ( USE_MODULES == 1 )
 						{
-							$class->modules->register_class(&$class);
+							$class->modules->register_class($class);
 							$class->modules->on_group_change($ibforums->member['id'], $gid);
 						}
 					}
@@ -438,7 +432,7 @@ class post_functions extends Post {
 	}
 
 
-	function show_form($class) {
+	function show_form(Post $class) {
 	
 		global $ibforums, $std, $DB, $print;
 		

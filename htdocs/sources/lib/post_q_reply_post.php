@@ -589,7 +589,7 @@ class post_functions extends Post {
 						
 						if ( USE_MODULES == 1 )
 						{
-							$class->modules->register_class(&$class);
+							$class->modules->register_class($class);
 							$class->modules->on_group_change($ibforums->member['id'], $gid);
 						}
 					}

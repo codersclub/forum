@@ -4,6 +4,10 @@ class skin_post {
 
 function poll_options() {
 global $ibforums;
+$allow_disc = $_POST['allow_disc'] ? checked : '';
+$multi_poll = $_POST['multi_poll'] ? 'checked' : '';
+$weighted_poll = $_POST['weighted_poll'] ? 'checked' : '';
+$life = $ibforums->input['life'];
 $output = <<<EOF
 <script language='JavaScript'>
 function chk_multi() {
@@ -17,26 +21,30 @@ document.REPLIER.weighted_poll.checked = false;
 
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['poll_only']}</b></td>
- <td class='pformright' colspan='2'><input type='checkbox' size='40' value='1' name='allow_disc' class='forminput' /> {$ibforums->lang['no_replies']}</td>
+ <td class='pformright' colspan='2'><label><input type='checkbox' size='40' value='1' name='allow_disc' class='forminput' $allow_disc/> {$ibforums->lang['no_replies']}</label></td>
 </tr>
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['pe_make_multi']}</b></td>
  <td class='pformright' colspan='2'>
- <input name='multi_poll' type='checkbox' class='forminput' id="multi_poll" value='1' size='40' onClick='javscript:off_weighted()'>
+ <label><input name='multi_poll' type='checkbox' class='forminput' id="multi_poll" value='1' size='40' onClick='javscript:off_weighted()' $multi_poll>
  {$ibforums->lang['pe_min']}: <select name='multi_poll_min' class='forminput' onChange='javscript:chk_multi()'>
 EOF;
 for ($i=1; $i<$ibforums->vars['max_poll_choices']; $i++) {
- $output .= "<option value='$i'>$i</option>";
+ if ($_POST['multi_poll_min'] == $i) 
+ 	  $output .= "<option value='$i' selected>$i</option>";
+ else $output .= "<option value='$i'>$i</option>";
 }
 $output .= <<<EOF
  </select>
  {$ibforums->lang['pe_max']}: <select name='multi_poll_max' class='forminput' onChange='javscript:chk_multi()'>
 EOF;
 for ($i=1; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
- $output .= "<option value='$i'>$i</option>";
+ if ($_POST['multi_poll_max'] == $i) 
+ 	  $output .= "<option value='$i' selected>$i</option>";
+ else $output .= "<option value='$i'>$i</option>";
 }
 $output .= <<<EOF
- </select> {$ibforums->lang['pe_make_multi_def']}
+ </select> {$ibforums->lang['pe_make_multi_def']}</label>
 </td>
 </tr>
 
@@ -52,19 +60,21 @@ document.REPLIER.multi_poll.checked = false;
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['pe_make_weighted']}</b></td>
  <td class='pformright' colspan='2'>
- <input name='weighted_poll' type='checkbox' class='forminput' id="weighted_poll" value='1' size='40' onClick='javscript:off_multi()'>
+ <label><input name='weighted_poll' type='checkbox' class='forminput' id="weighted_poll" value='1' size='40' onClick='javscript:off_multi()' $weighted_poll>
 {$ibforums->lang['pe_places']}: <select name='weighted_poll_places' class='forminput' onChange='javscript:chk_weighted()'>
 EOF;
 for ($i=2; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
- $output .= "<option value='$i'>$i</option>";
+ if ($_POST['weighted_poll_places'] == $i) 
+ 	  $output .= "<option value='$i' selected>$i</option>";
+ else $output .= "<option value='$i'>$i</option>";
 }
 $output .= <<<EOF
- </select> {$ibforums->lang['pe_make_weighted_def']}
+ </select> {$ibforums->lang['pe_make_weighted_def']}</label>
 </td>
 </tr>
 <tr>
 <td class='pformleft'>{$ibforums->lang['poll_life_descr1']}</td>
-<td class='pformright'><input type='text' size='10' name='life' class='textinput'>
+<td class='pformright'><input type='text' size='10' name='life' class='textinput' value='$life'>
 <br><br>{$ibforums->lang['poll_life_descr2']}</td>
 </tr>
 EOF;
