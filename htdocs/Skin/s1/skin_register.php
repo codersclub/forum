@@ -19,18 +19,13 @@ EOF;
 function show_dumb_form($type="reg") {
 global $ibforums;
 return <<<EOF
-
 <script language='javascript' type="text/javascript">
 <!--
-function Validate() {
-	// Check for Empty fields
-	if (document.REG.uid.value == "" || document.REG.aid.value == "") {
-		alert ("{$ibforums->lang['js_blanks']}");
-		return false;
-	}
-}
+var js_blanks = "{$ibforums->lang['js_blanks']}";
 //-->
 </script>
+<script language='javascript' type="text/javascript" src="html/register.js"></script>
+
 <form action="{$ibforums->base_url}" method="post" name='REG' onsubmit='return Validate()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='03'>
@@ -103,26 +98,15 @@ EOF;
 function ShowForm($data) {
 global $ibforums;
 return <<<EOF
-<script language='javascript' type="text/javascript">
-<!--
-function Validate() {
-	// Check for Empty fields
-	if (document.REG.UserName.value == "" || document.REG.PassWord.value == "" || document.REG.PassWord_Check.value == "" || document.REG.EmailAddress.value == "") {
-		alert ("{$ibforums->lang['js_blanks']}");
-		return false;
-	}
-
-	// Have we checked the checkbox?
-
-	if (document.REG.agree.checked == true) {
-		return true;
-	} else {
-		alert ("{$ibforums->lang['js_no_check']}");
-		return false;
-	}
-}
-//-->
+<script language='javascript' type="text/javascript" src="html/register.js">
 </script>
+<script language='javascript' type="text/javascript">
+var js_blanks = '{$ibforums->lang['js_blanks']}';
+var js_no_check = "{$ibforums->lang['js_no_check']}";
+var js_err_pass_match = '{$ibforums->lang['err_pass_match']}';
+var js_err_email_address_match = '{$ibforums->lang['js_err_email_address_match']}';
+</script>
+
 <form action="{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}" method="post" name='REG' onsubmit='return Validate()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='02'>
@@ -136,23 +120,23 @@ function Validate() {
   <table class="tablebasic">
   <tr>
     <td class="pformleft">{$ibforums->lang['user_name']}</td>
-    <td class="pformright"><input type='text' size='32' maxlength='64' value='{$ibforums->input['UserName']}' name='UserName' class='forminput'></td>
+    <td class="pformright"><input type='text' size='32' maxlength='64' value='{$ibforums->input['UserName']}' name='UserName' class='forminput' required></td>
   </tr>
   <tr>
     <td class="pformleft">{$ibforums->lang['pass_word']}</td>
-    <td class="pformright"><input type='password' size='32' maxlength='32' value='{$ibforums->input['PassWord']}' name='PassWord' class='forminput'></td>
+    <td class="pformright"><input type='password' size='32' maxlength='32' value='{$ibforums->input['PassWord']}' name='PassWord' class='forminput' required></td>
   </tr>
   <tr>
     <td class="pformleft">{$ibforums->lang['re_enter_pass']}</td>
-    <td class="pformright"><input type='password' size='32' maxlength='32' value='{$ibforums->input['PassWord_Check']}'  name='PassWord_Check' class='forminput'></td>
+    <td class="pformright"><input type='password' size='32' maxlength='32' value='{$ibforums->input['PassWord_Check']}'  name='PassWord_Check' class='forminput' required onfocusout="passwordsIsEquals()"></td>
   </tr>
   <tr>
     <td class="pformleft">{$ibforums->lang['email_address']}</td>
-    <td class="pformright"><input type='text' size='32' maxlength='50' value='{$ibforums->input['EmailAddress']}'  name='EmailAddress' class='forminput'></td>
+    <td class="pformright"><input type='email' size='32' maxlength='50' value='{$ibforums->input['EmailAddress']}'  name='EmailAddress' class='forminput' required></td>
   </tr>
   <tr>
     <td class="pformleft">{$ibforums->lang['email_address_two']}</td>
-    <td class="pformright"><input type='text' size='32' maxlength='50'  value='{$ibforums->input['EmailAddress_two']}' name='EmailAddress_two' class='forminput'></td>
+    <td class="pformright"><input type='email' size='32' maxlength='50'  value='{$ibforums->input['EmailAddress_two']}' name='EmailAddress_two' class='forminput' required></td>
   </tr>
   <!--{REQUIRED.FIELDS}-->
   <!--{OPTIONAL.FIELDS}-->
@@ -164,12 +148,8 @@ function Validate() {
 <br>
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['terms_service']}</div>
-  <div class="tablepad" align="center">
-   <strong>{$ibforums->lang['terms_service_text']}</strong>
-   <br>
-   <br>
-   <textarea cols='115' rows='15' readonly="readonly" name='Post' class='textinput'>{$data[RULES]}</textarea>
-   <br><br><b>{$ibforums->lang['agree_submit']}</b>&nbsp;<input type='checkbox' name='agree' value='1'>
+  <div class="tablepad" align="center">  
+   <b>{$ibforums->lang['agree_submit']}</b>&nbsp;<input type='checkbox' name='agree' value='1'>
   </div>
   <div class="pformstrip" align="center"><input type="submit" value="{$ibforums->lang['submit_form']}" class='forminput'></div>
 </div>
@@ -334,7 +314,7 @@ function Validate() {
 }
 //-->
 </script>
-<form action="{$ibforums->base_url}" method="post" name='REG' onsubmit='return Validate()'>
+<form action="{$ibforums->base_url}" method="post" name='REG' onsubmit='return ValidateLostPass()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='03'>
 <input type='hidden' name='type' value='lostpass'>
