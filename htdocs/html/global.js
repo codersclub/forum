@@ -19,7 +19,7 @@ function multi_page_jump( url_bit, total_posts, per_page ){
   if ( userPage < 1 )     {    userPage = 1;  }
   if ( userPage > pages ) { userPage = pages; }
   if ( userPage == 1 )    {     start = 0;    }
-  else { start = (userPage - 1) * per_page; }
+  else { start = Math.round((userPage - 1) * per_page); }
   window.location = url_bit + "&st=" + start;
  }
 }

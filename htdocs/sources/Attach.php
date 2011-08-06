@@ -75,7 +75,7 @@ class Attach2 {
 		'attachment_size_mb',
 		'attachment_size_gb',
 		);
-		$size = $this->size;
+		/*$size = $this->size;
 		$i = 0;
 		for($i = 0; $i < 4; ++$i) {
 			if ($size < 1024) {
@@ -83,7 +83,18 @@ class Attach2 {
 			}
 			$size /= 1024.0;
 		}
-		return sprintf($ibforums->lang[ $sizes_strings[$i] ], round($size, 2));
+		return sprintf($ibforums->lang[ $sizes_strings[$i] ], round($size, 2));*/
+		
+		$out_size = $this->size;
+		$i = 0;
+		while  (($i < 4) && ($out_size >= 1024))
+		{
+			$i++;
+			$out_size /= 1024.0;
+		}
+
+		return (sprintf($ibforums->lang[ $sizes_strings[$i] ], round($out_size, 2)));		
+
 		
 	}
 		

@@ -21,6 +21,8 @@
 +--------------------------------------------------------------------------
 */
 
+require "att.php";
+
 $idx = new Search;
 
 class Search {
@@ -190,6 +192,9 @@ class Search {
     		case 'getallusertopics':
     			$this->get_all_user('topics');
     			break;
+    		case 'getalluseratt':
+				$this->get_all_user_att();
+				break;
     		case 'simpleresults':
     			$this->show_simple_results();
     			break;
@@ -401,6 +406,15 @@ class Search {
 		exit();
 	}
 
+ 	//--------------------------------------------------------
+ 	
+ 	function get_all_user_att()
+ 	{
+		$a = new Att;
+		$this->output = $a->html;
+		$this->page_title = $a->pt;
+	}	
+ 	
  	//--------------------------------------------------------
 
  	function get_new_posts($mine = 0)
