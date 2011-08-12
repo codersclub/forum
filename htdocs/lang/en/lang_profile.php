@@ -42,6 +42,7 @@ $lang['pm']  = "Personal Message";
 $lang['page_title']  = "Viewing Profile";
 $lang['find_posts']  = "Find all posts by this member";
 $lang['find_topics']  = "Find all topics by this member";
+$lang['find_attachments'] = "Find all attachments by this member";
 $lang['add_to_contact']  = "Add to contact list";
 $lang['edit_my_sig']  = "Edit my Signature";
 $lang['edit_profile']  = "Edit my Profile";
@@ -59,4 +60,3 @@ $lang['last_activity']  = "Last forum activity";
 $lang['mod_forums']  = "Moderated forums";
 $lang['mod_all_forums'] = "All Forums";
 
-?>

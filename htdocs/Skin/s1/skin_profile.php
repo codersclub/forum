@@ -193,7 +193,7 @@ return <<<EOF
    <div>
 	 <a href='{$info['base_url']}act=Select&amp;CODE=getalluser&amp;mid={$info['mid']}'>{$ibforums->lang['find_posts']}</a> &middot;
 	 <a href='{$info['base_url']}act=Select&amp;CODE=getallusertopics&amp;mid={$info['mid']}'>{$ibforums->lang['find_topics']}</a> &middot;
-	 <a href='{$info['base_url']}act=Select&amp;CODE=getalluseratt&amp;mid={$info['mid']}'>Find attachments of this member</a> &middot;
+	 <a href='{$info['base_url']}act=Select&amp;CODE=getalluseratt&amp;mid={$info['mid']}'>{$ibforums->lang['find_attachments']}</a> &middot;
 	 <a href='{$info['base_url']}act=Msg&amp;CODE=02&amp;MID={$info['mid']}'>{$ibforums->lang['add_to_contact']}</a>
    </div>
  </td>
