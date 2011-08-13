@@ -125,16 +125,9 @@ class FUNC {
 		return '#(?!\[CODE[^\]]*\])\[('.$tags.')\](.*?)\[/\1\](?!\[/CODE\])#i';
 	}
 	
-        function mod_tag_exists($post, $gm_on = 0, $mm_on = 1) {
-        	$re = self::get_mod_tags_regexp($gm_on, $mm_on);
-        	return (bool)preg_match($re, $post);
-/*
-	return ( ( $gm_on and preg_match('#(?!\[CODE.*?\])\[GM\](.*?)\[/GM\](?!\[/CODE\])#i', $post) ) or
-		 ( $mm_on and preg_match('#(?!\[CODE.*?\])\[MM\](.*?)\[/MM\](?!\[/CODE\])#i', $post) ) or
-                 preg_match('#(?!\[CODE.*?\])\[EX\](.*?)\[/EX\](?!\[/CODE\])#i', $post) or
-                 preg_match('#(?!\[CODE.*?\])\[MOD\](.*?)\[/MOD\](?!\[/CODE\])#i', $post)
-	       );
-*/
+	function mod_tag_exists($post, $gm_on = 0, $mm_on = 1) {
+		$re = self::get_mod_tags_regexp($gm_on, $mm_on);
+		return (bool)preg_match($re, $post);
 	}
 
 
@@ -390,7 +383,7 @@ class FUNC {
 			r.forum_id=f.id and
 			f.inc_postcount=1 and
 			r.member_id='".$mid."' AND
-			r.CODE='01'");
+			r.code='01'");
 	$row = $DB->fetch_row();
 	$plus = $row['raise'];
 
@@ -403,7 +396,7 @@ class FUNC {
 			r.forum_id=f.id and
 			f.inc_postcount=1 and
 			r.member_id='".$mid."' AND
-			r.CODE='02'");
+			r.code='02'");
 	$row = $DB->fetch_row();
 	$minus = $row['lower'];
 
@@ -423,7 +416,7 @@ class FUNC {
 			r.forum_id=f.id and
 			f.inc_postcount=0 and
 			r.member_id='".$mid."' AND
-			r.CODE='01'");
+			r.code='01'");
 	$row = $DB->fetch_row();
 	$plus = $row['raise'];
 
@@ -436,7 +429,7 @@ class FUNC {
 			r.forum_id=f.id and
 			f.inc_postcount=0 and
 			r.member_id='".$mid."' AND
-			r.CODE='02'");
+			r.code='02'");
 	$row = $DB->fetch_row();
 	$minus = $row['lower'];
 
@@ -3160,7 +3153,7 @@ echo "-----------------<br>\n";
   * @return int (timestamp)
   * 		0 если не было просмотров
   */
- function get_topic_last_read($topic_id) {
+ function get_topic_last_read($topic_id, $checkmont = true) {
  	global $ibforums, $DB;
  	settype($topic_id, 'integer');
  	$quid = "SELECT logTime
@@ -3172,13 +3165,15 @@ echo "-----------------<br>\n";
  	if ($row = $DB->get_row($quid)) {
  		return intval($row['logTime']);
  	}
-    // проверим на сколько давно топик создан. Если больше, чем месяц назад
-    // то следует редиректить на тот пост, что был сделан за этот самый месяц
-    $last = $DB->get_one("SELECT min(post_date) FROM ibf_posts WHERE topic_id = {$topic_id}");
- 	 	
- 	if ( $last < strtotime('-1 month') ) {
- 		return strtotime('-1 month');
-	}
+ 	if ($checkmont) {
+	    // проверим на сколько давно топик создан. Если больше, чем месяц назад
+	    // то следует редиректить на тот пост, что был сделан за этот самый месяц
+	    $last = $DB->get_one("SELECT min(post_date) FROM ibf_posts WHERE topic_id = {$topic_id}");
+	 	 	
+	 	if ( $last < strtotime('-1 month') ) {
+	 		return strtotime('-1 month');
+		}
+ 	}
 	return 0;
  }
  
@@ -3195,7 +3190,7 @@ echo "-----------------<br>\n";
  	if (!isset($readed_topics[$tid])) {
  		// check if log records is exists
  		
- 		if ( $this->get_topic_last_read($tid) )
+ 		if ( $this->get_topic_last_read($tid, false) )
 		{
 			$readed_topics[$tid] = true;
 			$read_stamp_exists = true;
