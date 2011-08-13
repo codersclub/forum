@@ -204,7 +204,7 @@ class Att
 		$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$temp_link_2."&quot;, ".$count.", ".COUNT.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / COUNT)).")&nbsp;";
 		if($st >= COUNT)
 		{
-			$pages_list .= "<a href='".$temp_link_2."&amp;st=1'>".$ibforums->lang['ps_first']."</a>&nbsp;";
+			$pages_list .= "<a href='".$temp_link_2."&amp;st=0'>".$ibforums->lang['ps_first']."</a>&nbsp;";
 			$pages_list .= "<a href='".$temp_link_2."&amp;st=".($st - COUNT)."'>".$ibforums->lang['ps_previous']."</a>&nbsp;";
 		}
 		$pages_list .= intval(ceil(($st + 1) / COUNT));
