@@ -111,7 +111,7 @@ class Att
 		
 		$username = strval($username['name']);
 		
-		$this->pt = sprintf($ibforums->lang['title'], $username);
+		$this->pt = sprintf($ibforums->lang['title'], $ibforums->lang['attachments'], $username);
 		
 		if($count == 0)
 		{
@@ -154,12 +154,16 @@ class Att
 			}
 		}
 		
-		$desc = 0;
+		$desc = $sort === 0 ? 1 : 0;
 		if(isset($ibforums->input['desc']))
 		{
 			if($ibforums->input['desc'] == 1)
 			{
 				$desc = 1;
+			}
+			else
+			{
+				$desc = 0;
 			}
 		}
 		
@@ -196,43 +200,46 @@ class Att
 		
 		//output:		
 		
-		$temp_link = $ibforums->base_url."act=Select&CODE=getalluseratt&amp;mid=".$mid.(($topicid != NULL) ? "&amp;topicid=".$topicid : "").(($forumid != NULL) ? "&amp;forumid=".$forumid : "");
-		$temp_link_2 = $temp_link."&amp;sort=".$link_sort_str[$sort]."&amp;desc=".$desc;
+		$base_link = $ibforums->base_url."act=Select&CODE=getalluseratt&amp;mid=".$mid;		
+		$location_vars = (($topicid != NULL) ? "&amp;topicid=".$topicid : "").(($forumid != NULL) ? "&amp;forumid=".$forumid : "");
+		$view_vars = "&amp;sort=".$link_sort_str[$sort]."&amp;desc=".$desc;
 		
 		//make page's buttons
 		
-		$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$temp_link_2."&quot;, ".$count.", ".COUNT.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / COUNT)).")&nbsp;";
+		$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$base_link.$location_vars.$view_vars."&quot;, ".$count.", ".COUNT.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / COUNT)).")&nbsp;";
 		if($st >= COUNT)
 		{
-			$pages_list .= "<a href='".$temp_link_2."&amp;st=0'>".$ibforums->lang['ps_first']."</a>&nbsp;";
-			$pages_list .= "<a href='".$temp_link_2."&amp;st=".($st - COUNT)."'>".$ibforums->lang['ps_previous']."</a>&nbsp;";
+			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=0'>".$ibforums->lang['ps_first']."</a>&nbsp;";
+			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=".($st - COUNT)."'>".$ibforums->lang['ps_previous']."</a>&nbsp;";
 		}
 		$pages_list .= intval(ceil(($st + 1) / COUNT));
 		if($st + COUNT < $count)
 		{
-			$pages_list .= "&nbsp;<a href='".$temp_link_2."&amp;st=".($st + COUNT)."'>".$ibforums->lang['ps_next']."</a>&nbsp;";
-			$pages_list .= "<a href='".$temp_link_2."&amp;st=".(intval(ceil($count / COUNT)) - 1) * COUNT."'>".$ibforums->lang['ps_last']."</a>";
+			$pages_list .= "&nbsp;<a href='".$base_link.$location_vars.$view_vars."&amp;st=".($st + COUNT)."'>".$ibforums->lang['ps_next']."</a>&nbsp;";
+			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=".(intval(ceil($count / COUNT)) - 1) * COUNT."'>".$ibforums->lang['ps_last']."</a>";
 		}
 
 		//make table:
-		
+		//title:
 		$this->html = $pages_list;
 		
 		$this->html .= "<div class='tableborder'>";
 		
-		$this->html .= "<div class='maintitle'><img src='style_images/1/nav_m.gif' alt='&gt;' border='0'>&nbsp;".$this->pt."</div>";
+		$this->html .= "<div class='maintitle'><img src='style_images/1/nav_m.gif' alt='&gt;' border='0'>&nbsp;".sprintf($ibforums->lang['title'], ("<a href='".$base_link.$view_vars."'>".$ibforums->lang['attachments']."</a>"), ("<a href='{$ibforums->base_url}showuser={$mid}'>".$username."</a>"))."</div>";
 		
 		$this->html .= "<table width='100%' cellpadding='2' cellspacing='1' class='tablebasic'>
 			<tr>
-			<td align='center' class='titlemedium'><a href='".$temp_link."&amp;st=".$st."&amp;sort=filename".(($sort == 1) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['link']."</a></td>
-			<td align='center' class='titlemedium'><a href='".$temp_link."&amp;st=".$st."&amp;sort=size".(($sort == 2) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['size']."</a></td>
-			<td align='center' class='titlemedium'><a href='".$temp_link."&amp;st=".$st."&amp;sort=hits".(($sort == 3) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['hits']."</a></td>
-			<td align='center' class='titlemedium'><a href='".$temp_link."&amp;st=".$st."&amp;sort=date".(($sort == 0) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['date']."</a></td>
-			<td align='center' class='titlemedium'><a href='".$temp_link."&amp;st=".$st."&amp;sort=post".(($sort == 4) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['post']."</a></td>
-			<td align='center' class='titlemedium'><a href='".$temp_link."&amp;st=".$st."&amp;sort=topic".(($sort == 5) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['topic']."</a></td>
-			<td align='center' class='titlemedium'><a href='".$temp_link."&amp;st=".$st."&amp;sort=forum".(($sort == 6) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['forum']."</a></td>
+			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=filename".(($sort == 1) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['link']."</a></td>
+			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=size".(($sort == 2) ? ($desc ? "&amp;desc=0'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['size']."</a></td>
+			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=hits".(($sort == 3) ? ($desc ? "&amp;desc=0'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['hits']."</a></td>
+			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=date".(($sort == 0) ? ($desc ? "&amp;desc=0'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['date']."</a></td>
+			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=post".(($sort == 4) ? ($desc ? "&amp;desc=0'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['post']."</a></td>
+			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=topic".(($sort == 5) ? ($desc ? "&amp;desc=0'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['topic']."</a></td>
+			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=forum".(($sort == 6) ? ($desc ? "&amp;desc=0'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['forum']."</a></td>
 			</tr>
 			";
+		
+		//main body:
 		
 		$attfile = new Attach3;				
 		
@@ -249,8 +256,8 @@ class Att
 			               <td class='row4'>".($res['hits'])."</td>
 			               <td class='row4'>".date("d.m.Y", $res['pdate'])."</td>
 			               <td class='row4'><a href='".$ibforums->base_url."showtopic=".$res['tid']."&amp;view=findpost&amp;p=".$res['pid']."'>".$res['pid']."</a></td>
-			               <td class='row4'><a href='".$ibforums->base_url."act=Select&amp;CODE=getalluseratt&amp;mid=".$mid."&amp;topicid=".$res['tid']."&amp;sort=".$link_sort_str[$sort].(($desc == 1) ? "&amp;desc=1" : "")."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showtopic=".$res['tid']."'>".$res['ttitle']."</a></td>
-			               <td class='row4'><a href='".$ibforums->base_url."act=Select&amp;CODE=getalluseratt&amp;mid=".$mid."&amp;forumid=".$res['fid']."&amp;sort=".$link_sort_str[$sort].(($desc == 1) ? "&amp;desc=1" : "")."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showforum=".$res['fid']."'>".$res['fname']."</a></td></tr>";
+			               <td class='row4'><a href='".$base_link.$view_vars."&amp;topicid=".$res['tid']."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showtopic=".$res['tid']."'>".$res['ttitle']."</a></td>
+			               <td class='row4'><a href='".$base_link.$view_vars."&amp;forumid=".$res['fid']."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showforum=".$res['fid']."'>".$res['fname']."</a></td></tr>";
 		}
 		
 		$this->html .= "</table></div>";

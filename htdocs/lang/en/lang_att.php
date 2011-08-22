@@ -8,7 +8,8 @@ $lang['post'] = "Post";
 $lang['topic'] = "Topic";
 $lang['forum'] = "Forum";
 //etc
-$lang['title'] = "Attachmets by  %s";
+$lang['attachments'] = "Attachmets";
+$lang['title'] = "%s by  %s";
 $lang['attchments_in'] = "Attach</a> in ";
 $lang['error_has_not'] = "User %s has no attachments!";
 /*$lang[''] = "";
