@@ -230,9 +230,12 @@ function PopUpCD(url, d_width,d_height) {
 
     title = 'Загрузка...';
 
-    text = "<div id='dialog'><div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'></div></div></div></div>";
+    text = "<div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'></div></div></div>";
 
-    document.body.innerHTML += text;
+    var newDiv = document.createElement('div');
+    newDiv.id = 'dialog';
+    newDiv.innerHTML = text;
+    document.body.appendChild(newDiv);
 
 
     $('#dialog').jqcd({

@@ -230,7 +230,6 @@ error_no_height     = "{$ibforums->lang['jscode_error_no_height']}",
 text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}",
 text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}",
 text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}",
-list_prompt         = "{$ibforums->lang['js_tag_list']}",
 prompt_start        = "{$ibforums->lang['js_text_to_format']}",
 tt_prompt	    = "{$ibforums->lang['tt_prompt']}",
 js_del_1	    = "{$ibforums->lang['js_del_1']}",
@@ -248,7 +247,6 @@ error_no_height     = "{$ibforums->lang['jscode_error_no_height']}",
 text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}",
 text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}",
 text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}",
-list_prompt         = "{$ibforums->lang['js_tag_list']}",
 prompt_start        = "{$ibforums->lang['js_text_to_format']}",
 MessageMax  	    = "{$ibforums->lang['the_max_length']}",
 Override    	    = "{$ibforums->lang['override']}",
@@ -267,7 +265,6 @@ MessageMax          = parseInt(MessageMax);
 if ( MessageMax < 0 ) MessageMax = 0;
 </script>
 
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/topics.js?{$ibforums->vars['client_script_version']}'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/video.js?{$ibforums->vars['client_script_version']}'></script>
 

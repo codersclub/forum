@@ -480,7 +480,6 @@ var error_no_height     = "{$ibforums->lang['jscode_error_no_height']}";
 var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}";
 var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}";
 var text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}";
-var list_prompt         = "{$ibforums->lang['js_tag_list']}";
 var prompt_start        = "{$ibforums->lang['js_text_to_format']}";
 var tt_prompt		= "{$ibforums->lang['tt_prompt']}";
 var js_del_1		= "{$ibforums->lang['js_del_1']}";
@@ -502,7 +501,6 @@ var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
 var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 
 
-var list_prompt         = "{$ibforums->lang['js_tag_list']}";
 var prompt_start        = "{$ibforums->lang['js_text_to_format']}";
 var MessageMax  	= "{$ibforums->lang['the_max_length']}";
 var Override    	= "{$ibforums->lang['override']}";
@@ -700,7 +698,7 @@ return <<<EOF
 	   <!--div style="height:3px"--><!-- --><!--/div-->
 
 	   <input type='button' accesskey='l' value=' LIST ' onclick='tag_list()' class='codebuttons' name="LIST">&nbsp;
-	   <input type='button' accesskey='q' value='QUOTE' onclick='simpletag("QUOTE")' class='codebuttons' name='QUOTE'>
+	   <input type='button' accesskey='q' value='QUOTE' onclick='tag_quote()' class='codebuttons' name='quote'>
 	   <input type='button' accesskey='p' value='Spoiler' onclick='tag_spoiler()' class='codebuttons' name='spoiler'>
 	   <input type='button' accesskey='h' value=' http:// ' onclick='tag_url()' class='codebuttons' name='url'>
 	   <input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
