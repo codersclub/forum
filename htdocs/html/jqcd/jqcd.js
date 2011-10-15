@@ -1,4 +1,4 @@
-/* jQuery custom Dialog v 1.0 RC2
+/* jQuery custom Dialog v 1.0 RC3
  * Распространяется по лицензии GNU GPL v3 
  * 
 */
@@ -27,16 +27,21 @@ function jqcd_create(id, opts, content){
 	$.fn.jqcd_set_top = function(curr_dlg){
 		$.each(jqcd_list, function(i,v){
 				var opts = v.data('opts');
-				if(opts['topmost'])
-					v.css('z-index', dialog_z_index_topmost);
-				else
-					v.css('z-index', dialog_z_index);
+				if (opts != undefined) { 
+					if(opts['topmost'])
+						v.css('z-index', dialog_z_index_topmost);
+					else
+						v.css('z-index', dialog_z_index);
+				}	
 				
 		});
 		curr_dlg.css('z-index', dialog_z_index+10);
+	};
+	
+	$.fn.jqcd_def_btn_focus = function(curr_dlg){
 		var opts = curr_dlg.data('opts');
 		if(opts['default_btn']!=undefined)
-			opts['default_btn'].focus();
+			opts['default_btn'].focus();		
 	};
 	
 	$.fn.jqcd = function(options){
@@ -57,7 +62,7 @@ function jqcd_create(id, opts, content){
 	 			button_panel_height: 35,
 	 			has_shadow: true,
 	 			min_width: 220,
-	 			min_height: 0,
+	 			min_height: 100,
 	 			content_overflow: 'auto',
 	 			default_btn: undefined,
 	 			panel_btn: false
@@ -173,7 +178,8 @@ function jqcd_create(id, opts, content){
 			mouse_y = e.pageY;
 			clicked = true;
 			dlg.jqcd_set_top(dlg);
-			e.preventDefault();	
+			e.preventDefault();
+			dlg.jqcd_def_btn_focus(dlg);	
 		});
 
 		dlg.find('.jqcd_resizer').mousedown(function(e){
@@ -182,8 +188,10 @@ function jqcd_create(id, opts, content){
 			resize_clicked = true;
 			$('body').css('cursor', 'nw-resize');
 			dlg.css('cursor', 'nw-resize');
-			e.preventDefault();	
+			e.preventDefault();
+			dlg.jqcd_def_btn_focus(dlg);
 		});
+		
 		
 		dialog_content.mousedown(function(e){
 			dlg.jqcd_set_top(dlg);
@@ -225,7 +233,6 @@ function jqcd_create(id, opts, content){
 					mouse_x = mouse_x-dx;
 					
 					th = dlg.jqcd_adjust_title(title_text, title, content_layer, dialog_content);
-					min_height = opts['min_height'];
 					if(opts['min_height']==0)
 						min_height = border+th+opts['button_panel_height'];
 					if(dlg.height()<min_height)
