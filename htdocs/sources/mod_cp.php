@@ -43,7 +43,7 @@ class Moderate {
     var $cats      = array();
     
     var $upload_dir = "";
-    
+
     var $topic_id   = "";
     var $forum_id   = "";
     var $post_id    = "";
@@ -1448,7 +1448,7 @@ class Moderate {
 	
 	}
 	
-	function add_redirect_part($part, $result) {
+	function add_redirect_part($part, &$result) {
 	global $ibforums;
 
 	if ( $ibforums->input[ $part ] ) $result .= "&".$part."=".$ibforums->input[ $part ];
@@ -1469,19 +1469,19 @@ class Moderate {
 	//Jureth
 	if ( "search" == $ibforums->input['old_act'] ) {
 		$result = "act=Search&CODE=show";
-		$this->add_redirect_part("searchid", &$result);
-		$this->add_redirect_part("search_in", &$result);
-		$this->add_redirect_part("result_type", &$result);
-		$this->add_redirect_part("new", &$result);
-		$this->add_redirect_part("hl", &$result);
+		$this->add_redirect_part("searchid", $result);
+		$this->add_redirect_part("search_in", $result);
+		$this->add_redirect_part("result_type", $result);
+		$this->add_redirect_part("new", $result);
+		$this->add_redirect_part("hl", $result);
 	}else{
 		$result = "showforum=".$this->forum['id'];
 
-		$this->add_redirect_part("view", &$result);
-		$this->add_redirect_part("prune_day", &$result);
-		$this->add_redirect_part("sort_by", &$result);
-		$this->add_redirect_part("sort_key", &$result);
-		$this->add_redirect_part("st", &$result);
+		$this->add_redirect_part("view", $result);
+		$this->add_redirect_part("prune_day", $result);
+		$this->add_redirect_part("sort_by", $result);
+		$this->add_redirect_part("sort_key", $result);
+		$this->add_redirect_part("st", $result);
 	}
 
 	return $result;
@@ -1688,7 +1688,7 @@ class Moderate {
 									
 									if ( USE_MODULES == 1 )
 									{
-										$this->modules->register_class(&$class);
+										$this->modules->register_class($class);
 										$this->modules->on_group_change($ibforums->member['id'], $gid);
 									}
 								}
@@ -1904,7 +1904,7 @@ class Moderate {
 									
 									if ( USE_MODULES == 1 )
 									{
-										$this->modules->register_class(&$class);
+										$this->modules->register_class($class);
 										$this->modules->on_group_change($ibforums->member['id'], $gid);
 									}
 								}

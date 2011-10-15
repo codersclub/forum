@@ -193,7 +193,7 @@ class UserCP {
 		
     	$print->add_output( $menu_html );
     	
-    	$this->lib    = new usercp_functions(&$this);
+    	$this->lib    = new usercp_functions($this);
     	
     	//--------------------------------------------
     	// What to do?
@@ -1364,21 +1364,37 @@ class UserCP {
  		
  		$offset = ( $ibforums->member['time_offset'] != "" ) ? $ibforums->member['time_offset'] : $ibforums->vars['time_offset'];
  		
- 		$time_select = "<select name='u_timezone' class='forminput'>";
+ 		$time_select_append = '';
+ 		
+ 		if (!preg_match('!\w+/[\w/]+!', $offset)) {
+ 			$str_offset = 'Europe/Moscow';
+	 		foreach( $ibforums->lang as $off => $words )
+	 		{
+	 			if (preg_match("/^time_(\S+)$/", $off, $match))
+	 			{
+	 				if ($match[1] == $offset) {
+	 					$time_select_append .= "<br><br>Ваша текущая установка: " . $words;
+	 				}
+	 			}
+	 		}
+ 		} else {
+ 			$str_offset = $offset;
+ 			
+ 			
+ 		}
+ 		
+ 		$time_select = "Регион: <select id='u_tz_region' name='u_tz_region' class='forminput'></select>".
+ 		               " Часовая зона: <select id='u_tz_zone' name='u_tz_zone' class='forminput'></select>".
+ 		               "<script src='/html/timezones.js.php?current=$str_offset'></script>$time_select_append";
+ 		
+ 		/*$time_select = "<select name='u_timezone' class='forminput'>";
  		
  		// Loop through the langauge time offsets and names to build our
  		// HTML jump box.
  		
- 		foreach( $ibforums->lang as $off => $words )
- 		{
- 			if (preg_match("/^time_(\S+)$/", $off, $match))
- 			{
-				$time_select .= $match[1] == $offset ? "<option value='{$match[1]}' selected='selected'>$words</option>"
-								     : "<option value='{$match[1]}'>$words</option>";
- 			}
- 		}
  		
  		$time_select .= "</select>";
+ 		*/
  		
  		// Print out the header..
  		
@@ -2474,7 +2490,7 @@ class UserCP {
 
  	// Change board layout (start)
 
-	function subforums_search_list($children, $id, $level, $temp_html, $fs) {
+	function subforums_search_list($children, $id, $level, &$temp_html, $fs) {
 	global $std;
 
 	if ( isset($children[ $id ]) and count($children[ $id ]) > 0)
@@ -2499,7 +2515,7 @@ class UserCP {
 
 			$temp_html .= $this->html->boardlay_between($r,$checkbox);
 
-			$this->subforums_search_list($children, $r['id'], $level + 1, &$temp_html, $fs);
+			$this->subforums_search_list($children, $r['id'], $level + 1, $temp_html, $fs);
 		}
 	}
 
@@ -2572,7 +2588,7 @@ class UserCP {
 
 				$temp_html .= $this->html->boardlay_between($r,$checkbox);
 	
-				$this->subforums_search_list($children, $r['id'], 1, &$temp_html, $fs);
+				$this->subforums_search_list($children, $r['id'], 1, $temp_html, $fs);
 			}
 		}
 

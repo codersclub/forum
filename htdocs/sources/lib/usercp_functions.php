@@ -471,11 +471,11 @@ class usercp_functions {
 					    'MSG' => 'complete_form' ) );
 		}
 		//+----------------------------------------
-		if ( !preg_match( "/^[\-\d\.]+$/", $ibforums->input['u_timezone'] ) )
+		/* if ( !preg_match( "/^[\-\d\.]+$/", $ibforums->input['u_timezone'] ) )
 		{
 			$std->Error( array( 'LEVEL' => 1,
 					    'MSG' => 'poss_hack_attempt' ) );
-		}
+		} */
 
 		//+----------------------------------------
 		if ( !preg_match( "/^\d+$/", $ibforums->input['VIEW_IMG'] ) )
@@ -538,6 +538,13 @@ class usercp_functions {
 			$ibforums->input['topicpage'] = '-1';
 		}
 		
+		$timezone = $ibforums->input['u_tz_region'] . '/' . $ibforums->input['u_tz_zone'] ;
+		if (!timezone_open($timezone)) {
+			var_dump(1111);
+			$std->Error( array( 'LEVEL' => 1,
+								    'MSG' => 'unknown_timezone_selected' ) );
+		}
+		
 		//+----------------------------------------
 	  	if(intval($ibforums->input['VIEW_POST_WRAP_SIZE']) < 0 || 
 	  		intval($ibforums->input['VIEW_POST_WRAP_SIZE']) > 2147483647){
@@ -546,7 +553,7 @@ class usercp_functions {
 	  		$post_wrap_size = intval($ibforums->input['VIEW_POST_WRAP_SIZE']);
 	  	}		
 		$db_string = $DB->compile_db_update_string(  array (
-				  'time_offset'  	=> $ibforums->input['u_timezone'],
+				  'time_offset'  	=> $timezone, //$ibforums->input['u_timezone'],
 				  'view_avs'     	=> $ibforums->input['VIEW_AVS'],
 				  'view_sigs'    	=> $ibforums->input['VIEW_SIGS'],
 				  'view_img'     	=> $ibforums->input['VIEW_IMG'],

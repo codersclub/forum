@@ -50,7 +50,6 @@ class FUNC {
 
 	$this->num_format = ($INFO['number_format'] == 'space') ? ' ' : $INFO['number_format'];
 	
-	$this->get_magic_quotes = get_magic_quotes_gpc();
 		
 	}
 
@@ -1109,11 +1108,6 @@ class FUNC {
 	{
 		$t = str_replace( '$', "&#036;", $t);
 			
-		if ( get_magic_quotes_gpc() )
-		{
-			$t = stripslashes($t);
-		}
-		
 		$t = preg_replace( "/\\\(?!&amp;#|\?#)/", "&#092;", $t );
 		
 		return $t;
@@ -2565,57 +2559,95 @@ echo "-----------------<br>\n";
         return gmdate($this->time_options[$method], ($date + $this->offset) );
     }
 
-   function get_date($date, $method = '', $html = 1) {
-   global $ibforums;
+    function get_date($date, $method = '', $html = 1) {
+    	global $ibforums;
 
-        if ( !$date ) return '--';
-
-        if (empty($method)) $method = 'LONG';
-
-        if ($this->offset_set == 0) 
-	{
-		$this->offset = (($ibforums->member['time_offset'] != "") ? $ibforums->member['time_offset'] : $ibforums->vars['time_offset']) * 3600;
-
-		if ($ibforums->vars['time_adjust'] != "" and $ibforums->vars['time_adjust'] != 0) 
-		{
-			$this->offset += ($ibforums->vars['time_adjust'] * 60);
-		}
-
-// exodus		if ($ibforums->member['dst_in_use']) $this->offset += 3600; else $this->offset_set = 1;
-// exodus:
-		if ($ibforums->member['dst_in_use']) $this->offset += date('I') * 3600; else $this->offset_set = 1;
-        }
-
-	$todaystamp = mktime();
-	$todaydate = gmdate("F j Y", ($todaystamp + $this->offset));
-
-	$yestdate = gmdate("F j Y", (($todaystamp-86400) + $this->offset));
-    	$postdate = gmdate("F j Y", ($date + $this->offset));
-
-        $tydate = "";
-
-	if ( $postdate == $todaydate) 
-	{
-		if ( $html != -1 ) $tydate = ( $html ) ? "<b>" : "[b]";
-
-		if ( $ibforums->member['today'] ) $tydate .= $ibforums->member['today']; else $tydate .= "Сегодня";
-
-		if ( $html != -1 ) $tydate .= ( $html ) ? "</b>" : "[/b]";
-
-		$tydate .= ", ";
-	} else 
-	{
-		if ( $postdate == $yestdate) 
-		 if ( $ibforums->member['yesterday'] ) $tydate .= $ibforums->member['yesterday'].", "; else $tydate .= "Вчера, ";
-	}
+    	if ( !$date ) return '--';
+    	if (empty($method)) $method = 'LONG';
 		
-	if ( $tydate ) return $tydate.gmdate("H:i", ($date + $this->offset) ); else 
-	{
-		return gmdate($this->time_options[$method], ($date + $this->offset) );
-	}
+    	$offset = $ibforums->member['time_offset'] ?: $ibforums->vars['time_offset'];
+    	
+    	if (preg_match('!\w+/[\w/]+!', $offset) ) {
+    		
+    		// new logic - timezone by name like 'Europe/Moscow'
+    		
+    		date_default_timezone_set($offset);
+    		
+    		$todaystamp = mktime();
+    		$todaydate = date("F j Y", ($todaystamp));
+    		
+    		$yestdate = date("F j Y", $todaystamp-86400);
+    		$postdate = date("F j Y", $date );
+    		
+    		if ($ibforums->member['dst_in_use']) {
+    			$offset = date('I') * 3600;
+    		} else {
+    			$offset = 0;
+    		}
+    		
+    		$gmdate = function($format, $date) use ($offset) {
+    			return date($format, $date + $offset);
+    		};
+    	} else {
+    		
+    		date_default_timezone_set('UTC');
+    		
+    		// old logic - numeric time offset
+	    	if ($this->offset_set == 0)
+	    	{
+				
+		    	$this->offset = $offset * 3600;
+    			
+	    		if ($ibforums->vars['time_adjust'] != "" and $ibforums->vars['time_adjust'] != 0)
+	    		{
+	    			$this->offset += ($ibforums->vars['time_adjust'] * 60);
+	    		}
+	
+	    		if ($ibforums->member['dst_in_use']) {
+	    			$this->offset += date('I') * 3600; 
+	    		} else {
+	    			$this->offset_set = 1;
+	    		}
+	    	}
+	    	$todaystamp = mktime();
+	    	$todaydate = gmdate("F j Y", ($todaystamp + $this->offset));
+	
+	    	$yestdate = gmdate("F j Y", (($todaystamp-86400) + $this->offset));
+	    	$postdate = gmdate("F j Y", ($date + $this->offset));
+	    	
+	    	$offset = $this->offset;
+	    	$gmdate = function($format, $date) use ($offset) {
+	    		return date($format, $date + $offset);
+	    	};
+
+    	}
+    	
+
+    	$tydate = "";
+
+    	if ( $postdate == $todaydate )
+    	{
+    		if ( $html != -1 ) $tydate = ( $html ) ? "<b>" : "[b]";
+
+    		if ( $ibforums->member['today'] ) $tydate .= $ibforums->member['today']; else $tydate .= "Сегодня";
+
+    		if ( $html != -1 ) $tydate .= ( $html ) ? "</b>" : "[/b]";
+
+    		$tydate .= ", ";
+    	} else
+    	{
+    		if ( $postdate == $yestdate )
+    		if ( $ibforums->member['yesterday'] ) $tydate .= $ibforums->member['yesterday'].", "; else $tydate .= "Вчера, ";
+    	}
+
+    	if ( $tydate ) {
+    		return $tydate.$gmdate("H:i", $date );
+    	} else {
+    		return $gmdate($this->time_options[$method], $date );
+    	}
 
     }
-
+    
 // Song * today/yesterday
     
     /*-------------------------------------------------------------------------*/

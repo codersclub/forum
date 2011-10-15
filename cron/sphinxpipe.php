@@ -18,7 +18,7 @@ $std_err_output = fopen("php://stderr", "w");
 
 // parse input parameters
 $index_section_name = $_SERVER['argv'][1];
-$vbulletin_root_path = $_SERVER['argv'][2];
+// $vbulletin_root_path = $_SERVER['argv'][2];
 
 
 // get data from vbulletin config
@@ -68,12 +68,12 @@ else
     }
 }
 $db_conf['schema'] = $config['Database']['dbname'];
-*/
 $table_prefix = $config['Database']['tableprefix'];
+*/
 
 $db_conf['host'] = 'localhost';
-$db_conf['user'] = 'mysql_user';
-$db_conf['pass'] = 'mysql_password';
+$db_conf['user'] = 'root';
+$db_conf['pass'] = '';
 $db_conf['schema'] = 'invision';
 $db_conf['port'] =  3306;
 $db_conf['socket'] = '';

@@ -1002,7 +1002,7 @@ return <<<EOF
 <br>
 $time_select
 <br><br>
-<input type='checkbox' class='forminput' name='DST' value='1' $dst_check> &nbsp;{$ibforums->lang['dst_box']}
+<label><input type='checkbox' class='forminput' name='DST' value='1' $dst_check> &nbsp;{$ibforums->lang['dst_box']}</label>
 </p>
 
 EOF;
