@@ -4,10 +4,10 @@ require_once "Attach.php";
 
 class Att 
 {
-	var $html = "";
-	var $pt = "";
+	public $html = "";
+	public $pt = "";
 	
-	function Att()
+	function __construct()
 	{
 		global $ibforums, $DB, $std;
 		
@@ -172,7 +172,7 @@ class Att
 		
 		//make page's buttons
 		
-		$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$base_link.$location_vars.$view_vars."&quot;, ".$count.", ".COUNT.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / COUNT)).")&nbsp;";
+		$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$base_link.$location_vars.$view_vars."&quot;, ".$count.", ".$count_on_page.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / $count_on_page)).")&nbsp;";
 		if($st >= $count_on_page)
 		{
 			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=0'>".$ibforums->lang['ps_first']."</a>&nbsp;";
