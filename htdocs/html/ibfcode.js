@@ -30,8 +30,8 @@ var QUOTE_open = 0;
 var CODE_open = 0;
 var SQL_open = 0;
 var HTML_open = 0;
-var spoiler_open = 0;
-var quote_open = 0;
+var Spoiler_open = 0;
+var QUOTE_open = 0;
 var td_open = 0;
 var tr_open = 0;
 var th_open = 0;
@@ -249,7 +249,7 @@ function tag_list()
     $('#list_dialog').jqcd({
       width: 420,
       height: 230,
-      title_text: '[LIST]',
+      title_text: text_list,
       buttons_position: 'center',
       position: 'center' 
     });
@@ -314,7 +314,7 @@ function tag_list()
 	}
 	
     function checkForNewField(number_cur)
-	{
+    {
       if (is_inserting_field) return 0;
       is_inserting_field=true;
       var current=document.getElementById("list_field"+number_cur);
@@ -323,7 +323,7 @@ function tag_list()
       if (current.value && !document.getElementById(id))
       {
         addField(number);
-	}
+      }
       checkForRemoveField(number_cur);
       is_inserting_field=false;
     }
@@ -403,7 +403,7 @@ function tag_url()
     $('#url_dialog').jqcd({
       width: 420,
       height: 180,
-      title_text: '[URL]',
+      title_text: text_url,
       buttons_position: 'center',
       position: 'center' 
     });
@@ -416,7 +416,7 @@ function tag_url()
     {
         selection_range.select();
         document.forms.REPLIER.Post.focus();
-        }
+        } 
       url = document.forms.url_form.url_url.value;
       name = document.forms.url_form.url_url_name.value;
       if (url=="http://")  url=""; 
@@ -447,7 +447,7 @@ function tag_image()
     $('#img_dialog').jqcd({
       width: 420,
       height: 130,
-      title_text: '[IMG]',
+      title_text: text_img,
       buttons_position: 'center',
       position: 'center' 
     });
@@ -513,19 +513,49 @@ function tag_attach(num) {
 
 function tag_spoiler()
 {
-	if (spoiler_open > 0) {
-		doInsert("[/spoiler]", "", false);
-		document.REPLIER.spoiler.value = document.REPLIER.spoiler.value.replace(/ \*$/,'');
-		spoiler_open--;
+	if (Spoiler_open > 0) {
+		// Find the last occurance of the opened tag
+		lastindex = 0;
+		
 		for (i = 0 ; i < bbtags.length; i++ )
 		{
-			if ( bbtags[i] == 'spoiler' )
+			if ( bbtags[i] == 'Spoiler' )
 			{
 				lastindex = i;
 			}
 		}
-	} else {
+		
+		// Close all tags opened up to that tag was opened
+		while (bbtags[lastindex])
+		{
+			tagRemove = popstack(bbtags);
+			doInsert("[/" + tagRemove + "]", "", false)
+                  // Change the button status
+			if ( (tagRemove != 'FONT') && (tagRemove != 'SIZE') && (tagRemove != 'COLOR') )
+			{
+				eval("document.REPLIER." + tagRemove + ".value = ' " + tagRemove + " '");
+				eval(tagRemove + "_open = 0");
+			}
 
+		}	
+                cstat();
+
+	} else 
+        if (!keyCtrl) 
+        {
+            if (selection_range) 
+	    {
+	      selection_range.select();
+	      document.forms.REPLIER.Post.focus();
+	    }
+            if (doInsert('[Spoiler]', '[/Spoiler]', true)) {
+		    Spoiler_open ++;
+	    	document.REPLIER.Spoiler.value += ' *';
+			pushstack(bbtags, 'Spoiler');
+			cstat();
+            }
+	} else {
+ 
         if (last=document.getElementById('spl_dialog')) document.body.removeChild(last);
 	if (document.selection) var selection_range=document.selection.createRange();
         var enterText='';
@@ -538,7 +568,7 @@ function tag_spoiler()
           $('#spl_dialog').jqcd({
             width: 420,
             height: 130,
-            title_text: '[spoiler]',
+            title_text: text_spoiler,
             buttons_position: 'center',
             position: 'center' 
           });
@@ -548,20 +578,20 @@ function tag_spoiler()
           function OKBtn()
           {
             enterText = document.forms.spl_form.spl_text.value;
-	    var openTag = '[spoiler]';
+	    var openTag = '[Spoiler]';
 	    if (enterText && enterText != text_spoiler_hidden_text) {
-	    	openTag = '[spoiler=' + enterText + ']';
+	    	openTag = '[Spoiler=' + enterText + ']';
 	    }
 	    if (selection_range) 
 	    {
               selection_range.select();
 	      document.forms.REPLIER.Post.focus();
 	    }
-	    if (doInsert(openTag, '[/spoiler]', true)) {
-		    spoiler_open ++;
-	    	document.REPLIER.spoiler.value += ' *';
-			pushstack(bbtags, 'spoiler');
-			cstat();
+	    if (doInsert(openTag, '[/Spoiler]', true)) {
+		    Spoiler_open ++;
+	    	    document.REPLIER.Spoiler.value += ' *';
+		    pushstack(bbtags, 'Spoiler');
+		    cstat();
 	    }
             $('#spl_dialog').jqcd_close();
 	}
@@ -583,21 +613,63 @@ function tag_spoiler()
       }
 }
 
+var keyShift, keyAlt, keyCtrl;
+
+document.onkeyup = document.onkeydown = function checkKeycode(event)
+{
+	if(!event) var event = window.event;
+	keyShift = event.shiftKey;
+	keyAlt = event.altKey;
+	keyCtrl = event.ctrlKey;
+}
+
+
 function tag_quote()
 {
-	if (quote_open > 0) {
-		doInsert("[/quote]", "", false);
-		document.REPLIER.quote.value = document.REPLIER.quote.value.replace(/ \*$/,'');
-		quote_open--;
+	if (QUOTE_open > 0) {
+	        // Find the last occurance of the opened tag
+		lastindex = 0;
+		
 		for (i = 0 ; i < bbtags.length; i++ )
 		{
-			if ( bbtags[i] == 'quote' )
+			if ( bbtags[i] == 'QUOTE' )
 			{
 				lastindex = i;
 			}
 		}
-	} else {
+		
+		// Close all tags opened up to that tag was opened
+		while (bbtags[lastindex])
+		{
+			tagRemove = popstack(bbtags);
+			doInsert("[/" + tagRemove + "]", "", false)
+                  // Change the button status
+			if ( (tagRemove != 'FONT') && (tagRemove != 'SIZE') && (tagRemove != 'COLOR') )
+			{
+				eval("document.REPLIER." + tagRemove + ".value = ' " + tagRemove + " '");
+				eval(tagRemove + "_open = 0");
+			}
 
+		}	
+                cstat();
+
+        } else
+        if (!keyCtrl) 
+        {
+            if (selection_range) 
+	    {
+	      selection_range.select();
+	      document.forms.REPLIER.Post.focus();
+	    }
+            if (doInsert('[QUOTE]', '[/QUOTE]', true)) {
+		    QUOTE_open ++;
+	    	document.REPLIER.QUOTE.value += ' *';
+			pushstack(bbtags, 'QUOTE');
+			cstat();
+	    }
+        }  else
+        {
+	    
         if (last=document.getElementById('qt_dialog')) document.body.removeChild(last);
 	if (document.selection) var selection_range=document.selection.createRange();
         var enterText='';
@@ -610,7 +682,7 @@ function tag_quote()
           $('#qt_dialog').jqcd({
             width: 420,
             height: 130,
-            title_text: '[quote]',
+            title_text: text_quote,
             buttons_position: 'center',
             position: 'center' 
           });
@@ -620,23 +692,23 @@ function tag_quote()
           function OKBtn()
           {
             enterText = document.forms.qt_form.qt_text.value;
-	    var openTag = '[quote]';
+	    var openTag = '[QUOTE]';
 	    if (enterText) {
-	    	openTag = '[quote=' + enterText + ']';
+	    	openTag = '[QUOTE=' + enterText + ']';
 	    }
             if (selection_range) 
 	    {
 	      selection_range.select();
 	      document.forms.REPLIER.Post.focus();
 	    }
-            if (doInsert(openTag, '[/quote]', true)) {
-		    quote_open ++;
-	    	document.REPLIER.quote.value += ' *';
-			pushstack(bbtags, 'quote');
+            if (doInsert(openTag, '[/QUOTE]', true)) {
+		    QUOTE_open ++;
+	    	document.REPLIER.QUOTE.value += ' *';
+			pushstack(bbtags, 'QUOTE');
 			cstat();
 	    }
             $('#qt_dialog').jqcd_close();
-	}
+          }
           $('#qt_dialog').jqcd_add_button('qt_ok_button', 'OK',true,OKBtn); 
           $('#qt_dialog').keypress(function(event)
           { 
@@ -644,7 +716,7 @@ function tag_quote()
 	    {
 	      OKBtn(); 
               return false;
-}
+	    }
 	  });
           $('#qt_dialog').jqcd_add_button('qt_cancel_button', text_cancel, false,function() {$('#qt_dialog').jqcd_close(); });
           $('#qt_text').focus();
@@ -652,7 +724,7 @@ function tag_quote()
 
 
 
-      }
+	}
 }
 
 

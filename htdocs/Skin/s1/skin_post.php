@@ -698,8 +698,8 @@ return <<<EOF
 	   <!--div style="height:3px"--><!-- --><!--/div-->
 
 	   <input type='button' accesskey='l' value=' LIST ' onclick='tag_list()' class='codebuttons' name="LIST">&nbsp;
-	   <input type='button' accesskey='q' value='QUOTE' onclick='tag_quote()' class='codebuttons' name='quote'>
-	   <input type='button' accesskey='p' value='Spoiler' onclick='tag_spoiler()' class='codebuttons' name='spoiler'>
+	   <input type='button' accesskey='q' value='QUOTE' onclick='tag_quote()' class='codebuttons' name='QUOTE'>
+	   <input type='button' accesskey='p' value='Spoiler' onclick='tag_spoiler()' class='codebuttons' name='Spoiler'>
 	   <input type='button' accesskey='h' value=' http:// ' onclick='tag_url()' class='codebuttons' name='url'>
 	   <input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
 
