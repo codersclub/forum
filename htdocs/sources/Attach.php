@@ -261,19 +261,19 @@ class Attach2 {
 		return in_array($type, $image_types);
 	}
 	
-	public static function createFromRow(array &$row)
+	protected static function createFromRow(array &$row)
 	{
 		$a = new self;
 		
-		$a->type	= isset($row['type']) ? $row['type'] : "";
-		$a->filename= isset($row['filename']) ? $row['filename'] : "";
-		$a->size	= isset($row['size']) ? $row['size'] : 0;
-		$a->tmp_name= isset($row['tmp_name']) ? $row['tmp_name'] : "";
-		$a->post_id	= isset($row['post_id']) ? $row['post_id'] : 0;
-		$a->hits	= isset($row['hits']) ? $row['hits'] : 0;
+		$a->type	= $row['type'];
+		$a->filename= $row['filename'];
+		$a->size	= $row['size'];
+		$a->tmp_name= $row['tmp_name'];
+		$a->post_id	= $row['post_id'];
+		$a->hits	= $row['hits'];
 		
-		$a->attach_id	= isset($row['attach_id']) ? $row['attach_id'] : 0;
-		$a->realFilename= isset($row['real_filename']) ? $row['real_filename'] : "";
+		$a->attach_id	= $row['attach_id'];
+		$a->realFilename= $row['real_filename'];
 		
 		$a->item_id  = $row['item_id'] ?: $a->post_id; // bakward compatibility
 		$a->item_type= $row['item_type'] ?: self::ITEM_TYPE_POST;
@@ -499,11 +499,6 @@ class Attach2 {
 		$this->item_type = $item_type;
 	}
 	
-	public function getLink()
-	{
-		global $ibforums;
-		return ($this->getImageOfType())."<a href='".($ibforums->base_url)."act=Attach&amp;type=post&amp;id=".($this->postId())."&amp;attach_id=".($this->attachId())."' title='Скачать файл' target='_blank'>".($this->filename())."</a>";
-	}
 }
 
 }

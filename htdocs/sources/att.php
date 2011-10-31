@@ -2,12 +2,46 @@
 
 require_once "Attach.php";
 
+class Attach3 extends Attach2
+{
+	function assignFromArray($arr)
+	{
+		if(isset($arr['aid'])){
+			$this->setAttachId($arr['aid']);
+		}
+		if(isset($arr['pid'])){
+			$this->setPostId($arr['pid']);
+		}
+		if(isset($arr['fn'])){
+			$this->setFilename($arr['fn']);
+		}
+		if(isset($arr['r_fn'])){
+			$this->setRealFilename($arr['r_fn']);
+		}
+		if(isset($arr['size'])){
+			$this->setSize($arr['size']);
+		}
+		if(isset($arr['type'])){
+			$this->setType($arr['type']);
+		}
+		if(isset($arr['hits'])){
+			$this->setHits($arr['hits']);
+		}
+	}
+
+	function getLink()
+	{
+		global $ibforums;
+		return ($this->getImageOfType())."<a href='".($ibforums->base_url)."act=Attach&amp;type=post&amp;id=".($this->postId())."&amp;attach_id=".($this->attachId())."' title='Скачать файл' target='_blank'>".($this->filename())."</a>";
+	}
+}
+
 class Att 
 {
-	public $html = "";
-	public $pt = "";
+	var $html = "";
+	var $pt = "";
 	
-	function __construct()
+	function Att()
 	{
 		global $ibforums, $DB, $std;
 		
@@ -47,7 +81,7 @@ class Att
 			$where_str = " AND t2.topic_id = ".$topicid;
 		}
 
-		$count_on_page = 25;
+		define('COUNT', 25);
 		
 		$DB->query("
 			SELECT DISTINCTROW
@@ -133,21 +167,21 @@ class Att
 			}
 		}
 		
-		$sort_str = array("pdate", "filename", "size", "hits" ,"pid", "ttitle", "fname");
+		$sort_str = array("pdate", "fn", "size", "hits" ,"pid", "ttitle", "fname");
 		$link_sort_str = array("date", "filename", "size", "hits", "post", "topic", "forum");		
 		
 		$q = "SELECT DISTINCTROW
-			t1.attach_id	AS	attach_id,
-			t1.post_id		AS	post_id,
-			t1.filename		AS	filename,
-			t1.type			AS	type,
-			t1.size			AS	size,
-			t1.hits			AS	hits,
-			t2.post_date	AS	pdate,
-			t2.topic_id		AS	tid,
-			t2.forum_id		AS	fid,
-			t3.title		AS	ttitle,
-			t4.name			AS	fname
+			t1.attach_id AS aid,
+			t1.post_id AS pid,
+			t1.filename AS fn,
+			t1.type AS type,
+			t1.size AS size,
+			t1.hits AS hits,
+			t2.post_date AS pdate,
+			t2.topic_id AS tid,
+			t2.forum_id AS fid,
+			t3.title AS ttitle,
+			t4.name AS fname
 			FROM
 			ibf_posts As t2
 			JOIN
@@ -160,7 +194,7 @@ class Att
 				ibf_forums AS t4
 				ON t4.id = t2.forum_id
 			WHERE
-			t2.author_id = ".$mid.$where_str." ORDER BY ".($sort_str[$sort]).($desc == 1 ? " DESC" : "")." LIMIT ".$st.", ".$count_on_page;
+			t2.author_id = ".$mid.$where_str." ORDER BY ".($sort_str[$sort]).($desc == 1 ? " DESC" : "")." LIMIT ".$st.", ".COUNT;
 			
 		$DB->query($q);
 		
@@ -172,17 +206,17 @@ class Att
 		
 		//make page's buttons
 		
-		$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$base_link.$location_vars.$view_vars."&quot;, ".$count.", ".$count_on_page.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / $count_on_page)).")&nbsp;";
-		if($st >= $count_on_page)
+		$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$base_link.$location_vars.$view_vars."&quot;, ".$count.", ".COUNT.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / COUNT)).")&nbsp;";
+		if($st >= COUNT)
 		{
 			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=0'>".$ibforums->lang['ps_first']."</a>&nbsp;";
-			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=".($st - $count_on_page)."'>".$ibforums->lang['ps_previous']."</a>&nbsp;";
+			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=".($st - COUNT)."'>".$ibforums->lang['ps_previous']."</a>&nbsp;";
 		}
-		$pages_list .= intval(ceil(($st + 1) / $count_on_page));
-		if($st + $count_on_page < $count)
+		$pages_list .= intval(ceil(($st + 1) / COUNT));
+		if($st + COUNT < $count)
 		{
-			$pages_list .= "&nbsp;<a href='".$base_link.$location_vars.$view_vars."&amp;st=".($st + $count_on_page)."'>".$ibforums->lang['ps_next']."</a>&nbsp;";
-			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=".(intval(ceil($count / $count_on_page)) - 1) * $count_on_page."'>".$ibforums->lang['ps_last']."</a>";
+			$pages_list .= "&nbsp;<a href='".$base_link.$location_vars.$view_vars."&amp;st=".($st + COUNT)."'>".$ibforums->lang['ps_next']."</a>&nbsp;";
+			$pages_list .= "<a href='".$base_link.$location_vars.$view_vars."&amp;st=".(intval(ceil($count / COUNT)) - 1) * COUNT."'>".$ibforums->lang['ps_last']."</a>";
 		}
 
 		//make table:
@@ -207,21 +241,21 @@ class Att
 		
 		//main body:
 		
-		$attfile = new Attach2;				
+		$attfile = new Attach3;				
 		
-		$countrec = $DB->get_num_rows() >= $count_on_page ? $count_on_pagev : $DB->get_num_rows();		
+		$countrec = $DB->get_num_rows() >= COUNT ? COUNT : $DB->get_num_rows();		
 		for ($i = 0; $i < $countrec; $i++)
 		{
 			$res = $DB->fetch_row();
 			
-			$attfile = Attach2::createFromRow($res);
+			$attfile->assignFromArray($res);
 			
 			$this->html .= "
 						   <tr><td class='row4'>".($attfile->getLink())."</td>
 			               <td class='row4'>".$attfile->sizeAsString()."</td>
 			               <td class='row4'>".($res['hits'])."</td>
 			               <td class='row4'>".date("d.m.Y", $res['pdate'])."</td>
-			               <td class='row4'><a href='".$ibforums->base_url."showtopic=".$res['tid']."&amp;view=findpost&amp;p=".$res['post_id']."'>".$res['post_id']."</a></td>
+			               <td class='row4'><a href='".$ibforums->base_url."showtopic=".$res['tid']."&amp;view=findpost&amp;p=".$res['pid']."'>".$res['pid']."</a></td>
 			               <td class='row4'><a href='".$base_link.$view_vars."&amp;topicid=".$res['tid']."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showtopic=".$res['tid']."'>".$res['ttitle']."</a></td>
 			               <td class='row4'><a href='".$base_link.$view_vars."&amp;forumid=".$res['fid']."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showforum=".$res['fid']."'>".$res['fname']."</a></td></tr>";
 		}
