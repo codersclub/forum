@@ -475,7 +475,6 @@ var upload_attach_too_big = "{$ibforums->lang['upload_to_big']}";
 var max_attach_size = {$ibforums->member['g_attach_max']};
 </script>
 
-<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jqcd/jqcd.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 
