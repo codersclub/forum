@@ -2183,6 +2183,18 @@ CREATE TABLE `ip_table` (
   UNIQUE KEY `id` (`id`),
   KEY `mid` (`mid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+--
+-- Table structure for table `ibf_attachments_link`
+--
+
+CREATE TABLE `ibf_attachments_link` (
+  `attach_id` int(11) NOT NULL,
+  `item_type` enum('post','private_message','topic_draft') NOT NULL DEFAULT 'post',
+  `item_id` int(11) NOT NULL,
+  PRIMARY KEY (`attach_id`,`item_type`,`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
