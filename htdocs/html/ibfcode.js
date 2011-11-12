@@ -427,6 +427,7 @@ function tag_url()
     $('#url_dialog').jqcd_add_button('url_ok_button', 'OK',true,OKBtn); 
     $('#url_dialog').keypress(function(event){ if (event.which == 13) OKBtn(); });
     $('#url_dialog').jqcd_add_button('url_cancel_button', text_cancel, false,function(){$('#url_dialog').jqcd_close();});
+    $('#'+for_focus).select();
     $('#'+for_focus).focus();
  });
 }
@@ -476,6 +477,7 @@ function tag_image()
     }
     });
     $('#img_dialog').jqcd_add_button('img_cancel_button', text_cancel, false,function() {$('#img_dialog').jqcd_close(); });
+    $('#img_url').select();
     $('#img_url').focus();
  });
 
@@ -510,13 +512,12 @@ function tag_attach(num) {
 	return false;
 }
 
-
 function tag_spoiler()
 {
-	if (Spoiler_open > 0) {
+  if (Spoiler_open > 0) 
+  {
 		// Find the last occurance of the opened tag
 		lastindex = 0;
-		
 		for (i = 0 ; i < bbtags.length; i++ )
 		{
 			if ( bbtags[i] == 'Spoiler' )
@@ -536,26 +537,55 @@ function tag_spoiler()
 				eval("document.REPLIER." + tagRemove + ".value = ' " + tagRemove + " '");
 				eval(tagRemove + "_open = 0");
 			}
-
 		}	
                 cstat();
-
 	} else 
-        if (!keyCtrl) 
         {
+    if (document.selection) var selection_range=document.selection.createRange();
             if (selection_range) 
 	    {
 	      selection_range.select();
 	      document.forms.REPLIER.Post.focus();
 	    }
-            if (doInsert('[Spoiler]', '[/Spoiler]', true)) {
+    if (doInsert('[Spoiler]', '[/Spoiler]', true)) 
+    {
 		    Spoiler_open ++;
 	    	document.REPLIER.Spoiler.value += ' *';
 			pushstack(bbtags, 'Spoiler');
 			cstat();
             }
-	} else {
+  }
+	    }
  
+function tag_spoiler_dialog()
+{
+  if (Spoiler_open > 0) 
+  {
+    // Find the last occurance of the opened tag
+    lastindex = 0;
+    for (i = 0 ; i < bbtags.length; i++ )
+    {
+      if ( bbtags[i] == 'Spoiler' )
+      {
+        lastindex = i;
+      }
+    } 
+ 		
+    // Close all tags opened up to that tag was opened
+    while (bbtags[lastindex])
+    {
+      tagRemove = popstack(bbtags);
+      doInsert("[/" + tagRemove + "]", "", false)
+      // Change the button status
+      if ( (tagRemove != 'FONT') && (tagRemove != 'SIZE') && (tagRemove != 'COLOR') )
+      {
+        eval("document.REPLIER." + tagRemove + ".value = ' " + tagRemove + " '");
+        eval(tagRemove + "_open = 0");
+      }
+    }	
+    cstat();
+  } else 
+  {
         if (last=document.getElementById('spl_dialog')) document.body.removeChild(last);
 	if (document.selection) var selection_range=document.selection.createRange();
         var enterText='';
@@ -579,7 +609,8 @@ function tag_spoiler()
           {
             enterText = document.forms.spl_form.spl_text.value;
 	    var openTag = '[Spoiler]';
-	    if (enterText && enterText != text_spoiler_hidden_text) {
+        if (enterText && enterText != text_spoiler_hidden_text) 
+        {
 	    	openTag = '[Spoiler=' + enterText + ']';
 	    }
 	    if (selection_range) 
@@ -587,7 +618,8 @@ function tag_spoiler()
               selection_range.select();
 	      document.forms.REPLIER.Post.focus();
 	    }
-	    if (doInsert(openTag, '[/Spoiler]', true)) {
+        if (doInsert(openTag, '[/Spoiler]', true)) 
+        {
 		    Spoiler_open ++;
 	    	    document.REPLIER.Spoiler.value += ' *';
 		    pushstack(bbtags, 'Spoiler');
@@ -596,7 +628,8 @@ function tag_spoiler()
             $('#spl_dialog').jqcd_close();
 	}
           $('#spl_dialog').jqcd_add_button('spl_ok_button', 'OK',true,OKBtn); 
-          $('#spl_dialog').keypress(function(event)
+      $('#spl_dialog').keypress(
+        function(event)
 	  { 
 	    if (event.which == 13) 
 	    {
@@ -607,29 +640,15 @@ function tag_spoiler()
           $('#spl_dialog').jqcd_add_button('spl_cancel_button', text_cancel, false,function() {$('#spl_dialog').jqcd_close(); });
           $('#spl_text').focus();
        });
-
-
-
-      }
 }
-
-var keyShift, keyAlt, keyCtrl;
-
-document.onkeyup = document.onkeydown = function checkKeycode(event)
-{
-	if(!event) var event = window.event;
-	keyShift = event.shiftKey;
-	keyAlt = event.altKey;
-	keyCtrl = event.ctrlKey;
 }
-
 
 function tag_quote()
 {
-	if (QUOTE_open > 0) {
+  if (QUOTE_open > 0) 
+  {
 	        // Find the last occurance of the opened tag
 		lastindex = 0;
-		
 		for (i = 0 ; i < bbtags.length; i++ )
 		{
 			if ( bbtags[i] == 'QUOTE' )
@@ -637,7 +656,6 @@ function tag_quote()
 				lastindex = i;
 			}
 		}
-		
 		// Close all tags opened up to that tag was opened
 		while (bbtags[lastindex])
 		{
@@ -649,27 +667,56 @@ function tag_quote()
 				eval("document.REPLIER." + tagRemove + ".value = ' " + tagRemove + " '");
 				eval(tagRemove + "_open = 0");
 			}
-
 		}	
                 cstat();
-
         } else
-        if (!keyCtrl) 
         {
+    if (document.selection) var selection_range=document.selection.createRange();
             if (selection_range) 
 	    {
 	      selection_range.select();
 	      document.forms.REPLIER.Post.focus();
 	    }
-            if (doInsert('[QUOTE]', '[/QUOTE]', true)) {
+    if (doInsert('[QUOTE]', '[/QUOTE]', true)) 
+    {
 		    QUOTE_open ++;
 	    	document.REPLIER.QUOTE.value += ' *';
 			pushstack(bbtags, 'QUOTE');
 			cstat();
 	    }
+	}
+}
+
+
+
+function tag_quote_dialog()
+{
+  if (QUOTE_open > 0) 
+  {
+    // Find the last occurance of the opened tag
+    lastindex = 0;
+    for (i = 0 ; i < bbtags.length; i++ )
+    {
+      if ( bbtags[i] == 'QUOTE' )
+      {
+        lastindex = i;
+      }
+    }
+    // Close all tags opened up to that tag was opened
+    while (bbtags[lastindex])
+    {
+      tagRemove = popstack(bbtags);
+      doInsert("[/" + tagRemove + "]", "", false)
+      // Change the button status
+      if ( (tagRemove != 'FONT') && (tagRemove != 'SIZE') && (tagRemove != 'COLOR') )
+      {
+      eval("document.REPLIER." + tagRemove + ".value = ' " + tagRemove + " '");
+      eval(tagRemove + "_open = 0");
+      }
+    }	
+    cstat();
         }  else
         {
-	    
         if (last=document.getElementById('qt_dialog')) document.body.removeChild(last);
 	if (document.selection) var selection_range=document.selection.createRange();
         var enterText='';
@@ -701,7 +748,8 @@ function tag_quote()
 	      selection_range.select();
 	      document.forms.REPLIER.Post.focus();
 	    }
-            if (doInsert(openTag, '[/QUOTE]', true)) {
+        if (doInsert(openTag, '[/QUOTE]', true)) 
+        {
 		    QUOTE_open ++;
 	    	document.REPLIER.QUOTE.value += ' *';
 			pushstack(bbtags, 'QUOTE');
@@ -721,13 +769,8 @@ function tag_quote()
           $('#qt_dialog').jqcd_add_button('qt_cancel_button', text_cancel, false,function() {$('#qt_dialog').jqcd_close(); });
           $('#qt_text').focus();
        });
-
-
-
 	}
 }
-
-
 
 
 
