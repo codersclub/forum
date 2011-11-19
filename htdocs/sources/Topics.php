@@ -549,7 +549,7 @@ class Topics {
 		{
 		        if ( !$row['g_use_signature'] ) 
 			{
-				$poster['signature'] ="[color=gray][size=1]Подпись была выключена в связи с наложенным наказанием.[/size][/color]";
+				$poster['signature'] ="[color=gray][size=1]Подпись выключена.[/size][/color]";
 			}
 
 			$data = array(  
