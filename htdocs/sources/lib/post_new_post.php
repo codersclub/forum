@@ -22,8 +22,6 @@
 */
 
 
-
-
 class post_functions extends Post {
 
 	var $nav = array();
@@ -43,12 +41,12 @@ class post_functions extends Post {
 		
 		if ( !$ibforums->member['g_post_new_topics'])
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'no_starting') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_starting') );
 		}
 		
 		if ( $std->check_perms($class->forum['start_perms']) == FALSE )
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'no_starting') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_starting') );
 		}
 
 	}
@@ -100,7 +98,8 @@ class post_functions extends Post {
 		}
 		
 		if ( $class->obj['post_errors'] or
-		     $class->obj['preview_post'] ) 
+		     $class->obj['preview_post'] or 
+		     $class->upload_errors ) 
 		{
 			// Show the form again
 			$this->show_form($class);
@@ -559,6 +558,11 @@ class post_functions extends Post {
 			}
 
 			$class->output .= $class->html->errors( $ibforums->lang[ $class->obj['post_errors'] ] );
+		}
+		if ($class->upload_errors) {
+			foreach ($class->upload_errors as $error_message) {
+				$class->output .= $class->html->errors( $error_message );
+			}
 		}
 		
 		if ( $class->obj['preview_post'] )

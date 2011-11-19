@@ -110,9 +110,9 @@ class post_functions extends Post {
 
 		$this->poll_choices .= "<br>";
 
-		$this->poll_choices = preg_replace( "/<br><br>/" , "<br>", $this->poll_choices ); // Jureth: added <br> to the result text
+		$this->poll_choices = str_replace( '<br><br>' , '<br>', $this->poll_choices ); // Jureth: added <br> to the result text
 		
-		$this->poll_choices = preg_replace( "/<br>/e"    , "\$this->regex_count_choices()" , $this->poll_choices );
+		$this->poll_choices = preg_replace( '/<br>/e'    , '$this->regex_count_choices()' , $this->poll_choices );
 		
 		if ($this->poll_count > $ibforums->vars['max_poll_choices'])
 		{
@@ -156,12 +156,14 @@ class post_functions extends Post {
 		}
 		
 		
-		if ( ($class->obj['post_errors'] != "") or ($class->obj['preview_post'] != "") ) 
+		if ( ($class->obj['post_errors'] != "") or ($class->obj['preview_post'] != "") or $class->upload_errors) 
 		{
 			// Show the form again
 			$this->show_form($class);
 
-		} else $this->add_new_poll($class);
+		} else {
+			$this->add_new_poll($class);
+		}
 	}
 	
 	function add_new_poll(Post $class) {
@@ -461,6 +463,11 @@ class post_functions extends Post {
 			}
 
 			$class->output .= $class->html->errors( $ibforums->lang[ $class->obj['post_errors'] ]);
+		}
+		if ($class->upload_errors) {
+			foreach ($class->upload_errors as $error_message) {
+				$class->output .= $class->html->errors( $error_message );
+			}
 		}
 		
 		if ($class->obj['preview_post'])

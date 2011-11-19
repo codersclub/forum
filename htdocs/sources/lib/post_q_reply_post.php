@@ -86,15 +86,15 @@ class post_functions extends Post {
 		{
 			if ( !$ibforums->member['g_reply_other_topics'] )
 			{
-				$std->Error( array( LEVEL => 1,
-						    MSG => 'no_replies') );
+				$std->Error( array( 'LEVEL' => 1,
+						    'MSG' => 'no_replies') );
 			}
 		}
 		
 		if ( $std->check_perms($class->forum['reply_perms']) == FALSE )
 		{
-			$std->Error( array( LEVEL => 1,
-					    MSG => 'no_replies') );
+			$std->Error( array( 'LEVEL' => 1,
+					    'MSG' => 'no_replies') );
 		}
 		
 		// Is the topic locked?
@@ -106,8 +106,8 @@ class post_functions extends Post {
 				( $ibforums->member['g_is_supmod'] or
 				  $class->moderator['mid'] ) ) )
 			{
-				$std->Error( array( LEVEL => 1,
-						    MSG => 'locked_topic') );
+				$std->Error( array( 'LEVEL' => 1,
+						    'MSG' => 'locked_topic') );
 			}
 		}
 
@@ -115,7 +115,7 @@ class post_functions extends Post {
 	
 
 	//------------------------------------
-	function process($class) {
+	function process(Post $class) {
 	
 		global $ibforums, $std, $DB, $print;
 		
@@ -166,7 +166,7 @@ class post_functions extends Post {
 		}
 		
 		if ( ($class->obj['post_errors'] != "") or
-		     ($class->obj['preview_post'] != "") ) 
+		     ($class->obj['preview_post'] != "") or $class->upload_errors ) 
 		{
 			// Show the form again
 			$this->show_form($class);
@@ -742,6 +742,11 @@ class post_functions extends Post {
 			}
 
 			$class->output .= $class->html->errors( $ibforums->lang[ $class->obj['post_errors'] ]);
+		}
+		if ($class->upload_errors) {
+			foreach ($class->upload_errors as $error_message) {
+				$class->output .= $class->html->errors( $error_message );
+			}
 		}
 		
 		if ( $class->obj['preview_post'] )

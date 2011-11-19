@@ -59,7 +59,7 @@ class post_functions extends Post {
 		
 		if ( !$this->topic['tid'] ) 
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}
 		
 		//-------------------------------------------------
@@ -74,7 +74,7 @@ class post_functions extends Post {
 		
 		if ( !$this->orig_post['pid'] ) 
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}
 
 		//vot 23.08.2010
@@ -85,7 +85,7 @@ class post_functions extends Post {
 		   ||($this->orig_post['forum_id'] != intval($ibforums->input['f']))
 		   ) 
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}
 
 		//-------------------------------------------------
@@ -162,8 +162,8 @@ class post_functions extends Post {
 			      ( $ibforums->member['g_is_supmod'] or
 				$class->moderator['mid'] ) ) )
 			{
-				$std->Error( array( LEVEL => 1,
-						    MSG => 'locked_topic') );
+				$std->Error( array( 'LEVEL' => 1,
+						    'MSG' => 'locked_topic') );
 			}
 		}
 		
@@ -202,7 +202,8 @@ class post_functions extends Post {
 		$this->post   = $class->compile_post();
 		
 		if ( ($class->obj['post_errors'] != "") or
-		     ($class->obj['preview_post'] != "") )
+		     ($class->obj['preview_post'] != "") or 
+		      $class->upload_errors )
 		{
 			// Show the form again
 			$this->show_form($class);
@@ -696,6 +697,11 @@ class post_functions extends Post {
 			}
 
 			$class->output .= $class->html->errors( $ibforums->lang[ $class->obj['post_errors'] ]);
+		}
+		if ($class->upload_errors) {
+			foreach ($class->upload_errors as $error_message) {
+				$class->output .= $class->html->errors( $error_message );
+			}
 		}
 		
 		if ($class->obj['preview_post'])
