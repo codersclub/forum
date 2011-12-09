@@ -62,7 +62,12 @@ class Register {
 		$this->modules = new ipb_member_sync();
 	}
     	
-	$std->flood_begin();
+        // don't check for flood for second steps, for example
+        $floodcheck_off = in_array($ibforums->input['CODE'], array('11') );
+        
+        if (!$floodcheck_off) {
+            $std->flood_begin();
+        }
 
     	//--------------------------------------------
     	// What to do?
@@ -134,8 +139,9 @@ class Register {
     			break;
     	}
     	
-	$std->flood_end();
-
+	if (!$floodcheck_off) {
+            $std->flood_end();
+        }
     	// If we have any HTML to print, do so...
     	
     	$print->add_output("$this->output");
