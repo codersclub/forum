@@ -288,7 +288,7 @@ class ipb_member_sync
 
 		$message .= "[b]Примечание[/b]: сообщение добавлено от имени председателя, с целью, чтобы последний мог видеть вышеприведённую ссылку.[/GM]\n";
 
-		$message .= "The topic was created ".$std->get_date(time(), "LONG")." by Forum_Bot\n";
+		$message .= "The topic was created by [b]Forum_Bot[/b]\n";
 
 //		$message .= "\nI apologise for any inconvenience.";
 

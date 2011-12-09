@@ -37,7 +37,7 @@ class search_lib extends Search
 	{
 		global $ibforums, $DB, $std, $print;
 
-		$this->is = &$that; // hahaha!
+		$this->is = $that; // hahaha!
  	}
 
 

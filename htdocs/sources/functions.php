@@ -4095,7 +4095,7 @@ if (
 		$timestamp = $std->old_get_date(time(), 'LONG');
 
 		// timestamp by barazuk
-		$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; [ Generated: $timestamp ] &nbsp; $sload</div>\n<br>";
+		$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; [ Generated: $timestamp GMT ] &nbsp; $sload</div>\n<br>";
 
 	}
 		  

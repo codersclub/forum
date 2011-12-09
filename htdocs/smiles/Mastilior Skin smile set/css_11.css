@@ -385,7 +385,7 @@ OPTION.sub {
 .quote {
 	BORDER-RIGHT: #754c24 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #754c24 1px solid; PADDING-LEFT: 5px; FONT-SIZE: 11px; BACKGROUND-IMAGE: url(/style_images/Sources_-383/qback.gif); PADDING-BOTTOM: 5px; BORDER-LEFT: #754c24 1px solid; COLOR: #ffffc0; PADDING-TOP: 5px; BORDER-BOTTOM: #754c24 1px solid; FONT-FAMILY: verdana,arial; BACKGROUND-COLOR: #8f8f40
 }
-.CODE {
+.code {
 	BORDER-RIGHT: #000 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #000 1px solid; PADDING-LEFT: 2px; FONT-SIZE: 12px; PADDING-BOTTOM: 2px; BORDER-LEFT: #000 1px solid; COLOR: #465584; PADDING-TOP: 2px; BORDER-BOTTOM: #000 1px solid; FONT-FAMILY: Courier New, serif; BACKGROUND-COLOR: #fafcfe
 }
 .copyright {

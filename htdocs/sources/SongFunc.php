@@ -59,7 +59,7 @@ var $output    = "";
 			break;
 
 		default:
-		     	$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+		     	$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		        break;
 	}
 
@@ -100,7 +100,7 @@ var $output    = "";
 
 	if ( $ibforums->member['id'] != 2 )
 	{
-		$std->Error( array( LEVEL => 1, MSG => 'no_permission') );
+		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_permission') );
 	}
 
 	$main = $DB->query("SELECT m.id,m.last_activity 
@@ -134,7 +134,7 @@ var $output    = "";
 	     !$ibforums->vars['club_boss'] or
 	     !$ibforums->vars['club_group'] )
 	{
-		$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 	}
 
 	if ( $ibforums->member['g_is_supmod'] or
@@ -147,8 +147,8 @@ var $output    = "";
 		{
 			if ( $user['mgroup'] != $ibforums->vars['member_group'] )
 			{
-				$std->Error( array( LEVEL => 1,
-						    MSG => 'no_permission') );
+				$std->Error( array( 'LEVEL' => 1,
+						    'MSG' => 'no_permission') );
 			}
 
 			$DB->query("UPDATE ibf_members
@@ -157,11 +157,11 @@ var $output    = "";
 					disable_group=0
 				    WHERE id='".$mid."'");
 
-			$message = "Уважаемый(ая), %s!\nМы имеем честь пригласить вас в закрытый клуб Sources.Ru ";
+			$message = "Уважаемый(ая), %s!\nМы имеем честь пригласить Вас в закрытый клуб Sources.Ru ";
 
 			$message .= "([URL=http://forum.sources.ru/index.php?c=9]Клуб на Исходниках.RU[/URL]). ";
 
-			$message .= "Надеемся, что вы станете завсегдатаем этого ";
+			$message .= "Надеемся, что Вы станете завсегдатаем этого ";
 
 			$message .= "приятного во всех отношениях заведения, и мы не раз сможем услышать ваш голос в его ";
 
@@ -174,11 +174,11 @@ var $output    = "";
 			$std->boink_it($ibforums->base_url."showuser=".$mid);
 		} else
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 		}
 	} else
 	{
-		$std->Error( array( LEVEL => 1, MSG => 'no_permission') );
+		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_permission') );
 	}
 
 	}
@@ -187,7 +187,7 @@ var $output    = "";
 	function check_new() {
 	global $ibforums, $DB;
 
-	if ( !$ibforums->input['t'] ) $std->Error( array( LEVEL => 1, MSG => 'missing_files') );
+	if ( !$ibforums->input['t'] ) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
 
 	$DB->query("SELECT max(pid) as pid FROM ibf_posts WHERE queued != 1 AND topic_id='".$ibforums->input['t']."'");
 
