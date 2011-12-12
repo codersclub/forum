@@ -101,12 +101,7 @@ function addForumToMirror()
 }
 function syntax_get_code_tag(el)
 {
-	for(var i = 0; i < el.parentNode.childNodes.length; ++i ) {
-		var cur = el.parentNode.childNodes[i];
-		if (cur.tagName && cur.tagName.toLowerCase() == 'div') {
-			return cur;
-		}
-	}
+	return $(el).parent().siblings('.code');
 }
 
 function addClass(ele,cls) { // TODO: переделать на jQuery
@@ -129,13 +124,13 @@ function syntax_change_button(name, enable, id)
 function syntax_collapse(el,tag_id)
 {
 	var div = syntax_get_code_tag(el);
-	if (hasClass(div, 'code_collapsed')) {
-		removeClass(div, 'code_collapsed');
-		addClass(div, 'code_expanded');
+	if (div.hasClass('code_collapsed')) {
+		div.removeClass('code_collapsed');
+		div.addClass('code_expanded');
 		syntax_change_button('collapse', false, tag_id);
 	} else {
-		addClass(div, 'code_collapsed');
-		removeClass(div, 'code_expanded');
+		div.addClass('code_collapsed');
+		div.removeClass('code_expanded');
 		syntax_change_button('collapse', true, tag_id);
 	}
 	return false;
@@ -143,11 +138,11 @@ function syntax_collapse(el,tag_id)
 function syntax_wrap(el,tag_id)
 {
 	var div = syntax_get_code_tag(el);
-	if (hasClass(div, 'code_wrap')) {
-		removeClass(div, 'code_wrap');
+	if (div.hasClass('code_wrap')) {
+		div.removeClass('code_wrap');
 		syntax_change_button('wrap', false, tag_id);
 	} else {
-		addClass(div, 'code_wrap');
+		div.addClass('code_wrap');
 		syntax_change_button('wrap', true, tag_id);
 	}
 	
@@ -159,22 +154,59 @@ function syntax_numbering(el,tag_id)
 	/*
 	 * отключаю нумерацию именно таким способом, ибо FF копирует "<li>траляля</li>" как "# траляля" вместо "траляля"
 	 */
-	if (hasClass(div, 'code_numbered')) {
-		div.innerHTML = div.innerHTML.replace(/<li[^>]*>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>');
-		div.childNodes[0].childNodes[0].style.marginLeft = '0px';
-		div.childNodes[0].childNodes[0].style.paddingLeft = '0px';
-		div.numbered = false;
+	if (div.hasClass( 'code_numbered')) {
+		div.html(div.html().replace(/<li[^>]*>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>'));
+		div[0].childNodes[0].childNodes[0].style.marginLeft = '0px';
+		div[0].childNodes[0].childNodes[0].style.paddingLeft = '0px';
 		syntax_change_button('numbering', false, tag_id);
-		removeClass(div, 'code_numbered');
+		div.removeClass('code_numbered');
 	} else {
-		div.innerHTML = div.innerHTML.replace(/<div[^>]* class="?code_line"?[^>]*>/gi, '<li>').replace(/<\/div>/gi, '</li>');
-		div.numbered = true;
-		div.childNodes[0].childNodes[0].style.marginLeft = '';
-		div.childNodes[0].childNodes[0].style.paddingLeft = '';
+		div.html(div.html().replace(/<div[^>]* class="?code_line"?[^>]*>/gi, '<li>').replace(/<\/div>/gi, '</li>'));
+		div[0].childNodes[0].childNodes[0].style.marginLeft = '';
+		div[0].childNodes[0].childNodes[0].style.paddingLeft = '';
 		syntax_change_button('numbering', true, tag_id);
-		addClass(div, 'code_numbered');
+		div.addClass( 'code_numbered');
 	}
 	return false;
+}
+function syntax_add_show_controls_on_mouseenter() {
+	$(document).ready(function(el,dt) {
+			$('.code').each(function(index,element) {
+				var displayed = false;
+				var timer = false;
+				var stopTimer = function() {
+					if (timer) {
+						clearTimeout(timer);
+						timer = false;
+					}
+				};
+				var startTimer = function() {
+					timer = setTimeout(function(){$(element).siblings('.pre_code').fadeOut('fast');},2000);
+				};
+				$(element).mouseenter(
+				function() {					
+					stopTimer();
+					$(element).siblings('.pre_code').fadeIn(0);
+					if (displayed) {
+						return;
+					}
+					displayed = true;
+					
+					var left = 0;
+					$(element).siblings('.pre_code').each(function(el) {
+						var offset = $(this).children().offset();
+						// $(this).css('top', (offset.top - $(this).height() - 5) + 'px');
+						$(this).css('margin-top', '-1.6em'/*(offset.top - $(this).height() - 5) + 'px'*/);
+						
+					});
+				});
+				$(element).mouseleave(startTimer);
+				
+				$(element).siblings('span')
+					.mouseenter(stopTimer)
+					.mouseleave(startTimer);
+		})
+	});
 }
 /**
  * предварительно подгружает картинки для переключения режимов тега [code]

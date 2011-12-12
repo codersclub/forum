@@ -197,7 +197,7 @@ span.attach_preview img {
 	margin-right: auto;
 	margin-bottom: auto;
 	border: none;
-	padding: inherit;
+	padding: 0 0 0 0;
 	background-color: transparent;
 }
 span.attach_preview p img {
