@@ -154,18 +154,16 @@ function syntax_numbering(el,tag_id)
 	/*
 	 * отключаю нумерацию именно таким способом, ибо FF копирует "<li>трал€л€</li>" как "# трал€л€" вместо "трал€л€"
 	 */
-	if (hasClass(div, 'code_numbered')) {
-		div.innerHTML = div.innerHTML.replace(/<li[^>]*>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>');
-		div.childNodes[0].childNodes[0].style.marginLeft = '0px';
-		div.childNodes[0].childNodes[0].style.paddingLeft = '0px';
-		div.numbered = false;
+	if (div.hasClass( 'code_numbered')) {
+		div.html(div.html().replace(/<li[^>]*>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>'));
+		div[0].childNodes[0].childNodes[0].style.marginLeft = '0px';
+		div[0].childNodes[0].childNodes[0].style.paddingLeft = '0px';
 		syntax_change_button('numbering', false, tag_id);
 		div.removeClass('code_numbered');
 	} else {
-		div.innerHTML = div.innerHTML.replace(/<div[^>]* class="?code_line"?[^>]*>/gi, '<li>').replace(/<\/div>/gi, '</li>');
-		div.numbered = true;
-		div.childNodes[0].childNodes[0].style.marginLeft = '';
-		div.childNodes[0].childNodes[0].style.paddingLeft = '';
+		div.html(div.html().replace(/<div[^>]* class="?code_line"?[^>]*>/gi, '<li>').replace(/<\/div>/gi, '</li>'));
+		div[0].childNodes[0].childNodes[0].style.marginLeft = '';
+		div[0].childNodes[0].childNodes[0].style.paddingLeft = '';
 		syntax_change_button('numbering', true, tag_id);
 		div.addClass( 'code_numbered');
 	}
