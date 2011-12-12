@@ -490,10 +490,7 @@ class post_parser {
 		$view .= "<script>parseOne('code_{$this->code_count}','{$syntax}',$use_line_numbering)</script>";
 	}
 	if ($this->code_count < 2) {
-		$view .= "<script>preloadCodeButtons('{$this->code_count}');</script>";
-		if ($ibforums->member['syntax_show_controls'] == 'auto') {
-			$view .= "<script>syntax_add_show_controls_on_mouseenter();</script>";
-		}
+		$view .= "<script>preloadCodeButtons('{$this->code_count}')</script>";
 	}
 
 	return $view;
@@ -2014,13 +2011,10 @@ class post_parser {
 						$label .= '</span></span>';
 				}
 			}
-			$pre_div_class = 'pre_code';
-			$show_controls = $ibforums->member['syntax_show_controls'] !== NULL ? $ibforums->member['syntax_show_controls'] : 'yes';
-			if ($show_controls != 'yes') {
-				$pre_div_class .= ' no_controls_pre_code';
-			}
-			$label = "<span class='$pre_div_class'>$label</span>";
-		}
+			$pre_div_class = ' class=\'pre_code\'';
+		} else {
+			$pre_div_class = '';
+		} 
 		
 
 		return array( 'START' => "<div{$pre_div_class}>{$label}<div class='".strtolower($possible_use[ $in['STYLE'] ][0])." $class'{$extra}>",

@@ -146,10 +146,6 @@ return <<<EOF
   <td align='left'>{$data['SYNTAX']}</td>
 </tr>
 <tr>
-  <td>{$ibforums->lang['syntax_show_controls']}<br></td>
-  <td align='left'>{$data['SYNTAX_SHOW_CONTROLS']}</td>
-</tr>
-<tr>
   <td>{$ibforums->lang['syntax_lines_count']}<br></td>
   <td align='left'>{$data['SYNTAX_LINES_COUNT']}</td>
 </tr>

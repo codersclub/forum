@@ -193,11 +193,11 @@ span.attach_preview img {
 .code {
 	margin-top: 1px !important;
 }
-.code span, .code span span  {
+.code span, .code span span {
 	margin-right: auto;
 	margin-bottom: auto;
 	border: none;
-	padding: 0 0 0 0;
+	padding: inherit;
 	background-color: transparent;
 }
 span.attach_preview p img {

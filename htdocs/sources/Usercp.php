@@ -1479,19 +1479,8 @@ class UserCP {
 		$css_method  	= "<select name='CSS' class='forminput'>";
 		$syntax_method  = "<select name='SYNTAX' class='forminput'>";
 		$syntax_lines_count  = "<select name='SYNTAX_LINES_COUNT' class='forminput'>";
-		
 		$show_new	= "<select name='SHOW_NEW' class='forminput'>";
-		
-		$syntax_show_controls  = $this->select_from_values(
-				$this->member['syntax_show_controls'], 
-				'SYNTAX_SHOW_CONTROLS',
-				'yes',
-				array(
-					'yes'	=> $ibforums->lang['yes'],
-					'no'	=> $ibforums->lang['no'],
-					/*'auto'	=> $ibforums->lang['syntax_show_controls_auto'],*/
-				)
-			);
+
 		$wp_link   	.= $this->member['show_wp'] == 1 
 				? "<option value='1' selected='selected'>".$ibforums->lang['yes']."</option>\n<option value='0'>".$ibforums->lang['no']."</option>"
 				: "<option value='1'>".$ibforums->lang['yes']."</option>\n<option value='0' selected='selected'>".$ibforums->lang['no']."</option>"; 		
@@ -1616,7 +1605,6 @@ class UserCP {
  									'SYNTAX_USE_WRAP' => $this->yes_no_select($this->member['syntax_use_wrap'], 'SYNTAX_USE_WRAP', 0),
  									'SYNTAX_USE_LINE_NUMBERING' => $this->yes_no_select($this->member['syntax_use_line_numbering'], 'SYNTAX_USE_LINE_NUMBERING', 0),
  									'SYNTAX_USE_LINE_COLOURING' => $this->yes_no_select($this->member['syntax_use_line_colouring'], 'SYNTAX_USE_LINE_COLOURING', 1),
- 									'SYNTAX_SHOW_CONTROLS' => $syntax_show_controls,
  									'SHOW_NEW'	=> $show_new."</select>",
 								    'CSS'	=> $css_method."</select>",
 								    'FORUM_ICON'	=> $forum_icon."</select>",
@@ -1644,20 +1632,6 @@ class UserCP {
 	  		 	: "<option value='1'>".$ibforums->lang['yes']."</option>\n<option value='0' selected='selected'>".$ibforums->lang['no']."</option>";
 	  	$result .= 	'</select>'; 
 	  	return $result;
- 	}
- 	
- 	function select_from_values($value, $name, $default_value, array $values) {
- 		
- 		if (is_null($value))  {
- 			$value = $default_value;
- 		}
- 		$result = "<select name='$name' class='forminput'>";
- 		foreach ($values as $name => $title) {
- 			$selected = ($value == $name)? ' selected="selected" ' : '';
- 			$result .= "<option value='$name'$selected>$title</option>";
- 		}
- 		$result .= '</select>';
- 		return $result;
  	}
 
  	function do_board_prefs() {
