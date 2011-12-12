@@ -537,7 +537,9 @@ class usercp_functions {
 		{
 			$ibforums->input['topicpage'] = '-1';
 		}
-		
+		if (!in_array($ibforums->input['syntax_show_controls'], array('yes','no','auto'))) {
+			$ibforums->input['syntax_show_controls'] = 'yes';
+		}
 		$timezone = $ibforums->input['u_tz_region'] . '/' . $ibforums->input['u_tz_zone'] ;
 		if (!timezone_open($timezone)) {
 			var_dump(1111);
@@ -572,6 +574,7 @@ class usercp_functions {
 				  'show_filter'    	=> $ibforums->input['FILTER'],
 				  'syntax'			=> $ibforums->input['SYNTAX'],
 				  'syntax_lines_count'		=> $ibforums->input['SYNTAX_LINES_COUNT'],
+				  'syntax_show_controls'	=> $ibforums->input['SYNTAX_SHOW_CONTROLS'],
 				  'syntax_use_wrap'			=> $ibforums->input['SYNTAX_USE_WRAP'],
 				  'syntax_use_line_numbering'		=> $ibforums->input['SYNTAX_USE_LINE_NUMBERING'],
 				  'syntax_use_line_colouring'		=> $ibforums->input['SYNTAX_USE_LINE_COLOURING'],

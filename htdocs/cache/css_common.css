@@ -138,3 +138,9 @@ pre	{
 #upload_container input, #upload_container button {
 	vertical-align: baseline;
 }
+
+.no_controls_pre_code {
+      display:none;
+      z-index:3;
+      position:absolute;
+}
