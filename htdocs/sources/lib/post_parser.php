@@ -2023,7 +2023,7 @@ class post_parser {
 		}
 		
 
-		return array( 'START' => "<div{$pre_div_class}>{$label}<div class='".strtolower($possible_use[ $in['STYLE'] ][0])." $class'{$extra}>",
+		return array( 'START' => "<div class='{$pre_div_class}'>{$label}<div class='".strtolower($possible_use[ $in['STYLE'] ][0])." $class'{$extra}>",
                              'END'   => "</div></div>"
         	);
 	}
