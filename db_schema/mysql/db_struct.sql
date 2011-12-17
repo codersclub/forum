@@ -1102,6 +1102,7 @@ CREATE TABLE `ibf_members` (
   `search_days` tinyint(1) NOT NULL DEFAULT '5',
   `dsite_group` smallint(3) DEFAULT NULL,
   `post_wrap_size` int(10) NOT NULL DEFAULT '0',
+  `openid_url`  varchar(255),
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `mgroup` (`mgroup`),
@@ -1115,7 +1116,8 @@ CREATE TABLE `ibf_members` (
   KEY `posts` (`posts`),
   KEY `sskin_id` (`sskin_id`),
   KEY `last_visit` (`last_visit`),
-  KEY `gender` (`gender`)
+  KEY `gender` (`gender`),
+  UNIQUE KEY (`openid_url`)
 ) ENGINE=MyISAM AUTO_INCREMENT=139226 DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
