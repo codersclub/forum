@@ -771,70 +771,43 @@ class post_parser {
     {
     	
     	global $ibforums, $std;
-		if (Attach2::isImageType($attach->type()) and ($this->siu_thumb and $ibforums->member['view_img'] or $ibforums->vars['show_img_upload']) ) {
-			$alt  = "{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}";
-			if ($ibforums->vars['siu_width'] AND $ibforums->vars['siu_height']) {
-			
-				if (!trim($text))  {
-					$text = $ibforums->lang['pic_attach_thumb'];
-					//$alt  = "{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}";
-				} else {
-					// $alt   = htmlspecialchars("$text {$ibforums->lang['pic_zoom_thumb']}");
-				}
-				
-				
-				//----------------------------------------------------
-				// Tom Thumb!
-				//----------------------------------------------------
-					
-				$img_size = array();
-					
-				$img_size = @GetImageSize( $ibforums->vars['upload_dir']."/".$attach->realFilename() );
-				
-				if ( $img_size[0] < 1 )
-				{
-					$img_size    = array();
-					$img_size[0] = $ibforums->vars['siu_width'] + 1;
-					$img_size[1] = $ibforums->vars['siu_height']+ 1;
-				}
-					
-				//----------------------------------------------------
-				// Do we need to scale?
-				//----------------------------------------------------
-					
-				if ( $img_size[0] <= $ibforums->vars['siu_width'] AND
-					$img_size[1] <= $ibforums->vars['siu_height'] 
-					)
-				{
-					$text = "<span class='attach_preview'><p>{$text}:</p><br><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$ibforums->lang['pic_attach_thumb']}'></span>";
-				} else {
-					$im = $std->scale_image( array(
-										'max_width'  => $ibforums->vars['siu_width'],
-										'max_height' => $ibforums->vars['siu_height'],
-										'cur_width'  => $img_size[0],
-										'cur_height' => $img_size[1]
-					)      );
-					$text = "<span class='attach_preview'><p>{$text}:</p><br><a href='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' title='{$alt}' target='_blank'><img src='{$ibforums->vars['upload_url']}/{$attach->realFilename()}' width='{$im['img_width']}' height='{$im['img_height']}' class='attach' alt='{$alt}'></a></span>";
-				}
-			} else {
-				
-				if (!trim($text)) {
-					$text = $ibforums->lang['pic_attach'];
-				}
-				
-				$text = "<span class='attach_preview'><p>{$text}:</p><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$alt}'></span>";
-				
-			}
+    	
+    	$preview_enabled = ($this->siu_thumb and $ibforums->member['view_img'] or $ibforums->vars['show_img_upload']);
+    	
+		if ( $attach->isImage() and $preview_enabled ) {
+			$text = $this->renderPreview($attach, $text);
 		} else {
 			
 			!trim($text) && $text = $ibforums->lang['attached_file'];
 			
-			$text = "<strong><span class='edit'>{$text}:</strong> "
-				. "<a href='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' "
-			 	. "title='{$ibforums->lang['attach_dl']}' target='_blank'>{$attach->getImageOfType()}</a>&nbsp;<a href='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' title='{$ibforums->lang['attach_dl']}' target='_blank'>{$attach->filename()}</a>";
+			$text = "<strong><span class='edit'>{$text}:</strong>&nbsp;{$attach->getLink()}";
 			$text .= " ({$attach->sizeAsString()}, {$ibforums->lang['attach_hits']}: {$attach->hits()})";
 			$text .= "</span>";
 		}
+    	return $text;
+    }
+    
+    private function renderPreview(Attach2 $attach, $text) {
+    	global $ibforums, $std;
+    	$alt  = htmlspecialchars( "{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}" )		;
+    	if ($ibforums->vars['siu_width'] AND $ibforums->vars['siu_height']) {
+    		 
+    		if (!trim($text))  {
+    			$text = $ibforums->lang['pic_attach_thumb'];
+    		}
+    		 
+    		$img_size = $attach->getPreviewSizes();
+    		$text = "<span class='attach_preview'><p>{$text}:</p><br><a href='{$attach->getHref()}' title='{$alt}' target='_blank'><img src='{$attach->getPeviewLink()}' width='{$img_size['img_width']}' height='{$img_size['img_height']}' class='attach' alt='{$alt}'></a></span>";
+    		
+    	} else {
+
+    		if (!trim($text)) {
+    			$text = $ibforums->lang['pic_attach'];
+    		}
+
+    		$text = "<span class='attach_preview'><p>{$text}:</p><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$alt}'></span>";
+
+    	}
     	return $text;
     }
 	

@@ -75,15 +75,6 @@ class Attach2 {
 		'attachment_size_mb',
 		'attachment_size_gb',
 		);
-		/*$size = $this->size;
-		$i = 0;
-		for($i = 0; $i < 4; ++$i) {
-			if ($size < 1024) {
-				break;
-			}
-			$size /= 1024.0;
-		}
-		return sprintf($ibforums->lang[ $sizes_strings[$i] ], round($size, 2));*/
 		
 		$out_size = $this->size;
 		$i = 0;
@@ -263,7 +254,11 @@ class Attach2 {
 	
 	public static function createFromRow(array &$row)
 	{
-		$a = new self;
+		if (self::isImageType($row['type'])) {
+			$a = new AttachImage;
+		} else {
+			$a = new self;
+		}
 		
 		$a->type	= isset($row['type']) ? $row['type'] : "";
 		$a->filename= isset($row['filename']) ? $row['filename'] : "";
@@ -455,6 +450,15 @@ class Attach2 {
 		
 	}
 	
+	public function isImage() {
+		return false;
+	}
+	
+	public function getHref() {
+		global $ibforums;
+		return ($ibforums->base_url)."act=Attach&amp;type=post&amp;id=".($this->postId())."&amp;attach_id=".($this->attachId());
+	}
+	
 	public function acceptAttach(self $a)
 	{
 		$this->filename	= $a->filename;
@@ -502,7 +506,7 @@ class Attach2 {
 	public function getLink()
 	{
 		global $ibforums;
-		return ($this->getImageOfType())."<a href='".($ibforums->base_url)."act=Attach&amp;type=post&amp;id=".($this->postId())."&amp;attach_id=".($this->attachId())."' title='Скачать файл' target='_blank'>".($this->filename())."</a>";
+		return $this->getImageOfType()."<a href='{$this->getHref()}' title='Скачать файл' target='_blank'>".($this->filename())."</a>";
 	}
 }
 

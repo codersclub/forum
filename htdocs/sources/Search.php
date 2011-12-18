@@ -156,7 +156,7 @@ class Search {
     	// Suck in libby
     	//--------------------------------------------
     	
-    	$this->lib = new search_lib(&$this);
+    	$this->lib = new search_lib($this);
     	
     	if ( isset($ibforums->input['st']) ) $this->first = intval( $ibforums->input['st'] );
 
@@ -2756,7 +2756,7 @@ class Search {
 	//----------------------------------------------
 	// Song * forum_list
 
-	function subforums_search_list($children, $id, $level, $temp_html, $all_checkboxes) {
+	function subforums_search_list($children, $id, $level, &$temp_html, $all_checkboxes) {
 	global $std;
 
 	if ( isset($children[ $id ]) and count($children[ $id ]) > 0)
@@ -2783,7 +2783,7 @@ class Search {
 
 			$temp_html .= $this->html->boardlay_between($r,$checkbox);
 
-			$this->subforums_search_list($children, $r['id'], $level + 1, &$temp_html, $all_checkboxes);
+			$this->subforums_search_list($children, $r['id'], $level + 1, $temp_html, $all_checkboxes);
 		}
 	}
 
@@ -2867,7 +2867,7 @@ class Search {
 
 				$temp_html .= $this->html->boardlay_between($r,$checkbox);
 	
-				$this->subforums_search_list($children, $r['id'], 1, &$temp_html, $all_checkboxes);
+				$this->subforums_search_list($children, $r['id'], 1, $temp_html, $all_checkboxes);
 			}
 		}
 

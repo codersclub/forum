@@ -856,7 +856,7 @@ class ad_forums {
 
 		while ( $r = $DB->fetch_row() ) if ( $r['id'] != $IN['f'] )
 		{
-			$std->fill_array($r, &$forums, &$children, &$forums_list);
+			$std->fill_array($r, $forums, $children, $forums_list);
 		} else 
 		{
 			$name = $r['name'];
