@@ -1038,9 +1038,23 @@ class ad_store {
 				}
 				$quiz_items = is_array($quiz_items) ? implode("|",$quiz_items) : $quiz_items;
 			} else $quiz_items = ($IN['quiz_items'] == "none") ? "" : $IN['quiz_items'];
-
-			$DB->query("INSERT INTO ibf_quiz_info
-				    VALUES('','{$IN['quiz_name']}','{$IN['quiz_desc']}','{$IN['perc_need']}','{$IN['winnings']}','{$time}','{$IN['q_run']}','{$IN['let_play']}','OPEN','{$IN['timeout']}','1','{$quiz_items}')");
+			
+			$params = array(
+				'quizname' => $IN['quiz_name'],
+				'quizdesc' => $IN['quiz_desc'],
+				'percent_needed' => $IN['perc_need'],
+				'amount_won' => $IN['winnings'],
+				'started_on' => $time,
+				'run_for'  => $IN['q_run'],
+				'let_only' => $IN['let_play'],
+				'quiz_status' => 'OPEN',
+				'timeout'  => $IN['timeout'],
+				'pending'  => 1,
+				'quiz_items' => $quiz_items
+			);
+			$DB->do_insert_query($params, 'ibf_quiz_info');
+			//$DB->query("INSERT INTO ibf_quiz_info
+			//	    VALUES('','{}','{}','{}','{}','{}','{}','{}','OPEN','{}','1','{}')");
 
 			$temp['quizid'] = $DB->get_insert_id();
 		}
