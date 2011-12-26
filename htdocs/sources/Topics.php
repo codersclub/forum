@@ -79,8 +79,7 @@ class Topics {
 	{
           if ( $r['mod_id'] == -1 ) $r['mod_id'] = $r['mid'];
 
-	  if ( $r['mod_id'] )
-	  {
+			if ( $r['mod_id'] ) {
 	     $this->mod[ $r['mod_id'] ] = array( 
 			'name' => $r['mod_name'],
 	                'id'   => $r['mod_id'],
@@ -176,7 +175,7 @@ class Topics {
 
 // Song * safe code tag withing wrapping long lines, 03.11.2004
 
-    function process_posts($res, $pinned = 0, $offset = 0) {
+    function process_posts($res, $pinned = 0, $offset = 0, $preview_one_post = false) {
     global $ibforums, $DB, $std, $print, $skin_universal;
 
 // Song * quote rights
@@ -217,13 +216,13 @@ class Topics {
 			continue;
 		}
 
-		$this->output .= $this->process_one_post($row, $pinned, $post_count, $qr);
+		$this->output .= $this->process_one_post($row, $pinned, $post_count, $qr, $preview_one_post);
 		$this->output .= $this->html->RowSeparator();
 	} //while
 
    }
    
-   function process_one_post($row, $pinned, &$post_count, $qr) {
+   function process_one_post($row, $pinned, &$post_count, $qr, $preview = false) {
     global $ibforums, $DB, $std, $print, $skin_universal;
    		// Song * quote with post link, 26.11.04
 
@@ -346,7 +345,7 @@ class Topics {
 		}
 		//--------------------------------------------------------------
 
-		if ( !$row['use_sig'] ) {
+		if ( !$row['use_sig'] || $preview ) {
 	                $data = array(  'TEXT'          => $row['post'],
 					'SMILIES'       => $row['use_emo'],
 					'CODE'          => 1,
@@ -447,9 +446,14 @@ class Topics {
 
 
 		// Song * edit post button 
-		if (!$row['use_sig'] or ($this->moderator['delete_post'] or $ibforums->member['g_is_supmod'])) {
-		$row['edit_button'] = ( $qr == FALSE ) ? ""
+		if (!$row['use_sig']) {
+			$row['edit_button'] = ( $qr == FALSE ) ? ""
 						       : $this->edit_button($row['pid'], $poster, $row['post_date']);
+		}
+		if ($row['use_sig']) {
+			$row['show_preview_button'] = ( $qr == FALSE ) ? ""
+				: $this->show_preview_button($row['pid'], $poster, $row['post_date'], $preview);
+
 		}
 
 
@@ -710,41 +714,14 @@ class Topics {
 
 			if ( $row['use_sig'] )
 			{
-				/*
-				$this->mod_tags = "";
-
-				// if mod tags was
-				if ( $this->mod_tags )
-				{
-					$this->mod_tags = array(
-
-						'TEXT'          => $this->mod_tags,
-						'SMILIES'       => $row['use_emo'],
-						'CODE'          => 1,
-						'SIGNATURE'     => 0,
-						'HTML'          => 1,
-						'HID'	      => -1,
-						'TID'	      => $this->topic['tid'],
-						'MID'	      => $row['author_id'],
-						   );
-
-					$this->mod_tags = $this->parser->prepare($this->mod_tags);
-
-					$row['post'] .= "<br>".$this->mod_tags;
+				if ($ibforums->input['ajax']) {
+					header('Content-Type: text/html; charset=windows-1251');
+					echo $print->prepare_output( $this->html->RenderDeletedRow( $row, $poster, $preview ) );
+					exit;
+				} else {
+					return $this->html->RenderDeletedRow( $row, $poster, $preview );
 				}
 
-				if ( $row['append_edit'] == 1 and $row['decline_time'] != "" and $row['edit_name'] != "" )
-				{
-					$e_time = $std->get_date( $row['decline_time'] , 'LONG' );
-					
-					$row['post'] .= "<br><br><span class='edit'>".sprintf($ibforums->lang['permited_by'], $row['edit_name'], $e_time)."</span>";
-				}
-
-				$row['signature'] = "";
-				$row['attachment'] = "";
-				*/
-				return $this->html->RenderDeletedRow( $row, $poster );
-				
 			} else {
 
 				if(intval($ibforums->member['post_wrap_size']) != 0 && $ibforums->member['post_wrap_size'] < strlen(strip_tags($row['post'])) && $row['new_topic'] != 1)
@@ -873,7 +850,7 @@ class Topics {
 
         if ( !$this->forum['id'] or !$this->topic['tid'] )
         {
-        	$std->Error( array( LEVEL => 1, MSG => 'is_broken_link') );
+        	$std->Error( array( 'LEVEL' => 1, 'MSG' => 'is_broken_link') );
         }
 	
 	// Song * NEW + topic subscribe, 16.01.05
@@ -927,7 +904,7 @@ class Topics {
 
 	if ( $this->topic['club'] and $std->check_perms( $ibforums->member['club_perms'] ) == FALSE )
 	{
-		$std->Error( array( LEVEL => 1, MSG => 'is_broken_link') );
+		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'is_broken_link') );
 	}
 
 
@@ -969,12 +946,12 @@ class Topics {
         
         if ( (!$this->topic['pinned']) and ( ( ! $ibforums->member['g_other_topics'] ) AND ( $this->topic['starter_id'] != $ibforums->member['id'] ) ) )
         {
-        	$std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
+        	$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_view_topic') );
         }
         
         $bad_entry = $this->check_access();
 
-        if ( $bad_entry ) $std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
+        if ( $bad_entry ) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_view_topic') );
         
 		if ( $ibforums->member['id'] and !$ibforums->member['g_is_supmod'] )
 		{
@@ -1027,8 +1004,8 @@ class Topics {
                			$this->topic = $DB->fetch_row();
                			$std->boink_it($ibforums->base_url."showtopic=".$this->topic['tid']);
        
-               		} else $std->Error( array( LEVEL => 1,
-						   MSG => 'no_newer') );
+               		} else $std->Error( array( 'LEVEL' => 1,
+						   'MSG' => 'no_newer') );
 
         	} else if ( $ibforums->input['view'] == 'getlastpost' ) {
         		$this->return_last_post();
@@ -1127,8 +1104,8 @@ class Topics {
         				if ( !$tid or !$cposts = $DB->fetch_row() or $cposts['posts'] == 0 )
         				{
         					$std->Error( array(
-        					LEVEL => 1,
-        					MSG => 'no_post') );
+        					'LEVEL' => 1,
+        					'MSG' => 'no_post') );
         				}
         					
         				$this->topic['tid'] = $tid;
@@ -1580,7 +1557,6 @@ class Topics {
 	//--------------------------------------------
 		   
 	// Song * reputation + session_id
-
 	$query = "SELECT
 			p.*,
 			s.id as s_id,
@@ -1630,6 +1606,10 @@ class Topics {
 			$pinned++;
 		}
 	}
+	$preview = isset($ibforums->input['preview']) ? (int)$ibforums->input['preview'] : NULL;
+	if ($preview) {
+		$query .= " p.pid = $preview AND ";
+	}
 
 	$query .= "p.topic_id='".$this->topic['tid']."' GROUP BY p.pid ORDER BY p.pid";
 
@@ -1675,7 +1655,7 @@ class Topics {
 	}
 			
 	// show_posts
-	$this->process_posts($main, 0, $pinned);
+	$this->process_posts($main, 0, $pinned, $preview);
 
 	//-------------------------------------
 	// Print the footer
@@ -2422,9 +2402,9 @@ class Topics {
 		if ( !$ibforums->member['id'] ) return "";
 		
 		$func = ( $queued ) ? "'{$ibforums->base_url}act=modcp&amp;CODE=domodposts&amp;f={$this->forum['id']}&amp;tid={$this->topic['tid']}&amp;PID_{$post_id}=remove&amp;alter={$this->alter_post}'" 
-				    : "\"javascript:delete_post('{$this->base_url}act=Mod&amp;CODE=04&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input[st]}&amp;auth_key={$this->md5_check}')\"";
+				    : "'{$this->base_url}act=Mod&amp;CODE=04&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input[st]}&amp;auth_key={$this->md5_check}'";
         
-		$button = "<a href={$func}><{P_DELETE}></a> &middot;";
+		$button = "<a href={$func} onclick='return deletePost(this,$post_id)'><{P_DELETE}></a> &middot;";
         
 		if ( $ibforums->member['g_is_supmod'] or $this->moderator['delete_post'] )
 		{
@@ -2496,7 +2476,6 @@ class Topics {
 	//--------------------------------------------------------------
 	// Render the edit button
 	//--------------------------------------------------------------
-	
 	function edit_button($post_id, $poster, $post_date)
 	{
 		global $ibforums;
@@ -2532,6 +2511,37 @@ class Topics {
 			{
 				return $button;
 			}
+		}
+		
+		return "";
+	}
+	
+	
+	//--------------------------------------------------------------
+	// Render the edit button
+	//--------------------------------------------------------------
+	function show_preview_button($post_id, $poster, $post_date, $preview)
+	{
+		global $ibforums;
+	
+		if ($ibforums->member['id'] == "" or $ibforums->member['id'] == 0)
+		{
+			return "";
+		}
+		
+		if ($preview) {
+			$button = "<a onclick=\"return hideDeletedPost(this, $post_id)\" href=\"{$this->base_url}showtopic=".$this->topic['tid']."&amp;view=findpost&amp;p={$post_id}\">{$ibforums->lang['show_preview_button']}</a> &middot;";
+		} else {
+			$button = "<a onclick=\"return previewDeletedPost(this, $post_id)\" href=\"{$this->base_url}showtopic=".$this->topic['tid']."&amp;preview={$post_id}\">{$ibforums->lang['show_preview_button']}</a> &middot;";
+		}
+		
+		if ($ibforums->member['g_is_supmod']) return $button;
+		
+		if ($this->moderator['edit_post']) return $button;
+		
+		if ($poster['id'] == $ibforums->member['id'] and ($ibforums->member['g_edit_posts']))
+		{
+			return $button;
 		}
 		
 		return "";

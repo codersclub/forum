@@ -130,4 +130,5 @@ $lang['mod_del']  = "Decline by moderator";
 $lang['del_by_user']  = "Deleted by author";
 $lang['permited_by']  = "A message declined: <b>%s</b> - %s";
 $lang['topic_draft']  = "Draft";
-
+$lang['show_preview_button']  = "Show";
+$lang['hide_preview_button']  = "Hide";

@@ -162,7 +162,7 @@ return <<<EOF
 EOF;
 }
 
-function RenderDeletedRow($post, $author) {
+function RenderDeletedRow($post, $author, $preview) {
 global $ibforums, $std;
 if ($post['use_sig'] == 1) {
 	$e_time = $std->get_date( $post['decline_time'] , 'LONG' );
@@ -171,11 +171,21 @@ if ($post['use_sig'] == 1) {
 	$e_time = $std->get_date( $post['edit_time'] , 'LONG' );
 	$dtext = $ibforums->lang['del_by_user'].' - '.$e_time;
 }
+$trpost = '';
+if ($preview) {
+	$trpost = "<tr>
+      <td valign='top' class='{$post['post_css']}'>&nbsp;
+      </td>
+      <td width='100%' valign='top' class='{$post['post_css']}'>
+        <div class='postcolor'>{$post['post']} {$post['attachment']}</div>
+      </td>
+    </tr>";
+}
 return <<<EOF
 
     <table width='100%' border='0' cellspacing='1' cellpadding='3' style='table-layout:fixed;' id='post_{$post["pid"]}'>
     <tr>
-       <td valign='middle' class='row4' width='15%'><a name='entry{$post["pid"]}'></a>
+       <td valign='middle' class='row4' width='140'><a name='entry{$post["pid"]}'></a>
        <span class='{$post["name_css"]}'>{$author['name']}</span>
        {$author['warn_text']}
 		
@@ -184,10 +194,10 @@ return <<<EOF
        <td class='row4' valign='top'>
         <div align='left' class='row4' style='float:left;padding-top:1px;padding-bottom:1px'>{$post['checkbox']}
          {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']} &nbsp; &nbsp; $dtext</span></div>
-	<div align='right' class='row4' style='float:right;padding-top:1px;padding-bottom:1px'>{$post['queued_link']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['edit_history_button']} </div>
+	<div align='right' class='row4' style='float:right;padding-top:1px;padding-bottom:1px'>{$post['queued_link']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['show_preview_button']} {$post['edit_history_button']} </div>
       </td>
     </tr>
-    
+    $trpost
     </table>
 EOF;
 }

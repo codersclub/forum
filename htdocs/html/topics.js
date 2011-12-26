@@ -2,14 +2,6 @@ function link_to_post(pid) {
   temp = prompt( tt_prompt, base_url + "showtopic=" + tid + "&view=findpost&p=" + pid );
   return false;
 }
-function delete_post(theURL) {
-
-  if (confirm(js_del_1)) {
-    window.location.href=theURL;
-  } else {
-    alert(js_del_2);
-  } 
-}
 function keyb_pop() {
   window.open('index.php?act=legends&CODE=keyb&s=' + session_id,'Legends','width=700,height=160,resizable=yes,scrollbars=yes'); 
 }
@@ -107,6 +99,21 @@ function restoreAndDecline(el,p) {
 	
 	return false;
 }
+function deletePost(el,p) {
+	if (!confirm(js_del_1)) {
+		return false;
+	}
+	    
+	var post_object = $('#post_' + p);
+	var url = el.href + '&ajax=on';
+	
+	$.get(url, function(data) {
+			post_object.replaceWith(data);
+		});
+	
+	
+	return false;
+}
 function setPostHTML(i,h)
 {
    i=D.getElementById(i);
@@ -115,7 +122,25 @@ function setPostHTML(i,h)
    i.innerHTML=h
    if(!(is_ie && !Boolean(document.body.contentEditable)))h.replace(new RegExp("<script>(.*?)<\/script>","gi"),function($,s){eval(s)})
 }
-
+var showed_post = {};
+function previewDeletedPost(el,p) {
+	var post_object = $('#post_' + p);
+	var url = el.href + '&ajax=on';
+	
+	showed_post[p] = post_object.html();
+	
+	$.get(url, function(data) {
+			post_object.replaceWith(data);
+		});
+	
+	return false;
+}
+function hideDeletedPost(el,p) {
+	var post_object = $('#post_' + p);
+	post_object.html(showed_post[p]);
+	delete showed_post[p];
+	return false;
+}
 function clearFirstUploadField() {
 	D.getElementById('first_upload_container').innerHTML = D.getElementById('first_upload_container').innerHTML;
 }

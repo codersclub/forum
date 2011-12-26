@@ -148,14 +148,14 @@ class db_driver {
 					
 					$ibforums->debug_html .= "
 						<tr bgcolor='#FFFFFF'>
-						  <td>$array[table]&nbsp;</td>
-						  <td bgcolor='$type_col'>$array[type]&nbsp;</td>
-						  <td>$array[possible_keys]&nbsp;</td>
-						  <td>$array[key]&nbsp;</td>
-						  <td>$array[key_len]&nbsp;</td>
-						  <td>$array[ref]&nbsp;</td>
-						  <td>$array[rows]&nbsp;</td>
-						  <td>$array[Extra]&nbsp;</td>
+						  <td>{$array['table']}&nbsp;</td>
+						  <td bgcolor='$type_col'>{$array['type']}&nbsp;</td>
+						  <td>{$array['possible_keys']}&nbsp;</td>
+						  <td>{$array['key']}&nbsp;</td>
+						  <td>{$array['key_len']}&nbsp;</td>
+						  <td>{$array['ref']}&nbsp;</td>
+						  <td>{$array['rows']}&nbsp;</td>
+						  <td>{$array['Extra']}&nbsp;</td>
 						</tr>\n";
 				}
 				
@@ -344,7 +344,7 @@ class db_driver {
     		return;
     	}
 
-    	$the_error .= "\n\nmySQL error: ".mysql_error()."\n";
+    	$the_error .= "\n\nmySQL error: ".mysql_error($this->connection_id)."\n";
     	$the_error .= "mySQL error code: ".$this->error_no."\n";
     	$the_error .= "Date: ".$std->get_date( time(), 'LONG', 0);
 

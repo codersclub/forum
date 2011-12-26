@@ -2569,7 +2569,6 @@ class Moderate {
 		$std->index_del_post($post['pid']);
 
 
-		
 		//---------------------------------------
 		// delete the post
 		//---------------------------------------
@@ -2580,8 +2579,7 @@ class Moderate {
 		// Update the stats
 		//---------------------------------------
 		
-		$DB->query("UPDATE ibf_stats
-			    SET TOTAL_REPLIES=TOTAL_REPLIES-1");
+		$DB->query("UPDATE ibf_stats SET TOTAL_REPLIES=TOTAL_REPLIES-1");
 
 
 		//---------------------------------------
@@ -2604,7 +2602,38 @@ class Moderate {
 		
 		$this->moderate_log("Deleted a post");
 	
+		if ( !$ibforums->input['ajax'] )
+		{
 		$print->redirect_screen( $ibforums->lang['post_deleted'], "act=ST&f=".$this->forum['id']."&t=".$this->topic['tid']."&st=".$ibforums->input['st'] );
+		} else {
+			
+			require ROOT_PATH."/sources/Topics.php";
+			header('Content-Type: text/html; charset=windows-1251');
+						$row = $DB->get_row("
+			SELECT
+									p.*,
+									m.id, m.name, m.mgroup, m.email, m.joined,
+									m.gender,
+									m.avatar, m.avatar_size, m.posts, m.aim_name,
+									m.icq_number, m.signature,  m.website, m.yahoo,
+									m.integ_msg, m.title, m.hide_email, m.msnname,
+									m.warn_level, m.warn_lastwarn,
+									m.points,  m.fined, m.rep, m.ratting, m.show_ratting,
+									g.g_id, g.g_title, g.g_icon, g.g_use_signature, 
+									g.g_use_avatar, g.g_dohtml
+									
+								    FROM ibf_posts p
+									  LEFT JOIN ibf_members m
+										ON (p.author_id=m.id) 
+									  LEFT JOIN ibf_groups g
+										ON (g.g_id=m.mgroup) 
+								    WHERE p.pid='".$post['pid']."'");
+				
+			$count = 1;
+			$out = $idx->process_one_post($row, 0, $count, true);
+			echo $print->prepare_output( $out );
+			die;
+	}
 	}
 	
 
@@ -2739,7 +2768,10 @@ class Moderate {
 
 		$this->moderate_log("Deleted a topic");
 	
+		if ( !$ibforums->input['ajax'] )
+		{
 		$print->redirect_screen( $ibforums->lang['p_deleted'], "act=SF&f=".$this->forum['id'] );
+		} else {}
 	}
 	
 	
@@ -3177,57 +3209,6 @@ class Moderate {
 /* <--- Jureth ---: Double. Function are identical. */
 	$this->modfunc->forum_recount($fid);
 
-//	// Get the topics..
-//	$DB->query("SELECT COUNT(tid) as count
-//		    FROM ibf_topics
-//		    WHERE
-//			approved=1 and
-//			forum_id='".$fid."'");
-//
-//	$topics = $DB->fetch_row();
-//	
-//	// Get the posts..
-//	$DB->query("SELECT COUNT(pid) as count
-//		    FROM ibf_posts
-//		    WHERE
-//			queued != 1 and
-//			forum_id='".$fid."'");
-//	$posts = $DB->fetch_row();
-//	
-//	// Get the forum last poster..
-//	$DB->query("SELECT
-//			tid,
-//			title,
-//			last_poster_id,
-//			last_poster_name,
-//			last_post 
-//		    FROM ibf_topics
-//		    WHERE
-//			approved=1 and
-//			forum_id='".$fid."' and
-//			club=0 
-//		    ORDER BY last_post DESC
-//		    LIMIT 1");
-//
-//	$last_post = $DB->fetch_row();
-//	
-//	// Get real post count by removing topic starting posts from the count
-//	$real_posts = $posts['count'] - $topics['count'];
-//	
-//	// Reset this forums stats
-//	$db_string = $DB->compile_db_update_string( array (
-//				'last_poster_id'   => $last_post['last_poster_id'],
-//				'last_poster_name' => $last_post['last_poster_name'],
-//				'last_post'        => $last_post['last_post'],
-//				'last_title'       => $last_post['title'],
-//				'last_id'          => $last_post['tid'],
-//				'topics'           => $topics['count'],
-//				'posts'            => $real_posts
-//				 )        );
-//											 
-//	$DB->query("UPDATE ibf_forums
-//		    SET $db_string
-//		    WHERE id='".$fid."'");
 		
 	}
 	
@@ -3955,8 +3936,7 @@ class Moderate {
 	if ( !$ibforums->input['ajax'] )
 	{
 		$print->redirect_screen("", "showtopic=".$this->topic['tid']."&view=findpost&p=".$pid, "html");
-	} else
-	{
+		} else {
 		require ROOT_PATH."/sources/Topics.php";
 		
 		header('Content-Type: text/html; charset=windows-1251');
@@ -3965,46 +3945,9 @@ class Moderate {
 		$out = $idx->process_one_post($row, 0, $count, true);
 		echo $print->prepare_output( $out );
 		die;
-		/*
-		if ( $state )
-		{
-			$code = "19";
         
-			$label = "decline2";
-        
-			$post = $skin_universal->RenderDeletedRow()."[nn][nn][nn]<span class='edit'>".sprintf($ibforums->lang['permited_by'], $ibforums->member['name'], $std->get_date(time(), 'LONG'))."</span>";
-		} else
-		{
-			$code = "18";
-        
-			$label = "decline1";
-        
-			require ROOT_PATH."/sources/lib/post_parser.php";
-                
-		        $parser = new post_parser(1);
-        
-                        $data = array(  'TEXT'          => $row['post'],
-                                        'SMILIES'       => 1,
-                                        'CODE'          => 1,
-                                        'SIGNATURE'     => 0,
-					'HID'	      => $std->get_highlight_id($this->forum['id']),
-					'TID'	      => $this->topic['tid'],
-					'MID'	      => $row['author_id'],
-                                     );
-        
-			$post = $parser->prepare($data);
 		}
 		
-		$post = str_replace( array("'", "\n", "<br>"), array("\'", "[nn]", "[nn]"), $post);
-        
-		$extra = "setPostHTML('{$ibforums->input['linkID']}','{$post}');";
-        
-		$url = $ibforums->base_url."act=Mod&CODE=".$code."&f={$this->forum['id']}&t={$this->topic['tid']}&p={$ibforums->input['p']}&auth_key=".$std->return_md5_check();
-        
-		$print->redirect_js_screen("{$ibforums->input['linkID']}", $label, $url, $extra);
-		*/
-	}
-
 	}
 
 
@@ -4528,8 +4471,8 @@ class Moderate {
 
 	$faq = $std->forums_array($this->forum['faq_id'],
 				  $this->forum,
-				  &$forums,
-				  &$children);
+				  $forums,
+				  $children);
 	
 	if ( count($faq) )
 	{
