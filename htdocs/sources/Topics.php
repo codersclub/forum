@@ -21,8 +21,6 @@
 +--------------------------------------------------------------------------
 */
 
-require_once "sources/Attach.php";
-
 $idx = new Topics;
 
 class Topics {
@@ -341,7 +339,7 @@ class Topics {
 
 		if ( ($row['attach_id'] or $row['attach_exists'])and !$row['use_sig'] ) {
 				
-			$attachments = Attach2::getPostAttachmentsFromRow($row);
+			$attachments = Attachment::getPostAttachmentsFromRow($row);
 		}
 		//--------------------------------------------------------------
 
@@ -512,7 +510,7 @@ class Topics {
 		
 		if ( ($row['attach_id'] or $row['attach_exists'])and !$row['use_sig'] ) {
 			
-			$attachments = Attach2::getPostAttachmentsFromRow($row);
+			$attachments = Attachment::getPostAttachmentsFromRow($row);
 			
 			//----------------------------------------------------
 			// If we've not already done so, lets grab our mime-types
@@ -525,7 +523,7 @@ class Topics {
 			}
 				
 			foreach($attachments as $attach) {
-				($attach instanceof Attach2);
+				($attach instanceof Attachment);
 				
 				if (in_array($attach->attachId(), $this->parser->attachments)) {
 					/*

@@ -5,7 +5,6 @@
 // Our "session" class
 //######################################################
 
-require_once dirname(__FILE__).'/Attach.php';
 class session {
 
     var $ip_address 	   = 0;
@@ -999,7 +998,7 @@ class session {
 		$topics[ $row['topic_id'] ] = $row['topic_id'];
 
 		// delete attached files
-		Attach2::deleteAllPostAttachments($row);
+		Attachment::deleteAllPostAttachments($row);
 	}
 
 	}

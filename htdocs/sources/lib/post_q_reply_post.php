@@ -452,7 +452,7 @@ class post_functions extends Post {
 		$this->post['pid'] = $DB->get_insert_id();
 		if ($this->post['attach_exists']) {
 			foreach($this->upload as $attach) {
-				($attach instanceof Attach2);
+				($attach instanceof Attachment);
 				
 				$attach->setPostId($this->post['pid']);
 				
