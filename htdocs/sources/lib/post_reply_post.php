@@ -146,6 +146,7 @@ class post_functions extends Post {
 		//-------------------------------------------------
 		// Update the post info with the upload array info
 		//-------------------------------------------------
+		$this->post['attach_exists'] = is_array($this->upload) ? (bool)count($this->upload) : false;
 		
 		$draft = TopicDraft::getDraft( $this->topic['tid'] );
 		if ($draft) {
@@ -153,7 +154,6 @@ class post_functions extends Post {
 		} else {
 			$attachments = array();
 		}
-		$this->post['attach_exists'] = is_array($this->upload) ? (bool)(count($this->upload) + count($attachments)) : false;
 		//-------------------------------------------------
 		// Insert the post into the database to get the
 		// last inserted value of the auto_increment field
@@ -264,7 +264,6 @@ class post_functions extends Post {
 
 		// Song * merge mod
 
-		
 		if ( !$this->post['delete_after'] and
 		     !$this->post['attach_exists'] and
 		     !$std->mod_tag_exists($this->post['post'], 1) and 
@@ -304,6 +303,11 @@ class post_functions extends Post {
 				     $timedeff < 3500 and
 				     !$std->mod_tag_exists($lastpost['post'], 1) )
 				{
+//Спящий                                        if ( (!(($ibforums->member['g_is_supmod'] == 1) or
+//Спящий					         ($ibforums->member['is_mod']))) or
+//Спящий                                              ((($ibforums->member['g_is_supmod'] == 1) or
+//Спящий						 ($ibforums->member['is_mod'])) and
+//Спящий						 ($ibforums->input['add_merge_edit'] == 1))
 //Спящий                                            )
 					if ( $ibforums->input['add_merge_edit']  ) //Спящий
 					{
@@ -434,15 +438,19 @@ class post_functions extends Post {
 
 
 
-		$DB->do_insert_query( $this->post, 'ibf_posts' );
+		$db_string = $DB->compile_db_insert_string( $this->post );
+		
+		$DB->query("INSERT INTO ibf_posts
+				(" .$db_string['FIELD_NAMES']. ")
+			    VALUES
+				(". $db_string['FIELD_VALUES'] .")");
 		
 		$this->post['pid'] = $DB->get_insert_id();
-		
 		
 		if ($draft) {
 			if ($attachments) {
 				foreach($attachments as $a) {
-					$a->moveTo( $this->post['pid'], Attachment::ITEM_TYPE_POST );
+					$a->moveTo( $this->post['pid'], Attach2::ITEM_TYPE_POST );
 				}
 				
 				$db_string = $DB->compile_db_update_string(array('attach_exists' => 1));
@@ -760,7 +768,7 @@ class post_functions extends Post {
 			$this->upload = array_merge($this->upload ?: array(), $draft->getAttachments());
 			
 			if ( $this->upload ) {
-				$class->process_edituploads( $this->upload, Attachment::ITEM_TYPE_TOPIC_DRAFT );
+				$class->process_edituploads( $this->upload, Attach2::ITEM_TYPE_TOPIC_DRAFT );
 			}
 			
 		} else {

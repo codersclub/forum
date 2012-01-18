@@ -223,3 +223,4 @@ function mime_type_is_allowed($type)
 }
 
 
+?>

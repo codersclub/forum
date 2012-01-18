@@ -589,7 +589,7 @@ class post_functions extends Post {
 			$this->upload = array_merge($this->upload ?: array(), $draft->getAttachments());
 			
 			if ( $this->upload ) {
-				$class->process_edituploads( $this->upload, Attachment::ITEM_TYPE_TOPIC_DRAFT );
+				$class->process_edituploads( $this->upload, Attach2::ITEM_TYPE_TOPIC_DRAFT );
 			}
 
 			$class->output .= $class->html->preview( $this->post['post'] );

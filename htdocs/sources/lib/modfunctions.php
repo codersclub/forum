@@ -21,6 +21,7 @@
 | does what is asked and returns - see function for more info
 +--------------------------------------------------------------------------
 */
+require_once dirname(dirname(__FILE__)).'/Attach.php';
 
 class modfunctions
 {
@@ -458,7 +459,7 @@ class modfunctions
 					@unlink($this->upload_dir."/".$r['attach_id']);
 				}
 				*/
-				Attachment::deleteAllPostAttachments($r);
+				Attach2::deleteAllPostAttachments($r);
 			}
 		}
 	

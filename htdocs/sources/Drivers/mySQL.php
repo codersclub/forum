@@ -198,9 +198,12 @@ class db_driver {
     
     function fetch_row($query_id = "") {
     
-    	$query_id = $query_id ?: $this->query_id;
+    	if ($query_id == "")
+    	{
+    		$query_id = $this->query_id;
+    	}
     	
-        $this->record_row = mysql_fetch_assoc($query_id);
+        $this->record_row = mysql_fetch_array($query_id, MYSQL_ASSOC);
         
         return $this->record_row;
         
@@ -208,8 +211,11 @@ class db_driver {
 
     function fetch_object($query_id = "", $class_name = 'stdClass') {
     
-    	$query_id = $query_id ?: $this->query_id;
-    	    	
+    	if ($query_id == "")
+    	{
+    		$query_id = $this->query_id;
+    	}
+    	
         $this->record_row = mysql_fetch_object($query_id, $class_name);
         
         return $this->record_row;
@@ -217,7 +223,10 @@ class db_driver {
     }
     function fetch_simple_row($query_id = "") {
     
-    	$query_id = $query_id ?: $this->query_id;
+    	if ($query_id == "")
+    	{
+    		$query_id = $this->query_id;
+    	}
     	
         $this->record_row = mysql_fetch_row($query_id);
         
@@ -520,10 +529,8 @@ class db_driver {
 			."')"
 		;
 		
-		$this->query($query, $bypass, $fatal);
-		
-		$this->free_result();
-		
+		return $this->query($query, $bypass, $fatal);
+			
 	}
 	
 	/**
@@ -549,34 +556,8 @@ class db_driver {
 		."')"
 		;
 	
-		$this->query($query, $bypass, $fatal);
+		return $this->query($query, $bypass, $fatal);
 			
-		$this->free_result();
-	}
-	
-	/**
-	* выполняет запрос UPDATE table...
-	*
-	* @param array $fields
-	* 		типа field => value
-	* @param string $table
-	*/
-	function do_update_query(array $fields, $table, $where, $bypass=0, $fatal = 1)
-	{
-	
-		$field_values = array_map(array($this,'quote'), $fields);
-		
-		$query = "UPDATE $table SET ";
-		foreach($fields as $name => $val) {
-			$query .= "`$name` = '$val`, ";
-		}
-		$query = substr( $query, 0 , -2 );
-		
-		$query = " WHERE $where";
-		
-		$this->query($query, $bypass, $fatal);
-
-		$this->free_result();
 	}
 	
 	

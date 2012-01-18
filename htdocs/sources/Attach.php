@@ -1,10 +1,10 @@
 <?php
 
 
-require_once dirname(__FILE__).'/../../mimecrutch.php';
+require_once dirname(__FILE__).'/mimecrutch.php';
 
-if (!class_exists('Attachment')) {
-class Attachment {
+if (!class_exists('Attach2')) {
+class Attach2 {
 	
 	const ITEM_TYPE_POST = 'post';
 	const ITEM_TYPE_TOPIC_DRAFT = 'topic_draft';
@@ -351,7 +351,7 @@ class Attachment {
 	public function getImageOfType()
 	{
 		global $ibforums;
-		require dirname(dirname(__FILE__)).'/../../conf_mime_types.php';
+		require dirname(dirname(__FILE__)).'/conf_mime_types.php';
 		
 		return ( $ibforums->member['view_img'] )
 			? 
@@ -408,16 +408,20 @@ class Attachment {
 					
 					$array  = array(
 							'attach_id' => $this->attach_id,
-							'item_type' => $save_to /*'post'*/,
+							'item_type'      => $save_to /*'post'*/,
 							'item_id'   => $this->post_id
 						);
 						
-					$DB->do_replace_query($array, 'ibf_attachments_link');
+					$db_string = $DB->do_insert_query($array, 'ibf_attachments_link');
 					
 				}
 				
 			} else {
-				$DB->do_update_query( $array, 'ibf_post_attachments', "attach_id = {$this->attach_id}" );
+				$db_string = $DB->compile_db_update_string( $array );
+				
+				$DB->query("UPDATE ibf_post_attachments 
+							SET $db_string
+							WHERE attach_id = {$this->attach_id}");			
 			}
 		} else {
 			$this->post_row['attach_id']	= $this->realFilename;
@@ -470,7 +474,7 @@ class Attachment {
 	public static function deleteAllPostAttachments(array &$row)
 	{
 		global $ibforums;
-		if ($attachments = Attachment::getPostAttachmentsFromRow($row)) {
+		if ($attachments = Attach2::getPostAttachmentsFromRow($row)) {
 			foreach($attachments as $attach) {
 				$attach->delteFromDB();
 				if (is_file($ibforums->vars['upload_dir']."/".$attach->realFilename())) {
@@ -503,141 +507,6 @@ class Attachment {
 	{
 		global $ibforums;
 		return $this->getImageOfType()."<a href='{$this->getHref()}' title='Скачать файл' target='_blank'>".($this->filename())."</a>";
-	}
-	
-	public function accessIsAllowed($member) {
-		global $DB, $ibforums;
-		
-		$result = false;
-		
-		$links_id = $DB->query("SELECT * FROM ibf_attachments_link WHERE attach_id = {$this->attach_id}");
-		
-		while( $item = $DB->fetch_row($links_id) ) {
-			if ($item['item_type'] = self::ITEM_TYPE_POST) {
-				if ($this->checkPostAccess($item['item_id'], $member)) {
-					$result = true;
-					break;
-				}
-			}
-		}
-		
-		$DB->free_result($links_id);
-		
-		return $result;
-	}
-	
-	private function checkPostAccess($post_id, $member) {
-		global $DB, $ibforums, $std;
-		$topic = $DB->get_row("SELECT
-        			f.id as fid,
-        			f.parent_id as parent_id,
-        			f.password as password,
-        			f.read_perms,
-        			
-        			t.club as club,
-        			t.approved as approved,
-        			t.state as state,
-        			t.starter_id as starter_id,
-        			t.pinned as pinned,
-        			t.starter_id as starter_id
-        			
-				    FROM
-						ibf_forums f,
-						ibf_topics t,
-						ibf_posts p
-						
-				    WHERE p.forum_id = f.id 
-				    	AND p.pid = {$post_id}
-				    	AND p.topic_id = t.tid
-					");
-		$forum = array (
-		        		'id' => $topic['fid'],
-		        		'parent_id' => $topic['parent_id'],
-		        		'password' => $topic['password'],
-		        		'read_perms' => $topic['read_perms'],
-		);
-		
-		if ( !$forum['id'] )
-		{
-			return false;
-		}
-		
-		if ( $topic['club'] and $std->check_perms( $member['club_perms'] ) == FALSE )
-		{
-			return false;
-		}
-		
-		$std->user_ban_check($forum);
-
-		if ( !$topic['approved'] )
-		{
-		
-			if ( !$std->premod_rights($topic['starter_id'],
-			$mod[ $member['id'] ]['topic_q'], // TODO: find where mod[]
-			$topic['app']) )
-			{
-				// $std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
-				return false;
-			}
-		}
-		
-		if ( $member['id'] and !$member['g_is_supmod'] )
-		{
-			$DB->query("SELECT *
-					    FROM ibf_moderators
-					    WHERE
-						forum_id=".$forum['id']."
-						AND (member_id=".$member['id']."
-						     OR (is_group=1
-							 AND group_id='".$member['mgroup']."'))");
-		
-			$moderator = $DB->fetch_row();
-		}
-		 
-		//-------------------------------------
-		// Check viewing permissions, private forums,
-		// password forums, etc
-		//-------------------------------------
-		if ( (!$topic['pinned']) and ( ( ! $member['g_other_topics'] ) AND ( $topic['starter_id'] != $member['id'] ) ) )
-		{
-			//$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_view_topic') );
-			return false;
-		}
-		
-		return !$this->check_access($forum);
-	}
-	
-	private function check_access($forum) // TODO: get rid of this copypast
-	{
-		global $ibforums, $std;
-		
-		$return = 1;
-		
-		if ( $std->check_perms($forum['read_perms']) == TRUE )
-		{
-			$return = 0;
-		}
-		
-		if ($forum['password'] != "")
-		{
-		
-			if ( ! $c_pass = $std->my_getcookie('iBForum'.$forum['id']) )
-			{
-				return 1;
-			}
-		
-			if ( $c_pass == $forum['password'] )
-			{
-				return 0;
-			}
-			else
-			{
-			    return 1;
-			}
-		}
-		
-		return $return;
-	
 	}
 }
 

@@ -21,12 +21,14 @@
 +--------------------------------------------------------------------------
 */
 
+require_once "sources/Attach.php";
+
 $idx = new attach;
 
 class attach {
 
     
-    function __construct()
+    function attach()
     {
         global $ibforums, $DB, $std, $print, $skin_universal;
         
@@ -50,18 +52,18 @@ class attach {
 	        	}
 	        	
 	        	$post = $DB->fetch_row();
-	        	$attach = Attachment::createFromPostRow($post);
+	        	$attach = Attach2::createFromPostRow($post);
         	} else {
-        		$attach = Attachment::getById( $ibforums->input['attach_id'] );
-        		if (!($attach instanceof Attachment)) {
-        			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'is_broken_link') );
+        		$attach = Attach2::getPostAttachmentsList($ibforums->input['id'], $ibforums->input['attach_id']);
+        		$attach = $attach[0];
+        		if (!($attach instanceof Attach2)) {
+        			$std->Error( array( LEVEL => 1, MSG => 'is_broken_link') );
         		}
         	}
 
         	/**
         	 * check forum permissions
         	 */
-        	/*
         	if ( !$ibforums->topic_cache['tid'] )
         	{
         		$post_id = $attach->postId() ?: $attach->itemId();
@@ -105,12 +107,12 @@ class attach {
 
         	if ( !$this->forum['id'] )
         	{
-        		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'is_broken_link') );
+        		$std->Error( array( LEVEL => 1, MSG => 'is_broken_link') );
         	}
 
         	if ( $this->topic['club'] and $std->check_perms( $ibforums->member['club_perms'] ) == FALSE )
         	{
-        		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'is_broken_link') );
+        		$std->Error( array( LEVEL => 1, MSG => 'is_broken_link') );
         	}
 
         	// Song * user ban patch
@@ -119,12 +121,13 @@ class attach {
 
         	if ( !$this->topic['approved'] )
         	{
+        		$this->topic['state'] = "closed";
 
         		if ( !$std->premod_rights($this->topic['starter_id'],
 	        		$this->mod[ $ibforums->member['id'] ]['topic_q'], // TODO: find where mod[]
 	        		$this->topic['app']) )
         		{
-        			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files') );
+        			$std->Error( array( LEVEL => 1, MSG => 'missing_files') );
         		}
         	}
 
@@ -148,23 +151,19 @@ class attach {
 
         	if ( (!$this->topic['pinned']) and ( ( ! $ibforums->member['g_other_topics'] ) AND ( $this->topic['starter_id'] != $ibforums->member['id'] ) ) )
         	{
-        		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_view_topic') );
+        		$std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
         	}
 
         	$bad_entry = $this->check_access();
 
         	if ( $bad_entry ) {
-        		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_view_topic') );
+        		$std->Error( array( LEVEL => 1, MSG => 'no_view_topic') );
         	}
-			*/
-        	if ( !($attach instanceof Attachment) ) {
+
+        	if ( !($attach instanceof Attach2) ) {
         		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files' ) );
         	}
-        	
-        	if ( ! $attach->accessIsAllowed($ibforums->member) ) {
-        		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'missing_files' ) );
-        	}
-        	
+
         	$file = $ibforums->vars['upload_dir']."/".$attach->realFilename();
         	
         	if ( file_exists( $file ) and $attach->type() )
@@ -193,7 +192,7 @@ class attach {
         }
         
     }
-    /*
+        
 	function check_access()
 	{
 		global $ibforums, $std;
@@ -226,5 +225,5 @@ class attach {
 		return $return;
 	
 	}
-    */
+    
 }

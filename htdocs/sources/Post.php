@@ -22,6 +22,7 @@
 */
 
 require_once "mimecrutch.php"; // Barazuk
+require_once "sources/Attach.php";
 
 $idx = new Post;
 
@@ -974,7 +975,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		}
 		foreach($_FILES['FILE_UPLOAD']['name'] as $i => $name ) {
 			$error = '';
-			$a = Attachment::createFromPOST('FILE_UPLOAD', $i, $error);
+			$a = Attach2::createFromPOST('FILE_UPLOAD', $i, $error);
 			
 			if ($a) {
 				$attachments[$i] = $a;
@@ -1017,7 +1018,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		//-------------------------------------------------
 		foreach($attachments as $i => $a) {
 			
-			($a instanceof Attachment); // for code completer :)
+			($a instanceof Attach2); // for code completer :)
 			
 			//-------------------------------------------------
 			// Are we allowing this type of file?
@@ -1050,7 +1051,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 					$this->forum['id'],
 					time(),
 					$i,
-					Attachment::createExtensionByType($a->type())
+					Attach2::createExtensionByType($a->type())
 				); 
 			$a->setRealFilename($real_file_name);
 			
@@ -1065,7 +1066,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		//-------------------------------------------------
 		foreach($attachments as $a) {
 			
-			($a instanceof Attachment); // for code completer :)
+			($a instanceof Attach2); // for code completer :)
 			
 			if (!$a->moveToUploadDirectory($ibforums->vars['upload_dir'])) {
 				$this->upload_errors[] = $ibforums->lang['upload_failed'];
@@ -1095,7 +1096,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 		
 		foreach($attachments as $i => $attach) {
 			
-			($attach instanceof Attachment);
+			($attach instanceof Attach2);
 		
 			$attach->setPostId( $save_id );
 		
@@ -1115,7 +1116,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 	function process_edituploads(array &$attachments, $delete_from = 'post') {
 		global $ibforums;
 		
-		$attachments = Attachment::reindexArray($attachments);
+		$attachments = Attach2::reindexArray($attachments);
 		
 		$new_attachment_index = 0;
 		
