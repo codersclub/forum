@@ -153,7 +153,7 @@ class TopicDraft {
 	}
 	
 	function getAttachments() {
-		return Attach2::getTopicDraftAttachmentsList( $this->id );
+		return Attachment::getTopicDraftAttachmentsList( $this->id );
 	}
 	
 }

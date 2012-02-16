@@ -1,7 +1,5 @@
 <?php
 
-require_once "Attach.php";
-
 class Att 
 {
 	var $html = "";
@@ -218,14 +216,14 @@ class Att
 		
 		//main body:
 		
-		$attfile = new Attach2;				
+		$attfile = new Attachment;				
 		
 		$countrec = $DB->get_num_rows() >= $count_on_page ? $count_on_page : $DB->get_num_rows();		
 		for ($i = 0; $i < $countrec; $i++)
 		{
 			$res = $DB->fetch_row();
 			
-			$attfile = Attach2::createFromRow($res);
+			$attfile = Attachment::createFromRow($res);
 			
 			$this->html .= "
 						   <tr><td class='row4'>".($attfile->getLink())."</td>

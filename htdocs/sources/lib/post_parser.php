@@ -741,7 +741,7 @@ class post_parser {
 		
 		$attach = NULL;
 		if ($p == '') {
-			$attach = $this->attachments_to_render[$id] ?: Attach2::getById($id);
+			$attach = $this->attachments_to_render[$id] ?: Attachment::getById($id);
 		} elseif($p == 'p') {
 			$qid = $DB->query("SELECT
 					pid,
@@ -755,19 +755,19 @@ class post_parser {
 			
 			$row = $DB->fetch_row($qid);
 			if ($row && $row['attach_id']) {
-				$attach = Attach2::createFromPostRow($row);
+				$attach = Attachment::createFromPostRow($row);
 			}
 		} else {
 			return $text;
 		}
-		if (! ($attach instanceof Attach2) ) {
+		if (! ($attach instanceof Attachment) ) {
 			return $text;
 		}
 		$text = $this->render_attach($attach, $text);
 		return trim($text);
     }
     
-    public function render_attach(Attach2 $attach, $text)
+    public function render_attach(Attachment $attach, $text)
     {
     	
     	global $ibforums, $std;
@@ -787,7 +787,7 @@ class post_parser {
     	return $text;
     }
     
-    private function renderPreview(Attach2 $attach, $text) {
+    private function renderPreview(Attachment $attach, $text) {
     	global $ibforums, $std;
     	$alt  = htmlspecialchars( "{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}" )		;
     	if ($ibforums->vars['siu_width'] AND $ibforums->vars['siu_height']) {
@@ -946,7 +946,7 @@ class post_parser {
 	if ( !isset($in['MID']) ) $in['MID'] = 0;
 	if ( !isset($in['HID']) ) $in['HID'] = -1;
 	
-	$this->attachments_to_render = isset($in['ATTACHMENTS']) ? Attach2::reindexArray( $in['ATTACHMENTS'] ) : array();
+	$this->attachments_to_render = isset($in['ATTACHMENTS']) ? Attachment::reindexArray( $in['ATTACHMENTS'] ) : array();
 	
 	$this->in_sig = $in['SIGNATURE'];
 	$txt = $in['TEXT'];

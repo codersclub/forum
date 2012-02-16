@@ -298,8 +298,8 @@ class FUNC {
 		if ( $ban['temp_ban'] ) 			
 		{
 			if ( $ban['temp_ban'] == 1 ) $this->Error( array(
-						LEVEL => 1,
-						MSG => 'no_view_forum_always') ); else
+						'LEVEL' => 1,
+						'MSG' => 'no_view_forum_always') ); else
 			{
 				// Game over man! :))
 				$ban_arr = $this->hdl_ban_line($ban['temp_ban']);
@@ -324,8 +324,8 @@ class FUNC {
 
 					  // Gi-gi-gi! Hui tebe! :)
 				} else $this->Error( array(
-					LEVEL => 1,
-					MSG => 'no_view_forum',
+					'LEVEL' => 1,
+					'MSG' => 'no_view_forum',
 					'EXTRA' => $this->get_date($ban_arr['date_end'], 'LONG')) );
 			}
 		}

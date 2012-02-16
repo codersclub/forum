@@ -322,7 +322,7 @@ class post_functions extends Post {
 		// Do we have to adjust the attachments?
 		$new_attachments = $class->process_upload();
 		
-		if ( $attachments = Attach2::getPostAttachmentsFromRow($this->orig_post) )
+		if ( $attachments = Attachment::getPostAttachmentsFromRow($this->orig_post) )
 		{
 			$class->process_edituploads( $attachments );
 			/* foreach($ibforums->input['editupload'] as $filename => $editupload) {
@@ -749,7 +749,7 @@ class post_functions extends Post {
 		
 		if ( $class->obj['can_upload'] )
 		{
-			if ( $attachments = Attach2::getPostAttachmentsFromRow($this->orig_post) )
+			if ( $attachments = Attachment::getPostAttachmentsFromRow($this->orig_post) )
 			{
 				
 					$upload_field .= $class->html->edit_upload_field( 

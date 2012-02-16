@@ -1,6 +1,6 @@
 <?php
 
-class AttachImage extends Attach2 {
+class AttachImage extends Attachment {
 	
 	public function isImage() {
 		return true;
