@@ -15,7 +15,7 @@
 
 use DBI;
 use Time::Local;
-#use strict; 
+use strict; 
 
 ########################################
 # Load Bot Settings
@@ -112,8 +112,15 @@ my @task_list = (
 		'TITLE'		=> "4. Clear posts edit history (items older 180 days ):\n",
 		'SELECT'	=> '',
 		'DELETE'	=> 'DELETE FROM ibf_post_edit_history WHERE edit_time < $age',
-		'DTL'		=> 30
+		'DTL'		=> 180
+ 	},
+	{
+		'TITLE'		=> "5. Clear topic drafts without attachments (items older 14 days ):\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_topic_draft WHERE created < $age AND not exists (SELECT * FROM ibf_attachments_link WHERE item_type = \'topic_draft\' AND item_id = ibf_topic_draft.id )',
+		'DTL'		=> 14
  	}
+
 #	{
 #		'TITLE'		=> "5 Delete delayed posts:\n",
 #		'SELECT'	=> '',
