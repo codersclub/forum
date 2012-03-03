@@ -510,13 +510,19 @@ class Attachment {
 		
 		$result = false;
 		
-		$links_id = $DB->query("SELECT * FROM ibf_attachments_link WHERE attach_id = {$this->attach_id}");
-		
-		while( $item = $DB->fetch_row($links_id) ) {
-			if ($item['item_type'] = self::ITEM_TYPE_POST) {
-				if ($this->checkPostAccess($item['item_id'], $member)) {
-					$result = true;
-					break;
+		if ($this->from_post_row) {
+			if ($this->checkPostAccess($this->item_id, $member)) {
+				return true;
+			}
+		} else {
+			$links_id = $DB->query("SELECT * FROM ibf_attachments_link WHERE attach_id = {$this->attach_id}");
+			
+			while( $item = $DB->fetch_row($links_id) ) {
+				if ($item['item_type'] = self::ITEM_TYPE_POST) {
+					if ($this->checkPostAccess($item['item_id'], $member)) {
+						$result = true;
+						break;
+					}
 				}
 			}
 		}

@@ -30,7 +30,7 @@ class attach {
     {
         global $ibforums, $DB, $std, $print, $skin_universal;
         
-        $ibforums->input['id'] = preg_replace( "/^(\d+)$/", "\\1", $ibforums->input['id'] );
+        $ibforums->input['id'] = intval( $ibforums->input['id'] );
                 
         if ($ibforums->input['type'] == 'post')
         {
