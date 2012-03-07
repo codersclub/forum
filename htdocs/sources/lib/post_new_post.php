@@ -114,7 +114,6 @@ class post_functions extends Post {
 	function add_new_topic(Post $class) {
 		
 		global $ibforums, $std, $DB, $print, $sess;
-		
 		//-------------------------------------------------
 		// Fix up the topic title
 		//-------------------------------------------------
@@ -264,7 +263,9 @@ class post_functions extends Post {
 		$this->topic['tid']      = $this->post['topic_id'];
 		
 
-
+		if ($draft = TopicDraft::getNewTopicDraft($class->forum['id']) ) {
+			$draft->delete();
+		}
 		//----------------------------------------------------
 		// vot:
 		// Index the Topic Title for the Indexed Search Engine
@@ -412,15 +413,13 @@ class post_functions extends Post {
 		if ( $ibforums->member['id'] AND
 		     $ibforums->input['enabletrack'] == 1 )
 		{
-			$db_string = $DB->compile_db_insert_string( array (
-					'member_id'  => $ibforums->member['id'],
-					'topic_id'   => $this->topic['tid'],
-					'start_date' => time(),
-					  )       );
-			$DB->query("INSERT INTO ibf_tracker
-					({$db_string['FIELD_NAMES']})
-				    VALUES
-					({$db_string['FIELD_VALUES']})");
+			$db_string = $DB->do_insert_query( array (
+						'member_id'  => $ibforums->member['id'],
+						'topic_id'   => $this->topic['tid'],
+						'start_date' => time(),
+					  ), 
+					'ibf_tracker'
+				);
 		}
 
 		//---------------------------------------------------------------

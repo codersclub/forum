@@ -1413,8 +1413,7 @@ class post_parser {
 	function macro($txt,$fid = "0") {
 
 	// keep http text as is, except if it's internal forum link
-	$txt = preg_replace( "#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#ie" , 
-			     "\$this->regex_build_url_auto_parser_cut( array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))", $txt );
+	$txt = preg_replace_callback( '#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#i' , array($this, 'regex_build_url_auto_parser_cut') , $txt );
 
 	// change url tags
 	$txt = preg_replace( "#\[url\](\S+?)\[/url\]#ie"                                       , 
@@ -2722,9 +2721,10 @@ class post_parser {
 	}
 
 
-function regex_build_url_auto_parser_cut($url=array()) {
+function regex_build_url_auto_parser_cut(array $url) {
 global $DB,$ibforums;
-
+// "\$this->regex_build_url_auto_parser_cut( array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))"
+	$url = array('html' => $url[2], 'show' => $url[2], 'st' => $url[1]); 
 	$skip_it = 0;
 
 	// Make sure the last character isn't punctuation.. if it is, remove it and add it to the

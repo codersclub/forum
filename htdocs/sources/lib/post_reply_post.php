@@ -268,7 +268,8 @@ class post_functions extends Post {
 		if ( !$this->post['delete_after'] and
 		     !$this->post['attach_exists'] and
 		     !$std->mod_tag_exists($this->post['post'], 1) and 
-		     !$attachments )
+		     !$attachments and 
+		     !$draft)
 		{
 			$DB->query("SELECT
 					pid,

@@ -126,6 +126,12 @@ class TopicDraft {
 		return $o;
 	}
 	
+	/**
+	 * Возвращает черновик нового топика (не поста), если таковой уже есть в базе
+	 * 
+	 * @param int $forum_id
+	 * @return NULL|TopicDraft
+	 */
 	static function getNewTopicDraft( $forum_id ) {
 		global $DB, $ibforums;
 		$array = $DB->get_row( 'SELECT * FROM '.self::table_name.' WHERE forum_id = ' . $DB->quote( $forum_id ) . ' AND member_id = ' . $DB->quote( $ibforums->member['id'] ));

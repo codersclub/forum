@@ -184,12 +184,13 @@ class post_functions extends Post {
 		//-------------------------------------------------
 		// Update the post info with the upload array info
 		//-------------------------------------------------
-		/*
-		$this->post['attach_id']   = $this->upload['attach_id'];
-		$this->post['attach_type'] = $this->upload['attach_type'];
-		$this->post['attach_hits'] = $this->upload['attach_hits'];
-		$this->post['attach_file'] = $this->upload['attach_file'];
-		*/
+		$draft = TopicDraft::getDraft( $this->topic['tid'] );
+		if ($draft) {
+			$attachments = $draft->getAttachments();
+		} else {
+			$attachments = array();
+		}
+		
 		$this->post['attach_exists'] = is_array($this->upload) ? (bool)count($this->upload) : false;
 		
 		//-------------------------------------------------
