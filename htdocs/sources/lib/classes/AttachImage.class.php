@@ -37,16 +37,23 @@ class AttachImage extends Attachment {
 		'cur_width'  => $w_src,
 	    											'cur_height' => $h_src
 		)      );
-
 		$ratio_w = $w_src/$im['img_width'];
 		$ratio_h = $h_src/$im['img_height'];
 
 		$w_dest = round($w_src/$ratio_w);
 		$h_dest = round($h_src/$ratio_h);
-
+		
+		
 		$dest = imagecreatetruecolor($w_dest, $h_dest);
-		imagecopyresized($dest, $img, 0, 0, 0, 0, $w_dest, $h_dest, $w_src, $h_src);
-
+		
+		
+		if (substr($this->realFilename(), -4) == '.png') {
+			imagealphablending( $dest, false );
+			imagesavealpha( $dest, true );
+		}
+		
+		imagecopyresampled($dest, $img, 0, 0, 0, 0, $w_dest, $h_dest, $w_src, $h_src);
+		
 		return $this->saveImage($dest);
 	}
 
@@ -69,7 +76,7 @@ class AttachImage extends Attachment {
 			case 'jpeg':
 				return @imagecreatefromjpeg($filename);
 			case 'png':
-				//return @imagecreatefrompng($filename);
+				return @imagecreatefrompng($filename);
 			case 'gif':
 				//return @imagecreatefromgif($filename);
 		}
@@ -86,7 +93,7 @@ class AttachImage extends Attachment {
 			case 'jpeg':
 				return imagejpeg($img, $filename);
 			case 'png':
-				// return imagepng($img, $filename);
+				return imagepng($img, $filename);
 			case 'gif':
 				// return imagegif($img, $filename);
 		}
