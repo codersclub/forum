@@ -58,12 +58,31 @@ class AttachImage extends Attachment {
 	}
 
 	function getPreviewSizes() {
+		global $ibforums, $std;
 		$img_size = @GetImageSize( $this->previewPath() );
 
-		return array(
-		'img_width'  => $img_size[0],
-		'img_height' => $img_size[1]
-		);
+		if ($img_size) {
+
+
+			return array(
+				'img_width'  => $img_size[0],
+				'img_height' => $img_size[1]
+			);
+		} else {
+		        $img_size = @GetImageSize( $ibforums->vars['upload_dir']."/".$this->realFilename() );	
+
+			$im = $std->scale_image( array(
+                		'max_width'  => $ibforums->vars['siu_width'],
+                		'max_height' => $ibforums->vars['siu_height'],
+                		'cur_width'  => $img_size[0],
+                                'cur_height' => $img_size[1]
+                	)      );
+
+			return array(
+				'img_width'  => $im['img_width'],
+				'img_height' => $im['img_height']
+			);
+		}
 	}
 
 	private function loadImage() {
