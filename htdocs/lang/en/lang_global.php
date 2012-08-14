@@ -192,5 +192,11 @@ M_12			=>	"December",
 'gender_male'		=> "Male",
 'gender_female'		=> "Female",
 
+'yesterday' => "Yesterday",
+'today' => "Today",
+'minutes_less' => "less than one minute ago",
+'minutes_ago' => "minute%s ago",
+'minutes_ending1' => "s",
+'minutes_ending2' => "s",
 
 );

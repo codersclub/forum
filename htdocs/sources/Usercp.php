@@ -1358,7 +1358,7 @@ class UserCP {
  	function board_prefs() {
  		global $ibforums, $DB, $std, $print;
  		
- 		$time = $std->get_date( time(), 'LONG' );
+ 		$time = strftime($ibforums->vars['datef_date'].", ".$ibforums->vars['datef_time']);
  		
  		// Do we have a user stored offset, or use the board default:
  		
@@ -1385,7 +1385,7 @@ class UserCP {
  		
  		$time_select = "Регион: <select id='u_tz_region' name='u_tz_region' class='forminput'></select>".
  		               " Часовая зона: <select id='u_tz_zone' name='u_tz_zone' class='forminput'></select>".
- 		               "<script src='/html/timezones.js.php?current=$str_offset'></script>$time_select_append";
+ 		               "<script src='".$ibforums->vars['board_url']."/html/timezones.js.php?current=".$str_offset."'></script>".$time_select_append;
  		
  		/*$time_select = "<select name='u_timezone' class='forminput'>";
  		

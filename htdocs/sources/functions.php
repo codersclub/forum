@@ -27,7 +27,6 @@
 class FUNC {
 
 	var $time_formats  = array();
-	var $time_options  = array();
 	var $offset        = "";
 	var $offset_set    = 0;
 	var $num_format    = "";
@@ -37,25 +36,11 @@ class FUNC {
 
 	//----------------------------------------
 	// Set up some standards to save CPU later
-	
-	function FUNC() {
+	function __constructor(){
 	global $INFO;
 		
-	$this->time_options = array(
-					'JOINED' => $INFO['clock_joined'],
-					'SHORT'  => $INFO['clock_short'],
-					'LONG'   => $INFO['clock_long'],
-					'MERGE'  => 'H:i'
-				   );
-
 	$this->num_format = ($INFO['number_format'] == 'space') ? ' ' : $INFO['number_format'];
-	
-		
 	}
-
-
-
-
 
 	// Shaman * get/set forums open state
 
@@ -2540,115 +2525,132 @@ echo "-----------------<br>\n";
     /*-------------------------------------------------------------------------*/    
     
 // Song * today/yesterday
+	// Edited by Sunny
 
-    function old_get_date($date, $method) {
+    function old_get_date($date, $parameter = "deprecated") {
         global $ibforums;
         
         if ( !$date ) return '--';
         
-        if ( empty($method) ) $method = 'LONG';
-        
         if ( $this->offset_set == 0 )
         {
         	// Save redoing this code for each call, only do once per page load
-        	
 		$this->offset = $this->get_time_offset();
 		$this->offset_set = 1;
         }
         
-        return gmdate($this->time_options[$method], ($date + $this->offset) );
+        return gmdate("j.m.y, H:i", $date + $this->offset);
     }
 
-    function get_date($date, $method = '', $html = 1) {
+	// возврат форматированной даты
+    function get_date($date, $parameter = "deprecated", $html = 1) {
     	global $ibforums;
 
-    	if ( !$date ) return '--';
-    	if (empty($method)) $method = 'LONG';
+		// возвращаем прочерк если нет даты
+    	if(!$date) return "&mdash;";
 		
+		// определяем временную зону
     	$offset = $ibforums->member['time_offset'] ?: $ibforums->vars['time_offset'];
     	
-    	if (preg_match('!\w+/[\w/]+!', $offset) ) {
-    		
-    		// new logic - timezone by name like 'Europe/Moscow'
-    		
+    	if(preg_match("~\w+/[\w/]+~", $offset)){
+    		// именные временные зоны 'Europe/Moscow'
     		date_default_timezone_set($offset);
     		
-    		$todaystamp = mktime();
-    		$todaydate = date("F j Y", ($todaystamp));
-    		
-    		$yestdate = date("F j Y", $todaystamp-86400);
-    		$postdate = date("F j Y", $date );
-    		
-    		if ($ibforums->member['dst_in_use']) {
-    			$offset = date('I') * 3600;
+			// летнее время
+   			$offset = $ibforums->member['dst_in_use'] ? (date("I") * 3600) : 0;
     		} else {
-    			$offset = 0;
-    		}
+			// временная зона по умолчанию
+    		date_default_timezone_set("UTC");
     		
-    		$gmdate = function($format, $date) use ($offset) {
-    			return date($format, $date + $offset);
-    		};
-    	} else {
-    		
-    		date_default_timezone_set('UTC');
-    		
-    		// old logic - numeric time offset
-	    	if ($this->offset_set == 0)
-	    	{
-				
+    		// вычисление сдвига времени старым способом
+	    	if ($this->offset_set == 0){
 		    	$this->offset = $offset * 3600;
     			
-	    		if ($ibforums->vars['time_adjust'] != "" and $ibforums->vars['time_adjust'] != 0)
-	    		{
-	    			$this->offset += ($ibforums->vars['time_adjust'] * 60);
+	    		if(intval($ibforums->vars['time_adjust']) > 0){
+	    			$this->offset += (intval($ibforums->vars['time_adjust']) * 60);
 	    		}
 	
+				// летнее время
 	    		if ($ibforums->member['dst_in_use']) {
-	    			$this->offset += date('I') * 3600; 
+	    			$this->offset += date("I") * 3600; 
 	    		} else {
 	    			$this->offset_set = 1;
 	    		}
 	    	}
-	    	$todaystamp = mktime();
-	    	$todaydate = gmdate("F j Y", ($todaystamp + $this->offset));
 	
-	    	$yestdate = gmdate("F j Y", (($todaystamp-86400) + $this->offset));
-	    	$postdate = gmdate("F j Y", ($date + $this->offset));
-	    	
 	    	$offset = $this->offset;
-	    	$gmdate = function($format, $date) use ($offset) {
-	    		return date($format, $date + $offset);
-	    	};
-
     	}
     	
+		// определяем форматирование
+		$formatting = array(
+			"-1" => array("", ""),
+			"0" => array("[b]", "[/b]"),
+			"1" => array("<b>", "</b>"),
+		);
+		$html = isset($formatting[$html]) ? $formatting[$html] : current($formatting);
+		$datef = $ibforums->vars['datef_template'];
+		$datef_date = $ibforums->vars['datef_date'];
 
-    	$tydate = "";
+		// включена функция "отброса года из даты"
+		if($ibforums->vars['datef_dropyear'] == "1" && strftime("%Y", $date) == strftime("%Y")){
+			$datef_date = trim(str_replace("%Y", "", $datef_date));
+		}
 
-    	if ( $postdate == $todaydate )
-    	{
-    		if ( $html != -1 ) $tydate = ( $html ) ? "<b>" : "[b]";
+		// переводим месяц в нормальный формат
+		if(!empty($ibforums->lang['month'.strftime("%m", $date)])){
+			$datef_date = str_replace("%B", $ibforums->lang['month'.strftime("%m", $date)], $datef_date);
+		}
 
-    		if ( $ibforums->member['today'] ) $tydate .= $ibforums->member['today']; else $tydate .= "Сегодня";
+		// вычисляем дату
+		$datef_date = strftime($datef_date, $date + $offset);
 
-    		if ( $html != -1 ) $tydate .= ( $html ) ? "</b>" : "[/b]";
+		// включена функция "горячего времени"
+		if($ibforums->vars['datef_hotclocks'] == "1"){
+			if(time() - $date < 3600){
+				// в течении часа
+				$mins = floor((time() - $date) / 60);
 
-    		$tydate .= ", ";
-    	} else
-    	{
-    		if ( $postdate == $yestdate )
-    		if ( $ibforums->member['yesterday'] ) $tydate .= $ibforums->member['yesterday'].", "; else $tydate .= "Вчера, ";
+				if($mins > 0){
+					// определяем окончание слова
+					$ending = "";
+					$strm = ($mins > 20) ? substr((string)$mins, -1) : false;
+					if($mins == 1 || $strm == "1"){
+						$ending = $ibforums->lang['minutes_ending1'];
+					}elseif($mins == 2 || $mins == 3 || $mins == 4 || $strm == "2" || $strm == "3" || $strm == "4"){
+						$ending = $ibforums->lang['minutes_ending2'];
     	}
 
-    	if ( $tydate ) {
-    		return $tydate.$gmdate("H:i", $date );
+					// собираем в кучу
+					$datef_date = $html[0].$mins.$html[1]." ".sprintf($ibforums->lang['minutes_ago'], $ending);
+					$datef = "%date";
     	} else {
-    		return $gmdate($this->time_options[$method], $date );
+					// менее минуты назад
+					$datef_date = $html[0].$ibforums->lang['minutes_less'].$html[1];
+					$datef = "%date";
     	}
 
+			}elseif(strftime("%j", $date) == strftime("%j")){
+				// сегодняшняя дата
+				$datef_date = $html[0].$ibforums->lang['today'].$html[1];
+			
+			}elseif(strftime("%j", $date) == strftime("%j", time() - 86400)){
+				// вчерашняя дата
+				$datef_date = $ibforums->lang['yesterday'];
     }
+		}
     
-// Song * today/yesterday
+		// вычисляем время
+		$datef_time = strftime($ibforums->vars['datef_time'], $date + $offset);
+    
+		// подставляем по шаблону
+		$datef = str_replace(
+			array("%date", "%time"),
+			array($datef_date, $datef_time),
+			$datef
+		);
+		
+		return $datef;
+    }
     
     /*-------------------------------------------------------------------------*/
     // Returns the offset needed and stuff - quite groovy.              

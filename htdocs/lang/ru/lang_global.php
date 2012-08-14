@@ -150,3 +150,23 @@ $lang['gender_male']    = "ћуж.";
 $lang['gender_female']  = "∆ен.";
 
 
+$lang['yesterday'] = "¬чера";
+$lang['today'] = "—егодн€";
+$lang['minutes_less'] = "менее минуты назад";
+$lang['minutes_ago'] = "минут%s назад";
+$lang['minutes_ending1'] = "у";
+$lang['minutes_ending2'] = "ы";
+$lang['month01'] = "€нвар€";
+$lang['month02'] = "феврал€";
+$lang['month03'] = "марта";
+$lang['month04'] = "апрел€";
+$lang['month05'] = "ма€";
+$lang['month06'] = "июн€";
+$lang['month07'] = "июл€";
+$lang['month08'] = "августа";
+$lang['month09'] = "сент€бр€";
+$lang['month10'] = "окт€бр€";
+$lang['month11'] = "но€бр€";
+$lang['month12'] = "декабр€";
+
+?>
