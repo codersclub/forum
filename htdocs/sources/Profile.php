@@ -433,7 +433,7 @@ class Profile {
  	//
  	//------------------------------------------
  	
-	function view_rep($member, $info, $rep) {
+	function view_rep($member, &$info, $rep) {
 	global $ibforums;
 
 	$tmp_rep = empty($member[ $rep ]) ? 0 : $member[ $rep ];
@@ -606,10 +606,10 @@ class Profile {
 
 	if ( $ibforums->member['show_ratting'] and $member['show_ratting'] )
 	{
-		$this->view_rep($member, &$info, 'rep');
+		$this->view_rep($member, $info, 'rep');
 		$info['rep'] = $this->html->show_rep($info);
 	
-		$this->view_rep($member, &$info, 'ratting');
+		$this->view_rep($member, $info, 'ratting');
 		$info['ratting'] = $this->html->show_ratting($info);
 	}
 

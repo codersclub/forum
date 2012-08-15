@@ -127,7 +127,7 @@ class Reputation {
 	}
     }
     
-    function get_rep($memid, $field) {
+    function get_rep($memid, &$field) {
     global $ibforums, $DB, $std;
 
 	$DB->query("SELECT inc_postcount FROM ibf_forums WHERE id='".intval($ibforums->input['f'])."'");
@@ -150,7 +150,7 @@ class Reputation {
 		{
 			$field = "";
 
-	        	$level = $this->get_rep($memid, &$field);
+	        	$level = $this->get_rep($memid, $field);
 
 			if ( !$field ) $std->Error( array( LEVEL => 1, MSG => 'missing_files') );
 			
@@ -172,7 +172,7 @@ class Reputation {
         {
 		$field = "";
 
-        	$level = $this->get_rep($memid, &$field);
+        	$level = $this->get_rep($memid, $field);
         	
 		if ( !$field ) $std->Error( array( LEVEL => 1, MSG => 'missing_files') );
 
