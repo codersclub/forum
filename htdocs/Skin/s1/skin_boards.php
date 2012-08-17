@@ -103,8 +103,8 @@ return <<<EOF
 <input type="hidden" name="act" value="Login">
 <input type="hidden" name="CODE" value="01">
 <input type="hidden" name="CookieDate" value="1">
-<input type="text" class="forminput" size="10" name="UserName" onfocus="this.value=''" value="{$ibforums->lang['qli_name']}">
-<input type="password" class="forminput" size="10" name="PassWord" onfocus="this.value=''" value="ibfrules">
+<input type="text" class="forminput" size="14" name="UserName" placeholder="{$ibforums->lang['qli_name']}">
+<input type="password" class="forminput" size="14" name="PassWord" placeholder="{$ibforums->lang['qli_pass']}">
 <input type="submit" class="forminput" value="{$ibforums->lang['qli_go']}">
 </form>
 </div>

@@ -146,16 +146,19 @@ function quick_search($data) {
 global $ibforums;
 return <<<EOF
 
-<div align='right'><form action='{$ibforums->base_url}' method='post' name='search'>
-<input type='hidden' name='forums' value='{$data['id']}'>
-<input type='hidden' name='cat_forum' value='forum'>
-<input type='hidden' name='act' value='Search'>
-<input type='hidden' name='joinname' value='1'>
-<input type='hidden' name='searchsubs' value='1'>
-<input type='hidden' name='CODE' value='01'>
-{$ibforums->lang['search_forum']}&nbsp;
-<input type='text' size='30' name='keywords' class='forminput' value='{$ibforums->lang['enter_keywords']}' onfocus='this.value = "";'><input type='submit' value='{$ibforums->lang['search_go']}' class='forminput'>
-</form></div>
+<div align='right'>
+	<form action='{$ibforums->base_url}' method='post' name='search'>
+		<input type='hidden' name='forums' value='{$data['id']}'>
+		<input type='hidden' name='cat_forum' value='forum'>
+		<input type='hidden' name='act' value='Search'>
+		<input type='hidden' name='joinname' value='1'>
+		<input type='hidden' name='searchsubs' value='1'>
+		<input type='hidden' name='CODE' value='01'>
+		{$ibforums->lang['search_forum']}&nbsp;
+		<input type='text' size='30' name='keywords' class='forminput' placeholder='{$ibforums->lang['enter_keywords']}'>
+		<input type='submit' value='{$ibforums->lang['search_go']}' class='forminput'>
+	</form>
+</div>
 
 EOF;
 }

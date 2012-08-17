@@ -99,9 +99,9 @@ return <<<EOF
 
 <form style='display:inline' action="{$ibforums->base_url}act=Login&amp;CODE=01&amp;CookieDate=1" method="post">
 <div align='right'><strong>{$ibforums->lang['qli_title']}</strong>
-<input type="text" class="forminput" size="10" name="UserName" onfocus="this.value=''" value="{$ibforums->lang['qli_name']}">
-<input type='password' class='forminput' size='10' name='PassWord' onfocus="this.value=''" value='ibfrules'>
-<input type='submit' class='forminput' value='{$ibforums->lang['qli_go']}'>
+<input type="text" class="forminput" size="14" name="UserName" placeholder="{$ibforums->lang['qli_name']}">
+<input type="password" class="forminput" size="14" name='PassWord' placeholder="{$ibforums->lang['qli_pass']}">
+<input type="submit" class="forminput" value="{$ibforums->lang['qli_go']}">
 </div>
 </form>
 

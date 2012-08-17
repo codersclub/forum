@@ -1,4 +1,4 @@
-<?php
+enter_keywords<?php
 
 
 $lang['post_modq']  = "В этом разделе имеются темы/сообщения, ожидающие подтверждения.";
@@ -9,9 +9,9 @@ $lang['ft_title']  = "Подписка на раздел";
 $lang['active_users_detail']  = "%s гостей, %s невидимых пользователей";
 $lang['active_users_title']  = "%s пользователей просматривают этот форум";
 $lang['active_users_members']  = "%s пользователей:";
-$lang['enter_keywords']  = "Ключевое слово";
-$lang['search_forum']  = "Быстрый поиск:";
-$lang['search_go']  = "Найти!";
+$lang['enter_keywords']  = "Введите слово для поиска";
+$lang['search_forum']  = "Поиск:";
+$lang['search_go']  = "Найти";
 $lang['last_post_by']  = "";
 $lang['pm_pin']  = "Зафиксированная тема";
 $lang['pm_open_decided']  = "Тема с законченным обсуждением";
