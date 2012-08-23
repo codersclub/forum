@@ -576,7 +576,7 @@ class session {
 				$this->member['modforums']=false;
 				$mod = array();
 
-				$DB->query("SELECT forum_id
+				$res = $DB->query("SELECT forum_id
 					    FROM ibf_moderators
 					    WHERE member_id='".$this->member['id']."' or group_id='".$this->member['mgroup']."'");
         
@@ -1266,7 +1266,11 @@ class session {
 		//---------------------------------
         	// Insert the new session
         	//---------------------------------
-        	
+		if(!isset($ibforums->input['act'])) $ibforums->input['act'] = '';
+		if(!isset($ibforums->input['f'])) $ibforums->input['f'] = '';
+		if(!isset($ibforums->input['t'])) $ibforums->input['t'] = '';
+		if(!isset($ibforums->input['p'])) $ibforums->input['p'] = '';
+		if(!isset($ibforums->input['CODE'])) $ibforums->input['CODE'] = '';
 		$locasion = $ibforums->input['act'].",".$ibforums->input['p'].",".$ibforums->input['CODE'].'|'.$this->location;
 
 		if ( !$this->in_forum ) $this->in_forum = '0';
