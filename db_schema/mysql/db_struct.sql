@@ -1556,7 +1556,7 @@ CREATE TABLE `ibf_search_results` (
   `sort_order` varchar(4) NOT NULL DEFAULT 'desc',
   `member_id` mediumint(10) DEFAULT '0',
   `ip_address` varchar(16) NOT NULL DEFAULT '',
-  `post_id` text,
+  `post_id` longtext,
   `post_max` int(10) NOT NULL DEFAULT '0',
   `query_cache` text,
   PRIMARY KEY (`id`),
