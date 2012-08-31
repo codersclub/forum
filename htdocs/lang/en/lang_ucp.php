@@ -2,6 +2,13 @@
 
 $lang = array (
 
+// added by Sunny
+'hotclocks'		=> "Humanity-time format",
+'hotclocks1'		=> "New (N minutes ago)",
+'hotclocks2'		=> "New (N hours ago)",
+'hotclocks3'		=> "Old (Today, hh:mm)",
+'hotclocks0'		=> "Don't use (dd.mm.yy, hh:mm)",
+
 // added by barazuk
 'show_status'		=> "Show members status",
 'show_img'		=> "Show members icons (belonging to group, member sex)",

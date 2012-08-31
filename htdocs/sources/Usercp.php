@@ -1475,8 +1475,9 @@ class UserCP {
 		$show_img  	= "<select name='ICONS' class='forminput'>";
 		$show_ratting  	= "<select name='RATTING' class='forminput'>";
 		$show_filter  	= "<select name='FILTER' class='forminput'>";
-		$forum_icon  	= "<select name='FORUM_ICON' class='forminput'>";
 		$css_method  	= "<select name='CSS' class='forminput'>";
+		$hotclocks  	= "<select name='HOTCLOCKS' class='forminput'>";
+		$forum_icon  	= "<select name='FORUM_ICON' class='forminput'>";
 		$syntax_method  = "<select name='SYNTAX' class='forminput'>";
 		$syntax_lines_count  = "<select name='SYNTAX_LINES_COUNT' class='forminput'>";
 		
@@ -1535,7 +1536,12 @@ class UserCP {
 		$css_method  	.= $this->member['css_method'] == "inline" 
 				? "<option value='inline' selected='selected'>".$ibforums->lang['inline']."</option>\n<option value='external'>".$ibforums->lang['external']."</option>"
 	  		 	: "<option value='inline'>".$ibforums->lang['inline']."</option>\n<option value='external' selected='selected'>".$ibforums->lang['external']."</option>"; 
-
+		
+		$hotclocks		.= '<option value="1"'.($this->member['hotclocks'] == 1 ? " selected" : "").'>'.$ibforums->lang['hotclocks1'].'</option>';
+		$hotclocks		.= '<option value="2"'.($this->member['hotclocks'] == 2 ? " selected" : "").'>'.$ibforums->lang['hotclocks2'].'</option>';
+		$hotclocks		.= '<option value="3"'.($this->member['hotclocks'] == 3 ? " selected" : "").'>'.$ibforums->lang['hotclocks3'].'</option>';
+		$hotclocks		.= '<option value="0"'.($this->member['hotclocks'] == 0 ? " selected" : "").'>'.$ibforums->lang['hotclocks0'].'</option>';
+		
 		$forum_icon  	.= $this->member['forum_icon'] == 1 
 				? "<option value='1' selected='selected'>".$ibforums->lang['yes']."</option>\n<option value='0'>".$ibforums->lang['no']."</option>"
 	  		 	: "<option value='1'>".$ibforums->lang['yes']."</option>\n<option value='0' selected='selected'>".$ibforums->lang['no']."</option>"; 		
@@ -1619,6 +1625,7 @@ class UserCP {
  									'SYNTAX_SHOW_CONTROLS' => $syntax_show_controls,
  									'SHOW_NEW'	=> $show_new."</select>",
 								    'CSS'	=> $css_method."</select>",
+								    'HOTCLOCKS'	=> $hotclocks."</select>",
 								    'FORUM_ICON'	=> $forum_icon."</select>",
 								    'TPS'  	=> $topic_select,
 								    'PPS'  	=> $post_select,

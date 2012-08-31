@@ -91,6 +91,10 @@ return <<<EOF
   <td align='left'>{$data[CSS]}</td>
 </tr>
 <tr>
+  <td>{$ibforums->lang['hotclocks']}</td>
+  <td align='left'>{$data[HOTCLOCKS]}</td>
+</tr>
+<tr>
   <td>{$ibforums->lang['forum_icon']}</td>
   <td align='left'>{$data[FORUM_ICON]}</td>
 </tr>
