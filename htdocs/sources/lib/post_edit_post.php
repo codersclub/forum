@@ -325,45 +325,6 @@ class post_functions extends Post {
 		if ( $attachments = Attachment::getPostAttachmentsFromRow($this->orig_post) )
 		{
 			$class->process_edituploads( $attachments );
-			/* foreach($ibforums->input['editupload'] as $filename => $editupload) {
-				
-				$filename = intval($filename);
-				
-				if ($editupload == 'keep') {
-					; // nothing to do
-				} else {
-					if (isset($attachments[$filename])) {
-						
-						
-						$attach = &$attachments[$filename];
-						
-						if ($editupload == 'new' && isset($new_attachments[$new_attachment_index])) {
-							
-							@unlink($ibforums->vars['upload_dir']."/".$attach->realFilename());
-							
-							$new_attach = $new_attachments[$new_attachment_index];
-							$new_attach->setPostId($this->orig_post['pid']);
-							$attach->acceptAttach($new_attach);
-							$attach->saveToDB();
-							
-							$attach_append .= "\n[attach={$attach->attachId()}][/attach]";
-							
-							unset($new_attachments[$new_attachment_index]);
-							
-							$new_attachment_index++;
-							
-						} elseif ($editupload == 'delete') {
-							
-							@unlink($ibforums->vars['upload_dir']."/".$attach->realFilename());
-							
-							$attach->delteFromDB();
-								; // file is alredy deleted
-							unset($attachments[$filename]);
-							
-						}
-					}
-				}
-			} */
 			
 			$this->post['attach_id']   = $this->orig_post['attach_id'];
 			$this->post['attach_type'] = $this->orig_post['attach_type'];

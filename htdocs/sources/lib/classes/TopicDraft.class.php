@@ -79,25 +79,26 @@ class TopicDraft {
 	
 	function save() {
 		global $DB, $ibforums;
-		
+
 		$fields = array(
-					'text'     => $this->text,
-					'created'  => time(),
-					'member_id'=> $ibforums->member['id']
-			);
-                $this->topic_id    && $fields['topic_id'] = $this->topic_id;
-                $this->topic_title && $fields['topic_title'] = $this->topic_title;
-                $this->forum_id    && $fields['forum_id'] = $this->forum_id;
-                $this->topic_description && $fields['topic_description'] = $this->topic_description;
-                
-		
+		    'text'     => $this->text,
+		    'created'  => time(),
+		    'member_id'=> $ibforums->member['id']
+		);
+		$this->id		   && $fields['id'] = $this->id;
+		$this->topic_id    && $fields['topic_id'] = $this->topic_id;
+		$this->topic_title && $fields['topic_title'] = $this->topic_title;
+		$this->forum_id    && $fields['forum_id'] = $this->forum_id;
+		$this->topic_description && $fields['topic_description'] = $this->topic_description;
+
+
 		$DB->do_replace_query(
-			$fields
-			,
-			self::table_name
+		    $fields
+		    ,
+		    self::table_name
 		);
 		$this->id = $this->id ?: $DB->get_insert_id();
-		
+
 	}
 	
 	function delete() {

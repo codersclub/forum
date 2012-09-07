@@ -572,9 +572,11 @@ class post_functions extends Post {
 			
 			if ( $attach_exists ) {
 				$class->replace_attachments_tags( $raw_post, $this->upload, $draft->id(), 'topic_draft' );
+  			    $this->post['post'] = $raw_post;
 				$draft->setText( $raw_post );
 				$draft->save();
 			}
+			
 			
 			$this->post['post'] = $class->parser->post_db_parse(
 						     $class->parser->prepare( array(
@@ -663,7 +665,15 @@ class post_functions extends Post {
 		
 		if ( $class->obj['can_upload'] )
 		{
-			$upload_field = $class->html->Upload_field( $std->size_format( $ibforums->member['g_attach_max'] * 1024 ) );
+					
+			if ( $this->upload ) {
+				$upload_field .= $class->html->edit_upload_field( 
+					$std->size_format( $ibforums->member['g_attach_max'] * 1024 ),
+					$this->upload );
+				
+			} else {
+				$upload_field = $class->html->Upload_field( $std->size_format( $ibforums->member['g_attach_max'] * 1024 ) );
+			}
 		}
 		
 		//---------------------------------------

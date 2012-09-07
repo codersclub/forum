@@ -1550,12 +1550,12 @@ class Search {
 		
 		$this->links = $std->build_pagelinks( array( 
 
-		    TOTAL_POSS  => $amount,
-		    PER_PAGE    => 25,
-		    CUR_ST_VAL  => $this->first,
-		    L_SINGLE    => "",
-		    L_MULTI     => $ibforums->lang['search_pages'],
-		    BASE_URL    => $this->base_url."act=Select&nav={$ibforums->input['nav']}&CODE=show&CODE_MODE={$ibforums->input['CODE_MODE']}&searchid=".$this->unique_id."&search_in=".$this->search_in."&result_type=".$this->result_type."&new={$ibforums->input['new']}&hl=".$url_words,
+		    'TOTAL_POSS'  => $amount,
+		    'PER_PAGE'    => 25,
+		    'CUR_ST_VAL'  => $this->first,
+		    'L_SINGLE'    => "",
+		    'L_MULTI'     => $ibforums->lang['search_pages'],
+		    'BASE_URL'    => $this->base_url."act=Select&nav={$ibforums->input['nav']}&CODE=show&CODE_MODE={$ibforums->input['CODE_MODE']}&searchid=".$this->unique_id."&search_in=".$this->search_in."&result_type=".$this->result_type."&new={$ibforums->input['new']}&hl=".$url_words,
 
 											 )
 									  );
@@ -1793,12 +1793,12 @@ class Search {
 			
 		$url_words = urlencode(trim($keywords));
 			
-		$links = $std->build_pagelinks( array( TOTAL_POSS  => $max_hits,
-											   PER_PAGE    => 25,
-											   CUR_ST_VAL  => $this->first,
-											   L_SINGLE    => "",
-											   L_MULTI     => $ibforums->lang['search_pages'],
-											   BASE_URL    => $this->base_url."act=Select&CODE=getactive&searchid=$unique_id",
+		$links = $std->build_pagelinks( array( 'TOTAL_POSS'  => $max_hits,
+											   'PER_PAGE'    => 25,
+											   'CUR_ST_VAL'  => $this->first,
+											   'L_SINGLE'    => "",
+											   'L_MULTI'     => $ibforums->lang['search_pages'],
+											   'BASE_URL'    => $this->base_url."act=Select&CODE=getactive&searchid=$unique_id",
 											 )
 									  );
 									  
