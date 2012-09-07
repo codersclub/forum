@@ -86,6 +86,8 @@ class info {
 
 require ROOT_PATH."../conf_global.php";
 
+setlocale( LC_ALL, 'ru_RU.CP1251' );
+
 $INFO['mm_groups'] = array(
 	$INFO['admin_group'],
 	$INFO['supermoderator_group'],

@@ -298,7 +298,7 @@ $hidden_fields
 <tr>
 	<td class='row1' valign='top'>
 	  <input type='text' maxlength='100' size='40' name='keywords' id="keywords" class='forminput'>
-	  <br><label><input type='checkbox' name='fulltext'>{$ibforums->lang['use_fulltext_search']} <i>(beta)</i></label><br>
+	  <br><label><input type='checkbox' name='fulltext' checked>{$ibforums->lang['use_fulltext_search']} <i>(beta)</i></label><br>
 	  {$search_txt}<!--IBF.BOOLEAN_EXPLAIN-->{$where}
 
 	</td>

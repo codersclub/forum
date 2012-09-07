@@ -3479,9 +3479,10 @@ function index_del_post($pid=0)
 global $ibforums, $DB;
 
   if($ibforums->vars['search_sql_method'] == 'index') {
-	$DB->query("DELETE
+	$r = $DB->query("DELETE
 		    FROM ibf_search
 		    WHERE pid=$pid");
+        $r && $DB->free_result( $r );
   }
 }
 
@@ -3589,7 +3590,7 @@ global $ibforums, $DB;
 
 		// get id of existing word
 		$id = 0;
-		$DB->query("SELECT id
+		$qid = $DB->query("SELECT id
 			    FROM ibf_search_words
 			    WHERE word='$word'");
 //			    WHERE word='".addslashes($word)."'");
@@ -3599,26 +3600,29 @@ global $ibforums, $DB;
 			$id = $row['id'];
 //echo $i.": ".$word." ($id)<br>\n";
 		}
+                $DB->free_result($qid);
 
 		// insert the word
 		if(!$id)
 		{
-			$DB->query("INSERT INTO ibf_search_words
+			$r = $DB->query("INSERT INTO ibf_search_words
 					(word)
 				    VALUES
 					('$word')");
 			$id = $DB->get_insert_id();
+                        $r && $DB->free_result( $r );
 //echo $i.": ".$word." ($id) NEW!<br>\n";
 		}
 
 		// add the post/topic record for this word
 		if ( $id )
 		{
-			$DB->query("INSERT INTO ibf_search
+			$r = $DB->query("INSERT INTO ibf_search
 				    VALUES ($pid,
 					    $tid,
 					    $fid,
 					    $id)");
+                        $r && $DB->free_result( $r );
 		}
 		$i++;
 	}
@@ -3636,7 +3640,8 @@ global $ibforums, $DB;
 			 WHERE tid='$tid'";
 	}
 
-	$DB->query($dsql);
+	$r = $DB->query($dsql);
+        $r && $DB->free_result( $r );
 
   }
   return;
@@ -3725,8 +3730,8 @@ global $ibforums;
 
     $length = strlen($item);
 
-    if ( ($length >= $ibforums->vars[min_search_word]) &&
-	 ($length <= $ibforums->vars[max_search_word]) )
+    if ( ($length >= $ibforums->vars['min_search_word']) &&
+	 ($length <= $ibforums->vars['max_search_word']) )
     {
        if(!isset($seen[$item])) {
             $seen[$item] = 1;
