@@ -1063,7 +1063,7 @@ class modfunctions
 									 'starter_id'       => $current_topic['starter_id'],
 									 'start_date'       => $current_topic['start_date'],
 									 'starter_name'     => $current_topic['starter_name'],
-									 'last_post'        => time(),
+									 'last_post'        => $current_topic['last_post'],
 									 'forum_id'         => $current_move_forum,
 									 'approved'         => 1,
 									 'pinned'           => 0,
@@ -1074,6 +1074,7 @@ class modfunctions
 									 'club'		    	=> $current_topic['club'],
 									 'mirrored_topic_id'=> $current_topic['tid'],
 									 'icon_id'			=> $current_topic['icon_id'],
+									 'decided'			=> $current_topic['decided'],
 						)
 					);
 					// Make a link to moved topic
