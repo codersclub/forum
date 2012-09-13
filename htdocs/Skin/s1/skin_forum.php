@@ -154,7 +154,6 @@ return <<<EOF
 		<input type='hidden' name='joinname' value='1'>
 		<input type='hidden' name='searchsubs' value='1'>
 		<input type='hidden' name='CODE' value='01'>
-		<input type='hidden' name='fulltext' value='on'>
 		{$ibforums->lang['search_forum']}&nbsp;
 		<input type='text' size='30' name='keywords' class='forminput' placeholder='{$ibforums->lang['enter_keywords']}'>
 		<input type='submit' value='{$ibforums->lang['search_go']}' class='forminput'>
