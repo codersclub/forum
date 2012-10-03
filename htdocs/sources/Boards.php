@@ -80,7 +80,7 @@ class Boards {
 
 
 
-        $this->output .= $this->html->PageTop( $std->get_date( $ibforums->input['last_visit'], 'LONG' ), $show_all_link);
+        $this->output .= $this->html->PageTop( $std->get_date( $ibforums->input['last_visit'] ), $show_all_link);
         
 
         // Get the forums and category info from the DB
@@ -614,7 +614,7 @@ class Boards {
 
 		// Song * record of visit
 		
-		$most_time = $std->old_get_date( $stats['MOST_DATE'], 'JOINED' );
+		$most_time = $std->format_date_without_time( $stats['MOST_DATE'] );
 		
 		$ibforums->lang['most_online'] = str_replace( "<#NUM#>" ,   $std->do_number_format($stats['MOST_COUNT'])  , $ibforums->lang['most_online'] );
 		$ibforums->lang['most_online'] = str_replace( "<#DATE#>",   $most_time,    $ibforums->lang['most_online'] );
@@ -625,7 +625,7 @@ class Boards {
 		$ibforums->lang['online_record'] = str_replace( "#GUESTS#", 	$stats['guests']	 , $ibforums->lang['online_record']);
 		$ibforums->lang['online_record'] = str_replace( "#BOTS#", 	$stats['bots']		 , $ibforums->lang['online_record']);
 
-		$record_date = $std->old_get_date( $stats['record_date'], 'JOINED' );
+		$record_date = $std->format_date_without_time( $stats['record_date'] );
 
 		$ibforums->lang['category_record'] = str_replace( "#USERS#", 	$stats['h_members']	 , $ibforums->lang['category_record']);
 		$ibforums->lang['category_record'] = str_replace( "#GUESTS#", 	$stats['h_guests']	 , $ibforums->lang['category_record']);
@@ -1268,7 +1268,7 @@ class Boards {
 					$newest['img_new_post'] = $this->html->subforum_img_with_link($newest['img_new_post'], $forum_data['id']);
 				}
         
-				$newest['last_post'] = $std->get_date($newest['last_post'],'LONG');
+				$newest['last_post'] = $std->get_date($newest['last_post']);
 				$newest['posts']  = $std->do_number_format($newest['posts']);
 				$newest['topics'] = $std->do_number_format($newest['topics']);
 				
@@ -1437,7 +1437,7 @@ class Boards {
 			$forum_data['img_new_post'] = $this->html->subforum_img_with_link($forum_data['img_new_post'], $forum_data['id']);
 		}
 		
-		$forum_data['last_post'] = $std->get_date($forum_data['last_post'], 'LONG');
+		$forum_data['last_post'] = $std->get_date($forum_data['last_post']);
 
 		$forum_data['last_topic'] = $ibforums->lang['f_none'];
 		

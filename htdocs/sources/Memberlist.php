@@ -365,7 +365,7 @@ class Memberlist {
 
 		} else $member['sex'] = "";
 
-		$member['joined'] = $std->get_date( $member['joined'], 'JOINED' );
+		$member['joined'] = $std->format_date_without_time( $member['joined'] );
 		
 		$member['group']  = $this->mem_groups[ $member['mgroup'] ]['TITLE'];
 		
@@ -424,5 +424,3 @@ class Memberlist {
  	}
  	
 }
-
-?>

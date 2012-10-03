@@ -439,7 +439,7 @@ class Online {
 				$sess['member_name'] = "<a href='{$this->base_url}showuser={$sess['member_id']}'>{$sess['prefix']}{$sess['member_name']}{$sess['suffix']}</a>$inv {$sess['ip_address']}";
 			}
 			
-			$sess['running_time'] = $std->get_date( $sess['running_time'], 'LONG' );
+			$sess['running_time'] = $std->get_date( $sess['running_time'] );
 			
 			$this->output .= $this->do_html_row($sess);
 			
@@ -484,5 +484,3 @@ class Online {
 
         
 }
-
-?>

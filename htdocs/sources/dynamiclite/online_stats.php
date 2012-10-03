@@ -246,7 +246,7 @@ class online_stats {
                                 $stats['MOST_DATE']  = time();
                         }
 
-                        $most_time = $std->get_date( $stats['MOST_DATE'], 'LONG' );
+                        $most_time = $std->get_date( $stats['MOST_DATE'] );
 
                         $ibforums->lang['most_online'] = str_replace( "<#NUM#>" ,   $std->do_number_format($stats['MOST_COUNT'])  , $ibforums->lang['most_online'] );
                         $ibforums->lang['most_online'] = str_replace( "<#DATE#>",                   $most_time                    , $ibforums->lang['most_online'] );
@@ -283,4 +283,4 @@ class online_stats {
                 return $this->output;
       }
 }
-?>
+

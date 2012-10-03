@@ -1101,7 +1101,7 @@ class Moderate {
 					$row['ip_address'] = "<i>скрыто</i>";
 				}
 
-				$row['joined'] = $std->get_date( $row['joined'], 'JOINED' );
+				$row['joined'] = $std->format_date_without_time( $row['joined'] );
 				$this->output .= $this->html->ip_member_row($row);
 			}
 			
@@ -2888,7 +2888,7 @@ class Moderate {
 	
 		$member['avatar'] = $std->get_avatar( $member['avatar'], $ibforums->member['view_avs'], $member['avatar_size'] );
 		
-		$member['MEMBER_JOINED'] = $ibforums->lang['m_joined'].' '.$std->get_date( $member['joined'], 'JOINED' );
+		$member['MEMBER_JOINED'] = $ibforums->lang['m_joined'].' '.$std->format_date_without_time( $member['joined'] );
 		
 		$member['MEMBER_GROUP'] = $ibforums->lang['m_group'].' '.$member['g_title'];
 		
@@ -3634,5 +3634,3 @@ class Moderate {
 // Song * multimoderation
 
 }
-
-?>

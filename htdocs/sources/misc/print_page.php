@@ -343,7 +343,7 @@ class Printable {
 
 			//--------------------------------------------------------------
 
-			$row['post_date']   = $std->get_date( $row['post_date'], 'LONG' );
+			$row['post_date']   = $std->get_date( $row['post_date'] );
 
 			$row['post'] = $this->parse_message($row);			
 							  
@@ -442,10 +442,4 @@ class Printable {
 	
 	}
 }
-
-?>
-
-
-
-
 

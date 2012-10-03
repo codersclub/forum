@@ -71,6 +71,7 @@ $INFO['calendar_limit']			=	'7';
 $INFO['charset']			=	'windows-1251';
 $INFO['check_before']			=	'50';
 $INFO['client_highlight_core_version']		=	'21';
+$INFO['clock_long']                     =       'j.m.y, H:i';
 $INFO['datef_date']				=	'%e %B %Y';
 $INFO['datef_time']				=	'%H:%M';
 $INFO['datef_template']			=	'%date, %time';

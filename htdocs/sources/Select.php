@@ -694,7 +694,7 @@ class Search {
 				}
 
 				$row['keywords'] = $url_words;
-				$row['post_date'] = $std->get_date( $row['post_date'],'LONG' );
+				$row['post_date'] = $std->get_date( $row['post_date'] );
 				
 				if ( $ibforums->vars['post_wordwrap'] > 0 )
 				{
@@ -1476,7 +1476,7 @@ class Search {
 				}
 
 				$row['keywords']  = $url_words;
-				$row['post_date'] = $std->get_date( $row['post_date'],'LONG' );
+				$row['post_date'] = $std->get_date( $row['post_date'] );
 				
 				//--------------------------------------------------------------
 				// Parse HTML tag on the fly
@@ -1874,7 +1874,7 @@ class Search {
 			$topic['prefix']     = $ibforums->vars['pre_pinned'];
 		}
 		
-		$topic['topic_start_date'] = $std->get_date( $topic['start_date'], 'LONG' );
+		$topic['topic_start_date'] = $std->get_date( $topic['start_date'] );
 	
 		$pages = 1;
 		
@@ -1976,7 +1976,7 @@ class Search {
 		$maxpages = ($pages - 1) * $ibforums->vars['display_max_posts'];
 		if ($maxpages < 0) $maxpages = 0;
 		
-		$topic['last_post']  = $std->get_date($topic['last_post'], 'LONG');
+		$topic['last_post']  = $std->get_date($topic['last_post']);
 			
 		if ($topic['state'] == 'link')
 		{

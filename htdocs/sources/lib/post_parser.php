@@ -1209,8 +1209,8 @@ class post_parser {
 
 	$txt = preg_replace( "#\[mergetime\](\d+)\[/mergetime\]#ies", 
 		( $ibforums->vars['plg_offline_client'] or $ibforums->member['rss'] ) 
-	     ? "\$std->old_get_date( '\\1', 'LONG' )"
-	     : "\$std->get_date(     '\\1', 'LONG' )", $txt );
+	     ? "\$std->old_get_date( '\\1' )"
+	     : "\$std->get_date(     '\\1' )", $txt );
 
 
 
@@ -2318,8 +2318,8 @@ class post_parser {
 			if ( strpos( $date, "." ) === FALSE ) 
 			{
 				$date = ( $ibforums->vars['plg_offline_client'] or $ibforums->member['rss'] ) 
-				      ? $std->old_get_date( $date, 'LONG' ) 
-				      : $std->get_date( $date, 'LONG', -1 );
+				      ? $std->old_get_date( $date ) 
+				      : $std->get_date( $date, -1 );
 			}
 
 			$html = $this->wrap_style( array( 

@@ -126,7 +126,7 @@ class IPBPrivate extends PrivateProtocol {
 			$member['member_rank_img'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$member['g_icon']}' border='0' />";
 		}
 		
-		$member['member_joined'] = $ibforums->lang['m_joined'].' '.$std->get_date( $member['joined'], 'JOINED' );
+		$member['member_joined'] = $ibforums->lang['m_joined'].' '.$std->format_date_without_time( $member['joined'] );
 		
 		$member['member_group'] = $ibforums->lang['m_group'].' '.$member['g_title'];
 		
@@ -194,4 +194,3 @@ class IPBPrivate extends PrivateProtocol {
 
 }
 
-?>

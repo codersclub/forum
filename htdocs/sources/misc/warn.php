@@ -274,7 +274,7 @@ class  warn {
 			
 			while ( $r = $DB->fetch_row() )
 			{
-				$date = $std->get_date( $r['wlog_date'], 'LONG' );
+				$date = $std->get_date( $r['wlog_date'] );
 			
 				$raw = preg_match( "#<content>(.+?)</content>#is", $r['wlog_notes'], $match );
 			
@@ -1037,4 +1037,3 @@ class  warn {
 	
 }
 
-?>

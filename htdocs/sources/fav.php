@@ -180,7 +180,7 @@ class fav {
 
 		if ( isset($new) ) {
 	            	foreach($new as $topic) {
-	                	$topic['last_post'] = $std->get_date($topic['last_post'],"LONG");
+	                	$topic['last_post'] = $std->get_date($topic['last_post']);
 	                	$html['new'] .= $this->html->topic_row($topic);
 	                }
 
@@ -188,7 +188,7 @@ class fav {
 
 		if ( isset($nonew) ) {
 	            	foreach($nonew as $topic) {
-				$topic['last_post'] = $std->get_date($topic['last_post'],"LONG");
+				$topic['last_post'] = $std->get_date($topic['last_post']);
 				$html['nonew'] .= $this->html->topic_row($topic);
 			}
 

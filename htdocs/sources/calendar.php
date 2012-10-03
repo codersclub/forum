@@ -1796,7 +1796,7 @@ class calendar {
                    
         $member = $DB->fetch_row();
         
-        $member['joined'] = $std->get_date( $member['joined'], 'JOINED' );
+        $member['joined'] = $std->format_date_without_time( $member['joined'] );
         
         $member['avatar'] = $std->get_avatar( $member['avatar'], $ibforums->member['view_avs'], $member['avatar_size']);
         
@@ -1814,12 +1814,12 @@ class calendar {
         if ($event['event_ranged'] == 1 )
         {
         	$type = $ibforums->lang['se_range'];
-        	$de   = $ibforums->lang['se_ends'].' '.$std->get_date( $event['end_unix_stamp'], 'JOINED' );
+        	$de   = $ibforums->lang['se_ends'].' '.$std->format_date_without_time( $event['end_unix_stamp'] );
         }
         else if ( $event['event_repeat'] == 1 )
         {
         	$type = $ibforums->lang['se_recur'];
-        	$de   = $ibforums->lang['se_ends'].' '.$std->get_date( $event['end_unix_stamp'], 'JOINED' );
+        	$de   = $ibforums->lang['se_ends'].' '.$std->format_date_without_time( $event['end_unix_stamp'] );
         }
         
         
@@ -2004,5 +2004,3 @@ class calendar {
     
         
 }
-
-?>

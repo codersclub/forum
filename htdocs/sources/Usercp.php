@@ -485,7 +485,7 @@ class UserCP {
  				
  				$forum['folder_icon'] = $std->forum_new_posts($forum);
  				
- 				$forum['last_post'] = $std->get_date($forum['last_post'], 'LONG');
+ 				$forum['last_post'] = $std->get_date($forum['last_post']);
 						
 				$forum['last_topic'] = $ibforums->lang['f_none'];
  				
@@ -1148,7 +1148,7 @@ class UserCP {
 					$topic['topic_icon']       = "<{B_PIN}>";
 				}
 				
-				$topic['start_date'] = $std->get_date( $topic['track_started'], 'LONG' );
+				$topic['start_date'] = $std->get_date( $topic['track_started'] );
 				
 				if ($topic['description'])
 				{
@@ -1192,7 +1192,7 @@ class UserCP {
 				
 				// Do the quick goto last page icon stuff
 				
-				$topic['last_post_date']  = $std->get_date( $topic['last_post'], 'LONG' );
+				$topic['last_post_date']  = $std->get_date( $topic['last_post'] );
 				
 				$this->output .= $this->html->subs_row($topic);
 			}
@@ -1358,7 +1358,7 @@ class UserCP {
  	function board_prefs() {
  		global $ibforums, $DB, $std, $print;
  		
- 		$time = strftime($ibforums->vars['datef_date'].", ".$ibforums->vars['datef_time']);
+ 		$time = strftime($ibforums->vars['datef_date'].", ".$ibforums->vars['datef_time'], time() + $std->get_time_offset_or_set_timezone());
  		
  		// Do we have a user stored offset, or use the board default:
  		
@@ -1366,7 +1366,7 @@ class UserCP {
  		
  		$time_select_append = '';
  		
- 		if (!preg_match('!\w+/[\w/]+!', $offset)) {
+ 		if (!preg_match('!UTC|\w+/[\w/]+!', $offset)) {
  			$str_offset = 'Europe/Moscow';
 	 		foreach( $ibforums->lang as $off => $words )
 	 		{
@@ -2338,7 +2338,7 @@ class UserCP {
 		//-----------------------------------------------
 		
 		$info['MEMBER_EMAIL']    = $this->member['email'];
-		$info['DATE_REGISTERED'] = $std->get_date( $this->member['joined'], 'LONG' );
+		$info['DATE_REGISTERED'] = $std->get_date( $this->member['joined'] );
 		$info['MEMBER_POSTS']    = $this->member['posts'];
 		
 		$info['DAILY_AVERAGE']   = $ibforums->lang['no_posts'];

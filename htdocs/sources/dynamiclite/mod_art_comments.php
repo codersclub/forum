@@ -173,7 +173,7 @@ class mod_art_comments extends mod_art {
                                                                              );
 
 
-                                $dbres['title'] = sprintf($ibforums->lang['comments_title'], $count++, $std->get_date($dbres['submit_date'], 'LONG'), $std->make_profile_link($dbres['user_name'], $dbres['user_id']));
+                                $dbres['title'] = sprintf($ibforums->lang['comments_title'], $count++, $std->get_date($dbres['submit_date']), $std->make_profile_link($dbres['user_name'], $dbres['user_id']));
 
                                 //------------------------------------------
                                 // make admin && owner links
@@ -389,7 +389,7 @@ class mod_art_comments extends mod_art {
                 //-------------------------------------
 
                 $entry['comment'] = $dbres['comment'];
-                $entry['title']  = sprintf($ibforums->lang['edit_comment'], $dbres['user_name'], $std->get_date($dbres['submit_date'], 'LONG'));
+                $entry['title']  = sprintf($ibforums->lang['edit_comment'], $dbres['user_name'], $std->get_date($dbres['submit_date']));
                 $entry['ACTION'] = '4';
 
                 //-------------------------------------

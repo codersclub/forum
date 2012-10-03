@@ -454,7 +454,7 @@ class Post {
         		{
         			$std->Error( array( 'LEVEL' => 1,
 						    'MSG' => 'posting_off_susp',
-						    'EXTRA' => $std->get_date($post_arr['date_end'], 'LONG') ) );
+						    'EXTRA' => $std->get_date($post_arr['date_end']) ) );
         		}
         		
         	}
@@ -486,13 +486,13 @@ class Post {
 
 				} else $std->Error( array( 'LEVEL' => 1,
 							   'MSG' => 'posting_off_susp',
-							   'EXTRA' => $std->get_date($post_arr['date_end'], 'LONG') ) );
+							   'EXTRA' => $std->get_date($post_arr['date_end']) ) );
 			}
 		}
         	
         } elseif ( $ibforums->is_bot == 1 ) $std->Error( array(
-						LEVEL => 1,
-						MSG => 'posting_off') );
+						'LEVEL' => 1,
+						'MSG' => 'posting_off') );
         
         if ( $ibforums->member['id'] != 0 and $ibforums->member['g_is_supmod'] == 0 )
         {
@@ -1753,13 +1753,13 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 			
 			$row['author'] = $row['author_name'];
 	
-			$row['date']   = $std->get_date( $row['post_date'], 'LONG' );
+			$row['date']   = $std->get_date( $row['post_date'] );
 	
-			$data = array(  TEXT          => $row['post'],
-                                        SMILIES       => $row['use_emo'],
-                                        CODE          => 1,
-                                        SIGNATURE     => 0,
-                                        HTML          => 1
+			$data = array(  'TEXT'          => $row['post'],
+                                        'SMILIES'       => $row['use_emo'],
+                                        'CODE'          => 1,
+                                        'SIGNATURE'     => 0,
+                                        'HTML'          => 1
 
                                        );
 
@@ -1819,4 +1819,3 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
         
 }
 
-?>

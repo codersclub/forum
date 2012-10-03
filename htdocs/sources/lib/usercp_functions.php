@@ -540,11 +540,14 @@ class usercp_functions {
 		if (!in_array($ibforums->input['syntax_show_controls'], array('yes','no','auto'))) {
 			$ibforums->input['syntax_show_controls'] = 'yes';
 		}
-		$timezone = $ibforums->input['u_tz_region'] . '/' . $ibforums->input['u_tz_zone'] ;
-		if (!timezone_open($timezone)) {
-			var_dump(1111);
-			$std->Error( array( 'LEVEL' => 1,
-								    'MSG' => 'unknown_timezone_selected' ) );
+		if ($ibforums->input['u_tz_region'] == 'UTC') {
+		    $timezone = 'UTC';
+		} else {
+    		$timezone = $ibforums->input['u_tz_region'] . '/' . $ibforums->input['u_tz_zone'] ;
+    		if (!timezone_open($timezone)) {
+    			$std->Error( array( 'LEVEL' => 1,
+    								    'MSG' => 'unknown_timezone_selected' ) );
+    		}
 		}
 		
 		//+----------------------------------------

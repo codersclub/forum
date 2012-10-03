@@ -498,9 +498,9 @@ class Moderate {
 		$data = array( 
 				'th_topic'      => $topic['title'],
 				'th_desc'       => $topic['description'],
-				'th_start_date' => $std->get_date($topic['start_date'], 'LONG'),
+				'th_start_date' => $std->get_date($topic['start_date']),
 				'th_start_name' => $std->make_profile_link($topic['starter_name'], $topic['starter_id'] ),
-				'th_last_date'  => $std->get_date($topic['last_post'], 'LONG'),
+				'th_last_date'  => $std->get_date($topic['last_post']),
 	    		 	'th_last_name'  => $std->make_profile_link($topic['last_poster_name'], $topic['last_poster_id'] ),
 				'th_avg_post'   => $avg_posts,
 				);
@@ -525,7 +525,7 @@ class Moderate {
 			while ($row = $DB->fetch_row())
 			{
 				$row['member'] = $std->make_profile_link($row['member_name'], $row['member_id'] );
-				$row['date']   = $std->get_date($row['ctime'], 'LONG');
+				$row['date']   = $std->get_date($row['ctime']);
 				$this->output .= $this->html->mod_log_row($row);
 			}
 		}

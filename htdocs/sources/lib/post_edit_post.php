@@ -217,8 +217,6 @@ class post_functions extends Post {
 	function complete_edit( Post $class ) {
 		
 		global $ibforums, $std, $DB, $print;
-		
-		$time = $std->old_get_date( time(), 'LONG' );
 				
 		$dbs = array();
 

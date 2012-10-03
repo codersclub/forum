@@ -371,7 +371,7 @@ class store {
 	    $charges['username'] = str_replace( '&lt;', '<', $charges['username'] );
 	    $charges['message' ] = str_replace( '&lt;', '<', $charges['message' ] );
 	    $charges['reason'  ] = str_replace( '&lt;', '<', $charges['reason'  ] );
-	    $charges['time'    ] = $std->get_date( $charges['time'    ], 'LONG' );
+	    $charges['time'    ] = $std->get_date( $charges['time'] );
 //	    $charges['sum'     ] = str_replace( '&lt;', '<', $charges['sum'  ] );
 
 	    $this->temp_output	.= $this->html->fine_middle($charges);
@@ -1230,4 +1230,3 @@ class store {
 	}
 
 }	// Class end
-?>

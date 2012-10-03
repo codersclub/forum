@@ -1057,86 +1057,7 @@ class Search {
 					ORDER BY p.post_date DESC
 					LIMIT {$this->first},25");
 			}
-			/*
-			while ( $row = $DB->fetch_row($res_d) )
-			{
-				// Song * ip address in a search
-
-				if ( $ibforums->member['g_is_supmod'] )
-				{
-					$row['ip_address'] = "( <a href='{$ibforums->base_url}&act=modcp&CODE=ip&incoming={$row['ip_address']}' target='_blank'>{$row['ip_address']}</a> )";
-				} else
-				{
-					$row['ip_address'] = "";
-				}
-
-				// /Song * ip address in a search
-
-
-				// Song * club tool
-				if ( $row['club'] and
-				$std->check_perms( $ibforums->member['club_perms'] ) == FALSE )
-				{
-					continue;
-				}
-
-				$count++;
-				// /Song * club tool
-
-				$data = array(  'TEXT'      => $row['post'],
-				'SMILIES'   => $row['use_emo'],
-				'CODE'      => 1,
-				'SIGNATURE' => 0,
-				'HTML'      => 1,
-				'HID'       => ( $row['forum_highlight'] ) ? $row['hid'] : -1,
-				'TID'       => $row['topic_id'],
-				'MID'	  => $row['author_id'],
-				);
-
-				$row['post'] = $this->parser->prepare($data);
-
-				if ( !trim($row['post']) )
-				{
-					$count--;
-					continue;
-				}
-
-				$row['keywords']  = $url_words;
-				$row['post_date'] = $std->get_date( $row['post_date'],'LONG' );
-
-				//--------------------------------------------------------------
-				// Parse HTML tag on the fly
-				//--------------------------------------------------------------
-
-				if ( $row['use_html'] == 1 )
-				{
-					// So far, so good..
-						
-					if ( stristr( $row['post'], '[dohtml]' ) )
-					{
-						// [doHTML] tag found..
-
-						$parse = ($row['use_html'] AND $row['g_dohtml']) ? 1 : 0;
-
-						$row['post'] = $this->parser->post_db_parse($row['post'], $parse );
-					}
-				}
-
-				//--------------------------------------------------------------
-				// Do word wrap?
-				//--------------------------------------------------------------
-
-				if ( $ibforums->vars['post_wordwrap'] > 0 )
-				{
-					$row['post'] = $this->parser->my_wordwrap( $row['post'], $ibforums->vars['post_wordwrap']) ;
-				}
-
-				$this->output .= $this->html->RenderPostRow( $this->parse_entry($row, 1) );
-			}
-			 *
-			 */
 				
-			// $this->output .= $this->html->end_as_post(array( 'SHOW_PAGES' => $this->links ));
 			$this->show_result_from_select($res_d, $post_max_hits, 1);
 		}
 
@@ -1252,7 +1173,7 @@ class Search {
 				}
 
 				$row['keywords'] = $url_words;
-				$row['post_date'] = $std->get_date($row['post_date'], 'LONG');
+				$row['post_date'] = $std->get_date($row['post_date']);
 
 				//--------------------------------------------------------------
 				// Parse HTML tag on the fly
@@ -1739,7 +1660,7 @@ class Search {
 				}
 
 				$row['keywords']  = $url_words;
-				$row['post_date'] = $std->get_date( $row['post_date'],'LONG' );
+				$row['post_date'] = $std->get_date( $row['post_date'] );
 				
 				//--------------------------------------------------------------
 				// Parse HTML tag on the fly
@@ -2179,7 +2100,7 @@ class Search {
 			$topic['prefix']     = $ibforums->vars['pre_pinned'];
 		}
 
-		$topic['topic_start_date'] = $std->get_date( $topic['start_date'], 'LONG' );
+		$topic['topic_start_date'] = $std->get_date( $topic['start_date'] );
 
 		//Jureth
 		if ( $this->modfunctions ){
@@ -2282,7 +2203,7 @@ class Search {
 		$maxpages = ($pages - 1) * $ibforums->vars['display_max_posts'];
 		if ($maxpages < 0) $maxpages = 0;
 
-		$topic['last_post']  = $std->get_date($topic['last_post'], 'LONG');
+		$topic['last_post']  = $std->get_date($topic['last_post']);
 
 		if ($topic['state'] == 'link')
 		{
@@ -3445,7 +3366,7 @@ class Search {
 				}
 
 				$row['keywords'] = $url_words;
-				$row['post_date'] = $std->get_date( $row['post_date'],'LONG' );
+				$row['post_date'] = $std->get_date( $row['post_date'] );
 				
 				if ( $ibforums->vars['post_wordwrap'] > 0 )
 				{

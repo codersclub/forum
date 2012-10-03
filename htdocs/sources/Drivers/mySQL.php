@@ -337,7 +337,7 @@ class db_driver {
 
     	$the_error .= "\n\nmySQL error: ".mysql_error($this->connection_id)."\n";
     	$the_error .= "mySQL error code: ".$this->error_no."\n";
-    	$the_error .= "Date: ".$std->get_date( time(), 'LONG', 0);
+    	$the_error .= "Date: ".$std->get_date( time(), 0);
 
 //	if ( $ibforums->member['g_is_supmod'] )
 	if ( 1 )

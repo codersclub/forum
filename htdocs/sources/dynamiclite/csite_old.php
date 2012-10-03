@@ -926,7 +926,7 @@ class click_site {
  			//------------------------------
  			
 		    $pm_string  = sprintf( $ibforums->lang['wbox_pm_string'] , "<a href='{$ibforums->base_url}act=Msg'>".intval($ibforums->member['new_msg'])."</a>" );
-		    $last_visit = sprintf( $ibforums->lang['wbox_last_visit'], $std->get_date( $ibforums->member['last_visit'], 'LONG' ) );
+		    $last_visit = sprintf( $ibforums->lang['wbox_last_visit'], $std->get_date( $ibforums->member['last_visit']) );
 		    
 		    $html = $this->html->tmpl_welcomebox_member($pm_string, $last_visit, $ibforums->member['name'], $ibforums->base_url.'act=home');
 		    
@@ -946,4 +946,4 @@ class click_site {
         
 }
 
-?>
+

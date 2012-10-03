@@ -165,10 +165,10 @@ EOF;
 function RenderDeletedRow($post, $author, $preview) {
 global $ibforums, $std;
 if ($post['use_sig'] == 1) {
-	$e_time = $std->get_date( $post['decline_time'] , 'LONG' );
+	$e_time = $std->get_date( $post['decline_time'] );
 	$dtext = "<span class='edit' >".sprintf($ibforums->lang['permited_by'], $post['edit_name'], $e_time)."</span>";
 } else {
-	$e_time = $std->get_date( $post['edit_time'] , 'LONG' );
+	$e_time = $std->get_date( $post['edit_time'] );
 	$dtext = $ibforums->lang['del_by_user'].' - '.$e_time;
 }
 $trpost = '';

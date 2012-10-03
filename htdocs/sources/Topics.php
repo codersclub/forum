@@ -404,7 +404,7 @@ class Topics {
 		
 		if ( $row['append_edit'] == 1 and $row['edit_time'] != "" and $row['edit_name'] != "" and !$row['use_sig'] )
 		{
-			$e_time = $std->get_date( $row['edit_time'] , 'LONG' );
+			$e_time = $std->get_date( $row['edit_time'] );
 			
 			$row['post'] .= "<br><br><span class='edit'>".sprintf($ibforums->lang['edited_by'], $row['edit_name'], $e_time)."</span>";
 		}
@@ -485,7 +485,7 @@ class Topics {
 
                 $row['old_post_date'] = $row['post_date'];
 
-		$row['post_date'] = $ibforums->lang['posted_on'].$std->get_date( $row['post_date'], 'LONG' );
+		$row['post_date'] = $ibforums->lang['posted_on'].$std->get_date( $row['post_date'] );
 
 
 
@@ -1376,7 +1376,7 @@ class Topics {
 	// Fix up some of the words
 	//-------------------------------------
 	
-	$this->topic['TOPIC_START_DATE'] = $std->get_date( $this->topic['start_date'], 'LONG' );
+	$this->topic['TOPIC_START_DATE'] = $std->get_date( $this->topic['start_date'] );
 	
 	$ibforums->lang['topic_stats'] = preg_replace( "/<#START#>/", $this->topic['TOPIC_START_DATE'], $ibforums->lang['topic_stats']);
 	$ibforums->lang['topic_stats'] = preg_replace( "/<#POSTS#>/", $this->topic['posts']           , $ibforums->lang['topic_stats']);

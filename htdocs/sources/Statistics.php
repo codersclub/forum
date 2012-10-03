@@ -4,9 +4,9 @@
    // INVISIONBOARD STATISTICS (JOHNATHAN @ IBPLANET.COM)
    //------------------------------------------------------------------------------------
 
-	$idx = new Statistics;
+$idx = new Statistics;
 
-	class Statistics {
+class Statistics {
  	var $output     = "";
   	var $page_title = "";
   	var $nav        = array();
@@ -770,7 +770,7 @@ EOF;
 $statistics = $DB->query('SELECT last_activity, id, name FROM ibf_members WHERE id > 0 ORDER BY last_activity desc LIMIT 5');
 while ($stats = mysql_fetch_array($statistics))
 {
- 	$date = $std->get_date($stats['last_activity'],'LONG');
+ 	$date = $std->get_date($stats['last_activity']);
 	
 	$data['last_active'] .= <<<EOF
 <tr>
@@ -816,6 +816,4 @@ EOF;
 	}
 
 
-     }
-
-?>
+}

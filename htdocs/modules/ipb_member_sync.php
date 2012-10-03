@@ -254,7 +254,7 @@ class ipb_member_sync
 
 		$message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=f&mid={$ibforums->member['id']}]флеймовый[/URL]: [b]".intval($ibforums->member['ratting'])."[/b][/List]\n";
 
-		$message .= "Зарегистрирован на Форуме с ".$std->get_date($ibforums->member['joined'], 'JOINED')."\n";
+		$message .= "Зарегистрирован на Форуме с ".$std->format_date_without_time($ibforums->member['joined'])."\n";
 
 		$message .= "Дата рождения: ";
 
@@ -401,4 +401,3 @@ class ipb_member_sync
 }
 
 
-?>

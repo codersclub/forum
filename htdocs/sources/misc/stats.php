@@ -416,7 +416,7 @@ class stats {
 						$info['today_pct']     = sprintf( '%.2f',  ( $info['tpost'] / $todays_posts['count'] ) * 100  );
 					}
 					
-					$info['joined']            = $std->get_date( $info['joined'], 'JOINED' );
+					$info['joined']            = $std->format_date_without_time( $info['joined'] );
 					
 					$info['posts'] = $std->do_number_format($info['posts']);
 					$info['tpost'] = $std->do_number_format($info['tpost']);
@@ -590,10 +590,3 @@ class stats {
   }
 	
 }
-
-?>
-
-
-
-
-

@@ -349,7 +349,7 @@ class search_lib extends Search
 				$row['cat_id']   = $row['category'];
 				$row['cat_name'] = $cat_array[ $row['category'] ];
 				
-				$row['post_date'] = $std->get_date( $row['post_date'], 'LONG' );
+				$row['post_date'] = $std->get_date( $row['post_date'] );
 				
 				// Link member's name
 				
@@ -685,4 +685,4 @@ class search_lib extends Search
 	}
 }
 
-?>
+

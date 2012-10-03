@@ -430,7 +430,7 @@ class mod_art extends Post {
                          $article['top_string']    = sprintf($ibforums->lang['main_frame_top_str'],
                                                               $this->csite_html->tmpl_cat_link_rw($NAV->build_path($article['refs'], true), $NAV->cats[$article['refs']]['name']),
                                                               $std->make_profile_link($article['author_name'], $article['user_id']),
-                                                              $std->get_date($article['submit_date'], 'LONG'));
+                                                              $std->get_date($article['submit_date']));
 
                          $article_link = ( $ibforums->vars['dsite_use_mod_rewrite'] != 1 ) ?
                                            $this->csite_html->tmpl_article_link($article) :
@@ -1011,7 +1011,7 @@ class mod_art extends Post {
                                                                             sprintf($ibforums->lang['main_frame_top_str'],
                                                                                     $this->csite_html->tmpl_cat_link($NAV->cats[$article['refs']]),
                                                                                     $std->make_profile_link($article['author_name'], $article['user_id']),
-                                                                                    $std->get_date($article['submit_date'], 'LONG')),
+                                                                                    $std->get_date($article['submit_date'])),
                                                                             null,
                                                                             null));
 
@@ -3012,7 +3012,7 @@ class mod_art extends Post {
                                 $entry['approve'] = $ibforums->lang['not_approved'];
                         } else {
 
-                                $entry['approve'] = sprintf($ibforums->lang['approved'], $std->get_date($entry['approved'], 'LONG'));
+                                $entry['approve'] = sprintf($ibforums->lang['approved'], $std->get_date($entry['approved']));
                         }
 
                         $entry['edit_link'] = $this->csite_html->tmpl_edit_link($entry);
@@ -3305,4 +3305,3 @@ class mod_art extends Post {
 }
 
 
-?>

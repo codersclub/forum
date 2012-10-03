@@ -304,7 +304,7 @@ var $parser;
 
 		$etime = "";
 		if($row['edit_time'] > $row['post_date']) {
-			$etime = $std->old_get_date($row['edit_time'], 'LONG');
+			$etime = $std->get_date($row['edit_time']);
 			$row['title'] .= " - (Πεδ. " . $etime . ")";
 		}
 
@@ -369,4 +369,4 @@ var $parser;
 	}
 }
 
-?>
+

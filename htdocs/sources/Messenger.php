@@ -343,7 +343,7 @@ $std->flood_end();
  				   
  		// Fix up the text string...
  		
- 		$row['msg_date'] = $std->get_date( $row['msg_date'], 'LONG' );
+ 		$row['msg_date'] = $std->get_date( $row['msg_date'] );
  		
  		$text = preg_replace( "/<#NAME#>/" , $row['name']    , $ibforums->lang['pmp_string'] );
  		$text = preg_replace( "/<#TITLE#>/", $row['title']   , $text );
@@ -608,7 +608,7 @@ $std->flood_end();
  				
  				//$from_mem = $DB->fetch_row($from_member);
  				
- 				$info['msg_date']    = $std->get_date( $r['msg_date'], 'LONG' );
+ 				$info['msg_date']    = $std->get_date( $r['msg_date'] );
  				$info['msg_title']   = $r['title'];
  				$info['msg_sender']  = $r['name'];
 				$info['msg_content'] = $this->parser->prepare( array( 'TEXT'    => $r['message'],
@@ -1298,7 +1298,7 @@ $std->flood_end();
         
 	        $this->parser = new post_parser(1);
         
- 		$msg['msg_date'] = $std->get_date( $msg['msg_date'], 'LONG' );
+ 		$msg['msg_date'] = $std->get_date( $msg['msg_date'] );
  		
  		$DB->query("SELECT g.*, m.* FROM ibf_members m, ibf_groups g WHERE id='".$msg['from_id']."' and g.g_id=m.mgroup");
  				   
@@ -2215,7 +2215,7 @@ $std->flood_end();
  					$row['icon'] = $row['read_state'] == 1 ? "<{M_READ}>" : "<{M_UNREAD}>";
  				}
  				
- 				$row['date'] = $std->get_date( $row['msg_date'] , 'LONG' );
+ 				$row['date'] = $std->get_date( $row['msg_date'] );
  				
  				if ($this->vid != 'sent')
  				{
@@ -2278,7 +2278,7 @@ $std->flood_end();
  			while( $row = $DB->fetch_row() )
  			{
  				$row['icon']     = "<{M_READ}>";
- 				$row['date']     = $std->get_date( $row['msg_date'] , 'LONG' );
+ 				$row['date']     = $std->get_date( $row['msg_date'] );
  				$row['cc_users'] = $row['cc_users'] == "" ? $ibforums->lang['no'] : $ibforums->lang['yes'];
  				
  				$d_array = array( 'msg' => $row, 'member' => $this->member );
@@ -2336,12 +2336,12 @@ $std->flood_end();
 				if ( $row['read_state'] )
 				{
 	 				$row['icon']     = "<{M_READ}>";
-	 				$row['date']     = $std->get_date( $row['read_date'] , 'LONG' );
+	 				$row['date']     = $std->get_date( $row['read_date'] );
 	 				$this->output .= $this->html->trackread_row( $row );
 				} else
 				{
  					$row['icon']     = "<{M_UNREAD}>";
-	 				$row['date']     = $std->get_date( $row['msg_date'] , 'LONG' );
+	 				$row['date']     = $std->get_date( $row['msg_date'] );
  					$this->output .= $this->html->trackUNread_row( $row );
 				}
 
@@ -2389,7 +2389,7 @@ $std->flood_end();
 			$member['member_rank_img'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$member['g_icon']}' border='0' />";
 		}
 		
-		$member['member_joined'] = $ibforums->lang['m_joined'].' '.$std->get_date( $member['joined'], 'JOINED' );
+		$member['member_joined'] = $ibforums->lang['m_joined'].' '.$std->format_date_without_time( $member['joined'] );
 		
 		$member['member_group'] = $ibforums->lang['m_group'].' '.$member['g_title'];
 		

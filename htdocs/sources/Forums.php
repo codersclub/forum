@@ -596,7 +596,7 @@ class Forums {
 		$forum_data['img_new_post'] = $this->board_html->forum_img_with_link($forum_data['img_new_post'], $forum_data['id']);
 	}
 	
-	$forum_data['last_post'] = $std->get_date($forum_data['last_post'], 'LONG');
+	$forum_data['last_post'] = $std->get_date($forum_data['last_post']);
 
 	$forum_data['last_topic'] = $ibforums->lang['f_none'];
 
@@ -1303,9 +1303,7 @@ class Forums {
 				     ? '<img src="'.$ibforums->vars['img_url'].'/icon'.$topic['icon_id'].'.gif" border="0" alt="">'
 				     : '&nbsp;';
 
-//negram	$topic['old_start_date'] = $std->old_get_date( $topic['start_date'], 'LONG' );
-
-		$topic['start_date'] = $std->get_date( $topic['start_date'], 'LONG' );
+		$topic['start_date'] = $std->get_date( $topic['start_date'] );
 
 		$pages = 1;
 		

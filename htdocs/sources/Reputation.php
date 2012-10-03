@@ -222,7 +222,7 @@ class Reputation {
 		$mes .= "\r\n";
 		
 		$mes .= "ƒата записи выставлени€ данного рейтинга в таблице рейтинга участника [URL={$ibforums->base_url}showuser={$check['author_id']}]{$check['member_name']}[/URL] ";
-		$mes .= $std->old_get_date(time(), 'LONG').".\r\n\r\n";
+		$mes .= $std->get_date(time()).".\r\n\r\n";
 		$mes .= "ѕроверьте несовпадение всех перечисленных параметров и действуйте в соответствии.\r\n";
 		$mes .= "ƒанное сообщение направлено <b>всем</b> модераторам раздела ";
 		$mes .= "[URL={$ibforums->base_url}showforum={$check['forum_id']}]{$check['forum_name']}[/URL], поэтому ";
@@ -427,15 +427,15 @@ class Reputation {
 							break;
 					}
 
-					$i['date'] = $std->get_date($i['msg_date'], 'LONG');
+					$i['date'] = $std->get_date($i['msg_date']);
 
 					$i['message'] = $this->parser->prepare(
                                                                        array(
-                                                           TEXT          => $i['message'],
-                                                           SMILIES       => 1,
-                                                           CODE          => 1,
-                                                           SIGNATURE     => 0,
-                                                           HTML          => 1
+                                                           'TEXT'          => $i['message'],
+                                                           'SMILIES'       => 1,
+                                                           'CODE'          => 1,
+                                                           'SIGNATURE'     => 0,
+                                                           'HTML'          => 1
 	                                                                       )
 	                                                           );
 
@@ -585,15 +585,15 @@ class Reputation {
 							break;
 					}
 					
-					$i['date'] = $std->get_date($i['msg_date'], 'LONG');
+					$i['date'] = $std->get_date($i['msg_date']);
 					
 					$i['message'] = $this->parser->prepare(
                                                                        array(
-                                                           TEXT          => $i['message'],
-                                                           SMILIES       => 1,
-                                                           CODE          => 1,
-                                                           SIGNATURE     => 0,
-                                                           HTML          => 1
+                                                           'TEXT'          => $i['message'],
+                                                           'SMILIES'       => 1,
+                                                           'CODE'          => 1,
+                                                           'SIGNATURE'     => 0,
+                                                           'HTML'          => 1
 	                                                                       )
 	                                                           );
 

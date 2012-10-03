@@ -434,8 +434,8 @@ class session {
 						'LEVEL' => 1,
 						'MSG' => 'account_susp',
 						'INIT' => 1,
-						'EXTRA' => $std->get_date($ban_arr['date_end'],
-						'LONG') ) );
+						'EXTRA' => $std->get_date($ban_arr['date_end']) )
+	                 );
 				}
 			}
 		}

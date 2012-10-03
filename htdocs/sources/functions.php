@@ -311,7 +311,7 @@ class FUNC {
 				} else $this->Error( array(
 					'LEVEL' => 1,
 					'MSG' => 'no_view_forum',
-					'EXTRA' => $this->get_date($ban_arr['date_end'], 'LONG')) );
+					'EXTRA' => $this->get_date($ban_arr['date_end'])) );
 			}
 		}
 	}
@@ -2524,7 +2524,7 @@ echo "-----------------<br>\n";
 	// Song * today/yesterday
 	// Edited by Sunny
 
-    function old_get_date($date, $parameter = "deprecated") {
+    function old_get_date($date) {
         global $ibforums;
         
         if ( !$date ) return '--';
@@ -2540,44 +2540,15 @@ echo "-----------------<br>\n";
     }
 	
 	// возврат форматированной даты
-    function get_date($date, $parameter = "deprecated", $html = 1) {
+    function get_date($date, $html = 1) {
     	global $ibforums;
 		
 		// возвращаем прочерк если нет даты
     	if(!$date) return "&mdash;";
 		
 		// определяем временную зону
-    	$offset = $ibforums->member['time_offset'] ?: $ibforums->vars['time_offset'];
-    	
-    	if(preg_match("~\w+/[\w/]+~", $offset)){
-    		// именные временные зоны 'Europe/Moscow'
-    		date_default_timezone_set($offset);
-    		
-			// летнее время
-   			$offset = $ibforums->member['dst_in_use'] ? (date("I") * 3600) : 0;
-    	}else{
-			// временная зона по умолчанию
-    		date_default_timezone_set("UTC");
-    		
-    		// вычисление сдвига времени старым способом
-	    	if ($this->offset_set == 0){
-		    	$this->offset = $offset * 3600;
+    	$offset = $this->get_time_offset_or_set_timezone();
     			
-	    		if(intval($ibforums->vars['time_adjust']) > 0){
-	    			$this->offset += (intval($ibforums->vars['time_adjust']) * 60);
-	    		}
-				
-				// летнее время
-	    		if($ibforums->member['dst_in_use']){
-	    			$this->offset += date("I") * 3600; 
-	    		}else{
-	    			$this->offset_set = 1;
-	    		}
-	    	}
-			
-			$offset = $this->offset;
-    	}
-		
 		// определяем форматирование
 		$formatting = array(
 			"-1" => array("", ""),
@@ -2671,6 +2642,59 @@ echo "-----------------<br>\n";
 		return $datef;
     }
     
+    function get_member_time_offset_or_set_timezone($member) {
+        global $ibforums;
+        
+        // определяем временную зону
+        $offset = $member['time_offset'] ?: $member['time_offset'];
+         
+        if(preg_match("~UTC|\w+/[\w/]+~", $offset)){
+        	// именные временные зоны 'Europe/Moscow'
+        	date_default_timezone_set($offset);
+        
+        	$offset = 0;
+        }else{
+        	// временная зона по умолчанию
+        	date_default_timezone_set("UTC");
+        
+        	// вычисление сдвига времени старым способом
+        	if ($this->offset_set == 0){
+        		$this->offset = $offset * 3600;
+        		 
+        		if(intval($ibforums->vars['time_adjust']) > 0){
+        			$this->offset += (intval($ibforums->vars['time_adjust']) * 60);
+        		}
+        
+        		// летнее время
+        		if($member['dst_in_use']){
+        			$this->offset += date("I") * 3600;
+        		}else{
+        			$this->offset_set = 1;
+        		}
+        	}
+        
+        	$offset = $this->offset;
+        }
+        return $offset;
+    }
+    
+    function get_time_offset_or_set_timezone() {
+        global $ibforums;
+        
+        return $this->get_member_time_offset_or_set_timezone($ibforums->member);
+    }
+    
+    function format_date_without_time($date) {
+        global $ibforums;
+        
+        // возвращаем прочерк если нет даты
+        if(!$date) return "&mdash;";
+        
+        $offset = $this->get_time_offset_or_set_timezone();
+        
+        return date('j.m.y', $date + $offset);
+    }
+    
     /*-------------------------------------------------------------------------*/
     // Returns the offset needed and stuff - quite groovy.              
     /*-------------------------------------------------------------------------*/    
@@ -2681,7 +2705,7 @@ echo "-----------------<br>\n";
     	
     	$r = 0;
     	
-    	$r = (($ibforums->member['time_offset'] != "") ? $ibforums->member['time_offset'] : $ibforums->vars['time_offset']) * 3600;
+    	$r = (($ibforums->member['time_offset'] != "") ?: $ibforums->vars['time_offset']) * 3600;
 			
 		if ( $ibforums->vars['time_adjust'] )
 		{

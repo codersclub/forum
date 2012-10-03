@@ -1165,7 +1165,7 @@ class Register {
 			
 			if ($ibforums->vars['new_reg_notify']) {
 				
-				$date = $std->get_date( time(), 'LONG' );
+				$date = $std->get_date( time() );
 				
 				$this->email->get_template("admin_newuser");
 			
@@ -1197,7 +1197,7 @@ class Register {
 						 
 			if ($ibforums->vars['new_reg_notify']) {
 				
-				$date = $std->get_date( time(), 'LONG' );
+				$date = $std->get_date( time() );
 				
 				$this->email->get_template("admin_newuser");
 			
@@ -1663,5 +1663,3 @@ class Register {
 	
         
 }
-
-?>

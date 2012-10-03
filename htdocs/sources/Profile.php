@@ -124,7 +124,7 @@ class Profile {
     	
     	$print->add_output("$this->output");
         $print->do_output( array( 'TITLE' => $this->page_title,
-				   NAV => $this->nav ) );
+				   'NAV' => $this->nav ) );
     		
  	}
  	
@@ -578,7 +578,7 @@ class Profile {
         else if ($this->Mod_Forums_All($member['id'])>0) $info['mod_forums']  = $ibforums->lang['mod_all_forums'];
         else   $info['mod_forums']  = '';
     	$info['board_posts'] = $board_posts;
-    	$info['joined']      = $std->get_date( $member['joined'], 'JOINED' );
+    	$info['joined']      = $std->format_date_without_time( $member['joined'] );
     	
 	$DB->query("SELECT title FROM ibf_titles WHERE posts < '".$member['posts']."' ORDER BY posts DESC LIMIT 1");
 
@@ -598,7 +598,7 @@ class Profile {
 
 	// Song * last activity, 15.11.2004
 
-	$info['last_activity'] = $std->get_date($member['last_activity'], 'LONG');
+	$info['last_activity'] = $std->get_date($member['last_activity']);
 
 
 
@@ -641,21 +641,30 @@ class Profile {
     	
     	$ibforums->vars['time_adjust'] = $ibforums->vars['time_adjust'] == "" ? 0 : $ibforums->vars['time_adjust'];
     	
-    	if ($member['dst_in_use'] == 1) $member['time_offset'] += 1;
+    	if ($member['dst_in_use'] == 1) {
+    	    $member['time_offset'] += 1;
+    	}
     	
     	// This is a useless comment. Completely void of any useful information
     	
-    	$info['local_time']  = $member['time_offset'] != "" ? gmdate( $ibforums->vars['clock_long'], time() + ($member['time_offset']*3600) + ($ibforums->vars['time_adjust'] * 60) ) : $ibforums->lang['no_info'];
+    	$offset = $std->get_member_time_offset_or_set_timezone($member);
+    	if ($offset == 0) {
+    	    $zone = new DateTimeZone(date_default_timezone_get());
+    	    $time = new DateTime("now", $zone);
+    	    $info['local_time'] = $time->format($ibforums->vars['clock_long']);
+    	} else {
+    	    $info['local_time']  = $member['time_offset'] != "" ? gmdate( $ibforums->vars['clock_long'], time() + $offset ) : $ibforums->lang['no_info'];
+    	}
     	
     	$info['avatar']      = $std->get_avatar( $member['avatar'] , 1, $member['avatar_size'] );
     	
-        $data = array(  TEXT          => $member['signature'],
-			SMILIES       => 1,
-			CODE          => 1,
-			SIGNATURE     => 0,
-			HTML          => $ibforums->vars['sig_allow_html'],
-			HID 	      => -1,
-			TID	      => 0
+        $data = array(  'TEXT'          => $member['signature'],
+			'SMILIES'       => 1,
+			'CODE'          => 1,
+			'SIGNATURE'     => 0,
+			'HTML'          => $ibforums->vars['sig_allow_html'],
+			'HID' 	      => -1,
+			'TID'	      => 0
 		     );
 
         $info['signature'] = $this->parser->prepare($data);

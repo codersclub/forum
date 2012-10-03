@@ -736,7 +736,7 @@ function user_answers()
 
 //  $member['answers'] = stripslashes($user_answers['answers']);
 
-  $member['time'] = $std->get_date( $user_answers['time'] , 'LONG' );
+  $member['time'] = $std->get_date( $user_answers['time'] );
   $member['time_took'] = $user_answers['time_took'];
   $member['amount_right'] = $user_answers['amount_right'];
 
@@ -1039,7 +1039,7 @@ function get_quiz_settings($qid=0)
     {
       $place++;
 
-      $member['time'] = $std->get_date( $member['time'], 'LONG' );
+      $member['time'] = $std->get_date( $member['time'] );
 /*
       if($member['time_took'] <= 0) {
       	$member['time_took'] = $ibforums->lang['results_lessthen'];
@@ -2603,4 +2603,3 @@ function save_log($action="")
 
 
 }	// Class end
-?>

@@ -206,7 +206,7 @@ class post_functions extends Post {
 
 			$class->forum['use_html'] AND $ibforums->member['g_dohtml'] ? 1 : 0);
 			
-			$items[$i]['time']		= $std->get_date($history_item['edit_time'], $method);
+			$items[$i]['time']		= $std->get_date($history_item['edit_time']);
 			
 			$items[$i]['member']	= $history_item['editor_name'];
 			
