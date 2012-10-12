@@ -46,7 +46,7 @@ if ( !$DB->connect() )
 // $db = new db('../../conf_global.php', $error);
 // $db -> connect();
 
-$row = $DB -> get_row("SELECT * FROM ibf_members WHERE name = '".$DB->quote($_GET['login'])."' AND password='".$DB->quote(md5($_GET['password']))."'");
+$row = $DB -> get_row("SELECT * FROM ibf_members WHERE name = '".$DB->quote(base64_decode($_GET['login'])."' AND password='".$DB->quote(md5(base64_decode($_GET['password'])))."'");
 /*
 			array(
 				'query' => 'select',
