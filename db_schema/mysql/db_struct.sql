@@ -980,7 +980,7 @@ DROP TABLE IF EXISTS `ibf_member_extra`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_member_extra` (
-  `id` mediumint(8) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL DEFAULT '0',
   `notes` text,
   `links` text,
   `bio` text,
@@ -989,8 +989,13 @@ CREATE TABLE `ibf_member_extra` (
   `photo_location` varchar(255) DEFAULT '',
   `photo_dimensions` varchar(200) DEFAULT '',
   `country` varchar(2) NOT NULL DEFAULT '',
+  `region` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `geo_lat` float NOT NULL,
+  `geo_lon` float NOT NULL,
+  `real_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `ibf_member_extra` (`country`)
+  KEY `country` (`country`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
