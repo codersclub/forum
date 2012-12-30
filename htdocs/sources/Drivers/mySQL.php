@@ -30,6 +30,7 @@ class db_driver {
                        "sql_pass"       => ""         ,
                        "sql_host"       => "localhost",
                        "sql_port"       => ""         ,
+                       "sql_charset"    => ""         ,
                        "persistent"     => "0"         ,
                        "sql_tbl_prefix" => "ibf_"      ,
                        "cached_queries" => array(),
@@ -74,7 +75,10 @@ class db_driver {
 	// repair DB encoding (use windows-1251) (c) Anton 05/05/2006
 	//--------------------------------------------------------------------------
 
-#	 mysql_query("SET NAMES cp1251");
+	if (!empty($this->obj['sql_charset']))
+	{
+		mysql_query(sprintf("SET NAMES %s;", $this->obj['sql_charset']));
+	}
 
 	return TRUE;
     }
