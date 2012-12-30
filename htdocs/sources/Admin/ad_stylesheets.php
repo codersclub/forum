@@ -793,6 +793,7 @@ class ad_settings {
 		$db->obj['sql_user']         = $INFO['sql_user'];
 		$db->obj['sql_pass']         = $INFO['sql_pass'];
 		$db->obj['sql_host']         = $INFO['sql_host'];
+		$db->obj['sql_charset']      = $INFO['sql_charset'];
 		$db->obj['sql_tbl_prefix']   = $INFO['sql_tbl_prefix'];
 
 		if ( $db->obj['sql_database'] and $db->connect() ) echo "Connect successful..<br>"; else die("Connect failed.");
