@@ -405,6 +405,7 @@ $INFO['sql_driver']			=	'mySQL';
 $INFO['sql_host']			=	'localhost';
 $INFO['sql_pass']			=	'mysql_password';
 $INFO['sql_port']			=	'';
+$INFO['sql_charset']			=	'';
 $INFO['sql_tbl_prefix']			=	'ibf_';
 $INFO['sql_user']			=	'mysql_user';
 $INFO['start_year']			=	'2004';
