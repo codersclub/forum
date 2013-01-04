@@ -41,6 +41,7 @@ $(window).load(function() {
 });
 
 <?php
+$err = error_reporting(0);
 
 $tzones = array();
 
@@ -58,3 +59,4 @@ if ($_GET['current']) {
 	echo ";\ncur_region = ".json_encode($region);
 	echo ";\ncur_zone = ".json_encode($zone);
 }
+error_reporting($err);
