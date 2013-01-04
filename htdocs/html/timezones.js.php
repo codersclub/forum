@@ -41,20 +41,25 @@ $(window).load(function() {
 });
 
 <?php
+//turn off errors and store prev value
+$prev_ini = ini_set('display_errors', 'Off');
 
 $tzones = array();
 
 foreach( DateTimeZone::listIdentifiers() as $zone) {
-	list($region, $zone) = explode("/", $zone, 2);
-	if (zone) {
-		$tzones[$region][] = $zone;
+	$info = explode("/", $zone, 2);//	Convert 'Region/Zone' -> ['Region', 'Zone']
+	if (isset($info[1])) {// Not for UTC or GMT
+		$tzones[$info[0]][] = $info[1];
 	}
 }
 
 echo "tzList = ".json_encode($tzones);
 
-if ($_GET['current']) {
+if (isset($_GET['current'])) {
 	list($region, $zone) = explode("/", $_GET['current'], 2);
 	echo ";\ncur_region = ".json_encode($region);
 	echo ";\ncur_zone = ".json_encode($zone);
 }
+
+//restore displaying errors
+ini_set('display_errors', $prev_ini);
