@@ -46,9 +46,9 @@ $err = error_reporting(0);
 $tzones = array();
 
 foreach( DateTimeZone::listIdentifiers() as $zone) {
-	list($region, $zone) = explode("/", $zone, 2);
-	if (zone) {
-		$tzones[$region][] = $zone;
+	$info = explode("/", $zone, 2);//	Convert 'Region/Zone' -> ['Region', 'Zone']
+	if (isset($info[1])) {// Not for UTC or GMT
+		$tzones[$info[0]][] = $info[1];
 	}
 }
 
