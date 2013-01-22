@@ -41,7 +41,8 @@ $(window).load(function() {
 });
 
 <?php
-$err = error_reporting(0);
+//turn off errors and store prev value
+$prev_ini = ini_set('display_errors', 'Off');
 
 $tzones = array();
 
@@ -59,4 +60,6 @@ if ($_GET['current']) {
 	echo ";\ncur_region = ".json_encode($region);
 	echo ";\ncur_zone = ".json_encode($zone);
 }
-error_reporting($err);
+
+//restore displaying errors
+ini_set('display_errors', $err);
