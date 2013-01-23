@@ -4,6 +4,7 @@ $lang['moderators'] = "Модераторы: "; // vot
 $lang['spoiler']  = "Скрытый текст"; // vot
 $lang['ipicture_title'] = "Загрузить изображение на iPicture.ru"; // vot
 $lang['fine'] = "Поощрения"; // Jureth
+$lang['pm_email_subject']  = "Приватное сообщение от <#POSTER#>";
 
 $lang['ibstore']  = "DigiMania";
 $lang['members_inventory']  = "Вещи участника: ";
@@ -171,5 +172,3 @@ $lang['month09'] = "сентября";
 $lang['month10'] = "октября";
 $lang['month11'] = "ноября";
 $lang['month12'] = "декабря";
-
-?>
