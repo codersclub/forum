@@ -23,6 +23,8 @@ mysqldump --default-character-set=cp1251 --no-data invision > db_struct.sql
 
 SET NAMES cp1251;
 
+USE `invision`;
+
 --
 -- Table structure for table `cc_module`
 --
@@ -2338,9 +2340,6 @@ CREATE TABLE `ibf_attachments_link` (
   `item_id` int(11) NOT NULL,
   PRIMARY KEY (`attach_id`,`item_type`,`item_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

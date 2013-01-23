@@ -104,7 +104,9 @@ class ad_fields {
 		
 		//+-------------------------------
 		
-		$DB->query("SELECT ftitle, fid FROM ibf_pfields_data WHERE fid='".$IN['id']."'");
+		$DB->query("SELECT ftitle, fid
+                            FROM ibf_pfields_data
+                            WHERE fid='".$IN['id']."'");
 		
 		if ( ! $field = $DB->fetch_row() )
 		{
@@ -152,16 +154,20 @@ class ad_fields {
 		
 		// Check to make sure that the relevant groups exist.
 		
-		$DB->query("SELECT ftitle, fid FROM ibf_pfields_data WHERE fid='".$IN['id']."'");
+		$DB->query("SELECT ftitle, fid
+                            FROM ibf_pfields_data
+                            WHERE fid='".$IN['id']."'");
 		
 		if ( ! $row = $DB->fetch_row() )
 		{
 			$ADMIN->error("Could not resolve the ID's passed to deletion");
 		}
 		
-		$DB->query("ALTER TABLE ibf_pfields_content DROP field_{$row['fid']}");
+		$DB->query("ALTER TABLE ibf_pfields_content
+                            DROP field_{$row['fid']}");
 		
-		$DB->query("DELETE FROM ibf_pfields_data WHERE fid='".$IN['id']."'");
+		$DB->query("DELETE FROM ibf_pfields_data
+                            WHERE fid='".$IN['id']."'");
 		
 		$ADMIN->done_screen("Profile Field Removed", "Custom Profile Field Control", "act=field" );
 		
@@ -216,7 +222,9 @@ class ad_fields {
 		{
 			$rstring = $DB->compile_db_update_string( $db_string );
 			
-			$DB->query("UPDATE ibf_pfields_data SET $rstring WHERE fid='".$IN['id']."'");
+			$DB->query("UPDATE ibf_pfields_data
+                                    SET $rstring
+                                    WHERE fid='".$IN['id']."'");
 			
 			$ADMIN->done_screen("Profile Field Edited", "Custom Profile Field Control", "act=field" );
 			
@@ -225,11 +233,14 @@ class ad_fields {
 		{
 			$rstring = $DB->compile_db_insert_string( $db_string );
 			
-			$DB->query("INSERT INTO ibf_pfields_data (" .$rstring['FIELD_NAMES']. ") VALUES (". $rstring['FIELD_VALUES'] .")");
+			$DB->query("INSERT INTO ibf_pfields_data
+                                    (" .$rstring['FIELD_NAMES']. ") VALUES
+                                    (". $rstring['FIELD_VALUES'] .")");
 			
 			$new_id = $DB->get_insert_id();
 			
-			$DB->query("ALTER TABLE ibf_pfields_content ADD field_$new_id text default ''");
+			$DB->query("ALTER TABLE ibf_pfields_content
+                                    ADD field_$new_id text default ''");
 			
 			$DB->query("OPTIMIZE TABLE ibf_pfields_content");
 			
@@ -267,7 +278,9 @@ class ad_fields {
 		
 		if ($IN['id'] != "")
 		{
-			$DB->query("SELECT * FROM ibf_pfields_data WHERE fid='".$IN['id']."'");
+			$DB->query("SELECT *
+                                    FROM ibf_pfields_data
+                                    WHERE fid='".$IN['id']."'");
 			$fields = $DB->fetch_row();
 		}
 		else
@@ -398,7 +411,8 @@ class ad_fields {
 							 'text' => 'Text Input',
 						   );
 		
-		$DB->query("SELECT * FROM ibf_pfields_data");
+		$DB->query("SELECT *
+                            FROM ibf_pfields_data");
 		
 		if ( $DB->get_num_rows() )
 		{

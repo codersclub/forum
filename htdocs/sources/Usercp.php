@@ -431,12 +431,15 @@ class UserCP {
  		
 	if ($ibforums->input['f'] == 'all')
 	{
-		$DB->query("DELETE FROM ibf_forum_tracker WHERE member_id='".$this->member['id']."'");
+		$DB->query("DELETE FROM ibf_forum_tracker
+			    WHERE member_id='".$this->member['id']."'");
 	} else
 	{
 		$id = intval($ibforums->input['f']);
 		
-		$DB->query("DELETE FROM ibf_forum_tracker WHERE member_id='".$this->member['id']."' AND forum_id='$id'");
+		$DB->query("DELETE FROM ibf_forum_tracker
+			    WHERE member_id='".$this->member['id']."'
+				AND forum_id='$id'");
 	}
 		
 	$std->boink_it($this->base_url."act=UserCP&CODE=50");
@@ -461,7 +464,10 @@ class UserCP {
  		// we get the forum and topic info, 'cos we rule.
  		//----------------------------------------------------------
 
- 		$res_d = $DB->query("SELECT t.frid, t.start_date, f.*, c.id as cat_id, c.name as cat_name
+ 		$res_d = $DB->query("SELECT t.frid, t.start_date,
+					f.*,
+					c.id AS cat_id,
+					c.name AS cat_name
  		            FROM ibf_forum_tracker t
  		             LEFT JOIN ibf_forums f ON (t.forum_id=f.id)
  		             LEFT JOIN ibf_categories c ON (c.id=f.category)
@@ -606,7 +612,9 @@ class UserCP {
  		// Update the DB
  		//--------------------------------------------
  		
- 		$DB->query("UPDATE ibf_members SET password='$md5_pass' WHERE id='".$this->member['id']."'");
+ 		$DB->query("UPDATE ibf_members SET
+				password='$md5_pass'
+			    WHERE id='".$this->member['id']."'");
  		
  		//--------------------------------------------
  		// Update the cookie..
@@ -661,7 +669,8 @@ class UserCP {
 		
 		// Remove old reg requests from the DB
 		
-		$DB->query("DELETE FROM ibf_reg_antispam WHERE ctime < '$r_date'");
+		$DB->query("DELETE FROM ibf_reg_antispam
+			    WHERE ctime < '$r_date'");
 		
 		// Set a new ID for this reg request...
 		
@@ -682,7 +691,9 @@ class UserCP {
 					'ctime'      => time(),
 					)       );
 											
-		$DB->query("INSERT INTO ibf_reg_antispam ({$str['FIELD_NAMES']}) VALUES ({$str['FIELD_VALUES']})");
+		$DB->query("INSERT INTO ibf_reg_antispam
+				({$str['FIELD_NAMES']}) VALUES
+				({$str['FIELD_VALUES']})");
 	}
 	
 	$this->output    .= $this->html->email_change($txt, $ibforums->lang[$msg]);
@@ -759,7 +770,9 @@ class UserCP {
 		
 		if (! $ibforums->vars['allow_dup_email'] )
 		{
-			$DB->query("SELECT id FROM ibf_members WHERE email='".$email_one."'");
+			$DB->query("SELECT id
+				    FROM ibf_members
+				    WHERE email='".$email_one."'");
 			
 			$email_check = $DB->fetch_row();
 			
@@ -781,7 +794,9 @@ class UserCP {
 				return "";
 			}
 			
-			$DB->query("SELECT * FROM ibf_reg_antispam WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
+			$DB->query("SELECT *
+				    FROM ibf_reg_antispam
+				    WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
 			
 			if ( ! $row = $DB->fetch_row() )
 			{
@@ -795,7 +810,8 @@ class UserCP {
 				return "";
 			}
 			
-			$DB->query("DELETE FROM ibf_reg_antispam WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
+			$DB->query("DELETE FROM ibf_reg_antispam
+				    WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
 		}
 		
 		//--------------------------------------------
@@ -831,15 +847,25 @@ class UserCP {
 					 'ip_address'  => $ibforums->input['IP_ADDRESS']
 					   )       );
 			
-			$DB->query("INSERT INTO ibf_validating ({$db_str['FIELD_NAMES']}) VALUES({$db_str['FIELD_VALUES']})");
+			$DB->query("INSERT INTO ibf_validating
+					({$db_str['FIELD_NAMES']}) VALUES
+					({$db_str['FIELD_VALUES']})");
 			
-			$DB->query("UPDATE ibf_members SET mgroup=".$ibforums->vars['auth_group'].", email='$email_one' WHERE id=".$this->member['id']);
+			$DB->query("UPDATE ibf_members SET
+					mgroup=".$ibforums->vars['auth_group'].",
+					email='$email_one'
+				    WHERE id=".$this->member['id']);
 			
 			// Update their session with the new member group
 			
 			if ($ibforums->session_id)
 			{
-				$DB->query("UPDATE ibf_sessions SET member_name='', member_id=0, member_group=".$ibforums->vars['guest_group']." WHERE member_id=".$this->member['id']." and id='".$ibforums->session_id."'");
+				$DB->query("UPDATE ibf_sessions SET
+						member_name='',
+						member_id=0,
+						member_group=".$ibforums->vars['guest_group']."
+					    WHERE member_id=".$this->member['id']."
+						AND id='".$ibforums->session_id."'");
  			}
  			
  			// Kill the cookies to stop auto log in
@@ -872,7 +898,9 @@ class UserCP {
 		{
 			// No authorisation needed, change email addy and return
 			
-			$DB->query("UPDATE ibf_members SET email='$email_one' WHERE id='".$this->member['id']."'");
+			$DB->query("UPDATE ibf_members SET
+					email='$email_one'
+				    WHERE id='".$this->member['id']."'");
 			
 			$print->redirect_screen( $ibforums->lang['email_changed_now'], 'act=UserCP&CODE=00' );
 			
@@ -901,7 +929,8 @@ class UserCP {
 
  			// Remove old reg requests from the DB
 
- 			$DB->query("DELETE FROM ibf_reg_antispam WHERE ctime < '$r_date'");
+ 			$DB->query("DELETE FROM ibf_reg_antispam
+				    WHERE ctime < '$r_date'");
 
  			// Set a new ID for this reg request...
 
@@ -922,7 +951,9 @@ class UserCP {
 					'ctime'      => time(),
  			)       );
  				
- 			$DB->query("INSERT INTO ibf_reg_antispam ({$str['FIELD_NAMES']}) VALUES ({$str['FIELD_VALUES']})");
+ 			$DB->query("INSERT INTO ibf_reg_antispam
+					({$str['FIELD_NAMES']}) VALUES
+					({$str['FIELD_VALUES']})");
  		}
 
  		$this->output    .= $this->html->openid_change($txt, $ibforums->lang[$msg]);
@@ -976,7 +1007,9 @@ class UserCP {
 			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'openid_not_valid' ) );
 		}
  		//--------------------------------------------
-		$check = $DB->get_one("SELECT id FROM ibf_members WHERE openid_url='".$DB->quote($openid)."'");
+		$check = $DB->get_one( "SELECT id
+					FROM ibf_members
+					WHERE openid_url='".$DB->quote($openid)."'");
 		
 		
 		
@@ -997,7 +1030,9 @@ class UserCP {
  				return "";
  			}
  				
- 			$DB->query("SELECT * FROM ibf_reg_antispam WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
+ 			$DB->query("SELECT *
+				    FROM ibf_reg_antispam
+				    WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
  				
  			if ( ! $row = $DB->fetch_row() )
  			{
@@ -1011,12 +1046,15 @@ class UserCP {
  				return "";
  			}
  				
- 			$DB->query("DELETE FROM ibf_reg_antispam WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
+ 			$DB->query("DELETE FROM ibf_reg_antispam
+				    WHERE regid='".trim(addslashes($ibforums->input['regid']))."'");
  		}
 
  		// No authorisation needed, change email addy and return
  		$openid = $DB->quote($openid);
- 		$DB->query("UPDATE ibf_members SET openid_url='$openid' WHERE id='".$this->member['id']."'");
+ 		$DB->query("UPDATE ibf_members SET
+				openid_url='$openid'
+			    WHERE id='".$this->member['id']."'");
  			
  		$print->redirect_screen( $ibforums->lang['openid_changed_now'], 'act=UserCP&CODE=00' );
  	}
@@ -1053,7 +1091,11 @@ class UserCP {
 				
 				$time_limit = time() - ($ibforums->vars['subs_autoprune'] * 86400);
 				
-				$DB->query("SELECT tr.trid FROM ibf_tracker tr, ibf_topics t WHERE t.tid=tr.topic_id AND t.last_post < '$time_limit'");
+				$DB->query("SELECT tr.trid
+					    FROM ibf_tracker tr,
+						ibf_topics t
+					    WHERE t.tid=tr.topic_id
+						AND t.last_post < '$time_limit'");
 				
 				$trids = array();
 				
@@ -1064,7 +1106,8 @@ class UserCP {
 				
 				if (count($trids) > 0)
 				{
-					$DB->query("DELETE FROM ibf_tracker WHERE trid IN (".implode(",",$trids).")");
+					$DB->query("DELETE FROM ibf_tracker
+						    WHERE trid IN (".implode(",",$trids).")");
 				}
 			}
 			
@@ -1084,11 +1127,18 @@ class UserCP {
  		// we get the forum and topic info, 'cos we rule.
  		//----------------------------------------------------------
 
- 		$res_d = $DB->query("SELECT s.trid, s.member_id, s.topic_id, s.last_sent, s.start_date as track_started, t.*, 
-			   f.id as forum_id, f.name as forum_name, f.read_perms 
- 		          FROM ibf_tracker s, ibf_topics t, ibf_forums f 
- 		          WHERE s.member_id='".$this->member['id']."' AND t.tid=s.topic_id AND f.id=t.forum_id $date_query 
- 		          ORDER BY f.id, t.last_post DESC");
+ 		$res_d = $DB->query("SELECT
+					s.trid, s.member_id, s.topic_id, s.last_sent,
+					s.start_date AS track_started,
+					t.*, 
+					f.id ASs forum_id,
+					f.name AS forum_name,
+					f.read_perms 
+	 		          FROM ibf_tracker s, ibf_topics t, ibf_forums f 
+	 		          WHERE s.member_id='".$this->member['id']."'
+					AND t.tid=s.topic_id
+					AND f.id=t.forum_id $date_query 
+	 		          ORDER BY f.id, t.last_post DESC");
  		          
  		if ( $DB->get_num_rows($res_d) )
  		{
@@ -1245,7 +1295,9 @@ class UserCP {
  		
  		if ( count($ids) > 0 )
  		{
- 			$DB->query("DELETE FROM ibf_tracker WHERE member_id='".$this->member['id']."' and trid IN (".implode( ",", $ids ).")");
+ 			$DB->query("DELETE FROM ibf_tracker
+				    WHERE member_id='".$this->member['id']."'
+					AND trid IN (".implode( ",", $ids ).")");
  		}
  			
 		$refer = $_SERVER['HTTP_REFERER'];
@@ -1276,7 +1328,8 @@ class UserCP {
 
 // Song * add text smile skin
 
-		$DB->query("SELECT id, name FROM ibf_emoticons_skins");
+		$DB->query("SELECT id, name
+			    FROM ibf_emoticons_skins");
         
 		while ( $l = $DB->fetch_row() )
 		{
@@ -1296,7 +1349,8 @@ class UserCP {
  		
  		$lang_select = "<select name='u_language' class='forminput'>\n";
 		
-		$DB->query("SELECT ldir, lname FROM ibf_languages");
+		$DB->query("SELECT ldir, lname
+			    FROM ibf_languages");
 		
 		while ( $l = $DB->fetch_row() )
 		{
@@ -1315,7 +1369,9 @@ class UserCP {
  		if ( $ibforums->vars['allow_skins'] )
  		{
  			
- 			$DB->query("SELECT uid, sid, sname FROM ibf_skins WHERE hidden <> 1");
+ 			$DB->query("SELECT uid, sid, sname
+				    FROM ibf_skins
+				    WHERE hidden <> 1");
  			
  			if ( $DB->get_num_rows() )
  			{
@@ -2191,7 +2247,9 @@ class UserCP {
 		$optional_output = "";
 		$field_data     = array();
 		
-		$DB->query("SELECT * from ibf_pfields_content WHERE member_id='".$ibforums->member['id']."'");
+		$DB->query("SELECT *
+			    FROM ibf_pfields_content
+                            WHERE member_id='".$ibforums->member['id']."'");
 		
 		while ( $content = $DB->fetch_row() )
 		{
@@ -2205,7 +2263,10 @@ class UserCP {
 			}
 		}
 		
-		$DB->query("SELECT * from ibf_pfields_data WHERE fedit=1 ORDER BY forder");
+		$DB->query("SELECT *
+			    FROM ibf_pfields_data
+                            WHERE fedit=1
+			    ORDER BY forder");
 		
 		while( $row = $DB->fetch_row() )
 		{
@@ -2355,7 +2416,9 @@ class UserCP {
  		// Get the number of messages we have in total.
  		//---------------------------------------------
  		
- 		$DB->query("SELECT COUNT(*) as msg_total FROM ibf_messages WHERE member_id='".$this->member['id']."'");
+ 		$DB->query("SELECT COUNT(*) AS msg_total
+			    FROM ibf_messages
+			    WHERE member_id='".$this->member['id']."'");
  		$total = $DB->fetch_row();
  		
  		//---------------------------------------------
@@ -2458,16 +2521,22 @@ class UserCP {
 		}
 		//+----------------------------------------
  		
- 		$DB->query("SELECT id from ibf_member_extra WHERE id='".$this->member['id']."'");
+ 		$DB->query("SELECT id
+			    FROM ibf_member_extra
+			    WHERE id='".$this->member['id']."'");
  		
  		if ( $DB->get_num_rows() )
  		{ 
- 			$DB->query("UPDATE ibf_member_extra SET notes='".$ibforums->input['notes']."', ta_size='".$ibforums->input['ta_size']."' WHERE id='".$this->member['id']."'");
+ 			$DB->query("UPDATE ibf_member_extra SET
+					notes='".$ibforums->input['notes']."',
+					ta_size='".$ibforums->input['ta_size']."'
+				    WHERE id='".$this->member['id']."'");
  		}
  		else
  		{
- 			$DB->query("INSERT INTO ibf_member_extra (id, notes, ta_size) ".
- 			           " VALUES ('".$this->member['id']."', '".$ibforums->input['notes']."', '".$ibforums->input['ta_size']."')");
+ 			$DB->query("INSERT INTO ibf_member_extra
+					(id, notes, ta_size) VALUES
+					('".$this->member['id']."', '".$ibforums->input['notes']."', '".$ibforums->input['ta_size']."')");
  		}
  		
  		$std->boink_it($this->base_url."act=UserCP&CODE=00");
@@ -2487,7 +2556,9 @@ class UserCP {
 		
 		// Get the info from the db
 		
-		$DB->query("SELECT * FROM ibf_reg_antispam WHERE regid='".trim(addslashes($ibforums->input['rc']))."'");
+		$DB->query("SELECT *
+			    FROM ibf_reg_antispam
+			    WHERE regid='".trim(addslashes($ibforums->input['rc']))."'");
 		
 		if ( ! $row = $DB->fetch_row() )
 		{
@@ -2572,7 +2643,9 @@ class UserCP {
 		 if ( substr($l,1,1) == "f" ) $fs[ substr($l,2) ] = substr($l,0,1);
 	}
 
-	$DB->query("SELECT id,state,name FROM ibf_categories ORDER BY position");
+	$DB->query("SELECT id, state, name
+		    FROM ibf_categories
+		    ORDER BY position");
 
 	while ( $c = $DB->fetch_row() ) 
 	{
@@ -2581,7 +2654,9 @@ class UserCP {
 		$cats[ $c['id'] ] = $c;
 	}
 		
-	$DB->query("SELECT id,parent_id,category,read_perms,name FROM ibf_forums ORDER BY position");
+	$DB->query("SELECT id, parent_id, category, read_perms, name
+		    FROM ibf_forums
+		    ORDER BY position");
 
 	while ( $r = $DB->fetch_row() )
 	{
@@ -2653,7 +2728,8 @@ class UserCP {
 		$cats     = array();
 		$forums   = array();
 
-		$DB->query("SELECT id,state FROM ibf_categories");
+		$DB->query("SELECT id, state
+			    FROM ibf_categories");
 
 		$cid = array();
 
@@ -2668,7 +2744,9 @@ class UserCP {
 
 		$fall = 0;
 
-		$DB->query("SELECT id,category,read_perms FROM ibf_forums WHERE category IN (".implode(",", $cid).")");
+		$DB->query("SELECT id, category, read_perms
+			    FROM ibf_forums
+			    WHERE category IN (".implode(",", $cid).")");
 
 		while ( $r = $DB->fetch_row() ) 
 		{
@@ -2721,7 +2799,9 @@ class UserCP {
 
 		$out = ( $fcnt == $fall and $ccnt == $call ) ? "NULL" : "'".substr($out,0,-1)."'";
 
-		$DB->query("UPDATE ibf_members SET board_layout=$out WHERE id='".$this->member['id']."'");
+		$DB->query("UPDATE ibf_members
+			    SET board_layout=$out
+			    WHERE id='".$this->member['id']."'");
 
 		$print->redirect_screen( $ibforums->lang['boardlay_changed'], 'act=UserCP&CODE=15' );
 	}	    
@@ -2754,7 +2834,9 @@ class UserCP {
 
 		$time = time() + 60*60*24*60;
 
-		$DB->query("UPDATE ibf_members SET profile_delete_time='".$time."' WHERE id='".$this->member['id']."'");
+		$DB->query("UPDATE ibf_members SET
+				profile_delete_time='".$time."'
+			    WHERE id='".$this->member['id']."'");
 
 		$print->redirect_screen( '', 'act=UserCP&CODE=34' );
       }
@@ -2772,7 +2854,9 @@ class UserCP {
       function delete_cancel() {
       global $print, $DB;
 
-		$DB->query("UPDATE ibf_members SET profile_delete_time=0 WHERE id='".$this->member['id']."'");
+		$DB->query("UPDATE ibf_members SET
+				profile_delete_time=0
+			    WHERE id='".$this->member['id']."'");
 
 		$print->redirect_screen( '', 'act=UserCP&CODE=00' );
       }

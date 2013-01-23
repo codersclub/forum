@@ -263,7 +263,9 @@ class Profile {
     		$std->Error( array( 'LEVEL' => 1, 'MSG' => 'incorrect_use' ) );
     	}
     	
-    	$DB->query("SELECT * FROM ibf_members WHERE id=$id");
+    	$DB->query("SELECT *
+		    FROM ibf_members
+		    WHERE id=$id");
     	
     	$member = $DB->fetch_row();
     	
@@ -386,11 +388,11 @@ class Profile {
     	$this->show_height = "";
     	$this->show_width  = "";
     	
-    	$DB->query("SELECT m.id, m.name, me.photo_type,
-	                   me.photo_location, me.photo_dimensions
-		 FROM ibf_member_extra me
-    	              LEFT JOIN ibf_members m ON me.id=m.id
-    			    WHERE m.id=$id");
+    	$DB->query("SELECT m.id, m.name,
+			me.photo_type, me.photo_location, me.photo_dimensions
+		    FROM ibf_member_extra me
+    	            LEFT JOIN ibf_members m ON me.id=m.id
+    		    WHERE m.id=$id");
     	
     	$this->photo_member = $DB->fetch_row();
     	
@@ -499,7 +501,7 @@ class Profile {
     	// Prepare Query...
     	//--------------------------------------------
 
-    	$DB->query("SELECT m.*, s.id as s_id, g.g_id, g.g_title as group_title
+    	$DB->query("SELECT m.*, s.id as s_id, g.g_id, g.g_title AS group_title
 	            FROM (ibf_members m, ibf_groups g )
 		    LEFT JOIN ibf_sessions s ON (s.member_id=m.id and s.login_type<>1) 
 		    WHERE m.id='$id' and m.mgroup=g.g_id");
@@ -517,7 +519,8 @@ class Profile {
     	// member has access to by this members profile
     	//--------------------------------------------
     	
-    	$DB->query("SELECT id, read_perms FROM ibf_forums");
+    	$DB->query("SELECT id, read_perms
+		    FROM ibf_forums");
     	
     	$forum_ids = array('0');
     	
@@ -533,17 +536,24 @@ class Profile {
     	
     	$percent = 0;
     	
-    	$DB->query("SELECT DISTINCT(p.forum_id), f.name, COUNT(p.author_id) as f_posts FROM ibf_posts p, ibf_forums f  
-    		    WHERE p.forum_id IN ($forum_id_str) AND p.author_id='".$member['id']."' AND p.forum_id=f.id 
-		    GROUP BY p.forum_id ORDER BY f_posts DESC");
+    	$DB->query("SELECT DISTINCT(p.forum_id), f.name, COUNT(p.author_id) AS f_posts
+		    FROM ibf_posts p, ibf_forums f  
+    		    WHERE p.forum_id IN ($forum_id_str)
+			AND p.author_id='".$member['id']."'
+			AND p.forum_id=f.id 
+		    GROUP BY p.forum_id
+		    ORDER BY f_posts DESC");
     			   
     	$favourite   = $DB->fetch_row();
     	
-    	$DB->query("SELECT COUNT(pid) as total_posts FROM ibf_posts WHERE author_id='".$member['id']."'");
+    	$DB->query("SELECT COUNT(pid) AS total_posts
+		    FROM ibf_posts
+		    WHERE author_id='".$member['id']."'");
     	
     	$total_posts = $DB->fetch_row();
     	
-    	$DB->query("SELECT TOTAL_TOPICS, TOTAL_REPLIES FROM ibf_stats");
+    	$DB->query("SELECT TOTAL_TOPICS, TOTAL_REPLIES
+		    FROM ibf_stats");
     	
     	$stats = $DB->fetch_row();
     	
@@ -580,7 +590,11 @@ class Profile {
     	$info['board_posts'] = $board_posts;
     	$info['joined']      = $std->format_date_without_time( $member['joined'] );
     	
-	$DB->query("SELECT title FROM ibf_titles WHERE posts < '".$member['posts']."' ORDER BY posts DESC LIMIT 1");
+	$DB->query("SELECT title
+		    FROM ibf_titles
+		    WHERE posts < '".$member['posts']."'
+		    ORDER BY posts DESC
+		    LIMIT 1");
 
 	if ( $i = $DB->fetch_row() ) $rank = $i['title'];
 
@@ -760,7 +774,9 @@ class Profile {
 //        	}
 //        }
         
-        $DB->query("SELECT * from ibf_pfields_content WHERE member_id='".$member['id']."'");
+        $DB->query("SELECT *
+		    FROM ibf_pfields_content
+                    WHERE member_id='".$member['id']."'");
 		
 	while ( $content = $DB->fetch_row() )
 	{
@@ -773,7 +789,10 @@ class Profile {
 		}
 	}
 	
-	$DB->query("SELECT * FROM ibf_pfields_data $query_extra ORDER BY forder");
+	$DB->query("SELECT *
+		    FROM ibf_pfields_data
+                    $query_extra
+                    ORDER BY forder");
 	
 	while( $row = $DB->fetch_row() )
 	{
@@ -821,7 +840,10 @@ class Profile {
 				$mod  = 1;
 			} else
 			{
-				$DB->query("SELECT * FROM ibf_moderators WHERE (member_id=".$ibforums->member['id']." OR (is_group=1 AND group_id=".$ibforums->member['mgroup']."))");
+				$DB->query("SELECT *
+					    FROM ibf_moderators
+					    WHERE (member_id=".$ibforums->member['id']."
+						OR (is_group=1 AND group_id=".$ibforums->member['mgroup']."))");
 				$this->moderator = $DB->fetch_row();
 				
 				if ( $this->moderator['mid'] AND $this->moderator['allow_warn'] == 1 )
@@ -927,8 +949,9 @@ class Profile {
  	{
  	  global $ibforums, $DB, $std;
 	 		
-     $res = $DB->query("SELECT count(*) as count FROM ibf_moderators md
-	      	     WHERE md.member_id='".$mid."'");
+     $res = $DB->query("SELECT count(*) AS count
+			FROM ibf_moderators md
+			WHERE md.member_id='".$mid."'");
     $i = $DB->fetch_row( $res );
     
    	          
@@ -942,7 +965,9 @@ class Profile {
 	 		
     	$sup_ids = array();
     	
-    	$DB->query("SELECT g_id from ibf_groups WHERE g_is_supmod = 1");
+    	$DB->query("SELECT g_id
+		    FROM ibf_groups
+		    WHERE g_is_supmod = 1");
     	
     	if ( $DB->get_num_rows() )
     	{
@@ -958,8 +983,10 @@ class Profile {
     	
     	$admin_ids = array();
     	
-    	$DB->query("SELECT id, mgroup FROM ibf_members 
-		    WHERE id='".$mid."' and mgroup='".$ibforums->vars['admin_group']."'");
+    	$DB->query("SELECT id, mgroup
+		    FROM ibf_members 
+		    WHERE id='".$mid."'
+			AND mgroup='".$ibforums->vars['admin_group']."'");
     	
     	if ( $DB->get_num_rows() ) $member_is_admin=1; else $member_is_admin=0;
     	
@@ -972,8 +999,11 @@ class Profile {
     	if ( count($sup_ids) > 0 )
     	{
     		
-    		$DB->query("SELECT id, mgroup FROM ibf_members 
-			    WHERE id='".$mid."' and mgroup IN (".implode( ',', $sup_ids ).") and mgroup<>'".$ibforums->vars['admin_group']."' ");
+    		$DB->query("SELECT id, mgroup
+			    FROM ibf_members 
+			    WHERE id='".$mid."'
+				AND mgroup IN (".implode( ',', $sup_ids ).")
+				AND mgroup<>'".$ibforums->vars['admin_group']."' ");
     	if ( $DB->get_num_rows() ) $member_is_sup=1; else $member_is_sup=0;
 			return $member_is_sup+$member_is_admin;
 		}

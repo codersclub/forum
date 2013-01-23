@@ -67,9 +67,12 @@ class Topics {
 
 	if ( !$this->forum['id'] ) return "";
 
-        $DB->query("SELECT mid,member_name as mod_name, member_id as mod_id, is_group, 
-			  group_id, group_name, post_q, topic_q
-		    FROM ibf_moderators WHERE forum_id='".$this->forum['id']."'");
+        $DB->query("SELECT mid,
+			member_name AS mod_name,
+			member_id AS mod_id,
+			is_group, group_id, group_name, post_q, topic_q
+		    FROM ibf_moderators
+		    WHERE forum_id='".$this->forum['id']."'");
 
 	if ( ! $DB->get_num_rows() ) return "";
 
@@ -125,7 +128,9 @@ class Topics {
 		$size = round(filesize($path) / 1024, 2);
 	}
 
-	$DB->query("UPDATE ibf_posts SET attach_size='".$size."' WHERE pid='".$row['pid']."'");
+	$DB->query("UPDATE ibf_posts SET
+			attach_size='".$size."'
+		    WHERE pid='".$row['pid']."'");
 
 	$row['attach_size'] = $size;
 
@@ -1021,26 +1026,26 @@ class Topics {
         				
         		} else{
 	        		$DB->query("SELECT
-							pid,
-							post_date
-						    FROM ibf_posts
-						    WHERE
-								queued != 1 AND
-								topic_id='".$this->topic['tid']."'
-								AND use_sig = 0
-								and post_date > $last_read_time
-						    ORDER BY post_date
-						    LIMIT 1");
+						pid,
+						post_date
+					    FROM ibf_posts
+					    WHERE
+						queued != 1
+						AND topic_id='".$this->topic['tid']."'
+						AND use_sig = 0
+						AND post_date > $last_read_time
+					    ORDER BY post_date
+					    LIMIT 1");
 	        		
 	        		if ($post = $DB->fetch_row()) {
 	        			
 	        			$pid = "&#entry".$post['pid'];
 	        				
-	        			$DB->query("SELECT COUNT(pid) as posts
-							    FROM ibf_posts
-							    WHERE
-								topic_id='".$this->topic['tid']."' AND
-								pid <= '".$post['pid']."'");
+	        			$DB->query("SELECT COUNT(pid) AS posts
+						    FROM ibf_posts
+						    WHERE
+							topic_id='".$this->topic['tid']."'
+							AND pid <= '".$post['pid']."'");
 	        				
 	        			if ( !$cposts = $DB->fetch_row() or $cposts['posts'] == 0 )
 	        			{
@@ -1073,7 +1078,7 @@ class Topics {
         			
         		if ( $pid > 0 )
         		{
-        			$DB->query("SELECT COUNT(pid) as posts
+        			$DB->query("SELECT COUNT(pid) AS posts
 					    FROM ibf_posts
 					    WHERE
 						topic_id='".$this->topic['tid']."' and 
@@ -1092,11 +1097,11 @@ class Topics {
         				if ( $tid and $tid != $this->topic['tid'] )
         				{
         					// repeat query
-        					$DB->query("SELECT COUNT(pid) as posts
-						      FROM ibf_posts
-						      WHERE
-							topic_id='".$tid."' and 
-							pid <= '".$pid."'");
+        					$DB->query(
+							"SELECT COUNT(pid) AS posts
+							 FROM ibf_posts
+							 WHERE topic_id='".$tid."'
+							 AND pid <= '".$pid."'");
         				}
 
         				if ( !$tid or !$cposts = $DB->fetch_row() or $cposts['posts'] == 0 )
@@ -1143,8 +1148,8 @@ class Topics {
 		
 		if ($this->topic['has_mirror']) {
 			$DB->query("UPDATE ibf_topics
-				SET views=views+1
-			    WHERE mirrored_topic_id='{$this->topic['tid']}'");
+				    SET views=views+1
+				    WHERE mirrored_topic_id='{$this->topic['tid']}'");
 			
 			// update forums
 			$q = "SELECT forum_id, tid FROM ibf_topics WHERE mirrored_topic_id='{$this->topic['tid']}' ";
@@ -1154,10 +1159,10 @@ class Topics {
 				$log_time = 0;
 				if ($ibforums->member['id']) {
 					$DB->query("SELECT logTime
-				    FROM ibf_log_topics
-				    WHERE
-					tid='".$row['tid']."' AND
-					mid='".$ibforums->member['id']."'");
+					    FROM ibf_log_topics
+					    WHERE
+						tid='".$row['tid']."' AND
+						mid='".$ibforums->member['id']."'");
 	
 					if ( $DB->get_num_rows() )
 					{
@@ -1535,7 +1540,8 @@ class Topics {
 			}
 		}
 	
-		$join_profile_query = "LEFT JOIN ibf_pfields_content pc ON (pc.member_id=p.author_id)";
+		$join_profile_query = "LEFT JOIN ibf_pfields_content pc
+                                       ON (pc.member_id=p.author_id)";
 		$join_get_fields    = ", pc.*";
 	}
 	
