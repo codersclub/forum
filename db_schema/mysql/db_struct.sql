@@ -554,7 +554,6 @@ DROP TABLE IF EXISTS `ibf_css`;
 CREATE TABLE `ibf_css` (
   `cssid` int(10) NOT NULL AUTO_INCREMENT,
   `css_name` varchar(128) NOT NULL DEFAULT '',
-  `css_text` text,
   `css_comments` text,
   `updated` int(10) DEFAULT '0',
   `random` varchar(20) DEFAULT NULL,
@@ -1029,7 +1028,7 @@ CREATE TABLE `ibf_members` (
   `yahoo` varchar(32) DEFAULT NULL,
   `title` varchar(64) DEFAULT NULL,
   `allow_admin_mails` tinyint(1) DEFAULT NULL,
-  `time_offset` varchar(10) DEFAULT NULL,
+  `time_offset` varchar(45) DEFAULT NULL,
   `interests` text,
   `hide_email` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `email_pm` tinyint(1) DEFAULT NULL,
@@ -1094,12 +1093,14 @@ CREATE TABLE `ibf_members` (
   `show_icons` tinyint(1) NOT NULL DEFAULT '1',
   `show_ratting` tinyint(1) NOT NULL DEFAULT '1',
   `css_method` enum('inline','external') NOT NULL DEFAULT 'external',
+  `hotclocks` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `forum_icon` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'forum icon by sunny',
   `show_filter` tinyint(1) NOT NULL DEFAULT '0',
   `disable_mail` tinyint(1) NOT NULL DEFAULT '0',
   `disable_mail_reason` varchar(255) DEFAULT NULL,
   `disable_group` tinyint(1) NOT NULL DEFAULT '0',
   `syntax` enum('client','server','none') NOT NULL DEFAULT 'client',
+  `syntax_show_controls` enum('yes','no','auto') DEFAULT NULL,
   `syntax_use_wrap` tinyint(1) DEFAULT NULL,
   `syntax_use_line_colouring` tinyint(1) DEFAULT NULL,
   `syntax_use_line_numbering` tinyint(1) DEFAULT NULL,
@@ -1109,8 +1110,9 @@ CREATE TABLE `ibf_members` (
   `search_days` tinyint(1) NOT NULL DEFAULT '5',
   `dsite_group` smallint(3) DEFAULT NULL,
   `post_wrap_size` int(10) NOT NULL DEFAULT '0',
-  `openid_url`  varchar(255),
+  `openid_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `openid_url` (`openid_url`),
   KEY `name` (`name`),
   KEY `mgroup` (`mgroup`),
   KEY `bday_day` (`bday_day`),
@@ -1515,6 +1517,64 @@ CREATE TABLE `ibf_reputation` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `ibf_rss_channels`
+--
+
+DROP TABLE IF EXISTS `ibf_rss_channels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_rss_channels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descr` varchar(32) NOT NULL DEFAULT '',
+  `channel_url` varchar(255) NOT NULL DEFAULT '',
+  `source_id` int(11) NOT NULL DEFAULT '0',
+  `forum_id` int(11) NOT NULL DEFAULT '0',
+  `posting_type` set('SHORT','FULL') NOT NULL DEFAULT 'SHORT',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `user_name` varchar(32) NOT NULL DEFAULT '',
+  `url_handler` varchar(32) NOT NULL DEFAULT '',
+  `body_handler` varchar(32) NOT NULL DEFAULT '',
+  `is_active` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `source_id` (`source_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_rss_logs`
+--
+
+DROP TABLE IF EXISTS `ibf_rss_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_rss_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `source_id` int(11) NOT NULL DEFAULT '0',
+  `news_id` int(11) NOT NULL DEFAULT '0',
+  `news_date` int(11) NOT NULL DEFAULT '0',
+  `news_url` varchar(255) NOT NULL DEFAULT '',
+  `forum_url` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `source_id` (`source_id`,`news_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=18775 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_rss_sources`
+--
+
+DROP TABLE IF EXISTS `ibf_rss_sources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_rss_sources` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL DEFAULT '',
+  `url` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `ibf_search`
 --
 
@@ -1556,7 +1616,7 @@ DROP TABLE IF EXISTS `ibf_search_results`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_search_results` (
   `id` varchar(32) NOT NULL DEFAULT '',
-  `topic_id` text NOT NULL,
+  `topic_id` longtext,
   `search_date` int(12) NOT NULL DEFAULT '0',
   `topic_max` int(3) NOT NULL DEFAULT '0',
   `sort_key` varchar(32) NOT NULL DEFAULT 'last_post',
@@ -1666,6 +1726,52 @@ CREATE TABLE `ibf_skins` (
   KEY `css_id` (`css_id`),
   KEY `sid` (`sid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_sph_search_posts`
+--
+
+DROP TABLE IF EXISTS `ibf_sph_search_posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_sph_search_posts` (
+  `id` bigint(20) unsigned NOT NULL,
+  `weight` int(11) NOT NULL,
+  `query` varchar(3072) NOT NULL,
+  `_sph_groupby` int(10) unsigned DEFAULT NULL,
+  `_sph_count` int(10) unsigned DEFAULT NULL,
+  `_sph_distinct` int(10) unsigned DEFAULT NULL,
+  `posts` int(10) unsigned DEFAULT NULL,
+  `topic_id` int(10) unsigned DEFAULT NULL,
+  `author_id` int(10) unsigned DEFAULT NULL,
+  `forum_id` int(10) unsigned DEFAULT NULL,
+  `post_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY `query` (`query`(1024))
+) ENGINE=SPHINX DEFAULT CHARSET=utf8 CONNECTION='sphinx://localhost:9312/x_main_posts';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ibf_sph_search_topics`
+--
+
+DROP TABLE IF EXISTS `ibf_sph_search_topics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_sph_search_topics` (
+  `id` bigint(20) unsigned NOT NULL,
+  `weight` int(11) NOT NULL,
+  `query` varchar(3072) NOT NULL,
+  `_sph_groupby` int(10) unsigned DEFAULT NULL,
+  `_sph_count` int(10) unsigned DEFAULT NULL,
+  `_sph_distinct` int(10) unsigned DEFAULT NULL,
+  `posts` int(10) unsigned DEFAULT NULL,
+  `post_id` int(10) unsigned DEFAULT NULL,
+  `author_id` int(10) unsigned DEFAULT NULL,
+  `forum_id` int(10) unsigned DEFAULT NULL,
+  `post_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY `query` (`query`(1024))
+) ENGINE=SPHINX DEFAULT CHARSET=utf8 CONNECTION='sphinx://localhost:9312/x_main_topics';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1944,6 +2050,27 @@ CREATE TABLE `ibf_tmpl_names` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `ibf_topic_draft`
+--
+
+DROP TABLE IF EXISTS `ibf_topic_draft`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ibf_topic_draft` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) NOT NULL,
+  `created` int(11) DEFAULT NULL,
+  `text` text,
+  `member_id` int(11) DEFAULT NULL,
+  `forum_id` int(11) DEFAULT NULL,
+  `topic_title` tinytext,
+  `topic_description` tinytext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `topic_id` (`topic_id`,`forum_id`,`member_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=16916 DEFAULT CHARSET=cp1251;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `ibf_topic_mmod`
 --
 
@@ -2108,9 +2235,16 @@ CREATE TABLE `ibf_validating` (
   `lost_pass` tinyint(1) NOT NULL DEFAULT '0',
   `new_reg` tinyint(1) NOT NULL DEFAULT '0',
   `email_chg` tinyint(1) NOT NULL DEFAULT '0',
+  `login` tinyint(1) NOT NULL DEFAULT '0',
+  `service` varchar(255) NOT NULL,
   `ip_address` varchar(16) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vid`),
-  KEY `member_id` (`member_id`)
+  KEY `member_id` (`member_id`),
+  KEY `login` (`login`),
+  KEY `new_reg` (`new_reg`),
+  KEY `lost_pass` (`lost_pass`),
+  KEY `email_chg` (`email_chg`),
+  KEY `ip_address` (`ip_address`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2197,13 +2331,15 @@ CREATE TABLE `ip_table` (
 -- Table structure for table `ibf_attachments_link`
 --
 
+DROP TABLE IF EXISTS `ibf_attachments_link`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ibf_attachments_link` (
   `attach_id` int(11) NOT NULL,
   `item_type` enum('post','private_message','topic_draft') NOT NULL DEFAULT 'post',
   `item_id` int(11) NOT NULL,
   PRIMARY KEY (`attach_id`,`item_type`,`item_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -212,6 +212,7 @@ $DB->obj['sql_database']     = $INFO['sql_database'];
 $DB->obj['sql_user']         = $INFO['sql_user'];
 $DB->obj['sql_pass']         = $INFO['sql_pass'];
 $DB->obj['sql_host']         = $INFO['sql_host'];
+$DB->obj['sql_charset']      = $INFO['sql_charset'];
 $DB->obj['sql_tbl_prefix']   = $INFO['sql_tbl_prefix'];
 
 // Get a DB connection
