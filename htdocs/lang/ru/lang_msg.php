@@ -17,7 +17,6 @@ $lang['fd_continue']  = "Далее";
 $lang['fd_unsent']  = "Неотправленные сообщения";
 $lang['fd_save_unread']  = "Сохранить непрочитанные сообщения?";
 $lang['msg_pages']  = "Страниц";
-$lang['pm_email_subject']  = "Приватное сообщение от <#POSTER#>";
 $lang['tk_read_messages']  = "Прочитанные сообщения";
 $lang['tk_read_desc']  = "Эти сообщения уже прочитаны пользователями, которым они отправлены";
 $lang['tk_read_date']  = "Дата прочтения";

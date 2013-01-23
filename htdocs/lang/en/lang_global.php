@@ -5,6 +5,7 @@ $lang = array (
 'moderators' => "Moderators: ", // vot
 'ipicture_title' => "Upload your image to iPicture.ru", // vot
 'fine' => "Charges", //Jureth
+'pm_email_subject' => "Private Message from <#POSTER#>",
 
 //rc1
 
