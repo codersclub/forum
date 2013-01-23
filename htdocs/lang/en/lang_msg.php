@@ -29,8 +29,6 @@ $lang = array (
 
 //---
 
-'pm_email_subject' => "Private Message from <#POSTER#>",
-
 'tk_read_messages'  => "Read Messages",
 'tk_read_desc'      => "The messages shown here have been read by the person they were sent to.",
 'tk_read_date'      => "Date Read",
