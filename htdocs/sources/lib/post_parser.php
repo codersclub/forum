@@ -1950,7 +1950,7 @@ class post_parser {
 				$lines_count = $ibforums->member['syntax_lines_count'] !== NULL ? $ibforums->member['syntax_lines_count'] : 10;
 				if ($lines_count != 0) {
 					$lines_count *= 1.5;
-					$style = sprintf("max-height: %1.1fem;", $lines_count);
+					$style = sprintf("max-height: %sem;", strval(round($lines_count, 1)));
 					$class .= " code_collapsed ";
 				}
 				$use_wrap = $ibforums->member['syntax_use_wrap'] !== NULL ? $ibforums->member['syntax_use_wrap'] : false;

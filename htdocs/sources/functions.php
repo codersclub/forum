@@ -2620,6 +2620,8 @@ echo "-----------------<br>\n";
 				// собираем в кучу
 				$datef_date = $html[0].$hours." ".sprintf($ibforums->lang['hours_ago'], $ending.$html[1]);
 				$datef = "%date";
+			}elseif(date('Y', $date) !== date('Y')){
+				//nothing to do
 			}elseif(strftime("%j", $date) == strftime("%j")){
 				// сегодн€шн€€ дата
 				$datef_date = $html[0].$ibforums->lang['today'].$html[1];
