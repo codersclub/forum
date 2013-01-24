@@ -1,0 +1,13 @@
+<?php
+
+$db_config = (object) array();
+$db_config->host = 'localhost';
+$db_config->port = '3306';
+$db_config->user = '#USER#';
+$db_config->pass = '#PASS#';
+$db_config->name = '#DB#';
+$db_config->db_path = '#PATH#';
+$db_config->method = 1;
+$db_config->migrations_table = 'mpm_migrations';
+
+?>
