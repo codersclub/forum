@@ -1131,7 +1131,7 @@ class UserCP {
 					s.trid, s.member_id, s.topic_id, s.last_sent,
 					s.start_date AS track_started,
 					t.*, 
-					f.id ASs forum_id,
+					f.id AS forum_id,
 					f.name AS forum_name,
 					f.read_perms 
 	 		          FROM ibf_tracker s, ibf_topics t, ibf_forums f 
