@@ -456,3 +456,13 @@ $INFO['bad_upload_log_path'] = '';//Set the directory for bad format uploads
 
 // donate: электронные кошельки
 $INFO['epurse_yamoney']		=	'41001151000887';
+//
+$INFO['errors_receivers'] = array(2);
+$INFO['database_error_page'] = "<html><head><title>Invision Power Board Database Error</title><style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head>
+<body>
+	<br><br><blockquote><b>There appears to be an error with the {$INFO['board_name']} database.</b><br>
+	You can try to refresh the page by clicking <a href='javascript:window.location=window.location;'>here</a>, if this
+	does not fix the error, you can contact the board administrator by clicking <a href='mailto:{$INFO['email_in']}?subject=SQL+Error'>here</a>
+	<br><br><b>Error Returned</b><br>
+	<form name='mysql'><textarea rows='15' cols='160'><#ERROR_DESCRIPTION#></textarea></form><br>We apologise for any inconvenience</blockquote>
+</body></html>";

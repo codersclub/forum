@@ -339,58 +339,45 @@ class db_driver {
     		return;
     	}
 
-    	$the_error .= "\n\nmySQL error: ".mysql_error($this->connection_id)."\n";
-    	$the_error .= "mySQL error code: ".$this->error_no."\n";
-    	$the_error .= "Date: ".$std->get_date( time(), 0);
+	$the_error  = '';
+	$the_error .= "mySQL error: " . mysql_error($this->connection_id) . "\n";
+	$the_error .= "mySQL error code: " . (string)$this->error_no . "\n";
+	$the_error .= "Date: " . date('r');
 
-//	if ( $ibforums->member['g_is_supmod'] )
-	if ( 1 )
+	$out = str_replace('<#ERROR_DESCRIPTION#>', htmlspecialchars($the_error), $ibforums->vars['database_error_page']);
+
+	// Song * send error to admin to PM
+	//Prevent flood attack
+	$file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ibf_last_db_error_time';
+
+	//last message was at least 10 minutes ago
+	if (!file_exists($file) || (time() - 60 * 10) > (int)file_get_contents($file))
 	{
-	    	$out = "<html><head><title>Invision Power Board Database Error</title>
-	    		<style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head>
-			<body>
-	    		<br><br><blockquote><b>There appears to be an error with the {$ibforums->vars['board_name']} database.</b><br>
-	    		You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>, if this
-	    		does not fix the error, you can contact the board administrator by clicking <a href='mailto:{$ibforums->vars['email_in']}?subject=SQL+Error'>here</a>
-	    		<br><br><b>Error Returned</b><br>
-	    		<form name='mysql'><textarea rows=\"15\" cols=\"160\">".htmlspecialchars($the_error)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
-	} else
-	{
-		$out = "<h1>Возникла SQL ошибка при обращении к БД форума. Подождите несколько минут и обновите страницу.<br>
-			Если ошибка будет сохраняться в течение длительного времени, сообщите об этом администратору на электронный адрес admin@sources.ru
-			</h1>";
-	}
+		$user = $ibforums->member['id']
+			? 'user ' . $ibforums->member['id']
+			: 'guest';
 
-// Song * send error to admin to PM
+		$user .= " [".$sess->ip_address."]";
+		$the_error .= "\nREQUEST_URI: ".$_SERVER['REQUEST_URI']."\n";
+		$the_error .= "REFERER: ".$_SERVER['HTTP_REFERER']."\n\n";
 
-	$query_id = mysql_query("SELECT msg_date
-				 FROM ibf_messages
-				 WHERE
-				    member_id='2' and
-				    vid='in'
-				 ORDER BY msg_date
-				 DESC LIMIT 1",
-				 $this->connection_id);
-        if ( $query_id )
-	{
-		$row = mysql_fetch_array($query_id, MYSQL_ASSOC);
-		if ( $row and (time() - $row['msg_date']) > 60*10 )
-		{
-			if ( $ibforums->member['id'] ) $user = 'user '.$ibforums->member['id']; else $user = 'guest';
-
-			$user .= " [".$sess->ip_address."]";
-			$the_error .= "\nREQUEST_URI: ".$_SERVER['REQUEST_URI']."\n";
-			$the_error .= "REFERER: ".$_SERVER['HTTP_REFERER']."\n\n";
-
-			$std->sendpm(2, $std->clean_value($the_error), 'MySQL Error within '.$user, 8617, 1, 1, 0);
+		foreach ($ibforums->vars['errors_receivers'] as $receiver) {
+			$std->sendpm(
+				$receiver,
+				$the_error,
+				'MySQL Error within ' . $user,
+				$ibforums->vars['auto_pm_from'],
+				1,//popup
+				1,//mail
+				0
+			);
 		}
+		file_put_contents($file, (string)time());
 	}
-
-// Song * send error to admin to PM
+	// Song * send error to admin to PM
 
         echo($out);
-
-        die("");
+        die();
     }
 
     /*========================================================================*/
