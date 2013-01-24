@@ -225,12 +225,6 @@ class ad_langs {
 		
 		//------------------------------------------------------
 		
-		$DB->query("INSERT INTO ibf_css SET css_name=\"".$this->name_translated." (Set Import)\"");
-		
-		$next_id['css'] = $DB->get_insert_id();
-		
-		//------------------------------------------------------
-		
 		$DB->query("INSERT INTO ibf_templates SET name=\"".$this->name_translated." (Set Import)\"");
 		
 		$next_id['wrap'] = $DB->get_insert_id();
@@ -311,9 +305,7 @@ class ad_langs {
 																 'css_name' => stripslashes( $this->name_translated )." (Import)",
 													   )      );
 												   
-			$DB->query("UPDATE ibf_css SET $css_string WHERE cssid='{$next_id['css']}'");
-			
-			file_put_contents($ibforums->vars['base_dir']."/css/css_{$next_id['css']}.css", $css);
+			file_put_contents($ibforums->vars['base_dir']."/cache/css_{$next_id['css']}.css", $css);
 			
 		}
 		else
@@ -1042,7 +1034,6 @@ class ad_langs {
 		$DB->query("DELETE FROM ibf_macro_name WHERE set_id='{$next_id['macro']}'");
 		$DB->query("DELETE FROM ibf_macro WHERE macro_id='{$next_id['macro']}'");
 		$DB->query("DELETE FROM ibf_tmpl_names WHERE skid='{$next_id['templates']}'");
-		$DB->query("DELETE FROM ibf_css WHERE cssid='{$next_id['css']}'");
 		$DB->query("DELETE FROM ibf_templates WHERE tmid='{$next_id['wrap']}'");
 		$DB->query("DELETE FROM ibf_skin_templates WHERE set_id='{$next_id['templates']}'");
 		
