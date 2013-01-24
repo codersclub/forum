@@ -23,8 +23,6 @@ mysqldump --default-character-set=cp1251 --no-data invision > db_struct.sql
 
 SET NAMES cp1251;
 
-USE `invision`;
-
 --
 -- Table structure for table `cc_module`
 --

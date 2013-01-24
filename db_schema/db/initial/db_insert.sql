@@ -17,8 +17,6 @@
 
 SET NAMES cp1251;
 
-USE `invision`;
-
 --
 -- Dumping data for table `ibf_categories`
 --
