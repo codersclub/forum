@@ -4157,25 +4157,7 @@ if (
         // NAVIGATION
         /********************************************************/
 
-     
-        //----------------------------------------------------------------------
-        // Different Navigation bar views for forum and D-Site
-        // (we hane another navigation bar templates)
-        // --
-        // Date: 2006/02/19 (c) chainick
-        //----------------------------------------------------------------------
-
-        if ( !class_exists("csite") ) {
-
-                $nav = $this->nav($output_array);
-
-        } else {
-
-                global $DSITE;
-                $nav = $DSITE->site_bits['nav'];
-        }
-
-
+	$nav = $this->nav($output_array);
 
         //---------------------------------------------------------
         // CSS
