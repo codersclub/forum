@@ -119,16 +119,6 @@ class ad_settings {
 		
 		//+-------------------------------
 		
-		$DB->query("SELECT * from ibf_css WHERE cssid='".$row['css_id']."'");
-		
-		if ( ! $css = $DB->fetch_row() )
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
-		
-		
-		//+-------------------------------
-		
 		$DB->query("SELECT * from ibf_tmpl_names WHERE skid='".$row['set_id']."'");
 		
 		if ( ! $tmpl = $DB->fetch_row() )
@@ -217,7 +207,7 @@ class ad_settings {
 		//+-------------------------------
 		// Make the css file...
 		//+-------------------------------
-		$css_text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$row['css_id']}.css");
+		$css_text = file_get_contents($ibforums->vars['base_dir']."/cache/css_{$row['css_id']}.css");
 		
 		$FH = fopen($archive_dir."/".$new_dir."/".$css_name, 'w');
 		fwrite($FH, $css_text, strlen($css_text));
@@ -549,7 +539,7 @@ class ad_settings {
 	
 	function do_form( $type='add' )
 	{
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 		
 		//+-------------------------------
 		
@@ -584,14 +574,15 @@ class ad_settings {
 		}
 		
 		//+-------------------------------
-		
-		$DB->query("SELECT cssid, css_name FROM ibf_css");
-		
-		while ( $c = $DB->fetch_row() )
-		{
-			$css[] = array( $c['cssid'], $c['css_name'] );
+
+		foreach (scandir($ibforums->vars['base_dir'] . '/cache/') as $item) {
+			$matches = [];
+			if (preg_match('/^css_(\d+)\.css$/', $item, $matches))
+			{
+				$css[] = [$matches[1], $matches[1]];
+			}
 		}
-		
+
 		//+-------------------------------
 		
 		$DB->query("SELECT tmid, name FROM ibf_templates");
@@ -814,8 +805,6 @@ class ad_settings {
 				
 				$editlist = "<br /><b>Edit:</b> <a href='{$SKIN->base_url}&act=wrap&code=edit&id={$r['tmpl_id']}'>Wrapper</a>
 							&middot; <a href='{$SKIN->base_url}&act=templ&code=edit&id={$r['set_id']}'>HTML</a>
-							&middot; <a href='{$SKIN->base_url}&act=style&code=edit&id={$r['css_id']}'>CSS</a>
-							&middot; <a href='{$SKIN->base_url}&act=style&code=colouredit&id={$r['css_id']}'>Colours</a>
 							&middot; <a href='{$SKIN->base_url}&act=image&code=edit&id={$r['macro_id']}'>Macros</a>";
 				
 				$ADMIN->html .= $SKIN->add_td_row( array( "<b>".$std->txt_stripslashes($r['sname'])."</b>$extra".$editlist,
@@ -888,8 +877,6 @@ class ad_settings {
 				
 				$editlist = "<br /><b>Edit:</b> <a href='{$SKIN->base_url}&act=wrap&code=edit&id={$r['tmpl_id']}'>Wrapper</a>
 							&middot; <a href='{$SKIN->base_url}&act=templ&code=edit&id={$r['set_id']}'>HTML</a>
-							&middot; <a href='{$SKIN->base_url}&act=style&code=edit&id={$r['css_id']}'>CSS</a>
-							&middot; <a href='{$SKIN->base_url}&act=style&code=colouredit&id={$r['css_id']}'>Colours</a>
 							&middot; <a href='{$SKIN->base_url}&act=image&code=edit&id={$r['macro_id']}'>Macros</a>";
 				
 				$ADMIN->html .= $SKIN->js_checkdelete();

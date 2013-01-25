@@ -115,7 +115,7 @@ global $ibforums;
 return <<<EOF
 <style type='text/css' media="all">
 <!--
-<link href="{$ibforums->vars['board_url']}/css/css_{$css}.css?{$ibforums->vars['client_script_version']}" rel="stylesheet" type="text/css">
+<link href="{$ibforums->vars['board_url']}/cache/css_{$css}.css?{$ibforums->vars['client_script_version']}" rel="stylesheet" type="text/css">
 -->
 </style>
 EOF;
