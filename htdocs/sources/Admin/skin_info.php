@@ -147,12 +147,6 @@ $skin_names = array(
 					 							'Elements for the moderators control panel sections.',
 					 						),
 					 						
-					 'skin_csite'	 => array(
-					 							'IP Dynamic Lite',
-					 							'Elements for IP Dynamic Lite.',
-					 						),
-					 						
-					 						
 					 'skin_ucp'      => array(
 					 							'User Control Panel Section',
 					 							'Elements for the user control panel, such as the menu (also used in Messenger Views), edit profile, edit signature, edit avatar, etc.',
@@ -533,41 +527,3 @@ $bit_names['skin_ucp']		= array(
 'CP_end'					=> "34: End CP",
 );
 
-$bit_names['skin_csite'] = array(
-
-'csite_skeleton_template' => "1: MAIN TEMPLATE",
-'csite_css_external'      => "2: |-- Header; CSS External",
-'csite_css_inline'		  => "3: '-- Header; CSS Inline",
-
-'tmpl_welcomebox_member' => "4: Member's Welcome Box",
-'tmpl_welcomebox_guest'  => "5: Guest's Welcome Box",
-'tmpl_search'			 => "6: Search Box",
-'tmpl_sitenav'			 => "7: Site Nav. Box",
-
-'tmpl_onlineusers'		=> "8: Online Users Box",
-'tmpl_changeskin'		=> "9: Change Skin Box",
-'tmpl_affiliates'		=> "10: Affiliates / Recommended Sites Box",
-
-'tmpl_recentarticles'	=> "11: Recent Articles box",
-'tmpl_latestposts'      => "12: Latest Discussions box",
-
-'tmpl_poll_header'		=> "14: Poll; Poll Header",
-'tmpl_poll_choice_row'  => "15: |-- Poll; Choice entry & radiobutton",
-'tmpl_poll_result_row'  => "16: |-- Poll; Result row",
-'tmpl_poll_vote'        => "17: |-- Poll; Vote Button",
-'tmpl_poll_footer'      => "18: '-- Poll; Polll Footer",
-
-'tmpl_articles_row'     => "19: Articles; Article Entry",
-'tmpl_comment_link'     => "20: |-- Articles; Add Comment link",
-'tmpl_readmore_link'    => "21: '-- Articles; Read More link",
-
-'tmpl_debug'			=> "22: Debug Strip",
-'tmpl_topic_row'		=> "23: Topic format used for 'recent articles' and 'latest discussions'",
-'tmpl_links_wrap'		 => "24: Site Nav. Link Format",
-'csite_sep_char'		 => "25: Online Users; Separator",
-
-
-);
-
-
-?>

@@ -388,8 +388,6 @@ if ($ibforums->input['act'] != 'Login' and $ibforums->input['act'] != 'Reg' and 
 
 $choice = array(
 		 "idx"        => "Boards",
-		 "cms"        => "cms/cms",
-		 "uploads"    => "cms/uploads",
                  "SC"         => "Boards",
                  "SF"         => "Forums",
                  "SR"         => "Forums",
@@ -430,7 +428,6 @@ $choice = array(
                  "boardrules" => "misc/contact_member",
                  "mmod"       => "misc/multi_moderate",
                  "warn"       => "misc/warn",
-                 "home"       => "dynamiclite/csite",
                  "module"     => "modules",
 	         "fav"	      => "fav",
 		 "store"      => "store/store",
@@ -451,15 +448,7 @@ if ( !isset($choice[ $ibforums->input['act'] ] ) )
 
 if ( $ibforums->input['act'] == 'home' )
 {
-	if ( $ibforums->vars['csite_on'] )
-	{
-		require ROOT_PATH."sources/dynamiclite/csite.php";
-		$csite = new click_site();
-	} else
-	{
-		require ROOT_PATH."sources/Boards.php";
-	}
-
+	require ROOT_PATH."sources/Boards.php";
 } elseif ( $ibforums->input['act'] == 'module' )
 {
 	if ( USE_MODULES == 1 )

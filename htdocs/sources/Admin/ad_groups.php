@@ -1670,26 +1670,6 @@ class ad_groups {
 				'g_days_ago'		=> $IN['g_days_ago'],
 				'g_delay_delete_posts'	=> $IN['g_delay_delete_posts'],
 				'g_use_decided'	=> $IN['g_use_decided'],
-			//--------------------------------------------------------------
-	                // D-Site CMS Modules (c) Anton
-	                // Date added: 08/09/2006
-			// --
-			//  D-Site Group Management
-			//--------------------------------------------------------------
-			
-			        'g_art_edit'   => $IN['g_art_edit'],
-			        'g_art_add' => $IN['g_art_add'],
-			        'g_art_approve'   => $IN['g_art_approve'],
-			        'g_art_delete' => $IN['g_art_delete'],
-			        'g_art_move'   => $IN['g_art_move'],
-			        'g_art_attach' => $IN['g_art_attach'],
-			        'g_art_del_attach'   => $IN['g_art_del_attach'],
-		        	'g_art_attach_max'   => $IN['g_art_attach_max'],
-				'g_art_view_comments'   => $IN['g_art_view_comments'],
-				'g_art_add_comment'  => $IN['g_art_add_comment'],
-				'g_art_edit_comment' => $IN['g_art_edit_comment'],
-				'g_art_view'   => $IN['g_art_view'],
-				'g_art_delete_comments' => $IN['g_art_delete_comments'],
 				  );
 		if ( $type == 'edit' )
 		{
@@ -2193,83 +2173,6 @@ echo $sql."<br>";
 		
 		$ADMIN->html .= $SKIN->end_table();
 		
-		//+-------------------------------
-
- 
-    		//--------------------------------------------------------------
-	        // D-Site CMS Modules (c) Anton
-		// Date added: 08/09/2006
-		// ---
-		// D-Site Group Management
-		//--------------------------------------------------------------
-
-		$SKIN->td_header[] = array( " "  , "40%" );
-		$SKIN->td_header[] = array( " "  , "60%" );
-
-		//+-------------------------------
-		$ADMIN->html .= $SKIN->start_table( "D-Site Groups", "D-Site Groups" );
-
-		$ADMIN->html .= $SKIN->add_td_row( "<b>Restricting what this group can do?</b><br>Does not apply to Root Admins.");
-
-		$ADMIN->html .= $SKIN->add_td_row( array(
-					    "<b>Enable view articles?</b>" ,
-            				    $SKIN->form_yes_no("g_art_view", $group['g_art_view'] )
-            				    )      );
-
-                $ADMIN->html .= $SKIN->add_td_row( array(
-					    "<b>Enable add articles?</b>" ,
-					    $SKIN->form_yes_no("g_art_add", $group['g_art_add'] )
-					         )      );
-
-                $ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable edit articles?</b>" ,
-		                               $SKIN->form_yes_no("g_art_edit", $group['g_art_edit'] )
-			                        )      );
-
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable approve articles?</b>" ,
-		                      $SKIN->form_yes_no("g_art_approve", $group['g_art_approve'] )
-		                                   )      );
-
-               $ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable move articles?</b>" ,
-                                             $SKIN->form_yes_no("g_art_move", $group['g_art_move'] )
-                                      )      );
-
-        	$ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable attach files to articles?</b>" ,
-		                            $SKIN->form_yes_no("g_art_attach", $group['g_art_attach'] )
-				                 )      );
-
-	        $ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable delete attached to articles files?</b>" ,
-		                           $SKIN->form_yes_no("g_art_del_attach", $group['g_art_del_attach'] )
-		                                )      );
-
-                $ADMIN->html .= $SKIN->add_td_row( array( "<b>Max attached to articles file size?</b>" ,
-                                          $SKIN->form_input("g_art_attach_max", $group['g_art_attach_max'] )
-                                                   )      );
-
-               $ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable delete articles?</b>" ,
-				     $SKIN->form_yes_no("g_art_delete", $group['g_art_delete'] )
-						 )      );
-
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable view comments?</b>" ,
-				    $SKIN->form_yes_no("g_art_view_comments", $group['g_art_view_comments'] )
-						)      );
-
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable add comments?</b>" ,
-				    $SKIN->form_yes_no("g_art_add_comment", $group['g_art_add_comment'] )
-						)      );
-
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable edit comments?</b>" ,
-				    $SKIN->form_yes_no("g_art_edit_comment", $group['g_art_edit_comment'] )
-						 )      );
-
-
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Enable delete comments?</b>" ,
-				    $SKIN->form_yes_no("g_art_delete_comments", $group['g_art_delete_comments'] )
-						)      );
-
-
-
-		$ADMIN->html .= $SKIN->end_table();
-
 		//----------------------------------------------------------------------
 
 		$SKIN->td_header[] = array( "&nbsp;"  , "40%" );
