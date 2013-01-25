@@ -220,16 +220,6 @@ $DB->connect();
 
 
 
-//-------------------------------------------------
-// D-Site CMS Navigation Module (c) Anton
-// Date added: 04/07/2005
-//-------------------------------------------------
-
-require ROOT_PATH."sources/dynamiclite/mod_nav.php";
-
-$NAV = new mod_nav();
-
-
 
 
 
@@ -747,20 +737,10 @@ function do_admin_stuff() {
 			 'prefs'     => "prefs",
 			 'spiderlog' => "spiderlogs",
 			 'warnlog'      => "warnlogs",
-			 'csite'     => 'ad_dynamiclite',
-			 'csite_mod' => 'csite_mod',
 			 'msubs'     => 'subsmanager',
 			 'store'     => 'store',
 			 'syntax'   => 'syntax', // Leprecon
 			 'sskin'    => 'sskin', // SergeS
-                         //-------------------------------------
-                         // D-Site CMS Modules choise (c) Anton
-                         // Date added: 04/07/2005
-                         //-------------------------------------
-                         'csite_mod' => 'csite_mod',
-                         'csite_cat' => 'csite_cat',
-                         'csite_view' => 'csite_view',
-			 'dsite_groups' => 'dsite_groups',
                         //-------------------------------------
                         // RSS choise (c) vot
                         // Date added: 04.07.2006
@@ -800,10 +780,6 @@ function do_admin_stuff() {
 	else if ($IN['act'] == 'menu')
 	{
 		$ADMIN->menu();
-	}
-	else if ($IN['act'] == 'csite')
-	{
-		require ROOT_PATH."sources/dynamiclite/ad_dynamiclite.php";
 	}
 	else
 	{
