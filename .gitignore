@@ -1,3 +1,4 @@
+.gitignore
 logs/
 conf_global.php
 ip_table.php
