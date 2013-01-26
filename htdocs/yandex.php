@@ -35,7 +35,7 @@ define( 'ROOT_PATH', "./" );
 //-----------------------------------------------
  
 error_reporting  (E_ERROR | E_WARNING | E_PARSE);
-set_magic_quotes_runtime(0);
+//set_magic_quotes_runtime(0);
 
 require_once './autoload.php';
 
