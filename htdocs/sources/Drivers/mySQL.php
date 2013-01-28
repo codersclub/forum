@@ -356,8 +356,8 @@ class db_driver {
 	    		<form name='mysql'><textarea rows=\"15\" cols=\"160\">".htmlspecialchars($the_error)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
 	} else
 	{
-		$out = "<h1>Возникла SQL ошибка при обращении к БД форума. Подождите несколько минут и обновите страницу.<br>
-			Если ошибка будет сохраняться в течение длительного времени, сообщите об этом администратору на электронный адрес admin@sources.ru
+		$out = "<h1>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SQL пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.<br>
+			пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ admin@sources.ru
 			</h1>";
 	}
 
@@ -502,10 +502,10 @@ class db_driver {
 	}
 
 	/**
-	 * выполняет запрос insert into table...
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ insert into table...
 	 *
 	 * @param array $fields
-	 * 		типа field => value
+	 * 		пїЅпїЅпїЅпїЅ field => value
 	 * @param string $table
 	 */
 	function do_insert_query(array $fields, $table, $bypass=0, $fatal = 1)
@@ -531,10 +531,10 @@ class db_driver {
 	}
 	
 	/**
-	* выполняет запрос replace into table...
+	* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ replace into table...
 	*
 	* @param array $fields
-	* 		типа field => value
+	* 		пїЅпїЅпїЅпїЅ field => value
 	* @param string $table
 	*/
 	function do_replace_query(array $fields, $table, $bypass=0, $fatal = 1)
@@ -559,25 +559,22 @@ class db_driver {
 	}
 	
 	/**
-	* выполняет запрос UPDATE table...
+	* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ UPDATE table...
 	*
 	* @param array $fields
-	* 		типа field => value
+	* 		пїЅпїЅпїЅпїЅ field => value
 	* @param string $table
 	*/
-	function do_update_query(array $fields, $table, $where, $bypass=0, $fatal = 1)
+	function do_update_query(array $fields, $table, $where, $bypass = 0, $fatal = 1)
 	{
-	
-		$field_values = array_map(array($this,'quote'), $fields);
-		
 		$query = "UPDATE $table SET ";
 		foreach($fields as $name => $val) {
-			$query .= "`$name` = '$val`, ";
+			$query .= ($name . '="' . $this->quote($val) . '", ');
 		}
 		$query = substr( $query, 0 , -2 );
-		
-		$query = " WHERE $where";
-		
+
+		$query .= ' WHERE ' . $where;
+
 		$this->query($query, $bypass, $fatal);
 
 		$this->free_result();
