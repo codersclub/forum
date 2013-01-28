@@ -843,7 +843,7 @@ EOF;
 
 function syntax_set_form ($syntax_id)
 {
-	global $DB, $ibforums;
+	global  $ibforums;
 	
 	$syntax_set_title			= $ibforums->lang['syntax_set_title'];
 	$syntax_set_quest			= $ibforums->lang['syntax_set_quest'];
@@ -863,12 +863,12 @@ function syntax_set_form ($syntax_id)
 		<td width='50%' class='row1'>
 		<select name='syntax_set' class='forminput'>";
 	
-	$DB->query("select l.id, l.syntax, l.description
+	$stmt = $ibforums->db->query("select l.id, l.syntax, l.description
 		    from ibf_syntax_access a
 		    left join ibf_syntax_list l on l.id = a.syntax_id
 		    where a.member_id = ".$ibforums->member['id']);
 	$records= 0;
-	while($row = $DB->fetch_row())
+	while($row = $stmt->fetch())
 	{
 		$id						= $row['id'];
 		$code					= $row['syntax'];
@@ -907,7 +907,7 @@ function syntax_set_form ($syntax_id)
 
 function syntax_rule_set_form ($syntax_id, $rule)
 {
-	global $DB, $ibforums;
+	global  $ibforums;
 
 	$syntax_rule_title			= $ibforums->lang['syntax_rule_title'];
 	$syntax_rule_quest			= $ibforums->lang['syntax_rule_quest'];
@@ -932,8 +932,8 @@ function syntax_rule_set_form ($syntax_id, $rule)
 			<td width='50%' class='row1'>
 			<select name='syntax_rule' class='forminput'>";
 
-		$DB->query("select record, description from ibf_syntax_rules where syntax_id = '".$syntax_id."' order by record");
-		while($row = $DB->fetch_row())
+		$stmt = $ibforums->db->query("select record, description from ibf_syntax_rules where syntax_id = '".$syntax_id."' order by record");
+		while($row = $stmt->fetch())
 		{
 			$record					= $row['record'];
 			$description			= $row['description'];
@@ -957,7 +957,7 @@ function syntax_rule_set_form ($syntax_id, $rule)
 
 function syntax_rule_edit_form ($syntax_id, $rule)
 {
-	global $DB, $std, $ibforums;
+	global  $std, $ibforums;
 
 	$syntax_edit_title			= $ibforums->lang['syntax_edit_title'];
 	$syntax_new_title			= $ibforums->lang['syntax_new_title'];
@@ -987,8 +987,8 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 				<div class='tableborder'><form name='ibform' action='' method='post'>
 				<div class='maintitle'>{$syntax_edit_title}</div>";
 
-			$DB->query("select * from ibf_syntax_rules where syntax_id = '".$syntax_id."' and record = ".$rule);
-			if($row = $DB->fetch_row())
+			$stmt = $ibforums->db->query("select * from ibf_syntax_rules where syntax_id = '".$syntax_id."' and record = ".$rule);
+			if($row = $stmt->fetch())
 			{
 				$record					= $row['record'];
 				$description			= $row['description'];
@@ -1101,7 +1101,7 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 
 function syntax_order_form ($syntax_id)
 {
-	global $DB, $ibforums;
+	global  $ibforums;
 
 	$syntax_order_title			= $ibforums->lang['syntax_order_title'];
 	
@@ -1135,8 +1135,8 @@ function syntax_order_form ($syntax_id)
 			<td width='5%' class='row2' align='center'><b>{$syntax_order_delete}</b>
 			</td></tr>";
 	
-		$DB->query("select * from ibf_syntax_rules where syntax_id = '".$syntax_id."' order by record");
-		while ($row = $DB->fetch_row())
+		$stmt = $ibforums->db->query("select * from ibf_syntax_rules where syntax_id = '".$syntax_id."' order by record");
+		while ($row = $stmt->fetch())
 		{
 			$record				= $row['record'];
 			$description		= $row['description'];
@@ -1173,7 +1173,7 @@ function syntax_order_form ($syntax_id)
 
 function highlight_start_form($syntax_id, $rule) 
 {
-	global $ibforums, $DB;
+	global $ibforums;
 	
 	$syntax_set_form			= $this->syntax_set_form($syntax_id);
 	$syntax_rule_form			= $this->syntax_rule_set_form($syntax_id, $rule);

@@ -368,7 +368,7 @@ class db_driver {
 				'MySQL Error within ' . $user,
 				$ibforums->vars['auto_pm_from'],
 				1,//popup
-				1,//mail
+				0,//mail
 				0
 			);
 		}

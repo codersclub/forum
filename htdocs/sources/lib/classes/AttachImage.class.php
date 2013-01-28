@@ -1,82 +1,91 @@
 <?php
 
-class AttachImage extends Attachment {
-	
-	public function isImage() {
+class AttachImage extends Attachment
+{
+
+	public function isImage()
+	{
 		return true;
 	}
 
-	public function getPeviewLink() {
+	public function getPeviewLink()
+	{
 		global $ibforums;
 
 		$path = $this->previewPath();
 		//
-		if ( !file_exists($path) ) {
-			if ( $this->mkPreview() ) {
+		if (!file_exists($path))
+		{
+			if ($this->mkPreview())
+			{
 				return $this->previewUrl();
-			} else {
+			} else
+			{
 				return $this->realImageUrl();
 			}
 		}
 		return $this->previewUrl();
-		
+
 	}
 
-	private function mkPreview() {
+	private function mkPreview()
+	{
 		global $ibforums, $std;
 		$img = $this->loadImage();
-		if (!$img) {
+		if (!$img)
+		{
 			return false;
 		}
 		$w_src = imagesx($img);
 		$h_src = imagesy($img);
 
-		$im = $std->scale_image( array(
-		'max_width'  => $ibforums->vars['siu_width'],
-		'max_height' => $ibforums->vars['siu_height'],
-		'cur_width'  => $w_src,
-	    											'cur_height' => $h_src
-		)      );
-		$ratio_w = $w_src/$im['img_width'];
-		$ratio_h = $h_src/$im['img_height'];
+		$im      = $std->scale_image(array(
+		                                  'max_width'  => $ibforums->vars['siu_width'],
+		                                  'max_height' => $ibforums->vars['siu_height'],
+		                                  'cur_width'  => $w_src,
+		                                  'cur_height' => $h_src
+		                             ));
+		$ratio_w = $w_src / $im['img_width'];
+		$ratio_h = $h_src / $im['img_height'];
 
-		$w_dest = round($w_src/$ratio_w);
-		$h_dest = round($h_src/$ratio_h);
-		
-		
+		$w_dest = round($w_src / $ratio_w);
+		$h_dest = round($h_src / $ratio_h);
+
 		$dest = imagecreatetruecolor($w_dest, $h_dest);
-		
-		
-		if (substr($this->realFilename(), -4) == '.png') {
-			imagealphablending( $dest, false );
-			imagesavealpha( $dest, true );
+
+		if (substr($this->realFilename(), -4) == '.png')
+		{
+			imagealphablending($dest, false);
+			imagesavealpha($dest, true);
 		}
-		
+
 		imagecopyresampled($dest, $img, 0, 0, 0, 0, $w_dest, $h_dest, $w_src, $h_src);
-		
+
 		return $this->saveImage($dest);
 	}
 
-	function getPreviewSizes() {
+	function getPreviewSizes()
+	{
 		global $ibforums, $std;
-		$img_size = @GetImageSize( $this->previewPath() );
+		$img_size = @GetImageSize($this->previewPath());
 
-		if ($img_size) {
-
+		if ($img_size)
+		{
 
 			return array(
 				'img_width'  => $img_size[0],
 				'img_height' => $img_size[1]
 			);
-		} else {
-		        $img_size = @GetImageSize( $ibforums->vars['upload_dir']."/".$this->realFilename() );	
+		} else
+		{
+			$img_size = @GetImageSize($ibforums->vars['upload_dir'] . "/" . $this->realFilename());
 
-			$im = $std->scale_image( array(
-                		'max_width'  => $ibforums->vars['siu_width'],
-                		'max_height' => $ibforums->vars['siu_height'],
-                		'cur_width'  => $img_size[0],
-                                'cur_height' => $img_size[1]
-                	)      );
+			$im = $std->scale_image(array(
+			                             'max_width'  => $ibforums->vars['siu_width'],
+			                             'max_height' => $ibforums->vars['siu_height'],
+			                             'cur_width'  => $img_size[0],
+			                             'cur_height' => $img_size[1]
+			                        ));
 
 			return array(
 				'img_width'  => $im['img_width'],
@@ -85,12 +94,14 @@ class AttachImage extends Attachment {
 		}
 	}
 
-	private function loadImage() {
+	private function loadImage()
+	{
 		global $ibforums, $std;
-		$filename = $ibforums->vars['upload_dir']."/".$this->realFilename();
-		$ext = pathinfo( $filename, PATHINFO_EXTENSION );
-			
-		switch( $ext ) {
+		$filename = $ibforums->vars['upload_dir'] . "/" . $this->realFilename();
+		$ext      = pathinfo($filename, PATHINFO_EXTENSION);
+
+		switch ($ext)
+		{
 			case 'jpg':
 			case 'jpeg':
 				return @imagecreatefromjpeg($filename);
@@ -103,11 +114,13 @@ class AttachImage extends Attachment {
 		return NULL;
 	}
 
-	private function saveImage($img) {
+	private function saveImage($img)
+	{
 		$filename = $this->previewPath();
-		$ext = pathinfo( $filename, PATHINFO_EXTENSION );
+		$ext      = pathinfo($filename, PATHINFO_EXTENSION);
 
-		switch($ext) {
+		switch ($ext)
+		{
 			case 'jpg':
 			case 'jpeg':
 				return imagejpeg($img, $filename);
@@ -119,17 +132,20 @@ class AttachImage extends Attachment {
 		return false;
 	}
 
-	private function previewPath() {
+	private function previewPath()
+	{
 		global $ibforums;
-		return $ibforums->vars['upload_dir']."/preview/".$this->realFilename();
+		return $ibforums->vars['upload_dir'] . "/preview/" . $this->realFilename();
 	}
 
-	private function previewUrl() {
+	private function previewUrl()
+	{
 		global $ibforums;
-		return $ibforums->vars['upload_url']."/preview/".$this->realFilename();
+		return $ibforums->vars['upload_url'] . "/preview/" . $this->realFilename();
 	}
 
-	private function realImageUrl() {
+	private function realImageUrl()
+	{
 		return $this->getHref();
 	}
 }

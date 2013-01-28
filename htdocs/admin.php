@@ -79,37 +79,18 @@ if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0)
   @set_time_limit(0);
 }
 
+require ROOT_PATH . 'classes.php';
 
-class Debug {
-    function startTimer() {
-        global $starttime;
-        $mtime = microtime ();
-        $mtime = explode (' ', $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $starttime = $mtime;
-    }
-    function endTimer() {
-        global $starttime;
-        $mtime = microtime ();
-        $mtime = explode (' ', $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $endtime = $mtime;
-        $totaltime = round (($endtime - $starttime), 5);
-        return $totaltime;
-    }
-}
-
-class info {
+class info extends Core{
 
 	var $vars       = "";
 	var $version    = '1.2';
 	var $acpversion = '12005';
 	var $base_url   = '';
 	
-	function info($INFO)
+	function __construct()
 	{
-		//global $INFO;
-		$this->vars = $INFO;
+		parent::__construct();
 		
 		$this->vars['TEAM_ICON_URL']   = $INFO['html_url'] . '/team_icons';
 		$this->vars['AVATARS_URL']     = $INFO['html_url'] . '/avatars';
@@ -125,6 +106,7 @@ class info {
 /*-----------------------------------------------
   Import $INFO
  ------------------------------------------------*/
+
  
 require ROOT_PATH."../conf_global.php";
 
@@ -159,7 +141,7 @@ $PassWord        = "";
   Load up our classes (compiled into one package)
  ------------------------------------------------*/
  
-require ROOT_PATH."sources/functions.php";
+require ROOT_PATH . "sources/functions.php";
 
 $std     = new FUNC;
 

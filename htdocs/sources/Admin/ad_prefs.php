@@ -21,116 +21,109 @@
 +--------------------------------------------------------------------------
 */
 
-
-
-
 $idx = new ad_prefs();
 
-
-class ad_prefs {
+class ad_prefs
+{
 
 	var $base_url;
 
-	function ad_prefs() {
-		global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		
+	function ad_prefs()
+	{
+		global $IN, $std;
+
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
 		//---------------------------------------
-		
-		$tmp_in = array_merge( $_GET, $_POST, $_COOKIE );
-		
-		foreach ( $tmp_in as $k => $v )
+
+		$tmp_in = array_merge($_GET, $_POST, $_COOKIE);
+
+		foreach ($tmp_in as $k => $v)
 		{
 			unset($$k);
 		}
-		
+
 		//---------------------------------------
 		// Show the wee form
 		//---------------------------------------
-		
-		if ( $IN['set'] == 1 )
+
+		if ($IN['set'] == 1)
 		{
 			$this->msg = 'Savings set';
-			
-			if ( $IN['tx'] == "" or $IN['ty'] == "" )
+
+			if ($IN['tx'] == "" or $IN['ty'] == "")
 			{
 				$this->msg = 'Please complete the form';
-				
+
 				print $this->get_html();
-			}
-			else
+			} else
 			{
-				$std->my_setcookie( 'acpprefs', $IN['menu'] .','. $IN['tx'] .','. $IN['ty'] .','. $IN['preview']);
-				
+				$std->my_setcookie('acpprefs', $IN['menu'] . ',' . $IN['tx'] . ',' . $IN['ty'] . ',' . $IN['preview']);
+
 				$this->msg = 'Settings saved';
-				
+
 				$this->tx = $IN['tx'];
 				$this->ty = $IN['ty'];
-				
-				if ( $IN['menu'] )
+
+				if ($IN['menu'])
 				{
 					$this->s_yes = 'selected';
 					$this->s_no  = '';
-				}
-				else
+				} else
 				{
 					$this->s_yes = '';
 					$this->s_no  = 'selected';
 				}
-				
+
 				print $this->get_html();
 			}
-		
 
-		}
-		else
+		} else
 		{
 			$state = 0;
 			$tx    = 80;
 			$ty    = 40;
-			
-			if ( $cookie = $std->my_getcookie('acpprefs') )
+
+			if ($cookie = $std->my_getcookie('acpprefs'))
 			{
-				list( $state, $tx, $ty, $prev_show ) = explode( ",", $cookie );
+				list($state, $tx, $ty, $prev_show) = explode(",", $cookie);
 			}
-			
+
 			$this->tx = $tx;
 			$this->ty = $ty;
-			
-			if ( $state )
+
+			if ($state)
 			{
 				$this->s_yes = 'selected';
 				$this->s_no  = '';
-			}
-			else
+			} else
 			{
 				$this->s_yes = '';
 				$this->s_no  = 'selected';
 			}
-			
-			if ( $prev_show or $prev_show == "" )
+
+			if ($prev_show or $prev_show == "")
 			{
 				$this->p_yes = 'selected';
 				$this->p_no  = '';
-			}
-			else
+			} else
 			{
 				$this->p_yes = '';
 				$this->p_no  = 'selected';
 			}
-			
+
 			print $this->get_html();
-		
+
 		}
-		
+
 	}
-	
+
 	function get_html()
 	{
 		global $SKIN;
-		
-$hit_muhl = <<<EOF
+		$ibforums = Ibf::instance();
+
+		$hit_muhl = <<<EOF
 <html>
  <head>
    <title>IPB-ACP Prefs</title>
@@ -143,22 +136,22 @@ $hit_muhl = <<<EOF
 			margin:5px 5px 5px 5px;
 			background-color: #F5F9FD
 		  }
-		  
+
 	TABLE, TD, TR {
 			font-family: Verdana,Arial, Sans-Serif;
 			color:#000;
 			font-size: 10px;
 		  }
-		  
+
 	a:link, a:visited, a:active  { color:#000055 }
 	a:hover                      { color:#333377;text-decoration:underline }
 	input {vertical-align:middle}
 	.textinput { background-color: #DFE6EF;; color:Ê#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px; }
-					
+
   </style>
   <script type='text/javascript'>
     var msg = "{$this->msg}";
-    
+
     if ( msg != "" )
     {
     	alert( msg );
@@ -182,12 +175,7 @@ $hit_muhl = <<<EOF
   </html>
 EOF;
 
-	return $hit_muhl;
+		return $hit_muhl;
 	}
-	
-	
-	
+
 }
-
-
-?>
