@@ -554,16 +554,13 @@ class db_driver {
 	*/
 	function do_update_query(array $fields, $table, $where, $bypass=0, $fatal = 1)
 	{
-
-		$field_values = array_map(array($this,'quote'), $fields);
-
 		$query = "UPDATE $table SET ";
 		foreach($fields as $name => $val) {
-			$query .= "`$name` = '$val`, ";
+			$query .= ($name . '="' . $this->quote($val) . '", ');
 		}
 		$query = substr( $query, 0 , -2 );
 
-		$query = " WHERE $where";
+		$query .= ' WHERE ' . $where;
 
 		$this->query($query, $bypass, $fatal);
 
