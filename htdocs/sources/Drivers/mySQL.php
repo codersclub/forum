@@ -36,7 +36,7 @@ class db_driver {
                        "cached_queries" => array(),
                        'debug'          => 0,
                      );
-                     
+
      var $query_id      = "";
      var $connection_id = "";
      var $query_count   = 0;
@@ -44,27 +44,27 @@ class db_driver {
      var $return_die    = 0;
      var $error         = "";
      var $failed        = 0;
-                  
+
     /*========================================================================*/
-    // Connect to the database                 
-    /*========================================================================*/  
-                   
+    // Connect to the database
+    /*========================================================================*/
+
     function connect() {
-    
+
     	if ($this->obj['persistent'])
     	{
 		$this->connection_id = mysql_pconnect( $this->obj['sql_host'] ,
 						       $this->obj['sql_user'] ,
-						       $this->obj['sql_pass'] 
+						       $this->obj['sql_pass']
 						);
         } else
         {
 		$this->connection_id = mysql_connect( $this->obj['sql_host'] ,
 						      $this->obj['sql_user'] ,
-						      $this->obj['sql_pass'] 
+						      $this->obj['sql_pass']
 						);
 	}
-		
+
         if ( !mysql_select_db($this->obj['sql_database'], $this->connection_id) )
         {
             echo ("ERROR: Cannot find database ".$this->obj['sql_database']);
@@ -82,13 +82,13 @@ class db_driver {
 
 	return TRUE;
     }
-    
-    
-    
+
+
+
     /*========================================================================*/
     // Process a query
     /*========================================================================*/
-    
+
     function query($the_query, $bypass=0, $fatal = 1) {
     global $ibforums, $Debug;
 
@@ -103,25 +103,25 @@ class db_driver {
 		   $the_query = preg_replace("/ibf_(\S+?)([\s\.,]|$)/", $this->obj['sql_tbl_prefix']."\\1\\2", $the_query);
 		}
         }
-        
+
         if ( $this->obj['debug'] )
         {
     		global $Debug, $ibforums;
-    		
+
     		$Debug->startTimer();
     	}
-    	
+
         $this->query_id = mysql_query($the_query, $this->connection_id);
-      
+
         if ( !$this->query_id )
         {
 		if ( $fatal ) $this->fatal_error("mySQL query error: $the_query"); else die("");
         }
-        
+
         if ( $this->obj['debug'] )
         {
         	$endtime = $Debug->endTimer();
-        	
+
         	if ( preg_match( "/^select/i", $the_query ) )
         	{
         		$eid = mysql_query("EXPLAIN $the_query", $this->connection_id);
@@ -140,7 +140,7 @@ class db_driver {
 				while( $array = mysql_fetch_array($eid) )
 				{
 					$type_col = '#FFFFFF';
-					
+
 					if ($array['type'] == 'ref' or $array['type'] == 'eq_ref' or $array['type'] == 'const')
 					{
 						$type_col = '#D8FFD4';
@@ -149,7 +149,7 @@ class db_driver {
 					{
 						$type_col = '#FFEEBA';
 					}
-					
+
 					$ibforums->debug_html .= "
 						<tr bgcolor='#FFFFFF'>
 						  <td>{$array['table']}&nbsp;</td>
@@ -162,12 +162,12 @@ class db_driver {
 						  <td>{$array['Extra']}&nbsp;</td>
 						</tr>\n";
 				}
-				
+
 				if ($endtime > 0.1)
 				{
 					$endtime = "<span style='color:red'><b>$endtime</b></span>";
 				}
-				
+
 				$ibforums->debug_html .= "<tr>
 							  <td colspan='8' bgcolor='#FFD6DC' style='font-size:14px'><b>mySQL time</b>: $endtime</b></td>
 							  </tr>
@@ -187,123 +187,123 @@ class db_driver {
 						    </table><br />\n\n";
 		}
 	}
-		
+
 	$this->query_count++;
-        
+
         $this->obj['cached_queries'][] = $the_query;
-        
+
         return $this->query_id;
     }
-    
-    
+
+
     /*========================================================================*/
     // Fetch a row based on the last query
     /*========================================================================*/
-    
+
     function fetch_row($query_id = "") {
-    
+
     	$query_id = $query_id ?: $this->query_id;
-    	
+
         $this->record_row = mysql_fetch_assoc($query_id);
-        
+
         return $this->record_row;
-        
+
     }
 
     function fetch_object($query_id = "", $class_name = 'stdClass') {
-    
+
     	$query_id = $query_id ?: $this->query_id;
-    	    	
+
         $this->record_row = mysql_fetch_object($query_id, $class_name);
-        
+
         return $this->record_row;
-        
+
     }
     function fetch_simple_row($query_id = "") {
-    
+
     	$query_id = $query_id ?: $this->query_id;
-    	
+
         $this->record_row = mysql_fetch_row($query_id);
-        
+
         return $this->record_row;
-        
+
     }
 
     /*========================================================================*/
     // Fetch the number of rows affected by the last query
     /*========================================================================*/
-    
+
     function get_affected_rows() {
         return mysql_affected_rows($this->connection_id);
     }
-    
+
     /*========================================================================*/
     // Fetch the number of rows in a result set
     /*========================================================================*/
-    
+
     function get_num_rows($result = NULL) {
         return mysql_num_rows($result ? $result : $this->query_id);
     }
-    
+
     /*========================================================================*/
     // Fetch the last insert id from an sql autoincrement
     /*========================================================================*/
-    
+
     function get_insert_id() {
         return mysql_insert_id($this->connection_id);
-    }  
-    
+    }
+
     /*========================================================================*/
     // Return the amount of queries used
     /*========================================================================*/
-    
+
     function get_query_cnt() {
         return $this->query_count;
     }
-    
+
     /*========================================================================*/
     // Free the result set from mySQLs memory
     /*========================================================================*/
-    
+
     function free_result($query_id="") {
-    
+
    	if ($query_id == "") {
     		$query_id = $this->query_id;
     	}
-    	
+
     	@mysql_free_result($query_id);
     }
-    
+
     /*========================================================================*/
     // Shut down the database
     /*========================================================================*/
-    
-    function close_db() { 
+
+    function close_db() {
         return mysql_close($this->connection_id);
     }
-    
+
     /*========================================================================*/
     // Return an array of tables
     /*========================================================================*/
-    
+
     function get_table_names() {
-    
+
 	$result     = mysql_list_tables($this->obj['sql_database']);
 	$num_tables = @mysql_numrows($result);
 	for ($i = 0; $i < $num_tables; $i++)
 	{
 		$tables[] = mysql_tablename($result, $i);
 	}
-		
+
 	mysql_free_result($result);
-		
+
 	return $tables;
     }
-   	
+
     /*========================================================================*/
     // Return an array of fields
     /*========================================================================*/
-    
+
     function get_result_fields($query_id="") {
 
 	if ($query_id == "")
@@ -315,9 +315,9 @@ class db_driver {
 	{
             $Fields[] = $field;
 	}
-		
+
 	//mysql_free_result($query_id);
-		
+
 	return $Fields;
     }
 
@@ -339,58 +339,45 @@ class db_driver {
     		return;
     	}
 
-    	$the_error .= "\n\nmySQL error: ".mysql_error($this->connection_id)."\n";
-    	$the_error .= "mySQL error code: ".$this->error_no."\n";
-    	$the_error .= "Date: ".$std->get_date( time(), 0);
+	$the_error  = '';
+	$the_error .= "mySQL error: " . mysql_error($this->connection_id) . "\n";
+	$the_error .= "mySQL error code: " . (string)$this->error_no . "\n";
+	$the_error .= "Date: " . date('r');
 
-//	if ( $ibforums->member['g_is_supmod'] )
-	if ( 1 )
+	$out = str_replace('<#ERROR_DESCRIPTION#>', htmlspecialchars($the_error), $ibforums->vars['database_error_page']);
+
+	// Song * send error to admin to PM
+	//Prevent flood attack
+	$file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ibf_last_db_error_time';
+
+	//last message was at least 10 minutes ago
+	if (!file_exists($file) || (time() - 60 * 10) > (int)file_get_contents($file))
 	{
-	    	$out = "<html><head><title>Invision Power Board Database Error</title>
-	    		<style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head>
-			<body>
-	    		<br><br><blockquote><b>There appears to be an error with the {$ibforums->vars['board_name']} database.</b><br>
-	    		You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>, if this
-	    		does not fix the error, you can contact the board administrator by clicking <a href='mailto:{$ibforums->vars['email_in']}?subject=SQL+Error'>here</a>
-	    		<br><br><b>Error Returned</b><br>
-	    		<form name='mysql'><textarea rows=\"15\" cols=\"160\">".htmlspecialchars($the_error)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
-	} else
-	{
-		$out = "<h1>Возникла SQL ошибка при обращении к БД форума. Подождите несколько минут и обновите страницу.<br>
-			Если ошибка будет сохраняться в течение длительного времени, сообщите об этом администратору на электронный адрес admin@sources.ru
-			</h1>";
-	}
+		$user = $ibforums->member['id']
+			? 'user ' . $ibforums->member['id']
+			: 'guest';
 
-// Song * send error to admin to PM
+		$user .= " [".$sess->ip_address."]";
+		$the_error .= "\nREQUEST_URI: ".$_SERVER['REQUEST_URI']."\n";
+		$the_error .= "REFERER: ".$_SERVER['HTTP_REFERER']."\n\n";
 
-	$query_id = mysql_query("SELECT msg_date
-				 FROM ibf_messages
-				 WHERE
-				    member_id='2' and
-				    vid='in'
-				 ORDER BY msg_date
-				 DESC LIMIT 1",
-				 $this->connection_id);
-        if ( $query_id )
-	{
-		$row = mysql_fetch_array($query_id, MYSQL_ASSOC);
-		if ( $row and (time() - $row['msg_date']) > 60*10 )
-		{
-			if ( $ibforums->member['id'] ) $user = 'user '.$ibforums->member['id']; else $user = 'guest';
-
-			$user .= " [".$sess->ip_address."]";
-			$the_error .= "\nREQUEST_URI: ".$_SERVER['REQUEST_URI']."\n";
-			$the_error .= "REFERER: ".$_SERVER['HTTP_REFERER']."\n\n";
-			
-			$std->sendpm(2, $std->clean_value($the_error), 'MySQL Error within '.$user, 8617, 1, 1, 0);
+		foreach ($ibforums->vars['errors_receivers'] as $receiver) {
+			$std->sendpm(
+				$receiver,
+				$the_error,
+				'MySQL Error within ' . $user,
+				$ibforums->vars['auto_pm_from'],
+				1,//popup
+				1,//mail
+				0
+			);
 		}
+		file_put_contents($file, (string)time());
 	}
-
-// Song * send error to admin to PM
+	// Song * send error to admin to PM
 
         echo($out);
-
-        die("");
+        die();
     }
 
     /*========================================================================*/
@@ -398,12 +385,12 @@ class db_driver {
     // strings ready to use in an INSERT query, saves having to manually format
     // the (INSERT INTO table) ('field', 'field', 'field') VALUES ('val', 'val')
     /*========================================================================*/
-    
+
     function compile_db_insert_string($data) {
-    
+
     	$field_names  = "";
 		$field_values = "";
-		
+
 		foreach ($data as $k => $v)
 		{
 			$v = $this->quote($v);// preg_replace( "/'/", "\\'", $v );
@@ -411,43 +398,43 @@ class db_driver {
 			$field_names  .= "$k,";
 			$field_values .= "'$v',";
 		}
-		
+
 		$field_names  = preg_replace( "/,$/" , "" , $field_names  );
 		$field_values = preg_replace( "/,$/" , "" , $field_values );
-		
+
 		return array( 'FIELD_NAMES'  => $field_names,
-					  'FIELD_VALUES' => $field_values,
-					);
+			      'FIELD_VALUES' => $field_values,
+		);
 	}
-	
+
 	/*========================================================================*/
     // Create an array from a multidimensional array returning a formatted
     // string ready to use in an UPDATE query, saves having to manually format
     // the FIELD='val', FIELD='val', FIELD='val'
     /*========================================================================*/
-    
+
     function compile_db_update_string($data) {
-		
+
 		$return_string = "";
-		
+
 		foreach ($data as $k => $v)
 		{
 			$v = is_null($v) ? 'NULL' : "'".$this->quote($v) . "'";
 			$return_string .= "$k = $v,";
 		}
-		
+
 		$return_string = substr($return_string, 0, -1); // delete last comma
-		
+
 		return $return_string;
 	}
-	
+
 	public function quote($str)
 	{
 		return mysql_real_escape_string($str, $this->connection_id);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Returns first field of first row from query result
 	 * useful for queries like select count(*) ...
 	 * @param $the_query
@@ -457,9 +444,9 @@ class db_driver {
 		$result = is_array($row) ? array_shift($row) : NULL;
 		return $result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Returns first row from of result
 	 * useful for queries like select ... LIMIT 1
 	 * @param $the_query
@@ -470,7 +457,7 @@ class db_driver {
 		$this->free_result($qid);
 		return $result;
 	}
-	
+
 	/*========================================================================*/
     // Test to see if a field exists by forcing and trapping an error.
     // It ain't pretty, but it do the job don't it, eh?
@@ -478,26 +465,26 @@ class db_driver {
     // Return 1 for exists, 0 for not exists and jello for the naked guy
     // Fun fact: The number of times I spelt 'field' as 'feild'in this part: 104
     /*========================================================================*/
-    
+
     function field_exists($field, $table) {
-		
+
 		$this->return_die = 1;
 		$this->error = "";
-		
+
 		$this->query("SELECT COUNT($field) as count FROM $table");
-		
+
 		$return = 1;
-		
+
 		if ( $this->failed )
 		{
 			$return = 0;
 		}
-		
+
 		$this->error = "";
 		$this->return_die = 0;
 		$this->error_no   = 0;
 		$this->failed     = 0;
-		
+
 		return $return;
 	}
 
@@ -510,26 +497,26 @@ class db_driver {
 	 */
 	function do_insert_query(array $fields, $table, $bypass=0, $fatal = 1)
 	{
-    
+
 		$field_values = array_map(array($this,'quote'), $fields);
-			
+
 		$query = "INSERT INTO $table (`"
-				
+
 				. implode('`, `', array_keys($fields))
-				
+
 			. "`) VALUES ('"
-				
+
 				. implode("', '", $field_values)
-				
+
 			."')"
 		;
-		
+
 		$this->query($query, $bypass, $fatal);
-		
+
 		$this->free_result();
-		
+
 	}
-	
+
 	/**
 	* выполняет запрос replace into table...
 	*
@@ -539,25 +526,25 @@ class db_driver {
 	*/
 	function do_replace_query(array $fields, $table, $bypass=0, $fatal = 1)
 	{
-	
+
 		$field_values = array_map(array($this,'quote'), $fields);
-			
+
 		$query = "REPLACE INTO $table (`"
-	
+
 		. implode('`, `', array_keys($fields))
-	
+
 		. "`) VALUES ('"
-					
+
 		. implode("', '", $field_values)
-	
+
 		."')"
 		;
-	
+
 		$this->query($query, $bypass, $fatal);
-			
+
 		$this->free_result();
 	}
-	
+
 	/**
 	* выполняет запрос UPDATE table...
 	*
@@ -567,23 +554,19 @@ class db_driver {
 	*/
 	function do_update_query(array $fields, $table, $where, $bypass=0, $fatal = 1)
 	{
-	
-		$field_values = array_map(array($this,'quote'), $fields);
-		
 		$query = "UPDATE $table SET ";
 		foreach($fields as $name => $val) {
-			$query .= "`$name` = '$val`, ";
+			$query .= ($name . '="' . $this->quote($val) . '", ');
 		}
 		$query = substr( $query, 0 , -2 );
-		
-		$query = " WHERE $where";
-		
+
+		$query .= ' WHERE ' . $where;
+
 		$this->query($query, $bypass, $fatal);
 
 		$this->free_result();
 	}
-	
-	
-} // end class
 
+
+} // end class
 

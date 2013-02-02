@@ -684,16 +684,6 @@ class admin_functions {
 			
 				foreach($PAGES[ $cid ] as $pid => $pdata)
 				{
-				  	if ( $cid == 2 and $pid == 20 )
-				  	{
-				  		// Click site.. Is it installed perchance?
-				  		
-				  		if ( ! @is_dir( ROOT_PATH.'sources/dynamiclite' ) )
-				  		{
-					  		continue;
-					  	}
-					}
-					
 					$links .= $SKIN->menu_cat_link($pdata[1], $pdata[0], $pdata[2]);
 				}
 				  

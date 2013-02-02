@@ -2080,39 +2080,6 @@ class ad_forums {
 					  )
 					)      );
 
-
-
-                //--------------------------------------------------------------
-                // D-Site CMS Modules (c) Anton
-                // Date added: 01/09/2006
-                // ---
-                // Add user to specific D-Site Group
-                //--------------------------------------------------------------
-/*
-                $DB->query(" SELECT gname,gid
-			     FROM ibf_cms_groups ");
-
-                while ( $dbres = $DB->fetch_row() ) {
-
-                        $dsite_groups[] = array(
-						$dbres['gid'] ,
-						$dbres['gname']
-						);
-                }
-
-                if ( is_array( $dsite_groups ) ) {
-
-                        $ADMIN->html .= $SKIN->add_td_row( array(
-					"<b>D-Site Group</b>" ,
-                                        $SKIN->form_dropdown( "dsite_group",
-                                                               $dsite_groups,
-                                                               $mem['dsite_group']
-                                                                          )
-                                                            )      );
-                }
-*/
-
-									     
 		if ($custom_out != "")
 		{
 			$ADMIN->html .= $custom_out;
@@ -2190,16 +2157,8 @@ class ad_forums {
 				 'view_pop'    => 1,
 				 'view_img'    => 1,
 				 'vdirs'       => "in:Inbox|sent:Sent Items",
-
-				//------------------------------------------------------------
-                                // D-Site CMS Modules (c) Anton
-                                // Date added: 01/09/2006
-                                // ---
-                                // Add user to specific D-Site Group
-                                //--------------------------------------------------------------
-                                // 'dsite_group' => intval( $IN['dsite_group'] ),
-                                
-				  )       );
+			)       
+		);
 												  
 		$DB->query("INSERT INTO ibf_members
 				(" .$db_string['FIELD_NAMES']. ") VALUES
@@ -2805,40 +2764,6 @@ class ad_forums {
 						$SKIN->form_yes_no("disable_group", $mem['disable_group'])
 					     )      );
 
-
-
-                //--------------------------------------------------------------
-                // D-Site CMS Modules (c) Anton
-                // Date added: 01/09/2006
-                // ---
-                // Edit user's D-Site Group
-                //--------------------------------------------------------------
-/*
-                $DB->query(" SELECT gname,gid
-			     FROM ibf_cms_groups ");
-
-                while ( $dbres = $DB->fetch_row() ) {
-
-                        $dsite_groups[] = array(
-						$dbres['gid'] ,
-						$dbres['gname']
-						);
-                }
-
-                if ( is_array($dsite_groups) ) {
-
-                        $ADMIN->html .= $SKIN->add_td_row( array(
-					"<b>D-Site Group</b>" ,
-                                        $SKIN->form_dropdown( "dsite_group",
-                                                              $dsite_groups,
-                                                              $mem['dsite_group']
-                                                            )
-                                                         )      );
-                }
-*/
-
-
-
 		//+-------------------------------
 		// Sort out perm id stuff
 		//+-------------------------------
@@ -3288,14 +3213,6 @@ class ad_forums {
 					'disable_mail' => $IN['disable_mail'],
 					'disable_mail_reason' => $IN['disable_mail_reason'],
 					'disable_group'=> $IN['disable_group'],
-
-					//------------------------------------------------------------
-                                        // D-Site CMS Modules (c) Anton
-                                        // Date added: 01/09/2006
-                                        // ---
-                                        // Edit user's D-Site Group
-                                        //------------------------------------------------------------
-                                        //'dsite_group' => intval( $IN['dsite_group'] ),
 				  );
 
 		if ( !$IN['warn_level'] ) $member['old_group'] = $IN['mgroup'];

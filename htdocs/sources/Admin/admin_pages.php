@@ -98,7 +98,6 @@ $PAGES = array(
 							1 => array( '<b>Manage Skin Sets</b>' , 'act=sets'        ),
 							2 => array( '&#0124;-- Board Wrappers'   , 'act=wrap'        ),
 							3 => array( '&#0124;-- HTML Templates'   , 'act=templ'       ),
-							4 => array( '&#0124;-- Style Sheets'    , 'act=style'       ),
 							5 => array( '&#039;-- Macros'           , 'act=image'       ),
 							6 => array( 'Import Skin files'       , 'act=import'      ),
 							
@@ -146,20 +145,6 @@ $PAGES = array(
 							 10 => array( 'Recounter'	 			, 'act=store&code=recount'),
 							 11 => array( '<b>Updater</b>'			, 'act=store&code=update_page'),
 							 ),
-
-                                13 => array (
-                                                         //------------------------------------------------------------
-                                                         // D-Site CMS Modules (c) Anton
-                                                         // Date added: 04/07/2005
-                                                         //------------------------------------------------------------
-                                                         1 =>array( 'IPDynamic Lite Set-up' , 'act=csite'             ),
-                                                         2 =>array( 'D-Site Categories'     , 'act=csite_cat'         ),
-                                                         3 =>array( 'New D-Site Category'   , 'act=csite_cat&code=new'),
-                                                         4 =>array( 'D-Site Moderators'     , 'act=csite_mod'         ),
-                                                         5 =>array( 'Block view management' , 'act=csite_view'        ),
-                                                         6 =>array( 'Group management' , 'act=dsite_groups'	      ),
-
-						),
 				14 => array (
 							//------------------------------------------------------------
 							// RSS feeds import (c) vot
@@ -187,7 +172,6 @@ $CATS = array (
 				  10 => 'SQL Management',
 				  11 => 'Board Logs',
 				  12 => "IBStore",
-				  13 => "Dynamic-Lite CMS",
 				  14 => "RSS Import",
 			  );
 			  
@@ -205,7 +189,6 @@ $DESC = array (
 				  10 => "Manage your SQL database; repair, optimize and export data",
 				  11 => "View admin, moderator and email logs (Root admin only)",
 				  12 => "IBStore Settings, Add Items, quiz ect",
-				  13 => "Dynamic-Lite Settings",
 				  14 => "Import RSS-News from Internet",
 			  );
 			  

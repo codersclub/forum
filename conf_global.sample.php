@@ -87,43 +87,6 @@ $INFO['comoderator_group']			=	'15';
 $INFO['cookie_domain']			=	'';
 $INFO['cookie_id']			=	'';
 $INFO['cookie_path']			=	'';
-$INFO['csite_allowed_ext']			=	'gif|png|jpg|zip|gz|rar';
-$INFO['csite_article_chars']			=	'';
-$INFO['csite_article_date']			=	'j.m.Y, H:i';
-$INFO['csite_article_forum']			=	'90';
-$INFO['csite_article_len']			=	'50';
-$INFO['csite_article_max']			=	'15';
-$INFO['csite_article_recent_max']			=	'5';
-$INFO['csite_article_recent_on']			=	'1';
-$INFO['csite_cat_mod_id']			=	'487';
-$INFO['csite_cms_path']			=	'/www/sources.ru/htdocs/download/';
-$INFO['csite_cms_url']			=	'http://www.sources.ru/download/';
-$INFO['csite_configured']			=	'1';
-$INFO['csite_discuss_len']			=	'30';
-$INFO['csite_discuss_max']			=	'10';
-$INFO['csite_discuss_on']			=	'1';
-$INFO['csite_edit_mod_info']			=	'';
-$INFO['csite_fav_show']			=	'1';
-$INFO['csite_max_upload_files']			=	'5';
-$INFO['csite_mod_allow_approve']			=	'1';
-$INFO['csite_mod_allow_edit']			=	'1';
-$INFO['csite_mod_cat_id']			=	'12';
-$INFO['csite_mod_edit_bool']			=	'';
-$INFO['csite_nav_show']			=	'1';
-$INFO['csite_news_cat_id']			=	'90';
-$INFO['csite_on']			=	'1';
-$INFO['csite_online_show']			=	'1';
-$INFO['csite_pm_show']			=	'1';
-$INFO['csite_poll_show']			=	'0';
-$INFO['csite_poll_url']			=	'';
-$INFO['csite_reg_cat_id']			=	'71,160';
-$INFO['csite_search_show']			=	'1';
-$INFO['csite_show_full_article']			=	'1';
-$INFO['csite_show_full_upload']			=	'1';
-$INFO['csite_skinchange_show']			=	'1';
-$INFO['csite_stats_show']			=	'';
-$INFO['csite_title']			=	'Исходники.RU';
-$INFO['csite_use_quick_comments']			=	'0';
 $INFO['currency_name']			=	'Dgm';
 $INFO['custom_profile_topic']			=	'1';
 $INFO['days_interestcollected']			=	'86400';
@@ -138,9 +101,6 @@ $INFO['disable_online_ip']			=	'0';
 $INFO['disable_reportpost']			=	'1';
 $INFO['display_max_posts']			=	'15';
 $INFO['display_max_topics']			=	'20';
-$INFO['dsite_default_group_id']			=	'';
-$INFO['dsite_max_rate_view']			=	'';
-$INFO['dsite_use_mod_rewrite']			=	'0';
 $INFO['email_footer']			=	'';
 $INFO['email_header']			=	'This email generated via IBForums';
 $INFO['email_in']			=	'forum@sources.ru';
@@ -456,3 +416,13 @@ $INFO['bad_upload_log_path'] = '';//Set the directory for bad format uploads
 
 // donate: электронные кошельки
 $INFO['epurse_yamoney']		=	'41001151000887';
+//
+$INFO['errors_receivers'] = array(2);
+$INFO['database_error_page'] = "<html><head><title>Invision Power Board Database Error</title><style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head>
+<body>
+	<br><br><blockquote><b>There appears to be an error with the {$INFO['board_name']} database.</b><br>
+	You can try to refresh the page by clicking <a href='javascript:window.location=window.location;'>here</a>, if this
+	does not fix the error, you can contact the board administrator by clicking <a href='mailto:{$INFO['email_in']}?subject=SQL+Error'>here</a>
+	<br><br><b>Error Returned</b><br>
+	<form name='mysql'><textarea rows='15' cols='160'><#ERROR_DESCRIPTION#></textarea></form><br>We apologise for any inconvenience</blockquote>
+</body></html>";

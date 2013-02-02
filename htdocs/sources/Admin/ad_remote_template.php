@@ -145,13 +145,6 @@ class ad_settings {
 		// GET THE TEMPLATES THAT THIS CSS USES
 		//+---------------------------------------
 		
-		$DB->query("SELECT css_name FROM ibf_css WHERE cssid='".$IN['id']."'");
-		
-		if ( ! $set = $DB->fetch_row() )
-		{
-			$ADMIN->error("Cannot query the database using that information");
-		}
-		
 		$DB->query("SELECT img_dir FROM ibf_skins WHERE css_id='".$IN['id']."'");
 		
 		$skin = $DB->fetch_row();
@@ -169,7 +162,7 @@ class ad_settings {
 			$like = "id='{$name}'";
 			$first = '#';
 		}
-		$text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$IN['id']}.css");
+		$text = file_get_contents($ibforums->vars['base_dir']."/cache/css_{$IN['id']}.css");
 		preg_match( "/($first"."$name)\s{0,}\{(.+?)\}/s", $text, $match );
 			
 		$defs = explode( ";", str_replace( "\n\n", "\n", str_replace( "\r\n", "\n", trim($match[2]) ) ) );
@@ -207,7 +200,7 @@ class ad_settings {
     	           <body topmargin='0' leftmargin='0' rightmargin='0' marginwidth='0' marginheight='0' alink='#000000' vlink='#000000'>
     	           <table border='1' width='95%' cellspacing='0' cellpadding='4' align='center'>
     	           <tr>
-    	            <td bgcolor='#EEEEEE' style='font-size:14px'><b>Preview CSS Element '$name'<br>From style sheet '{$set['css_name']}'</b></td>
+    	            <td bgcolor='#EEEEEE' style='font-size:14px'><b>Preview CSS Element '$name'<br>From style sheet 'css_{$IN['id']}.css'</b></td>
     	           </tr>
     	           </table>
     	           <br>
@@ -517,7 +510,7 @@ class ad_settings {
 		$DB->query("SELECT css_id, img_dir FROM ibf_skins WHERE set_id='".$template['set_id']."'");
 		$r = $DB->fetch_row();
 		
-		$css_text = $text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$r['css_id']}.css");
+		$css_text = $text = file_get_contents($ibforums->vars['base_dir']."/cache/css_{$r['css_id']}.css");
 		$css_text = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", "style_images/".$r['img_dir'], $css_text )."\n//-->\n</style>";
 		
 		print "<html><head>
@@ -805,7 +798,7 @@ class ad_settings {
 			$DB->query("SELECT css_id, img_dir FROM ibf_skins WHERE set_id='".$template['set_id']."'");
 			$r = $DB->fetch_row();
 			
-			$css_text = file_get_contents($ibforums->vars['base_dir']."/css/css_{$r['css_id']}.css");
+			$css_text = file_get_contents($ibforums->vars['base_dir']."/cache/css_{$r['css_id']}.css");
 			$css_text = "\n<style>\n<!--\n".str_replace( "<#IMG_DIR#>", "style_images/".$r['img_dir'], $css_text )."\n//-->\n</style>";
 			
 			@header("Content-type: text/html");

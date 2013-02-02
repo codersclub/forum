@@ -46,48 +46,6 @@ class Post {
     var	$nav_extra  = array();
 	public $upload_errors = array();
 
-
-    //-------------------------------------------------------
-    // Post class initialization for D-Site
-    // (because we can't redeclare class objects)
-    // --
-    // Date: 24/08/2005 (c) Anton
-    //-------------------------------------------------------
-
-    function csite_init() {
-    global $ibforums, $std, $skin_universal;
-
-            //--------------------------------------
-            // Load skin'n'language sets
-            //--------------------------------------
-
-            $this->html = $std->load_template('skin_post');
-//            $skin_universal = $std->load_template('skin_global'); //ýòó ñòðîêó ÓÄÀËÈÒÜ!!!
-            $ibforums->lang = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
-
-            //--------------------------------------
-            // finished!
-            //--------------------------------------
-
-            return true;
-    }
-
-
-    //-------------------------------------------------------
-    // Return JavaScript skin set from skin_post.php
-    //-------------------------------------------------------
-
-    function csite_get_javascript() {
-    global $ibforums;
-
-            //--------------------------------------
-            // finished!
-            //--------------------------------------
-
-            return $this->html->get_javascript();
-    }
-
-
     /***********************************************************************************/
     //
     // Our constructor, load words, load skin, print the topic listing
@@ -98,18 +56,6 @@ class Post {
     {
         global $ibforums, $DB, $std, $print, $skin_universal, $sess;
         
-        //--------------------------------------
-        // Do not load stuff when the class
-        // functions're called from D-Site
-        // --
-        // Date: 24/08/2005 (c) Anton
-        //--------------------------------------
-
-        if ( class_exists('mod_nav') ) {
-
-                return false;
-        }
-
         require ROOT_PATH."sources/lib/post_parser.php";
         
         $this->parser = new post_parser(1);
@@ -1698,13 +1644,7 @@ function parse_post_mail($post='', $poster=0, $mgroup=0)
 			$table = preg_replace( "/<!--THE SMILIES-->/", $smilies, $table );
 			$this->output = preg_replace( "/<!--SMILIE TABLE-->/", $table, $this->output );
 		}
-                //----------------------------------
-                // Return smilie table for D-Site
-                // --
-                // Date: 24/08/2005 (c) Anton
-                //----------------------------------
-
-                return $table;
+    return $table;
 	
 	}
 		
