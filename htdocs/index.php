@@ -44,7 +44,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 require './autoload.php';
 require ROOT_PATH . 'sources/Drivers/IBPDO.php';
-require ROOT_PATH . 'classes.php';
 require ROOT_PATH . "sources/session.php";
 require ROOT_PATH . "sources/functions.php";
 
@@ -75,6 +74,12 @@ class Ibf extends Core{
 	var $forum_read = array();
 	var $topic_cache = array();
 	var $version = "v1.2";
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->session = new session();
+	}
 
 	public function init(){
 		$this->vars['TEAM_ICON_URL'] = $this->vars['html_url'] . '/team_icons';

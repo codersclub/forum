@@ -39,12 +39,11 @@ class Core {
 	public function __construct(){
 		global $INFO;
 		$this->vars = &$INFO;
-		$this->session = new session();
 		$this->functions = new FUNC();
 		//todo uncomment this
 		//set_exception_handler([$this, 'onException']);//handling exceptions
 		if (!$this->initDB()){
-			echo "<h1>РЎР»РёС€РєРѕРј РјРЅРѕРіРѕ РїРѕРґРєР»СЋС‡РµРЅРёР№ Рє СЃРµСЂРІРµСЂСѓ. РџРѕР¶Р°Р»СѓР№СЃС‚Р° РїРѕРґРѕР¶РґРёС‚Рµ РЅРµСЃРєРѕР»СЊРєРѕ РјРёРЅСѓС‚ Рё РїРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ.</h1>";
+			echo "<h1>Слишком много подключений к серверу. Пожалуйста подождите несколько минут и повторите попытку.</h1>";
 			exit;
 		}
 	}

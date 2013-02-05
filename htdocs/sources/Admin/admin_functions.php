@@ -674,7 +674,7 @@ class admin_functions
 
 	function build_tree()
 	{
-		global $IN, $std, $INFO, $PAGES, $CATS, $SKIN, $DESC;
+		global $IN, $std, $INFO, $PAGES, $CATS, $SKIN, $DESC, $ADMIN;
 		$ibforums = Ibf::instance();
 
 		$html  = "";

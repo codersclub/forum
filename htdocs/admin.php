@@ -79,19 +79,19 @@ if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0)
   @set_time_limit(0);
 }
 
-require ROOT_PATH . 'classes.php';
+require_once ROOT_PATH . "autoload.php";
+require ROOT_PATH . "sources/functions.php";
+require (ROOT_PATH."sources/Drivers/IBPDO.php");
 
-class info extends Core{
+class Ibf extends Core{
 
 	var $vars       = "";
 	var $version    = '1.2';
 	var $acpversion = '12005';
 	var $base_url   = '';
 	
-	function __construct()
+	public function init()
 	{
-		parent::__construct();
-		
 		$this->vars['TEAM_ICON_URL']   = $INFO['html_url'] . '/team_icons';
 		$this->vars['AVATARS_URL']     = $INFO['html_url'] . '/avatars';
 		$this->vars['EMOTICONS_URL']   = $INFO['html_url'] . '/emoticons';
@@ -115,9 +115,12 @@ $INFO['mm_groups'] = array(
 	$INFO['supermoderator_group'],
 	$INFO['moderator_group'],
 	$INFO['comoderator_group']
-		);
+);
 
-$ibforums = new info($INFO);
+$ibforums = Ibf::instance();
+$std     = &$ibforums->functions;
+
+$ibforums->init();
 
 $Debug = new Debug;
 $Debug->startTimer();
@@ -141,10 +144,6 @@ $PassWord        = "";
   Load up our classes (compiled into one package)
  ------------------------------------------------*/
  
-require ROOT_PATH . "sources/functions.php";
-
-$std     = new FUNC;
-
 $IN = $std->parse_incoming();
 
 /*-----------------------------------------------
@@ -183,28 +182,6 @@ $ADMIN = new admin_functions();
   Load up our database library
  ------------------------------------------------*/
  
-$INFO['sql_driver'] = !$INFO['sql_driver'] ? 'mySQL' : $INFO['sql_driver'];
-
-$to_require = ROOT_PATH."sources/Drivers/".$INFO['sql_driver'].".php";
-require ($to_require);
-
-$DB = new db_driver;
-
-$DB->obj['sql_database']     = $INFO['sql_database'];
-$DB->obj['sql_user']         = $INFO['sql_user'];
-$DB->obj['sql_pass']         = $INFO['sql_pass'];
-$DB->obj['sql_host']         = $INFO['sql_host'];
-$DB->obj['sql_charset']      = $INFO['sql_charset'];
-$DB->obj['sql_tbl_prefix']   = $INFO['sql_tbl_prefix'];
-
-// Get a DB connection
-$DB->connect();
-
-
-
-
-
-
 // Song * check access 
 
 $ips_file = "../ip_table.php";
@@ -246,7 +223,7 @@ if ( file_exists( $ips_file ) )
 		$env = "";
 		foreach( $IN as $name => $line ) $env .= $name."=".$line."<br>";
 
-		$DB->query("INSERT INTO ibf_admin_foreign_visits (dt,ip_address,content) VALUES (CURRENT_TIMESTAMP,'".$IN['IP_ADDRESS']."','".mysql_escape_string($env)."')");
+		$stmt = $ibforums->db->query("INSERT INTO ibf_admin_foreign_visits (dt,ip_address,content) VALUES (CURRENT_TIMESTAMP,'".$IN['IP_ADDRESS']."','".mysql_escape_string($env)."')");
 
 		fatal_error("You do not have access to the administrative CP");
 	}
@@ -354,8 +331,8 @@ if ($IN['login'] != 'yes') {
 		// We have a URL adsess, lets verify...
 		//----------------------------------
 		
-		$DB->query("SELECT * FROM ibf_admin_sessions WHERE ID='".$IN['adsess']."'");
-		$row = $DB->fetch_row();
+		$stmt = $ibforums->db->query("SELECT * FROM ibf_admin_sessions WHERE ID='".$IN['adsess']."'");
+		$row = $stmt->fetch();
 		
 		if ($row['ID'] == "")
 		{
@@ -381,8 +358,8 @@ if ($IN['login'] != 'yes') {
 			// Key is good, check the member details
 			//----------------------------------
 			
-			$DB->query("SELECT * FROM ibf_members WHERE id='".$row['MEMBER_ID']."'");
-			$MEMBER = $DB->fetch_row();
+			$stmt = $ibforums->db->query("SELECT * FROM ibf_members WHERE id='".$row['MEMBER_ID']."'");
+			$MEMBER = $stmt->fetch();
 			
 			if ($MEMBER['id'] == "")
 			{
@@ -415,9 +392,9 @@ if ($IN['login'] != 'yes') {
 					// Do we have admin access?
 					//----------------------------------
 					
-					$DB->query("SELECT * FROM ibf_groups WHERE g_id='".$MEMBER['mgroup']."'");
+					$stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='".$MEMBER['mgroup']."'");
 					
-					$GROUP = $DB->fetch_row();
+					$GROUP = $stmt->fetch();
 					
 					if ($GROUP['g_access_cp'] != 1)
 					{
@@ -455,8 +432,8 @@ else
 	// DB
 	//----------------------------------
 	
-	$DB->query("SELECT name, password, id, mgroup FROM ibf_members WHERE LOWER(name)='".strtolower($IN['username'])."'");
-	$mem = $DB->fetch_row();
+	$stmt = $ibforums->db->query("SELECT name, password, id, mgroup FROM ibf_members WHERE LOWER(name)='".strtolower($IN['username'])."'");
+	$mem = $stmt->fetch();
 	
 	if ( empty($mem['id']) )
 	{
@@ -471,9 +448,9 @@ else
 	}
 	else
 	{
-		$DB->query("SELECT * FROM ibf_groups WHERE g_id='".$mem['mgroup']."'");
+		$stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='".$mem['mgroup']."'");
 					
-		$GROUP = $DB->fetch_row();
+		$GROUP = $stmt->fetch();
 		
 		if ($GROUP['g_access_cp'] != 1)
 		{
@@ -489,7 +466,7 @@ else
 			
 			$sess_id = md5( uniqid( microtime() ) );
 			
-			$db_string = $DB->compile_db_insert_string( array (
+			$db_string = [ 
 					'ID'           => $sess_id,
 					'IP_ADDRESS'   => $IN['IP_ADDRESS'],
 					'MEMBER_NAME'  => $mem['name'],
@@ -498,9 +475,9 @@ else
 					'LOCATION'     => 'index',
 					'LOG_IN_TIME'  => time(),
 					'RUNNING_TIME' => time(),
-					  )        );
+			];
 													  
-			$DB->query("INSERT INTO ibf_admin_sessions (".$db_string['FIELD_NAMES'].") VALUES (".$db_string['FIELD_VALUES'].")");
+			$stmt = $ibforums->db->insertRow("ibf_admin_sessions", $db_string);
 		
 			$IN['AD_SESS'] = $sess_id;
 			
@@ -567,7 +544,7 @@ if ($session_validated == 1 )
 	// Lets update the sessions table:
 	//------------------------------
 	
-	$DB->query("UPDATE ibf_admin_sessions SET RUNNING_TIME='".time()."', LOCATION='".$IN['act']."' WHERE MEMBER_ID='".$MEMBER['id']."' AND ID='".$IN['AD_SESS']."'");
+	$ibforums->db->exec("UPDATE ibf_admin_sessions SET RUNNING_TIME='".time()."', LOCATION='".$IN['act']."' WHERE MEMBER_ID='".$MEMBER['id']."' AND ID='".$IN['AD_SESS']."'");
 	
 	do_admin_stuff();
 	
@@ -585,15 +562,17 @@ else
 
 
 function do_login($message="") {
-	global $IN, $DB, $ADMIN, $SKIN, $std;
+	global $IN, $ADMIN, $SKIN, $std;
 	
+	$ibforums = Ibf::instance();
+
 	//-------------------------------------------------------
 	// Remove all out of date sessions, like a good boy. Woof.
 	//-------------------------------------------------------
 	
 	$cut_off_stamp = time() - 60*60*2;
 	
-	$DB->query("DELETE FROM ibf_admin_sessions WHERE RUNNING_TIME < $cut_off_stamp");
+	$ibforums->db->exec("DELETE FROM ibf_admin_sessions WHERE RUNNING_TIME < $cut_off_stamp");
 	
 	//+------------------------------------------------------
 	
@@ -621,9 +600,9 @@ function do_login($message="") {
 	
 	if ( $mid > 0 )
 	{
-		$DB->query("SELECT m.id, m.name, m.mgroup, g.g_access_cp FROM ibf_members m, ibf_groups g WHERE m.id=$mid AND g.g_id=m.mgroup AND g.g_access_cp=1");
+		$stmt = $ibforums->db->query("SELECT m.id, m.name, m.mgroup, g.g_access_cp FROM ibf_members m, ibf_groups g WHERE m.id=$mid AND g.g_id=m.mgroup AND g.g_access_cp=1");
 		
-		if ( $r = $DB->fetch_row() )
+		if ( $r = $stmt->fetch() )
 		{
 			$name  = $r['name'];
 			$extra = 'onload="document.theAdminForm.password.focus();"';
@@ -666,7 +645,7 @@ function do_login($message="") {
 
 
 function do_admin_stuff() {
-	global $IN, $INFO, $DB, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
+	global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 	
 	if ( $INFO['ipb_reg_number'] )
 	{

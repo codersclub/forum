@@ -38,9 +38,9 @@ error_reporting  (E_ERROR | E_WARNING | E_PARSE);
 set_magic_quotes_runtime(0);
 
 require_once './autoload.php';
-require ROOT_PATH . "classes.php";
 require ROOT_PATH."sources/functions.php";
 require ROOT_PATH."sources/session.php";
+require (ROOT_PATH."sources/Drivers/IBPDO.php");
 
 class Ibf extends Core{
 	var $skin_id    	= "0";     // Skin Dir name
@@ -52,7 +52,15 @@ class Ibf extends Core{
 	var $base_url   = "";
 	var $vars       = "";
 
-	public function init() {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->session = new session();
+	}
+
+
+	public function init()
+	{
 		parent::init();
 		$this->input['act'] = 'yandex';
 	}
@@ -76,7 +84,6 @@ $Debug->startTimer();
 // Load the DB driver and such
 //--------------------------------
 
-require (ROOT_PATH."sources/Drivers/IBPDO.php");
 
 try {
 
