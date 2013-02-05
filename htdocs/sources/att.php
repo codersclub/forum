@@ -1,14 +1,15 @@
 <?php
 
-class Att 
+class Att
 {
 	var $html = "";
 	var $pt = "";
-	
-	function Att()
+
+	function __construct()
 	{
-		global $ibforums, $DB, $std;
-		
+		global $std;
+		$ibforums = Ibf::instance();
+
 		if (isset($ibforums->input['mid']))
 		{
 			if(!intval($ibforums->input['mid']))
@@ -21,7 +22,7 @@ class Att
 				$mid = intval($ibforums->input['mid']);
 			}
 		}
-				
+
 		if(isset($ibforums->input['st']))
 		{
 			$st = intval($ibforums->input['st']);
@@ -29,66 +30,66 @@ class Att
 		else
 		{
 			$st = 0;
-		}		
-		
+		}
+		$params = [];
 		$forumid = NULL;
 		if(isset($ibforums->input['forumid']))
 		{
 			$forumid = intval($ibforums->input['forumid']);
-			$where_str = " AND t2.forum_id = ".$forumid;
+			$where_str = " AND t2.forum_id = :forum_id ";
+			$params[':forum_id'] = $forumid;
 		}
-		
+
 		$topicid = NULL;
 		if(isset($ibforums->input['topicid']))
 		{
 			$topicid = intval($ibforums->input['topicid']);
-			$where_str = " AND t2.topic_id = ".$topicid;
+			$where_str = " AND t2.topic_id = :topic_id ";
+			$params[':topic_id'] = $topicid;
 		}
 
 		$count_on_page = 25;
-		
-		$DB->query("
+
+		$stmt = $ibforums->db->prepare("
 			SELECT DISTINCTROW
 			count(*) AS cc
 			FROM ibf_post_attachments AS t,
 				ibf_posts AS t2
-			WHERE t2.author_id = ".$mid.$where_str." "."
-				AND t.post_id = t2.pid");
-			
-		$count = $DB->fetch_row();
-		
-		$DB->free_result();
-		
-		$count = intval($count['cc']);
-				
+			WHERE t2.author_id = :mid ". $where_str . "
+			AND t.post_id = t2.pid");
+		$params[':mid'] = (int)$mid;//todo $mid can be not initialized
+		$stmt->execute($params);
+
+		$count = (int)$stmt->fetchColumn();
+
+		unset($stmt);
+
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_topic', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_att', $ibforums->lang_id);
-		
-		$DB->query("
+
+		$stmt = $ibforums->db->prepare("
 			SELECT name
 			FROM ibf_members
-			WHERE id = ".$mid);
-		$username = $DB->fetch_row();	
-		
-		$DB->free_result();
-		
-		$username = strval($username['name']);
-		
+			WHERE id = :mid");
+		$stmt->execute([':mid' => $mid]);
+		$username = (string)$stmt->fetchColumn();
+		unset($stmt);
+
 		$this->pt = sprintf($ibforums->lang['title'], $ibforums->lang['attachments'], $username);
-		
+
 		if($count == 0)
 		{
 			$this->html = sprintf($ibforums->lang['error_has_not'], $username);
 			return 0;
 		}
-		
-				if(($st < 0) || ($st >= $count))   
+
+				if(($st < 0) || ($st >= $count))
 		{
 			echo "Error! Invalid page number!";
 			exit();
 		}
-					
+
 		$sort = 0;
 		if (isset($ibforums->input['sort']))
 		{
@@ -117,7 +118,7 @@ class Att
 					break;
 			}
 		}
-		
+
 		$desc = $sort === 0 ? 1 : 0;
 		if(isset($ibforums->input['desc']))
 		{
@@ -130,10 +131,10 @@ class Att
 				$desc = 0;
 			}
 		}
-		
+
 		$sort_str = array("pdate", "filename", "size", "hits" ,"pid", "ttitle", "fname");
-		$link_sort_str = array("date", "filename", "size", "hits", "post", "topic", "forum");		
-		
+		$link_sort_str = array("date", "filename", "size", "hits", "post", "topic", "forum");
+
 		$q = "SELECT DISTINCTROW
 			t1.attach_id	AS	attach_id,
 			t1.post_id		AS	post_id,
@@ -159,17 +160,18 @@ class Att
 				ON t4.id = t2.forum_id
 			WHERE
 			t2.author_id = ".$mid.$where_str." ORDER BY ".($sort_str[$sort]).($desc == 1 ? " DESC" : "")." LIMIT ".$st.", ".$count_on_page;
-			
-		$DB->query($q);
-		
-		//output:		
-		
-		$base_link = $ibforums->base_url."act=Select&CODE=getalluseratt&amp;mid=".$mid;		
+
+		$stmt->$ibforums->db->prepare($q);
+		$stmt->execute();
+
+		//output:
+
+		$base_link = $ibforums->base_url."act=Select&CODE=getalluseratt&amp;mid=".$mid;
 		$location_vars = (($topicid != NULL) ? "&amp;topicid=".$topicid : "").(($forumid != NULL) ? "&amp;forumid=".$forumid : "");
 		$view_vars = "&amp;sort=".$link_sort_str[$sort]."&amp;desc=".$desc;
-		
+
 		//make page's buttons
-		
+
 		/*$pages_list = "<div><a title='".$ibforums->lang['tpl_jump']."' href='javascript:multi_page_jump(&quot;".$base_link.$location_vars.$view_vars."&quot;, ".$count.", ".$count_on_page.");'>".$ibforums->lang['tpl_pages']."</a> (".intval(ceil($count / $count_on_page)).")&nbsp;";
 		if($st >= $count_on_page)
 		{
@@ -184,24 +186,24 @@ class Att
 		} */
 
 		$pages_list = $std->build_pagelinks( array(
-		
+
 						    'TOTAL_POSS'  => $count,
 						    'PER_PAGE'    => $count_on_page,
 						    'CUR_ST_VAL'  => $st,
 						    'L_SINGLE'    => "",
 						    'L_MULTI'     => $ibforums->lang['search_pages'],
 						    'BASE_URL'    => $base_link.$location_vars.$view_vars,
-		
+
 		)
 		);
 		//make table:
 		//title:
 		$this->html = $pages_list;
-		
+
 		$this->html .= "<div class='tableborder'>";
-		
+
 		$this->html .= "<div class='maintitle'><img src='style_images/1/nav_m.gif' alt='&gt;' border='0'>&nbsp;".sprintf($ibforums->lang['title'], ("<a href='".$base_link.$view_vars."'>".$ibforums->lang['attachments']."</a>"), ("<a href='{$ibforums->base_url}showuser={$mid}'>".$username."</a>"))."</div>";
-		
+
 		$this->html .= "<table width='100%' cellpadding='2' cellspacing='1' class='tablebasic'>
 			<tr>
 			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=filename".(($sort == 1) ? ($desc ? "'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['link']."</a></td>
@@ -213,18 +215,18 @@ class Att
 			<td align='center' class='titlemedium'><a href='".$base_link.$location_vars."&amp;st=".$st."&amp;sort=forum".(($sort == 6) ? ($desc ? "&amp;desc=0'>&#9650;" : "&amp;desc=1'>&#9660") : "'>").$ibforums->lang['forum']."</a></td>
 			</tr>
 			";
-		
+
 		//main body:
-		
-		$attfile = new Attachment;				
-		
-		$countrec = $DB->get_num_rows() >= $count_on_page ? $count_on_page : $DB->get_num_rows();		
+
+		$attfile = new Attachment;
+
+		$countrec = $stmt->rowCount() >= $count_on_page ? $count_on_page : $stmt->rowCount();
 		for ($i = 0; $i < $countrec; $i++)
 		{
-			$res = $DB->fetch_row();
-			
+			$res = $stmt->fetch();
+
 			$attfile = Attachment::createFromRow($res);
-			
+
 			$this->html .= "
 						   <tr><td class='row4'>".($attfile->getLink())."</td>
 			               <td class='row4'>".$attfile->sizeAsString()."</td>
@@ -234,11 +236,11 @@ class Att
 			               <td class='row4'><a href='".$base_link.$view_vars."&amp;topicid=".$res['tid']."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showtopic=".$res['tid']."'>".$res['ttitle']."</a></td>
 			               <td class='row4'><a href='".$base_link.$view_vars."&amp;forumid=".$res['fid']."'>".$ibforums->lang['attchments_in']."<a href='".$ibforums->base_url."showforum=".$res['fid']."'>".$res['fname']."</a></td></tr>";
 		}
-		
+
 		$this->html .= "</table></div>";
-		
-		$this->html .= $pages_list;		
-		
-		$DB->free_result();
+
+		$this->html .= $pages_list;
+
+		unset($stmt);
 	}
 }

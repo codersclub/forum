@@ -1,131 +1,160 @@
 <?php
 
-class AuthMethodOpenId extends AuthBasic {
-	
+class AuthMethodOpenId extends AuthBasic
+{
+
 	private $url;
-	
-	function __construct() {
+
+	function __construct()
+	{
 		$this->requireLib();
 	}
-	
-	public function checkInput() {
-		global $DB, $ibforums, $std, $print, $sess;
+
+	public function checkInput()
+	{
+		global $ibforums, $std, $print, $sess;
 
 		$len_u = $std->txt_stripslashes($_REQUEST['UserName']);
-			
-		$len_u = preg_replace("/&#([0-9]+);/", "-", $len_u );
-		
-		if ($_REQUEST['openid_url'] == "" && !$this->isReturn()) {
+
+		$len_u = preg_replace("/&#([0-9]+);/", "-", $len_u);
+
+		if ($_REQUEST['openid_url'] == "" && !$this->isReturn())
+		{
 			$this->setLastErrorCode('openid_url_is_empty');
 			return false;
 		}
 
-		if (!$this->url) {
+		if (!$this->url)
+		{
 			$this->url = $_REQUEST['openid_url'];
 		}
-		
-		if ($_REQUEST['UserName']) {
+
+		if ($_REQUEST['UserName'])
+		{
 			$username = $_REQUEST['UserName'];
-		} else {
-			$username = $DB->get_one("SELECT name FROM ibf_members WHERE openid_url = '".$DB->quote($this->url)."'");
+		} else
+		{
+			$username = $ibforums->db
+				->query("SELECT name FROM ibf_members WHERE openid_url = '" . $ibforums->db->quote($this->url) . "'")
+				->fetchColumn();
 		}
-		
-		if (!$username) {
+
+		if (!$username)
+		{
 			$this->setLastErrorCode('openid_url_forbidden');
 			return false;
 		}
-		
+
 		$this->setUsername($username);
-		
-		if ( !$this->isReturn() ) {
-						
-			$member = $DB->get_row("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='".$DB->quote($this->username())."'");
-			
-			if ($this->url != $member['openid_url']) {
+
+		if (!$this->isReturn())
+		{
+
+			$member = $ibforums->db
+				->query("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='" . $ibforums->db->quote($this->username()) . "'")
+				->fetch();
+
+			if ($this->url != $member['openid_url'])
+			{
 				$this->setLastErrorCode('openid_url_forbidden');
 				return false;
 			}
-			
+
 		}
-		
+
 		return true;
 	}
-	
-	public function getFields() {
-		return array (
-				array(
-					'type' => 'url',
-					'name' => 'url'
-				),
-			);
+
+	public function getFields()
+	{
+		return array(
+			array(
+				'type' => 'url',
+				'name' => 'url'
+			),
+		);
 	}
-	
+
 	/**
 	 * Это возврат от сервера OpenID
 	 */
-	private function isReturn() {
+	private function isReturn()
+	{
 		return isset($_REQUEST['oidauth']) && ($_REQUEST['oidauth'] == 'continue');
 	}
-	
-	public function authenticate() {
-		global $DB, $ibforums, $std, $print, $sess;
-		
-		if (!$this->username()) { 
-			$username    = strtolower(str_replace( '|', '&#124;', $ibforums->input['UserName']) );
+
+	public function authenticate()
+	{
+		global $ibforums, $std, $print, $sess;
+
+		if (!$this->username())
+		{
+			$username = strtolower(str_replace('|', '&#124;', $ibforums->input['UserName']));
 			$this->setUsername($username);
-		} 
+		}
 
 		//-------------------------------------------------
 		// Attempt to get the user details
 		//-------------------------------------------------
 
-		$member = $DB->get_row("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='".$DB->quote($this->username())."'");
-		 
-		if (!$member) {
+		$member = $ibforums->db
+			->query("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='" . $ibforums->db->quote($this->username()) . "'")
+			->fetch();
+
+		if (!$member)
+		{
 			$this->setLastErrorCode('wrong_name');
 			return false;
 		}
-		 
-		if ( empty($member['id']) or ($member['id'] == "") ) {
+
+		if (empty($member['id']) or ($member['id'] == ""))
+		{
 			$this->setLastErrorCode('wrong_name');
 			return false;
 		}
-		
-		if ( !$this->isReturn() ) {
-			if (!$this->run()) {
-			    return false;
-			}
-		} else {
-			if (!$this->finish()) {
+
+		if (!$this->isReturn())
+		{
+			if (!$this->run())
+			{
 				return false;
 			}
-			if ($this->url != $member['openid_url']) {
+		} else
+		{
+			if (!$this->finish())
+			{
+				return false;
+			}
+			if ($this->url != $member['openid_url'])
+			{
 				$this->setLastErrorCode('openid_url_forbidden');
 				return false;
 			}
 		}
-		
-		
-		
+
 		//------------------------------
 
-		if ($ibforums->input['CookieDate']) {
-			$std->my_setcookie("member_id"   , $member['id'], 1);
-			$std->my_setcookie("openid_url"   , sha1($this->url), 1);
-			$std->my_setcookie("auth_method"   , 'openid', 1);
+		if ($ibforums->input['CookieDate'])
+		{
+			$std->my_setcookie("member_id", $member['id'], 1);
+			$std->my_setcookie("openid_url", sha1($this->url), 1);
+			$std->my_setcookie("auth_method", 'openid', 1);
 		}
 
 		return $member;
-		 
+
 	}
-	
-	public function sessionDataIsValid($member) {
+
+	public function sessionDataIsValid($member)
+	{
 		global $std;
+		$ibforums = Ibf::instance();
 		return ($std->my_getcookie('openid_url') == $member['openid_url']) || true;
 	}
-	
-	function requireLib() {
-		ini_set('include_path',dirname(__FILE__).'/../php-openid/' );
+
+	function requireLib()
+	{
+		ini_set('include_path', dirname(__FILE__) . '/../php-openid/');
 		/**
 		 * Require the OpenID consumer code.
 		 */
@@ -146,11 +175,12 @@ class AuthMethodOpenId extends AuthBasic {
 		 * Require the PAPE extension module.
 		 */
 		require_once "Auth/OpenID/PAPE.php";
-		
+
 		require_once 'Auth/OpenID.php';
 	}
 
-	private function getStore() {
+	private function getStore()
+	{
 		/**
 		 * This is where the example will store its OpenID information.
 		 * You should change this path if you want the example store to be
@@ -158,29 +188,32 @@ class AuthMethodOpenId extends AuthBasic {
 		 * script, you'll have to remove this directory manually.
 		 */
 		$store_path = null;
-		if (function_exists('sys_get_temp_dir')) {
+		if (function_exists('sys_get_temp_dir'))
+		{
 			$store_path = sys_get_temp_dir();
-		}
-		else {
-			if (strpos(PHP_OS, 'WIN') === 0) {
+		} else
+		{
+			if (strpos(PHP_OS, 'WIN') === 0)
+			{
 				$store_path = $_ENV['TMP'];
-				if (!isset($store_path)) {
+				if (!isset($store_path))
+				{
 					$dir = 'C:\Windows\Temp';
 				}
-			}
-			else {
+			} else
+			{
 				$store_path = @$_ENV['TMPDIR'];
-				if (!isset($store_path)) {
+				if (!isset($store_path))
+				{
 					$store_path = '/tmp';
 				}
 			}
 		}
 		$store_path .= DIRECTORY_SEPARATOR . '_php_consumer_test';
 
-		if (!file_exists($store_path) &&
-		!mkdir($store_path)) {
-			print "Could not create the FileStore directory '$store_path'. ".
-            " Please check the effective permissions.";
+		if (!file_exists($store_path) && !mkdir($store_path))
+		{
+			print "Could not create the FileStore directory '$store_path'. " . " Please check the effective permissions.";
 			exit(0);
 		}
 		$r = new Auth_OpenID_FileStore($store_path);
@@ -188,65 +221,64 @@ class AuthMethodOpenId extends AuthBasic {
 		return $r;
 	}
 
-	private function getConsumer() {
+	private function getConsumer()
+	{
 		/**
 		 * Create a consumer object using the store object created
 		 * earlier.
 		 */
 		$store = $this->getStore();
-		$r = new Auth_OpenID_Consumer($store);
+		$r     = new Auth_OpenID_Consumer($store);
 		return $r;
 	}
-	
-	private function getScheme() {
+
+	private function getScheme()
+	{
 		$scheme = 'http';
-		if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
+		if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on')
+		{
 			$scheme .= 's';
 		}
 		return $scheme;
 	}
 
-	private function getReturnTo() {
+	private function getReturnTo()
+	{
 		global $ibforums;
-		
-    	$result = sprintf("%s://%s:%s%s/index.php?act=Login&CODE=01&auth_method=openid&oidauth=continue&UserName=".$this->username(),
-                   $this->getScheme(), $_SERVER['SERVER_NAME'],
-                   $_SERVER['SERVER_PORT'],
-                   dirname($_SERVER['PHP_SELF']));
-        
-        if ($ibforums->input['CookieDate']) {
-        	$result .= '&CookieDate=1';
-        }
-        
-        if ($ibforums->input['Privacy']) {
-        	$result .= '&Privacy=1';
-        }
-        
+
+		$result = sprintf("%s://%s:%s%s/index.php?act=Login&CODE=01&auth_method=openid&oidauth=continue&UserName=" . $this->username(), $this->getScheme(), $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], dirname($_SERVER['PHP_SELF']));
+
+		if ($ibforums->input['CookieDate'])
+		{
+			$result .= '&CookieDate=1';
+		}
+
+		if ($ibforums->input['Privacy'])
+		{
+			$result .= '&Privacy=1';
+		}
+
 		return $result;
 	}
 
-	private function getTrustRoot() {
-   		return sprintf("%s://%s:%s%s/",
-                   $this->getScheme(), $_SERVER['SERVER_NAME'],
-                   $_SERVER['SERVER_PORT'],
-                   dirname($_SERVER['PHP_SELF']));
-                   
-		return sprintf("{$ibforums->base_url}",
-			$this->getScheme(), $_SERVER['SERVER_NAME'],
-			$_SERVER['SERVER_PORT'],
-			dirname($_SERVER['PHP_SELF'])
-		);
+	private function getTrustRoot()
+	{
+		return sprintf("%s://%s:%s%s/", $this->getScheme(), $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], dirname($_SERVER['PHP_SELF']));
+
+		return sprintf("{$ibforums->base_url}", $this->getScheme(), $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], dirname($_SERVER['PHP_SELF']));
 	}
 
-	private function run() {
-		$openid = $this->url;
+	private function run()
+	{
+		$openid   = $this->url;
 		$consumer = $this->getConsumer();
 
 		// Begin the OpenID authentication process.
 		$auth_request = $consumer->begin($openid);
 
 		// No auth request means we can't begin OpenID.
-		if (!$auth_request) {
+		if (!$auth_request)
+		{
 			$this->setLastErrorCode('openid_not_valid');
 			return false;
 			// displayError("Authentication error; not a valid OpenID.");
@@ -257,13 +289,14 @@ class AuthMethodOpenId extends AuthBasic {
 				// Required
 				array('nickname'),
 				// Optional
-				array('fullname', 'email') 
+				array('fullname', 'email')
 			);// */
 
-		if ($sreg_request) {
+		if ($sreg_request)
+		{
 			$auth_request->addExtension($sreg_request);
 		}
-		
+
 		/*
 		$policy_uris = null;
 		if (isset($_GET['policies'])) {
@@ -282,134 +315,147 @@ class AuthMethodOpenId extends AuthBasic {
 
 		// For OpenID 1, send a redirect.  For OpenID 2, use a Javascript
 		// form to send a POST request to the server.
-		if ($auth_request->shouldSendRedirect()) {
-			$redirect_url = $auth_request->redirectURL($this->getTrustRoot(),
-			$this->getReturnTo());
+		if ($auth_request->shouldSendRedirect())
+		{
+			$redirect_url = $auth_request->redirectURL($this->getTrustRoot(), $this->getReturnTo());
 
 			// If the redirect URL can't be built, display an error
 			// message.
-			if (Auth_OpenID::isFailure($redirect_url)) {
+			if (Auth_OpenID::isFailure($redirect_url))
+			{
 				$this->setLastErrorCode('opendid_couldnt_redirect');
 				$this->setLastErrorMessage($redirect_url->message);
 				return false;
 				// displayError("Could not redirect to server: " . $redirect_url->message);
-			} else {
+			} else
+			{
 				// Send redirect.
-				header("Location: ".$redirect_url);
+				header("Location: " . $redirect_url);
 				exit;
 			}
-		} else {
+		} else
+		{
 			// Generate form markup and render it.
 			$form_id = 'openid_message';
-			
-			$form_html = $auth_request->htmlMarkup($this->getTrustRoot(), $this->getReturnTo(),
-				false, array('id' => $form_id));
+
+			$form_html = $auth_request->htmlMarkup($this->getTrustRoot(), $this->getReturnTo(), false, array('id' => $form_id));
 
 			// Display an error if the form markup couldn't be generated;
 			// otherwise, render the HTML.
-			if (Auth_OpenID::isFailure($form_html)) {
+			if (Auth_OpenID::isFailure($form_html))
+			{
 				$this->setLastErrorCode('opendid_couldnt_redirect');
 				$this->setLastErrorMessage($form_html->message);
 				return false;
 				//displayError("Could not redirect to server: " . $form_html->message);
-			} else {
+			} else
+			{
 				print $form_html;
 				exit;
 			}
 		}
 	}
-	
-	function finish() {
+
+	function finish()
+	{
 		$consumer = $this->getConsumer();
 
 		// Complete the authentication process using the server's
 		// response.
 		$return_to = $this->getReturnTo();
-		$response = $consumer->complete($return_to);
-		
+		$response  = $consumer->complete($return_to);
+
 		// Check the response status.
-		if ($response->status == Auth_OpenID_CANCEL) {
+		if ($response->status == Auth_OpenID_CANCEL)
+		{
 			// This means the authentication was cancelled.
 			$this->setLastErrorCode('openid_verification_cancelled');
 			return false;
-		} else if ($response->status == Auth_OpenID_FAILURE) {
-			// Authentication failed; display the error message.
-			//$msg = "OpenID authentication failed: " . $response->message;
-			$this->setLastErrorCode('openid_authentication_failed');
-			$this->setLastErrorMessage($response->message);
-			return false;
-		} else if ($response->status == Auth_OpenID_SUCCESS) {
-			// This means the authentication succeeded; extract the
-			// identity URL and Simple Registration data (if it was
-			// returned).
-			$this->url = $response->getDisplayIdentifier();
-			
-			return true;
-			/*
-			$openid = $response->getDisplayIdentifier();
-			$esc_identity = escape($openid);
+		} else {
+			if ($response->status == Auth_OpenID_FAILURE)
+			{
+				// Authentication failed; display the error message.
+				//$msg = "OpenID authentication failed: " . $response->message;
+				$this->setLastErrorCode('openid_authentication_failed');
+				$this->setLastErrorMessage($response->message);
+				return false;
+			} else
+			{
+				if ($response->status == Auth_OpenID_SUCCESS)
+				{
+					// This means the authentication succeeded; extract the
+					// identity URL and Simple Registration data (if it was
+					// returned).
+					$this->url = $response->getDisplayIdentifier();
 
-			$success = sprintf('You have successfully verified ' .
-                           '<a href="%s">%s</a> as your identity.',
-			$esc_identity, $esc_identity);
+					return true;
+					/*
+					$openid = $response->getDisplayIdentifier();
+					$esc_identity = escape($openid);
 
-			if ($response->endpoint->canonicalID) {
-				$escaped_canonicalID = escape($response->endpoint->canonicalID);
-				$success .= '  (XRI CanonicalID: '.$escaped_canonicalID.') ';
-			}
+					$success = sprintf('You have successfully verified ' .
+								   '<a href="%s">%s</a> as your identity.',
+					$esc_identity, $esc_identity);
 
-			$sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
-
-			$sreg = $sreg_resp->contents();
-
-			if (@$sreg['email']) {
-				$success .= "  You also returned '".escape($sreg['email']).
-                "' as your email.";
-			}
-
-			if (@$sreg['nickname']) {
-				$success .= "  Your nickname is '".escape($sreg['nickname']).
-                "'.";
-			}
-
-			if (@$sreg['fullname']) {
-				$success .= "  Your fullname is '".escape($sreg['fullname']).
-                "'.";
-			}
-
-			$pape_resp = Auth_OpenID_PAPE_Response::fromSuccessResponse($response);
-
-			if ($pape_resp) {
-				if ($pape_resp->auth_policies) {
-					$success .= "<p>The following PAPE policies affected the authentication:</p><ul>";
-
-					foreach ($pape_resp->auth_policies as $uri) {
-						$escaped_uri = escape($uri);
-						$success .= "<li><tt>$escaped_uri</tt></li>";
+					if ($response->endpoint->canonicalID) {
+						$escaped_canonicalID = escape($response->endpoint->canonicalID);
+						$success .= '  (XRI CanonicalID: '.$escaped_canonicalID.') ';
 					}
 
-					$success .= "</ul>";
-				} else {
-					$success .= "<p>No PAPE policies affected the authentication.</p>";
-				}
+					$sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
 
-				if ($pape_resp->auth_age) {
-					$age = escape($pape_resp->auth_age);
-					$success .= "<p>The authentication age returned by the " .
-                    "server is: <tt>".$age."</tt></p>";
-				}
+					$sreg = $sreg_resp->contents();
 
-				if ($pape_resp->nist_auth_level) {
-					$auth_level = escape($pape_resp->nist_auth_level);
-					$success .= "<p>The NIST auth level returned by the " .
-                    "server is: <tt>".$auth_level."</tt></p>";
-				}
+					if (@$sreg['email']) {
+						$success .= "  You also returned '".escape($sreg['email']).
+						"' as your email.";
+					}
 
-			} else {
-				$success .= "<p>No PAPE response was sent by the provider.</p>";
+					if (@$sreg['nickname']) {
+						$success .= "  Your nickname is '".escape($sreg['nickname']).
+						"'.";
+					}
+
+					if (@$sreg['fullname']) {
+						$success .= "  Your fullname is '".escape($sreg['fullname']).
+						"'.";
+					}
+
+					$pape_resp = Auth_OpenID_PAPE_Response::fromSuccessResponse($response);
+
+					if ($pape_resp) {
+						if ($pape_resp->auth_policies) {
+							$success .= "<p>The following PAPE policies affected the authentication:</p><ul>";
+
+							foreach ($pape_resp->auth_policies as $uri) {
+								$escaped_uri = escape($uri);
+								$success .= "<li><tt>$escaped_uri</tt></li>";
+							}
+
+							$success .= "</ul>";
+						} else {
+							$success .= "<p>No PAPE policies affected the authentication.</p>";
+						}
+
+						if ($pape_resp->auth_age) {
+							$age = escape($pape_resp->auth_age);
+							$success .= "<p>The authentication age returned by the " .
+							"server is: <tt>".$age."</tt></p>";
+						}
+
+						if ($pape_resp->nist_auth_level) {
+							$auth_level = escape($pape_resp->nist_auth_level);
+							$success .= "<p>The NIST auth level returned by the " .
+							"server is: <tt>".$auth_level."</tt></p>";
+						}
+
+					} else {
+						$success .= "<p>No PAPE response was sent by the provider.</p>";
+					}
+					*/
+				}
 			}
-			*/
 		}
-		return false;// unknown error
+		return false; // unknown error
 	}
 }
