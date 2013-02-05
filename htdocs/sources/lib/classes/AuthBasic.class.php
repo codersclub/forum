@@ -1,76 +1,87 @@
 <?php
 
-abstract class AuthBasic {
-	
+abstract class AuthBasic
+{
+
 	private $lastErrorCode = '';
 	private $lastErrorMessage = '';
 	private $username;
-	
-	
+
 	abstract function checkInput();
-	
+
 	abstract function authenticate();
-	
+
 	abstract function getFields();
-	
-	function lastErrorCode() {
+
+	function lastErrorCode()
+	{
 		return $this->lastErrorCode;
 	}
-	
-	function setLastErrorCode($val) {
+
+	function setLastErrorCode($val)
+	{
 		$this->lastErrorCode = $val;
 	}
-	
-	function lastErrorMessage() {
+
+	function lastErrorMessage()
+	{
 		return $this->lastErrorMessage;
 	}
-	
-	function setLastErrorMessage($val) {
+
+	function setLastErrorMessage($val)
+	{
 		$this->lastErrorMessage = $val;
 	}
-	
-	function setUsername($val) {
+
+	function setUsername($val)
+	{
 		$this->username = $val;
 	}
-	
-	function username() {
+
+	function username()
+	{
 		return $this->username;
 	}
-	
-	
-    /**
-     * 
-     * @return AuthBasic;
-     */
-	public static function getAuthObject($type = NULL) {
-		
+
+	/**
+	 *
+	 * @return AuthBasic;
+	 */
+	public static function getAuthObject($type = NULL)
+	{
+
 		global $std, $ibforums;
-		
-		if (!$type) {
+
+		if (!$type)
+		{
 			$type = $ibforums->input["auth_method"];
 		}
-		
-		if (!$type) {
+
+		if (!$type)
+		{
 			$type = $std->my_getcookie("auth_method");
 		}
-		
-		if (!$type) {
+
+		if (!$type)
+		{
 			$type = 'password';
 		}
-		
-		switch ($type) {
+
+		switch ($type)
+		{
 			case 'password':
 				return new AuthMethodPassword;
 			case 'openid':
 				return new AuthMethodOpenId;
 			default:
-				$std->Error( array('MSG'=>'unknown_auth_method'));
+				$std->Error(array('MSG' => 'unknown_auth_method'));
 		}
 	}
-	
-	public static function checkSessionDataIsValid($member) {
+
+	public static function checkSessionDataIsValid($member)
+	{
 		return self::getAuthObject()->sessionDataIsValid($member);
 	}
-	
+
 }
 

@@ -48,13 +48,13 @@ sources/mod_cp.php
 //-- mod_member_ips begin
         if (isset($ibforums->input['show_ips'])) {
             $ip_row .= "\n<tr><td class='pformleft'>\nUsed IP Adresses</td>\n<td class='pformright'>\n";
-    		$DB->query("SELECT DISTINCT ip_address FROM ibf_posts WHERE author_id =  '".$ibforums->input['memberid']."' ORDER BY ip_address");
-            $num = $DB->get_num_rows();
+    		$stmt = $ibforums->db->query("SELECT DISTINCT ip_address FROM ibf_posts WHERE author_id =  '".$ibforums->input['memberid']."' ORDER BY ip_address");
+            $num = $stmt->rowCount();
             if ($num) {
                 $ip_row .= "<textarea style='font:Courier' cols='80' rows='".(min(15,3+round($num/4)))."' name='ips' readonly='readonly' wrap='soft'>\n";
                 $ip_row .= "Registered with ".$member['ip_address'];
                 $ip_row .= "\n\nUsed ip addresses:\n";
-                while ($r = $DB->fetch_row()) 
+                while ($r = $stmt->fetch()) 
                     $ip_row .= str_pad($r['ip_address'],20);
             }
             else {
@@ -75,7 +75,7 @@ insert_below
 [SEARCH]
 	function complete_user_edit()
 	{
-		global $std, $ibforums, $DB, $print;
+		global $std, $ibforums, $print;
 
 [INSERT] 
 //-- mod_member_ips begin

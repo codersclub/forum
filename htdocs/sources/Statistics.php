@@ -1,209 +1,203 @@
 <?php
 
-   //------------------------------------------------------------------------------------
-   // INVISIONBOARD STATISTICS (JOHNATHAN @ IBPLANET.COM)
-   //------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+// INVISIONBOARD STATISTICS (JOHNATHAN @ IBPLANET.COM)
+//------------------------------------------------------------------------------------
 
 $idx = new Statistics;
 
-class Statistics {
- 	var $output     = "";
-  	var $page_title = "";
-  	var $nav        = array();
-  	var $html       = "";
+class Statistics
+{
+	var $output = "";
+	var $page_title = "";
+	var $nav = array();
+	var $html = "";
 
-  	function Statistics() {
-   		global $ibforums, $DB, $std, $print;
+	function Statistics()
+	{
+		global $ibforums, $std, $print;
 
-   //--------------------------------------------
-   // HTML AND LANGUAGE MODULES
-   //--------------------------------------------
+		//--------------------------------------------
+		// HTML AND LANGUAGE MODULES
+		//--------------------------------------------
 
-  	$ibforums->lang = $std->load_words($ibforums->lang, 'lang_statistics', $ibforums->lang_id );
- 
-	require "./Skin/".$ibforums->skin_id."/skin_Statistics.php";
-   
-	$this->html = new skin_Statistics();
-  	$this->base_url = 		              "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
-	$ibforums->input['act'];
-	$data = array();
+		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_statistics', $ibforums->lang_id);
 
-   //------------------------------------------------------------------------------------
-   // TOP 50 MOST VIEWED POSTS
-   //------------------------------------------------------------------------------------
+		require "./Skin/" . $ibforums->skin_id . "/skin_Statistics.php";
 
+		$this->html     = new skin_Statistics();
+		$this->base_url = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
+		$ibforums->input['act'];
+		$data = array();
 
-$statistics = $DB->query('
-	SELECT title, tid, last_post, last_poster_name, views, forum_id 
-	FROM ibf_topics 
+		//------------------------------------------------------------------------------------
+		// TOP 50 MOST VIEWED POSTS
+		//------------------------------------------------------------------------------------
+
+		$stmt = $ibforums->db->query('
+	SELECT title, tid, last_post, last_poster_name, views, forum_id
+	FROM ibf_topics
 	WHERE forum_id !=10000
-	ORDER BY views 
+	ORDER BY views
 	DESC LIMIT 50
 ');
 
-while ($stat1 = mysql_fetch_array($statistics)) {
-		
-$data['viewthread'] .= "<tr width=100%><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat1[forum_id]&t=$stat1[tid]>$stat1[title]</a></TD><TD width=10% class=row2><span style='color:#888888'>$stat1[views]</TD></TR>";
-	
-	}
+		while ($stat1 = $stmt->fetch())
+		{
 
+			$data['viewthread'] .= "<tr width=100%><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat1[forum_id]&t=$stat1[tid]>$stat1[title]</a></TD><TD width=10% class=row2><span style='color:#888888'>$stat1[views]</TD></TR>";
 
-   //------------------------------------------------------------------------------------
-   // TOP 50 POST WITH MOST REPLIES
-   //------------------------------------------------------------------------------------
+		}
 
+		//------------------------------------------------------------------------------------
+		// TOP 50 POST WITH MOST REPLIES
+		//------------------------------------------------------------------------------------
 
-$statistics = $DB->query('
-	SELECT title,tid,last_post,last_poster_name, posts, forum_id 
-	FROM ibf_topics 
+		$stmt = $ibforums->db->query('
+	SELECT title,tid,last_post,last_poster_name, posts, forum_id
+	FROM ibf_topics
 	WHERE forum_id !=10000
 	ORDER BY posts DESC LIMIT 50
 ');
-	
-while ($stat2 = mysql_fetch_array($statistics)) {
-		
-$data['replythread'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat2[forum_id]&t=$stat2[tid]>$stat2[title]</a></TD><TD width=10% class=row2><span style='color:#888888'>$stat2[posts]</TD></TR>";
 
-	}
+		while ($stat2 = $stmt->fetch())
+		{
 
+			$data['replythread'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat2[forum_id]&t=$stat2[tid]>$stat2[title]</a></TD><TD width=10% class=row2><span style='color:#888888'>$stat2[posts]</TD></TR>";
 
-   //------------------------------------------------------------------------------------
-   // TOP 100 USERS WITH MOST POSTS
-   //------------------------------------------------------------------------------------
+		}
 
+		//------------------------------------------------------------------------------------
+		// TOP 100 USERS WITH MOST POSTS
+		//------------------------------------------------------------------------------------
 
-$statistics = $DB->query('
-	SELECT  name, id, posts 
-	FROM ibf_members 
-	ORDER BY posts 
+		$stmt = $ibforums->db->query('
+	SELECT  name, id, posts
+	FROM ibf_members
+	ORDER BY posts
 	DESC LIMIT 25
 ');
 
-while ($stat3 = mysql_fetch_array($statistics)) {
+		while ($stat3 = $stmt->fetch())
+		{
 
-$data['poster'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat3[id]>$stat3[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat3[posts]</TD></TR>";
-	
-	}
+			$data['poster'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat3[id]>$stat3[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat3[posts]</TD></TR>";
 
+		}
 
-   //------------------------------------------------------------------------------------
-   // TOP 25 POLLS WITH MOST VOTES
-   //------------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------
+		// TOP 25 POLLS WITH MOST VOTES
+		//------------------------------------------------------------------------------------
 
-$statistics = $DB->query('
-	SELECT poll_question, tid, forum_id, votes 
-	FROM ibf_polls 
-	WHERE forum_id !=1000 
+		$stmt = $ibforums->db->query('
+	SELECT poll_question, tid, forum_id, votes
+	FROM ibf_polls
+	WHERE forum_id !=1000
 	ORDER BY votes DESC LIMIT 25
 ');
 
-while ($stat4 = mysql_fetch_array($statistics)) {
+		while ($stat4 = $stmt->fetch())
+		{
 
-$data['poll_question'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat4[forum_id]&t=$stat4[tid]>$stat4[poll_question]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat4[votes]</TD></TR>";
+			$data['poll_question'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=ST&f=$stat4[forum_id]&t=$stat4[tid]>$stat4[poll_question]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat4[votes]</TD></TR>";
 
-        }
+		}
 
+		//------------------------------------------------------------------------------------
+		// TOP 25 TOPIC STARTERS
+		//------------------------------------------------------------------------------------
 
-   //------------------------------------------------------------------------------------
-   // TOP 25 TOPIC STARTERS
-   //------------------------------------------------------------------------------------
-
-	
-$statistics = $DB->query('
-	SELECT last_poster_id, starter_id, count( last_poster_id ) AS clast_poster_id, starter_name 
-	FROM ibf_topics 
+		$stmt = $ibforums->db->query('
+	SELECT last_poster_id, starter_id, count( last_poster_id ) AS clast_poster_id, starter_name
+	FROM ibf_topics
 	WHERE starter_id >= 1
-	GROUP BY starter_name 
-	ORDER BY clast_poster_id 
+	GROUP BY starter_name
+	ORDER BY clast_poster_id
 	DESC LIMIT 10
 ');
 
+		while ($stat5 = $stmt->fetch())
+		{
 
-while ($stat5 = mysql_fetch_array($statistics)) {
+			$data['threadstart'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat5[id]>$stat5[starter_name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat5[clast_poster_id]</TD></TR>";
 
-$data['threadstart'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat5[id]>$stat5[starter_name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat5[clast_poster_id]</TD></TR>";
+		}
 
-	}
+		//------------------------------------------------------------------------------------
+		// TOP 5 FORUMS WITH MOST TOTAL TOPICS
+		//------------------------------------------------------------------------------------
 
-
-   //------------------------------------------------------------------------------------
-   // TOP 5 FORUMS WITH MOST TOTAL TOPICS
-   //------------------------------------------------------------------------------------
-	
-$statistics = $DB->query('
-	SELECT id, name, topics, posts 
+		$stmt = $ibforums->db->query('
+	SELECT id, name, topics, posts
 	FROM ibf_forums
-	ORDER BY topics 
+	ORDER BY topics
 	DESC LIMIT 5
 ');
 
-while ($stat6 = mysql_fetch_array($statistics)) {
+		while ($stat6 = $stmt->fetch())
+		{
 
-$data['forumtopics'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat6[id]>$stat6[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat6[topics]</TD></TR>";
+			$data['forumtopics'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat6[id]>$stat6[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat6[topics]</TD></TR>";
 
-	}
+		}
 
+		//------------------------------------------------------------------------------------
+		// TOP 5 FORUMS WITH MOST TOTAL REPLIES
+		//------------------------------------------------------------------------------------
 
-   //------------------------------------------------------------------------------------
-   // TOP 5 FORUMS WITH MOST TOTAL REPLIES
-   //------------------------------------------------------------------------------------
-
-	
-$statistics = $DB->query('
-	SELECT id, name, topics, posts 
-	FROM ibf_forums 
-	ORDER BY posts 
+		$stmt = $ibforums->db->query('
+	SELECT id, name, topics, posts
+	FROM ibf_forums
+	ORDER BY posts
 	DESC LIMIT 5
 ');
 
-while ($stat7 = mysql_fetch_array($statistics)) {
+		while ($stat7 = $stmt->fetch())
+		{
 
-$data['forumposts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat7[id]>$stat7[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat7[posts]</TD></TR>";
+			$data['forumposts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?showforum=$stat7[id]>$stat7[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat7[posts]</TD></TR>";
 
-	}
+		}
 
+		//------------------------------------------------------------------------------------
+		// 10 MOST RECENT MEMBERS & THEIR POST NUMBERS
+		//------------------------------------------------------------------------------------
 
-   //------------------------------------------------------------------------------------
-   // 10 MOST RECENT MEMBERS & THEIR POST NUMBERS
-   //------------------------------------------------------------------------------------
-
-$statistics = $DB->query('
+		$stmt = $ibforums->db->query('
 	SELECT id, posts, name, joined
-	FROM ibf_members 
+	FROM ibf_members
 	ORDER BY joined
 	DESC LIMIT 10
 ');
 
-while ($stat8 = mysql_fetch_array($statistics)) {
+		while ($stat8 = $stmt->fetch())
+		{
 
-$data['posts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat8[id]>$stat8[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat8[posts]</TD></TR>";
+			$data['posts'] .= "<tr><Td width=90% class=row2 align=left>&nbsp;&nbsp; <a href={$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}&act=Profile&MID=$stat8[id]>$stat8[name]</a></TD><TD width=10% class=row2 align=center><span style='color:#888888'>$stat8[posts]</TD></TR>";
 
-	}
+		}
 
+		//------------------------------------------------------------------------------------
+		// TOP 10 POSTERS OF THE WEEK (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
-
-
-   //------------------------------------------------------------------------------------
-   // TOP 10 POSTERS OF THE WEEK (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
-
-$time_high = time();
-$time_low = $time_high - (60*60*24*7);
-$pot = $DB->query("
-	SELECT COUNT(p.pid) as tpost, m.id, m.name, m.joined, m.posts 
-	FROM ibf_posts p, ibf_members m 
-	WHERE m.id > 0 AND m.id=p.author_id and post_date < $time_high and post_date > $time_low 
-	GROUP BY p.author_id 
-	ORDER BY tpost 
+		$time_high = time();
+		$time_low  = $time_high - (60 * 60 * 24 * 7);
+		$stmt      = $ibforums->db->query("
+	SELECT COUNT(p.pid) as tpost, m.id, m.name, m.joined, m.posts
+	FROM ibf_posts p, ibf_members m
+	WHERE m.id > 0 AND m.id=p.author_id and post_date < $time_high and post_date > $time_low
+	GROUP BY p.author_id
+	ORDER BY tpost
 	DESC LIMIT 10
 ");
 
-while ($row = mysql_fetch_array($pot))
-{
- 	$row[tpost] = number_format($row[tpost]);
- 	$data[week_posters] .= 
+		while ($row = $stmt->fetch())
+		{
+			$row[tpost] = number_format($row[tpost]);
+			$data[week_posters] .=
 
-"<tr><td width='90%' class='row2' align=left>&nbsp;&nbsp; 
+				"<tr><td width='90%' class='row2' align=left>&nbsp;&nbsp;
 
 <a href='{$ibforums->base_url}showuser={$row[id]}'>{$row[name]}</a>
 
@@ -213,143 +207,180 @@ while ($row = mysql_fetch_array($pot))
 
 </td></tr>";
 
-}
- 
-   			 //------------------------------------------------------------------------------------
-  			 // INVISIONBOARD STATISTICS (USER CONTRIBUTED MODULES)
-  			 //------------------------------------------------------------------------------------
+		}
 
+		//------------------------------------------------------------------------------------
+		// INVISIONBOARD STATISTICS (USER CONTRIBUTED MODULES)
+		//------------------------------------------------------------------------------------
 
+		//------------------------------------------------------------------------------------
+		// TOP 10 POSTERS OF THE MONTH (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
-   //------------------------------------------------------------------------------------
-   // TOP 10 POSTERS OF THE MONTH (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
-
-
-$time_high = time();
-$time_low = $time_high - (60*60*24*30);
-$pot = $DB->query("
-	SELECT COUNT(p.pid) as tpost, m.id, m.name, m.joined, m.posts 
-	FROM ibf_posts p, ibf_members m 
-	WHERE m.id > 0 AND m.id=p.author_id and post_date < $time_high and post_date > $time_low 
-	GROUP BY p.author_id 
-	ORDER BY tpost 
+		$time_high = time();
+		$time_low  = $time_high - (60 * 60 * 24 * 30);
+		$stmt      = $ibforums->db->query("
+	SELECT COUNT(p.pid) as tpost, m.id, m.name, m.joined, m.posts
+	FROM ibf_posts p, ibf_members m
+	WHERE m.id > 0 AND m.id=p.author_id and post_date < $time_high and post_date > $time_low
+	GROUP BY p.author_id
+	ORDER BY tpost
 	DESC LIMIT 10
 ");
 
-while ($row = mysql_fetch_array($pot))
-{
- 	$row[tpost] = number_format($row[tpost]);
- 	$data[month_posters] .= 
+		while ($row = $stmt->fetch())
+		{
+			$row[tpost] = number_format($row[tpost]);
+			$data[month_posters] .=
 
-"<tr><td width='90%' class='row2' align=left>&nbsp;&nbsp; 
+				"<tr><td width='90%' class='row2' align=left>&nbsp;&nbsp;
 
 <a href='{$ibforums->base_url}showuser={$row[id]}'>{$row[name]}</a>
-	
+
 </TD><TD width=10% class=row2 align=center><span style='color:#888888'>
 
 {$row[tpost]}
-	
+
 </td></tr>";
 
-}
+		}
 
+		//------------------------------------------------------------------------------------
+		// MOST USED INSTANT MESSENGERS (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
-
-
-   //------------------------------------------------------------------------------------
-   // MOST USED INSTANT MESSENGERS (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
-
-
-$pot = $DB->query("
-	SELECT aim_name, integ_msg, msnname, yahoo, icq_number 
+		$stmt        = $ibforums->db->query("
+	SELECT aim_name, integ_msg, msnname, yahoo, icq_number
 	FROM ibf_members
 ");
-	$data[aim] = 0;
-	$data[msn] = 0;
-	$data[yahoo] = 0;
-	$data[icq] = 0;
-	$data[im] = 0;
-	$data[none] = 0;
+		$data[aim]   = 0;
+		$data[msn]   = 0;
+		$data[yahoo] = 0;
+		$data[icq]   = 0;
+		$data[im]    = 0;
+		$data[none]  = 0;
 
-while ($info = mysql_fetch_array($pot))
-{
- 	if ($info[aim_name] != '')
-		$data[aim]++;
-	if ($info[msnname] != '')
-		$data[msn]++;
-	if ($info[yahoo] != '')
-		$data[yahoo]++;
-	if ($info[icq_number] != '')
-		$data[icq]++;
-	if ($info[integ_msg] != '')
-		$data[im]++;
-	if ($info[aim_name] == '' && $info[msnname] == '' && $info[yahoo] == '' && $info[icq_number] == '' && $info[integ_msg] == '')
-		$data[none]++;
-}
+		while ($info = $stmt->fetch())
+		{
+			if ($info[aim_name] != '')
+			{
+				$data[aim]++;
+			}
+			if ($info[msnname] != '')
+			{
+				$data[msn]++;
+			}
+			if ($info[yahoo] != '')
+			{
+				$data[yahoo]++;
+			}
+			if ($info[icq_number] != '')
+			{
+				$data[icq]++;
+			}
+			if ($info[integ_msg] != '')
+			{
+				$data[im]++;
+			}
+			if ($info[aim_name] == '' && $info[msnname] == '' && $info[yahoo] == '' && $info[icq_number] == '' && $info[integ_msg] == '')
+			{
+				$data[none]++;
+			}
+		}
 
+		//------------------------------------------------------------------------------------
+		// NUMBER OF TOPICS PER MONTH (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
-   //------------------------------------------------------------------------------------
-   // NUMBER OF TOPICS PER MONTH (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
-
-
-
-$statistics = $DB->query('SELECT start_date FROM ibf_topics WHERE (tid <> 0) ORDER BY start_date');
-$january = 0;
-$february = 0;
-$march = 0;
-$april = 0;
-$may = 0;
-$june = 0;
-$july = 0;
-$august = 0;
-$september = 0;
-$october = 0;
-$november = 0;
-$december = 0;
-while ($stats = mysql_fetch_array($statistics))
-{
- 	$month = date('F', $stats['start_date']);
-	if ($month == 'January')
-		$january++;
-	else if ($month == 'February')
-		$february++;
-	else if ($month == 'March')
-		$march++;
-	else if ($month == 'April')
-		$april++;
-	else if ($month == 'May')
-		$may++;
-	else if ($month == 'June')
-		$june++;
-	else if ($month == 'July')
-		$july++;
-	else if ($month == 'August')
-		$august++;
-	else if ($month == 'September')
-		$september++;
-	else if ($month == 'October')
-		$october++;
-	else if ($month == 'November')
-		$november++;
-	else if ($month == 'December')
-		$december++;
-}
-$january = number_format($january);
-$february = number_format($february);
-$march = number_format($march);
-$april = number_format($april);
-$may = number_format($may);
-$june = number_format($june);
-$july = number_format($july);
-$august = number_format($august);
-$september = number_format($september);
-$october = number_format($october);
-$november = number_format($november);
-$december = number_format($december);
-$data['topics_by_month'] = <<<EOF
+		$stmt      = $ibforums->db->query('SELECT start_date FROM ibf_topics WHERE (tid <> 0) ORDER BY start_date');
+		$january   = 0;
+		$february  = 0;
+		$march     = 0;
+		$april     = 0;
+		$may       = 0;
+		$june      = 0;
+		$july      = 0;
+		$august    = 0;
+		$september = 0;
+		$october   = 0;
+		$november  = 0;
+		$december  = 0;
+		while ($stats = $stmt->fetch())
+		{
+			$month = date('F', $stats['start_date']);
+			if ($month == 'January')
+				$january++; else if ($month == 'February')
+				$february++; else if ($month == 'March')
+					{
+						$march++;
+					} else {
+				if ($month == 'April')
+				{
+					$april++;
+				} else
+				{
+					if ($month == 'May')
+					{
+						$may++;
+					} else
+					{
+						if ($month == 'June')
+						{
+							$june++;
+						} else
+						{
+							if ($month == 'July')
+							{
+								$july++;
+							} else
+							{
+								if ($month == 'August')
+								{
+									$august++;
+								} else
+								{
+									if ($month == 'September')
+									{
+										$september++;
+									} else
+									{
+										if ($month == 'October')
+										{
+											$october++;
+										} else
+										{
+											if ($month == 'November')
+											{
+												$november++;
+											} else
+											{
+												if ($month == 'December')
+												{
+													$december++;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		$january                 = number_format($january);
+		$february                = number_format($february);
+		$march                   = number_format($march);
+		$april                   = number_format($april);
+		$may                     = number_format($may);
+		$june                    = number_format($june);
+		$july                    = number_format($july);
+		$august                  = number_format($august);
+		$september               = number_format($september);
+		$october                 = number_format($october);
+		$november                = number_format($november);
+		$december                = number_format($december);
+		$data['topics_by_month'] = <<<EOF
 <tr>
 	<td class='row2'><span style='color:#888888'>
 		January
@@ -448,65 +479,53 @@ $data['topics_by_month'] = <<<EOF
 </tr>
 EOF;
 
-   //------------------------------------------------------------------------------------
-   // NUMBER OF REGISTRATIONS PER MONTH (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------
+		// NUMBER OF REGISTRATIONS PER MONTH (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
-
-$statistics = $DB->query('SELECT joined FROM ibf_members WHERE (id <> 0) ORDER BY joined');
-$january = 0;
-$february = 0;
-$march = 0;
-$april = 0;
-$may = 0;
-$june = 0;
-$july = 0;
-$august = 0;
-$september = 0;
-$october = 0;
-$november = 0;
-$december = 0;
-while ($stats = mysql_fetch_array($statistics))
-{
- 	$month = date('F', $stats['joined']);
-	if ($month == 'January')
-		$january++;
-	else if ($month == 'February')
-		$february++;
-	else if ($month == 'March')
-		$march++;
-	else if ($month == 'April')
-		$april++;
-	else if ($month == 'May')
-		$may++;
-	else if ($month == 'June')
-		$june++;
-	else if ($month == 'July')
-		$july++;
-	else if ($month == 'August')
-		$august++;
-	else if ($month == 'September')
-		$september++;
-	else if ($month == 'October')
-		$october++;
-	else if ($month == 'November')
-		$november++;
-	else if ($month == 'December')
-		$december++;
-}
-$january = number_format($january);
-$february = number_format($february);
-$march = number_format($march);
-$april = number_format($april);
-$may = number_format($may);
-$june = number_format($june);
-$july = number_format($july);
-$august = number_format($august);
-$september = number_format($september);
-$october = number_format($october);
-$november = number_format($november);
-$december = number_format($december);
-$data['users_by_month'] .= <<<EOF
+		$stmt      = $ibforums->db->query('SELECT joined FROM ibf_members WHERE (id <> 0) ORDER BY joined');
+		$january   = 0;
+		$february  = 0;
+		$march     = 0;
+		$april     = 0;
+		$may       = 0;
+		$june      = 0;
+		$july      = 0;
+		$august    = 0;
+		$september = 0;
+		$october   = 0;
+		$november  = 0;
+		$december  = 0;
+		while ($stats = $stmt->fetch())
+		{
+			$month = date('F', $stats['joined']);
+			if ($month == 'January')
+				$january++; else if ($month == 'February')
+				$february++; else if ($month == 'March')
+				$march++; else if ($month == 'April')
+				$april++; else if ($month == 'May')
+				$may++; else if ($month == 'June')
+				$june++; else if ($month == 'July')
+				$july++; else if ($month == 'August')
+				$august++; else if ($month == 'September')
+				$september++; else if ($month == 'October')
+				$october++; else if ($month == 'November')
+				$november++; else if ($month == 'December')
+				$december++;
+		}
+		$january   = number_format($january);
+		$february  = number_format($february);
+		$march     = number_format($march);
+		$april     = number_format($april);
+		$may       = number_format($may);
+		$june      = number_format($june);
+		$july      = number_format($july);
+		$august    = number_format($august);
+		$september = number_format($september);
+		$october   = number_format($october);
+		$november  = number_format($november);
+		$december  = number_format($december);
+		$data['users_by_month'] .= <<<EOF
 <tr>
 	<td class='row2'><span style='color:#888888'>
 		January
@@ -605,65 +624,53 @@ $data['users_by_month'] .= <<<EOF
 </tr>
 EOF;
 
+		//------------------------------------------------------------------------------------
+		// NUMBER OF POSTS PER MONTH (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
-   //------------------------------------------------------------------------------------
-   // NUMBER OF POSTS PER MONTH (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
-
-$statistics = $DB->query('SELECT post_date FROM ibf_posts WHERE (pid <> 0) ORDER BY post_date');
-$january = 0;
-$february = 0;
-$march = 0;
-$april = 0;
-$may = 0;
-$june = 0;
-$july = 0;
-$august = 0;
-$september = 0;
-$october = 0;
-$november = 0;
-$december = 0;
-while ($stats = mysql_fetch_array($statistics))
-{
- 	$month = date('F', $stats['post_date']);
-	if ($month == 'January')
-		$january++;
-	else if ($month == 'February')
-		$february++;
-	else if ($month == 'March')
-		$march++;
-	else if ($month == 'April')
-		$april++;
-	else if ($month == 'May')
-		$may++;
-	else if ($month == 'June')
-		$june++;
-	else if ($month == 'July')
-		$july++;
-	else if ($month == 'August')
-		$august++;
-	else if ($month == 'September')
-		$september++;
-	else if ($month == 'October')
-		$october++;
-	else if ($month == 'November')
-		$november++;
-	else if ($month == 'December')
-		$december++;
-}
-$january = number_format($january);
-$february = number_format($february);
-$march = number_format($march);
-$april = number_format($april);
-$may = number_format($may);
-$june = number_format($june);
-$july = number_format($july);
-$august = number_format($august);
-$september = number_format($september);
-$october = number_format($october);
-$november = number_format($november);
-$december = number_format($december);
-$data['posts_by_month'] = <<<EOF
+		$stmt      = $ibforums->db->query('SELECT post_date FROM ibf_posts WHERE (pid <> 0) ORDER BY post_date');
+		$january   = 0;
+		$february  = 0;
+		$march     = 0;
+		$april     = 0;
+		$may       = 0;
+		$june      = 0;
+		$july      = 0;
+		$august    = 0;
+		$september = 0;
+		$october   = 0;
+		$november  = 0;
+		$december  = 0;
+		while ($stats = $stmt->fetch())
+		{
+			$month = date('F', $stats['post_date']);
+			if ($month == 'January')
+				$january++; else if ($month == 'February')
+				$february++; else if ($month == 'March')
+				$march++; else if ($month == 'April')
+				$april++; else if ($month == 'May')
+				$may++; else if ($month == 'June')
+				$june++; else if ($month == 'July')
+				$july++; else if ($month == 'August')
+				$august++; else if ($month == 'September')
+				$september++; else if ($month == 'October')
+				$october++; else if ($month == 'November')
+				$november++; else if ($month == 'December')
+				$december++;
+		}
+		$january                = number_format($january);
+		$february               = number_format($february);
+		$march                  = number_format($march);
+		$april                  = number_format($april);
+		$may                    = number_format($may);
+		$june                   = number_format($june);
+		$july                   = number_format($july);
+		$august                 = number_format($august);
+		$september              = number_format($september);
+		$october                = number_format($october);
+		$november               = number_format($november);
+		$december               = number_format($december);
+		$data['posts_by_month'] = <<<EOF
 <tr>
 	<td class='row2'><span style='color:#888888'>
 		January
@@ -762,17 +769,16 @@ $data['posts_by_month'] = <<<EOF
 </tr>
 EOF;
 
-   //------------------------------------------------------------------------------------
-   // TEN MOST RECENT ACTIVE USERS (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------
+		// TEN MOST RECENT ACTIVE USERS (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
+		$stmt = $ibforums->db->query('SELECT last_activity, id, name FROM ibf_members WHERE id > 0 ORDER BY last_activity desc LIMIT 5');
+		while ($stats = $stmt->fetch())
+		{
+			$date = $std->get_date($stats['last_activity']);
 
-$statistics = $DB->query('SELECT last_activity, id, name FROM ibf_members WHERE id > 0 ORDER BY last_activity desc LIMIT 5');
-while ($stats = mysql_fetch_array($statistics))
-{
- 	$date = $std->get_date($stats['last_activity']);
-	
-	$data['last_active'] .= <<<EOF
+			$data['last_active'] .= <<<EOF
 <tr>
 	<td width='50%' class='row2' align='left'>
 		<a href="{$ibforums->base_url}showuser={$stats[id]}">{$stats[name]}</a>
@@ -782,38 +788,34 @@ while ($stats = mysql_fetch_array($statistics))
 	</td>
 </tr>
 EOF;
-}
+		}
 
+		//------------------------------------------------------------------------------------
+		// TEN USERS WITH HIGEST POSTS PER DAY  (AUTHOR: OMEGA13A)
+		//------------------------------------------------------------------------------------
 
-   //------------------------------------------------------------------------------------
-   // TEN USERS WITH HIGEST POSTS PER DAY  (AUTHOR: OMEGA13A)
-   //------------------------------------------------------------------------------------
-
-$currect_time = time();
-$statistics = $DB->query('SELECT (posts / (('.$currect_time.' - joined) / 86400)) rate, id, name FROM ibf_members WHERE id >  0 ORDER BY rate desc LIMIT 10');
-while ($stats = mysql_fetch_array($statistics))
-{ 
- 	$data['fastest_users'] .= <<<EOF
+		$currect_time = time();
+		$stmt         = $ibforums->db->query('SELECT (posts / ((' . $currect_time . ' - joined) / 86400)) rate, id, name FROM ibf_members WHERE id >  0 ORDER BY rate desc LIMIT 10');
+		while ($stats = $stmt->fetch())
+		{
+			$data['fastest_users'] .= <<<EOF
 <tr>
 	<td width='90%' class='row2' align='left'><a href="{$ibforums->base_url}showuser={$stats[id]}">{$stats[name]}</a></td>
 	<td width='10%' class='row2' align='left'><span style='color:#888888'>&nbsp;{$stats[rate]}</td>
 </tr>
 EOF;
-}
+		}
 
+		//-----------------------------------------------------
+		// RENDER THE STATISTICS
+		//-----------------------------------------------------
 
-
-   //-----------------------------------------------------
-   // RENDER THE STATISTICS
-   //-----------------------------------------------------
-
-	$this->output=$this->html->Statistics($data);
-	$print->add_output("$this->output");
-	$print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav ) );
-	$this->page_title = $ibforums->vars['board_name'];
-	$this->nav        = array( $ibforums->lang['page_title'] );
+		$this->output = $this->html->Statistics($data);
+		$print->add_output("$this->output");
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$this->page_title = $ibforums->vars['board_name'];
+		$this->nav        = array($ibforums->lang['page_title']);
 
 	}
-
 
 }
