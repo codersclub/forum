@@ -1241,7 +1241,7 @@ class Register
 				'ip_address' => $member['ip_address']
 			];
 
-			$ibforums->db->exec("ibf_validating", $data);
+			$ibforums->db->insertRow("ibf_validating", $data);
 
 			$print->redirect_screen($ibforums->lang['cp_success'], 'act=Reg&CODE=12');
 		}

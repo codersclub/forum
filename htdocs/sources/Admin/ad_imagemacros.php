@@ -241,7 +241,7 @@ class ad_settings
 			'set_id'   => $new_id,
 		];
 
-		$ibforums->db->exec("ibf_macro_name", $data);
+		$ibforums->db->insertRow("ibf_macro_name", $data);
 
 		$ADMIN->done_screen("Macro Set Import Complete", "Manage Macro Sets", "act=image");
 

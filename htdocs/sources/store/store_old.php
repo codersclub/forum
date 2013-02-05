@@ -582,7 +582,7 @@ class store
 				if ($restock < time())
 				{
 					$item['stock'] = $item['restock_amount'];
-					$query         = $ibforums->db->exec("UPDATE ibf_store_shopstock SET stock='{$item['stock']}', soldout_time='0' WHERE id='{$item['id']}' LIMIT 1");
+					$ibforums->db->exec("UPDATE ibf_store_shopstock SET stock='{$item['stock']}', soldout_time='0' WHERE id='{$item['id']}' LIMIT 1");
 					$stmt->closeCursor();
 				}
 			}

@@ -1315,7 +1315,7 @@ class ad_store
 				'pending'        => 1,
 				'quiz_items'     => $quiz_items
 			);
-			$ibforums->db->insertRow($params, 'ibf_quiz_info');
+			$ibforums->db->insertRow('ibf_quiz_info', $params);
 			//$ibforums->db->exec("INSERT INTO ibf_quiz_info
 			//	    VALUES('','{}','{}','{}','{}','{}','{}','{}','OPEN','{}','1','{}')");
 

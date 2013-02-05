@@ -517,7 +517,7 @@ class ad_langs
 			$final['lemail']  = stripslashes($_POST['lemail']);
 		}
 
-		$ibforums->db->exec("ibf_languages", array_map([$ibforums->db, 'quote'], $final), "lid='" . $IN['id'] . "'");
+		$ibforums->db->updateRow("ibf_languages", array_map([$ibforums->db, 'quote'], $final), "lid='" . $IN['id'] . "'");
 
 		$ADMIN->done_screen("Language pack information updated", "Manage language sets", "act=lang");
 
