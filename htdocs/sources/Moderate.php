@@ -2160,24 +2160,25 @@ class Moderate
 		// Check for an attempt to move into a subwrap forum
 		//-----------------------------------
 
-		while ($f = $stmt->fetch())
-		{
-			if ($f['id'] == $ibforums->input['sf'])
-			{
-				$source_name = $f['name'];
-			} else
-			{
-				$dest_name = $f['name'];
-			}
-
-			if (($f['subwrap'] == 1 and $f['sub_can_post'] != 1) OR $f['redirect_on'] == 1)
-			{
-				$this->Error(array(
-				                  'LEVEL' => 1,
-				                  'MSG'   => 'forum_no_post_allowed'
-				             ));
-			}
-		}
+//no queries -- jureth
+//		while ($f = $stmt->fetch())
+//		{
+//			if ($f['id'] == $ibforums->input['sf'])
+//			{
+//				$source_name = $f['name'];
+//			} else
+//			{
+//				$dest_name = $f['name'];
+//			}
+//
+//			if (($f['subwrap'] == 1 and $f['sub_can_post'] != 1) OR $f['redirect_on'] == 1)
+//			{
+//				$this->Error(array(
+//				                  'LEVEL' => 1,
+//				                  'MSG'   => 'forum_no_post_allowed'
+//				             ));
+//			}
+//		}
 
 		$stmt = $ibforums->db->query("SELECT *
 			    FROM ibf_topics
