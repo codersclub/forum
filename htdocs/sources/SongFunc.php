@@ -453,10 +453,10 @@ class SongFunc
 				{
 					$select->execute([$word]);
 					if ($select->rowCount()){
-						$id = $select->fetchColumn();
+//						$id = $select->fetchColumn();
 					}else{
 						$insert->execute([$word]);
-						$id = $ibforums->db->lastInsertInd();
+//						$id = $ibforums->db->lastInsertId();
 					}
 					// add word record
 //no such table -- jureth
