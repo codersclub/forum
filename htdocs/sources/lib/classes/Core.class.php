@@ -40,8 +40,7 @@ class Core {
 		global $INFO;
 		$this->vars = &$INFO;
 		$this->functions = new FUNC();
-		//todo uncomment this
-		//set_exception_handler([$this, 'onException']);//handling exceptions
+		set_exception_handler([$this, 'onException']);//handling exceptions
 		if (!$this->initDB()){
 			echo "<h1>Слишком много подключений к серверу. Пожалуйста подождите несколько минут и повторите попытку.</h1>";
 			exit;
