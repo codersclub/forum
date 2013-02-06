@@ -8,12 +8,6 @@ class IBPDO extends PDO
 
 	function __construct($INFO)
 	{
-		$dsn = sprintf('%s:dbname=%s;host=%s', strtolower($INFO['sql_driver']), $INFO['sql_database'], $INFO['sql_host'], $INFO['sql_port']);
-		if (!empty($INFO['sql_port']))
-		{
-			$dsn .= ';port=' . $INFO['sql_port'];
-		}
-
 		$options                               = [];
 		$options[PDO::ATTR_DEFAULT_FETCH_MODE] = PDO::FETCH_ASSOC; //return always assoc arrays
 		$options[PDO::ATTR_ERRMODE]            = PDO::ERRMODE_EXCEPTION; //throw exceptions instead returning false
@@ -22,7 +16,7 @@ class IBPDO extends PDO
 			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = sprintf('SET NAMES "%s"', $INFO['sql_charset']);
 		}
 
-		parent::__construct($dsn, $INFO['sql_user'], $INFO['sql_pass'], $options);
+		parent::__construct($INFO['sql_dsn'], $INFO['sql_user'], $INFO['sql_pass'], $options);
 	}
 
 	/**
