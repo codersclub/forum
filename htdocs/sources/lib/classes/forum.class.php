@@ -8,7 +8,7 @@ class forum
 	public function update_last_topic_time()
 	{
 
-		$last_topic = Ibf::instance()->db->get_row("SELECT
+		$last_topic = Ibf::instance()->db->query("SELECT
 				t.last_post,
 				t.last_poster_id,
 				t.last_poster_name,

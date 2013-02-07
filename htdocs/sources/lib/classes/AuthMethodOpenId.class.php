@@ -35,7 +35,7 @@ class AuthMethodOpenId extends AuthBasic
 		} else
 		{
 			$username = $ibforums->db
-				->query("SELECT name FROM ibf_members WHERE openid_url = '" . $ibforums->db->quote($this->url) . "'")
+				->query("SELECT name FROM ibf_members WHERE openid_url = " . $ibforums->db->quote($this->url))
 				->fetchColumn();
 		}
 
@@ -51,7 +51,7 @@ class AuthMethodOpenId extends AuthBasic
 		{
 
 			$member = $ibforums->db
-				->query("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='" . $ibforums->db->quote($this->username()) . "'")
+				->query("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)=" . $ibforums->db->quote($this->username()))
 				->fetch();
 
 			if ($this->url != $member['openid_url'])
@@ -98,7 +98,7 @@ class AuthMethodOpenId extends AuthBasic
 		//-------------------------------------------------
 
 		$member = $ibforums->db
-			->query("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)='" . $ibforums->db->quote($this->username()) . "'")
+			->query("SELECT id, name, mgroup, password, openid_url FROM ibf_members WHERE LOWER(name)=" . $ibforums->db->quote($this->username()))
 			->fetch();
 
 		if (!$member)
