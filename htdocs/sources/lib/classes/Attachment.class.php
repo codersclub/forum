@@ -334,9 +334,9 @@ if (!class_exists('Attachment'))
 			settype($id, 'integer');
 
 			$query = "SELECT *
-		    FROM `ibf_post_attachments` a
-			INNER JOIN `ibf_attachments_link` al USING (`attach_id`)
-		    WHERE al.item_id=$id AND al.item_type = '" . $ibforums->db->quote($attach_type) . "'";
+		    FROM ibf_post_attachments a
+			INNER JOIN ibf_attachments_link al USING (attach_id)
+		    WHERE al.item_id=$id AND al.item_type = " . $ibforums->db->quote($attach_type);
 
 			if ($attach_id !== NULL)
 			{

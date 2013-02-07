@@ -1347,7 +1347,7 @@ class modfunctions
 				: 1
 		];
 
-		$ibforums->db->updateRow("ibf_forums", $data, "id=" . $fid);
+		$ibforums->db->updateRow("ibf_forums", array_map([$ibforums->db, 'quote'], $data), "id=" . $fid);
 
 		return TRUE;
 	}

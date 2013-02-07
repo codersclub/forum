@@ -825,9 +825,13 @@ class FUNC
 
 		// current month
 		$cur_mon = $this->current_month();
-
-		if (0 == $ibforums->db->exec("INSERT IGNORE INTO ibf_m_visitors VALUES (" . $mid . "," . $cur_day . "," . $cur_mon . ")"))
+		$stmt = $ibforums->db->prepare('SELECT count(*) FROM ibf_m_visitors WHERE mid=? AND day=? AND month=?');
+		$stmt->execute([$mid, $cur_day, $cur_mon]);
+		if ('0' == $stmt->fetchColumn())
 		{
+			$ibforums->db->prepare("INSERT INTO ibf_m_visitors VALUES (?, ?, ?)")
+				->execute([$mid, $cur_day, $cur_mon]);
+		}else{
 			$this->inc_user_count('members', $cur_day, $cur_mon);
 		}
 	}
@@ -3479,7 +3483,7 @@ class FUNC
 		settype($topic_to_id, 'integer');
 		settype($forum_to_id, 'integer');
 
-		$stmt = $ibforums->db->query("INSERT IGNORE INTO ibf_log_topics (mid, tid, fid, logTime)
+		$stmt = $ibforums->db->query("REPLACE INTO ibf_log_topics (mid, tid, fid, logTime)
 				SELECT mid, $topic_to_id, $forum_to_id, logTime FROM ibf_log_topics WHERE tid = $topic_from_id");
 	}
 
@@ -3501,7 +3505,7 @@ class FUNC
 					mid='" . $ibforums->member['id'] . "'");
 				} else
 				{
-					$ibforums->db->query("INSERT IGNORE INTO ibf_log_forums
+					$ibforums->db->query("INSERT INTO ibf_log_forums
 				    VALUES ('" . $ibforums->member['id'] . "', '" . $fid . "','" . time() . "')");
 				}
 			} catch (PDOException $e)
@@ -3581,8 +3585,18 @@ class FUNC
 				mid='{$ibforums->member['id']}'");
 		} else
 		{
-			$ibforums->db->exec("INSERT INGORE INTO ibf_log_topics
+			$upd = $ibforums->db->exec("UPDATE ibf_log_topics
+			    SET logTime=" . time() . "
+			    WHERE
+				tid='{$tid}' AND
+				fid='{$fid}' AND
+				mid='{$ibforums->member['id']}'");
+			if ($upd === 0)
+			{
+				//ничего не обновилось
+				$ibforums->db->exec("INSERT INTO ibf_log_topics
 			    VALUES('{$ibforums->member['id']}', '{$tid}', '{$fid}', " . time() . " )");
+			}
 		}
 
 		$this->song_set_forumread($fid);

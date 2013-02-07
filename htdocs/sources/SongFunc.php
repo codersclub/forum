@@ -447,36 +447,25 @@ class SongFunc
 
 			if (count($words))
 			{
+				$insert = $ibforums->db->prepare("INSERT IGNORE INTO ibf_search_words (word) VALUES (:word)");
+				$select = $ibforums->db->prepare("SELECT id FROM ibf_search_words WHERE word=:word");
 				foreach ($words as $word)
 				{
-					// insert word
-					$cnt = $ibforums->db->exec("INSERT IGNORE INTO ibf_search_words (word) VALUES ('" . addslashes($word) . "')");
-
-					$id = 0;
-
-					// if word has been in a database
-					if ($cnt == 0)
-					{
-						// get id of existing word
-						$stmt = $ibforums->db->query("SELECT id FROM ibf_search_words WHERE word='" . addslashes($word) . "'");
-
-						if ($row = $stmt->fetch())
-						{
-							$id = $row['id'];
-						}
-					} else
-					{
-						// else get id of inserted word
-						$id = $ibforums->db->lastInsertId();
+					$select->execute([$word]);
+					if ($select->rowCount()){
+//						$id = $select->fetchColumn();
+					}else{
+						$insert->execute([$word]);
+//						$id = $ibforums->db->lastInsertId();
 					}
-
 					// add word record
-					if ($id)
-					{
-						$ibforums->db->exec("INSERT INGORE INTO ibf_search_post_words VALUES (" . $post['pid'] . ",
-					   " . $post['topic_id'] . "," . $post['forum_id'] . ",
-					    " . $id . ")");
-					}
+//no such table -- jureth
+//					if ($id)
+//					{
+//						$ibforums->db->exec("INSERT INGORE INTO ibf_search_post_words VALUES (" . $post['pid'] . ",
+//					   " . $post['topic_id'] . "," . $post['forum_id'] . ",
+//					    " . $id . ")");
+//					}
 				}
 			}
 
