@@ -1006,7 +1006,7 @@ class UserCP
 		//--------------------------------------------
 		$check = $ibforums->db->query("SELECT id
 					FROM ibf_members
-					WHERE openid_url='" . $ibforums->db->quote($openid) . "'")->fetch();
+					WHERE openid_url=" . $ibforums->db->quote($openid))->fetch();
 
 		if ($check && $check != $ibforums->member['id'])
 		{
