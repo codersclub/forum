@@ -1077,7 +1077,7 @@ class FUNC
 			msg_msg_id='" . $message_id . "'
 			{$extra}
 	            WHERE id='" . $sendto . "'
-		    LIMIT 1", 0, $fatal);
+		    LIMIT 1");
 
 		$to_member = array();
 
@@ -4318,87 +4318,6 @@ class display
 		$image = ($ibforums->member['id'] && $this->is_new_fav_exists())
 			? "<{atb_favs_new}>"
 			: "<{atb_favs}>";
-
-		//---------------------------------------------
-		// Check for DEBUG Mode
-		//---------------------------------------------
-
-		if ($ibforums->member['g_access_cp'])
-		{
-			//			if ($ibforums->db->debug)
-			//			{
-			//				flush();
-			//				print "<html><head><title>mySQL Debugger</title><body bgcolor='white'><style type='text/css'> TABLE, TD, TR, BODY { font-family: verdana,arial, sans-serif;color:black;font-size:11px }</style>";
-			//				print $ibforums->debug_html;
-			//				print "</body></html>";
-			//				exit();
-			//			}
-			//
-			//			$input = "";
-			//			$queries = "";
-			//			$sload = "";
-			//
-			//			if ($ibforums->server_load > 0)
-			//			{
-			//				$sload = "&nbsp; [ Server Load: " . $ibforums->server_load . " ]";
-			//			}
-			//
-			//			//+----------------------------------------------
-			//
-			//			if ($ibforums->vars['debug_level'] >= 2)
-			//			{
-			//				$stats .= "<br>\n<div class='tableborder'>\n<div class='pformstrip'>FORM and GET Input</div><div class='row1' style='padding:6px'>\n";
-			//
-			//				while (list($k, $v) = each($ibforums->input))
-			//				{
-			//					$stats .= "<strong>$k</strong> = $v<br>\n";
-			//				}
-			//
-			//				$stats .= "</div>\n</div>";
-			//			}
-			//
-			//			//+----------------------------------------------
-			//
-			//			if ($ibforums->vars['debug_level'] >= 3)
-			//			{
-			//				$stats .= "<br>\n<div class='tableborder'>\n<div class='pformstrip'>Queries Used</div><div class='row1' style='padding:6px'>";
-			//
-			//				foreach ($DB->obj['cached_queries'] as $q)
-			//				{
-			//					$q = htmlspecialchars($q);
-			//					$q = preg_replace("/^SELECT/i", "<span class='red'>SELECT</span>", $q);
-			//					$q = preg_replace("/^UPDATE/i", "<span class='blue'>UPDATE</span>", $q);
-			//					$q = preg_replace("/^DELETE/i", "<span class='orange'>DELETE</span>", $q);
-			//					$q = preg_replace("/^INSERT/i", "<span class='green'>INSERT</span>", $q);
-			//					$q = str_replace("LEFT JOIN", "<span class='red'>LEFT JOIN</span>", $q);
-			//
-			//					$q = preg_replace("/(" . $ibforums->vars['sql_tbl_prefix'] . ")(\S+?)([\s\.,]|$)/", "<span class='purple'>\\1\\2</span>\\3", $q);
-			//
-			//					$stats .= "$q<hr>\n";
-			//				}
-			//
-			//				$stats .= "</div>\n</div>";
-			//			}
-		}
-
-		//+----------------------------------------------
-
-		//		if ($ibforums->vars['debug_level'] > 0)
-		//		{
-		//			$ex_time = sprintf("%.4f", $Debug->endTimer());
-		//
-		//			$query_cnt = $DB->get_query_cnt();
-		//
-		//			$gzip_status = $ibforums->vars['disable_gzip'] == 1
-		//				? $ibforums->lang['gzip_off']
-		//				: $ibforums->lang['gzip_on'];
-		//
-		//			// timestamp by barazuk
-		//			$timestamp = $std->old_get_date(time(), 'LONG');
-		//
-		//			// timestamp by barazuk
-		//			$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; [ Generated: $timestamp GMT ] &nbsp; $sload</div>\n<br>";
-		//		}
 
 		/*		 * ***************************************************** */
 		// NAVIGATION
