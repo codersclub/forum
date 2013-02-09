@@ -194,16 +194,16 @@ class Statistics
 
 		while ($row = $stmt->fetch())
 		{
-			$row[tpost] = number_format($row[tpost]);
-			$data[week_posters] .=
+			$row['tpost'] = number_format($row['tpost']);
+			$data['week_posters'] .=
 
 				"<tr><td width='90%' class='row2' align=left>&nbsp;&nbsp;
 
-<a href='{$ibforums->base_url}showuser={$row[id]}'>{$row[name]}</a>
+<a href='{$ibforums->base_url}showuser={$row['id']}'>{$row['name']}</a>
 
 </TD><TD width=10% class=row2 align=center><span style='color:#888888'>
 
-{$row[tpost]}
+{$row['tpost']}
 
 </td></tr>";
 
@@ -230,16 +230,16 @@ class Statistics
 
 		while ($row = $stmt->fetch())
 		{
-			$row[tpost] = number_format($row[tpost]);
-			$data[month_posters] .=
+			$row['tpost'] = number_format($row['tpost']);
+			$data['month_posters'] .=
 
 				"<tr><td width='90%' class='row2' align=left>&nbsp;&nbsp;
 
-<a href='{$ibforums->base_url}showuser={$row[id]}'>{$row[name]}</a>
+<a href='{$ibforums->base_url}showuser={$row['id']}'>{$row['name']}</a>
 
 </TD><TD width=10% class=row2 align=center><span style='color:#888888'>
 
-{$row[tpost]}
+{$row['tpost']}
 
 </td></tr>";
 
@@ -253,38 +253,38 @@ class Statistics
 	SELECT aim_name, integ_msg, msnname, yahoo, icq_number
 	FROM ibf_members
 ");
-		$data[aim]   = 0;
-		$data[msn]   = 0;
-		$data[yahoo] = 0;
-		$data[icq]   = 0;
-		$data[im]    = 0;
-		$data[none]  = 0;
+		$data['aim']   = 0;
+		$data['msn']   = 0;
+		$data['yahoo'] = 0;
+		$data['icq']   = 0;
+		$data['im']    = 0;
+		$data['none']  = 0;
 
 		while ($info = $stmt->fetch())
 		{
-			if ($info[aim_name] != '')
+			if ($info['aim_name'] != '')
 			{
-				$data[aim]++;
+				$data['aim']++;
 			}
-			if ($info[msnname] != '')
+			if ($info['msnname'] != '')
 			{
-				$data[msn]++;
+				$data['msn']++;
 			}
-			if ($info[yahoo] != '')
+			if ($info['yahoo'] != '')
 			{
-				$data[yahoo]++;
+				$data['yahoo']++;
 			}
-			if ($info[icq_number] != '')
+			if ($info['icq_number'] != '')
 			{
-				$data[icq]++;
+				$data['icq']++;
 			}
-			if ($info[integ_msg] != '')
+			if ($info['integ_msg'] != '')
 			{
-				$data[im]++;
+				$data['im']++;
 			}
-			if ($info[aim_name] == '' && $info[msnname] == '' && $info[yahoo] == '' && $info[icq_number] == '' && $info[integ_msg] == '')
+			if ($info['aim_name'] == '' && $info['msnname'] == '' && $info['yahoo'] == '' && $info['icq_number'] == '' && $info['integ_msg'] == '')
 			{
-				$data[none]++;
+				$data['none']++;
 			}
 		}
 
@@ -781,7 +781,7 @@ EOF;
 			$data['last_active'] .= <<<EOF
 <tr>
 	<td width='50%' class='row2' align='left'>
-		<a href="{$ibforums->base_url}showuser={$stats[id]}">{$stats[name]}</a>
+		<a href="{$ibforums->base_url}showuser={$stats['id']}">{$stats['name']}</a>
 	</td>
 	<td width='50%' class='row2' align='left'><span style='color:#888888'>
 		&nbsp;{$date}
@@ -800,8 +800,8 @@ EOF;
 		{
 			$data['fastest_users'] .= <<<EOF
 <tr>
-	<td width='90%' class='row2' align='left'><a href="{$ibforums->base_url}showuser={$stats[id]}">{$stats[name]}</a></td>
-	<td width='10%' class='row2' align='left'><span style='color:#888888'>&nbsp;{$stats[rate]}</td>
+	<td width='90%' class='row2' align='left'><a href="{$ibforums->base_url}showuser={$stats['id']}">{$stats['name']}</a></td>
+	<td width='10%' class='row2' align='left'><span style='color:#888888'>&nbsp;{$stats['rate']}</td>
 </tr>
 EOF;
 		}
@@ -812,7 +812,7 @@ EOF;
 
 		$this->output = $this->html->Statistics($data);
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 		$this->page_title = $ibforums->vars['board_name'];
 		$this->nav        = array($ibforums->lang['page_title']);
 

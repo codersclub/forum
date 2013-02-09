@@ -781,22 +781,22 @@ class tar
 
 			$fa = unpack($this->tar_unpack_header, $buffer);
 
-			$name     = trim($fa[filename]);
-			$mode     = OctDec(trim($fa[mode]));
-			$uid      = OctDec(trim($fa[uid]));
-			$gid      = OctDec(trim($fa[gid]));
-			$size     = OctDec(trim($fa[size]));
-			$mtime    = OctDec(trim($fa[mtime]));
-			$chksum   = OctDec(trim($fa[chksum]));
-			$typeflag = trim($fa[typeflag]);
-			$linkname = trim($fa[linkname]);
-			$magic    = trim($fa[magic]);
-			$version  = trim($fa[version]);
-			$uname    = trim($fa[uname]);
-			$gname    = trim($fa[gname]);
-			$devmajor = OctDec(trim($fa[devmajor]));
-			$devminor = OctDec(trim($fa[devminor]));
-			$prefix   = trim($fa[prefix]);
+			$name     = trim($fa['filename']);
+			$mode     = OctDec(trim($fa['mode']));
+			$uid      = OctDec(trim($fa['uid']));
+			$gid      = OctDec(trim($fa['gid']));
+			$size     = OctDec(trim($fa['size']));
+			$mtime    = OctDec(trim($fa['mtime']));
+			$chksum   = OctDec(trim($fa['chksum']));
+			$typeflag = trim($fa['typeflag']);
+			$linkname = trim($fa['linkname']);
+			$magic    = trim($fa['magic']);
+			$version  = trim($fa['version']);
+			$uname    = trim($fa['uname']);
+			$gname    = trim($fa['gname']);
+			$devmajor = OctDec(trim($fa['devmajor']));
+			$devminor = OctDec(trim($fa['devminor']));
+			$prefix   = trim($fa['prefix']);
 
 			if (($checksum == 256) && ($chksum == 0))
 			{

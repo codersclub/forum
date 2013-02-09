@@ -779,7 +779,7 @@ class quiz
 
 		$ans = array();
 
-		if (!qid)
+		if (!$qid)
 			return $ans;
 
 		$stmt = $ibforums->db->query("SELECT *
@@ -813,9 +813,9 @@ class quiz
 		global $ibforums;
 		$ans = array();
 
-		if (!qid)
+		if (!$qid)
 			return $ans;
-		if (!mid)
+		if (!$mid)
 			return $ans;
 
 		$stmt = $ibforums->db->query("SELECT
@@ -881,7 +881,7 @@ class quiz
 			//    $member = $this->parse_member( &$member );
 			$member = $this->parse_member($member);
 		} else
-			$member[name] = 'Guest';
+			$member['name'] = 'Guest';
 
 		return $member;
 	}
@@ -1101,7 +1101,7 @@ class quiz
 			$member = $this->parse_member($member);
 		} else
 		{
-			$member[name] = 'Guest';
+			$member['name'] = 'Guest';
 		}
 
 		$this->nav = array("<a href='{$ibforums->base_url}act=quiz'>{$ibforums->lang['quiz_nav']}</a>");
@@ -2075,8 +2075,8 @@ class quiz
 		$print->add_output($html);
 
 		$print->do_output(array(
-		                       OVERRIDE => 1,
-		                       TITLE    => $ibforums->lang['error_title'],
+		                       'OVERRIDE' => 1,
+		                       'TITLE'    => $ibforums->lang['error_title'],
 		                  ));
 
 		exit;
@@ -2150,7 +2150,7 @@ class quiz
 
 		$print->add_output("$output");
 
-		$print->do_output(array('TITLE' => "test", 'JS' => 1, NAV => "test"));
+		$print->do_output(array('TITLE' => "test", 'JS' => 1, 'NAV' => "test"));
 	}
 
 	//--------------------------------------------------------------
@@ -2346,7 +2346,7 @@ class quiz
 			                                  $ibforums->member['show_icons']))
 			)
 			{
-				$member['sex'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}' border='0'> ";
+				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}' border='0'> ";
 			}
 
 			// add crlf
@@ -2359,7 +2359,7 @@ class quiz
 
 			if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 			{
-				$member['member_group_img'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
+				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
 			}
 
 			$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
@@ -2419,7 +2419,7 @@ class quiz
 				// group icon
 				if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 				{
-					$member['member_group_img'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$member['g_icon']}' border='0'>";
+					$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0'>";
 				}
 
 				$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";

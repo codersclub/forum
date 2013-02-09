@@ -53,7 +53,7 @@ class item
 
 	function do_on_use($remove, $blank = "", $blank = "")
 	{
-		global $ibforums, $print, $lib;
+		global $ibforums, $print, $lib, $std;
 
 		$remove = (int)$remove;
 
@@ -67,7 +67,7 @@ class item
 				: 10;
 			if ($remove < $ibforums->vars['warn_min'])
 			{
-				$std->Error(array(LEVEL => '1', MSG => 'no_warn_max'));
+				$std->Error(array('LEVEL' => '1', 'MSG' => 'no_warn_max'));
 			}
 		}
 

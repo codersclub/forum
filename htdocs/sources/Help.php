@@ -70,7 +70,7 @@ class Help
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 	}
 
 	function show_titles()
@@ -119,7 +119,7 @@ class Help
 
 		if (!preg_match("/^(\d+)$/", $id))
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_help_file'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_help_file'));
 		}
 
 		$topic = $ibforums->db->query("SELECT id, title, text from ibf_faq WHERE ID='$id'")->fetch();
@@ -142,7 +142,7 @@ class Help
 
 		if (empty($ibforums->input['search_q']))
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_help_file'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_help_file'));
 		}
 
 		$search_string = strtolower(str_replace("*", "%", $ibforums->input['search_q']));

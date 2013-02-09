@@ -349,7 +349,7 @@ class SongFunc
 		{
 			for ($j = 0; $j < count($synonym); $j++)
 			{
-				list($replace_synonym, $match_synonym) = split(" ", trim($synonym[$j]));
+				list($replace_synonym, $match_synonym) = preg_split("/ /", trim($synonym[$j]));
 
 				if ($match_synonym != "not" && $match_synonym != "and" && $match_synonym != "or")
 				{
@@ -431,7 +431,7 @@ class SongFunc
 
 		if (!$fid or $ibforums->member['mgroup'] != $ibforums->vars['admin_group'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$stmt = $ibforums->db->query("SELECT pid, LOWER(post) as post, topic_id, forum_id FROM ibf_posts
@@ -486,7 +486,7 @@ class SongFunc
 
 		if (!$fid or $ibforums->member['mgroup'] != $ibforums->vars['admin_group'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$stmt = $ibforums->db->query("SELECT tid, forum_id, LOWER(title) as title, LOWER(description) as description

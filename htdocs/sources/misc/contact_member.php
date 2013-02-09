@@ -100,7 +100,7 @@ class Contact
 		}
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 
@@ -290,7 +290,7 @@ class Contact
 		$tid = intval($ibforums->input['t']);
 		$st  = intval($ibforums->input['st']);
 
-		if ((!$pid) and (!$tid) and (!$fid))
+		if ((!$tid) and (!$fid))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
@@ -678,7 +678,7 @@ class Contact
 
 		if ($ibforums->member['disable_mail'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_mail', 'EXTRA' => $ibforums->member['disable_mail_reason']));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail', 'EXTRA' => $ibforums->member['disable_mail_reason']));
 		}
 
 		if (empty($ibforums->member['id']))
@@ -730,7 +730,7 @@ class Contact
 
 		if ($member['disable_mail'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_mail_to'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail_to'));
 		}
 
 		if ($member['hide_email'] == 1 and !$ibforums->member['g_is_supmod'])
@@ -801,7 +801,7 @@ class Contact
 
 		if ($member['disable_mail'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_mail_to'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail_to'));
 		}
 
 		//----------------------------------
@@ -946,7 +946,7 @@ class Contact
 			if ($quota_sent['cnt'] + 1 > $limit)
 			{
 				$this->int_error = 'exceeded_quota';
-				$this->int_extra = limit;
+				$this->int_extra = $limit;
 				return FALSE;
 			}
 		}

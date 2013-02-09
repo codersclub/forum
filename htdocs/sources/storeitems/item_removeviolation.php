@@ -67,7 +67,7 @@ class item
 				: 10;
 			if ($remove < $ibforums->vars['warn_min'])
 			{
-				$std->Error(array(LEVEL => '1', MSG => 'no_warn_max'));
+				$std->Error(array('LEVEL' => '1', 'MSG' => 'no_warn_max'));
 			}
 		}
 
@@ -81,7 +81,7 @@ class item
 		$warn_level = intval($row['warn_level']);
 		if ($warn_level - $remove < 0)
 		{
-			$std->Error(array(LEVEL => '1', MSG => 'no_warn_max'));
+			$std->Error(array('LEVEL' => '1', 'MSG' => 'no_warn_max'));
 		}
 
 		$ibforums->db->exec("DELETE FROM ibf_warnings WHERE mid='" . $ibforums->member['id'] . "' and level='" . $warn_level . "'");

@@ -136,12 +136,12 @@ class  warn
 
 		if (!$pass)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_permission'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 		}
 
 		if (!$ibforums->vars['warn_on'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_permission'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 		}
 
 		//-------------------------------------
@@ -152,7 +152,7 @@ class  warn
 
 		if ($mid < 1)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_such_user'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
 		}
 
 		$stmt = $ibforums->db->query("SELECT m.*, g.*
@@ -164,7 +164,7 @@ class  warn
 
 		if (!$this->warn_member['id'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_such_user'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
 		}
 
 		if ($ibforums->input['CODE'] == "" OR $ibforums->input['CODE'] == "dowarn")
@@ -175,7 +175,7 @@ class  warn
 
 			if (stristr($ibforums->vars['warn_protected'], ',' . $this->warn_member['mgroup'] . ','))
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'protected_user'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'protected_user'));
 			}
 
 			//-------------------------------------
@@ -190,7 +190,7 @@ class  warn
 
 				if ($stmt->rowCount() >= $this->times_a_day)
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'warned_already'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'warned_already'));
 				}
 			}
 		}
@@ -245,7 +245,7 @@ class  warn
 
 		if (stristr($ibforums->vars['warn_protected'], ',' . $this->warn_member['mgroup'] . ','))
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'protected_user'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'protected_user'));
 		}
 
 		// Song * new warning system
@@ -336,7 +336,7 @@ class  warn
 
 		if ($this->type == 'member')
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_permission'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 		}
 
 		$fid = intval($ibforums->input['f']);
@@ -416,7 +416,7 @@ class  warn
 
 			if ($err == 1)
 			{
-				$std->Error(array(LEVEL => '1', MSG => 'no_warn_max'));
+				$std->Error(array('LEVEL' => '1', 'MSG' => 'no_warn_max'));
 			}
 		}
 
@@ -426,7 +426,7 @@ class  warn
 
 		if ($ibforums->input['key'] != $std->return_md5_check())
 		{
-			$std->Error(array(LEVEL => '1', MSG => 'del_post'));
+			$std->Error(array('LEVEL' => '1', 'MSG' => 'del_post'));
 		}
 
 		//-------------------------------------------------
@@ -760,12 +760,12 @@ class  warn
 		{
 			if ($warn_level > $ibforums->vars['warn_max'])
 			{
-				$warn_level == $ibforums->vars['warn_max'];
+				$warn_level = $ibforums->vars['warn_max'];
 			}
 
 			if ($warn_level < 1)
 			{
-				$warn_level == 0;
+				$warn_level = 0;
 			}
 
 			//-------------------------------------------------
@@ -923,7 +923,7 @@ class  warn
 
 		if ($this->type == 'member')
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_permission'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 		}
 
 		$key = $std->return_md5_check();

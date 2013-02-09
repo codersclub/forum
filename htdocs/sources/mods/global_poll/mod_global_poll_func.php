@@ -79,11 +79,11 @@ class global_poll
 			? "<img src='" . $ibforums->vars['img_url'] . "/icon" . $poll_text['icon_id'] . ".gif' alt='' />&nbsp;"
 			: "";
 		$data                    = array(
-			TEXT      => $poll_text["post"],
-			SMILIES   => $poll_text['use_emo'],
-			CODE      => 1,
-			SIGNATURE => 0,
-			HTML      => 1,
+			'TEXT'      => $poll_text["post"],
+			'SMILIES'   => $poll_text['use_emo'],
+			'CODE'      => 1,
+			'SIGNATURE' => 0,
+			'HTML'      => 1,
 		);
 		$header["poll_text"]     = $this->parser->prepare($data);
 		$header["poll_question"] = $poll_data["poll_question"];

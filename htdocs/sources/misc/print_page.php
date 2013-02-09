@@ -73,7 +73,7 @@ class Printable
 
 		if (!$ibforums->input['t'] or !$ibforums->input['f'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------
@@ -98,7 +98,7 @@ class Printable
 			 ibf_forums f,
 			 ibf_categories c
 		    WHERE
-			t.tid='" . $ibforums->input[t] . "'AND
+			t.tid='" . $ibforums->input['t'] . "'AND
 			f.id = t.forum_id AND
 			f.category=c.id");
 
@@ -124,14 +124,14 @@ class Printable
 
 		if (!$this->forum['id'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		// Song * club tool
 
 		if ($this->topic['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'is_broken_link'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'is_broken_link'));
 		}
 
 		//-------------------------------------
@@ -140,7 +140,7 @@ class Printable
 
 		if (!$this->topic['tid'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$this->base_url = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
@@ -154,14 +154,14 @@ class Printable
 		    (!$ibforums->member['g_other_topics'])
 		)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_view_topic'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_view_topic'));
 		}
 
 		$bad_entry = $this->check_access();
 
 		if ($bad_entry == 1)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_view_topic'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_view_topic'));
 		}
 
 		//------------------------------------------------------------
@@ -188,7 +188,7 @@ class Printable
 			$print->do_output(array(
 			                       'TITLE' => $this->topic['title'] . " -> " . $ibforums->vars['board_name'],
 			                       'JS'    => 0,
-			                       NAV     => $this->nav
+			                       'NAV'     => $this->nav
 			                  ));
 
 			exit(); // Incase we haven't already done so :p
@@ -358,14 +358,14 @@ class Printable
 			// Siggie stuff
 			//--------------------------------------------------------------
 
-			if (!$ibforums->vars[SIG_SEP])
+			if (!$ibforums->vars['SIG_SEP'])
 			{
-				$ibforums->vars[SIG_SEP] = "<br><br>--------------------<br>";
+				$ibforums->vars['SIG_SEP'] = "<br><br>--------------------<br>";
 			}
 
 			if ($poster['signature'] and $ibforums->member['view_sigs'])
 			{
-				$row['signature'] = "<!--Signature-->{$ibforums->vars[SIG_SEP]}<span class='signature'>{$poster['signature']}</span><!--E-Signature-->";
+				$row['signature'] = "<!--Signature-->{$ibforums->vars['SIG_SEP']}<span class='signature'>{$poster['signature']}</span><!--E-Signature-->";
 			}
 
 			if (trim($row['post']))

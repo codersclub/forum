@@ -184,7 +184,7 @@ class store
 		{
 			$title = $ibforums->lang['ibstore_title'] . ' -> ' . $this->nav[count($this->nav) - 1];
 		}
-		$print->do_output(array('TITLE' => $title, 'JS' => 1, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $title, 'JS' => 1, 'NAV' => $this->nav));
 	}
 
 	//---------------------------------------------
@@ -976,8 +976,8 @@ class store
 		$print->add_output($html);
 
 		$print->do_output(array(
-		                       OVERRIDE => 1,
-		                       TITLE    => $ibforums->lang['error_title'],
+		                       'OVERRIDE' => 1,
+		                       'TITLE'    => $ibforums->lang['error_title'],
 		                  ));
 
 		exit;
@@ -1578,7 +1578,7 @@ class store
 
 		$print->add_output("$output");
 
-		$print->do_output(array('TITLE' => "test", 'JS' => 1, NAV => "test"));
+		$print->do_output(array('TITLE' => "test", 'JS' => 1, 'NAV' => "test"));
 
 	}
 

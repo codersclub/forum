@@ -68,7 +68,7 @@ class  multi_mod
 
 		if ($ibforums->input['t'] < 0)
 		{
-			$std->Error(array(LEVEL => '1', MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => '1', 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------

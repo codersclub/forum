@@ -48,7 +48,7 @@ class Poll
 
 		if (!$ibforums->member['g_vote_polls'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_reply_polls'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_reply_polls'));
 		}
 
 		// Did we choose a choice?
@@ -57,17 +57,17 @@ class Poll
 		{
 			if (!isset($ibforums->input['poll_vote']))
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'no_vote'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_vote'));
 			}
 		}
 
 		// Make sure we have a valid poll id
 
-		$ibforums->input[t] = $std->is_number($ibforums->input[t]);
+		$ibforums->input['t'] = $std->is_number($ibforums->input['t']);
 
-		if (!$ibforums->input[t])
+		if (!$ibforums->input['t'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		// Song * multiple choices
@@ -100,24 +100,24 @@ class Poll
 		if (!$this->topic['tid'])
 		{
 			$std->Error(array(
-			                 LEVEL => 1,
-			                 MSG   => 'poll_none_found'
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'poll_none_found'
 			            ));
 		}
 
 		if ($this->topic['state'] != 'open' or $this->topic['poll_state'] != 'open')
 		{
 			$std->Error(array(
-			                 LEVEL => 1,
-			                 MSG   => 'locked_topic'
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'locked_topic'
 			            ));
 		}
 
 		if ($std->check_perms($this->topic['reply_perms']) == FALSE)
 		{
 			$std->Error(array(
-			                 LEVEL => 1,
-			                 MSG   => 'no_permission'
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'no_permission'
 			            ));
 		}
 
@@ -131,8 +131,8 @@ class Poll
 		if ($stmt->rowCount())
 		{
 			$std->Error(array(
-			                 LEVEL => 1,
-			                 MSG   => 'poll_you_voted'
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'poll_you_voted'
 			            ));
 		}
 
@@ -157,17 +157,17 @@ class Poll
 				if ($vote_count < $this->topic['multi_poll_min'])
 				{
 					$std->Error(array(
-					                 LEVEL => 1,
-					                 MSG   => 'poll_error_least',
-					                 EXTRA => $this->topic['multi_poll_min']
+					                 'LEVEL' => 1,
+					                 'MSG'   => 'poll_error_least',
+					                 'EXTRA' => $this->topic['multi_poll_min']
 					            ));
 
 				} elseif ($vote_count > $this->topic['multi_poll_max'])
 				{
 					$std->Error(array(
-					                 LEVEL => 1,
-					                 MSG   => 'poll_error_most',
-					                 EXTRA => $this->topic['multi_poll_max']
+					                 'LEVEL' => 1,
+					                 'MSG'   => 'poll_error_most',
+					                 'EXTRA' => $this->topic['multi_poll_max']
 					            ));
 
 				}
@@ -188,9 +188,9 @@ class Poll
 				if ($vote_count <> $this->topic['weighted_poll_places'])
 				{
 					$std->Error(array(
-					                 LEVEL => 1,
-					                 MSG   => 'poll_error_exactly',
-					                 EXTRA => $this->topic['weighted_poll_places']
+					                 'LEVEL' => 1,
+					                 'MSG'   => 'poll_error_exactly',
+					                 'EXTRA' => $this->topic['weighted_poll_places']
 					            ));
 				}
 			}

@@ -541,7 +541,7 @@ class post_functions extends Post
 
 		//---------------------------------------
 
-		$topic_title = $class->html->topictitle_fields(array(TITLE => $topic_title, DESC => $topic_desc));
+		$topic_title = $class->html->topictitle_fields(array('TITLE' => $topic_title, 'DESC' => $topic_desc));
 
 		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_poll']}: {$class->forum['name']}");
 
