@@ -1,9 +1,0 @@
-<? 
-
-class Reply {
-
-	function Process() {
-	}
-}
-
-?>
