@@ -16,24 +16,12 @@
  * @method bool nextRowset ()
  * @method bool closeCursor ()
  */
-class PDOStatementWrapper implements Iterator
+class PDOStatementWrapper implements IteratorAggregate
 {
 	/**
 	 * @var PDOStatement
 	 */
 	private $_statement;
-	/**
-	 * @var mixed Current value for the iterator
-	 */
-	private $_current;
-	/**
-	 * @var int Current key for the iterator
-	 */
-	private $_key;
-	/**
-	 * @var array|null Stored params of the 'execute' function
-	 */
-	private $_execute_params;
 
 	/**
 	 * Magic __call. Tries to execute given method in PDOStatement
@@ -49,6 +37,11 @@ class PDOStatementWrapper implements Iterator
 	function __construct(PDOStatement $statement)
 	{
 		$this->_statement = $statement;
+	}
+
+	function getIterator()
+	{
+		return $this->_statement;
 	}
 
 	/**
@@ -75,7 +68,6 @@ class PDOStatementWrapper implements Iterator
 	 */
 	public function execute(array $input_parameters = null)
 	{
-		$this->_execute_params = $input_parameters;
 		$this->_statement->execute($input_parameters);
 		return $this;
 	}
@@ -170,63 +162,4 @@ class PDOStatementWrapper implements Iterator
 		$this->_statement->bindValue($parameter, $value, $data_type);
 		return $this;
 	}
-
-	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
-	 * Return the current element
-	 * @link http://php.net/manual/en/iterator.current.php
-	 * @return mixed Can return any type.
-	 */
-	public function current()
-	{
-		return $this->_current;
-	}
-
-	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
-	 * Move forward to next element
-	 * @link http://php.net/manual/en/iterator.next.php
-	 * @return void Any returned value is ignored.
-	 */
-	public function next()
-	{
-		$this->_current = $this->_statement->fetch();
-		$this->_key++;
-	}
-
-	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
-	 * Return the key of the current element
-	 * @link http://php.net/manual/en/iterator.key.php
-	 * @return mixed scalar on success, or null on failure.
-	 */
-	public function key()
-	{
-		return $this->_key;
-	}
-
-	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
-	 * Checks if current position is valid
-	 * @link http://php.net/manual/en/iterator.valid.php
-	 * @return boolean The return value will be casted to boolean and then evaluated.
-	 * Returns true on success or false on failure.
-	 */
-	public function valid()
-	{
-		return $this->_current !== FALSE;
-	}
-
-	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
-	 * Rewind the Iterator to the first element
-	 * @link http://php.net/manual/en/iterator.rewind.php
-	 * @return void Any returned value is ignored.
-	 */
-	public function rewind()
-	{
-		$this->_key = 0;
-		$this->_statement->execute();
-	}
-
 }
