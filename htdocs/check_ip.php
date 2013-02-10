@@ -10,9 +10,6 @@ $sess  = new session();
 
 $INFO['sql_driver'] = !$INFO['sql_driver'] ? 'mySQL' : $INFO['sql_driver'];
 
-$to_require = ROOT_PATH."sources/Drivers/".$INFO['sql_driver'].".php";
-require ($to_require);
-
 $DB = new db_driver;
 
 $DB->obj['sql_database']     = $INFO['sql_database'];
