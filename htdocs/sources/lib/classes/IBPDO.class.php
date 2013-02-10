@@ -3,7 +3,7 @@
 /**
  * Wrapper to PDO class
  */
-class IBPDO extends PDO
+class IBPDO extends PDOWrapper
 {
 
 	function __construct($INFO)
@@ -15,7 +15,10 @@ class IBPDO extends PDO
 		{
 			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = sprintf('SET NAMES "%s"', $INFO['sql_charset']);
 		}
-
+		if ($INFO['sql_persistent'])
+		{
+			$options[PDO::ATTR_PERSISTENT] = (bool)$INFO['sql_persistent'];
+		}
 		parent::__construct($INFO['sql_dsn'], $INFO['sql_user'], $INFO['sql_pass'], $options);
 	}
 
@@ -143,6 +146,7 @@ class IBPDO extends PDO
 
 	/**
 	 * Update table
+	 * @todo Переделать
 	 * @param string $table Table name
 	 * @param array|string $values Prepared values for update
 	 * @param string $where Prepared where part
@@ -166,3 +170,4 @@ class IBPDO extends PDO
 	}
 
 }
+
