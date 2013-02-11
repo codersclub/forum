@@ -43,7 +43,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //error_reporting  (E_ALL);
 
 require './autoload.php';
-require ROOT_PATH . 'sources/Drivers/IBPDO.php';
 require ROOT_PATH . "sources/session.php";
 require ROOT_PATH . "sources/functions.php";
 
@@ -459,4 +458,3 @@ function fatal_error($message = "", $help = "")
 	echo("$message<br><br>$help");
 	exit;
 }
-

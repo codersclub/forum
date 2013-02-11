@@ -363,6 +363,7 @@ $INFO['sql_pass']			=	'mysql_password';
 $INFO['sql_charset']			=	'';
 $INFO['sql_user']			=	'mysql_user';
 $INFO['sql_dsn']            = 'mysql:dbname=invision;host=localhost';
+$INFO['sql_persistent']     =  TRUE;
 $INFO['start_year']			=	'2004';
 $INFO['startpoll_cutoff']			=	'24';
 $INFO['store_guest']			=	'1';

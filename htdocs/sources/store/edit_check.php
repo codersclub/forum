@@ -12,7 +12,7 @@ if (!defined("ROOT_PATH"))
 // Do not edit ANY thing below this
 
 require ROOT_PATH . "conf_global.php";
-require_once ROOT_PATH . "sources/Drivers/IBPDO.php";
+
 $DB = new IBPDO($INFO);
 
 function file_check($file_name, $find, $exact = 1)

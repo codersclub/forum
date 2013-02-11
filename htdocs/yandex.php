@@ -25,7 +25,7 @@
 //-----------------------------------------------
 // USER CONFIGURABLE ELEMENTS
 //-----------------------------------------------
- 
+
 // Root path
 
 define( 'ROOT_PATH', "./" );
@@ -33,14 +33,13 @@ define( 'ROOT_PATH', "./" );
 //-----------------------------------------------
 // NO USER EDITABLE SECTIONS BELOW
 //-----------------------------------------------
- 
+
 error_reporting  (E_ERROR | E_WARNING | E_PARSE);
 set_magic_quotes_runtime(0);
 
 require_once './autoload.php';
 require ROOT_PATH."sources/functions.php";
 require ROOT_PATH."sources/session.php";
-require (ROOT_PATH."sources/Drivers/IBPDO.php");
 
 class Ibf extends Core{
 	var $skin_id    	= "0";     // Skin Dir name
@@ -76,7 +75,7 @@ require ROOT_PATH."../conf_global.php";
 //--------------------------------
 // The clocks a' tickin'
 //--------------------------------
-		
+
 $Debug = new Debug;
 $Debug->startTimer();
 
@@ -131,7 +130,7 @@ try {
 		$stmt = $ibforums->db->prepare("SELECT read_perms FROM ibf_forums WHERE id=?");
 		$stmt->execute([$ibforums->vars['club']]);
 
-		if ( $club = $stmt->fetch() ) 
+		if ( $club = $stmt->fetch() )
 		{
 			$ibforums->member['club_perms'] = $club['read_perms'];
 		}
@@ -147,12 +146,12 @@ try {
 	// cats
 	$categories = array();
 
-	if ( $ibforums->input['c'] ) 
+	if ( $ibforums->input['c'] )
 	{
 		$categories = explode(",", $ibforums->input['c']);
 		foreach ($categories as $idx => $cat) $categories[ $idx ] = intval($cat);
 	}
-               
+
 	// forums
 	$forums = array();
 
@@ -177,7 +176,7 @@ try {
 	// pids
 	$pids = array();
 
-	if ( $ibforums->input['p'] ) 
+	if ( $ibforums->input['p'] )
 	{
 		$pids = explode(",", $ibforums->input['p']);
 		foreach($pids as $idx => $pid) $pids[ $idx ] = intval($pid);
@@ -268,7 +267,7 @@ try {
 	if ( $query_last )
 	{
 		$query_last = substr($query_last, 0, strlen($query_last) - 4);
-		
+
 		$query .= "WHERE ".$query_last;
 	}
 
@@ -277,7 +276,7 @@ try {
 	$stmt = $ibforums->db->prepare($query);
 	$stmt->execute($params);
 
-	if ( !$stmt->rowCount() ) 
+	if ( !$stmt->rowCount() )
 	{
 		$std->flood_end();
 
@@ -299,7 +298,7 @@ try {
 		$posts[] = $row;
 
 		// store topic id
-		$tids[ $row['topic_id'] ] = $row['topic_id'];		
+		$tids[ $row['topic_id'] ] = $row['topic_id'];
 	}
 
 	// querying title of topics and club property
@@ -308,7 +307,7 @@ try {
 		$stmt = $ibforums->db->prepare("SELECT tid,title,club FROM ibf_topics WHERE tid IN (". IBPDO::placeholders($tids) .")");
 		$stmt->execute(array_values($tids));
 
-		foreach ( $stmt as $topic ) 
+		foreach ( $stmt as $topic )
 		{
 			if ( $topic['club'] and $std->check_perms( $ibforums->member['club_perms'] ) != FALSE )
 			{
@@ -333,7 +332,7 @@ try {
 		        if ( !$tids[ $post['topic_id'] ]['title'] or $tids[ $post['topic_id'] ]['club'] ) continue;
 
                         $txt 		   = $parser->prepare(
-						array(  
+						array(
 							'TEXT'          => $post['post'],
 							'SMILIES'       => 1,
 							'CODE'          => 1,
@@ -358,8 +357,8 @@ try {
 			$author = trim(stripslashes($author));
 
 
-			$to_echo  	  .= parse_template( $template, 
-				array (	
+			$to_echo  	  .= parse_template( $template,
+				array (
 					'thread_url'   	=> $ibforums->base_url."act=ST&f=".$post['forum_id']."&t=".$post['topic_id']."&hl=&#entry".$post['pid'],
 					'thread_title'  => $thread_title,
 					'forum_url'     => $ibforums->base_url."act=SF&f=".$post['forum_id'],
@@ -371,7 +370,7 @@ try {
 					'author'        => $author,
 					'text'          => $txt,
 					'profile_link'  => $ibforums->base_url."act=Profile&CODE=03&MID=".$post['author_id']
-				) 
+				)
 						);
 		}
 	}
@@ -403,7 +402,7 @@ try {
 
 	print $to_echo;
 
-} catch(exception $e) 
+} catch(exception $e)
 {
 	fatal_error("Невозможно соединиться с БД.");
 }
@@ -416,9 +415,9 @@ exit();
 //+-------------------------------------------------
 
 function parse_template( $template, $assigned = array() ) {
-	
+
 	foreach( $assigned as $word => $replace) $template = preg_replace( "/\{$word\}/i", "$replace", $template );
-	
+
 	return $template;
 }
 
