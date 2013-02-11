@@ -355,7 +355,7 @@ class ad_mysql
 
 		for ($i = 0; $i < $cnt; $i++)
 		{
-			$f_list .= $fields[$i]->name . ", ";
+			$f_list .= $fields[$i]['name'] . ", ";
 		}
 
 		$f_list = preg_replace("/, $/", "", $f_list);
@@ -370,12 +370,12 @@ class ad_mysql
 
 			for ($i = 0; $i < $cnt; $i++)
 			{
-				if (!isset($row[$fields[$i]->name]))
+				if (!isset($row[$fields[$i]['name']]))
 				{
 					$d_list .= "NULL,";
-				} elseif ($row[$fields[$i]->name] != '')
+				} elseif ($row[$fields[$i]['name']] != '')
 				{
-					$d_list .= "'" . $this->sql_add_slashes($row[$fields[$i]->name]) . "',";
+					$d_list .= "'" . $this->sql_add_slashes($row[$fields[$i]['name']]) . "',";
 				} else
 				{
 					$d_list .= "'',";
@@ -656,7 +656,7 @@ class ad_mysql
 
 		for ($i = 0; $i < $cnt; $i++)
 		{
-			$SKIN->td_header[] = array($fields[$i]->name, "*");
+			$SKIN->td_header[] = array($fields[$i]['name'], "*");
 		}
 		// Song * drop query
 
@@ -689,13 +689,13 @@ class ad_mysql
 				if ($man_query == 1)
 				{
 					// Limit output
-					if (strlen($r[$fields[$i]->name]) > 2000)
+					if (strlen($r[$fields[$i]['name']]) > 2000)
 					{
-						$r[$fields[$i]->name] = substr($r[$fields[$i]->name], 0, 2000) . '...';
+						$r[$fields[$i]['name']] = substr($r[$fields[$i]['name']], 0, 2000) . '...';
 					}
 				}
 
-				$row = nl2br($r[$fields[$i]->name]);
+				$row = nl2br($r[$fields[$i]['name']]);
 				$row = str_replace("<br>", "\r\n", $row);
 				$row = str_replace("<br />", "\r\n", $row);
 				$row = wordwrap(htmlspecialchars($row), 50, "\r\n", 1);
@@ -710,7 +710,7 @@ class ad_mysql
 				$row = $SKIN->start_form(array(
 				                              1 => array('act', 'mysql'),
 				                              2 => array('code', 'drop'),
-				                              3 => array('pid', $r[$fields[0]->name]),
+				                              3 => array('pid', $r[$fields[0]['name']]),
 				                         ));
 
 				$row .= $SKIN->end_form_line("Drop!");
@@ -789,7 +789,7 @@ class ad_mysql
 
 			for ($i = 0; $i < $cnt; $i++)
 			{
-				$SKIN->td_header[] = array($fields[$i]->name, "*");
+				$SKIN->td_header[] = array($fields[$i]['name'], "*");
 			}
 
 			$ADMIN->html .= $SKIN->start_table("Result: " . $IN['tool'] . " " . $table);
@@ -800,7 +800,7 @@ class ad_mysql
 
 			for ($i = 0; $i < $cnt; $i++)
 			{
-				$rows[] = $data[$fields[$i]->name];
+				$rows[] = $data[$fields[$i]['name']];
 			}
 
 			$ADMIN->html .= $SKIN->add_td_row($rows);
@@ -915,7 +915,7 @@ class ad_mysql
 
 			$ADMIN->html .= $SKIN->start_table("Invision Power Board Tables");
 
-			$stmt = $ibforums->db->query("SHOW TABLE STATUS FROM `" . $INFO['sql_database'] . "`");
+			$stmt = $ibforums->db->query("SHOW TABLE STATUS");
 
 			while ($r = $stmt->fetch())
 			{

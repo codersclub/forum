@@ -42,7 +42,7 @@ class FUNC
 			: $INFO['number_format'];
 	}
 
-	function instance()
+	static function instance()
 	{
 		static $instance = NULL;
 		if ($instance === NULL)
@@ -1012,7 +1012,7 @@ class FUNC
 
 		// Remove "guest" account...
 		$r['members']--;
-		$r['members'] < 1
+		$r['members'] = $r['members'] < 1
 			? 0
 			: $r['members'];
 
@@ -1046,7 +1046,7 @@ class FUNC
 		if (!$fatal)
 		{
 			$old_err = $ibforums->db->getAttribute(PDO::ATTR_ERRMODE);
-			$ibforums->db->setAttribute(PDO::ATTR_ERRMODE, ERRMODE_SILENT);
+			$ibforums->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 		}
 		$data = [
 			'member_id'    => $sendto,
@@ -2013,8 +2013,6 @@ class FUNC
 			{
 				return "<{B_POLL_NN" . $dot . "}>";
 			}
-
-			return "<{B_POLL" . $dot . "}>";
 		}
 
 		if ($topic['state'] == 'moved' or $topic['state'] == 'link')
@@ -2698,10 +2696,16 @@ class FUNC
 	// Require, parse and return an array containing the language stuff
 	/* ------------------------------------------------------------------------- */
 
+	/**
+	 * @param $current_lang_array array Current words array
+	 * @param $area string Area for loading
+	 * @param $lang_type string Used language (ru/en)
+	 * @return string
+	 */
 	function load_words($current_lang_array, $area, $lang_type)
 	{
-		global $ibforums;
-		require $ibforums->vars['base_dir'] . "lang/" . $lang_type . "/" . $area . ".php";
+		$lang = [];//todo проще можно, намного
+		require Ibf::instance()->vars['base_dir'] . "lang/" . $lang_type . "/" . $area . ".php";
 
 		foreach ($lang as $k => $v)
 		{
@@ -2905,7 +2909,7 @@ class FUNC
 				// летнее время
 				if ($member['dst_in_use'])
 				{
-					$this->offset += date("I") * 3600;
+					$this->offset += (int)date("I") * 3600;
 				} else
 				{
 					$this->offset_set = 1;
@@ -3619,8 +3623,8 @@ class FUNC
 		$print->add_output($html);
 
 		$print->do_output(array(
-		                       OVERRIDE => 1,
-		                       TITLE    => $ibforums->lang['offline_title'],
+		                       'OVERRIDE' => 1,
+		                       'TITLE'    => $ibforums->lang['offline_title'],
 		                  ));
 	}
 

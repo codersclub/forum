@@ -108,7 +108,7 @@ class Online
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 

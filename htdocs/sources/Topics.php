@@ -821,7 +821,7 @@ class Topics
 
 		if ($ibforums->input['t'] < 0)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------
@@ -1098,7 +1098,7 @@ class Topics
 
 								if (!$cposts = $stmt->fetch() or $cposts['posts'] == 0)
 								{
-									$std->Error(array(LEVEL => 1, MSG => 'no_post'));
+									$std->Error(array('LEVEL' => 1, 'MSG' => 'no_post'));
 								}
 
 								if ((($cposts['posts']) % $ibforums->vars['display_max_posts']) == 0)
@@ -2393,7 +2393,7 @@ class Topics
 			// group icon
 			if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 			{
-				$member['member_group_img'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$member['g_icon']}' border='0'>";
+				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0'>";
 			}
 
 			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
@@ -2499,7 +2499,7 @@ class Topics
 
 		$func = ($queued)
 			? "'{$ibforums->base_url}act=modcp&amp;CODE=domodposts&amp;f={$this->forum['id']}&amp;tid={$this->topic['tid']}&amp;PID_{$post_id}=remove&amp;alter={$this->alter_post}'"
-			: "'{$this->base_url}act=Mod&amp;CODE=04&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input[st]}&amp;auth_key={$this->md5_check}'";
+			: "'{$this->base_url}act=Mod&amp;CODE=04&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}&amp;auth_key={$this->md5_check}'";
 
 		$button = "<a href={$func} onclick='return deletePost(this,$post_id)'><{P_DELETE}></a> &middot;";
 

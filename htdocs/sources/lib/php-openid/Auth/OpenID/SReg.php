@@ -370,7 +370,7 @@ class Auth_OpenID_SRegRequest extends Auth_OpenID_SRegBase {
         }
 
         foreach ($field_names as $field_name) {
-            if (!$this->requestField($field_name, $required, $strict=$strict)) {
+            if (!$this->requestField($field_name, $required, $strict)) {
                 return false;
             }
         }

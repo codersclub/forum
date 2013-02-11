@@ -85,12 +85,12 @@ class Boards {
 
 		if ($ibf->member['id'])
 		{
-			$query = $ibf->db->prepare('SELECT id,is_forum,is_visible
+			$stmt = $ibf->db->prepare('SELECT id,is_forum,is_visible
 			    FROM ibf_boards_visibility
 			    WHERE user_id=:id');
-			$query->execute([':id' => $ibf->member['id']]);
+			$stmt->execute([':id' => $ibf->member['id']]);
 
-			while ($row = $query->fetch())
+			while ($row = $stmt->fetch())
 			{
 				if ($row['is_forum'])
 				{
@@ -116,7 +116,7 @@ class Boards {
 
 		// Get all the Categories & Forums
 
-		$query = $ibf->db->prepare("SELECT
+		$stmt = $ibf->db->prepare("SELECT
 			f.*,
 			c.id as cat_id,
 			c.position as cat_position,
@@ -135,13 +135,13 @@ class Boards {
 			{$cat}
 		    ORDER BY c.position,f.position");
 		if ($ibf->input['c']){
-			$query->bindParam(':cat', $ibf->input['c']);
+			$stmt->bindParam(':cat', $ibf->input['c']);
 		}
-		$query->execute();
+		$stmt->execute();
 
 		$last_c_id = -1;
 
-		while ($r = $query->fetch())
+		while ($r = $stmt->fetch())
 		{
 			if ($last_c_id != $r['cat_id'])
 			{
@@ -258,16 +258,16 @@ class Boards {
 
 				if ($ibf->member['id'])
 				{
-					$query = $ibf->db->prepare("SELECT contact_id
+					$stmt = $ibf->db->prepare("SELECT contact_id
 				    FROM ibf_contacts
 				    WHERE
 						member_id = :member_id
 					AND
 						show_online = :online");
-					$query->bindParam(':member_id', $ibf->member['id']);
-					$query->bindValue(':online', 1);
+					$stmt->bindParam(':member_id', $ibf->member['id']);
+					$stmt->bindValue(':online', 1);
 
-					while ($contact = $query->fetch())
+					while ($contact = $stmt->fetch())
 					{
 						$friends[$contact['contact_id']] = $contact['contact_id'];
 					}
@@ -276,7 +276,7 @@ class Boards {
 
 				// Online members
 
-				$query = $ibf->db->prepare("
+				$stmt = $ibf->db->prepare("
 				SELECT
 					s.id,
 					s.member_id,
@@ -291,13 +291,13 @@ class Boards {
 				AND
 					g.g_id NOT IN(?, ?)
 				"); // Not BAN, Not Awaiting
-				$query->execute([$time, 1, 5]);//todo replace constats with config or smth
+				$stmt->execute([$time, 1, 5]);//todo replace constats with config or smth
 
 				// cache all printed members so we don't double print them
 
 				$cached = array();
 
-				while ($result = $query->fetch())
+				while ($result = $stmt->fetch())
 				{
 					if (strstr($result['id'], '_session'))
 					{
@@ -383,13 +383,13 @@ class Boards {
 
 				// fetch today info
 				//todo is it possible to make with sql only?
-				$query = $ibf->db->prepare("SELECT members, guests, bots
+				$stmt = $ibf->db->prepare("SELECT members, guests, bots
 			    FROM ibf_users_stat
 			    WHERE day = :day");
-				$query->bindValue(':day', $std->current_day());
-				$query->execute();
+				$stmt->bindValue(':day', $std->current_day());
+				$stmt->execute();
 
-				if (FALSE != $today = $query->fetch())
+				if (FALSE != $today = $stmt->fetch())
 				{
 					$today['members'] = "0";
 					$today['guests'] = "0";
@@ -420,13 +420,13 @@ class Boards {
 
 				// fetch yesterday info
 				//todo is it possible to make it with sql only?
-				$query = $ibf->db->prepare("SELECT members,guests,bots
+				$stmt = $ibf->db->prepare("SELECT members,guests,bots
 			    FROM ibf_users_stat
 			    WHERE day=:day");
-				$query->bindValue(':day', $std->yesterday_day());
-				$query->execute();
+				$stmt->bindValue(':day', $std->yesterday_day());
+				$stmt->execute();
 
-				if (!$yesterday = $query->fetch())
+				if (!$yesterday = $stmt->fetch())
 				{
 					$yesterday['members'] = "0";
 					$yesterday['guests'] = "0";
@@ -460,7 +460,7 @@ class Boards {
 
 				$count = 0;
 
-				$query = $ibf->db->prepare("SELECT
+				$stmt = $ibf->db->prepare("SELECT
 				id, name, bday_day as DAY,
 				bday_month as MONTH, bday_year as YEAR
 			    FROM ibf_members
@@ -468,12 +468,13 @@ class Boards {
 				bday_day=:day and
 				bday_month=:month and
 				posts > :max_posts");
-				$query->bindParam(':day', $day, PDO::PARAM_INT);
-				$query->bindParam(':month', $month, PDO::PARAM_INT);
-				$query->bindValue(':max_posts', 500, PDO::PARAM_INT);
-				$query->execute();
+				$stmt->bindParam(':day', $day, PDO::PARAM_INT);
+				$stmt->bindParam(':month', $month, PDO::PARAM_INT);
+				$stmt->bindValue(':max_posts', 500, PDO::PARAM_INT);
+				$stmt->execute();
 
-				while ($user = $query->fetch())
+				$birthstring = '';
+				foreach ($stmt as $user)
 				{
 					$birthstring .= "<a href='{$this->base_url}showuser={$user['id']}'>{$user['name']}</a>";
 
@@ -522,7 +523,7 @@ class Boards {
 
 				$max_date = $our_unix + ($ibf->vars['calendar_limit'] * 86400);
 
-				$query = $ibf->db->prepare("
+				$stmt = $ibf->db->prepare("
 				SELECT
 					eventid, title, read_perms, priv_event, userid, unix_stamp
 			    FROM ibf_calendar_events
@@ -530,13 +531,13 @@ class Boards {
 					unix_stamp > :our_unix and
 					unix_stamp < :max_date
 			    ORDER BY unix_stamp");
-				$query->bindParam(':our_unix', $our_unix, PDO::PARAM_INT);
-				$query->bindParam(':max_date', $max_date, PDO::PARAM_INT);
-				$query->execute();
+				$stmt->bindParam(':our_unix', $our_unix, PDO::PARAM_INT);
+				$stmt->bindParam(':max_date', $max_date, PDO::PARAM_INT);
+				$stmt->execute();
 
 				$show_events = array();
 
-				while ($event = $query->fetch())
+				while ($event = $stmt->fetch())
 				{
 					if ($event['priv_event'] == 1 and $ibf->member['id'] != $event['userid'])
 					{
@@ -579,9 +580,9 @@ class Boards {
 
 			if ($ibf->vars['show_totals'])
 			{
-				$query = $ibf->db->prepare("SELECT * FROM ibf_stats");
-				$query->execute();
-				$stats = $query->fetch();//current tops
+				$stmt = $ibf->db->prepare("SELECT * FROM ibf_stats");
+				$stmt->execute();
+				$stats = $stmt->fetch();//current tops
 
 				// Update the most active count if needed
 				if ($active['TOTAL'] > $stats['MOST_COUNT'])
@@ -622,7 +623,7 @@ class Boards {
 					$params[':' . $key] = $value;
 					$sql[] = "$key = :$key";
 				}
-				$query = $ibf->db->prepare('UPDATE ibf_stats SET ' . implode(',', $sql));
+				$stmt = $ibf->db->prepare('UPDATE ibf_stats SET ' . implode(',', $sql));
 				//$query->execute($params);
 
 				// Song * record of visit

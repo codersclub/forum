@@ -439,7 +439,6 @@ class search_lib extends Search
 			'search_count' => $this->documents_found,
 			'topics_query' => $topics_query,
 			'posts_query'  => $posts_query,
-			'keywords'     => $keywords,
 			'wordlist'     => $wordlist,
 			'wordidlist'   => $wordidlist,
 			'result'       => $res

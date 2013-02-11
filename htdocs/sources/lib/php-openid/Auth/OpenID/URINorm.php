@@ -87,8 +87,6 @@ function Auth_OpenID_pct_encoded_replace_unreserved($mo)
     } else {
         return strtoupper($mo[0]);
     }
-
-    return $mo[0];
 }
 
 function Auth_OpenID_pct_encoded_replace($mo)

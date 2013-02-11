@@ -47,7 +47,7 @@ class Login
 
 		// What to do?
 
-		switch ($ibforums->input[CODE])
+		switch ($ibforums->input['CODE'])
 		{
 			case '01':
 				$this->do_log_in();
@@ -66,7 +66,7 @@ class Login
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 
@@ -93,7 +93,7 @@ class Login
         if (document.LOGIN.PassWord.value == '') { Check = 1; }
 
         if (Check == 1) {
-            alert("{$ibforums->lang[blank_fields]}");
+            alert("{$ibforums->lang['blank_fields']}");
             return false;
         } else {
             document.LOGIN.submit.disabled = true;
@@ -108,7 +108,7 @@ class Login
      <td align='left'>{$ibforums->lang['login_text']}</td>
      </tr>
      <tr>
-     <td align='left'><b>{$ibforums->lang[forgot_pass]} <a href='{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?act=Reg&CODE=10'>{$ibforums->lang[pass_link]}</a></b></td>
+     <td align='left'><b>{$ibforums->lang['forgot_pass']} <a href='{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?act=Reg&CODE=10'>{$ibforums->lang['pass_link']}</a></b></td>
      </tr>
      </table>
      <form action="{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}" method="post" name='LOGIN' onSubmit='return ValidateForm()'>
@@ -141,19 +141,19 @@ class Login
             <td>
                 <table cellpadding='3' cellspacing='1' border='0' width='100%'>
                 <tr>
-                <td align='left' colspan='2' id='titlemedium'>{$ibforums->lang[options]}</td>
+                <td align='left' colspan='2' id='titlemedium'>{$ibforums->lang['options']}</td>
                 </tr>
                 <tr>
-                <td id='row1' width='40%' align='left' valign='top'>{$ibforums->lang[cookies]}</td>
-                <td id='row1' width='40%'><input type="radio" name="CookieDate" value="1" checked>{$ibforums->lang[cookie_yes]}<br><input type="radio" name="CookieDate" value="0">{$ibforums->lang[cookie_no]}</td>
+                <td id='row1' width='40%' align='left' valign='top'>{$ibforums->lang['cookies']}</td>
+                <td id='row1' width='40%'><input type="radio" name="CookieDate" value="1" checked>{$ibforums->lang['cookie_yes']}<br><input type="radio" name="CookieDate" value="0">{$ibforums->lang['cookie_no']}</td>
                 </tr>
                 <tr>
-                <td id='row1' width='40%' align='left' valign='top'>{$ibforums->lang[privacy]}</td>
-                <td id='row1' width='40%'><input type="checkbox" name="Privacy" value="1">{$ibforums->lang[anon_name]}</td>
+                <td id='row1' width='40%' align='left' valign='top'>{$ibforums->lang['privacy']}</td>
+                <td id='row1' width='40%'><input type="checkbox" name="Privacy" value="1">{$ibforums->lang['anon_name']}</td>
                 </tr>
                 <tr>
                 <td id='row2' align='center' colspan='2'>
-                <input type="submit" name='submit' value="{$ibforums->lang[log_in_submit]}" class='forminput'>
+                <input type="submit" name='submit' value="{$ibforums->lang['log_in_submit']}" class='forminput'>
                 </td></tr></table>
                 </td></tr></table>
                 </form>
@@ -167,7 +167,7 @@ EOF;
 		$this->page_title = "Upgrade my old Ikonboard Account";
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 		exit();
 
@@ -199,12 +199,12 @@ EOF;
 
 		if (strlen($ibforums->input['UserName']) > 32)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'username_long'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'username_long'));
 		}
 
 		if (strlen($ibforums->input['PassWord']) > 32)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'pass_too_long'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_too_long'));
 		}
 
 		$username = strtolower($ibforums->input['UserName']);
@@ -302,7 +302,7 @@ EOF;
 			// set our privacy cookie
 			//-----------------------------------
 
-			if ($ibforums->input[Privacy] == 1)
+			if ($ibforums->input['Privacy'] == 1)
 			{
 				$std->my_setcookie("anonlogin", 1);
 			}
@@ -312,7 +312,7 @@ EOF;
 			// index, or where they came from
 			//-----------------------------------
 
-			$print->redirect_screen("{$ibforums->lang[thanks_for_login]} {$ibforums->member['name']}", $url);
+			$print->redirect_screen("{$ibforums->lang['thanks_for_login']} {$ibforums->member['name']}", $url);
 
 		} else
 		{
@@ -327,7 +327,7 @@ EOF;
 
 		if (!$ibforums->member['id'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_guests'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
 		}
 
 		// Update the DB

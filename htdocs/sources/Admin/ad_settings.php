@@ -433,6 +433,7 @@ class ad_settings
 				break;
 			case 'emo_upload':
 				$this->upload_emoticon();
+				break;
 			//-------------------------
 			case 'count':
 				$this->countstats();
@@ -1008,14 +1009,14 @@ class ad_settings
 			$stmt                   = $ibforums->db->query("SELECT COUNT(pid) as posts FROM ibf_posts WHERE queued <> 1");
 			$r                      = $stmt->fetch();
 			$stats['TOTAL_REPLIES'] = $r['posts'];
-			$stats['TOTAL_REPLIES'] < 1
+			$stats['TOTAL_REPLIES'] = $stats['TOTAL_REPLIES'] < 1
 				? 0
 				: $stats['TOTAL_REPLIES'];
 
 			$stmt                  = $ibforums->db->query("SELECT COUNT(tid) as topics FROM ibf_topics WHERE approved = 1");
 			$r                     = $stmt->fetch();
 			$stats['TOTAL_TOPICS'] = $r['topics'];
-			$stats['TOTAL_TOPICS'] < 1
+			$stats['TOTAL_TOPICS'] = $stats['TOTAL_TOPICS'] < 1
 				? 0
 				: $stats['TOTAL_TOPICS'];
 
@@ -1029,7 +1030,7 @@ class ad_settings
 			$stats['MEM_COUNT'] = $r['members'];
 			// Remove "guest" account...
 			$stats['MEM_COUNT']--;
-			$stats['MEM_COUNT'] < 1
+			$stats['MEM_COUNT'] = $stats['MEM_COUNT'] < 1
 				? 0
 				: $stats['MEM_COUNT'];
 		}
@@ -1781,7 +1782,7 @@ class ad_settings
 			? 1
 			: 0;
 
-		strlen($IN['swop']) > 1
+		$IN['swop'] = strlen($IN['swop']) > 1
 			? $IN['swop']
 			: "";
 
@@ -1891,7 +1892,7 @@ class ad_settings
 			? 1
 			: 0;
 
-		strlen($IN['swop']) > 1
+		$IN['swop'] = strlen($IN['swop']) > 1
 			? $IN['swop']
 			: "";
 

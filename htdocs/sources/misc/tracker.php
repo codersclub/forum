@@ -49,7 +49,7 @@ class tracker
 
 		if ($ibforums->member['disable_mail'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_mail', 'EXTRA' => $ibforums->member['disable_mail_reason']));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail', 'EXTRA' => $ibforums->member['disable_mail_reason']));
 		}
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
@@ -88,7 +88,7 @@ class tracker
 		{
 			if ($is_sub != 1)
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			} else
 			{
 				return;
@@ -105,7 +105,7 @@ class tracker
 			{
 				if ($is_sub != 1)
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				} else
 				{
 					return;
@@ -126,7 +126,7 @@ class tracker
 		{
 			if ($is_sub != 1)
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'no_guests'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
 			} else
 			{
 				return;
@@ -137,7 +137,7 @@ class tracker
 		{
 			if ($is_sub != 1)
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'forum_no_access'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'forum_no_access'));
 			} else
 			{
 				return;
@@ -149,12 +149,12 @@ class tracker
 
 			if (!$c_pass = $std->my_getcookie('iBForum' . $this->topic['fid']))
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'forum_no_access'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'forum_no_access'));
 			}
 
 			if ($c_pass != $this->topic['password'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'forum_no_access'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'forum_no_access'));
 			}
 
 		}
@@ -175,7 +175,7 @@ class tracker
 		{
 			if ($is_sub != 1)
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'already_sub'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'already_sub'));
 			} else
 			{
 				return;

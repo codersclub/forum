@@ -62,14 +62,14 @@ class Forward
 
 		if ($ibforums->input['t'] < 0 or $ibforums->input['f'] < 0)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------
 		// Get the forum info based on the forum ID, get the category name, ID, and get the topic details
 		//-------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT t.*, f.name as forum_name, f.id as forum_id, f.read_perms, f.reply_perms, f.start_perms, f.allow_poll, f.posts as forum_posts, f.topics as forum_topics, c.name as cat_name, c.id as cat_id FROM ibf_topics t, ibf_forums f , ibf_categories c where t.tid='" . $ibforums->input[t] . "' and f.id = t.forum_id and f.category=c.id");
+		$stmt = $ibforums->db->query("SELECT t.*, f.name as forum_name, f.id as forum_id, f.read_perms, f.reply_perms, f.start_perms, f.allow_poll, f.posts as forum_posts, f.topics as forum_topics, c.name as cat_name, c.id as cat_id FROM ibf_topics t, ibf_forums f , ibf_categories c where t.tid='" . $ibforums->input['t'] . "' and f.id = t.forum_id and f.category=c.id");
 
 		$this->topic = $stmt->fetch();
 
@@ -93,7 +93,7 @@ class Forward
 
 		if (!$this->forum['id'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------
@@ -102,7 +102,7 @@ class Forward
 
 		if (!$this->topic['tid'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$this->base_url = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
@@ -116,14 +116,14 @@ class Forward
 
 		if (!$ibforums->member['id'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_guests'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
 		}
 
 		$bad_entry = $this->check_access();
 
 		if ($bad_entry == 1)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_view_topic'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_view_topic'));
 		}
 
 		// What to do?
@@ -234,7 +234,7 @@ class Forward
 		);
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 

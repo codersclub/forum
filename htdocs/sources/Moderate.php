@@ -133,8 +133,8 @@ class Moderate
 		if (!$this->forum['id'])
 		{
 			$this->Error(array(
-			                  LEVEL => 1,
-			                  MSG   => 'missing_files'
+			                  'LEVEL' => 1,
+			                  'MSG'   => 'missing_files'
 			             ));
 		}
 
@@ -421,7 +421,7 @@ class Moderate
 		$print->do_output(array(
 		                       'TITLE' => $this->page_title,
 		                       'JS'    => 0,
-		                       NAV     => $this->nav
+		                       'NAV'     => $this->nav
 		                  ));
 	}
 
@@ -2603,7 +2603,7 @@ class Moderate
 		$this->output .= $this->html->table_top($ibforums->lang['top_attach'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
 		$this->output .= $this->html->mod_exp($ibforums->lang['attach_exp']);
 		$jump_html = $this->get_attached_links();
-		$this->output .= $this->html->attach_form1($ibforums->lang[attach_edit], $jump_html, $this->topic['title']);
+		$this->output .= $this->html->attach_form1($ibforums->lang['attach_edit'], $jump_html, $this->topic['title']);
 
 		$this->output .= $this->html_start_form(array(
 		                                             1 => array('CODE', '71'),
@@ -2617,7 +2617,7 @@ class Moderate
 		$this->output .= "<br>";
 		$this->output .= $this->html->table_top($ibforums->lang['data_exp']);
 		$data_links = $this->get_attached_data();
-		$this->output .= $this->html->attach_form1($ibforums->lang[data_edit], $data_links, $this->topic['title']);
+		$this->output .= $this->html->attach_form1($ibforums->lang['data_edit'], $data_links, $this->topic['title']);
 		$this->output .= $this->html_start_form(array(
 		                                             1 => array('CODE', '81'),
 		                                             2 => array('tid', $this->topic['tid']),
@@ -3373,7 +3373,7 @@ class Moderate
 	{
 		global $ibforums, $std;
 
-		$form = "<form name='REPLIER' action='{$this->base_url}' method='POST'>" . "<input type='hidden' name='st' value='" . $ibforums->input[st] . "' />" . "<input type='hidden' name='act' value='Mod' />" . "<input type='hidden' name='s' value='" . $ibforums->session_id . "' />" . "<input type='hidden' name='f' value='" . $this->forum['id'] . "' />" . "<input type='hidden' name='auth_key' value='" . $std->return_md5_check() . "' />";
+		$form = "<form name='REPLIER' action='{$this->base_url}' method='POST'>" . "<input type='hidden' name='st' value='" . $ibforums->input['st'] . "' />" . "<input type='hidden' name='act' value='Mod' />" . "<input type='hidden' name='s' value='" . $ibforums->session_id . "' />" . "<input type='hidden' name='f' value='" . $this->forum['id'] . "' />" . "<input type='hidden' name='auth_key' value='" . $std->return_md5_check() . "' />";
 
 		// Any other tags to add?
 

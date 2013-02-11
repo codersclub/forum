@@ -49,14 +49,14 @@ class Reputation
 			{
 				if (!$ibforums->input['mid'])
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				}
 
 				$stmt = $ibforums->db->query("SELECT name FROM ibf_members WHERE id='" . $ibforums->input['mid'] . "'");
 
 				if (!$stmt->rowCount())
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				} else
 				{
 					$r = $stmt->fetch();
@@ -70,22 +70,22 @@ class Reputation
 		{
 			if (!$ibforums->member['allow_rep'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'rep_cantchange'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_cantchange'));
 			}
 
 			if (!$ibforums->input['f'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
 			if (!$ibforums->input['t'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
 			if (!$ibforums->input['p'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
 			$stmt = $ibforums->db->query("SELECT msg_date FROM ibf_reputation WHERE member_id='" . $ibforums->input['mid'] . "' AND
@@ -117,22 +117,22 @@ class Reputation
 
 			if ($ibforums->input['CODE'] == 'totals')
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
 			if (!($ibforums->input['CODE'] == '01' or $ibforums->input['CODE'] == '02'))
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
 			if ($ibforums->member['id'] == $ibforums->input['mid'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'rep_self'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
 			}
 
 			if ($ibforums->input['CODE'] == '02' and $ibforums->member['posts'] < $ibforums->vars['rep_posts'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'rep_noposts', 'EXTRA' => $ibforums->vars['rep_posts']));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_noposts', 'EXTRA' => $ibforums->vars['rep_posts']));
 			}
 
 			$this->add_why($ibforums->input['mid']);
@@ -174,7 +174,7 @@ class Reputation
 
 		if (!$row = $stmt->fetch())
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$field = ($row['inc_postcount'])
@@ -200,7 +200,7 @@ class Reputation
 
 			if (!$field)
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
 			if (empty($level))
@@ -217,7 +217,7 @@ class Reputation
 			$print->redirect_screen("", "act=rep&amp;CODE=03&amp;type={$ratting_type}&amp;mid=" . $memid);
 		} else
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'rep_self'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
 		}
 	}
 
@@ -233,7 +233,7 @@ class Reputation
 
 			if (!$field)
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
 			if (empty($level))
@@ -250,7 +250,7 @@ class Reputation
 			$print->redirect_screen("", "act=rep&amp;CODE=03&amp;type={$ratting_type}&amp;mid=" . $memid);
 		} else
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'rep_self'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
 		}
 	}
 
@@ -311,7 +311,7 @@ class Reputation
 			}
 		} else
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 	}
 
@@ -321,9 +321,11 @@ class Reputation
 	{
 		global $ibforums, $std, $print;
 
+		$output = '';
+
 		if (($ibforums->input['CODE'] == '01' or $ibforums->input['CODE'] == '02') and $ibforums->member['id'] == $memid)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'rep_self'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
 		}
 
 		switch ($ibforums->input['CODE'])
@@ -333,7 +335,7 @@ class Reputation
 
 				if (!$ibforums->input['f'])
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				}
 
 				// Song * silent check correct parameters
@@ -375,7 +377,7 @@ class Reputation
 
 				if (!$ibforums->input['f'])
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				}
 
 				// Song * silent check correct parameters
@@ -386,7 +388,7 @@ class Reputation
 
 				if ($ibforums->member['posts'] < $ibforums->vars['rep_posts'])
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'rep_noposts', 'EXTRA' => $ibforums->vars['rep_posts']));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_noposts', 'EXTRA' => $ibforums->vars['rep_posts']));
 				}
 
 				$level = $this->get_rep($memid, $field);
@@ -400,7 +402,7 @@ class Reputation
 				{
 					if ($level <= $ibforums->vars['rep_remove'])
 					{
-						$std->Error(array(LEVEL => 1, MSG => 'rep_low'));
+						$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_low'));
 					}
 				}
 
@@ -648,7 +650,7 @@ class Reputation
 
 				if (!$stmt->rowCount())
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'no_name_search_results'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'no_name_search_results'));
 				}
 
 				$info = $stmt->fetch();
@@ -772,7 +774,7 @@ class Reputation
 
 				if (!$ibforums->member['g_access_cp'])
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'moderate_no_permission'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'moderate_no_permission'));
 				}
 
 				$ibforums->input['id'] = intval($ibforums->input['id']);
@@ -782,14 +784,14 @@ class Reputation
 
 				if (!$stmt->rowCount())
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'moderate_no_permission'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'moderate_no_permission'));
 				}
 
 				$row = $stmt->fetch();
 
 				if ($row['member_id'] == $ibforums->member['id'])
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'rep_self'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
 				}
 
 				$ibforums->db->exec("DELETE FROM ibf_reputation WHERE msg_id='" . $ibforums->input['id'] . "'");
@@ -911,7 +913,7 @@ class Reputation
 
 				if ($error)
 				{
-					$std->Error(array(LEVEL => 5, MSG => 'incorrect_use'));
+					$std->Error(array('LEVEL' => 5, 'MSG' => 'incorrect_use'));
 				}
 
 				$stmt = $ibforums->db->query("SELECT COUNT(id) as total_members FROM ibf_members");
@@ -1033,10 +1035,10 @@ class Reputation
 			'member_id' => $memid,
 			'msg_date'  => time(),
 			'message'   => $this->parser->convert(array(
-			                                           TEXT    => $ibforums->input['message'],
-			                                           SMILIES => $ibforums->vars['rep_enable_emo'],
-			                                           CODE    => $ibforums->vars['rep_enable_ibc'],
-			                                           HTML    => 0
+			                                           'TEXT'    => $ibforums->input['message'],
+			                                           'SMILIES' => $ibforums->vars['rep_enable_emo'],
+			                                           'CODE'    => $ibforums->vars['rep_enable_ibc'],
+			                                           'HTML'    => 0
 			                                      )),
 			'from_id'   => $ibforums->member['id'],
 			'forum_id'  => $ibforums->input['f'],

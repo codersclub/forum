@@ -245,10 +245,10 @@ class Memberlist
 		{
 			if ($ibforums->input['b'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'ml_error'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'ml_error'));
 			} else
 			{
-				$std->Error(array(LEVEL => 5, MSG => 'incorrect_use'));
+				$std->Error(array('LEVEL' => 5, 'MSG' => 'incorrect_use'));
 			}
 		}
 
@@ -389,7 +389,7 @@ class Memberlist
 
 			if ($this->mem_groups[$member['mgroup']]['ICON'])
 			{
-				$member['gicon'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$this->mem_groups[ $member['mgroup'] ][ICON]}' border='0'> ";
+				$member['gicon'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$this->mem_groups[ $member['mgroup'] ]['ICON']}' border='0'> ";
 			}
 
 			if ($pips)
@@ -402,14 +402,14 @@ class Memberlist
 					}
 
 				} else {
-					$member['pips'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/$pips' border='0'>";
+					$member['pips'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/$pips' border='0'>";
 				}
 			}
 
 			// Song * sex
 			if ($member['gender'] == 'f')
 			{
-				$member['sex'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/fem.gif' border='0'> ";
+				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' border='0'> ";
 
 			} else {
 				$member['sex'] = "";
@@ -481,7 +481,7 @@ class Memberlist
 		$print->do_output(array(
 		                       'TITLE' => $ibforums->lang['page_title'],
 		                       'JS'    => 0,
-		                       NAV     => array($ibforums->lang['page_title'])
+		                       'NAV'     => array($ibforums->lang['page_title'])
 		                  ));
 
 	}

@@ -87,7 +87,7 @@ class Login
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 
@@ -192,7 +192,7 @@ class Login
 
 		if (!$ibforums->member['id'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_guests'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
 		}
 
 		$ibforums->db->exec("UPDATE ibf_members SET last_visit='" . time() . "', last_activity='" . time() . "' WHERE id='" . $ibforums->member['id'] . "'");
@@ -209,14 +209,14 @@ class Login
 
 		if ($ibforums->input['f'] == "")
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$stmt = $ibforums->db->query("SELECT id, name, subwrap, parent_id FROM ibf_forums WHERE id=" . $ibforums->input['f']);
 
 		if (!$f = $stmt->fetch())
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$std->my_setcookie("fread_" . $ibforums->input['f'], time());
@@ -252,7 +252,7 @@ class Login
 				$ip = preg_replace("/\*/", '.*', $ip);
 				if (preg_match("/$ip/", $ibforums->input['IP_ADDRESS']))
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'you_are_banned'));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'you_are_banned'));
 				}
 			}
 		}
@@ -262,7 +262,7 @@ class Login
 		if ($message != "")
 		{
 			$message = $ibforums->lang[$message];
-			$message = preg_replace("/<#NAME#>/", "<b>{$ibforums->input[UserName]}</b>", $message);
+			$message = preg_replace("/<#NAME#>/", "<b>{$ibforums->input['UserName']}</b>", $message);
 
 			$this->output .= $this->login_html->errors($message);
 		}
@@ -273,7 +273,7 @@ class Login
 		$this->page_title = $ibforums->lang['log_in'];
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 		exit();
 
@@ -307,12 +307,12 @@ class Login
 
 		if (strlen($ibforums->input['UserName']) > 32)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'username_long'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'username_long'));
 		}
 
 		if (strlen($ibforums->input['PassWord']) > 32)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'pass_too_long'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_too_long'));
 		}
 
 		$username = strtolower($ibforums->input['UserName']);
@@ -466,7 +466,7 @@ class Login
 			// index, or where they came from
 			//-----------------------------------
 
-			$print->redirect_screen("{$ibforums->lang[thanks_for_login]} {$ibforums->member['name']}", $url);
+			$print->redirect_screen("{$ibforums->lang['thanks_for_login']} {$ibforums->member['name']}", $url);
 
 		} else
 		{
@@ -481,7 +481,7 @@ class Login
 
 		/*if(! $ibforums->member['id'])
 		{
-			$std->Error( array( LEVEL => 1, MSG => 'no_guests') );
+			$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_guests') );
 		}*/
 
 		// Update the DB

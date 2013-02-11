@@ -152,7 +152,7 @@ class Moderate
 		{
 			if (!$ibforums->member['is_mod'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'no_permission'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 			} else
 			{
 				$this->forum_id           = "";
@@ -332,7 +332,7 @@ class Moderate
 				$this->multi_mod();
 				break;
 			default:
-				$std->Error(array(LEVEL => 1, MSG => 'no_permission'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 				break;
 		}
 
@@ -1607,8 +1607,8 @@ class Moderate
 		)
 		{
 			$std->Error(array(
-			                 LEVEL => 1,
-			                 MSG   => 'no_permission'
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'no_permission'
 			            ));
 		}
 
@@ -1829,7 +1829,7 @@ class Moderate
 		//--------------------------------------------------
 		if (!($ibforums->member['g_is_supmod'] or $this->moderator['topic_q']))
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_permission'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 		}
 
 		$this->load_forum();
@@ -2057,7 +2057,7 @@ class Moderate
 
 		if ($ibforums->input['key'] != $std->return_md5_check())
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'del_post'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'del_post'));
 		}
 
 		//-----------------------------------------------
@@ -2446,7 +2446,7 @@ class Moderate
 		}
 		return;
 		//-- mod_member_ips end
-
+		//todo ?
 		$pass = 0;
 
 		if ($ibforums->member['g_is_supmod'] == 1)
@@ -2684,7 +2684,7 @@ class Moderate
 
 		if ($ibforums->input['key'] != $std->return_md5_check())
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'del_post'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'del_post'));
 		}
 
 		//-----------------------------------------------
@@ -2905,7 +2905,7 @@ class Moderate
 		$print->add_output("$this->output");
 		$print->do_output(array(
 		                       'TITLE' => $this->page_title,
-		                       NAV     => $this->nav
+		                       'NAV'     => $this->nav
 		                  ));
 
 		exit();
@@ -3136,13 +3136,13 @@ class Moderate
 
 			// parse its to HTML
 			$ready = $this->parser->prepare(array(
-			                                     TEXT      => $prepare,
-			                                     SMILIES   => 0,
-			                                     CODE      => 1,
-			                                     SIGNATURE => 0,
-			                                     HTML      => 1,
-			                                     HID       => -1,
-			                                     TID       => -1
+			                                     'TEXT'      => $prepare,
+			                                     'SMILIES'   => 0,
+			                                     'CODE'      => 1,
+			                                     'SIGNATURE' => 0,
+			                                     'HTML'      => 1,
+			                                     'HID'       => -1,
+			                                     'TID'       => -1
 			                                ));
 
 			// split parsed string to array

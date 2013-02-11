@@ -277,7 +277,7 @@ class Messenger
 		$this->output .= $this->cp_html->forum_jump($fj);
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 	}
 
 	/**
@@ -1436,10 +1436,10 @@ class Messenger
 		{
 
 			$old_msg = $this->parser->prepare(array(
-			                                       TEXT    => $std->remove_tags($ibforums->input['Post']),
-			                                       SMILIES => 1,
-			                                       CODE    => $ibforums->vars['msg_allow_code'],
-			                                       HTML    => $ibforums->vars['msg_allow_html']
+			                                       'TEXT'    => $std->remove_tags($ibforums->input['Post']),
+			                                       'SMILIES' => 1,
+			                                       'CODE'    => $ibforums->vars['msg_allow_code'],
+			                                       'HTML'    => $ibforums->vars['msg_allow_html']
 			                                  ));
 
 			$this->output .= $this->html->preview($old_msg);
@@ -1698,11 +1698,11 @@ class Messenger
 		}
 
 		$ibforums->input['Post'] = $this->parser->convert(array(
-		                                                       TEXT     => $ibforums->input['Post'],
-		                                                       SMILIES  => 1,
-		                                                       CODE     => 1,
-		                                                       HTML     => 0,
-		                                                       MOD_FLAG => 0,
+		                                                       'TEXT'     => $ibforums->input['Post'],
+		                                                       'SMILIES'  => 1,
+		                                                       'CODE'     => 1,
+		                                                       'HTML'     => 0,
+		                                                       'MOD_FLAG' => 0,
 		                                                  ));
 		//--------------------------------------
 		// Is this a preview?
@@ -2255,7 +2255,7 @@ class Messenger
 
 				if ($this->vid != 'sent')
 				{
-					$row['add_to_contacts'] = "[ <a href='{$ibforums->base_url}act=Msg&amp;CODE=02&amp;MID={$row['from_id']}'>{$ibforums->lang[add_to_book]}</a> ]";
+					$row['add_to_contacts'] = "[ <a href='{$ibforums->base_url}act=Msg&amp;CODE=02&amp;MID={$row['from_id']}'>{$ibforums->lang['add_to_book']}</a> ]";
 				} else
 				{
 					$row['from_id'] = $row['recipient_id'];
@@ -2423,7 +2423,7 @@ class Messenger
 
 		if ($member['g_icon'])
 		{
-			$member['member_rank_img'] = "<img src='{$ibforums->vars[TEAM_ICON_URL]}/{$member['g_icon']}' border='0' />";
+			$member['member_rank_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' />";
 		}
 
 		$member['member_joined'] = $ibforums->lang['m_joined'] . ' ' . $std->format_date_without_time($member['joined']);

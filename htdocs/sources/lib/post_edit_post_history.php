@@ -62,7 +62,7 @@ class post_functions extends Post
 
 		if (!$this->topic['tid'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------------------
@@ -77,7 +77,7 @@ class post_functions extends Post
 
 		if (!$this->orig_post['pid'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------------------
@@ -129,8 +129,8 @@ class post_functions extends Post
 		if (!$can_edit)
 		{
 			$std->Error(array(
-			                 LEVEL => 1,
-			                 MSG   => 'not_op'
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'not_op'
 			            ));
 		}
 
@@ -145,8 +145,8 @@ class post_functions extends Post
 			)
 			{
 				$std->Error(array(
-				                 LEVEL => 1,
-				                 MSG   => 'locked_topic'
+				                 'LEVEL' => 1,
+				                 'MSG'   => 'locked_topic'
 				            ));
 			}
 		}
