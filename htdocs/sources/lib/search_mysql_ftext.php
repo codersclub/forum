@@ -360,7 +360,7 @@ class search_lib extends Search
 			$print->add_output("$this->output");
 			$print->do_output(array(
 			                       'TITLE' => $ibforums->lang['g_simple_title'],
-			                       NAV     => array($ibforums->lang['g_simple_title'])
+			                       'NAV'     => array($ibforums->lang['g_simple_title'])
 			                  ));
 
 		}

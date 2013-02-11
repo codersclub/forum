@@ -55,7 +55,7 @@
 	var $vars       = array();
 	var $input      = array();
 	var $lang_id    = "en";
-	var $lang       = "";
+	var $lang       = [];
 	var $skin_id    = "s1";     // Skin Dir name
 
 		function Info() {

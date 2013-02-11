@@ -81,7 +81,7 @@ class stats
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 	}
 
 	function who_posted()
@@ -328,7 +328,7 @@ class stats
 				$mod_array['forums'][$i['id']][] = array($i['forum_id'], $i['forum_name']);
 			}
 
-			foreach ($mod_array['member'] as $id => $data)
+			foreach ($mod_array['member'] as $id => $dummy)
 			{
 				$fhtml = "";
 

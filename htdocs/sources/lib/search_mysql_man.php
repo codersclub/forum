@@ -32,7 +32,7 @@ class search_lib extends Search
 	// Constructor
 	//--------------------------------------------
 
-	function search_lib($that)
+	function search_lib(&$that)
 	{
 		$this->is = $that; // hahaha!
 	}
@@ -403,7 +403,6 @@ class search_lib extends Search
 			'search_count' => $search_count,
 			'topics_query' => $topics_query,
 			'posts_query'  => $posts_query,
-			'keywords'     => $keywords,
 			'wordlist'     => $wordlist,
 			'wordidlist'   => $wordidlist
 		);

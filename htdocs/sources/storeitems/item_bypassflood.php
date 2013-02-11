@@ -14,7 +14,7 @@ class item
 	{
 		global $IN, $SKIN, $ADMIN;
 		$ibforums = Ibf::instance();
-		$ADMIN->Html .= $SKIN->add_td_row(array(
+		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>The amount of Seconds to take off of flood control?</b><br>The amount the users flood control is decreased by when this item is used.",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])
 		                                  ));

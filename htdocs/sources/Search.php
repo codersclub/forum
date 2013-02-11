@@ -1667,16 +1667,16 @@ class Search
 				// /Song * club tool
 
 				$data = array(
-					TEXT      => $row['post'],
-					SMILIES   => $row['use_emo'],
-					CODE      => 1,
-					SIGNATURE => 0,
-					HTML      => 1,
-					HID       => ($row['forum_highlight'])
+					'TEXT'      => $row['post'],
+					'SMILIES'   => $row['use_emo'],
+					'CODE'      => 1,
+					'SIGNATURE' => 0,
+					'HTML'      => 1,
+					'HID'       => ($row['forum_highlight'])
 						? $row['hid']
 						: -1,
-					TID       => $row['topic_id'],
-					MID       => $row['author_id'],
+					'TID'       => $row['topic_id'],
+					'MID'       => $row['author_id'],
 				);
 
 				$row['post'] = $this->parser->prepare($data);
@@ -2259,7 +2259,6 @@ class Search
 			$t_array              = explode("&", $topic['moved_to']);
 			$topic['tid']         = $t_array[0];
 			$topic['forum_id']    = $t_array[1];
-			$topic['title']       = $topic['title'];
 			$topic['views']       = '--';
 			$topic['posts']       = '--';
 			$topic['prefix']      = $ibforums->vars['pre_moved'] . " ";
@@ -2895,7 +2894,7 @@ class Search
 		$this->nav        = array($ibforums->lang['search_form']);
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 
@@ -3427,14 +3426,14 @@ class Search
 			foreach ($topic_list as $row)
 			{
 				$data = array(
-					TEXT      => $row['post'],
-					SMILIES   => $row['use_emo'],
-					CODE      => 1,
-					SIGNATURE => 0,
-					HTML      => 1,
-					HID       => -1,
-					TID       => $row['topic_id'],
-					MID       => $row['author_id'],
+					'TEXT'      => $row['post'],
+					'SMILIES'   => $row['use_emo'],
+					'CODE'      => 1,
+					'SIGNATURE' => 0,
+					'HTML'      => 1,
+					'HID'       => -1,
+					'TID'       => $row['topic_id'],
+					'MID'       => $row['author_id'],
 				);
 
 				$row['post'] = $this->parser->prepare($data);
@@ -3777,12 +3776,12 @@ class Search
 		$url_words = urlencode(trim($keywords));
 
 		$links = $std->build_pagelinks(array(
-		                                    TOTAL_POSS => $max_hits,
-		                                    PER_PAGE   => 25,
-		                                    CUR_ST_VAL => $this->first,
-		                                    L_SINGLE   => "",
-		                                    L_MULTI    => $ibforums->lang['search_pages'],
-		                                    BASE_URL   => $this->base_url . "act=Search&CODE=getactive&searchid=$unique_id",
+		                                    'TOTAL_POSS' => $max_hits,
+		                                    'PER_PAGE'   => 25,
+		                                    'CUR_ST_VAL' => $this->first,
+		                                    'L_SINGLE'   => "",
+		                                    'L_MULTI'    => $ibforums->lang['search_pages'],
+		                                    'BASE_URL'   => $this->base_url . "act=Search&CODE=getactive&searchid=$unique_id",
 		                               ));
 
 		$this->output .= $this->html->active_start(array(

@@ -96,7 +96,7 @@ class Login
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 	}
 
 	function auto_login()
@@ -197,7 +197,7 @@ class Login
 
 		if (!$ibforums->member['id'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_guests'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
 		}
 
 		$ibforums->db->exec("UPDATE ibf_members SET board_read='" . time() . "' WHERE id='" . $ibforums->member['id'] . "'");
@@ -214,14 +214,14 @@ class Login
 
 		if (!$ibforums->input['f'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$stmt = $ibforums->db->query("SELECT id,parent_id FROM ibf_forums WHERE id='" . $ibforums->input['f'] . "'");
 
 		if (!$f = $stmt->fetch())
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		// Song * NEW
@@ -288,7 +288,7 @@ class Login
 		//				$ip = preg_replace( "/\*/", '.*' , $ip );
 		//				if (preg_match( "/$ip/", $ibforums->input['IP_ADDRESS'] ))
 		//				{
-		//					$std->Error( array( LEVEL => 1, MSG => 'you_are_banned' ) );
+		//					$std->Error( array( 'LEVEL' => 1, 'MSG' => 'you_are_banned' ) );
 		//				}
 		//			}
 		//		}
@@ -297,7 +297,7 @@ class Login
 		if ($message != "")
 		{
 			$message = $ibforums->lang[$message];
-			$message = preg_replace("/<#NAME#>/", "<b>{$ibforums->input[UserName]}</b>", $message);
+			$message = preg_replace("/<#NAME#>/", "<b>{$ibforums->input['UserName']}</b>", $message);
 
 			$this->output .= $this->login_html->errors($message . ' ' . $error_message);
 		}
@@ -308,7 +308,7 @@ class Login
 		$this->page_title = $ibforums->lang['log_in'];
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 		exit();
 	}
@@ -467,7 +467,7 @@ class Login
 				}
 			}
 
-			$print->redirect_screen("{$ibf->lang[thanks_for_login]} {$ibf->member['name']}", $url);
+			$print->redirect_screen("{$ibf->lang['thanks_for_login']} {$ibf->member['name']}", $url);
 		}
 	}
 

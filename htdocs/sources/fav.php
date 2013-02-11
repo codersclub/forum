@@ -103,7 +103,7 @@ class fav
 
 				if (count($favlist) > $this->max_fav)
 				{
-					$std->Error(array(LEVEL => 1, MSG => 'too_many_favs', EXTRA => $this->max_fav));
+					$std->Error(array('LEVEL' => 1, 'MSG' => 'too_many_favs', 'EXTRA' => $this->max_fav));
 				} else
 				{
 					//				$favlist[] = $topic;
@@ -138,7 +138,7 @@ class fav
 			//                            WHERE id='".$ibforums->member['id']."'");
 		} else
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'mt_no_topic'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'mt_no_topic'));
 		}
 	}
 

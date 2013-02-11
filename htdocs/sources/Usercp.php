@@ -349,7 +349,7 @@ class UserCP
 		$this->output .= $this->html->forum_jump($fj, $links);
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'NAV' => $this->nav));
 
 	}
 
@@ -782,7 +782,7 @@ class UserCP
 
 			if ($email_check['id'])
 			{
-				$std->Error(array(LEVEL => 1, MSG => 'email_exists'));
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'email_exists'));
 			}
 		}
 
@@ -1203,7 +1203,7 @@ class UserCP
 				$topic['folder_icon'] = $std->folder_icon($topic, "", $last_time, $read_mark);
 
 				$topic['topic_icon'] = $topic['icon_id']
-					? '<img src="' . $ibforums->vars[html_url] . '/icon' . $topic['icon_id'] . '.gif" border="0" alt="">'
+					? '<img src="' . $ibforums->vars['html_url'] . '/icon' . $topic['icon_id'] . '.gif" border="0" alt="">'
 					: '&nbsp;';
 
 				if ($topic['pinned'])
@@ -1807,7 +1807,7 @@ class UserCP
 
 			$info = array();
 
-			foreach (array(hide_email, allow_admin_mails, email_full, email_pm, auto_track) as $k)
+			foreach (array('hide_email', 'allow_admin_mails', 'email_full', 'email_pm', 'auto_track') as $k)
 			{
 				if (!empty($this->member[$k]))
 				{
@@ -2224,11 +2224,11 @@ class UserCP
 			: 0;
 
 		$data = array(
-			TEXT      => $this->member['signature'],
-			SMILIES   => 1,
-			CODE      => 1,
-			SIGNATURE => 0,
-			HTML      => $ibforums->vars['sig_allow_html'],
+			'TEXT'      => $this->member['signature'],
+			'SMILIES'   => 1,
+			'CODE'      => 1,
+			'SIGNATURE' => 0,
+			'HTML'      => $ibforums->vars['sig_allow_html'],
 		);
 
 		$this->member['signature'] = $this->parser->prepare($data);
@@ -2299,10 +2299,7 @@ class UserCP
 				: ">{$ibforums->lang['month'.$i]}</option>";
 		}
 
-		$i = $date['year'] - 1;
-		$j = $date['year'] - 100;
-
-		for ($i; $j < $i; $i--)
+		for ($i = $date['year'] - 1, $j = $date['year'] - 100; $j < $i; $i--)
 		{
 			$year .= "<option value='$i'";
 

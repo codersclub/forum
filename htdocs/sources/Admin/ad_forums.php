@@ -2370,7 +2370,7 @@ class ad_forums
 			'redirect_hits'   => $IN['redirect_hits'],
 			'redirect_url'    => $IN['redirect_url'],
 			'redirect_loc'    => $IN['redirect_loc'],
-			'forum_highlight' => $IN[forum_highlight],
+			'forum_highlight' => $IN['forum_highlight'],
 			'siu_thumb'       => $IN['siu_thumb'],
 			'days_off'        => $IN['days_off'],
 			'decided_button'  => $IN['decided_button'],

@@ -833,7 +833,7 @@ class Forums
 				return TRUE;
 			} else
 			{
-				$ibforums->functions->Error(array(LEVEL => 1, MSG => 'no_permission'));
+				$ibforums->functions->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 			}
 		}
 
@@ -902,7 +902,7 @@ class Forums
 
 		if ((!isset($sort_keys[$sort_key])) or (!isset($prune_by_day[$prune_value])) or (!isset($sort_by_keys[$sort_by])))
 		{
-			$ibforums->functions->Error(array(LEVEL => 5, MSG => 'incorrect_use'));
+			$ibforums->functions->Error(array('LEVEL' => 5, 'MSG' => 'incorrect_use'));
 		}
 
 		// /Song * secure patch
@@ -1438,7 +1438,6 @@ class Forums
 				return "";
 			}
 
-			$topic['title']       = $topic['title'];
 			$topic['go_new_post'] = "";
 
 			$t_array = explode("&", $topic['moved_to']);

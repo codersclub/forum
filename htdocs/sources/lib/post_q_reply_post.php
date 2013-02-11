@@ -51,14 +51,14 @@ class post_functions extends Post
 		// Is it legitimate?
 		if (!$this->topic['tid'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		// Song * Old Topics Flood, 15.03.05
 
 		if ($std->user_reply_flood($this->topic['start_date']))
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		//-------------------------------------------------
@@ -68,7 +68,7 @@ class post_functions extends Post
 
 		if (!$this->topic['approved'] or $this->topic['poll_state'] == 'closed')
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_replies'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_replies'));
 		}
 
 		if ($this->topic['starter_id'] == $ibforums->member['id'])
@@ -76,8 +76,8 @@ class post_functions extends Post
 			if (!$ibforums->member['g_reply_own_topics'])
 			{
 				$std->Error(array(
-				                 LEVEL => 1,
-				                 MSG   => 'no_replies'
+				                 'LEVEL' => 1,
+				                 'MSG'   => 'no_replies'
 				            ));
 			}
 		}
@@ -888,7 +888,7 @@ class post_functions extends Post
 		$class->html_topic_summary($this->topic['tid']);
 
 		$this->nav = array(
-			"<a href='{$class->base_url}act=SC&c={$class->forum[cat_id]}'>{$class->forum['cat_name']}</a>",
+			"<a href='{$class->base_url}act=SC&c={$class->forum['cat_id']}'>{$class->forum['cat_name']}</a>",
 			"<a href='{$class->base_url}showforum={$class->forum['id']}'>{$class->forum['name']}</a>",
 			"<a href='{$class->base_url}showtopic={$this->topic['tid']}'>{$this->topic['title']}</a>",
 		);

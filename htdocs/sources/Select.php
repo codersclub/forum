@@ -74,7 +74,7 @@ class Search
 
 		$this->base_url = $ibforums->base_url;
 
-		//    	if ( !$ibforums->vars['allow_search']) $std->Error( array( LEVEL => 1, MSG => 'search_off') );
+		//    	if ( !$ibforums->vars['allow_search']) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'search_off') );
 		//    	if ( $ibforums->member['g_use_search'] != 1 ) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_permission' ) );
 
 		//    	if ( (!$ibforums->vars['allow_search']) ||
@@ -83,7 +83,7 @@ class Search
 		//	  $this->nav        = array( $ibforums->lang['search_form'] );
 		//	  $this->output = $this->html->alien_form('search_off');
 		//    	  $print->add_output("$this->output");
-		//          $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav ) );
+		//          $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav ) );
 		//        }
 
 		//---------------------------------------
@@ -154,7 +154,7 @@ class Search
 
 		if (!isset($ibforums->member['g_use_search']))
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'cant_use_feature'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'cant_use_feature'));
 		}
 
 		switch ($ibforums->input['CODE'])
@@ -224,13 +224,13 @@ class Search
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		//Jureth        $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav ) );
+		//Jureth        $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav ) );
 		$print->do_output(array(
 		                       'TITLE' => $this->page_title,
 		                       'JS'    => ($this->modfunctions)
 			                       ? "rows_js.js?{$ibforums->vars['client_script_version']}"
 			                       : 0,
-		                       NAV     => $this->nav
+		                       'NAV'     => $this->nav
 		                  ));
 
 	}
@@ -759,14 +759,14 @@ class Search
 			foreach ($topic_list as $row)
 			{
 				$data = array(
-					TEXT      => $row['post'],
-					SMILIES   => $row['use_emo'],
-					CODE      => 1,
-					SIGNATURE => 0,
-					HTML      => 1,
-					HID       => -1,
-					TID       => $row['topic_id'],
-					MID       => $row['author_id'],
+					'TEXT'      => $row['post'],
+					'SMILIES'   => $row['use_emo'],
+					'CODE'      => 1,
+					'SIGNATURE' => 0,
+					'HTML'      => 1,
+					'HID'       => -1,
+					'TID'       => $row['topic_id'],
+					'MID'       => $row['author_id'],
 				);
 
 				$row['post'] = $this->parser->prepare($data);
@@ -1579,16 +1579,16 @@ class Search
 				$count++;
 				// Song * club tool
 				$data = array(
-					TEXT      => $row['post'],
-					SMILIES   => $row['use_emo'],
-					CODE      => 1,
-					SIGNATURE => 0,
-					HTML      => 1,
-					HID       => ($row['forum_highlight'])
+					'TEXT'      => $row['post'],
+					'SMILIES'   => $row['use_emo'],
+					'CODE'      => 1,
+					'SIGNATURE' => 0,
+					'HTML'      => 1,
+					'HID'       => ($row['forum_highlight'])
 						? $row['hid']
 						: -1,
-					TID       => $row['topic_id'],
-					MID       => $row['author_id'],
+					'TID'       => $row['topic_id'],
+					'MID'       => $row['author_id'],
 				);
 
 				$row['post'] = $this->parser->prepare($data);
@@ -1990,7 +1990,7 @@ class Search
 	{
 		global $std, $ibforums;
 
-		$topic['last_text'] = $ibforums->lang[last_post_by];
+		$topic['last_text'] = $ibforums->lang['last_post_by'];
 
 		$topic['last_poster'] = ($topic['last_poster_id'] != 0)
 			? "<b><a href='{$this->base_url}showuser={$topic['last_poster_id']}'>{$topic['last_poster_name']}</a></b>"
@@ -2148,7 +2148,6 @@ class Search
 			$t_array              = explode("&", $topic['moved_to']);
 			$topic['tid']         = $t_array[0];
 			$topic['forum_id']    = $t_array[1];
-			$topic['title']       = $topic['title'];
 			$topic['views']       = '--';
 			$topic['posts']       = '--';
 			$topic['prefix']      = $ibforums->vars['pre_moved'] . " ";
@@ -2691,7 +2690,7 @@ class Search
 
 		$print->add_output("$this->output");
 
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 
@@ -2724,7 +2723,7 @@ class Search
 		$this->nav        = array($ibforums->lang['search_form']);
 
 		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
 

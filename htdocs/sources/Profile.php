@@ -238,7 +238,7 @@ class Profile
 			// Is this our profile or WE are a super_moderator ?
 			//---------------------------------------------------
 
-			$this->page_title = $ibforums->lang['active_stats'] . " " . $info[member_name];
+			$this->page_title = $ibforums->lang['active_stats'] . " " . $info['member_name'];
 
 			$this->nav = array(
 				"<a href='index.php?showuser={$info['member_id']}'>{$ibforums->lang['page_title']} {$info['member_name']}</a>",

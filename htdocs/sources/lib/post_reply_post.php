@@ -71,8 +71,8 @@ class post_functions extends Post
 		)
 		{
 			$std->Error(array(
-			                 LEVEL => 1,
-			                 MSG   => 'no_replies'
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'no_replies'
 			            ));
 		}
 
@@ -114,7 +114,7 @@ class post_functions extends Post
 			)
 			{
 				$std->Error(array(
-				                 LEVEL => 1,
+				                 'LEVEL' => 1,
 				                 'MSG' => 'locked_topic'
 				            ));
 			}
@@ -895,7 +895,7 @@ class post_functions extends Post
 		$class->html_topic_summary($this->topic['tid']);
 
 		$this->nav = array(
-			"<a href='{$class->base_url}act=SC&amp;c={$class->forum[cat_id]}'>{$class->forum['cat_name']}</a>",
+			"<a href='{$class->base_url}act=SC&amp;c={$class->forum['cat_id']}'>{$class->forum['cat_name']}</a>",
 			"<a href='{$class->base_url}showforum={$class->forum['id']}'>{$class->forum['name']}</a>",
 			"<a href='{$class->base_url}showtopic={$this->topic['tid']}'>{$this->topic['title']}</a>",
 		);

@@ -178,7 +178,7 @@ class store
 		{
 			$title = $ibforums->lang['ibstore_title'] . ' -> ' . $this->nav[count($this->nav) - 1];
 		}
-		$print->do_output(array('TITLE' => $title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $title, 'JS' => 0, 'NAV' => $this->nav));
 	}
 
 	//---------------------------------------------
@@ -912,7 +912,7 @@ class store
 		$member = $this->getmid($ibforums->input['username']);
 		$ibforums->db->exec("UPDATE ibf_members SET points='{$ibforums->input['points']}' WHERE LOWER(name)='{$ibforums->input['username']}' LIMIT 1");
 		//	$lib->add_reason($ibforums->member['id'],$ibforums->member['name'],$member['id'],$ibforums->input['username'],$ibforums->input['points'],"Êîğğåêòèğîâêà îñòàòêà íà ñ÷åòå ".$ibforums->input['username'].": ".$ibforums->input['points']." ".$ibforums->vars['currency_name'],$ibforums->input['user_reson'],"edit");
-		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $member[id], $ibforums->input['username'], $ibforums->input['points'], "Êîğğåêòèğîâêà ñ÷åòà '" . $ibforums->input['username'] . "': " . $ibforums->input['points'] . " " . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "edit");
+		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $member['id'], $ibforums->input['username'], $ibforums->input['points'], "Êîğğåêòèğîâêà ñ÷åòà '" . $ibforums->input['username'] . "': " . $ibforums->input['points'] . " " . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "edit");
 		$lib->redirect("edited_user", "act=store");
 	}
 
@@ -1054,8 +1054,8 @@ class store
 		$print->add_output($html);
 
 		$print->do_output(array(
-		                       OVERRIDE => 1,
-		                       TITLE    => $ibforums->lang['error_title'],
+		                       'OVERRIDE' => 1,
+		                       'TITLE'    => $ibforums->lang['error_title'],
 		                  ));
 
 		exit;
@@ -1373,7 +1373,7 @@ class store
 
 		$print->add_output("$output");
 
-		$print->do_output(array('TITLE' => "test", 'JS' => 1, NAV => "test"));
+		$print->do_output(array('TITLE' => "test", 'JS' => 1, 'NAV' => "test"));
 
 	}
 

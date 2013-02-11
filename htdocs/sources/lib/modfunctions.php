@@ -37,7 +37,7 @@ class modfunctions
 
 	var $auto_update = FALSE;
 
-	var $stm = "";
+	var $stm = [];
 	var $upload_dir = "";
 
 	var $moderator = "";
@@ -522,11 +522,11 @@ class modfunctions
 			'post_date'    => time(),
 			'icon_id'      => $ibforums->input['iconid'],
 			'post'         => $this->parser->convert(array(
-			                                              TEXT     => $post_text,
-			                                              SMILIES  => 0,
-			                                              CODE     => 0,
-			                                              HTML     => 0,
-			                                              MOD_FLAG => True,
+			                                              'TEXT'     => $post_text,
+			                                              'SMILIES'  => 0,
+			                                              'CODE'     => 0,
+			                                              'HTML'     => 0,
+			                                              'MOD_FLAG' => True,
 			                                         )),
 			'author_name'  => $ibforums->member['name'],
 			'forum_id'     => $moveto,

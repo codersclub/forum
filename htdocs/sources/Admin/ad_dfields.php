@@ -386,8 +386,6 @@ class ad_dfields
 				$req  = '&nbsp;';
 				$regi = '&nbsp;';
 
-				"<center><a href='{$ADMIN->base_url}&act=group&code=delete&id=" . $r['g_id'] . "'>Delete</a></center>";
-
 				//-----------------------------------
 				if ($r['fshow'] == 1)
 				{

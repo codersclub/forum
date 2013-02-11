@@ -148,7 +148,7 @@ class Register
 
 		$print->add_output("$this->output");
 
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, NAV => $this->nav));
+		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 	}
 
 	/*	 * ************************************************** */
@@ -943,7 +943,7 @@ class Register
 		//
 		//			if ( preg_match( "/$ip/", $ibforums->input['IP_ADDRESS'] ) )
 		//			{
-		//				$std->Error( array( LEVEL => 1, MSG => 'wrong_member_name' ) );
+		//				$std->Error( array( 'LEVEL' => 1, 'MSG' => 'wrong_member_name' ) );
 		//			}
 		//		}
 		//	}
@@ -1387,12 +1387,12 @@ class Register
 
 					if ($_POST['pass1'] == "")
 					{
-						$std->Error(array(LEVEL => 1, MSG => 'pass_blank'));
+						$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_blank'));
 					}
 
 					if ($_POST['pass2'] == "")
 					{
-						$std->Error(array(LEVEL => 1, MSG => 'pass_blank'));
+						$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_blank'));
 					}
 
 					$pass_a = trim($ibforums->input['pass1']);
@@ -1400,12 +1400,12 @@ class Register
 
 					if (strlen($pass_a) < 3)
 					{
-						$std->Error(array(LEVEL => 1, MSG => 'pass_too_short'));
+						$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_too_short'));
 					}
 
 					if ($pass_a != $pass_b)
 					{
-						$std->Error(array(LEVEL => 1, MSG => 'pass_no_match'));
+						$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_no_match'));
 					}
 
 					$new_pass = md5($pass_a);

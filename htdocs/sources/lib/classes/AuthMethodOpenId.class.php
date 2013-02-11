@@ -264,8 +264,7 @@ class AuthMethodOpenId extends AuthBasic
 	private function getTrustRoot()
 	{
 		return sprintf("%s://%s:%s%s/", $this->getScheme(), $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], dirname($_SERVER['PHP_SELF']));
-
-		return sprintf("{$ibforums->base_url}", $this->getScheme(), $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], dirname($_SERVER['PHP_SELF']));
+//		return sprintf("{$ibforums->base_url}", $this->getScheme(), $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], dirname($_SERVER['PHP_SELF']));
 	}
 
 	private function run()

@@ -113,7 +113,7 @@ class Post
 
 		if (!$ibforums->input['f'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'missing_files'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
 		$ibforums->input['st'] = $ibforums->input['st']
@@ -144,7 +144,7 @@ class Post
 
 		if ($std->check_perms($this->forum['read_perms']) != TRUE)
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'no_view_topic'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_view_topic'));
 		}
 
 		// Can we upload stuff?
@@ -158,7 +158,7 @@ class Post
 
 		if (!$this->forum['status'])
 		{
-			$std->Error(array(LEVEL => 1, MSG => 'forum_read_only'));
+			$std->Error(array('LEVEL' => 1, 'MSG' => 'forum_read_only'));
 		}
 
 		//--------------------------------------
@@ -406,8 +406,8 @@ class Post
 				if ($ibforums->member['restrict_post'] == 1)
 				{
 					$std->Error(array(
-					                 LEVEL => 1,
-					                 MSG   => 'posting_off'
+					                 'LEVEL' => 1,
+					                 'MSG'   => 'posting_off'
 					            ));
 				}
 
@@ -1407,7 +1407,7 @@ class Post
 
 		return $ibforums->member['id']
 			? $this->html->nameField_reg()
-			: $this->html->nameField_unreg($ibforums->input[UserName]);
+			: $this->html->nameField_unreg($ibforums->input['UserName']);
 	}
 
 	/*	 * ************************************************** */
