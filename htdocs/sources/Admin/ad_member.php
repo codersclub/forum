@@ -3321,7 +3321,7 @@ class ad_forums
 		$ibforums->db->updateRow("ibf_members", array_map([
 		                                                  $ibforums->db,
 		                                                  'quote'
-		                                                  ], $member), "WHERE id='" . $IN['mid'] . "'");
+		                                                  ], $member), "id='" . $IN['mid'] . "'");
 
 		// Song * reputation
 
