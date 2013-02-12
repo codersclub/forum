@@ -846,8 +846,7 @@ class UserCP
 				'real_group' => $this->member['mgroup'],
 				'temp_group' => $ibforums->vars['auth_group'],
 				'entry_date' => time(),
-				'coppa_user' => 0,
-				'email_chg'  => 1,
+				'validate_type' => 'email_chg',
 				'ip_address' => $ibforums->input['IP_ADDRESS']
 			];
 

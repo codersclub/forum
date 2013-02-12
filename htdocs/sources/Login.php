@@ -440,7 +440,7 @@ class Login
 			// Clear out any passy change stuff
 			//-----------------------------------
 
-			$stmt = $ibf->db->query("DELETE FROM ibf_validating WHERE member_id={$ibf->member['id']} AND lost_pass=1");
+			$stmt = $ibf->db->query("DELETE FROM ibf_validating WHERE member_id={$ibf->member['id']} AND validate_type='lost_pass'");
 
 			//-----------------------------------
 			// Redirect them to either the board

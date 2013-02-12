@@ -87,7 +87,9 @@ class index_page
 			$row['MEM_COUNT'] = 0;
 		}
 
-		$stmt = $ibforums->db->query("SELECT COUNT(*) as reg FROM ibf_validating WHERE lost_pass <> 1");
+		$stmt = $ibforums->db->query("SELECT COUNT(*) as reg
+					FROM ibf_validating
+					WHERE validate_type<>'lost_pass'");
 		$reg  = $stmt->fetch();
 
 		if ($reg['reg'] < 1)
@@ -95,7 +97,9 @@ class index_page
 			$reg['reg'] = 0;
 		}
 
-		$stmt  = $ibforums->db->query("SELECT COUNT(*) as coppa FROM ibf_validating WHERE coppa_user=1");
+		$stmt  = $ibforums->db->query("SELECT COUNT(*) as coppa
+					FROM ibf_validating
+					WHERE validate_type='coppa_user'");
 		$coppa = $stmt->fetch();
 
 		if ($coppa['coppa'] < 1)

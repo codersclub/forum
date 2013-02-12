@@ -481,8 +481,7 @@ class Register
 				'real_group' => $member['mgroup'],
 				'temp_group' => $member['mgroup'],
 				'entry_date' => time(),
-				'coppa_user' => 0,
-				'lost_pass'  => 1,
+				'validate_type' => 'lost_pass',
 				'ip_address' => $ibforums->input['IP_ADDRESS']
 			];
 
@@ -1142,8 +1141,7 @@ class Register
 					'real_group' => $ibforums->vars['newbie_group'],
 					'temp_group' => $ibforums->vars['auth_group'],
 					'entry_date' => $time,
-					'coppa_user' => $coppa,
-					'new_reg'    => 1,
+					'validate_type' => 'new_reg',
 					'ip_address' => $member['ip_address']
 				];
 
@@ -1236,8 +1234,7 @@ class Register
 				'real_group' => $ibforums->vars['newbie_group'],
 				'temp_group' => $ibforums->vars['auth_group'],
 				'entry_date' => $time,
-				'coppa_user' => $coppa,
-				'new_reg'    => 1,
+				'validate_type' => 'new_reg',
 				'ip_address' => $member['ip_address']
 			];
 
@@ -1312,7 +1309,7 @@ class Register
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'auth_no_key'));
 		}
 
-		if (($validate['new_reg'] == 1) && ($ibforums->vars['reg_auth_type'] == "admin"))
+		if (($validate['validate_type']=='new_reg') && ($ibforums->vars['reg_auth_type'] == "admin"))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'auth_no_key_not_allow'));
 		}
@@ -1328,7 +1325,7 @@ class Register
 
 			if ($in_type == 'reg')
 			{
-				if ($validate['new_reg'] != 1)
+				if ($validate['validate_type'] != 'new_reg')
 				{
 					$std->Error(array('LEVEL' => 1, 'MSG' => 'auth_no_key'));
 				}
@@ -1360,7 +1357,7 @@ class Register
 				$ibforums->db->query("DELETE FROM ibf_validating
 					    WHERE vid='" . $validate['vid'] . "'
 						OR (member_id={$member['id']}
-							AND new_reg=1)");
+							AND validate_type='new_reg')");
 
 				$this->bash_dead_validations();
 				// Song * send pm to new user
@@ -1380,7 +1377,7 @@ class Register
 			else {
 				if ($in_type == 'lostpass')
 				{
-					if ($validate['lost_pass'] != 1)
+					if ($validate['validate_type'] != 'lost_pass')
 					{
 						$std->Error(array('LEVEL' => 1, 'MSG' => 'lp_no_pass'));
 					}
@@ -1424,7 +1421,7 @@ class Register
 					$ibforums->db->query("DELETE FROM ibf_validating
 					    WHERE vid='" . $validate['vid'] . "'
 						OR (member_id={$member['id']}
-							AND lost_pass=1)");
+							AND validate_type='lost_pass')");
 
 					$this->bash_dead_validations();
 
@@ -1436,7 +1433,7 @@ class Register
 				{
 					if ($in_type == 'newemail')
 					{
-						if ($validate['email_chg'] != 1)
+						if ($validate['validate_type'] != 'email_chg')
 						{
 							$std->Error(array('LEVEL' => 1, 'MSG' => 'auth_no_key'));
 						}
@@ -1448,9 +1445,9 @@ class Register
 						}
 
 						$ibforums->db->exec("UPDATE ibf_members SET
-						mgroup='" . intval($validate['real_group']) . "',
-						old_group='" . intval($validate['real_group']) . "'
-					    WHERE id='" . intval($member['id']) . "'");
+								mgroup='" . intval($validate['real_group']) . "',
+								old_group='" . intval($validate['real_group']) . "'
+							    WHERE id='" . intval($member['id']) . "'");
 
 						$std->my_setcookie("member_id", $member['id'], 1);
 						$std->my_setcookie("pass_hash", $member['password'], 1);
@@ -1460,9 +1457,9 @@ class Register
 						//------------------------------------------------------------
 
 						$ibforums->db->query("DELETE FROM ibf_validating
-					    WHERE vid='" . $validate['vid'] . "'
-						OR (member_id={$member['id']}
-							AND email_chg=1)");
+						    WHERE vid='" . $validate['vid'] . "'
+							OR (member_id={$member['id']}
+							AND validate_type='email_chg')");
 
 						$this->bash_dead_validations();
 
@@ -1561,7 +1558,7 @@ class Register
 					    FROM ibf_validating
 					    WHERE member_id=$in_user_id
 						AND vid='$in_validate_key'
-						AND lost_pass=1");
+						AND validate_type='lost_pass'");
 
 				if (!$validate = $stmt->fetch())
 				{
@@ -1652,10 +1649,9 @@ class Register
 					m.posts
 			            FROM ibf_validating v
 			            LEFT JOIN ibf_members m ON (v.member_id=m.id)
-				    WHERE v.new_reg=1
-					AND v.coppa_user <> 1
+				    WHERE v.validate_type='new_reg'
 					AND v.entry_date < $less_than
-					AND lost_pass <> 1");
+					");
 
 			while ($i = $stmt->fetch())
 			{

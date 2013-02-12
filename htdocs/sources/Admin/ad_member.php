@@ -1020,7 +1020,7 @@ class ad_forums
 
 		$stmt = $ibforums->db->query("SELECT COUNT(vid) AS mcount
 			    FROM ibf_validating
-			    WHERE lost_pass <> 1");
+			    WHERE validate_type<>'lost_pass'");
 
 		$row = $stmt->fetch();
 
@@ -1107,8 +1107,9 @@ class ad_forums
 			$stmt = $ibforums->db->query("SELECT m.name, m.id, m.email, m.posts, m.joined, v.*
 				    FROM ibf_validating v
 				    LEFT JOIN ibf_members m ON (v.member_id=m.id)
-				    WHERE v.lost_pass <> 1
-				    ORDER BY $col $ord LIMIT $st,75");
+				    WHERE v.validate_type<>'lost_pass'
+				    ORDER BY $col $ord
+				    LIMIT $st,75");
 
 			while ($r = $stmt->fetch())
 			{
