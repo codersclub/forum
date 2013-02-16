@@ -21,13 +21,12 @@
  +--------------------------------------------------------------------------
  */
 
-
 class search_lib extends Search
 {
 
-	var $parser      = "";
-	var $is          = "";
-	var $num_of_words= 0;
+	var $parser = "";
+	var $is = "";
+	var $num_of_words = 0;
 	public $realtime = true;
 
 	/**
@@ -39,19 +38,18 @@ class search_lib extends Search
 	//--------------------------------------------
 	// Constructor
 	//--------------------------------------------
-	 
+
 	function search_lib($that)
 	{
-		global $ibforums, $DB, $std, $print;
+		global $ibforums, $std, $print;
 
 		$this->is = $that; // hahaha!
 	}
 
-
-	function results_count() {
+	function results_count()
+	{
 		return $this->documents_found;
 	}
-
 
 	//--------------------------------------------
 	// Main Board Search-e-me-doo-daa
@@ -59,44 +57,43 @@ class search_lib extends Search
 
 	function do_main_search()
 	{
-		global $ibforums, $DB, $std, $print;
-
+		global $ibforums, $std, $print;
 
 		//------------------------------------
 		// Do we have any input?
 		//------------------------------------
 
-
-		if ( $ibforums->input['namesearch'] )
+		if ($ibforums->input['namesearch'])
 		{
 			$name_filter = $this->is->filter_ftext_keywords($ibforums->input['namesearch'], 1);
 		}
-			
-		if ( $ibforums->input['useridsearch'] )
+
+		if ($ibforums->input['useridsearch'])
 		{
-			$keywords = $ibforums->input['useridsearch']; // $this->is->filter_ftext_keywords($ibforums->input['useridsearch']);
+			$keywords              = $ibforums->input['useridsearch']; // $this->is->filter_ftext_keywords($ibforums->input['useridsearch']);
 			$this->is->search_type = 'userid';
 		} else
 		{
-			$keywords = $ibforums->input['keywords']; // $this->is->filter_ftext_keywords($ibforums->input['keywords']);
+			$keywords              = $ibforums->input['keywords']; // $this->is->filter_ftext_keywords($ibforums->input['keywords']);
 			$this->is->search_type = 'posts';
 		}
 
-
-		if ( $name_filter AND $ibforums->input['keywords'] )
+		if ($name_filter AND $ibforums->input['keywords'])
 		{
 			$type = 'joined';
-		}
-		else if ( $name_filter == "" AND $ibforums->input['keywords'] != "" )
+		} else
 		{
-			$type= 'postonly';
+			if ($name_filter == "" AND $ibforums->input['keywords'] != "")
+			{
+				$type = 'postonly';
+			} else
+			{
+				if ($name_filter != "" AND $ibforums->input['keywords'] == "")
+				{
+					$type = 'nameonly';
+				}
+			}
 		}
-		else if ( $name_filter != "" AND $ibforums->input['keywords'] == "" )
-		{
-			$type='nameonly';
-		}
-
-
 
 		//------------------------------------
 		// SEARCH_IN parameter
@@ -115,50 +112,66 @@ class search_lib extends Search
 		// Do we have any forums to search in?
 		//------------------------------------
 
-		if ( !$forums ) $std->Error(
-		array(
-					'LEVEL' => 1,
-					'MSG' => 'no_search_forum') );
-		
+		if (!$forums)
+		{
+			$std->Error(array(
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'no_search_forum'
+			            ));
+		}
+
 		$forums = ";filter=forum_id,$forums";
-		
+
 		//------------------------------------
 		// Make sort key parameter
 
 		$sort_attr = '';
-		foreach( array( 'last_post',
-				'posts',
-				'starter_name',
-				'forum_id',
-				'relevancy' ) as $v )
+		foreach (array(
+			         'last_post',
+			         'posts',
+			         'starter_name',
+			         'forum_id',
+			         'relevancy'
+		         ) as $v)
 		{
 			if ($ibforums->input['sort_key'] == $v)
 			{
 				$this->is->sort_key = $v;
-				$sort_attr = $v;
+				$sort_attr          = $v;
 			}
 		}
-		if ($sort_attr) {
-			if ($sort_attr == 'last_post') {
+		if ($sort_attr)
+		{
+			if ($sort_attr == 'last_post')
+			{
 				$sort_attr = 'post_date';
-			} elseif ($sort_attr == 'starter_name' && $this->is->search_in == 'posts') {
+			} elseif ($sort_attr == 'starter_name' && $this->is->search_in == 'posts')
+			{
 				$sort_attr = 'author_name';
-			} elseif ($sort_attr == 'forum_id') {
+			} elseif ($sort_attr == 'forum_id')
+			{
 				$sort_attr = 'forum_title';
-			}  elseif ($sort_attr == 'relevancy') {
+			} elseif ($sort_attr == 'relevancy')
+			{
 				$sort_attr = '@weight ';
 			}
-			
-			if ($ibforums->input['result_type'] == 'topics' && $this->is->search_in == 'posts') {
-				if ($ibforums->input['sort_order'] == 'asc') {
+
+			if ($ibforums->input['result_type'] == 'topics' && $this->is->search_in == 'posts')
+			{
+				if ($ibforums->input['sort_order'] == 'asc')
+				{
 					$sort_attr = ";groupsort=$sort_attr ASC";
-				} else {
+				} else
+				{
 					$sort_attr = ";groupsort=$sort_attr DESC";
 				}
-			} else {
-				if ($ibforums->input['sort_order'] == 'asc') {
+			} else
+			{
+				if ($ibforums->input['sort_order'] == 'asc')
+				{
 					$sort_attr = ";sort=extended:$sort_attr ASC";
-				} else {
+				} else
+				{
 					$sort_attr = ";sort=extended:$sort_attr DESC";
 				}
 			}
@@ -167,7 +180,7 @@ class search_lib extends Search
 		//------------------------------------
 		// Make days old parameter
 
-		foreach ( array( 1, 7, 30, 60, 90, 180, 365, 0 ) as $v )
+		foreach (array(1, 7, 30, 60, 90, 180, 365, 0) as $v)
 		{
 			if ($ibforums->input['prune'] == $v)
 			{
@@ -191,55 +204,55 @@ class search_lib extends Search
 			$this->is->result_type = 'posts';
 		}
 
-
-
 		//------------------------------------
 		// Add on the prune days
 		//------------------------------------
 
-		if ( $this->is->prune > 0 )
+		if ($this->is->prune > 0)
 		{
-			
+
 			$time = time() - ($ibforums->input['prune'] * 86400);
-			if ($ibforums->input['prune_type'] == 'older') {
+			if ($ibforums->input['prune_type'] == 'older')
+			{
 				// <
 				$posts_datecut  = ";range=post_date,$time,9990040286";
 				$topics_datecut = ";range=last_post,$time,9990040286";
-			} else {
+			} else
+			{
 				// >
 				$posts_datecut  = ";range=post_date,0,$time";
 				$topics_datecut = ";range=last_post,0,$time";
 			}
-			
+
 		}
 
 		//---------------------------------
 		// Is this a membername search?
-			
-		$name_filter = trim( $name_filter );
+
+		$name_filter   = trim($name_filter);
 		$member_string = "";
-			
-		if ( $name_filter != "" )
+
+		if ($name_filter != "")
 		{
 			// Look for members IDs
-			$member_string = $this->get_members_id( $name_filter );
+			$member_string = $this->get_members_id($name_filter);
 
 			// Error out of we matched no members
-				
+
 			if ($member_string == "")
 			{
-				$std->Error( array(
-						'LEVEL' => 1,
-						'MSG' => 'no_name_search_results') );
+				$std->Error(array(
+				                 'LEVEL' => 1,
+				                 'MSG'   => 'no_name_search_results'
+				            ));
 			}
-				
+
 			$posts_name  = ";filter=author_id,$member_string"; // " AND p.author_id IN ($member_string)";
 			$topics_name = ";filter=starter_id,$member_string"; // " AND t.starter_id IN ($member_string)";
-				
+
 		}
 
-
-		$unique_id = md5(uniqid(microtime(),1));
+		$unique_id = md5(uniqid(microtime(), 1));
 
 		// это разделитель полей в запросе к сфинксу
 		$keywords = str_replace(';', '', $keywords);
@@ -247,25 +260,29 @@ class search_lib extends Search
 		{
 
 			// sphinx_snippets(p.post, 'test1', 'Пупкин'),
-			$keywords = $DB->quote($keywords);
-			$sphinx_query = $DB->quote("{$posts_datecut}{$forums}{$topics_name}");
+			$keywords     = substr($ibforums->db->quote($keywords), 1, -1);
+			$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$topics_name}"), 1, -1);
 
-			if($ibforums->input['st']) {
+			if ($ibforums->input['st'])
+			{
 				$start = intval($ibforums->input['st']);
 				$sphinx_query .= ";offset=$start";
 			}
-			
+
 			$mode = 'all';
-			if ( $ibforums->input['space_determine'] ) {
-				$mode = ($ibforums->input['space_determine'] == 'phrase') ? 'phrase' : 'any';
+			if ($ibforums->input['space_determine'])
+			{
+				$mode = ($ibforums->input['space_determine'] == 'phrase')
+					? 'phrase'
+					: 'any';
 			}
 			/*
-			 * SQL_NO_CACHE нужен для того, чтобы обновилось/установилось значение переменной состояния 
+			 * SQL_NO_CACHE нужен для того, чтобы обновилось/установилось значение переменной состояния
 			 * sphinx_total_found (см. ниже, где присваивается значение $this->documents_found)
 			 */
-			if ($this->is->search_in == 'posts') {
-				$topics_query =
-					"SELECT SQL_NO_CACHE
+			if ($this->is->search_in == 'posts')
+			{
+				$topics_query = "SELECT SQL_NO_CACHE
 						t.*,
 						f.id as forum_id,
 						f.name as forum_name
@@ -279,12 +296,13 @@ class search_lib extends Search
 						AND t.approved=1
 					";
 
-				$sphinx_query= $DB->quote("{$posts_datecut}{$forums}{$posts_name}");
+				$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
 
-				if($ibforums->input['st']) {
+				if ($ibforums->input['st'])
+				{
 					$sphinx_query .= ";offset=$start";
 				}
-				
+
 				$posts_query = "SELECT SQL_NO_CACHE
 					t.*,
 					p.pid,
@@ -303,10 +321,10 @@ class search_lib extends Search
 					t1.query='$keywords{$sphinx_query}{$sort_attr};limit=25;mode=$mode'
 					AND p.use_sig=0
 					AND p.queued <> 1";
-				
-			} else { // $this->is->search_in == 'titles'
-				$topics_query =
-					"SELECT SQL_NO_CACHE
+
+			} else
+			{ // $this->is->search_in == 'titles'
+				$topics_query = "SELECT SQL_NO_CACHE
 						t.*,
 						f.id as forum_id,
 						f.name as forum_name
@@ -320,9 +338,10 @@ class search_lib extends Search
 						AND t.approved=1
 					";
 
-				$sphinx_query= $DB->quote("{$posts_datecut}{$forums}{$posts_name}");
+				$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
 
-				if($ibforums->input['st']) {
+				if ($ibforums->input['st'])
+				{
 					$sphinx_query .= ";offset=$start";
 				}
 
@@ -345,20 +364,17 @@ class search_lib extends Search
 					AND p.use_sig=0
 					AND p.queued <> 1";
 			}
-			
-			
+
 		} else
 		{
-			$posts_query = 
-			$topics_query = "SELECT t.tid
+			$posts_query = $topics_query = "SELECT t.tid
 					FROM ibf_topics t
 					WHERE
 					$topics_datecut
 						t.forum_id IN ($forums)
 						$topics_name";
 
-
-						$posts_query = "SELECT p.pid
+			$posts_query = "SELECT p.pid
 					FROM ibf_posts p
 					WHERE
 					$posts_datecut
@@ -368,38 +384,37 @@ class search_lib extends Search
 						$posts_name";
 		}
 
-
 		if ($ibforums->input['result_type'] == 'topics')
 		{
 			$sql = $topics_query;
 			// var_dump($sql);
-		} else {
+		} else
+		{
 			$sql = $posts_query;
 		}
-		
+
 		// var_dump($sql);
-		
-		$res = $DB->query($sql);
-		
-		$this->documents_found = $DB->get_row('SHOW STATUS LIKE  \'sphinx_total_found\'');
-		$this->documents_found =  $this->documents_found['Value'];
-		
+
+		$ibforums->db->query($sql);
+
+		$this->documents_found = $ibforums->db->query('SHOW STATUS LIKE  \'sphinx_total_found\'')->fetch();
+		$this->documents_found = $this->documents_found['Value'];
+
 		if ($ibforums->input['search_in'] == 'titles')
 		{
 			$topic_max_hits = $this->documents_found;
-		} else {
+		} else
+		{
 			$post_max_hits = $this->documents_found;
 		}
 
 		$topics = "";
 		$posts  = "";
-		
-
 
 		//------------------------------------
 
-		$topics = preg_replace( "/,$/", "", $topics );
-		$posts  = preg_replace( "/,$/", "", $posts );
+		$topics = preg_replace("/,$/", "", $topics);
+		$posts  = preg_replace("/,$/", "", $posts);
 
 		//------------------------------------------------
 		// Do we have any results?
@@ -412,62 +427,58 @@ class search_lib extends Search
 		//------------------------------------------------
 
 		return array(
-				'topic_id'  => $topics,
-				'post_id'   => $posts,
-				'topic_max' => $topic_max_hits,
-				'post_max'  => $post_max_hits,
-				'keywords'  => $keywords,
-		// debug:
+			'topic_id'     => $topics,
+			'post_id'      => $posts,
+			'topic_max'    => $topic_max_hits,
+			'post_max'     => $post_max_hits,
+			'keywords'     => $keywords,
+			// debug:
 
-				't_query'  => $tsql,
-				'p_query'  => $psql,
-				'search_count'  => $this->documents_found,
-				'topics_query'  => $topics_query,
-				'posts_query'   => $posts_query,
-				'keywords'  => $keywords,
-				'wordlist'  => $wordlist,
-				'wordidlist' => $wordidlist,
-				'result'	=> $res
+			't_query'      => $tsql,
+			'p_query'      => $psql,
+			'search_count' => $this->documents_found,
+			'topics_query' => $topics_query,
+			'posts_query'  => $posts_query,
+			'wordlist'     => $wordlist,
+			'wordidlist'   => $wordidlist,
+			'result'       => $res
 
 		);
 
 	}
 
-
 	//------------------------------------------------------------------
 	// Get all the possible matches for the supplied name from the DB
 	//------------------------------------------------------------------
-	function get_members_id($name_filter="")
+	function get_members_id($name_filter = "")
 	{
-		global $ibforums, $DB;
+		global $ibforums;
 
-		$name_filter = str_replace( '|', "&#124;", $name_filter );
+		$name_filter   = str_replace('|', "&#124;", $name_filter);
 		$member_string = "";
-			
+
 		if ($ibforums->input['exactname'] == 1)
 		{
 			$sql_query = "SELECT id
 				      FROM ibf_members
-				      WHERE lower(name)='".$name_filter."'";
-		}
-		else
+				      WHERE lower(name)='" . $name_filter . "'";
+		} else
 		{
 			$sql_query = "SELECT id
 				      FROM ibf_members
-				      WHERE name like '%".$name_filter."%'";
+				      WHERE name like '%" . $name_filter . "%'";
 		}
-			
-		$DB->query( $sql_query );
-			
-		while ($row = $DB->fetch_row() )
-		{
-			$member_string .= "'".$row['id']."',";
-		}
-			
-		return preg_replace( "/,$/", "", $member_string );
-			
-	}
 
+		$stmt = $ibforums->db->query($sql_query);
+
+		while ($row = $stmt->fetch())
+		{
+			$member_string .= "'" . $row['id'] . "',";
+		}
+
+		return preg_replace("/,$/", "", $member_string);
+
+	}
 
 }
 

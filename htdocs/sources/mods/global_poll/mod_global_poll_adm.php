@@ -14,6 +14,7 @@
 +---------------------------------------------------------------------------
 |
 |   > Global Poll AdminModule
+		$ibforums = Ibf::instance();
 |   > Module written by Eike Falkenberg ('Koksi')
 |   > Date started: 13th August 2003
 |
@@ -22,46 +23,46 @@
 +--------------------------------------------------------------------------
 */
 
-
-class AdminGlobalPoll {
-
-
-//-------------------------------
-// the admin stuff:
-//-------------------------------
-function ad_settings() 
+class AdminGlobalPoll
 {
-	
-	global $ADMIN, $SKIN, $INFO, $std, $DB;
-	
-	// letґs collect all polls and put them into a simple array
-	$i = 0;
-	$pollArray[$i] = array( 0, "нет глобального опроса" );
-	$i++;
-	$DB->query("SELECT pid,tid, poll_question FROM ibf_polls");
-	while($r = $DB->fetch_row())
+
+	//-------------------------------
+	// the admin stuff:
+	//-------------------------------
+	function ad_settings()
 	{
-		$pollArray[$i] = array( $r['tid'], "[".$r['tid']."] -> ".$r['poll_question'] );
+
+		global $ADMIN, $SKIN, $INFO, $std;
+		$ibforums = Ibf::instance();
+
+		// letґs collect all polls and put them into a simple array
+		$i             = 0;
+		$pollArray[$i] = array(0, "нет глобального опроса");
 		$i++;
+		$stmt = $ibforums->db->query("SELECT pid,tid, poll_question FROM ibf_polls");
+		while ($r = $stmt->fetch())
+		{
+			$pollArray[$i] = array($r['tid'], "[" . $r['tid'] . "] -> " . $r['poll_question']);
+			$i++;
+		}
+
+		$ADMIN->html .= $SKIN->add_td_basic('Global Poll Mod', 'left', 'catrow2');
+
+		$ADMIN->html .= $SKIN->add_td_row(array(
+		                                       "<b>Выберите опрос, который будет показан на главной станице форумов</b><br> <i>[ ID Опроса ] -> Вопрос опроса</i>",
+		                                       $SKIN->form_dropdown('global_poll', $pollArray, $INFO['global_poll'])
+		                                  ));
+
 	}
-	
-	    
-	$ADMIN->html .= $SKIN->add_td_basic( 'Global Poll Mod', 'left', 'catrow2' );
-					 
-	$ADMIN->html .= $SKIN->add_td_row( array( "<b>Выберите опрос, который будет показан на главной станице форумов</b><br> <i>[ ID Опроса ] -> Вопрос опроса</i>" , 
-			$SKIN->form_dropdown('global_poll', $pollArray , $INFO['global_poll']  )
-	 )      );	
 
-}
+	function save_config()
+	{
+		global $ADMIN, $master;
+		$ibforums              = Ibf::instance();
+		$master['global_poll'] = $_POST['global_poll'];
 
-
-function save_config() 
-{
-   	global $ADMIN, $master;
-   	$master['global_poll'] = $_POST['global_poll'];
-
-   	$ADMIN->rebuild_config($master);
-   	$ADMIN->save_log("Global Poll ID Updated, Back Up Written");
-}
+		$ADMIN->rebuild_config($master);
+		$ADMIN->save_log("Global Poll ID Updated, Back Up Written");
+	}
 
 }

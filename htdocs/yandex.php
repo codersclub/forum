@@ -25,7 +25,7 @@
 //-----------------------------------------------
 // USER CONFIGURABLE ELEMENTS
 //-----------------------------------------------
- 
+
 // Root path
 
 define( 'ROOT_PATH', "./" );
@@ -33,39 +33,15 @@ define( 'ROOT_PATH', "./" );
 //-----------------------------------------------
 // NO USER EDITABLE SECTIONS BELOW
 //-----------------------------------------------
- 
+
 error_reporting  (E_ERROR | E_WARNING | E_PARSE);
 //set_magic_quotes_runtime(0);
 
 require_once './autoload.php';
+require ROOT_PATH."sources/functions.php";
+require ROOT_PATH."sources/session.php";
 
-class Debug {
-
-    function startTimer() 
-    {
-        global $starttime;
-        $mtime = microtime ();
-        $mtime = explode (' ', $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $starttime = $mtime;
-    }
-
-    function endTimer() 
-    {
-        global $starttime;
-        $mtime = microtime ();
-        $mtime = explode (' ', $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $endtime = $mtime;
-        $totaltime = round (($endtime - $starttime), 5);
-        return $totaltime;
-    }
-}
-
-
-
-class info {
-
+class Ibf extends Core{
 	var $skin_id    	= "0";     // Skin Dir name
 	var $skin_rid   	= "";      // Real skin id (numerical only)
 	var $lang_id    	= "en";
@@ -75,11 +51,17 @@ class info {
 	var $base_url   = "";
 	var $vars       = "";
 
-	function info() 
+	public function __construct()
 	{
-		global $sess, $std, $DB, $INFO;
-		
-		$this->vars = &$INFO;
+		parent::__construct();
+		$this->session = new session();
+	}
+
+
+	public function init()
+	{
+		parent::init();
+		$this->input['act'] = 'yandex';
 	}
 }
 
@@ -93,50 +75,23 @@ require ROOT_PATH."../conf_global.php";
 //--------------------------------
 // The clocks a' tickin'
 //--------------------------------
-		
+
 $Debug = new Debug;
 $Debug->startTimer();
-
-
-//--------------------------------
-// Require our global functions
-//--------------------------------
-
-require ROOT_PATH."sources/functions.php";
-$std   = new FUNC;
-
-require ROOT_PATH."sources/session.php";
-$sess  = new session();
-
 
 //--------------------------------
 // Load the DB driver and such
 //--------------------------------
 
-$INFO['sql_driver'] = !$INFO['sql_driver'] ? 'mySQL' : $INFO['sql_driver'];
 
-$to_require = ROOT_PATH."sources/Drivers/".$INFO['sql_driver'].".php";
-require ($to_require);
+try {
 
-$DB = new db_driver;
-
-$DB->obj['sql_database']     	= $INFO['sql_database'];
-$DB->obj['sql_user']         	= $INFO['sql_user'];
-$DB->obj['sql_pass']         	= $INFO['sql_pass'];
-$DB->obj['sql_host']         	= $INFO['sql_host'];
-$DB->obj['sql_charset']      	= $INFO['sql_charset'];
-$DB->obj['sql_tbl_prefix']   	= $INFO['sql_tbl_prefix'];
-
-// Get a DB connection
-if ( $DB->connect() )
-{
-	$ibforums 	 	= new info();
-	$ibforums->input 	= $std->parse_incoming();
-	
-	$ibforums->input['act'] = "yandex";
-
-	$ibforums->member 	= $sess->authorise();
-	$ibforums->skin       	= $std->load_skin();
+	$ibforums 	 	= Ibf::instance();
+	//stub delete after all
+	$std = &$ibforums->functions;
+	$sess = &$ibforums->session;
+	//
+	$ibforums->init();
 
 	//--------------------------------
 	//  Set up the skin stuff
@@ -172,9 +127,13 @@ if ( $DB->connect() )
 
 	if ( $ibforums->member['id'] )
 	{
-		$DB->query("SELECT read_perms FROM ibf_forums WHERE id='".$ibforums->vars['club']."'");
+		$stmt = $ibforums->db->prepare("SELECT read_perms FROM ibf_forums WHERE id=?");
+		$stmt->execute([$ibforums->vars['club']]);
 
-		if ( $club = $DB->fetch_row() ) $ibforums->member['club_perms'] = $club['read_perms'];
+		if ( $club = $stmt->fetch() )
+		{
+			$ibforums->member['club_perms'] = $club['read_perms'];
+		}
 	}
 
 // Song * club tool
@@ -187,12 +146,12 @@ if ( $DB->connect() )
 	// cats
 	$categories = array();
 
-	if ( $ibforums->input['c'] ) 
+	if ( $ibforums->input['c'] )
 	{
 		$categories = explode(",", $ibforums->input['c']);
 		foreach ($categories as $idx => $cat) $categories[ $idx ] = intval($cat);
 	}
-               
+
 	// forums
 	$forums = array();
 
@@ -217,7 +176,7 @@ if ( $DB->connect() )
 	// pids
 	$pids = array();
 
-	if ( $ibforums->input['p'] ) 
+	if ( $ibforums->input['p'] )
 	{
 		$pids = explode(",", $ibforums->input['p']);
 		foreach($pids as $idx => $pid) $pids[ $idx ] = intval($pid);
@@ -253,9 +212,9 @@ if ( $DB->connect() )
 	$mask = array();
 	$frms = array();
 
-	$DB->query("SELECT id, parent_id, read_perms, password, status, name, category FROM ibf_forums");
+	$stmt = $ibforums->db->query("SELECT id, parent_id, read_perms, password, status, name, category FROM ibf_forums");
 
-	while ( $row = $DB->fetch_row() )
+	while ( $row = $stmt->fetch() )
 	{
 		if ( $row['password'] or $std->check_perms($row['read_perms']) != TRUE or !$row['status'] )
 		{
@@ -278,43 +237,48 @@ if ( $DB->connect() )
 	$query = "SELECT pid, author_name, post_date, forum_id, topic_id, author_id, post, use_sig, queued FROM ibf_posts ";
 
 	$query_last = "";
+	$params = [];
 
 	if ( count($mask) )
 	{
-		$query_last .= "not (forum_id".id_in($mask).") and ";
+		$query_last .= "not (forum_id IN(" . IBPDO::placeholders($mask) . ")) and ";
+		$params = array_merge($params, (array)$mask);
 	}
 
 	if ( count($pids) )
 	{
-		$query_last .= "pid".id_in($pids)." and ";
+		$query_last .= "pid IN(" . IBPDO::placeholders($pids) . ") and ";
+		$params = array_merge($params, (array)$pids);
 	}
 
 	if ( count($tids) )
 	{
-		$query_last .= "topic_id".id_in($tids)." and ";
+		$query_last .= "topic_id" . IBPDO::placeholders($tids) . " and ";
+		$params = array_merge($params, (array)$tids);
 	}
 
 	if ( count($forums) )
 	{
-		$query_last .= "forum_id".id_in($forums)." and edit_time > (".time()."-60*60*24*5) and ";
+		$query_last .= "forum_id" . IBPDO::placeholders($forums) . " and edit_time > (".time()."-60*60*24*5) and ";
+		$params = array_merge($params, (array)$forums);
+		$params[] = time();
 	}
 
 	if ( $query_last )
 	{
 		$query_last = substr($query_last, 0, strlen($query_last) - 4);
-		
+
 		$query .= "WHERE ".$query_last;
 	}
 
 	$query .= "ORDER BY pid DESC LIMIT 75";
 
-	$DB->query($query);
+	$stmt = $ibforums->db->prepare($query);
+	$stmt->execute($params);
 
-	if ( !$DB->get_num_rows() ) 
+	if ( !$stmt->rowCount() )
 	{
 		$std->flood_end();
-
-		$DB->close_db();
 
 		fatal_error("Запрос не вернул результатов. Проверьте правильность аргументов вызова.");
 	}
@@ -325,7 +289,7 @@ if ( $DB->connect() )
 	$posts  = array();
 	$tids   = array();
 
-	while ( $row = $DB->fetch_row() )
+	foreach ( $stmt as $row )
 	{
 		// if access denied
 		if ( isset($mask[ $row['forum_id'] ]) or $row['use_sig'] or $row['queued'] ) continue;
@@ -334,15 +298,16 @@ if ( $DB->connect() )
 		$posts[] = $row;
 
 		// store topic id
-		$tids[ $row['topic_id'] ] = $row['topic_id'];		
+		$tids[ $row['topic_id'] ] = $row['topic_id'];
 	}
 
 	// querying title of topics and club property
 	if ( count($tids) )
 	{
-		$DB->query("SELECT tid,title,club FROM ibf_topics WHERE tid".id_in($tids));
+		$stmt = $ibforums->db->prepare("SELECT tid,title,club FROM ibf_topics WHERE tid IN (". IBPDO::placeholders($tids) .")");
+		$stmt->execute(array_values($tids));
 
-		while ( $topic = $DB->fetch_row() ) 
+		foreach ( $stmt as $topic )
 		{
 			if ( $topic['club'] and $std->check_perms( $ibforums->member['club_perms'] ) != FALSE )
 			{
@@ -367,7 +332,7 @@ if ( $DB->connect() )
 		        if ( !$tids[ $post['topic_id'] ]['title'] or $tids[ $post['topic_id'] ]['club'] ) continue;
 
                         $txt 		   = $parser->prepare(
-						array(  
+						array(
 							'TEXT'          => $post['post'],
 							'SMILIES'       => 1,
 							'CODE'          => 1,
@@ -392,8 +357,8 @@ if ( $DB->connect() )
 			$author = trim(stripslashes($author));
 
 
-			$to_echo  	  .= parse_template( $template, 
-				array (	
+			$to_echo  	  .= parse_template( $template,
+				array (
 					'thread_url'   	=> $ibforums->base_url."act=ST&f=".$post['forum_id']."&t=".$post['topic_id']."&hl=&#entry".$post['pid'],
 					'thread_title'  => $thread_title,
 					'forum_url'     => $ibforums->base_url."act=SF&f=".$post['forum_id'],
@@ -405,14 +370,12 @@ if ( $DB->connect() )
 					'author'        => $author,
 					'text'          => $txt,
 					'profile_link'  => $ibforums->base_url."act=Profile&CODE=03&MID=".$post['author_id']
-				) 
+				)
 						);
 		}
 	}
 
 	$std->flood_end();
-
-	$DB->close_db();
 
 	if ( !$p )
 	{
@@ -439,7 +402,10 @@ if ( $DB->connect() )
 
 	print $to_echo;
 
-} else fatal_error("Невозможно соединиться с БД.");
+} catch(exception $e)
+{
+	fatal_error("Невозможно соединиться с БД.");
+}
 
 exit();
 
@@ -448,22 +414,10 @@ exit();
 // GLOBAL ROUTINES
 //+-------------------------------------------------
 
-function id_in($mas = array()) {
-
-	$count = count($mas);
-
-	if ( !$count ) return "=0";
-
-	$ids = implode(",", $mas);
-
-	if ( $count == 1) return "={$ids}"; else return " IN ({$ids})";
-}
-
-
 function parse_template( $template, $assigned = array() ) {
-	
+
 	foreach( $assigned as $word => $replace) $template = preg_replace( "/\{$word\}/i", "$replace", $template );
-	
+
 	return $template;
 }
 
