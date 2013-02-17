@@ -4341,7 +4341,7 @@ class Moderate
 			$this->moderate_error();
 		}
 
-		$ibforums->db->prepare("UPDATE ibf_topics SET 'decided' = :state WHERE tid=:tid")->execute([
+		$ibforums->db->prepare("UPDATE ibf_topics SET decided = :state WHERE tid=:tid")->execute([
 		                                                                                           ':state' => $state,
 		                                                                                           ':tid'   => $this->topic['tid']
 		                                                                                           ]);
@@ -4349,7 +4349,7 @@ class Moderate
 		if ($topic['has_mirror'])
 		{
 			// update mirrors for this topic
-			$ibforums->db->prepare("UPDATE ibf_topics SET 'decided' = :state WHERE mirrored_topic_id=:tid")->execute([
+			$ibforums->db->prepare("UPDATE ibf_topics SET decided = :state WHERE mirrored_topic_id=:tid")->execute([
 			                                                                                                         ':state' => $state,
 			                                                                                                         ':tid'   => $this->topic['tid']
 			                                                                                                         ]);

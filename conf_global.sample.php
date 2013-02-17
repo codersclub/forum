@@ -405,6 +405,7 @@ $INFO['welcome_desc']			=	'Добро пожаловать в магазин!';
 $INFO['welcome_line']			=	'Добро пожаловать в магазин, *username*!';
 $INFO['what_else']			=	'';
 $INFO['year_limit']			=	'5';
+$INFO['newbie_group']			= '3';
 
 $INFO['file_util_command'] =  '/usr/bin/file --mime-type --brief';
 

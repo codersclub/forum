@@ -481,7 +481,7 @@ class post_functions extends Post
 
 		if (count($dbs))
 		{
-			$dbs = array_map([$ibforums->db, 'qoute'], $dbs);
+			$dbs = array_map([$ibforums->db, 'quote'], $dbs);
 			$ibforums->db->updateRow("ibf_topics", $dbs, "tid='" . $this->topic['tid'] . "'");
 
 			if ($this->topic['has_mirror'])
