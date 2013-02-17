@@ -500,7 +500,7 @@ class Forums
 			$result = preg_replace("!,\s+$!", "", $result);
 		} else
 		{
-			$result = "���";
+			$result = $ibforums->lang['no_moderators'];
 		}
 
 		return $result;

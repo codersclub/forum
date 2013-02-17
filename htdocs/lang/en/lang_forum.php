@@ -94,5 +94,5 @@ $lang['cpt_hide']  = "Hide topics";
 $lang['cpt_show']  = "Show topics";
 $lang['t_w_selected'] = "With selected topics:";
 $lang['h_mod_checkbox'] = "Mod";
+$lang['no_moderators'] = 'None';
 
-?>
