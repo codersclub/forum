@@ -904,7 +904,7 @@ class session
 
 	// Song * topic and forum recount within deleting of moderatorial posts, 15.02.05
 	//---------------------------------------------------
-	function clear_posts(PDOStatement $stmt, &$topics, &$forums)
+	function clear_posts(PDOStatementWrapper $stmt, &$topics, &$forums)
 	{
 		global $ibforums;
 
