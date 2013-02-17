@@ -63,8 +63,6 @@ class Ibf extends Core{
 	var $skin = "";
 	var $skin_id = "0";  // Skin Dir name
 	var $skin_rid = "";   // Real skin id (numerical only)
-	var $lang_id = "en";
-	var $lang = "";
 	var $server_load = 0;
 	var $lastclick = "";
 	var $location = "";
@@ -205,11 +203,9 @@ if ($ibforums->input['showtopic'])
 //	The rest :D
 //--------------------------------
 
-$ibforums->member = $sess->authorise();
 $ibforums->member['show_wp'] = intval($ibforums->member['show_wp']);
 $ibforums->member['favorites'] = $std->get_favorites();
 
-$ibforums->skin = $std->load_skin();
 $ibforums->lastclick = $sess->last_click;
 $ibforums->location = $sess->location;
 $ibforums->session_id = $sess->session_id;
@@ -279,20 +275,6 @@ $ibforums->vars['img_url'] = 'style_images/' . $ibforums->skin['img_dir'];
 //--------------------------------
 //	Set up our language choice
 //--------------------------------
-
-if (!$ibforums->vars['default_language'])
-	$ibforums->vars['default_language'] = 'en';
-
-$ibforums->lang_id = $ibforums->member['language']
-	? $ibforums->member['language']
-	: $ibforums->vars['default_language'];
-
-if (($ibforums->lang_id != $ibforums->vars['default_language']) and (!is_dir(ROOT_PATH . "lang/" . $ibforums->lang_id) ))
-{
-	$ibforums->lang_id = $ibforums->vars['default_language'];
-}
-
-$ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $ibforums->lang_id);
 
 //--------------------------------
 

@@ -530,18 +530,18 @@ if (!class_exists('Attachment'))
 
 		function moveTo($id, $item_type)
 		{
-			$ibforums = Ibf::instance();
-
-			$item_type = $ibforums->db->quote($item_type);
 			$id        = intval($id);
-
-			$query = "UPDATE ibf_attachments_link
-			SET item_type = '$item_type', item_id = $id
-			WHERE attach_id = $this->attach_id
-				AND item_type = '$this->item_type'
-				AND item_id = $this->item_id";
-
-			$ibforums->db->query($query);
+			Ibf::instance()->db->prepare("UPDATE ibf_attachments_link
+			SET item_type = :new_type, item_id = :new_id
+			WHERE attach_id = :attach
+				AND item_type = :type
+				AND item_id = :id")
+			->bindParam(':new_type', $item_type, PDO::PARAM_STR)
+			->bindParam(':new_id', $id, PDO::PARAM_INT)
+			->bindParam(':attach', $this->attach_id, PDO::PARAM_INT)
+			->bindParam(':type', $this->item_type, PDO::PARAM_STR)
+			->bindParam(':id', $this->item_id, PDO::PARAM_INT)
+			->execute();
 
 			$this->item_id   = $id;
 			$this->item_type = $item_type;

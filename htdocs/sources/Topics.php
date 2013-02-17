@@ -1353,7 +1353,7 @@ class Topics
 
 		if ($this->topic['POLL_BUTTON'] and $this->topic['SOLVE_UPPER_BUTTON'])
 		{
-			$this->topic['POLL_BUTTON'] .= " · ";
+			$this->topic['POLL_BUTTON'] .= " &middot; ";
 		}
 
 		// /Song * decided topics, 20.04.05

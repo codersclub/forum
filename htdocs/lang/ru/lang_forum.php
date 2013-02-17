@@ -105,4 +105,5 @@ $lang['cp_js_delete']  = "Вы действительно хотите удалить эти темы?";
 $lang['h_mod_checkbox']  = "Мод";
 $lang['t_w_selected']  = "С выбранными темами:";
 $lang['other_funcs']  = "Другие функции:";
+$lang['no_moderators'] = "Нет";
 
