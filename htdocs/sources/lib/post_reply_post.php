@@ -467,10 +467,10 @@ class post_functions extends Post
 
 			$class->replace_attachments_tags($this->post['post'], $this->upload, $this->post['pid']);
 
-			$ibforums->db->updateRow("ibf_posts", array_map([
-			                                                $ibforums->db,
-			                                                'quote'
-			                                                ], $this->post['post']), "pid='{$this->post['pid']}'");
+			$ibforums->db->prepare('UPDATE ibf_posts SET post=:post WHERE pid=:pid')
+				->bindParam(':post', $this->post['post'], PDO::PARAM_STR)
+				->bindParam(':pid', $this->post['pid'], PDO::PARAM_INT)
+				->execute();
 		}
 
 		//----------------------------------------------------

@@ -68,7 +68,11 @@ class PDOStatementWrapper implements IteratorAggregate
 	 */
 	public function execute(array $input_parameters = null)
 	{
-		$this->_statement->execute($input_parameters);
+		if ($input_parameters === null){
+			$this->_statement->execute();
+		}else{
+			$this->_statement->execute($input_parameters);
+		}
 		return $this;
 	}
 
