@@ -1266,7 +1266,7 @@ class Search
 
 			//--------------------------------------------
 
-			if ($stmt instanceof PDOStatement && $stmt->rowCount())
+			if ($stmt instanceof PDOStatementWrapper && $stmt->rowCount())
 			{
 				while ($row = $stmt->fetch())
 				{
