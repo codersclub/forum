@@ -980,7 +980,7 @@ class Forums
 		// Generate the poll button
 		//+----------------------------------------------------------------
 
-		$topic = "<a href='" . $this->base_url . "act=Post&amp;CODE=00&amp;f=" . $this->forum['id'] . "'><{A_POST}></a> � ";
+		$topic = "<a href='" . $this->base_url . "act=Post&amp;CODE=00&amp;f=" . $this->forum['id'] . "'><{A_POST}></a> &middot; ";
 		$topic = ($this->allow_topic())
 			? $topic
 			: "";
