@@ -405,10 +405,12 @@ class legends
 						$sskin = "0";
 					} else
 					{
-						$stmt = $ibforums->db->query("SELECT name FROM ibf_emoticons_skins WHERE id='" . $ibforums->input['sskin'] . "'");
-						if ($sname = $stmt->fetch())
+						$name_stmt = $ibforums->db->prepare("SELECT name FROM ibf_emoticons_skins WHERE id=:id")
+							->bindParam(':id', $ibforums->input['sskin'])
+							->execute();
+						if ($name_stmt->rowCount())
 						{
-							$sskin = $sname['name'];
+							$sskin = $name_stmt->fetchColumn();
 						}
 					}
 				}
