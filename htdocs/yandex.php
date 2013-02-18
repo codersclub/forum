@@ -62,6 +62,40 @@ class Ibf extends Core{
 		parent::init();
 		$this->input['act'] = 'yandex';
 	}
+
+	protected function loadMember()
+	{
+		$data = parent::loadMember();
+		if ( $data['id'] )
+		{
+			$club = $this->db->prepare("SELECT read_perms FROM ibf_forums WHERE id=:id")
+				->bindParam(':id', $this->vars['club'], PDO::PARAM_INT)
+				->execute()
+				->fetch();
+
+			if ($club)
+			{
+				$data['club_perms'] = $club['read_perms'];
+			}
+		}
+
+		// Song * club tool
+
+		// disable highlight to reduce power of parser
+		$data['syntax'] = 'none';
+
+		$data['rss'] = 1;
+
+	}
+
+	protected function loadSkin()
+	{
+		$data = parent::loadSkin();
+		$this->skin_rid 	= $data['set_id'];
+		$this->skin_id  	= 's'.$data['set_id'];
+		return $data;
+	}
+
 }
 
 //--------------------------------
@@ -93,13 +127,6 @@ try {
 	$ibforums->init();
 
 	//--------------------------------
-	//  Set up the skin stuff
-	//--------------------------------
-
-	$ibforums->skin_rid 	= $ibforums->skin['set_id'];
-	$ibforums->skin_id  	= 's'.$ibforums->skin['set_id'];
-
-	//--------------------------------
 	//  Set up our language choice
 	//--------------------------------
 
@@ -110,24 +137,6 @@ try {
 	$std->flood_begin();
 
 // Song * club tool
-
-	if ( $ibforums->member['id'] )
-	{
-		$stmt = $ibforums->db->prepare("SELECT read_perms FROM ibf_forums WHERE id=?");
-		$stmt->execute([$ibforums->vars['club']]);
-
-		if ( $club = $stmt->fetch() )
-		{
-			$ibforums->member['club_perms'] = $club['read_perms'];
-		}
-	}
-
-// Song * club tool
-
-	// disable highlight to reduce power of parser
-	$ibforums->member['syntax'] = 'none';
-
-	$ibforums->member['rss'] = 1;
 
 	// cats
 	$categories = array();

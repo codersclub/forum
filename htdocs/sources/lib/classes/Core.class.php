@@ -1,6 +1,7 @@
 <?php
 
-class Core {
+class Core
+{
 	/**
 	 * @var IBPDO $db
 	 */
@@ -18,18 +19,18 @@ class Core {
 	 */
 	public $input;
 	/**
-     *
-     */
+	 *
+	 */
 	public $member;
 
 	/**
-     *
-     */
+	 *
+	 */
 	public $skin;
 
 	/**
-     *
-     */
+	 *
+	 */
 	public $lang_id;
 	public $lang = "";
 
@@ -43,7 +44,7 @@ class Core {
 		static $instance = NULL;
 		if ($instance === NULL)
 		{
-			$name = get_called_class();
+			$name     = get_called_class();
 			$instance = new $name();
 		}
 		return $instance;
@@ -52,9 +53,9 @@ class Core {
 	public function __construct()
 	{
 		global $INFO;
-		$this->vars = &$INFO;
+		$this->vars      = & $INFO;
 		$this->functions = new FUNC();
-		set_exception_handler([$this, 'onException']);//handling exceptions
+		set_exception_handler([$this, 'onException']); //handling exceptions
 
 		if (!$this->initDB())
 		{
@@ -65,14 +66,40 @@ class Core {
 
 	public function init()
 	{
-		$this->input 	= $this->functions->parse_incoming();
-		$this->member 	= $this->session->authorise();
-		$this->loadLanguage();
-		$this->skin     = $this->functions->load_skin();
-
+		$this->input  = $this->loadInputData();
+		$this->member = $this->loadMember();
+		$this->lang   = $this->loadLanguage();
+		$this->skin   = $this->loadSkin();
 	}
 
-	private function loadLanguage()
+	/**
+	 * Incoming data loader
+	 * @return array
+	 */
+	protected function loadInputData()
+	{
+		return $this->functions->parse_incoming();
+	}
+
+	/**
+	 * Member init
+	 * @return array
+	 */
+	protected function loadMember()
+	{
+		return $this->session->authorise();
+	}
+
+	/**
+	 * Skin init
+	 * @return mixed
+	 */
+	protected function loadSkin()
+	{
+		return $this->functions->load_skin();
+	}
+
+	protected function loadLanguage()
 	{
 		if (!$this->vars['default_language'])
 		{
@@ -83,49 +110,47 @@ class Core {
 			? $this->member['language']
 			: $this->vars['default_language'];
 
-		if (($this->lang_id != $this->vars['default_language']) and (!is_dir(ROOT_PATH . "lang/" . $this->lang_id) ))
+		if (($this->lang_id != $this->vars['default_language']) and (!is_dir(ROOT_PATH . "lang/" . $this->lang_id)))
 		{
 			$this->lang_id = $this->vars['default_language'];
 		}
-		$this->lang = $this->functions->load_words($this->lang, 'lang_global', $this->lang_id);
+		return $this->functions->load_words($this->lang, 'lang_global', $this->lang_id);
 
 	}
 
-	private function notifyError($text, $subject){
+	private function notifyError($text, $subject)
+	{
 		// Are we simply returning the error?
 
 		$user = $this->member['id']
 			? 'user ' . $this->member['id']
 			: 'guest';
 
-		$user .= " [". $_SERVER["REMOTE_ADDR"] ."]";
-		$subject = str_replace(['%USER%'], [$user], $subject);
+		$user .= " [" . $_SERVER["REMOTE_ADDR"] . "]";
+		$subject  = str_replace(['%USER%'], [$user], $subject);
 
-		foreach ($this->vars['errors_receivers'] as $receiver) {
-			FUNC::instance()->sendpm(
-				$receiver,
-				$text,
-				$subject,
-				$s->vars['auto_pm_from'],
-				1,//popup
-				0,//mail
-				0
-			);
+		$do_popup = 1;
+		$do_mail  = 1;
+		foreach ($this->vars['errors_receivers'] as $receiver)
+		{
+			FUNC::instance()->sendpm($receiver, $text, $subject, $this->vars['auto_pm_from'], $do_popup, $do_mail, 0);
 		}
 	}
+
 	/**
 	 * Exception handler
 	 */
 	public function onException($exception)
 	{
-		try {
+		try
+		{
 			$the_error = "Error message: " . $exception->getMessage() . "\n";
 			$the_error .= "Date: " . date('r');
-			$out = str_replace('<#ERROR_DESCRIPTION#>', htmlspecialchars($text), $this->vars['exception_error_page']);
+			$out = str_replace('<#ERROR_DESCRIPTION#>', htmlspecialchars($the_error), $this->vars['exception_error_page']);
 
 			$the_error .= "\nTrace:\n" . $exception->getTraceAsString() . "\n";
-			$the_error .= "\nREQUEST_URI: ".$_SERVER['REQUEST_URI']."\n";
-			$the_error .= "REFERER: ".$_SERVER['HTTP_REFERER']."\n\n";
+			$the_error .= "\nREQUEST_URI: " . $_SERVER['REQUEST_URI'] . "\n";
+			$the_error .= "REFERER: " . $_SERVER['HTTP_REFERER'] . "\n\n";
 
 			//Prevent flood attack
 			$file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ibf_last_exception_time';
@@ -137,7 +162,8 @@ class Core {
 			}
 			echo($out);
 			die();
-		}catch(Exception $e){
+		} catch (Exception $e)
+		{
 			die('Too many exceptions');
 		}
 	}
@@ -147,15 +173,16 @@ class Core {
 	 */
 	final protected function InitDB()
 	{
-		try {
+		try
+		{
 			$this->db = new IBPDO($this->vars);
-		} catch (PDOException $e) {
+		} catch (PDOException $e)
+		{
 			//todo do something
 			die($e->getMessage());
 			return false;
 		}
 		return TRUE;
 	}
-
 
 }
