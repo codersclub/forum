@@ -429,14 +429,7 @@ if (!isset($choice[$ibforums->input['act']]))
 
 if ($ibforums->input['act'] == 'home')
 {
-	if ($ibforums->vars['csite_on'])
-	{
-		require ROOT_PATH . "sources/dynamiclite/csite.php";
-		$csite = new click_site();
-	} else
-	{
-		require ROOT_PATH . "sources/Boards.php";
-	}
+	require ROOT_PATH . "sources/Boards.php";
 } elseif ($ibforums->input['act'] == 'module')
 {
 	if (USE_MODULES == 1)
