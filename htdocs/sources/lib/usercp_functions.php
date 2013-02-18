@@ -479,7 +479,7 @@ class usercp_functions
 		$ibforums->db->updateRow("ibf_members", array_map([
 		                                                  $ibforums->db,
 		                                                  'quote'
-		                                                  ], $data), "'" . $this->class->member['id'] . "'");
+		                                                  ], $data), "id = '" . $this->class->member['id'] . "'");
 
 		$print->redirect_screen($ibforums->lang['set_updated'], "act=UserCP&CODE=06");
 
@@ -696,7 +696,7 @@ class usercp_functions
 		$ibforums->db->updateRow("ibf_members", array_map([
 		                                                  $ibforums->db,
 		                                                  'quote'
-		                                                  ], $data), "WHERE id='" . $this->class->member['id'] . "'");
+		                                                  ], $data), "id='" . $this->class->member['id'] . "'");
 
 		$print->redirect_screen($ibforums->lang['email_c_up'], "act=UserCP&CODE=02");
 

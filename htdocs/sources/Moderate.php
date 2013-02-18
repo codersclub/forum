@@ -968,7 +968,7 @@ class Moderate
 		$stmt = $ibforums->db->updateRow("ibf_topics", array_map([
 		                                                         $ibforums->db,
 		                                                         'quote'
-		                                                         ], $new_topic), "WHERE tid='" . $ibforums->db->quote($this->topic['tid']));
+		                                                         ], $new_topic), "tid=" . $ibforums->db->quote($this->topic['tid']));
 
 		//----------------------------------------------------
 		// OLD TOPIC: Reset the new_topic bit
