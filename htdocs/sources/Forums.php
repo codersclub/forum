@@ -801,7 +801,7 @@ class Forums
 		// are we checking for user authentication via the log in form
 		// for a private forum w/password protection?
 
-		$ibforums->input['L'] == 1
+		Ibf::instance()->input['L'] == 1
 			? $this->authenticate_user()
 			: $this->render_forum();
 	}

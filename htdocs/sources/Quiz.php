@@ -2521,6 +2521,7 @@ class quiz
 
 	function save_log($action = "")
 	{
+		$ibforums = Ibf::instance();
 		$data = [
 			'act'        => $ibforums->input['act'],
 			'code'       => $ibforums->input['code'],
