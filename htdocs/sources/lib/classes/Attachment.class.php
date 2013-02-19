@@ -580,9 +580,8 @@ if (!class_exists('Attachment'))
 						}
 					}
 				}
+				$stmt->closeCursor();
 			}
-
-			$stmt->closeCursor();
 
 			return $result;
 		}

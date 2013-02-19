@@ -648,7 +648,9 @@ class ad_mysql
 			}
 		}
 
-		$fields = $this->get_result_fields($stmt);
+		$fields = $stmt instanceof PDOStatementWrapper
+			? $this->get_result_fields($stmt)
+			: [];
 
 		$cnt = count($fields);
 
