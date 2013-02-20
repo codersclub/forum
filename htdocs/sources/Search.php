@@ -1111,84 +1111,87 @@ class Search
 			$this->parser = new post_parser();
 			$this->parser->prepareIcons();
 
-			while ($row = $stmt->fetch())
+			if ($stmt instanceof PDOStatementWrapper)
 			{
-				// Song * ip address in a search
-
-				if ($ibforums->member['g_is_supmod'])
+				while ($row = $stmt->fetch())
 				{
-					$row['ip_address'] = "( <a href='{$ibforums->base_url}&act=modcp&CODE=ip&incoming={$row['ip_address']}' target='_blank'>{$row['ip_address']}</a> )";
-				} else
-				{
-					$row['ip_address'] = "";
-				}
+					// Song * ip address in a search
 
-				// /Song * ip address in a search
-				// Song * club tool
-				if ($row['club'] and
-				    $std->check_perms($ibforums->member['club_perms']) == FALSE
-				)
-				{
-					continue;
-				}
-
-				$count++;
-				// /Song * club tool
-
-				$data = array(
-					'TEXT'      => $row['post'],
-					'SMILIES'   => $row['use_emo'],
-					'CODE'      => 1,
-					'SIGNATURE' => 0,
-					'HTML'      => 1,
-					'HID'       => ($row['forum_highlight'])
-						? $row['hid']
-						: -1,
-					'TID'       => $row['topic_id'],
-					'MID'       => $row['author_id'],
-				);
-
-				$row['post'] = $this->parser->prepare($data);
-
-				if (!trim($row['post']))
-				{
-					$count--;
-					continue;
-				}
-
-				$row['keywords']  = $url_words;
-				$row['post_date'] = $std->get_date($row['post_date']);
-
-				//--------------------------------------------------------------
-				// Parse HTML tag on the fly
-				//--------------------------------------------------------------
-
-				if ($row['use_html'] == 1)
-				{
-					// So far, so good..
-
-					if (stristr($row['post'], '[dohtml]'))
+					if ($ibforums->member['g_is_supmod'])
 					{
-						// [doHTML] tag found..
-
-						$parse = ($row['use_html'] AND $row['g_dohtml'])
-							? 1
-							: 0;
-
-						$row['post'] = $this->parser->post_db_parse($row['post'], $parse);
+						$row['ip_address'] = "( <a href='{$ibforums->base_url}&act=modcp&CODE=ip&incoming={$row['ip_address']}' target='_blank'>{$row['ip_address']}</a> )";
+					} else
+					{
+						$row['ip_address'] = "";
 					}
+
+					// /Song * ip address in a search
+					// Song * club tool
+					if ($row['club'] and
+					    $std->check_perms($ibforums->member['club_perms']) == FALSE
+					)
+					{
+						continue;
+					}
+
+					$count++;
+					// /Song * club tool
+
+					$data = array(
+						'TEXT'      => $row['post'],
+						'SMILIES'   => $row['use_emo'],
+						'CODE'      => 1,
+						'SIGNATURE' => 0,
+						'HTML'      => 1,
+						'HID'       => ($row['forum_highlight'])
+							? $row['hid']
+							: -1,
+						'TID'       => $row['topic_id'],
+						'MID'       => $row['author_id'],
+					);
+
+					$row['post'] = $this->parser->prepare($data);
+
+					if (!trim($row['post']))
+					{
+						$count--;
+						continue;
+					}
+
+					$row['keywords']  = $url_words;
+					$row['post_date'] = $std->get_date($row['post_date']);
+
+					//--------------------------------------------------------------
+					// Parse HTML tag on the fly
+					//--------------------------------------------------------------
+
+					if ($row['use_html'] == 1)
+					{
+						// So far, so good..
+
+						if (stristr($row['post'], '[dohtml]'))
+						{
+							// [doHTML] tag found..
+
+							$parse = ($row['use_html'] AND $row['g_dohtml'])
+								? 1
+								: 0;
+
+							$row['post'] = $this->parser->post_db_parse($row['post'], $parse);
+						}
+					}
+
+					//--------------------------------------------------------------
+					// Do word wrap?
+					//--------------------------------------------------------------
+
+					if ($ibforums->vars['post_wordwrap'] > 0)
+					{
+						$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
+					}
+
+					$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
 				}
-
-				//--------------------------------------------------------------
-				// Do word wrap?
-				//--------------------------------------------------------------
-
-				if ($ibforums->vars['post_wordwrap'] > 0)
-				{
-					$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
-				}
-
-				$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
 			}
 
 			$this->output .= $this->html->end_as_post(array('SHOW_PAGES' => $this->links));

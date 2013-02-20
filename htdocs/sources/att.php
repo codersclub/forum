@@ -33,10 +33,11 @@ class Att
 		}
 		$params = [];
 		$forumid = NULL;
+		$where_str = '';
 		if(isset($ibforums->input['forumid']))
 		{
 			$forumid = intval($ibforums->input['forumid']);
-			$where_str = " AND t2.forum_id = :forum_id ";
+			$where_str .= " AND t2.forum_id = :forum_id ";
 			$params[':forum_id'] = $forumid;
 		}
 
@@ -44,7 +45,7 @@ class Att
 		if(isset($ibforums->input['topicid']))
 		{
 			$topicid = intval($ibforums->input['topicid']);
-			$where_str = " AND t2.topic_id = :topic_id ";
+			$where_str .= " AND t2.topic_id = :topic_id ";
 			$params[':topic_id'] = $topicid;
 		}
 
@@ -68,13 +69,13 @@ class Att
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_topic', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_att', $ibforums->lang_id);
 
-		$stmt = $ibforums->db->prepare("
+		$username = $ibforums->db->prepare("
 			SELECT name
 			FROM ibf_members
-			WHERE id = :mid");
-		$stmt->execute([':mid' => $mid]);
-		$username = (string)$stmt->fetchColumn();
-		unset($stmt);
+			WHERE id = :mid")
+			->bindParam(':mid', $mid, PDO::PARAM_INT)
+			->execute()
+			->fetchColumn();
 
 		$this->pt = sprintf($ibforums->lang['title'], $ibforums->lang['attachments'], $username);
 
@@ -159,10 +160,10 @@ class Att
 				ibf_forums AS t4
 				ON t4.id = t2.forum_id
 			WHERE
-			t2.author_id = ".$mid.$where_str." ORDER BY ".($sort_str[$sort]).($desc == 1 ? " DESC" : "")." LIMIT ".$st.", ".$count_on_page;
+			t2.author_id = :mid ".$where_str." ORDER BY ".($sort_str[$sort]).($desc == 1 ? " DESC" : "")." LIMIT ".$st.", ".$count_on_page;
 
 		$stmt = $ibforums->db->prepare($q);
-		$stmt->execute();
+		$stmt->execute($params);
 
 		//output:
 

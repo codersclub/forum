@@ -395,7 +395,7 @@ class search_lib extends Search
 
 		// var_dump($sql);
 
-		$ibforums->db->query($sql);
+		$stmt = $ibforums->db->query($sql);
 
 		$this->documents_found = $ibforums->db->query('SHOW STATUS LIKE  \'sphinx_total_found\'')->fetch();
 		$this->documents_found = $this->documents_found['Value'];
@@ -441,7 +441,7 @@ class search_lib extends Search
 			'posts_query'  => $posts_query,
 			'wordlist'     => $wordlist,
 			'wordidlist'   => $wordidlist,
-			'result'       => $res
+			'result'       => $stmt
 
 		);
 
