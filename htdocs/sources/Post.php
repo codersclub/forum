@@ -1562,14 +1562,15 @@ class Post
 
 				if ($tid)
 				{
-					$stmt = $ibforums->db->query("SELECT trid
+					$cnt = $ibforums->db->query("SELECT trid
 						    FROM ibf_tracker
 						    WHERE
 							topic_id='" . $tid . "'
-							AND member_id='" . $ibforums->member['id'] . "'");
+							AND member_id='" . $ibforums->member['id'] . "'")
+							->rowCount();
 				}
 
-				if ($tid and $stmt->rowCount())
+				if ($tid and $cnt > 0)
 				{
 					$this->output = str_replace('<!--IBF.TRACK-->', $this->html->get_box_alreadytrack(), $this->output);
 				} else

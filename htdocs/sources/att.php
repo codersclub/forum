@@ -161,7 +161,7 @@ class Att
 			WHERE
 			t2.author_id = ".$mid.$where_str." ORDER BY ".($sort_str[$sort]).($desc == 1 ? " DESC" : "")." LIMIT ".$st.", ".$count_on_page;
 
-		$stmt->$ibforums->db->prepare($q);
+		$stmt = $ibforums->db->prepare($q);
 		$stmt->execute();
 
 		//output:
