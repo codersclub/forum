@@ -130,9 +130,10 @@ class session
 			)
 			{
 
-				$stmt = $ibforums->db->prepare("SELECT * FROM ibf_groups WHERE g_id=?");
-				$stmt->execute([$ibforums->vars['spider_group']]);
-				$group = $stmt->fetch_row();
+				$group = $ibforums->db->prepare("SELECT * FROM ibf_groups WHERE g_id=:id")
+					->bindParam(':id', $ibforums->vars['spider_group'])
+					->execute()
+					->fetch();
 
 				foreach ($group as $k => $v)
 				{
