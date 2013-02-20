@@ -967,6 +967,7 @@ class session
 	//----------------------------------------------------
 	function forum_recount($fids = array())
 	{
+		$ibforums = Ibf::instance();
 
 		if (!count($fids))
 		{
