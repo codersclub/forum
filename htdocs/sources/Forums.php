@@ -1600,7 +1600,7 @@ class Forums
 
 			$topic['queued_link'] = "";
 			$topic_link           = "<br>" . $ibforums->lang['waiting_topics'];
-			$topic_link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$topic['tid']}=approve'>{$ibforums->lang['modcp_accept']}</a> � ";
+			$topic_link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$topic['tid']}=approve'>{$ibforums->lang['modcp_accept']}</a> &middot; ";
 			$topic_link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$topic['tid']}=remove'>{$ibforums->lang['modcp_reject']}</a>";
 
 			if (!$topic['approved'])

@@ -2012,7 +2012,7 @@ class Search
 		if ($topic['decided'])
 		{
 			$topic['topic_icon'] = "<{B_DECIDED}>";
-		} // ������
+		}
 
 		if ($topic['pinned'])
 		{
