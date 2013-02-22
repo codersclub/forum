@@ -144,7 +144,7 @@ class modfunctions
 				$pa['forum_id'] = $fid;
 				$pa['topic_id'] = $tid;
 
-				$ibforums->db->exec("ibf_posts", $pa);
+				$ibforums->db->insertRow("ibf_posts", $pa);
 
 				$this->last_id = $ibforums->db->lastInsertId();
 

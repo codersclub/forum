@@ -383,17 +383,19 @@ class Boards {
 
 				// fetch today info
 				//todo is it possible to make with sql only?
-				$stmt = $ibf->db->prepare("SELECT members, guests, bots
-			    FROM ibf_users_stat
-			    WHERE day = :day");
-				$stmt->bindValue(':day', $std->current_day());
-				$stmt->execute();
+				$stats = $ibf->db->prepare("SELECT members, guests, bots FROM ibf_users_stat WHERE day = :day");
+				$today = $stats->bindValue(':day', $std->current_day())
+					->execute()
+					->fetch();
+				$stats->closeCursor();
 
-				if (FALSE != $today = $stmt->fetch())
+				if (FALSE === $today)
 				{
-					$today['members'] = "0";
-					$today['guests'] = "0";
-					$today['bots'] = "0";
+					$today = [
+						'members' => "0",
+						'guests'  => "0",
+						'bots'    => "0"
+					];
 				}
 
 				// members
@@ -419,18 +421,18 @@ class Boards {
 				$user_stat_html .= $blank;
 
 				// fetch yesterday info
-				//todo is it possible to make it with sql only?
-				$stmt = $ibf->db->prepare("SELECT members,guests,bots
-			    FROM ibf_users_stat
-			    WHERE day=:day");
-				$stmt->bindValue(':day', $std->yesterday_day());
-				$stmt->execute();
+				$yesterday =  $stats->bindValue(':day', $std->yesterday_day())
+					->execute()
+					->fetch();
+				$stats->closeCursor();
 
-				if (!$yesterday = $stmt->fetch())
+				if (FALSE === $yesterday)
 				{
-					$yesterday['members'] = "0";
-					$yesterday['guests'] = "0";
-					$yesterday['bots'] = "0";
+					$yesterday = [
+						'members' => "0",
+						'guests'  => "0",
+						'bots'    => "0"
+					];
 				}
 
 				// members

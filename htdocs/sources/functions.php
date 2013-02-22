@@ -159,7 +159,10 @@ class FUNC
 			return 0;
 		}
 
-		$member_has_rights = ($moderator['delete_post'] or $ibforums->member['g_is_supmod'] or $ibforums->member['g_delay_delete_posts']);
+		$member_has_rights =
+			!empty($moderator['delete_post'])
+			|| !empty($ibforums->member['g_is_supmod'])
+			|| !empty($ibforums->member['g_delay_delete_posts']);
 
 		$to_do = $to_do || ($ibforums->input['offtop'] and $days_off and ($member_has_rights));
 
