@@ -54,7 +54,10 @@ class Ibf extends Core
 	 * @var IBPDO
 	 */
 	public $db;
-	var $member = array();
+	/**
+	 * @var Member
+	 */
+	var $member;
 	var $is_bot = 0;
 	var $input = array();
 	var $session_id = "";
@@ -173,7 +176,7 @@ class Ibf extends Core
 	{
 		$data = parent::loadMember();
 		$data['show_wp']   = intval($data['show_wp']);
-		$data['favorites'] = $this->functions->get_favorites();
+		$data['favorites'] = $data->getFavorites();
 		return $data;
 	}
 
