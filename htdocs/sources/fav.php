@@ -11,24 +11,167 @@ class fav
 	var $base_url = "";
 	var $nav = "";
 
-	function fav()
+	function __construct()
 	{
-		global $ibforums, $print, $std;
-
+		$ibforums = Ibf::instance();
 		if ($ibforums->input['show'] or $ibforums->input['topic'])
 		{
 			$this->base_url = $ibforums->base_url;
 
-			$this->html = $std->load_template('skin_fav');
+			$this->html = $ibforums->functions->load_template('skin_fav');
 
-			$this->nav[] = $ibforums->lang['favorites']; //vot
-			//			$this->nav[] = "Избранное";
+			$this->nav[] = $ibforums->lang['favorites'];
 
 			if (!$ibforums->member['id'])
 			{
-				$std->Error(array('LEVEL' => 1, 'MSG' => 'fav_guest'));
+				$ibforums->functions->Error(array('LEVEL' => 1, 'MSG' => 'fav_guest'));
 			}
 
+			//topic actions
+			if ($ibforums->input['topic'])
+			{
+				$this->doTopic($ibforums->input['topic']);
+			} else
+			{
+				$this->show();
+			}
+		}
+	}
+
+	private function doTopic($topic_id)
+	{
+		$ibforums = Ibf::instance();
+
+		$topic = $this->getTopicInfo($topic_id);
+
+		//add or delete topic
+		if ($topic === NULL)
+		{
+			if (in_array($topic_id, Ibf::instance()->member['favorites']))
+			{ //delete from favorites?
+				$this->deleteTopic($topic['topic_id']);
+				$topic['result'] = 'deleted';
+				$topic['track']  = FALSE; //missing topic can't be tracked
+
+			} else
+			{
+				$ibforums->functions->Error(array(LEVEL => 1, MSG => 'mt_no_topic'));
+			}
+		} elseif ($topic['is_favorite'])
+		{
+			//delete it
+			$this->deleteTopic($topic['topic_id']);
+			$topic['result'] = 'deleted';
+			$topic['track']  = (bool)$ibforums->input['track'];
+		} else
+		{
+			//add it
+			$this->addTopic($topic['topic_id']);
+			$topic['result'] = 'added';
+		}
+		$this->redirect($topic);
+	}
+
+	//End function fav()
+
+	/**
+	 * @param $topic_id int
+	 */
+	public function addTopic($topic_id)
+	{
+		settype($topic_id, 'int');
+		if ($this->canTopicBeAdded($topic_id))
+		{
+			$this->add($topic_id);
+		} else
+		{
+			Ibf::instance()->functions->Error(['LEVEL' => 1, 'MSG' => 'too_many_favs', 'EXTRA' => $this->max_fav]);
+		}
+	}
+
+	/**
+	 * Simply adds topic to favorites
+	 * @param $topic_id int Topic id
+	 */
+	protected function add($topic_id)
+	{
+		$mid = (int)Ibf::instance()->member['id'];
+		Ibf::instance()->db
+			->prepare("INSERT INTO ibf_favorites (mid,tid) VALUES (:mid, :tid)")
+			->bindParam(':mid', $mid, PDO::PARAM_INT)
+			->bindParam(':tid', $topic_id, PDO::PARAM_INT)
+			->execute();
+		Ibf::instance()->member['favorites'][] = $topic_id;
+	}
+
+	/**
+	 * Deletes the topic
+	 * @param $topic_id int Topic id
+	 */
+	public function deleteTopic($topic_id)
+	{
+		settype($topic_id, 'int');
+		$this->delete($topic_id);
+	}
+
+	/**
+	 * Simply deletes the topic from favorites
+	 * @param $topic_id int Topic id
+	 */
+	protected function delete($topic_id)
+	{
+		$mid = (int)Ibf::instance()->member['id'];
+		Ibf::instance()->db
+			->prepare("DELETE FROM ibf_favorites WHERE mid= :mid AND tid = :tid")
+			->bindParam(':mid', $mid, PDO::PARAM_INT)
+			->bindParam(':tid', $topic_id, PDO::PARAM_INT)
+			->execute();
+		$key = array_search($topic_id, Ibf::instance()->member['favorites']);
+		unset(Ibf::instance()->member['favorites'][$key]);
+	}
+
+	/**
+	 * @param $topic_id int Topic id
+	 * @return array|null
+	 */
+	protected function getTopicInfo($topic_id)
+	{
+		settype($topic_id, 'int');
+		$info = Ibf::instance()->db
+			->prepare("SELECT tid, forum_id FROM ibf_topics WHERE tid=:tid")
+			->bindParam(':tid', $topic_id, PDO::PARAM_INT)
+			->execute()
+			->fetch();
+		if (!$info)
+		{
+			return NULL;
+		} else
+		{
+			return [
+				'topic_id'    => (int)$info['tid'],
+				'forum_id'    => (int)$info['forum_id'],
+				'is_favorite' => in_array($topic_id, Ibf::instance()->member['favorites'])
+			];
+		}
+	}
+
+	/**
+	 * Redirects somewhere
+	 * @param $topic array Topic info
+	 */
+	protected function redirect($topic)
+	{
+		global $print;
+		$ibforums = Ibf::instance();
+
+		if ($ibforums->input['js'] and $ibforums->input['linkID'])
+		{
+			$fav = $topic['result'] === 'deleted'
+				? "fav1"
+				: "fav2";
+			$print->redirect_js_screen("{$ibforums->input['linkID']}", $fav, $ibforums->base_url . "act=fav&topic={$topic['topic_id']}&js=1");
+		} else
+		{
 			$refer = $_SERVER['HTTP_REFERER'];
 
 			if (!preg_match("#" . $ibforums->base_url . "\?#", $refer))
@@ -38,108 +181,47 @@ class fav
 
 			$refer = preg_replace("#" . $ibforums->base_url . "\?#", "", $refer);
 
-			if ($ibforums->input['topic'])
+			if ($topic['track'] && isset($topic['forum_id']))
 			{
-				$this->add_topic(intval($ibforums->input['topic']), $state);
-
-				if ($ibforums->input['js'] and $ibforums->input['linkID'])
-				{
-					$print->redirect_js_screen("{$ibforums->input['linkID']}", (($state)
-						? "fav1"
-						: "fav2"), $ibforums->base_url . "act=fav&topic={$ibforums->input['topic']}&js=1");
-				} else
-				{
-					$print->redirect_screen("", $refer);
-				}
-
-			} else
-			{
-				$this->show_favs();
+				$refer = "act=Track&f={$topic['forum_id']}&t={$topic['topic_id']}";
 			}
+			$print->redirect_screen("", $refer);
 		}
-
 	}
-
-	//End function fav()
 
 	/**
-	 * Adds or deletes topic from/to favorites for current member
-	 * @todo Split to two different functions?
-	 * @param int $topic Topic id
-	 * @param int $delete Contains 1 if topic was deleted, otherwise 0
+	 * Checks, whether can topic be added or not
+	 * @param $topic_id int topic_id is not used for now
+	 * @return bool
 	 */
-	function add_topic($topic = 0, &$delete = 0)
+	public function canTopicBeAdded($topic_id)
 	{
-		$ibforums = Ibf::instance();
-
-		if (!$topic)
-		{
-			return;
-		}
-
-		$favlist = $ibforums->member['favorites'];
-
-		$count = $ibforums->db
-			->prepare("SELECT COUNT(forum_id) FROM ibf_topics WHERE tid=:tid")
-			->bindParam(':tid', $topic, PDO::PARAM_INT)
-			->execute()
-			->fetchColumn();
-
-		$delete = in_array($topic, $favlist);
-
-		if ($count or (!$count and $delete))
-		{
-			if (!$delete)
-			{
-				if (count($favlist) > $this->max_fav)
-				{
-					$ibforums->functions->Error(['LEVEL' => 1, 'MSG' => 'too_many_favs', 'EXTRA' => $this->max_fav]);
-				} else
-				{
-					$ibforums->db
-						->prepare("INSERT INTO ibf_favorites (mid,tid) VALUES (:mid, :tid)")
-						->bindParam(':mid', $ibforums->member['id'], PDO::PARAM_INT)
-						->bindParam(':tid', $topic, PDO::PARAM_INT)
-						->execute();
-				}
-
-			} else
-			{
-				$ibforums->db
-					->prepare("DELETE FROM ibf_favorites WHERE mid= :mid AND tid = :tid")
-					->bindParam(':mid', $ibforums->member['id'], PDO::PARAM_INT)
-					->bindParam(':tid', $topic, PDO::PARAM_INT)
-					->execute();
-			}
-		} else
-		{
-			$ibforums->functions->Error(array('LEVEL' => 1, 'MSG' => 'mt_no_topic'));
-		}
+		return count(Ibf::instance()->member['favorites']) < $this->max_fav;
 	}
 
-	function show_favs()
+	function show()
 	{
-		global $ibforums, $print, $std;
+		global $print;
 
-		$query = "SELECT f.tid, t.tid AS topic_id, t.title, t.starter_id,
-                           t.last_poster_id, t.last_post,
-			   t.starter_name, t.last_poster_name,
-                           tr.logTime
-                    FROM ibf_favorites f
-	    	    LEFT JOIN ibf_topics t
-	    	         ON f.tid=t.tid
-                    LEFT JOIN ibf_log_topics tr
-	    	         ON (f.mid=tr.mid AND f.tid=tr.tid)
+		$ibforums = Ibf::instance();
+
+		$query = "
+			SELECT f.tid, t.tid AS topic_id, t.title, t.starter_id, t.last_poster_id, t.last_post,
+			   t.starter_name, t.last_poster_name, tr.logTime
+            FROM ibf_favorites f
+            LEFT JOIN ibf_topics t ON f.tid=t.tid
+            LEFT JOIN ibf_log_topics tr ON (f.mid=tr.mid AND f.tid=tr.tid)
 		    WHERE
-			  f.mid='" . $ibforums->member['id'] . "'
+			  f.mid=:mid
 		    GROUP BY f.tid
-                    ORDER BY t.last_post DESC";
-		$stmt  = $ibforums->db->query($query);
-		$count = $stmt->rowCount();
+            ORDER BY t.last_post DESC";
+		$stmt  = $ibforums->db->prepare($query)
+			->bindParam(':mid', $ibforums->member['id'], PDO::PARAM_INT)
+			->execute();
 
-		if (!$count)
+		if ($stmt->rowCount() == 0)
 		{
-			$ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $ibforums->lang_id);
+			$ibforums->lang = $ibforums->functions->load_words($ibforums->lang, 'lang_global', $ibforums->lang_id);
 
 			$e = $ibforums->lang['fav_nolinks'];
 
@@ -147,11 +229,8 @@ class fav
 
 		} else
 		{
-			while ($topic = $stmt->fetch())
+			foreach($stmt as $topic)
 			{
-
-				//$this->output .= "tid=".$topic['tid']." topic_id=".intval($topic['topic_id'])."<br>";
-
 				$last_time = $topic['logTime'];
 
 				if (intval($topic['topic_id']))
@@ -165,16 +244,16 @@ class fav
 					}
 				} else
 				{
-					$remove[] = $topic;
+					$remove[] = $topic['topic_id'];
 				}
 			}
 
-			if (isset($new))
+			if (!empty($new))
 			{
-				$html = ['new' => ''];
+				$html['new'] = '';
 				foreach ($new as $topic)
 				{
-					$topic['last_post'] = $std->get_date($topic['last_post']);
+					$topic['last_post'] = $ibforums->functions->get_date($topic['last_post']);
 					$html['new'] .= $this->html->topic_row($topic);
 				}
 
@@ -185,9 +264,10 @@ class fav
 
 			if (isset($nonew))
 			{
+				$html['nonew'] = '';
 				foreach ($nonew as $topic)
 				{
-					$topic['last_post'] = $std->get_date($topic['last_post']);
+					$topic['last_post'] = $ibforums->functions->get_date($topic['last_post']);
 					$html['nonew'] .= $this->html->topic_row($topic);
 				}
 
@@ -199,20 +279,9 @@ class fav
 			//-------------------------------------
 			// Remove Deleted Topics from Favorites
 
-			if (isset($remove))
+			if (!empty($remove))
 			{
-				$r = array();
-				foreach ($remove as $topic)
-				{
-					$r[] = $topic['tid'];
-				}
-				if (count($r))
-				{
-					$r = implode(",", $r);
-					$ibforums->db->exec("DELETE FROM ibf_favorites
-                                WHERE
-                                tid IN($r)");
-				}
+				$this->purgeTopics($remove);
 			}
 
 			$this->output .= $this->html->main($html);
@@ -223,5 +292,18 @@ class fav
 		$print->do_output(array('TITLE' => $ibforums->vars['board_name'], 'JS' => 0, 'NAV' => $this->nav));
 
 	} //End of function show_favs()
+
+	/**
+	 * Delete topics from all memebers favorites
+	 * @param $topic_ids array topic's ids
+	 */
+	protected function purgeTopics($topic_ids)
+	{
+		if(!empty($topic_ids)){
+			$ibforums->db->prepare("DELETE FROM ibf_favorites WHERE tid IN(" . IBPDO::placeholders($topic_ids) . ")")
+				->execute($topic_ids);
+		}
+
+	}
 
 }//End class fav

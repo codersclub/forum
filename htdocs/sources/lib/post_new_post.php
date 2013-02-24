@@ -503,8 +503,7 @@ class post_functions extends Post
 			require ROOT_PATH . "sources/fav.php";
 
 			$fav = new fav();
-
-			$fav->add_topic($this->topic['tid']);
+			$fav->addTopic($this->topic['tid']);
 		}
 
 	}
