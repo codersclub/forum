@@ -4067,50 +4067,6 @@ class FUNC
 	// End of INDEXED SEARCH Routines
 	//##############################################################
 
-	function update_favorites()
-	{
-		$ibforums = Ibf::instance();
-
-		$favlist = explode(",", (string)$ibforums->member['favorites']);
-		if (count($favlist))
-		{
-			$mid = $ibforums->member['id'];
-			foreach ($favlist as $tid)
-			{
-				// Check for correct Topic ID
-				$tid = preg_replace("/[^\d]/", '', $tid);
-				if (strlen($tid) <= 9 && $tid > 0)
-				{
-					$ibforums->db->exec("INSERT INTO ibf_favorites
-                            (mid,tid) VALUES
-                            ('$mid','$tid')");
-				}
-			}
-			$ibforums->db->exec("UPDATE ibf_members
-                            SET favorites=''
-                            WHERE id='$mid'");
-		}
-	}
-
-	function get_favorites()
-	{
-		$ibforums = Ibf::instance();
-
-		$f = array();
-
-		// Move Favs from ibf_members to ibf_favorites
-		$this->update_favorites();
-
-		// Get Favs from ibf_favorites
-		$stmt = $ibforums->db->query("SELECT tid FROM ibf_favorites
-                  WHERE mid='" . $ibforums->member['id'] . "'");
-		while ($row = $stmt->fetch())
-		{
-			$f[] = $row['tid'];
-		}
-		return $f;
-	}
-
 	//+-------------------------------------------------
 	// vot: Check if the user is banned by IP ?
 	//+-------------------------------------------------
