@@ -36,6 +36,11 @@ class fav
 				$this->show();
 			}
 		}
+		else{
+			global $print;
+			$print->redirect_screen();
+			
+		}
 	}
 
 	private function doTopic($topic_id)
@@ -49,9 +54,12 @@ class fav
 		{
 			if (in_array($topic_id, Ibf::instance()->member['favorites']))
 			{ //delete from favorites?
-				$this->deleteTopic($topic['topic_id']);
-				$topic['result'] = 'deleted';
-				$topic['track']  = FALSE; //missing topic can't be tracked
+				$this->deleteTopic($topic_id);
+				$topic = [
+					'topic_id' => (int)$topic_id,
+					'result'   => 'deleted',
+					'track'    => FALSE, //missing topic can't be tracked
+				];
 
 			} else
 			{
@@ -199,6 +207,9 @@ class fav
 		return count(Ibf::instance()->member['favorites']) < $this->max_fav;
 	}
 
+	/**
+	 * Displays favorite topics
+	 */
 	function show()
 	{
 		global $print;
