@@ -25,6 +25,9 @@ class session
 
 	// No need for a constructor
 
+	/**
+	 * @return array|Member
+	 */
 	function authorise()
 	{
 		global $std;
@@ -75,12 +78,12 @@ class session
 
 		//--------------------------------------------
 
-		$this->member = array(
+		$this->member = new Member([
 			'id'       => 0,
 			'password' => "",
 			'name'     => "",
 			'mgroup'   => $ibforums->vars['guest_group']
-		);
+		]);
 
 		//--------------------------------------------
 		// no new headers if we're simply viewing an attachment..
@@ -334,7 +337,7 @@ class session
 
 		if (!$this->member['id'])
 		{
-			$this->member = $std->set_up_guest();
+			$this->member = new Member($std->set_up_guest());
 
 			$stmt = $ibforums->db->prepare("SELECT * FROM ibf_groups WHERE g_id=?");
 			$stmt->execute([$ibforums->vars['guest_group']]);
@@ -524,7 +527,7 @@ class session
 
 			if ($stmt->rowCount())
 			{
-				$this->member = $stmt->fetch();
+				$this->member = new Member($stmt->fetch());
 
 				if ($this->member['id'])
 				{
