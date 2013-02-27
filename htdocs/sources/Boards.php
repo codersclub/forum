@@ -720,7 +720,7 @@ class Boards {
 		{
 			$this->output = str_replace("<!--IBF.QUICK_LOG_IN-->", $this->html->quick_log_in(), $this->output);
 		}
-		if ($ibf->vars['is_message_on'])
+		if ($ibf->vars['global_message_on'])
 		{
 			$message = preg_replace("/\n/", "<br>", stripslashes($ibf->vars['global_message']));
 

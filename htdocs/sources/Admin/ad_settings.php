@@ -360,7 +360,7 @@ class ad_settings
 				$this->message();
 				break;
 			case 'domessage':
-				$this->save_config(array('is_message_on', 'global_message'));
+				$this->save_config(array('global_message_on', 'global_message'));
 				break;
 			//-------------------------
 			case 'spider':
@@ -1213,7 +1213,7 @@ class ad_settings
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Turn the message system off?</b>",
-		                                       $SKIN->form_yes_no("is_message_on", $INFO['is_message_on'])
+		                                       $SKIN->form_yes_no("global_message_on", $INFO['global_message_on'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(

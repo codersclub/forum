@@ -184,6 +184,7 @@ $INFO['gl_title']			=	'ПРАВИЛА';
 $INFO['global_message']			=	'<span style="color:red">Это уже Новый сервак!</font>
 О глюках сообщать <a href="http://forum.sources.ru/index.php?showtopic=276229&view=getnewpost">В ЭТОЙ ТЕМЕ</a>
 ';
+$INFO['global_message_on']		=	'1';
 $INFO['global_poll']			=	'0';
 $INFO['guest_group']			=	'2';
 $INFO['guest_name_pre']			=	'';
@@ -205,7 +206,6 @@ $INFO['index_news_link']			=	'1';
 $INFO['installed']			=	'1';
 $INFO['inventory_max']			=	'100';
 $INFO['inventory_showresell']			=	'1';
-$INFO['is_message_on']			=	'1';
 $INFO['item_donation']			=	'To: {to}
 From: {from}
 Sent on: {date: F j, Y, g:i a}
