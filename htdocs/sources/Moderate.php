@@ -743,7 +743,7 @@ class Moderate
 
 		// Song * change code tag
 
-		$res = $stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query("SELECT
 					pid,
 					forum_id,
 					post
@@ -752,7 +752,7 @@ class Moderate
 					post LIKE '%[code%' AND
 					pid IN ($pid_string)");
 
-		while ($post = $stmt->fetch($res))
+		while ($post = $stmt->fetch())
 		{
 			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->modfunc->regex_code_syntax('\\3', '\\2', " . $post['forum_id'] . ")", $post['post']) and
 			    $txt != $post['post']
@@ -3859,7 +3859,7 @@ class Moderate
 		// Song * change code tag
 		// vot: BAD QUERY: LIKE
 
-		$res = $stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query("SELECT
 					pid,
 					forum_id,
 					post
@@ -3868,7 +3868,7 @@ class Moderate
 					post LIKE '%[code%' and
 					pid IN ($idz)");
 
-		while ($post = $stmt->fetch($res))
+		while ($post = $stmt->fetch())
 		{
 			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->modfunc->regex_code_syntax('\\3', '\\2', " . $post['forum_id'] . ")", $post['post']) and
 			    $txt != $post['post']
