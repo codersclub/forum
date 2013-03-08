@@ -55,7 +55,6 @@ class Core
 		global $INFO;
 		$this->vars      = & $INFO;
 		$this->functions = new FUNC();
-		set_exception_handler([$this, 'onException']); //handling exceptions
 
 		if (!$this->initDB())
 		{
@@ -116,57 +115,6 @@ class Core
 		}
 		return $this->functions->load_words($this->lang, 'lang_global', $this->lang_id);
 
-	}
-
-	private function notifyError($text, $subject)
-	{
-		error_log($text);
-		// Are we simply returning the error?
-
-		$user = $this->member['id']
-			? 'user ' . $this->member['id']
-			: 'guest';
-
-		$user .= " [" . $_SERVER["REMOTE_ADDR"] . "]";
-		$subject  = str_replace(['%USER%'], [$user], $subject);
-
-		$do_popup = 1;
-		$do_mail  = 1;
-		foreach ($this->vars['errors_receivers'] as $receiver)
-		{
-			FUNC::instance()->sendpm($receiver, $text, $subject, $this->vars['auto_pm_from'], $do_popup, $do_mail, 0);
-		}
-	}
-
-	/**
-	 * Exception handler
-	 */
-	public function onException($exception)
-	{
-		try
-		{
-			$the_error = "Error message: " . $exception->getMessage() . "\n";
-			$the_error .= "Date: " . date('r');
-			$out = str_replace('<#ERROR_DESCRIPTION#>', htmlspecialchars($the_error), $this->vars['exception_error_page']);
-
-			$the_error .= "\nTrace:\n" . $exception->getTraceAsString() . "\n";
-			$the_error .= "\nREQUEST_URI: " . $_SERVER['REQUEST_URI'] . "\n";
-			$the_error .= "REFERER: " . $_SERVER['HTTP_REFERER'] . "\n\n";
-
-			//Prevent flood attack
-			$file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ibf_last_exception_time';
-			//last message was at least 10 minutes ago
-			if (!file_exists($file) || (time() - 10) > (int)file_get_contents($file))
-			{
-				$this->notifyError($the_error, get_class($exception) . ' raised for %USER%');
-				file_put_contents($file, (string)time());
-			}
-			echo($out);
-			die();
-		} catch (Exception $e)
-		{
-			die('Too many exceptions');
-		}
 	}
 
 	/**
