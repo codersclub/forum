@@ -1,9 +1,0 @@
-<? 
-
-class ReplyPrivate {
-
-	function Process() {
-	}
-}
-
-?>
