@@ -120,6 +120,7 @@ class Core
 
 	private function notifyError($text, $subject)
 	{
+		error_log($text);
 		// Are we simply returning the error?
 
 		$user = $this->member['id']

@@ -693,11 +693,13 @@ class Moderate
 		// Do we too many?
 		//------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT count(pid) as cnt FROM ibf_posts WHERE topic_id='" . $this->topic['tid'] . "'");
+		$count = $ibforums->db
+			->prepare("SELECT count(pid) as cnt FROM ibf_posts WHERE topic_id=:tid")
+			->bindParam(':tid', $this->topic['tid'], PDO::PARAM_INT)
+			->execute()
+			->fetchColumn();
 
-		$count = $stmt->fetch();
-
-		if ($affected_ids >= $count['cnt'])
+		if ($affected_ids >= $count)
 		{
 			$this->Error(array(
 			                  'LEVEL' => 1,
@@ -717,14 +719,17 @@ class Moderate
 
 		if ($ibforums->input['fid'] != $this->forum['id'])
 		{
-			$stmt = $ibforums->db->query("SELECT
+			$f = $ibforums->db->prepare("SELECT
 					id,
 					subwrap,
 					sub_can_post
 				    FROM ibf_forums
-				    WHERE id='" . $ibforums->input['fid'] . "'");
+				    WHERE id=:id")
+				->bindParam(':id', $ibforums->input['fid'], PDO::PARAM_INT)
+				->execute()
+				->fetch();
 
-			if (!$f = $stmt->fetch())
+			if (!$f)
 			{
 				$this->Error(array(
 				                  'LEVEL' => 1,
@@ -743,7 +748,7 @@ class Moderate
 
 		// Song * change code tag
 
-		$res = $stmt = $ibforums->db->query("SELECT
+		$posts = $ibforums->db->query("SELECT
 					pid,
 					forum_id,
 					post
@@ -752,15 +757,22 @@ class Moderate
 					post LIKE '%[code%' AND
 					pid IN ($pid_string)");
 
-		while ($post = $stmt->fetch($res))
+		$updated_query = $ibforums->db
+			->prepare("UPDATE ibf_posts
+				SET post=:post
+				WHERE pid=:pid");
+
+		foreach ($posts as $post)
 		{
 			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->modfunc->regex_code_syntax('\\3', '\\2', " . $post['forum_id'] . ")", $post['post']) and
 			    $txt != $post['post']
 			)
 			{
-				$ibforums->db->exec("UPDATE ibf_posts
-					    SET post='" . addslashes($txt) . "'
-					    WHERE pid='" . $post['pid'] . "'");
+				$updated_query
+					->bindParam(':post', $txt, PDO::PARAM_STR)
+					->bindParam(':pid', $post['pid'], PDO::PARAM_INT)
+					->execute();
+				$updated_query->closeCursor();
 			}
 		}
 
@@ -3814,7 +3826,7 @@ class Moderate
 			{
 				if ($ibforums->input[$match[0]])
 				{
-					$idz[] = $match[1];
+					$idz[] = (int)$match[1];
 				}
 			}
 		}
@@ -3827,15 +3839,18 @@ class Moderate
 			             ));
 		}
 
-		$idz = implode(",", $idz);
+		$placeholders = IBPDO::placeholders($idz);
 
-		$stmt = $ibforums->db->query("SELECT pid
+		$posts_count = $ibforums->db->
+			prepare("SELECT count(*)
 			    FROM ibf_posts
 			    WHERE
-				pid IN ($idz) AND
-				new_topic=1");
+				pid IN ({$placeholders}) AND
+				new_topic=1")
+			->execute($idz)
+			->fetchColumn();
 
-		if ($stmt->rowCount())
+		if ($posts_count > 0)
 		{
 			$this->moderate_error('no_delete_post');
 		}
@@ -3845,13 +3860,16 @@ class Moderate
 		// to moderate not his forums
 		//------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT pid
+		$posts_count = $ibforums->db
+			->prepare("SELECT count(*)
 			    FROM ibf_posts
 			    WHERE
-				pid IN ($idz) AND
-				forum_id != {$this->forum['id']}");
+				pid IN ({$placeholders}) AND
+				forum_id != ?")
+			->execute(array_merge($idz, [$this->forum['id']]))
+			->fetchColumn();
 
-		if ($stmt->rowCount())
+		if ($posts_count > 0)
 		{
 			$this->moderate_error();
 		}
@@ -3859,24 +3877,32 @@ class Moderate
 		// Song * change code tag
 		// vot: BAD QUERY: LIKE
 
-		$res = $stmt = $ibforums->db->query("SELECT
+		$posts = $ibforums->db
+			->prepare("SELECT
 					pid,
 					forum_id,
 					post
 				   FROM ibf_posts
 				   WHERE
 					post LIKE '%[code%' and
-					pid IN ($idz)");
+					pid IN ({$placeholders})")
+			->execute($idz);
 
-		while ($post = $stmt->fetch($res))
+		$update_query = $ibforums->db
+			->prepare("UPDATE ibf_posts
+				SET post=:post
+				WHERE pid=:pid");
+		foreach ($posts as $post)
 		{
 			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->modfunc->regex_code_syntax('\\3', '\\2', " . $post['forum_id'] . ")", $post['post']) and
 			    $txt != $post['post']
 			)
 			{
-				$ibforums->db->exec("UPDATE ibf_posts
-					    SET post='" . addslashes($txt) . "'
-					    WHERE pid='" . $post['pid'] . "'");
+				$update_query
+					->bindParam(':post', $txt, PDO::PARAM_STR)
+					->bindParam(':pid', $post['pid'], PDO::PARAM_INT)
+					->execute();
+				$update_query->closeCursor();
 			}
 		}
 
