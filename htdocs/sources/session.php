@@ -784,7 +784,8 @@ class session
 							cm.mid,
 							m.name,
 							m.mgroup,
-							m.temp_ban
+							m.temp_ban,
+                                                        m.language
 						    FROM
 							ibf_check_members cm,
 							ibf_members m
@@ -799,6 +800,7 @@ class session
 							{
 								continue;
 							}
+                                                        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $row['language']);
 
 							$std->sendpm($row['mid'], sprintf($mes, $row['name']), $title, 8617, 1, 1);
 						}
