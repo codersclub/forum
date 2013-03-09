@@ -42,22 +42,12 @@ class FUNC
 			: $INFO['number_format'];
 	}
 
-	static function instance()
-	{
-		static $instance = NULL;
-		if ($instance === NULL)
-		{
-			$instance = new FUNC();
-		}
-		return $instance;
-	}
-
 	// Shaman * get/set forums open state
 
 	function get_board_visibility($board_id, $is_forum)
 	{
 		global $sess;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$sess->member['id'])
 		{
@@ -97,7 +87,7 @@ class FUNC
 	function set_board_visibility($board_id, $is_forum, $visible)
 	{
 		global $sess;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$visible  = $visible
 			? 1
 			: 0;
@@ -311,7 +301,7 @@ class FUNC
 
 	function user_ban_check($forum = array())
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$forum['id'] or $ibforums->member['is_mod'])
 		{
@@ -385,7 +375,7 @@ class FUNC
 
 	function ip_control($forum, $ip)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$forum['id'] or
 		    !$ip or
@@ -429,7 +419,7 @@ class FUNC
 			return;
 		}
 
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//todo shrink to 1-2 queries
 		$stmt = $ibforums->db->prepare("SELECT
@@ -494,7 +484,7 @@ class FUNC
 	 */
 	function select_parent($id)
 	{
-		return Ibf::instance()->db->query("SELECT
+		return Ibf::app()->db->query("SELECT
 			IF (parent_id = -1, 0, parent_id) as parent_id
 		    FROM ibf_forums
 		    WHERE id='" . $id . "'")->fetch();
@@ -508,7 +498,7 @@ class FUNC
 	 */
 	function do_update($id, $pid)
 	{
-		$stmt = Ibf::instance()->db->prepare("INSERT INTO ibf_forums_order
+		$stmt = Ibf::app()->db->prepare("INSERT INTO ibf_forums_order
 		    VALUES (?, ?)");
 		$stmt->execute([$id, $pid]);
 	}
@@ -602,7 +592,7 @@ class FUNC
 
 	function forums_array($id, $current, &$forums, &$children, &$forums_list = array())
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$result = array();
 
@@ -726,7 +716,7 @@ class FUNC
 
 	function get_highlight_id($id)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT forum_highlight,highlight_fid,parent_id FROM ibf_forums WHERE id='" . $id . "'");
 
@@ -787,7 +777,7 @@ class FUNC
 	 */
 	function inc_user_count($field, $day, $month)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$field or !$day or !$month)
 		{
@@ -816,7 +806,7 @@ class FUNC
 
 	function who_was_member($mid)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$mid)
 		{
@@ -841,7 +831,7 @@ class FUNC
 
 	function who_was_guest_or_bot($table, $field, $session_id, $ip_address)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// current day
 		$cur_day = $this->current_day();
@@ -867,7 +857,7 @@ class FUNC
 	 */
 	function code_tag_button($hid = 0)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//todo move to the skin
 		$syntax_html = "<IBF_SONG_BUTTON>";
@@ -918,7 +908,7 @@ class FUNC
 	 */
 	function delete_members($ids)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->db->beginTransaction();
 
@@ -1031,7 +1021,7 @@ class FUNC
 	 */
 	function sendpm($sendto, $message, $title, $sender_id = "", $popup = 0, $do_send = 0, $fatal = 1)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$sendto = intval($sendto);
 
@@ -1531,7 +1521,7 @@ class FUNC
 
 	function show_gd_img($content = "")
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		flush();
 
@@ -1653,7 +1643,7 @@ class FUNC
 
 	function load_template($name, $id = '')
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$tags = 1;
 
@@ -2708,7 +2698,7 @@ class FUNC
 	function load_words($current_lang_array, $area, $lang_type)
 	{
 		$lang = [];//todo проще можно, намного
-		require Ibf::instance()->vars['base_dir'] . "lang/" . $lang_type . "/" . $area . ".php";
+		require Ibf::app()->vars['base_dir'] . "lang/" . $lang_type . "/" . $area . ".php";
 
 		foreach ($lang as $k => $v)
 		{
@@ -3485,7 +3475,7 @@ class FUNC
 
 	function copy_topicread_status($topic_from_id, $topic_to_id, $forum_to_id)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		settype($topic_from_id, 'integer');
 		settype($topic_to_id, 'integer');
 		settype($forum_to_id, 'integer');
@@ -3496,7 +3486,7 @@ class FUNC
 
 	function song_set_forumread($fid)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($ibforums->member['id'])
 		{
@@ -3713,7 +3703,7 @@ class FUNC
 	function flood_end()
 	{
 		global $sess;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$time = time();
 
@@ -3796,7 +3786,7 @@ class FUNC
 
 	function index_del_title($tid = 0)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($ibforums->vars['search_sql_method'] == 'index')
 		{
@@ -3814,7 +3804,7 @@ class FUNC
 
 	function index_del_post($pid = 0)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($ibforums->vars['search_sql_method'] == 'index')
 		{
@@ -3853,7 +3843,7 @@ class FUNC
 
 	function index_del_topic($tid = 0)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($ibforums->vars['search_sql_method'] == 'index')
 		{
@@ -3871,7 +3861,7 @@ class FUNC
 
 	function index_del_topics($tidlist = "")
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$tidlist = trim($tidlist);
 		if ($tidlist)
@@ -3892,7 +3882,7 @@ class FUNC
 	//-------------------------------------------------
 	function index_move_topics($tids, $movetoforum)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$tidlist  = trim($tidlist);
 		if ($tids)
 		{
@@ -3914,7 +3904,7 @@ class FUNC
 
 	function index_make_index($pid = 0, $tid = 0, $fid = 0, $words = array())
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($ibforums->vars['search_sql_method'] == 'index')
 		{
@@ -4095,47 +4085,6 @@ class FUNC
 		}
 		return $res;
 	}
-
-	/**
-     *
-     */
-	public function friendlyErrorType($type)
-	{
-	    switch($type)
-	    {
-	        case E_ERROR: // 1 //
-	            return 'E_ERROR';
-	        case E_WARNING: // 2 //
-	            return 'E_WARNING';
-	        case E_PARSE: // 4 //
-	            return 'E_PARSE';
-	        case E_NOTICE: // 8 //
-	            return 'E_NOTICE';
-	        case E_CORE_ERROR: // 16 //
-	            return 'E_CORE_ERROR';
-	        case E_CORE_WARNING: // 32 //
-	            return 'E_CORE_WARNING';
-	        case E_CORE_ERROR: // 64 //
-	            return 'E_COMPILE_ERROR';
-	        case E_CORE_WARNING: // 128 //
-	            return 'E_COMPILE_WARNING';
-	        case E_USER_ERROR: // 256 //
-	            return 'E_USER_ERROR';
-	        case E_USER_WARNING: // 512 //
-	            return 'E_USER_WARNING';
-	        case E_USER_NOTICE: // 1024 //
-	            return 'E_USER_NOTICE';
-	        case E_STRICT: // 2048 //
-	            return 'E_STRICT';
-	        case E_RECOVERABLE_ERROR: // 4096 //
-	            return 'E_RECOVERABLE_ERROR';
-	        case E_DEPRECATED: // 8192 //
-	            return 'E_DEPRECATED';
-	        case E_USER_DEPRECATED: // 16384 //
-	            return 'E_USER_DEPRECATED';
-	    }
-	    return "";
-	}
 }
 
 // end FUNC class $std
@@ -4154,7 +4103,7 @@ class display
 
 	function is_new_fav_exists()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		//        $std->update_favorites();
 
 		$stmt = $ibforums->db->query("SELECT f.tid FROM ibf_favorites f
@@ -4603,7 +4552,7 @@ class display
 	function prepare_output($template)
 	{
 		global $Debug, $skin_universal, $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$replace = array();
 		$change  = array();
@@ -4770,7 +4719,7 @@ class display
 	function text_only($text = "", $macro = false)
 	{
 		global $skin_universal;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$html = $text;
 

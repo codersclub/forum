@@ -73,7 +73,7 @@ class ad_syntax
 	function syntax_start()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// vot debug
 		//foreach($IN as $k=>$v)
@@ -377,7 +377,7 @@ class ad_syntax
 	function subforums_addtorow($children, $id, $level)
 	{
 		global $ADMIN, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!isset($children[$id]) || count($children[$id]) <= 0)
 		{
@@ -429,7 +429,7 @@ class ad_syntax
 	function syntax_access()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$member_id = '';
 
@@ -507,7 +507,7 @@ class ad_syntax
 	function syntax_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title  = "Syntax Highlight. Permissions";
 		$ADMIN->page_detail = "Select syntax highlight configurations to grant access for selected member";

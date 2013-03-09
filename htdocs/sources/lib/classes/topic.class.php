@@ -14,7 +14,7 @@ class topic
 	 */
 	public function update_last_post_time()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$last_post = $ibforums->db->query("SELECT
 				post_date,
@@ -72,7 +72,7 @@ class topic
 	 */
 	public function get_mirrors()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$result = array();
 		$stmt   = $ibforums->db->query("SELECT * FROM ibf_topics WHERE mirrored_topic_id='{$this->tid}'");

@@ -13,7 +13,7 @@ class ad_sskins
 	function ad_sskins()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -70,7 +70,7 @@ class ad_sskins
 	function rename_s()
 	{
 		global $ADMIN, $IN, $std, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Проверяемся
 		if ($IN['id'] == '')
@@ -115,7 +115,7 @@ class ad_sskins
 	function remove()
 	{
 		global $ADMIN, $IN, $std, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Проверяемся
 		if ($IN['id'] == '')
@@ -158,7 +158,7 @@ class ad_sskins
 	function add()
 	{
 		global $ADMIN, $IN, $INFO, $std, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Проверяем то что на входе
 		if ($IN['name'] == 'Name of set')
@@ -213,7 +213,7 @@ class ad_sskins
 	function list_current()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "";
 		$ADMIN->page_title  = "Smiles sets manager";
@@ -273,7 +273,7 @@ class ad_sskins
 	function doedit_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['before'] == "")
 		{
@@ -315,7 +315,7 @@ class ad_sskins
 	function edit_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may edit the emoticon filter below";
 		$ADMIN->page_title  = "Edit Emoticon";
@@ -413,7 +413,7 @@ class ad_sskins
 	function remove_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['sid'] == "")
 		{
@@ -432,7 +432,7 @@ class ad_sskins
 	function add_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['before'] == "")
 		{
@@ -487,7 +487,7 @@ class ad_sskins
 	function emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may add/edit or remove emoticons in this section.<br>You can only choose emoticons that have been uploaded into the 'html/emoticons' directory.<br><br>Clickable refers to emoticons that are in the posting screens 'Clickable Emoticons' table.";
 		$ADMIN->page_title  = "Emoticon Control";

@@ -326,7 +326,7 @@ class Login
 	function do_log_in()
 	{
 		global $std, $print;
-		$ibf = Ibf::instance();
+		$ibf = Ibf::app();
 
 		$method = $this->getAuthMethod();
 

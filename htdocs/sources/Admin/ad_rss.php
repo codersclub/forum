@@ -26,7 +26,7 @@ class ad_rss
 	function ad_rss()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -125,7 +125,7 @@ class ad_rss
 	function show_sources()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$start = $IN['st']
 			? $IN['st']
@@ -209,7 +209,7 @@ class ad_rss
 	function edit_source($new = 0)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 
@@ -285,7 +285,7 @@ class ad_rss
 	function save_source()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		/*
 			foreach($IN as $k => $v)
@@ -331,7 +331,7 @@ class ad_rss
 	function del_source()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$start = $IN['st']
 			? $IN['st']
@@ -365,7 +365,7 @@ class ad_rss
 	function show_channels()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$start = $IN['st']
 			? $IN['st']
@@ -453,7 +453,7 @@ class ad_rss
 	function edit_channel($new = 0)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 
@@ -576,7 +576,7 @@ class ad_rss
 	function save_channel()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		/*
 			foreach($IN as $k => $v)
@@ -654,7 +654,7 @@ class ad_rss
 	function del_channel()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$start = $IN['st']
 			? $IN['st']
@@ -688,7 +688,7 @@ class ad_rss
 	function show_logs()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$start = $IN['st']
 			? $IN['st']
@@ -776,7 +776,7 @@ class ad_rss
 	function del_log()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$start = $IN['st']
 			? $IN['st']

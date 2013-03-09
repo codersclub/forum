@@ -35,7 +35,7 @@ class PostEditHistory
 	 */
 	static function getItems($post_id)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$result   = array();
 		settype($post_id, 'integer');
 		$stmt = $ibforums->db->query('SELECT * FROM ' . self::tablename . ' WHERE post_id = ' . $post_id . ' ORDER BY edit_time DESC');
@@ -54,7 +54,7 @@ class PostEditHistory
 	 */
 	static function getOneItem($post_id, $item_id)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$result   = array();
 		settype($post_id, 'integer');
 		settype($item_id, 'integer');

@@ -218,7 +218,7 @@ class SongFunc
 	function all_forums_order_recount()
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->db->query("TRUNCATE ibf_forums_order");
 

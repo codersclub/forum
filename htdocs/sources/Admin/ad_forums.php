@@ -31,7 +31,7 @@ class ad_forums
 	function ad_forums()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -148,7 +148,7 @@ class ad_forums
 	function skin_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -216,7 +216,7 @@ class ad_forums
 	function do_skin_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -262,7 +262,7 @@ class ad_forums
 	function subdeleteform()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 
@@ -365,7 +365,7 @@ class ad_forums
 	function dosubdelete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -413,7 +413,7 @@ class ad_forums
 	function show_rules()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -482,7 +482,7 @@ class ad_forums
 	function do_rules()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -510,7 +510,7 @@ class ad_forums
 	function recount($f_override = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($f_override != "")
 		{
@@ -585,7 +585,7 @@ class ad_forums
 	function empty_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 
@@ -646,7 +646,7 @@ class ad_forums
 	function do_empty()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -699,7 +699,7 @@ class ad_forums
 	function reorder_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title  = "Forum Re-Order";
 		$ADMIN->page_detail = "To re-order the forums, simply choose the position number from the drop down box next to each forum title, when you are satisfied with the ordering, simply hit the submit button at the bottom of the form";
@@ -815,7 +815,7 @@ class ad_forums
 	function do_reorder()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT id from ibf_forums");
 
@@ -839,7 +839,7 @@ class ad_forums
 	function delete_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$IN['f'])
 		{
@@ -937,7 +937,7 @@ class ad_forums
 	function do_delete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt  = $ibforums->db->query("SELECT * FROM ibf_forums WHERE id='" . $IN['f'] . "'");
 		$forum = $stmt->fetch();
@@ -1029,7 +1029,7 @@ class ad_forums
 	function new_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$f_name = "";
 
@@ -1370,7 +1370,7 @@ class ad_forums
 	function do_new()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$IN['FORUM_NAME'] = trim($IN['FORUM_NAME']);
 
@@ -1487,7 +1487,7 @@ class ad_forums
 	function edit_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -1890,7 +1890,7 @@ class ad_forums
 	function do_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$IN['FORUM_NAME'] = trim($IN['FORUM_NAME']);
 
@@ -2001,7 +2001,7 @@ class ad_forums
 	function subedit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$cats = array();
 
@@ -2330,7 +2330,7 @@ class ad_forums
 	function doeditsub()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$IN['FORUM_NAME'] = trim($IN['name']);
 
@@ -2394,7 +2394,7 @@ class ad_forums
 	function perm_edit_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['f'] == "")
 		{
@@ -2452,7 +2452,7 @@ class ad_forums
 	function perm_do_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$perms = $ADMIN->compile_forum_perms();
 
@@ -2475,7 +2475,7 @@ class ad_forums
 	function subforums_addtorow($children, $id, $level)
 	{
 		global $ADMIN, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!(isset($children[$id])) || (count($children[$id]) <= 0))
 		{

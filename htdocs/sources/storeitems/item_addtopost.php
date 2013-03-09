@@ -23,7 +23,7 @@ class item
 	function on_add_edits($admin)
 	{
 		global $ADMIN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$checker  = $INFO['base_dir'] . "sources/store/edit_check.php";
 		require_once($checker);
 		$is_their = row_check($INFO['sql_tbl_prefix'] . "members", "post_addon");

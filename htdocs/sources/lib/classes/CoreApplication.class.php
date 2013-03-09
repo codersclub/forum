@@ -1,6 +1,6 @@
 <?php
 
-class Core
+class CoreApplication
 {
 	/**
 	 * @var IBPDO $db
@@ -33,22 +33,6 @@ class Core
 	 */
 	public $lang_id;
 	public $lang = "";
-
-	/**
-	 *
-	 * @staticvar info $instance
-	 * @return \Core
-	 */
-	public static function instance()
-	{
-		static $instance = NULL;
-		if ($instance === NULL)
-		{
-			$name     = get_called_class();
-			$instance = new $name();
-		}
-		return $instance;
-	}
 
 	public function __construct()
 	{

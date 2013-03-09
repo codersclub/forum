@@ -16,7 +16,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
 		                                       "<b>Minumum amount aloud to steal?</b><br>The lowest amount a user can steal from another user.",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])

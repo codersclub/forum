@@ -186,7 +186,7 @@ class ad_forums
 	function do_bulk_mail()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Get the ID's of the groups we're emailing.
 
@@ -331,7 +331,7 @@ class ad_forums
 	function bulk_mail_form($preview = 0, $title = 'Preview', $content = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Bulk Email Members";
 
@@ -446,7 +446,7 @@ class ad_forums
 	function temp_ban_start()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Account Suspension";
 
@@ -514,7 +514,7 @@ class ad_forums
 	function unsuspend()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['mid'] == "")
 		{
@@ -555,7 +555,7 @@ class ad_forums
 	function temp_ban_complete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Account Suspension";
 
@@ -664,7 +664,7 @@ class ad_forums
 	function change_name_complete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$IN['new_name'] = str_replace('|', '&#124;', $IN['new_name']);
 
@@ -789,7 +789,7 @@ class ad_forums
 	function change_name_start($message = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Change Member Name";
 
@@ -872,7 +872,7 @@ class ad_forums
 	function domod()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ids = array();
 
@@ -1012,7 +1012,7 @@ class ad_forums
 	function view_mod()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Manage User Registration/Email Change Queues";
 
@@ -1177,7 +1177,7 @@ class ad_forums
 	function ban_control()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Ban Control";
 
@@ -1252,7 +1252,7 @@ class ad_forums
 	function update_ban()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Get the incoming..
 
@@ -1273,7 +1273,7 @@ class ad_forums
 	function _do_banline($raw)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ban = trim($std->txt_stripslashes($raw));
 
@@ -1301,7 +1301,7 @@ class ad_forums
 	function titles()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Member Ranking Set Up";
 
@@ -1412,7 +1412,7 @@ class ad_forums
 	function add_rank()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 		// check for input
@@ -1447,7 +1447,7 @@ class ad_forums
 	function delete_rank()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 		// check for input
@@ -1472,7 +1472,7 @@ class ad_forums
 	function edit_rank()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 		// check for input
@@ -1517,7 +1517,7 @@ class ad_forums
 	function rank_setup($mode = 'edit')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Member Rank Set Up";
 
@@ -1601,7 +1601,7 @@ class ad_forums
 	function delete_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Member Account Deletion";
 
@@ -1698,7 +1698,7 @@ class ad_forums
 	function prune_confirm()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//-----------------------------
 		// Make sure we have *something*
@@ -1835,7 +1835,7 @@ class ad_forums
 	function doprune()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//-----------------------------
 		// Make sure we have *something*
@@ -1908,7 +1908,7 @@ class ad_forums
 	function delete_lookup_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['USER_NAME'] == "")
 		{
@@ -1974,7 +1974,7 @@ class ad_forums
 	function dodelete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['MEMBER_ID'] == "")
 		{
@@ -2024,7 +2024,7 @@ class ad_forums
 	function add_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Pre Register a member";
 
@@ -2164,7 +2164,7 @@ class ad_forums
 	function do_add()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		foreach (array('name', 'password', 'email', 'mgroup') as $field)
 		{
@@ -2262,7 +2262,7 @@ class ad_forums
 	function search_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Edit a member";
 
@@ -2383,7 +2383,7 @@ class ad_forums
 	function do_advanced_search($basic = 0)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$page_query = "";
 		$un_all     = "";
@@ -3457,7 +3457,7 @@ class ad_forums
 	function do_block_email($action)
 	{
 		global $ADMIN, $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$email = trim($IN['email']);
 
@@ -3505,7 +3505,7 @@ class ad_forums
 	function do_delete_members()
 	{
 		global $IN, $ADMIN, $std, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$email = trim($IN['email']);
 

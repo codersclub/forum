@@ -3069,7 +3069,7 @@ class Moderate
 	function save_rules($lang, $version, $rules)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$lang = str_replace('#', 'sharp', $lang);
 
@@ -3310,7 +3310,7 @@ class Moderate
 
 	function save_syntax_to_js($id = 0)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$id)
 		{
