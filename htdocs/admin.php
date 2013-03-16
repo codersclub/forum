@@ -96,7 +96,7 @@ $INFO['mm_groups'] = array(
 	$INFO['comoderator_group']
 );
 
-$Debug = new Debug;
+$Debug = Debug::instance();
 $Debug->startTimer();
 
 Ibf::registerApplication(new AdminApplication());

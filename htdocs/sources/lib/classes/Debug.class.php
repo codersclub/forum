@@ -10,7 +10,7 @@ class Debug
 	/**
 	 * @var array Ids of recipients of error notifications
 	 */
-	protected $recipients = [ 2 ];
+	protected $recipients = [2];
 	/**
 	 * @var int Message sender
 	 */
@@ -40,11 +40,13 @@ class Debug
 	 * Singleton realization
 	 * @return Debug
 	 */
-	public static function instance(){
+	public static function instance()
+	{
 		static $instance = NULL;
 
-		if (!$instance instanceof Debug){
-			$class = get_called_class();
+		if (!$instance instanceof Debug)
+		{
+			$class    = get_called_class();
 			$instance = new $class();
 		}
 		return $instance;
@@ -58,15 +60,14 @@ class Debug
 			? $INFO['errors_receivers']
 			: explode(',', $INFO['errors_receivers']);
 
-		$this->sender = $INFO['auto_pm_from'];
+		$this->sender        = $INFO['auto_pm_from'];
 		$this->exceptionText = $INFO['exception_error_page'];
-		$this->errorText = $INFO['errors_text'];
-		$this->errorLevels = $INFO['error_reporting'];
-
+		$this->errorText     = $INFO['errors_text'];
+		$this->errorLevels   = $INFO['error_reporting'];
 
 		if ($INFO['enable_exceptions_handling'])
 		{
-			set_exception_handler([$this, 'onException']);//handling exceptions
+			set_exception_handler([$this, 'onException']); //handling exceptions
 		}
 		if ($INFO['enable_errors_handling'])
 		{
@@ -134,9 +135,10 @@ class Debug
 			: 'guest';
 
 		$user .= " [" . $_SERVER["REMOTE_ADDR"] . "]";
-		$subject  = str_replace(['%USER%'], [$user], $subject);
+		$subject = str_replace(['%USER%'], [$user], $subject);
 
-		if ( $this->allowPM()){
+		if ($this->allowPM())
+		{
 			foreach ($this->recipients as $receiver)
 			{
 				Ibf::app()->functions->sendpm($receiver, $text, $subject, $this->sender, 1, $this->allowMail(), 0);
@@ -189,39 +191,55 @@ class Debug
 	 */
 	public function onError($number, $string, $file, $line, $context)
 	{
-	   // Determine if this error is one of the enabled ones in php config (php.ini, .htaccess, etc)
-		$error_is_enabled = (bool)($number & $this->errorLevels );
+		// Determine if this error is one of the enabled ones in php config (php.ini, .htaccess, etc)
+		$error_is_enabled = (bool)($number & $this->errorLevels);
 
-	    // -- FATAL ERROR
+		// -- FATAL ERROR
 		// throw an Error Exception, to be handled by whatever Exception handling logic is available in this context
-	    if( in_array($number, array(E_USER_ERROR, E_RECOVERABLE_ERROR)) && $error_is_enabled )
+		if (in_array($number, array(E_USER_ERROR, E_RECOVERABLE_ERROR)) && $error_is_enabled)
 		{
-		    throw new ErrorException($string, 0, $number, $file, $line);
-	    }
-
-		// -- NON-FATAL ERROR/WARNING/NOTICE
+			throw new ErrorException($string, 0, $number, $file, $line);
+		} // -- NON-FATAL ERROR/WARNING/NOTICE
 		// Log the error if it's enabled, otherwise just ignore it
-	    elseif( $error_is_enabled )
+		elseif ($error_is_enabled)
 		{
 			$type = $this->friendlyErrorType($number);
 			$text = str_replace(
-				['%TYPE%', '%MESSAGE%', '%FILE%', '%LINE%', '%CONTEXT%', '%TRACE%'],
-				[$type, $string, $file, $line, var_export($context, TRUE)],
+				[
+				'%TYPE%',
+				'%MESSAGE%',
+				'%FILE%',
+				'%LINE%',
+				'%CONTEXT%',
+				'%TRACE%'
+				],
+				[
+				$type,
+				$string,
+				$file,
+				$line,
+				var_export($context, TRUE)
+				],
 				$this->errorText
 			);
 			$this->notifyError($text, 'An ' . $type . ' has been caught in ' . basename($file) . ' on line ' . $line);
-	        return false; // Make sure this ends up in $php_errormsg, if appropriate
+			return false; // Make sure this ends up in $php_errormsg, if appropriate
 		}
 	}
 
 	/**
 	 * Handler to process registering application event
+	 * A bit dumb but there is no normal method to intercept class creation right now
 	 * @param CoreApplication $app
 	 */
-	public function onAfterRegisterApplication($app){
-		if($app->db instanceof IBPDO){
-			$query_counter = function(EventObject $event) {
-				if (!isset($this->stats->queriesCount)) {
+	public function onAfterRegisterApplication($app)
+	{
+		if ($app->db instanceof IBPDO)
+		{
+			$query_counter = function (EventObject $event)
+			{
+				if (!isset($this->stats->queriesCount))
+				{
 					$this->stats->queriesCount = 0;
 				}
 				$this->stats->queriesCount++;
@@ -237,7 +255,7 @@ class Debug
 	 */
 	public function friendlyErrorType($type)
 	{
-		switch($type)
+		switch ($type)
 		{
 			case E_ERROR: // 1 //
 				return 'E_ERROR';

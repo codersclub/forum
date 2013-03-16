@@ -52,7 +52,7 @@ require ROOT_PATH."../conf_global.php";
 // The clocks a' tickin'
 //--------------------------------
 
-$Debug = new Debug;
+$Debug = Debug::instance();
 $Debug->startTimer();
 
 //--------------------------------

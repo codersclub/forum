@@ -65,7 +65,7 @@ $INFO['mm_groups'] = array(
 // The clocks a' tickin'
 //--------------------------------
 
-$Debug = new Debug;
+$Debug = Debug::instance();
 $Debug->startTimer();
 
 //--------------------------------

@@ -4339,7 +4339,7 @@ class display
 		{
 			$ex_time = sprintf("%.4f", Debug::instance()->executionTime());
 
-			$query_cnt = Debug::instance()->stats->queryCount;
+			$query_cnt = Debug::instance()->stats->queriesCount;
 
 			// timestamp by barazuk
 			$timestamp = $std->old_get_date(time(), 'LONG');

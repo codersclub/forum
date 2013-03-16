@@ -8,20 +8,19 @@
  */
 class RssApplication extends CoreApplication
 {
-	var $skin_id    	= "0";     // Skin Dir name
-	var $skin_rid   	= "";      // Real skin id (numerical only)
-	var $skin       	= "";
+	var $skin_id = "0"; // Skin Dir name
+	var $skin_rid = ""; // Real skin id (numerical only)
+	var $skin = "";
 
-	var $input      = array();
-	var $base_url   = "";
-	var $vars       = "";
+	var $input = array();
+	var $base_url = "";
+	var $vars = "";
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->session = new session();
 	}
-
 
 	public function init()
 	{
@@ -32,9 +31,10 @@ class RssApplication extends CoreApplication
 	protected function loadMember()
 	{
 		$data = parent::loadMember();
-		if ( $data['id'] )
+		if ($data['id'])
 		{
-			$club = $this->db->prepare("SELECT read_perms FROM ibf_forums WHERE id=:id")
+			$club = $this->db
+				->prepare("SELECT read_perms FROM ibf_forums WHERE id=:id")
 				->bindParam(':id', $this->vars['club'], PDO::PARAM_INT)
 				->execute()
 				->fetch();
@@ -56,9 +56,9 @@ class RssApplication extends CoreApplication
 
 	protected function loadSkin()
 	{
-		$data = parent::loadSkin();
-		$this->skin_rid 	= $data['set_id'];
-		$this->skin_id  	= 's'.$data['set_id'];
+		$data           = parent::loadSkin();
+		$this->skin_rid = $data['set_id'];
+		$this->skin_id  = 's' . $data['set_id'];
 		return $data;
 	}
 
