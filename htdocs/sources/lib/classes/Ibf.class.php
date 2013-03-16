@@ -10,24 +10,41 @@ class Ibf
 {
 	private static $application;
 
+	/**
+	 * Registers the application
+	 * @param CoreApplication $app
+	 */
 	public static function registerApplication(CoreApplication $app)
 	{
 		self::$application = $app;
+		Debug::instance()->onAfterRegisterApplication($app);
 	}
 
+	/**
+	 * Check if application is registered
+	 * @return bool
+	 */
 	public static function isApplicationRegistered()
 	{
 		return !empty(self::$application);
 	}
 
+	/**
+	 * Return the application
+	 * @return CoreApplication
+	 */
 	public static function app()
 	{
 		return self::$application;
 	}
 
+	/**
+	 * Logs message. Stub.
+	 * @param $message
+	 */
 	public static function log($message)
 	{
-
+		//stub
 	}
 }
 

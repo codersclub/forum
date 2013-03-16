@@ -1,13 +1,54 @@
 <?php
 
+
 class Debug
 {
+	/**
+	 * @var int Timer' start time
+	 */
 	protected $starttime = 0;
+	/**
+	 * @var array Ids of recipients of error notifications
+	 */
 	protected $recipients = [ 2 ];
+	/**
+	 * @var int Message sender
+	 */
 	protected $sender = 2;
+	/**
+	 * @var string Text of the exception report
+	 */
 	protected $exceptionText;
+	/**
+	 * @var string Text of the error report
+	 */
 	protected $errorText;
+	/**
+	 * @var int error Levels to report. Values are similar to values of the errors_reporting option
+	 */
 	protected $errorLevels;
+	/**
+	 * @var int log level
+	 */
+	public $level;
+	/**
+	 * @var stdClass Various statistics. May be refactored in future
+	 */
+	public $stats;
+
+	/**
+	 * Singleton realization
+	 * @return Debug
+	 */
+	public static function instance(){
+		static $instance = NULL;
+
+		if (!$instance instanceof Debug){
+			$class = get_called_class();
+			$instance = new $class();
+		}
+		return $instance;
+	}
 
 	public function __construct()
 	{
@@ -31,10 +72,15 @@ class Debug
 		{
 			set_error_handler([$this, 'onError']);
 		}
-
+		$this->level = $INFO['debug_level'];
+		//
+		$this->stats = new stdClass();
 	}
 
-	function startTimer()
+	/**
+	 * Starts the timer
+	 */
+	public function startTimer()
 	{
 		$mtime           = microtime();
 		$mtime           = explode(' ', $mtime);
@@ -42,7 +88,11 @@ class Debug
 		$this->starttime = $mtime;
 	}
 
-	function endTimer()
+	/**
+	 * Returns the execution time
+	 * @return float
+	 */
+	public function executionTime()
 	{
 		$mtime     = microtime();
 		$mtime     = explode(' ', $mtime);
@@ -52,17 +102,29 @@ class Debug
 		return $totaltime;
 	}
 
+	/**
+	 * Checks can be PM sent
+	 * @return bool
+	 */
 	protected function allowPM()
 	{
 		return Ibf::isApplicationRegistered();
 	}
 
+	/**
+	 * Checks can mail be sent
+	 * @return bool
+	 */
 	protected function allowMail()
 	{
 		return class_exists('emailer') && !empty(Ibf::app()->lang);
 	}
 
-
+	/**
+	 * Sends notification
+	 * @param $text
+	 * @param $subject
+	 */
 	private function notifyError($text, $subject)
 	{
 		// Are we simply returning the error?
@@ -83,7 +145,8 @@ class Debug
 	}
 
 	/**
-	 * Exception handler
+	 * Exception handler. Can't be called directly
+	 *
 	 */
 	public function onException($exception)
 	{
@@ -114,6 +177,16 @@ class Debug
 		}
 	}
 
+	/**
+	 * Error handler. Can't be called directly
+	 * @param $number
+	 * @param $string
+	 * @param $file
+	 * @param $line
+	 * @param $context
+	 * @return bool
+	 * @throws ErrorException
+	 */
 	public function onError($number, $string, $file, $line, $context)
 	{
 	   // Determine if this error is one of the enabled ones in php config (php.ini, .htaccess, etc)
@@ -130,7 +203,7 @@ class Debug
 		// Log the error if it's enabled, otherwise just ignore it
 	    elseif( $error_is_enabled )
 		{
-			$type = Ibf::app()->functions->friendlyErrorType($number);
+			$type = $this->friendlyErrorType($number);
 			$text = str_replace(
 				['%TYPE%', '%MESSAGE%', '%FILE%', '%LINE%', '%CONTEXT%', '%TRACE%'],
 				[$type, $string, $file, $line, var_export($context, TRUE)],
@@ -138,6 +211,24 @@ class Debug
 			);
 			$this->notifyError($text, 'An ' . $type . ' has been caught in ' . basename($file) . ' on line ' . $line);
 	        return false; // Make sure this ends up in $php_errormsg, if appropriate
+		}
+	}
+
+	/**
+	 * Handler to process registering application event
+	 * @param CoreApplication $app
+	 */
+	public function onAfterRegisterApplication($app){
+		if($app->db instanceof IBPDO){
+			$query_counter = function(EventObject $event) {
+				if (!isset($this->stats->queriesCount)) {
+					$this->stats->queriesCount = 0;
+				}
+				$this->stats->queriesCount++;
+			};
+			$app->db->attachEventHandler('afterQuery', $query_counter);
+			$app->db->attachEventHandler('afterExec', $query_counter);
+			$app->db->attachEventHandler('afterPrepare', $query_counter);
 		}
 	}
 
@@ -181,6 +272,5 @@ class Debug
 		}
 		return "";
 	}
-
 }
 

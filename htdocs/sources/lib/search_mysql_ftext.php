@@ -227,7 +227,7 @@ class search_lib extends Search
 
 			$stmt = $ibforums->db->query($query . " LIMIT {$this->is->first},25");
 
-			$ex_time = sprintf("%.4f", $SQLtime->endTimer());
+			$ex_time = sprintf("%.4f", $SQLtime->executionTime());
 
 			$show_end = 25;
 

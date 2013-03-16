@@ -4271,9 +4271,86 @@ class display
 			? "<{atb_favs_new}>"
 			: "<{atb_favs}>";
 
-		/*		 * ***************************************************** */
+		//---------------------------------------------
+		// Check for DEBUG Mode
+		//---------------------------------------------
+
+		if ( $ibforums->member['g_access_cp'] )
+		{
+			if(FALSE) //if ( $DB->obj['debug'] ) //todo need to move to the debug class or remove it completely - jureth
+			{
+				flush();
+				print "<html><head><title>mySQL Debugger</title><body bgcolor='white'><style type='text/css'> TABLE, TD, TR, BODY { font-family: verdana,arial, sans-serif;color:black;font-size:11px }</style>";
+				print $ibforums->debug_html;
+				print "</body></html>";
+				exit();
+			}
+
+			$input   = "";
+			$queries = "";
+			$sload   = "";
+			$stats = '';
+
+			if ( $ibforums->server_load > 0 )
+			{
+				$sload = "&nbsp; [ Server Load: ".$ibforums->server_load." ]";
+			}
+
+			//+----------------------------------------------
+
+			if ( Debug::instance()->level >= 2 )
+			{
+				$stats .= "<br>\n<div class='tableborder'>\n<div class='pformstrip'>FORM and GET Input</div><div class='row1' style='padding:6px'>\n";
+
+				while( list($k, $v) = each($ibforums->input) )
+				{
+					$stats .= "<strong>$k</strong> = $v<br>\n";
+				}
+
+				$stats .= "</div>\n</div>";
+
+			}
+
+			//+----------------------------------------------
+
+			if ( Debug::instance()->level >= 3 && isset(Debug::instance()->stats->cachedQueries))
+			{
+				$stats .= "<br>\n<div class='tableborder'>\n<div class='pformstrip'>Queries Used</div><div class='row1' style='padding:6px'>";
+
+				foreach(Debug::instance()->stats->cachedQueries as $q)
+				{
+					$q = htmlspecialchars($q);
+					$q = preg_replace( "/^SELECT/i" , "<span class='red'>SELECT</span>"   , $q );
+					$q = preg_replace( "/^UPDATE/i" , "<span class='blue'>UPDATE</span>"  , $q );
+					$q = preg_replace( "/^DELETE/i" , "<span class='orange'>DELETE</span>", $q );
+					$q = preg_replace( "/^INSERT/i" , "<span class='green'>INSERT</span>" , $q );
+					$q = str_replace( "LEFT JOIN"   , "<span class='red'>LEFT JOIN</span>" , $q );
+
+					$q = preg_replace( "/(".$ibforums->vars['sql_tbl_prefix'].")(\S+?)([\s\.,]|$)/", "<span class='purple'>\\1\\2</span>\\3", $q );
+
+					$stats .= "$q<hr>\n";
+				}
+
+				$stats .= "</div>\n</div>";
+			}
+		}
+
+		if (Debug::instance()->level > 0)
+		{
+			$ex_time = sprintf("%.4f", Debug::instance()->executionTime());
+
+			$query_cnt = Debug::instance()->stats->queryCount;
+
+			// timestamp by barazuk
+			$timestamp = $std->old_get_date(time(), 'LONG');
+
+			// timestamp by barazuk
+			$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; [ Generated: $timestamp GMT ] &nbsp; $sload</div>\n<br>";
+
+		}
+		/********************************************************/
 		// NAVIGATION
-		/*		 * ***************************************************** */
+		/********************************************************/
 
 		$nav = $this->nav($output_array);
 
