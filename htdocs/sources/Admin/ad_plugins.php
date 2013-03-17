@@ -31,7 +31,7 @@ class ad_plugins
 	function ad_plugins()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -113,7 +113,7 @@ class ad_plugins
 	function copy_splash()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Do we have an order number
@@ -143,7 +143,7 @@ class ad_plugins
 	function copy_frame()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$css = $SKIN->get_css();
 
@@ -176,7 +176,7 @@ class ad_plugins
 	function copy_save()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$acc_number = trim($IN['ipb_copy_number']);
 
@@ -251,7 +251,7 @@ class ad_plugins
 	function copy_config($type = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "&nbsp;";
 		$ADMIN->page_title  = "IPB Copyright Confirmation";
@@ -284,7 +284,7 @@ class ad_plugins
 	function copy_config_save()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$new = array(
 			'ipb_reg_show' => $IN['ipb_reg_show'],
@@ -303,7 +303,7 @@ class ad_plugins
 	function reg_splash()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Do we have an order number
@@ -333,7 +333,7 @@ class ad_plugins
 	function reg_frame()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$css = $SKIN->get_css();
 
@@ -366,7 +366,7 @@ class ad_plugins
 	function reg_save()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$acc_number = trim($IN['ipb_reg_number']);
 
@@ -434,7 +434,7 @@ class ad_plugins
 	function reg_config($type = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may edit the configuration below to suit";
 		$ADMIN->page_title  = "IPB Registration Configuration";
@@ -485,7 +485,7 @@ class ad_plugins
 	function reg_config_save()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$new = array(
 			'ipb_reg_show' => $IN['ipb_reg_show'],
@@ -504,7 +504,7 @@ class ad_plugins
 	function chat_splash()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Do we have an order number
@@ -534,7 +534,7 @@ class ad_plugins
 	function chat_frame()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$css = $SKIN->get_css();
 
@@ -567,7 +567,7 @@ class ad_plugins
 	function chat_save()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$acc_number = intval($IN['account_no']);
 
@@ -586,7 +586,7 @@ class ad_plugins
 	function chat_config_save()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$acc_number = intval($IN['chat_account_no']);
 
@@ -654,7 +654,7 @@ class ad_plugins
 	function chat_config()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may edit the configuration below to suit";
 		$ADMIN->page_title  = "IP Chat Configuration";
@@ -809,7 +809,7 @@ class ad_plugins
 	function save_config($new)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$master = array();
 
@@ -854,7 +854,7 @@ class ad_plugins
 	{
 
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$extra = $extra
 			? $extra . "<br>"
@@ -891,7 +891,7 @@ class ad_plugins
 	{
 
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->end_form($button);
 

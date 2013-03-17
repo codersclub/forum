@@ -609,7 +609,7 @@ class modfunctions
 	function regex_code_syntax($code, $syntax, $id)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($syntax)
 		{
@@ -1169,7 +1169,7 @@ class modfunctions
 	 */
 	function topic_delete_mirrors($topic_id, array $forum_ids)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		array_walk($forum_ids, function (&$v)
 		{
 			$v = intval($v);

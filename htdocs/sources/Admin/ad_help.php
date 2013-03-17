@@ -31,7 +31,7 @@ class ad_settings
 	function ad_settings()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -82,7 +82,7 @@ class ad_settings
 	function doedit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -115,7 +115,7 @@ class ad_settings
 	function show_form($type = 'new')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may add/edit and remove help files below.";
 		$ADMIN->page_title  = "Help File Management";
@@ -193,7 +193,7 @@ class ad_settings
 	function remove()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -214,7 +214,7 @@ class ad_settings
 	function doadd()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['title'] == "")
 		{
@@ -247,7 +247,7 @@ class ad_settings
 	function list_files()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may add/edit and remove help files below.";
 		$ADMIN->page_title  = "Help File Management";

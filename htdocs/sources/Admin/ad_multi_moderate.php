@@ -34,7 +34,7 @@ class ad_multimod
 	function ad_multimod()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -92,7 +92,7 @@ class ad_multimod
 	function do_delete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -146,7 +146,7 @@ class ad_multimod
 	function do_save($type = 'new')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$forums = array();
 
@@ -282,7 +282,7 @@ class ad_multimod
 	function do_form($type = 'new')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "Multi moderation allows you to combine moderation actions to create easy to use shortcuts to several moderation options.";
 		$ADMIN->page_title  = "Topic Multi-Moderation";
@@ -494,7 +494,7 @@ class ad_multimod
 	function list_current()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "Multi moderation allows you to combine moderation actions to create easy to use shortcuts to several moderation options.";
 		$ADMIN->page_title  = "Topic Multi-Moderation";
@@ -539,7 +539,7 @@ class ad_multimod
 	function get_activein_forums()
 	{
 		global $IN, $INFO, $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$forum_array  = array();
 		$forum_string = "";

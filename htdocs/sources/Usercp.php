@@ -2662,7 +2662,7 @@ class UserCP
 	function subforums_search_list($children, $id, $level, &$temp_html, $fs)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (isset($children[$id]) and count($children[$id]) > 0)
 		{
@@ -2959,7 +2959,7 @@ class UserCP
 	function delete_cancel()
 	{
 		global $print;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->db->exec("UPDATE ibf_members SET
 				profile_delete_time=0

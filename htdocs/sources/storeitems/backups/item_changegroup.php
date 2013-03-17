@@ -15,7 +15,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$stmt     = $ibforums->db->query("SELECT g_id,g_title FROM ibf_groups WHERE g_access_cp='0' ORDER BY g_id DESC");
 		while ($group = $stmt->fetch())
 		{

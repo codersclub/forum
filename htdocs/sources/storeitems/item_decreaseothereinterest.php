@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->Html .= $SKIN->add_td_row(array(
 		                                       "<b>How much it will decrease the interest?</b><br>",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])

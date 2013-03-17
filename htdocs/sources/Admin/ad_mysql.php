@@ -40,7 +40,7 @@ class ad_mysql
 	function ad_mysql()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -168,7 +168,7 @@ class ad_mysql
 	function drop_process($process_id = 0)
 	{
 		global $IN, $INFO, $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$go = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'] . "&act=mysql&code=processes";
 
@@ -197,7 +197,7 @@ class ad_mysql
 	function do_safe_backup($tbl_name = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($tbl_name == "")
 		{
@@ -296,7 +296,7 @@ class ad_mysql
 	function get_table_sql($tbl, $create_tbl, $skip = 0)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($create_tbl)
 		{
@@ -421,7 +421,7 @@ class ad_mysql
 	function sbup_splash()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "This section allows you to backup your database.";
 
@@ -456,7 +456,7 @@ class ad_mysql
 	function show_backup_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "This section allows you to backup your database.
 							  <br><br><b>Simple Backup</b>
@@ -516,7 +516,7 @@ class ad_mysql
 	function view_sql($sql, $result = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$limit = 50;
 		$start = intval($IN['st']) == ""
@@ -740,7 +740,7 @@ class ad_mysql
 	function run_tool()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "This section allows you to administrate your mySQL database.";
 		$ADMIN->page_title  = "mySQL " . $this->true_version . " Tool Box";
@@ -826,7 +826,7 @@ class ad_mysql
 	function list_index()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 

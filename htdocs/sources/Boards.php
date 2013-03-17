@@ -53,7 +53,7 @@ class Boards {
 	{
 		global $std, $print, $skin_universal;
 
-		$ibf = Ibf::instance();
+		$ibf = Ibf::app();
 		$this->base_url = $ibf->base_url;
 
 		// Get more words for this invocation!

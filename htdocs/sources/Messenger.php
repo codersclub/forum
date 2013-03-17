@@ -2594,7 +2594,7 @@ class Messenger
 
 	function build_contact_list()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$contacts = "";
 

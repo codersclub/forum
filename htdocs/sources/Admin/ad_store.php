@@ -47,7 +47,7 @@ class ad_store
 	function ad_store()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums       = Ibf::instance();
+		$ibforums       = Ibf::app();
 		$this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
 		require_once($INFO['base_dir'] . "sources/lib/post_parser." . $INFO['php_ext']);
 		$this->parser = new post_parser();
@@ -236,7 +236,7 @@ class ad_store
 	function storesettings()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('dostoresettings', 'IBStore Settings', 'Change your Store settings below');
 
@@ -451,7 +451,7 @@ class ad_store
 	function recount()
 	{
 		global $SKIN, $ADMIN, $INFO, $MEMBER;
-		$ibforums           = Ibf::instance();
+		$ibforums           = Ibf::app();
 		$ADMIN->page_detail = "Recount/Reset effects caused by IBStore.";
 		$ADMIN->page_title  = "Recount/Reset effects";
 
@@ -489,7 +489,7 @@ class ad_store
 	function dorecount()
 	{
 		global $ADMIN, $SKIN, $MEMBER, $INFO, $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($IN['doaction'] == 'pointsrecount')
 		{
 			require(ROOT_PATH . "/sources/store/edit_check.php");
@@ -549,7 +549,7 @@ class ad_store
 	function update_page()
 	{
 		global $SKIN, $ADMIN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->check();
 		$this->common_header('', 'IBStore Update Portal', 'Update Portal');
 
@@ -575,7 +575,7 @@ class ad_store
 	function item_adder()
 	{
 		global $SKIN, $ADMIN, $IN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->check();
 		$this->common_header('', 'IBStore Item Adder', 'Get the latest Items here.');
 
@@ -625,7 +625,7 @@ class ad_store
 	function item_restore()
 	{
 		global $SKIN, $ADMIN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->check();
 		$this->common_header('', 'IBStore Item Restore', 'Restore You\'re IBStore Items');
 
@@ -662,7 +662,7 @@ class ad_store
 	function update($items, $request_new = 0)
 	{
 		global $INFO, $IN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$fp   = fopen($this->mirror_update . "update_portal.php?update={$items}&boardurl={$INFO['board_url']}&version={$this->ibsversion}&ip={$IN['IP_ADDRESS']}&tempory=" . time() . "&id={$INFO['ibstore_id']}&regid={$INFO['store_regid']}", "r");
 		$file = ROOT_PATH . "/sources/storeitems/" . $items;
@@ -722,7 +722,7 @@ class ad_store
 	function item_updater()
 	{
 		global $SKIN, $ADMIN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->check();
 		$this->common_header('', 'IBStore Item Updater', 'Update IBStore Items');
 
@@ -760,7 +760,7 @@ class ad_store
 	function delete_item()
 	{
 		global $ADMIN, $SKIN, $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->check();
 		$ibforums->db->exec("DELETE FROM ibf_store_shopstock WHERE id='{$IN['id']}' LIMIT 1");
 		$ibforums->db->exec("DELETE FROM ibf_store_inventory WHERE item_id='{$IN['id']}' LIMIT 1");
@@ -774,7 +774,7 @@ class ad_store
 	function item_logs()
 	{
 		global $SKIN, $ADMIN, $IN, $INFO, $MEMBER;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($MEMBER['mgroup'] != '4')
 		{
 			$ADMIN->error("Sorry, this is a Root Admin Feature Only.");
@@ -852,7 +852,7 @@ class ad_store
 	function mod_logs()
 	{
 		global $SKIN, $ADMIN, $IN, $INFO, $MEMBER;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($MEMBER['mgroup'] != '4')
 		{
 			$ADMIN->error("Sorry, this is a Root Admin Feature Only.");
@@ -911,7 +911,7 @@ class ad_store
 	function clearlog()
 	{
 		global $ADMIN, $SKIN, $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ibforums->db->exec("DELETE FROM " . $IN['type']);
 		$ADMIN->save_log("Table: " . $IN['type'] . " Deleted of all logs.");
 
@@ -921,7 +921,7 @@ class ad_store
 	function update_check()
 	{
 		global $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->common_header('', 'IBStore Update', 'Check for Updates');
 		$ADMIN->html .= $SKIN->start_table("Update");
 		$ADMIN->html .= $SKIN->add_td_basic("<img borer='0' src='" . $this->mirror_update . "updatecheck.jpeg?version={$this->ibsversion}'>");
@@ -935,7 +935,7 @@ class ad_store
 	function do_quiz_update()
 	{
 		global $ADMIN, $IN;
-		$ibforums  = Ibf::instance();
+		$ibforums  = Ibf::app();
 		$item_name = explode("||", $IN['item_names']);
 		foreach ($item_name as $items)
 		{
@@ -985,7 +985,7 @@ class ad_store
 	function edit_questions()
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('do_editquestions', 'IBStore Quizs', 'Edit A Quizs Questions & Answers');
 
@@ -1066,7 +1066,7 @@ class ad_store
 	function update_questions()
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$quiz_id  = $IN['quiz_id'];
 
 		foreach ($_POST as $field => $info)
@@ -1133,7 +1133,7 @@ class ad_store
 	function quiz_settings()
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header($IN['quiztype']
 			? "do_quiz_update"
@@ -1266,7 +1266,7 @@ class ad_store
 	function do_quiz_settings()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('do_quiz_settings', 'IBStore Quizs', 'Add a Quiz');
 		$time = time();
@@ -1404,7 +1404,7 @@ class ad_store
 	function finishquiz()
 	{
 		global $ADMIN, $SKIN, $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->db->exec("UPDATE ibf_quiz_info
 			    SET pending='0'
@@ -1418,7 +1418,7 @@ class ad_store
 	function addsingle()
 	{
 		global $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$IN['quiz_question'] || !$IN['answer'])
 		{
@@ -1438,7 +1438,7 @@ class ad_store
 	function addmulti()
 	{
 		global $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$IN['quiz_question'])
 		{
@@ -1488,7 +1488,7 @@ class ad_store
 	function multi()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->start_table("Quiz Questions & Answers");
 		$ADMIN->html .= $SKIN->add_td_basic("<b><span style='color:red'>Not Case Sensetive</span></b>");
@@ -1537,7 +1537,7 @@ class ad_store
 	function single()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->start_table("Quiz Questions & Answers");
 		$ADMIN->html .= $SKIN->add_td_basic("<b><span style='color:red'>Not Case Sensetive</span></b>");
@@ -1563,7 +1563,7 @@ class ad_store
 	function qdowhat()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('quiz_settings', 'IBStore Quizs', 'Add a Quiz');
 		$stmt = $ibforums->db->query("SELECT *
@@ -1601,7 +1601,7 @@ class ad_store
 	function qdelete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->db->exec("DELETE FROM ibf_quiz_info
 			    WHERE q_id='{$IN['updateid']}'
@@ -1618,7 +1618,7 @@ class ad_store
 	function add()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('itemproperties', 'IBStore Stocker', 'Stock up you\'re store here');
 		$ADMIN->html .= $SKIN->start_table("Add Item");
@@ -1653,7 +1653,7 @@ class ad_store
 	function itemproperties()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('do_stockedits', 'IBStore Stocker Extra', 'Stock up you\'re store here');
 		$IN['item_name'] .= '.' . $INFO['php_ext'];
@@ -1874,7 +1874,7 @@ class ad_store
 	function check()
 	{
 		global $ADMIN, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if (file_exists(ROOT_PATH . "/sources/storeitems/ibs_lock.lock"))
 		{
 			$ADMIN->error("You have been banned from running any updates");
@@ -1885,7 +1885,7 @@ class ad_store
 	function do_stockedits()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('do_stockadd_two', 'IBStore Item Edits', 'The Edits you have to do to you\'re items before adding them');
 		$file_name = $INFO['base_dir'] . "sources/storeitems/" . $IN['itemname'];
@@ -1971,7 +1971,7 @@ class ad_store
 	function do_stockedits_edit()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->db->exec("UPDATE ibf_store_shopstock
 			    SET item_name='{$IN['item__name']}',
@@ -1999,7 +1999,7 @@ class ad_store
 	function do_stockadd_two()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		require_once(ROOT_PATH . "/sources/storeitems/" . $IN['item_module'] . '.php');
 		$item = new item;
 		$item->on_add_extra();
@@ -2023,7 +2023,7 @@ class ad_store
 	function itemedit()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('itemproperties', 'IBStore Edit Items', 'Edit Items you have already stocked');
 		$ADMIN->html .= $SKIN->start_table("Edit Item:");
@@ -2072,7 +2072,7 @@ class ad_store
 	function add_category()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('do_add_category', 'IBStore Add Category', 'Add a new shop Category');
 
@@ -2095,7 +2095,7 @@ class ad_store
 	function select_category()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->common_header('edit_category', 'IBStore Category Editer', 'Select a category to edit');
 		$stmt = $ibforums->db->query("SELECT *
                             FROM ibf_store_category
@@ -2131,7 +2131,7 @@ class ad_store
 	function edit_category()
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($IN['effect'] == 'del')
 		{
 			$ibforums->db->exec("DELETE FROM ibf_store_category
@@ -2171,7 +2171,7 @@ class ad_store
 	function do_cat_edit()
 	{
 		global $IN, $ADMIN;
-		$ibforums       = Ibf::instance();
+		$ibforums       = Ibf::app();
 		$IN['cat_desc'] = addslashes($this->postparse($IN['cat_desc']));
 		$ibforums->db->exec("UPDATE ibf_store_category
                             SET cat_name='{$IN['cat_name']}',
@@ -2187,7 +2187,7 @@ class ad_store
 	function do_add_category()
 	{
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
-		$ibforums       = Ibf::instance();
+		$ibforums       = Ibf::app();
 		$IN['cat_desc'] = addslashes($this->postparse($IN['cat_desc']));
 		$ibforums->db->exec("INSERT INTO ibf_store_category
                             (catid,cat_name,cat_desc) VALUES
@@ -2202,7 +2202,7 @@ class ad_store
 	function save_config($new)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$master = array();
 
@@ -2240,7 +2240,7 @@ class ad_store
 	{
 
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$extra = $extra
 			? $extra . "<br>"
@@ -2271,7 +2271,7 @@ class ad_store
 	{
 
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->end_form($button, $js);
 

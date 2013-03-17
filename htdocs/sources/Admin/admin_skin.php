@@ -33,7 +33,7 @@ class admin_skin
 	function admin_skin()
 	{
 		global $INFO, $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
 		$this->img_url  = $INFO['html_url'] . '/sys-img';
@@ -226,7 +226,7 @@ class admin_skin
 	function make_page_jump($tp = "", $pp = "", $ub = "")
 	{
 		global $IN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		return "<a href='#' title=\"Jump to a page...\" onclick=\"multi_page_jump('$ub',$tp,$pp);\">Pages:</a>";
 	}
 
@@ -239,7 +239,7 @@ class admin_skin
 	function start_form($hiddens = "", $name = 'theAdminForm', $js = "")
 	{
 		global $IN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form = "<form action='{$this->base_url}' method='post' name='$name' $js>
 				 <input type='hidden' name='adsess' value='{$IN['AD_SESS']}'>";
@@ -502,7 +502,7 @@ class admin_skin
 
 	function build_group_perms($read = '*', $write = '*', $reply = '*', $upload = '*')
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$html = "
 
@@ -1042,7 +1042,7 @@ class admin_skin
 	function print_top($title = "", $desc = "")
 	{
 		global $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$css = $this->get_css();
 
@@ -1145,7 +1145,7 @@ class admin_skin
 	function menu_top()
 	{
 		global $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$pop_win = $this->js_pop_win();
 
@@ -1230,7 +1230,7 @@ class admin_skin
 	function menu_cat_expanded($name = "", $links = "", $id = "")
 	{
 		global $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		return "<a name='cat$id'></a>
 				<div class='tableborder'>
@@ -1249,7 +1249,7 @@ class admin_skin
 	function menu_cat_collapsed($name = "", $id = "", $desc = "")
 	{
 		global $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		return "<div class='tableborder'>
 				  <div class='cattitle'>
@@ -1267,7 +1267,7 @@ class admin_skin
 	function menu_cat_link($url = "", $name = "", $urltype = 0)
 	{
 		global $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($urltype == 1)
 		{

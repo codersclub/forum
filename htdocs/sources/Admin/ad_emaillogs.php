@@ -34,7 +34,7 @@ class ad_emaillogs
 	function ad_emaillogs()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -86,7 +86,7 @@ class ad_emaillogs
 	function view_email()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -135,7 +135,7 @@ class ad_emaillogs
 	function remove_entries()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['type'] == 'all')
 		{
@@ -179,7 +179,7 @@ class ad_emaillogs
 	function list_current()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->js_pop_win();
 

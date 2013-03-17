@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->Html .= $SKIN->add_td_row(array(
 		                                       "<b>Lowest Amount?</b><br>The lowest random amount that can be given.",

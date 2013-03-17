@@ -41,7 +41,7 @@ class ad_downloads
 	function ad_downloads()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		switch ($IN['code'])
 		{
@@ -113,7 +113,7 @@ class ad_downloads
 	function save_config($new)
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $HTTP_POST_VARS;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$master = array();
 
@@ -156,7 +156,7 @@ class ad_downloads
 	function show_cat($type = "add")
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($type == "add")
 		{
@@ -490,7 +490,7 @@ class ad_downloads
 	function reorder_form()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title  = "Category Re-Order";
 		$ADMIN->page_detail = "To re-order the categories, simply choose the position number from the drop down box next to each category title.  When you are satisfied with the ordering, simply hit the submit button at the bottom of the form.";
@@ -557,7 +557,7 @@ class ad_downloads
 	function do_reorder()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT cid from ibf_files_cats");
 
@@ -574,7 +574,7 @@ class ad_downloads
 	{
 
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($type == "add")
 		{
@@ -645,7 +645,7 @@ class ad_downloads
 	function switch_download()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if (!$INFO['d_section_close'])
 		{
 			$status = "On";
@@ -676,7 +676,7 @@ class ad_downloads
 	function show_edit_vars()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums  = Ibf::instance();
+		$ibforums  = Ibf::app();
 		$o_array   = array();
 		$o_array[] = array(1, "Yes");
 		$o_array[] = array(0, "No");
@@ -893,7 +893,7 @@ class ad_downloads
 		}
 
 		$ADMIN->html .= $SKIN->add_td_basic('If you would like the setting to be for all categories, choose a global answer (eg. yes, no, or a specific topic).<br>&nbsp;&nbsp;If you would like to configure these settings on a per-category basis, choose Per-Category.', 'left', 'catrow2');
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Do you want to accept files before being available for downloading?",
@@ -928,7 +928,7 @@ class ad_downloads
 	function edit_vars()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $HTTP_POST_VARS;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['d_max_dwnld_size'] == "")
 		{
@@ -1022,7 +1022,7 @@ class ad_downloads
 	function main_screen()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT cid FROM ibf_files_cats");
 		$cats = $stmt->rowCount();

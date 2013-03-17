@@ -32,7 +32,7 @@ class ad_stats
 	function ad_stats()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -124,7 +124,7 @@ class ad_stats
 	function show_views()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Statistic Center Results";
 
@@ -234,7 +234,7 @@ class ad_stats
 	function result_screen($mode = 'reg')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Statistic Center Results";
 
@@ -418,7 +418,7 @@ class ad_stats
 	function main_screen($mode = 'reg')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Statistic Center";
 

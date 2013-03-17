@@ -8,7 +8,7 @@ class Att
 	function __construct()
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (isset($ibforums->input['mid']))
 		{

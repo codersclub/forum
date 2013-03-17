@@ -31,7 +31,7 @@ class ad_settings
 	function ad_settings()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -361,7 +361,7 @@ class ad_settings
 	function mem_skins()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT sid FROM ibf_skins WHERE uid='" . $IN['oid'] . "'");
 		$old  = $stmt->fetch();
@@ -387,7 +387,7 @@ class ad_settings
 	function remove()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 
@@ -456,7 +456,7 @@ class ad_settings
 	function save_skin($type = 'add')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 
@@ -719,7 +719,7 @@ class ad_settings
 	function list_sets()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 

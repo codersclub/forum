@@ -12,7 +12,7 @@ class Member implements ArrayAccess, IteratorAggregate
 	 */
 	public function getFavorites()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Get Favs from ibf_favorites
 		$stmt = $ibforums->db

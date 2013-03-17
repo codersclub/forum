@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->Html .= $SKIN->add_td_row(array(
 		                                       "<b>The amount of Seconds to take off of flood control?</b><br>The amount the users flood control is decreased by when this item is used.",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])
@@ -25,7 +25,7 @@ class item
 	function on_add_edits($admin)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		require_once($INFO['base_dir'] . "sources/store/edit_check.php");
 		$is_their = row_check($INFO['sql_tbl_prefix'] . "members", "flood_control");
 		if (!$is_their)

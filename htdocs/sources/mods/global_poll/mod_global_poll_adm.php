@@ -33,7 +33,7 @@ class AdminGlobalPoll
 	{
 
 		global $ADMIN, $SKIN, $INFO, $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// let´s collect all polls and put them into a simple array
 		$i             = 0;
@@ -58,7 +58,7 @@ class AdminGlobalPoll
 	function save_config()
 	{
 		global $ADMIN, $master;
-		$ibforums              = Ibf::instance();
+		$ibforums              = Ibf::app();
 		$master['global_poll'] = $_POST['global_poll'];
 
 		$ADMIN->rebuild_config($master);
