@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
 		                                       "<b>Name Effect?</b><br>Name effect this item will carry.",
 		                                       $SKIN->form_dropdown("extra_one", array(
@@ -40,7 +40,7 @@ class item
 	function on_add_edits($admin)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		require_once($INFO['base_dir'] . "sources/store/edit_check.php");
 		$prefix = row_check($INFO['sql_tbl_prefix'] . "members", "name_prefix");
 		$suffix = row_check($INFO['sql_tbl_prefix'] . "members", "name_suffix");

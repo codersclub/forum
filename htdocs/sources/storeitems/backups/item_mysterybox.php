@@ -14,7 +14,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$Admin->html .= $SKIN->add_td_row(array(
 		                                       "<b>Only give items with a sell price above?</b><br>This will only give items out with a sellprice above what you set.",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])

@@ -158,7 +158,7 @@ class Reputation
 	function update_rep($new, $memid, $field)
 	{
 
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (time() - $ibforums->lastclick > 2)
 		{

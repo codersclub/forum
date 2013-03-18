@@ -31,7 +31,7 @@ class ad_langs
 	function ad_langs()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -76,7 +76,7 @@ class ad_langs
 	function remove()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -102,7 +102,7 @@ class ad_langs
 	function import()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -472,7 +472,7 @@ class ad_langs
 	function process_template_group($raw, $setid, $group, $isnew = 0)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$root_path = $INFO['base_dir'];
 
@@ -706,7 +706,7 @@ class ad_langs
 	function wrap_import()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Depreciated
 
@@ -748,7 +748,7 @@ class ad_langs
 	function list_current()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 
@@ -855,7 +855,7 @@ class ad_langs
 	{
 
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$errors = array();
 
@@ -995,7 +995,7 @@ class ad_langs
 	function import_error($error, $next_id)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->db->exec("DELETE FROM ibf_macro_name WHERE set_id='{$next_id['macro']}'");
 		$ibforums->db->exec("DELETE FROM ibf_macro WHERE macro_id='{$next_id['macro']}'");

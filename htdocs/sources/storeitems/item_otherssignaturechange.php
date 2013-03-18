@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
 		                                       "<b>Protected Groups:</b><br>The User groups who are not allowed to have their signatures changed. (Seperate with a comma \",\")",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])

@@ -31,7 +31,7 @@ class ad_cat
 	function ad_cat()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -95,7 +95,7 @@ class ad_cat
 	function reorder_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title  = "Category Re Order";
 		$ADMIN->page_detail = "To re-order the categories, simply choose the position number from the drop down box next to each category title, when you are satisfied with the ordering, simply hit the submit button at the bottom of the form";
@@ -177,7 +177,7 @@ class ad_cat
 	function do_reorder()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT id from ibf_categories");
 
@@ -201,7 +201,7 @@ class ad_cat
 	function remove_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 
@@ -283,7 +283,7 @@ class ad_cat
 	function do_remove()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['c'] == "")
 		{
@@ -314,7 +314,7 @@ class ad_cat
 	function edit_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$subcats = array();
 
@@ -406,7 +406,7 @@ class ad_cat
 	function do_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$IN['CAT_NAME'] = trim($IN['CAT_NAME']);
 
@@ -446,7 +446,7 @@ class ad_cat
 	function show_cats()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title  = "Category and Forums Overview";
 		$ADMIN->page_detail = "<img src='{$SKIN->img_url}/acp_rules.gif' border='0'> <b>Forum Rules</b> This allows you to add/edit or remove rules for this forum
@@ -577,7 +577,7 @@ class ad_cat
 	function new_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$cat_name = "";
 
@@ -657,7 +657,7 @@ class ad_cat
 	function do_new()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$IN['CAT_NAME'] = trim($IN['CAT_NAME']);
 
@@ -702,7 +702,7 @@ class ad_cat
 	function delete_forum_link($children, $row)
 	{
 		global $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		return (!count($children[$row['id']]) > 0)
 			? "<center><a href='{$ADMIN->base_url}&act=forum&code=delete&f={$row['id']}'>Delete</a> | "
@@ -713,7 +713,7 @@ class ad_cat
 	function subforums_addtorow($children, $id, $level)
 	{
 		global $ADMIN, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!isset($children[$id]) || count($children[$id]) <= 0)
 		{

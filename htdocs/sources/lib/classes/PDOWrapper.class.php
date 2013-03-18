@@ -6,7 +6,6 @@
  * @method bool rollBack ()
  * @method bool inTransaction ()
  * @method bool setAttribute ($attribute, $value)
- * @method int exec ($statement)
  * @method string lastInsertId ($name = null)
  * @method mixed errorCode ()
  * @method array errorInfo ()
@@ -111,5 +110,38 @@ class PDOWrapper
 	public static function getAvailableDrivers()
 	{
 		return PDO::getAvailableDrivers();
+	}
+
+	/**
+	 * (PHP 5 &gt;= 5.1.0, PECL pdo &gt;= 0.1.0)<br/>
+	 * Execute an SQL statement and return the number of affected rows
+	 * @link http://php.net/manual/en/pdo.exec.php
+	 * @param string $statement <p>
+	 * The SQL statement to prepare and execute.
+	 * </p>
+	 * <p>
+	 * Data inside the query should be properly escaped.
+	 * </p>
+	 * @return int <b>PDO::exec</b> returns the number of rows that were modified
+	 * or deleted by the SQL statement you issued. If no rows were affected,
+	 * <b>PDO::exec</b> returns 0.
+	 * </p>
+	 * This function may
+	 * return Boolean <b>FALSE</b>, but may also return a non-Boolean value which
+	 * evaluates to <b>FALSE</b>. Please read the section on Booleans for more
+	 * information. Use the ===
+	 * operator for testing the return value of this
+	 * function.
+	 * <p>
+	 * The following example incorrectly relies on the return value of
+	 * <b>PDO::exec</b>, wherein a statement that affected 0 rows
+	 * results in a call to <b>die</b>:
+	 * <code>
+	 * $db->exec() or die(print_r($db->errorInfo(), true));
+	 * </code>
+	 */
+	public function exec($statement)
+	{
+		return $this->_pdo->exec($statement);
 	}
 }

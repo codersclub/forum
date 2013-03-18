@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
 		                                       "<b>Minimum amount of characters for title?</b><br>The least amount of charaters the new title can have.",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])
@@ -33,7 +33,7 @@ class item
 	function on_add_edits($admin)
 	{
 		global $ADMIN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$checker = $INFO['base_dir'] . "sources/store/edit_check.php";
 		require_once($checker);

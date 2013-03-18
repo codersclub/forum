@@ -31,7 +31,7 @@ class session
 	function authorise()
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//-------------------------------------------------
 		// Before we go any lets check the load settings..
@@ -497,7 +497,7 @@ class session
 	function load_member($member_id = 0)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$member_id = intval($member_id);
 
@@ -973,7 +973,7 @@ class session
 	//----------------------------------------------------
 	function forum_recount($fids = array())
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!count($fids))
 		{
@@ -1179,7 +1179,7 @@ class session
 	function create_member_session()
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($this->member['id'])
 		{
@@ -1309,7 +1309,7 @@ class session
 	function create_guest_session()
 	{
 		global $std, $ibforums;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------
 		// Remove the defunct sessions
@@ -1360,7 +1360,7 @@ class session
 	function create_bot_session($bot)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$session_id = $bot . "_session";
 

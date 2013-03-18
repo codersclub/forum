@@ -31,7 +31,7 @@ class ad_settings
 	function ad_settings()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -122,7 +122,7 @@ class ad_settings
 	function css_search_frames()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		print "<html>
 				 <head><title>Search</title></head>
@@ -234,7 +234,7 @@ class ad_settings
 	function print_css_searchlinks()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+---------------------------------------
 		// GET THE TEMPLATES THAT THIS CSS USES
@@ -316,7 +316,7 @@ class ad_settings
 	function print_searchlinks()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['bypass'] == 1)
 		{
@@ -392,7 +392,7 @@ class ad_settings
 	function do_message($message = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html = "<tr><td id='tdrow1' height='100%' align='center' valign='middle'><br><br><b>$message</b><br><br>&nbsp;</td></tr>";
 
@@ -405,7 +405,7 @@ class ad_settings
 	function print_search_box()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->start_form(array(
 		                                       1 => array('code', 'searchlinks'),
@@ -436,7 +436,7 @@ class ad_settings
 	function search_frames()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		print "<html>
 				 <head><title>Search</title></head>
@@ -457,7 +457,7 @@ class ad_settings
 	function compare_frames()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		print "<html>
 				 <head>
@@ -483,7 +483,7 @@ class ad_settings
 	function print_compare_top()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$content = $IN['content'] == 'orig'
 			? 'Original Template'
@@ -541,7 +541,7 @@ class ad_settings
 	function macro_one()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->start_form(array(
 		                                       1 => array('code', 'macro_two'),
@@ -576,7 +576,7 @@ class ad_settings
 	function macro_two()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['lookup'] == "")
 		{

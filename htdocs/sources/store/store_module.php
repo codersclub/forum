@@ -16,7 +16,7 @@ class module
 
 	function topic_overcheck($info)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($this->lock_inc)
 		{
 			return false;

@@ -105,7 +105,7 @@ class ad_langs
 	function make_default()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$new_dir = stripslashes(urldecode(trim($_GET['id'])));
 
@@ -129,7 +129,7 @@ class ad_langs
 	function doimport()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['tarball'] == "")
 		{
@@ -226,7 +226,7 @@ class ad_langs
 	function import()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "The tar-chive that you wish to import must reside in 'archive_in' and be a valid tar-chive uploaded in binary format.";
 		$ADMIN->page_title  = "Language Pack Import";
@@ -277,7 +277,7 @@ class ad_langs
 	function export()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -363,7 +363,7 @@ class ad_langs
 	function show_file()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -493,7 +493,7 @@ class ad_langs
 	function edit_info()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -530,7 +530,7 @@ class ad_langs
 	function add_language()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -612,7 +612,7 @@ class ad_langs
 	function remove()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 
@@ -667,7 +667,7 @@ class ad_langs
 	function save_langfile()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 
@@ -768,7 +768,7 @@ class ad_langs
 	function do_form($method = 'add', $id = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 
@@ -932,7 +932,7 @@ class ad_langs
 	function list_current()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($INFO['default_language'] == "")
 		{

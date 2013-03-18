@@ -31,7 +31,7 @@ class ad_mod
 	function ad_mod()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -89,7 +89,7 @@ class ad_mod
 	function do_delete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['mid'] == "")
 		{
@@ -124,7 +124,7 @@ class ad_mod
 	function do_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['mid'] == "")
 		{
@@ -186,7 +186,7 @@ class ad_mod
 	function add_mod()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['fid'] == "")
 		{
@@ -338,7 +338,7 @@ class ad_mod
 	function mod_form($type = 'add')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$group = array();
 
@@ -636,7 +636,7 @@ class ad_mod
 	function add_one()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//-----------------------------
 		// Grab and serialize the input
@@ -736,7 +736,7 @@ class ad_mod
 	function add_two()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Are we adding a group as a mod? If so, bounce straight to the mod perms form
 
@@ -811,7 +811,7 @@ class ad_mod
 	function show_list()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title  = "Moderator Control Overview";
 		$ADMIN->page_detail = "This section allows you to edit, remove and add new moderators to your forums";
@@ -965,7 +965,7 @@ class ad_mod
 	function subforums_addtorow($children, $id, $level, $mods)
 	{
 		global $ADMIN, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!(isset($children[$id])) || (count($children[$id]) <= 0))
 		{

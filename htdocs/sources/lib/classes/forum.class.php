@@ -8,7 +8,7 @@ class forum
 	public function update_last_topic_time()
 	{
 
-		$last_topic = Ibf::instance()->db->query("SELECT
+		$last_topic = Ibf::app()->db->query("SELECT
 				t.last_post,
 				t.last_poster_id,
 				t.last_poster_name,
@@ -21,7 +21,7 @@ class forum
 
 		if ($last_topic)
 		{
-			Ibf::instance()->db->exec("UPDATE ibf_forums f
+			Ibf::app()->db->exec("UPDATE ibf_forums f
 				    SET
 						f.last_post		= '{$last_topic['last_post']}',
 						f.last_poster_id= '{$last_topic['last_poster_id']}',

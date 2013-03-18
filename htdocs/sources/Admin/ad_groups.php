@@ -31,7 +31,7 @@ class ad_groups
 	function ad_groups()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -127,7 +127,7 @@ class ad_groups
 	function delete_mask()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------------------
 		// Check for a valid ID
@@ -182,7 +182,7 @@ class ad_groups
 	function add_new_perm()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$IN['new_perm_name'] = trim($IN['new_perm_name']);
 
@@ -252,7 +252,7 @@ class ad_groups
 	function preview_forums()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------------------
 		// Check for a valid ID
@@ -452,7 +452,7 @@ class ad_groups
 	function remove_mask()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------------------
 		// Check for a valid ID
@@ -534,7 +534,7 @@ class ad_groups
 	function view_perm_users()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------------------
 		// Check for a valid ID
@@ -632,7 +632,7 @@ class ad_groups
 	function permsplash()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "Forum Permission Mask [ HOME ]";
 
@@ -814,7 +814,7 @@ class ad_groups
 	function forum_perms()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -1123,7 +1123,7 @@ class ad_groups
 	function edit_name_perm()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------
 		// Check for legal ID
@@ -1163,7 +1163,7 @@ class ad_groups
 	function do_forum_perms()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------
 		// Check for legal ID
@@ -1390,7 +1390,7 @@ class ad_groups
 	function delete_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -1469,7 +1469,7 @@ class ad_groups
 	function do_delete()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -1526,7 +1526,7 @@ class ad_groups
 	function save_group($type = 'edit')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['g_title'] == "")
 		{
@@ -1690,7 +1690,7 @@ class ad_groups
 	function group_form($type = 'edit')
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$all_groups = array(0 => array('none', 'Don\'t Promote'));
 
@@ -2234,7 +2234,7 @@ class ad_groups
 	function main_screen()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_title = "User Groups";
 

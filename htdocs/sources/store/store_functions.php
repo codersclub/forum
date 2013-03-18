@@ -85,7 +85,7 @@ class lib
 
 	function check_item_inventory($userid, $max, $addon = 0)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($max <= 0)
 		{
 			return false;
@@ -101,7 +101,7 @@ class lib
 
 	function load_extra($itemid)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$stmt     = $ibforums->db->query("SELECT item_id FROM ibf_store_inventory WHERE i_id='{$itemid}' LIMIT 1");
 		$itemid   = $stmt->fetch();
 		$itemid   = $itemid['item_id'];
@@ -252,7 +252,7 @@ class lib
 
 	function add_reason($userid, $name, $toid, $toname, $sum, $reson, $users_reson, $type)
 	{
-		$ibforums    = Ibf::instance();
+		$ibforums    = Ibf::app();
 		$time        = time();
 		$reson       = addslashes(stripslashes($reson));
 		$users_reson = addslashes(stripslashes($users_reson));
@@ -294,7 +294,7 @@ class lib
 	function itemerror($message)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$std->Error(array('LEVEL' => 1, 'MSG' => 'any_error', 'EXTRA' => $message));
 

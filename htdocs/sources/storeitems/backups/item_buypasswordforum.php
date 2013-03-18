@@ -14,7 +14,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$stmt     = $ibforums->db->query("SELECT id,name FROM ibf_forums WHERE password!='' ORDER BY name DESC");
 		while ($r = $stmt->fetch())
 		{

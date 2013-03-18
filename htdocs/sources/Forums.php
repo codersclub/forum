@@ -60,7 +60,7 @@ class Forums
 	//+----------------------------------------------------------------
 	function is_moderator($forum_id = 0)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($ibforums->member['id'] and
 		    ($ibforums->member['g_is_supmod'] or
 		     //vot: check for single moderator
@@ -80,7 +80,7 @@ class Forums
 	function __construct()
 	{
 		global $print, $skin_universal;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		require ROOT_PATH . "sources/lib/post_parser.php";
 
@@ -353,7 +353,7 @@ class Forums
 
 	function get_tree()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// for non-filter mode
 		if (!$ibforums->member['id'] or !$ibforums->member['show_filter'] or !count($this->forums_id) or $this->mode_id == -3)
@@ -425,7 +425,7 @@ class Forums
 	//--------------------------------------------
 	function get_moderators()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// get ids from that we will collect moderators
 		$this->ids = $this->get_tree();
@@ -513,7 +513,7 @@ class Forums
 	function show_subforums()
 	{
 
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ibforums->lang = $ibforums->functions->load_words($ibforums->lang, 'lang_boards', $ibforums->lang_id);
 
@@ -557,7 +557,7 @@ class Forums
 
 	function process_forum($forum_id = "", $forum_data = array())
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//--------------------------------------
 		// Check permissions...
@@ -652,7 +652,7 @@ class Forums
 	function show_rules()
 	{
 		global $print, $skin_universal;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+--------------------------------------------
 		// Do we have permission to view these rules?
@@ -718,7 +718,7 @@ class Forums
 	function authenticate_user()
 	{
 		global $print;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($ibforums->input['f_password'] == "")
 		{
@@ -738,7 +738,7 @@ class Forums
 	//+----------------------------------------------------------------------------------
 	function check_access()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$return   = 1;
 
 		if ($ibforums->functions->check_perms($this->forum['read_perms']) == TRUE)
@@ -770,7 +770,7 @@ class Forums
 	function forum_login()
 	{
 		global $print, $skin_universal;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (empty($ibforums->member['id']))
 		{
@@ -801,7 +801,7 @@ class Forums
 		// are we checking for user authentication via the log in form
 		// for a private forum w/password protection?
 
-		Ibf::instance()->input['L'] == 1
+		Ibf::app()->input['L'] == 1
 			? $this->authenticate_user()
 			: $this->render_forum();
 	}
@@ -815,7 +815,7 @@ class Forums
 	function render_forum()
 	{
 		global $print;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$bad_entry = $this->check_access();
 
@@ -1304,7 +1304,7 @@ class Forums
 
 	function render_entry($topic)
 	{
-		$ibforums           = Ibf::instance();
+		$ibforums           = Ibf::app();
 		$topic['last_text'] = $ibforums->lang['last_post_by'];
 
 		$topic['last_poster'] = ($topic['last_poster_id'])
@@ -1688,14 +1688,14 @@ class Forums
 
 	function get_last_date($topic)
 	{
-		return Ibf::instance()->functions->get_date($topic['last_post'], 'SHORT');
+		return Ibf::app()->functions->get_date($topic['last_post'], 'SHORT');
 	}
 
 	// Song * NEW
 
 	function get_read_topics($tids)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT fid,tid,logTime FROM ibf_log_topics WHERE mid='" . $ibforums->member['id'] . "' and
 			tid IN ({$tids})");
@@ -1731,7 +1731,7 @@ class Forums
 
 	function allow_topic()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (!$this->forum['sub_can_post'] or
 		    !$ibforums->member['g_post_new_topics'] or

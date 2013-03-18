@@ -82,26 +82,6 @@ if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0)
 require_once ROOT_PATH . "autoload.php";
 require ROOT_PATH . "sources/functions.php";
 
-class Ibf extends Core{
-
-	var $vars       = "";
-	var $version    = '1.2';
-	var $acpversion = '12005';
-	var $base_url   = '';
-
-	public function init()
-	{
-		$this->vars['TEAM_ICON_URL']   = $INFO['html_url'] . '/team_icons';
-		$this->vars['AVATARS_URL']     = $INFO['html_url'] . '/avatars';
-		$this->vars['EMOTICONS_URL']   = $INFO['html_url'] . '/emoticons';
-		$this->vars['mime_img']        = $INFO['html_url'] . '/mime_types';
-
-		$this->base_url = $INFO['board_url']."/index.".$INFO['php_ext'].'?';
-	}
-}
-
-
-
 /*-----------------------------------------------
   Import $INFO
  ------------------------------------------------*/
@@ -116,13 +96,16 @@ $INFO['mm_groups'] = array(
 	$INFO['comoderator_group']
 );
 
-$ibforums = Ibf::instance();
+$Debug = Debug::instance();
+$Debug->startTimer();
+
+Ibf::registerApplication(new AdminApplication());
+
+$ibforums = Ibf::app();
 $std     = &$ibforums->functions;
 
 $ibforums->init();
 
-$Debug = new Debug;
-$Debug->startTimer();
 
 /*-----------------------------------------------
   Make sure our data is reset on each invocation
@@ -563,7 +546,7 @@ else
 function do_login($message="") {
 	global $IN, $ADMIN, $SKIN, $std;
 
-	$ibforums = Ibf::instance();
+	$ibforums = Ibf::app();
 
 	//-------------------------------------------------------
 	// Remove all out of date sessions, like a good boy. Woof.

@@ -2866,7 +2866,7 @@ class post_parser
 
 	function regex_build_url_auto_parser($url = array())
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$skip_it = 0;
 

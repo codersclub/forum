@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
 		                                       "<b>Add How much to post count?</b><br>The amount of posts that are added to the members post count.",
 		                                       $SKIN->form_input("extra_one", $EXTRA['extra_one'])
@@ -24,7 +24,7 @@ class item
 	function on_add_edits($admin)
 	{
 		global $ADMIN, $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$checker  = $INFO['base_dir'] . "sources/store/edit_check.php";
 		require_once($checker);
 		$is_their = row_check($INFO['sql_tbl_prefix'] . "members", "post_addon");
