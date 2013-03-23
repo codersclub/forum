@@ -1267,7 +1267,7 @@ class Moderate
 
 		$old_topic['posts']++;
 
-		$ibforums->db->updateRow('ibf_topic', $updater, 'tid=' . $ibforums->db->quote($this->topic['tid']));
+		$ibforums->db->updateRow('ibf_topics', $updater, 'tid=' . $ibforums->db->quote($this->topic['tid']));
 
 		//----------------------------------------------------
 		// Fix up the "new_topic" attribute.
