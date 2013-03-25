@@ -2775,7 +2775,7 @@ class Moderate
 								    WHERE p.pid='" . $post['pid'] . "'")->fetch();
 
 			$count = 1;
-			$out   = $idx->process_one_post($row, 0, $count, true);
+			$out   = (new Topics())->process_one_post($row, 0, $count, true);
 			echo $print->prepare_output($out);
 			die;
 		}
@@ -3915,45 +3915,53 @@ class Moderate
 
 		$time = time();
 
-		$ibforums->db->exec("UPDATE ibf_posts
+		$ibforums->db->prepare("UPDATE ibf_posts
 			    SET
-				topic_id='" . $new['tid'] . "',
-				forum_id='" . $new['forum_id'] . "',
-				edit_time='" . $time . "',
+				topic_id=?,
+				forum_id=?,
+				edit_time=?,
 				post=Concat(post,'\n\n" . addslashes($moved_line) . "')
-			    WHERE pid IN ($idz)");
+			    WHERE pid IN (" . $placeholders . ")")
+			->execute(array_merge([$new['tid'], $new['forum_id'], $time], $idz));
 
 		// Move the search words to the new Topis
-		$ibforums->db->exec("UPDATE
+		//todo: is that still needed?
+		$ibforums->db->prepare("UPDATE
 				ibf_search
 			    SET
-				fid='{$new['forum_id']}',
-				tid='{$new['tid']}'
+				fid=?,
+				tid=?
 			    WHERE
-				pid IN ($idz)");
+				pid IN (" . $placeholders . ")")
+			->execute(array_merge([$new['forum_id'], $new['tid']], $idz));
+
 
 		// Update New_Topic
-		$ibforums->db->exec("UPDATE ibf_posts
+		$ibforums->db->prepare("UPDATE ibf_posts
 			    SET new_topic=0
-			    WHERE topic_id='" . $new['tid'] . "'");
+			    WHERE topic_id=?")
+			->execute([$new['tid']]);
 
-		$stmt = $ibforums->db->query("SELECT
+		$first_post = $ibforums->db->prepare("SELECT
 				pid,
 				author_name,
 				author_id,
 				post_date
 			    FROM ibf_posts
-			    WHERE topic_id='" . $new['tid'] . "'
+			    WHERE topic_id=?
 			    ORDER BY post_date
-			    LIMIT 1");
+			    LIMIT 0,1")
+			->execute([$new['tid']])
+			->fetch();
 
-		if ($first_post = $stmt->fetch())
+		if (!empty($first_post))
 		{
-			$ibforums->db->exec("UPDATE ibf_posts
+			$ibforums->db->prepare("UPDATE ibf_posts
 				    SET
 					new_topic=1,
 					delete_after=0
-				    WHERE pid='" . $first_post['pid'] . "'");
+				    WHERE pid=?")
+				->execute([$first_post['pid']]);
 		}
 
 		// Recount OLD & NEW topic stats
@@ -4133,7 +4141,7 @@ class Moderate
 			header('Content-Type: text/html; charset=windows-1251');
 
 			$count = 1;
-			$out   = $idx->process_one_post($row, 0, $count, true);
+			$out   = (new Topics())->process_one_post($row, 0, $count, true);
 			echo $print->prepare_output($out);
 			die;
 		}
