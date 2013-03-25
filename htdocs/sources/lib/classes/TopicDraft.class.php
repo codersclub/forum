@@ -112,7 +112,7 @@ class TopicDraft
 
 	function delete()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$query    = 'DELETE FROM ' . self::table_name . ' WHERE id = ' . $ibforums->db->quote($this->id);
 		$ibforums->db->query($query);
 	}

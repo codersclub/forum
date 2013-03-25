@@ -31,7 +31,7 @@ class ad_settings
 	function ad_settings()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -115,7 +115,7 @@ class ad_settings
 	function upload_single()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$FILE_NAME = $_FILES['FILE_UPLOAD']['name'];
 		$FILE_SIZE = $_FILES['FILE_UPLOAD']['size'];
@@ -155,7 +155,7 @@ class ad_settings
 	function upload_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		require './sources/Admin/skin_info.php';
 
@@ -220,7 +220,7 @@ class ad_settings
 	function download_group($return = 0, $setid = "", $group = "")
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($setid != "")
 		{
@@ -277,7 +277,7 @@ class ad_settings
 	function show_cats()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -531,7 +531,7 @@ class ad_settings
 	function edit_info()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -573,7 +573,7 @@ class ad_settings
 	function add_templates()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -650,7 +650,7 @@ class ad_settings
 	function remove()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 
@@ -678,7 +678,7 @@ class ad_settings
 	function edit_bit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//-----------------------------------
 		// Check for valid input...
@@ -831,7 +831,7 @@ class ad_settings
 	function do_edit()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//+-------------------------------
 		// Check incoming
@@ -952,7 +952,7 @@ class ad_settings
 	function do_form()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -1033,7 +1033,7 @@ class ad_settings
 	function list_current()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$form_array = array();
 

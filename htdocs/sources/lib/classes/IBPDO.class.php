@@ -5,6 +5,7 @@
  */
 class IBPDO extends PDOWrapper
 {
+	use Mixin;
 
 	function __construct($INFO)
 	{
@@ -76,10 +77,16 @@ class IBPDO extends PDOWrapper
 				$result = implode(',', array_map(array($this, 'quote'), $values));
 				break;
 			case 'fields':
-				$result = implode(',', array_map(function ($item)
-				{
-					return ':' . $item;
-				}, $values));
+				$result = implode(
+					',',
+					array_map(
+						function ($item)
+						{
+							return ':' . $item;
+						},
+						$values
+					)
+				);
 				break;
 			default:
 				throw new PDOException('Wrong type for compileInsertValues');
@@ -167,6 +174,60 @@ class IBPDO extends PDOWrapper
 			$sql .= ' WHERE ' . $where;
 		}
 		return $this->exec($sql);
+	}
+
+	protected function beforeQuery()
+	{
+		$this->raiseEvent('beforeQuery', new EventObject($this));
+	}
+
+	protected function afterQuery()
+	{
+		$this->raiseEvent('afterQuery', new EventObject($this));
+	}
+
+	public function query($statement)
+	{
+		$this->beforeQuery();
+		$result = parent::query($statement);
+		$this->afterQuery();
+		return $result;
+	}
+
+	protected function beforeExec()
+	{
+		$this->raiseEvent('beforeExec', new EventObject($this));
+	}
+
+	protected function afterExec()
+	{
+		$this->raiseEvent('afterExec', new EventObject($this));
+	}
+
+	public function exec($statement)
+	{
+		$this->beforeExec();
+		$result = parent::exec($statement);
+		$this->afterExec();
+		return $result;
+	}
+
+	protected function beforePrepare()
+	{
+		$this->raiseEvent('beforePrepare', new EventObject($this));
+	}
+
+	protected function afterPrepare()
+	{
+		$this->raiseEvent('afterPrepare', new EventObject($this));
+	}
+
+	public function prepare($statement, array $driver_options = null)
+	{
+		$this->beforePrepare();
+		$result = parent::prepare($statement, $driver_options);
+		$this->afterPrepare();
+		return $result;
 	}
 
 }

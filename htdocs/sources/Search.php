@@ -2406,7 +2406,7 @@ class Search
 	function convert_highlite_words($words = "")
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$words = $std->clean_value(trim(urldecode($words)));
 
@@ -2709,7 +2709,7 @@ class Search
 	function subforums_search_list($children, $id, $level, &$temp_html, $all_checkboxes)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if (isset($children[$id]) and count($children[$id]) > 0)
 		{

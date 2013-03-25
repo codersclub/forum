@@ -414,7 +414,11 @@ $INFO['bad_upload_log_path'] = '';//Set the directory for bad format uploads
 // donate: электронные кошельки
 $INFO['epurse_yamoney']		=	'41001151000887';
 //
+$INFO['enable_exception_handling'] = TRUE;
+$INFO['enable_errors_handling'] = FALSE;
+$INFO['error_reporting'] = E_ALL & ~E_NOTICE;
 $INFO['errors_receivers'] = array(2);
+
 $INFO['database_error_page'] = "<html><head><title>Invision Power Board Database Error</title><style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head>
 <body>
 	<br><br><blockquote><b>There appears to be an error with the {$INFO['board_name']} database.</b><br>
@@ -423,3 +427,6 @@ $INFO['database_error_page'] = "<html><head><title>Invision Power Board Database
 	<br><br><b>Error Returned</b><br>
 	<form name='mysql'><textarea rows='15' cols='160'><#ERROR_DESCRIPTION#></textarea></form><br>We apologise for any inconvenience</blockquote>
 </body></html>";
+$INFO['errors_text'] = 'An %TYPE% has been caught in %FILE% on line %LINE% with message
+%MESSAGE%
+';

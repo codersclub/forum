@@ -121,7 +121,7 @@ class ad_prefs
 	function get_html()
 	{
 		global $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$hit_muhl = <<<EOF
 <html>

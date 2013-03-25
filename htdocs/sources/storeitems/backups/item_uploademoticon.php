@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
 		                                       "<b>Clickable Emoticion?</b><br>yes to add a Emoticion as clickable, no to not add it as a clickable Emoticion/",

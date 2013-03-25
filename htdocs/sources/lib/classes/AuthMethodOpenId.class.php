@@ -148,7 +148,7 @@ class AuthMethodOpenId extends AuthBasic
 	public function sessionDataIsValid($member)
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		return ($std->my_getcookie('openid_url') == $member['openid_url']) || true;
 	}
 

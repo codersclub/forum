@@ -106,7 +106,7 @@ if (!class_exists('Attachment'))
 		{
 			$this->hits++;
 
-			$ibforums = Ibf::instance();
+			$ibforums = Ibf::app();
 			if (!$this->attach_id)
 			{
 				return;
@@ -329,7 +329,7 @@ if (!class_exists('Attachment'))
 		private static function getAttachmentsList($id, $attach_type = self::ITEM_TYPE_POST, $attach_id = NULL)
 		{
 
-			$ibforums = Ibf::instance();
+			$ibforums = Ibf::app();
 
 			settype($id, 'integer');
 
@@ -369,7 +369,7 @@ if (!class_exists('Attachment'))
 
 		public static function getById($attach_id)
 		{
-			$ibforums = Ibf::instance();
+			$ibforums = Ibf::app();
 			settype($attach_id, 'integer');
 			$query = "SELECT *
 		    FROM ibf_post_attachments
@@ -421,7 +421,7 @@ if (!class_exists('Attachment'))
 
 		public function saveToDB($save_to = 'post')
 		{
-			$ibforums = Ibf::instance();
+			$ibforums = Ibf::app();
 
 			$array = $this->toArray();
 			if (!$this->from_post_row)
@@ -473,7 +473,7 @@ if (!class_exists('Attachment'))
 		public function delteFromDB()
 		{
 			// TODO: сделать удаление только нужного объекта, а из ibf_attachments_link удалять только если не осталось ссылок в ibf_attachments_link
-			$ibforums = Ibf::instance();
+			$ibforums = Ibf::app();
 
 			if (!$this->from_post_row)
 			{
@@ -531,7 +531,7 @@ if (!class_exists('Attachment'))
 		function moveTo($id, $item_type)
 		{
 			$id        = intval($id);
-			Ibf::instance()->db->prepare("UPDATE ibf_attachments_link
+			Ibf::app()->db->prepare("UPDATE ibf_attachments_link
 			SET item_type = :new_type, item_id = :new_id
 			WHERE attach_id = :attach
 				AND item_type = :type

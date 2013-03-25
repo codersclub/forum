@@ -13,7 +13,7 @@ class fav
 
 	function __construct()
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		if ($ibforums->input['show'] or $ibforums->input['topic'])
 		{
 			$this->base_url = $ibforums->base_url;
@@ -39,20 +39,20 @@ class fav
 		else{
 			global $print;
 			$print->redirect_screen();
-			
+
 		}
 	}
 
 	private function doTopic($topic_id)
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$topic = $this->getTopicInfo($topic_id);
 
 		//add or delete topic
 		if ($topic === NULL)
 		{
-			if (in_array($topic_id, Ibf::instance()->member['favorites']))
+			if (in_array($topic_id, Ibf::app()->member['favorites']))
 			{ //delete from favorites?
 				$this->deleteTopic($topic_id);
 				$topic = [
@@ -93,7 +93,7 @@ class fav
 			$this->add($topic_id);
 		} else
 		{
-			Ibf::instance()->functions->Error(['LEVEL' => 1, 'MSG' => 'too_many_favs', 'EXTRA' => $this->max_fav]);
+			Ibf::app()->functions->Error(['LEVEL' => 1, 'MSG' => 'too_many_favs', 'EXTRA' => $this->max_fav]);
 		}
 	}
 
@@ -103,13 +103,13 @@ class fav
 	 */
 	protected function add($topic_id)
 	{
-		$mid = (int)Ibf::instance()->member['id'];
-		Ibf::instance()->db
+		$mid = (int)Ibf::app()->member['id'];
+		Ibf::app()->db
 			->prepare("INSERT INTO ibf_favorites (mid,tid) VALUES (:mid, :tid)")
 			->bindParam(':mid', $mid, PDO::PARAM_INT)
 			->bindParam(':tid', $topic_id, PDO::PARAM_INT)
 			->execute();
-		Ibf::instance()->member['favorites'][] = $topic_id;
+		Ibf::app()->member['favorites'][] = $topic_id;
 	}
 
 	/**
@@ -128,14 +128,14 @@ class fav
 	 */
 	protected function delete($topic_id)
 	{
-		$mid = (int)Ibf::instance()->member['id'];
-		Ibf::instance()->db
+		$mid = (int)Ibf::app()->member['id'];
+		Ibf::app()->db
 			->prepare("DELETE FROM ibf_favorites WHERE mid= :mid AND tid = :tid")
 			->bindParam(':mid', $mid, PDO::PARAM_INT)
 			->bindParam(':tid', $topic_id, PDO::PARAM_INT)
 			->execute();
-		$key = array_search($topic_id, Ibf::instance()->member['favorites']);
-		unset(Ibf::instance()->member['favorites'][$key]);
+		$key = array_search($topic_id, Ibf::app()->member['favorites']);
+		unset(Ibf::app()->member['favorites'][$key]);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class fav
 	protected function getTopicInfo($topic_id)
 	{
 		settype($topic_id, 'int');
-		$info = Ibf::instance()->db
+		$info = Ibf::app()->db
 			->prepare("SELECT tid, forum_id FROM ibf_topics WHERE tid=:tid")
 			->bindParam(':tid', $topic_id, PDO::PARAM_INT)
 			->execute()
@@ -158,7 +158,7 @@ class fav
 			return [
 				'topic_id'    => (int)$info['tid'],
 				'forum_id'    => (int)$info['forum_id'],
-				'is_favorite' => in_array($topic_id, Ibf::instance()->member['favorites'])
+				'is_favorite' => in_array($topic_id, Ibf::app()->member['favorites'])
 			];
 		}
 	}
@@ -170,7 +170,7 @@ class fav
 	protected function redirect($topic)
 	{
 		global $print;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($ibforums->input['js'] and $ibforums->input['linkID'])
 		{
@@ -204,7 +204,7 @@ class fav
 	 */
 	public function canTopicBeAdded($topic_id)
 	{
-		return count(Ibf::instance()->member['favorites']) < $this->max_fav;
+		return count(Ibf::app()->member['favorites']) < $this->max_fav;
 	}
 
 	/**
@@ -214,7 +214,7 @@ class fav
 	{
 		global $print;
 
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$query = "
 			SELECT f.tid, t.tid AS topic_id, t.title, t.starter_id, t.last_poster_id, t.last_post,

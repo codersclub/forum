@@ -36,7 +36,7 @@ class admin_functions
 	function admin_functions()
 	{
 		global $INFO, $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->img_url  = $INFO['html_url'] . '/sys-img';
 		$this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
@@ -63,7 +63,7 @@ class admin_functions
 	function get_date($date = "", $method = "")
 	{
 		global $INFO, $IN, $MEMBER;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->time_options = array(
 			'JOINED' => $INFO['clock_joined'],
@@ -108,7 +108,7 @@ class admin_functions
 	function save_log($action = "")
 	{
 		global $INFO, $IN, $MEMBER;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$data = [
 			'act'        => $IN['act'],
@@ -135,7 +135,7 @@ class admin_functions
 	function get_tar_names($start = 'lang-')
 	{
 		global $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Remove trailing slashes..
 
@@ -178,7 +178,7 @@ class admin_functions
 	{
 
 		global $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		// Strip off trailing slashes...
 
@@ -247,7 +247,7 @@ class admin_functions
 	function rm_dir($file)
 	{
 		global $INFO;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$errors = 0;
 
@@ -307,7 +307,7 @@ class admin_functions
 	function rebuild_config($new = "")
 	{
 		global $IN, $std, $ADMIN, $root_path;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//-----------------------------------------
 		// Check to make sure this is a valid array
@@ -402,7 +402,7 @@ class admin_functions
 	function compile_forum_perms()
 	{
 		global $IN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$r_array = array('READ' => '', 'REPLY' => '', 'START' => '', 'UPLOAD' => '');
 
@@ -481,7 +481,7 @@ class admin_functions
 	function print_popup()
 	{
 		global $IN, $INFO, $std, $SKIN, $use_gzip;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$html = "<html>
 		          <head><title>Remote</title>
@@ -509,7 +509,7 @@ class admin_functions
 	function output()
 	{
 		global $IN, $INFO, $std, $SKIN, $use_gzip;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$html = $SKIN->print_top($this->page_title, $this->page_detail);
 		$html .= $this->html;
@@ -569,7 +569,7 @@ class admin_functions
 	function error($error = "", $is_popup = 0)
 	{
 		global $IN, $INFO, $std, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->page_title  = "Admin CP Message";
 		$this->page_detail = "&nbsp;";
@@ -601,7 +601,7 @@ class admin_functions
 	function done_screen($title, $link_text = "", $link_url = "")
 	{
 		global $IN, $INFO, $std, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->page_title  = $title;
 		$this->page_detail = "The action was executed successfully";
@@ -623,7 +623,7 @@ class admin_functions
 	function info_screen($text = "", $title = 'Safe Mode Restriction Warning')
 	{
 		global $IN, $INFO, $std, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->page_title  = $title;
 		$this->page_detail = "Please note the following:";
@@ -652,7 +652,7 @@ class admin_functions
 	function menu()
 	{
 		global $IN, $std, $INFO, $PAGES, $CATS, $SKIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$links = $this->build_tree();
 
@@ -675,7 +675,7 @@ class admin_functions
 	function build_tree()
 	{
 		global $IN, $std, $INFO, $PAGES, $CATS, $SKIN, $DESC, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$html  = "";
 		$links = "";
@@ -714,7 +714,7 @@ class admin_functions
 	function build_jump_menu()
 	{
 		global $IN, $std, $PAGES, $CATS, $SKIN, $DESC;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$html = "<script type='text/javascript'>
 				 function dojump()

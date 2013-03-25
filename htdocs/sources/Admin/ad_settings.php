@@ -31,7 +31,7 @@ class ad_settings
 	function ad_settings()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Kill globals - globals bad, Homer good.
@@ -489,7 +489,7 @@ class ad_settings
 	function fulltext()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		//---------------------------------------
 		// Get the mySQL version.
@@ -597,7 +597,7 @@ class ad_settings
 	function do_fulltext()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['ftexist'] == 1)
 		{
@@ -659,7 +659,7 @@ class ad_settings
 	function warn()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('dowarn', 'Member Warning Set-Up', 'You may change the configuration below.');
 
@@ -782,7 +782,7 @@ class ad_settings
 	function spider()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('dospider', 'Search Engine Spider/Crawler Set-Up', 'You may change the configuration below.<br />' . $SKIN->js_help_link('set_spider'));
 
@@ -890,7 +890,7 @@ class ad_settings
 	function do_guidelines()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$master             = array();
 		$master['gl_show']  = $IN['gl_show'];
@@ -928,7 +928,7 @@ class ad_settings
 	function guidelines()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('doglines', 'Board Guidelines/Rules', 'You may change the configuration below');
 
@@ -967,7 +967,7 @@ class ad_settings
 	function coppa()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('docoppa', 'COPPA Set-Up', 'You may change the configuration below. Note, enabling <a href="http://www.ftc.gov/ogc/coppa1.htm" target="_blank">COPPA</a> on your board will require children under the age of 13 to get parental consent via a faxed or mailed form.');
 
@@ -995,7 +995,7 @@ class ad_settings
 	function docount()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ((!$IN['posts']) and (!$IN['members']) and (!$IN['lastreg']))
 		{
@@ -1064,7 +1064,7 @@ class ad_settings
 	function countstats()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "Please choose which statistics to recount.";
 		$ADMIN->page_title  = "Recount Statistics Control";
@@ -1130,7 +1130,7 @@ class ad_settings
 	function calendar()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('docalendar', 'Calendar Set Up', 'You may change the configuration below');
 
@@ -1182,7 +1182,7 @@ class ad_settings
 	function board()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('doboard', 'Board offline/online', 'You may change the configuration below');
 
@@ -1207,7 +1207,7 @@ class ad_settings
 	function message()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('domessage', 'Board Message', 'You may change the configuration below. HTML is enabled, and BBCode will be enabled in later versions.');
 
@@ -1234,7 +1234,7 @@ class ad_settings
 	function reput()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$this->common_header('dorep', 'Reputation Settings', 'You may change your reputation settings below');
 
 		$ADMIN->html .= $SKIN->add_td_basic('General Settings', 'left', 'catrow2');
@@ -1338,7 +1338,7 @@ class ad_settings
 	function reput_recount_all()
 	{
 		global $std;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$stmt = $ibforums->db->query("SELECT id FROM ibf_members");
 
@@ -1360,7 +1360,7 @@ class ad_settings
 	function doedit_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['before'] == "")
 		{
@@ -1399,7 +1399,7 @@ class ad_settings
 	function edit_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may edit the emoticon filter below";
 		$ADMIN->page_title  = "Edit Emoticon";
@@ -1491,7 +1491,7 @@ class ad_settings
 	function remove_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -1510,7 +1510,7 @@ class ad_settings
 	function add_emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['before'] == "")
 		{
@@ -1566,7 +1566,7 @@ class ad_settings
 	function upload_emoticon()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$FILE_NAME = $_FILES['FILE_UPLOAD']['name'];
 		$FILE_SIZE = $_FILES['FILE_UPLOAD']['size'];
@@ -1610,7 +1610,7 @@ class ad_settings
 	function emoticons()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may add/edit or remove emoticons in this section.<br>You can only choose emoticons that have been uploaded into the 'html/emoticons' directory.<br><br>Clickable refers to emoticons that are in the posting screens 'Clickable Emoticons' table.";
 		$ADMIN->page_title  = "Emoticon Control";
@@ -1766,7 +1766,7 @@ class ad_settings
 	function doedit_badword()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['before'] == "")
 		{
@@ -1804,7 +1804,7 @@ class ad_settings
 	function edit_badword()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You may edit the chosen filter below";
 		$ADMIN->page_title  = "Bad Word Filter";
@@ -1863,7 +1863,7 @@ class ad_settings
 	function remove_badword()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['id'] == "")
 		{
@@ -1882,7 +1882,7 @@ class ad_settings
 	function add_badword()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		if ($IN['before'] == "")
 		{
@@ -1914,7 +1914,7 @@ class ad_settings
 	function badword()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->page_detail = "You can add/edit and remove bad word filters in this section.<br>The badword filter allows you to globally replace words from a members post, signature and topic title.<br><br><b>Loose matching</b>: If you entered 'hell' as a bad word, it will replace 'hell' and 'hello' with either your replacement if entered or 6 hashes (case insensitive)<br><br><b>Exact matching</b>: If you entered 'hell' as a bad word, it will replace 'hell' only with either your replacement if entered or 6 hashes (case insensitive)";
 		$ADMIN->page_title  = "Bad Word Filter";
@@ -2005,7 +2005,7 @@ class ad_settings
 	function news()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('donews', 'News Export Set-Up', 'You may change the configuration below');
 
@@ -2039,7 +2039,7 @@ class ad_settings
 	function pm()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('dopm', 'Messenger Set up', 'You may change the configuration below');
 
@@ -2069,7 +2069,7 @@ class ad_settings
 	function email()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('doemail', 'Email Set Up', 'You may change the configuration below');
 
@@ -2139,7 +2139,7 @@ class ad_settings
 	function url()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('dourl', 'Global Set Up', 'You may change the configuration below');
 
@@ -2337,7 +2337,7 @@ class ad_settings
 	function cpu()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('docpu', 'CPU Saving', 'You can opt to turn some features off to minimize the resource footprint');
 
@@ -2445,7 +2445,7 @@ class ad_settings
 	function dates()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('dodates', 'Dates', 'Define date formats');
 
@@ -2499,7 +2499,7 @@ class ad_settings
 	function avatars()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('doavatars', 'User Profiles', 'Define user profile permissions');
 
@@ -2659,7 +2659,7 @@ class ad_settings
 	function post()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$INFO['img_ext'] = preg_replace("/\|/", ",", $INFO['img_ext']);
 
@@ -2840,7 +2840,7 @@ class ad_settings
 	function secure()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('dosecure', 'Security', 'Define the level of security your board possess by using the configurations below');
 
@@ -3040,7 +3040,7 @@ class ad_settings
 	function cookie()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$this->common_header('docookie', 'Cookies', 'All of these fields can be left blank. Experiment to find the correct settings for your host');
 
@@ -3072,7 +3072,7 @@ class ad_settings
 	function save_config($new)
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$master = array();
 
@@ -3129,7 +3129,7 @@ class ad_settings
 	{
 
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$extra = $extra
 			? $extra . "<br>"
@@ -3166,7 +3166,7 @@ class ad_settings
 	{
 
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 
 		$ADMIN->html .= $SKIN->end_form($button);
 

@@ -13,7 +13,7 @@ class item
 	function on_add($EXTRA)
 	{
 		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
 		                                       "<b>Allowed File Types?</b><br>The files types the image is allowed to have. Seperate with a comma",
 		                                       $SKIN->form_input("extra_three", $EXTRA['extra_three'])

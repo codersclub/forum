@@ -2521,7 +2521,7 @@ class quiz
 
 	function save_log($action = "")
 	{
-		$ibforums = Ibf::instance();
+		$ibforums = Ibf::app();
 		$data = [
 			'act'        => $ibforums->input['act'],
 			'code'       => $ibforums->input['code'],
@@ -2531,7 +2531,7 @@ class quiz
 			'ip_address' => $ibforums->input['IP_ADDRESS'],
 		];
 
-		Ibf::instance()->db->insertRow('ibf_admin_logs', $data);
+		Ibf::app()->db->insertRow('ibf_admin_logs', $data);
 		return true; // to anyone that cares..
 	}
 
