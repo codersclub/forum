@@ -338,7 +338,7 @@ class FUNC
 					if (time() >= $ban_arr['date_end'])
 					{
 						// You're free :((
-						$stmt = $ibforums->db->query("UPDATE ibf_preview_user
+						$stmt = $ibforums->db->prepare("UPDATE ibf_preview_user
 						    SET temp_ban=NULL
 						    WHERE
 								mid=:mid
