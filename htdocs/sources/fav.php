@@ -311,7 +311,7 @@ class fav
 	protected function purgeTopics($topic_ids)
 	{
 		if(!empty($topic_ids)){
-			$ibforums->db->prepare("DELETE FROM ibf_favorites WHERE tid IN(" . IBPDO::placeholders($topic_ids) . ")")
+			Ibf::app()->db->prepare("DELETE FROM ibf_favorites WHERE tid IN(" . IBPDO::placeholders($topic_ids) . ")")
 				->execute($topic_ids);
 		}
 
