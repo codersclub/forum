@@ -1655,8 +1655,6 @@ class FUNC
 			//echo "load_template: base_dir=".$ibforums->vars['base_dir']."<br>";
 			//echo "load_template: skin_id=".$ibforums->skin_id."<br>";
 			//echo "load_template: skin=".$ibforums->vars['base_dir']."Skin/".$ibforums->skin_id."/$name.php<br>";
-			require $ibforums->vars['base_dir'] . "Skin/" . $ibforums->skin_id . "/$name.php";
-
 			return new $name();
 		} else
 		{
