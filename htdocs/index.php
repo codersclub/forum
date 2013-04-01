@@ -165,15 +165,6 @@ if ($ibforums->member['id'])
 }
 
 //--------------------------------
-//	Set up the skin stuff
-//--------------------------------
-
-$ibforums->skin_rid = $ibforums->skin['set_id'];
-$ibforums->skin_id  = 's' . $ibforums->skin['set_id'];
-
-$ibforums->vars['img_url'] = 'style_images/' . $ibforums->skin['img_dir'];
-
-//--------------------------------
 //	Set up our language choice
 //--------------------------------
 

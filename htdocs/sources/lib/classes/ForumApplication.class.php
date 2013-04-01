@@ -134,9 +134,18 @@ class ForumApplication extends CoreApplication
 
 	protected function loadMember()
 	{
-		$data = parent::loadMember();
+		$data              = parent::loadMember();
 		$data['show_wp']   = intval($data['show_wp']);
 		$data['favorites'] = $data->getFavorites();
+		return $data;
+	}
+
+	protected function loadSkin()
+	{
+		$data                  = parent::loadSkin();
+		$this->skin_rid        = $data['set_id'];
+		$this->skin_id         = 's' . $data['set_id'];
+		$this->vars['img_url'] = 'style_images/' . $data['img_dir'];
 		return $data;
 	}
 
