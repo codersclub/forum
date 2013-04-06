@@ -70,8 +70,7 @@ EOF;
 }
 
 
-function PageTop($lastvisit, $show_all = "") {
-global $ibforums;
+function PageTop($show_all = "") {
 return <<<EOF
 
 <!--GLOBAL.MESSAGE-->
