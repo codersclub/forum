@@ -1143,13 +1143,7 @@ class post_parser
 			$this->quote_error  = 0;
 			$this->quote_closed = 0;
 
-			// \$this->regex_parse_quotes('\\1', '{$in['TID']}')"
-/* 			$txt = preg_replace_callback("#(\[quote([^\]]*)\].*\[/quote\])#is", 
-						function($m) use($this, $in) {return $this->regex_parse_quotes($in['TID'], $m);},
-						$txt
-				); */
 			$txt = preg_replace_callback('#\[quote(?:[^\]]*)\].*\[/quote\]#is', [$this, 'regex_parse_quotes'], $txt );
-			// $txt = preg_replace('#(\[quote(?:[^\]]*)\].*\[/quote\])#ies', "\$this->regex_parse_quotes('\\1', '{$in['TID']}')", $txt);
 				
 			//---------------------------------
 			// Do [CODE] tag
