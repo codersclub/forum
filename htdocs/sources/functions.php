@@ -2726,8 +2726,6 @@ class FUNC
 
 	function old_get_date($date)
 	{
-		global $ibforums;
-
 		if (!$date)
 		{
 			return '--';
