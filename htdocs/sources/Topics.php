@@ -809,9 +809,7 @@ class Topics
 
 		$this->html = $std->load_template('skin_topic');
 
-		require ROOT_PATH . "sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		//-------------------------------------
 		// Check the input

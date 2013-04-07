@@ -623,8 +623,7 @@ class Search
 
 			$count = count($topic_list);
 
-			require $ibforums->vars['base_dir'] . "sources/lib/post_parser.php";
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 
 			$this->output .= $this->html->start_as_post(array('SHOW_PAGES' => $links));
 
@@ -1303,9 +1302,7 @@ class Search
 
 		} else
 		{
-			require $ibforums->vars['base_dir'] . "sources/lib/post_parser.php";
-
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 
 			if ($this->search_in == 'titles')
 			{

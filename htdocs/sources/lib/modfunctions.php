@@ -511,9 +511,7 @@ class modfunctions
 		$post_text .= " " . implode(', ', $forum_links);
 		$post_text .= "[/MOD]";
 
-		require_once ROOT_PATH . "sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		$post = array(
 			'author_id'    => $ibforums->member['id'],
@@ -1501,9 +1499,7 @@ class modfunctions
 
 		// Song * why_close topic
 
-		require ROOT_PATH . "sources/lib/post_parser.php";
-
-		$parser = new post_parser();
+		$parser = new PostParser();
 
 		$ibforums->input['why_close'] = $parser->macro($ibforums->input['why_close']);
 

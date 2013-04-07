@@ -261,9 +261,7 @@ try {
 
 	if ( count($posts) )
 	{
-		require ROOT_PATH."sources/lib/post_parser.php";
-
-		$parser = new post_parser(1);
+		$parser = new PostParser(1);
 		$parser->rss_mode = true;
 		foreach ($posts as $post)
 		{
