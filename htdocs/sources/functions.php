@@ -2744,6 +2744,9 @@ class FUNC
 	{
 		global $ibforums;
 
+		//remove any "blah-blah" in the date
+		$date = (int)$date;
+
 		// возвращаем прочерк если нет даты
 		if (!$date)
 		{
