@@ -933,9 +933,8 @@ class Search
 
 		} else // ( $this->result_type == 'posts' )
 		{
-			require ROOT_PATH . "/sources/lib/post_parser.php";
 
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 
 			if ($this->search_in == 'titles')
 			{
@@ -1105,10 +1104,9 @@ class Search
 		if ($this->result_type == 'posts')
 		{
 
-			require ROOT_PATH . "/sources/lib/post_parser.php";
 			$this->output .= $this->start_page($amount, 1);
 
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 			$this->parser->prepareIcons();
 
 			if ($stmt instanceof PDOStatementWrapper)
@@ -1551,9 +1549,8 @@ class Search
 
 		} else // ( $this->result_type == 'posts' )
 		{
-			require ROOT_PATH . "/sources/lib/post_parser.php";
 
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 
 			if ($this->search_in == 'titles')
 			{
@@ -3421,8 +3418,7 @@ class Search
 
 			$count = count($topic_list);
 
-			require ROOT_PATH . "/sources/lib/post_parser.php";
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 
 			$this->output .= $this->html->start_as_post(array('SHOW_PAGES' => $links));
 

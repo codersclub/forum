@@ -55,9 +55,7 @@ class  multi_mod
 
 		$this->modfunc = new modfunctions();
 
-		require(ROOT_PATH . 'sources/lib/post_parser.php');
-
-		$this->parser = new post_parser(1);
+		$this->parser = new PostParser(1);
 
 		//----------------------------------------
 		// Clean the incoming

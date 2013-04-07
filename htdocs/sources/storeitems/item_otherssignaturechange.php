@@ -68,8 +68,7 @@ EOF;
 		{
 			$lib->itemerror("The signature you entered for that member is too long. Maximum Signature length is: {$ibforums->vars['max_sig_length']}.");
 		}
-		require($ibforums->vars['base_dir'] . "sources/lib/post_parser.php");
-		$parser                       = new post_parser();
+		$parser                       = new PostParser();
 		$ibforums->input['signature'] = $parser->convert(array(
 		                                                      'TEXT'      => $ibforums->input['signature'],
 		                                                      'SMILIES'   => 0,

@@ -405,9 +405,7 @@ class Moderate
 		// Still here? We're damn good to go sir!
 		//-------------------------------------
 
-		require(ROOT_PATH . 'sources/lib/post_parser.php');
-
-		$this->parser = new post_parser(1);
+		$this->parser = new PostParser(1);
 
 		$stmt = $ibforums->db->query("SELECT *
 		    FROM ibf_topic_mmod
@@ -2384,9 +2382,7 @@ class Moderate
 			}
 		}
 
-		require ROOT_PATH . "sources/lib/post_parser.php";
-
-		$parser = new post_parser();
+		$parser = new PostParser();
 
 		$editable['signature'] = $parser->unconvert($member['signature']);
 		$editable['location']  = $member['location'];
@@ -2505,9 +2501,7 @@ class Moderate
 			}
 		}
 
-		require ROOT_PATH . "sources/lib/post_parser.php";
-
-		$parser = new post_parser();
+		$parser = new PostParser();
 
 		$ibforums->input['signature'] = $parser->convert(array(
 		                                                      'TEXT'      => $ibforums->input['signature'],
@@ -3080,8 +3074,7 @@ class Moderate
 			@unlink(ROOT_PATH . "highlight/h_" . $lang . "_" . intval($version - 1) . ".js");
 		}
 
-		require(ROOT_PATH . 'sources/lib/post_parser.php');
-		$this->parser = new post_parser(1);
+		$this->parser = new PostParser(1);
 
 		$fout = fopen(ROOT_PATH . "highlight/h_" . $lang . "_" . $version . ".js", "w");
 		fputs($fout, "window['h_" . $lang . "']=[\n");

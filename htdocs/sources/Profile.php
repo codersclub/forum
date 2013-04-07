@@ -62,9 +62,7 @@ class Profile
 
 		//echo "Profile.php started.";
 
-		require ROOT_PATH . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser(1);
+		$this->parser = new PostParser(1);
 
 		//--------------------------------------------
 		// Require the HTML and language modules
