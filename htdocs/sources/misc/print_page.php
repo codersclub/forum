@@ -50,9 +50,7 @@ class Printable
 
 		global $ibforums, $std, $print, $skin_universal;
 
-		require "sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		$this->parser->prepareIcons();
 

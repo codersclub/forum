@@ -50,7 +50,7 @@ class syntax_rule
 	}
 }
 
-class post_parser
+class PostParser
 {
 
 	var $error = "";
@@ -671,7 +671,7 @@ class post_parser
 
 	///////////////////////////////////////////////////////////
 
-	function post_parser($load = 0)
+	function __construct($load = 0)
 	{
 		global $ibforums;
 
@@ -958,7 +958,7 @@ class post_parser
 
 		$txt = " " . $txt . " ";
 
-		usort($this->emoticons, array('post_parser', 'smilie_length_sort'));
+		usort($this->emoticons, array('PostParser', 'smilie_length_sort'));
 
 		if (count($this->emoticons) > 0)
 		{
@@ -1811,7 +1811,7 @@ class post_parser
 			}
 		}
 
-		usort($this->badwords, array('post_parser', 'word_length_sort'));
+		usort($this->badwords, array('PostParser', 'word_length_sort'));
 
 		if (count($this->badwords) > 0)
 		{

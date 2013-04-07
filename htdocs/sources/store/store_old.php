@@ -24,8 +24,7 @@ class store
 		global $ibforums, $std, $print, $lib;
 		if ($ibforums->input['code'] != 'useitem')
 		{
-			require(ROOT_PATH . "sources/lib/post_parser.php");
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 		}
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_store', $ibforums->lang_id);

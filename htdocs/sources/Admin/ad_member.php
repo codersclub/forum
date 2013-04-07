@@ -2585,9 +2585,7 @@ class ad_forums
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
-		require ROOT_PATH . "sources/lib/post_parser.php";
-
-		$parser = new post_parser();
+		$parser = new PostParser();
 
 		if ($IN['MEMBER_ID'] == "")
 		{
@@ -3230,9 +3228,7 @@ class ad_forums
 
 		$memb = $stmt->fetch();
 
-		require ROOT_PATH . "sources/lib/post_parser.php";
-
-		$parser = new post_parser();
+		$parser = new PostParser();
 
 		$IN['signature'] = $parser->convert(array(
 

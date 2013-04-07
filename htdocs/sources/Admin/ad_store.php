@@ -49,8 +49,7 @@ class ad_store
 		global $IN, $INFO, $SKIN, $ADMIN;
 		$ibforums       = Ibf::app();
 		$this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
-		require_once($INFO['base_dir'] . "sources/lib/post_parser." . $INFO['php_ext']);
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 		require_once($INFO['base_dir'] . "sources/store/store_functions.php");
 		$this->store_lib = new lib;
 		if ($INFO['show_shopcat'])

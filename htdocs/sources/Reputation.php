@@ -17,9 +17,7 @@ class Reputation
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'not_registered'));
 		}
 
-		require "sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		$this->parser->prepareIcons();
 

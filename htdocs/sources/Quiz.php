@@ -37,8 +37,7 @@ class quiz
 
 		//  if($ibforums->input['code'] != 'useitem')
 		//  {
-		require($ibforums->vars['base_dir'] . "sources/lib/post_parser.php");
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		//  }
 

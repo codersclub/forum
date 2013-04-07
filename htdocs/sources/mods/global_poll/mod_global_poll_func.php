@@ -28,9 +28,8 @@ class global_poll
 	{
 
 		global $ibforums, $std, $root_path;
-		require ROOT_PATH . "sources/lib/post_parser.php";
 
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		// We need the user's language:
 		$this->lang_id = $ibforums->member['language'] == ""

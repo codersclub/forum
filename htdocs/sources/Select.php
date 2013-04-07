@@ -751,8 +751,7 @@ class Search
 
 			$count = count($topic_list);
 
-			require ROOT_PATH . "/sources/lib/post_parser.php";
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 
 			$this->output .= $this->html->start_as_post(array('SHOW_PAGES' => $links));
 
@@ -1467,9 +1466,8 @@ class Search
 
 		} else
 		{
-			require ROOT_PATH . "/sources/lib/post_parser.php";
-
-			$this->parser = new post_parser();
+			
+			$this->parser = new PostParser();
 
 			if ($this->search_in == 'titles')
 			{
