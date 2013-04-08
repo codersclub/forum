@@ -565,9 +565,7 @@ class Moderate
 
 		//-----------------------------------------
 
-		require ROOT_PATH . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		//-----------------------------------------
 
@@ -2893,10 +2891,10 @@ class Moderate
 				    WHERE tid='" . $linked_topic['tid'] . "'");
 		}
 
-		$mirror_topics_q = $stmt = $ibforums->db->query('SELECT tid,forum_id FROM ibf_topics WHERE state=\'mirror\' AND mirrored_topic_id =' . $this->topic['tid']);
+		$stmt = $ibforums->db->query('SELECT tid,forum_id FROM ibf_topics WHERE state=\'mirror\' AND mirrored_topic_id =' . $this->topic['tid']);
 
 		$tmp_forum = $this->modfunc->forum;
-		while ($row = $stmt->fetch($mirror_topics_q))
+		while ($row = $stmt->fetch())
 		{
 
 			$this->modfunc->forum['id'] = $row['forum_id'];

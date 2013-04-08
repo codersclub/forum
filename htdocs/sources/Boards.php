@@ -73,7 +73,7 @@ class Boards {
 			? $this->html->ShowAllLink()
 			: "";
 
-		$this->output .= $this->html->PageTop($std->get_date($ibf->input['last_visit']), $show_all_link);
+		$this->output .= $this->html->PageTop($show_all_link);
 
 
 		// Get the forums and category info from the DB

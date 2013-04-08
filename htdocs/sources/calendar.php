@@ -1490,9 +1490,7 @@ class calendar
 		// Add it to the DB
 		//-----------------------------------------
 
-		require $ibforums->vars['base_dir'] . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		$txt = $ibforums->input['Post'];
 
@@ -1559,9 +1557,7 @@ class calendar
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_date_oor'));
 		}
 
-		require $ibforums->vars['base_dir'] . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		$this->output .= $this->html->cal_page_events_start();
 
@@ -1776,9 +1772,7 @@ class calendar
 		// Get the pre parsed event HTML
 		//-----------------------------------------
 
-		require $ibforums->vars['base_dir'] . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser();
+		$this->parser = new PostParser();
 
 		//-----------------------------------------
 

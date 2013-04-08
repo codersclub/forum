@@ -201,8 +201,7 @@ class search_lib extends Search
 			                                          'BASE_URL'   => $ibforums->base_url . "&amp;act=Search&amp;CODE=simpleresults&amp;sid=" . $this->unique_id . "&amp;highlite=" . urlencode($check_keywords),
 			                                     ));
 
-			require ROOT_PATH . "/sources/lib/post_parser.php";
-			$this->parser = new post_parser();
+			$this->parser = new PostParser();
 
 			//--------------------------------------------
 			// Get categories

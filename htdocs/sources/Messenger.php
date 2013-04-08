@@ -585,9 +585,7 @@ class Messenger
 			$output .= $this->html->archive_html_header();
 		}
 
-		require ROOT_PATH . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser(1);
+		$this->parser = new PostParser(1);
 
 		//----------------------------------------
 		// Get the messages...
@@ -1325,9 +1323,7 @@ class Messenger
 		// Start formatting the member and msg
 		//--------------------------------------
 
-		require ROOT_PATH . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser(1);
+		$this->parser = new PostParser(1);
 
 		$msg['msg_date'] = $std->get_date($msg['msg_date']);
 
@@ -1402,9 +1398,7 @@ class Messenger
 	{
 		global $ibforums;
 
-		require ROOT_PATH . "/sources/lib/post_parser.php";
-
-		$this->parser = new post_parser(1);
+		$this->parser = new PostParser(1);
 
 		if ($ibforums->input['MODE'])
 		{

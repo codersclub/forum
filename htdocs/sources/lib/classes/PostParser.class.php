@@ -50,7 +50,7 @@ class syntax_rule
 	}
 }
 
-class post_parser
+class PostParser
 {
 
 	var $error = "";
@@ -73,6 +73,11 @@ class post_parser
 	var $cache_posts = array();
 	var $absent_highlight = array();
 	var $code_count = 0;
+	
+	/**
+	 * @var int
+	 */
+	private $topic_id;
 	public $rss_mode = false;
 
 	public $attachments = array();
@@ -666,7 +671,7 @@ class post_parser
 
 	///////////////////////////////////////////////////////////
 
-	function post_parser($load = 0)
+	function __construct($load = 0)
 	{
 		global $ibforums;
 
@@ -953,7 +958,7 @@ class post_parser
 
 		$txt = " " . $txt . " ";
 
-		usort($this->emoticons, array('post_parser', 'smilie_length_sort'));
+		usort($this->emoticons, array('PostParser', 'smilie_length_sort'));
 
 		if (count($this->emoticons) > 0)
 		{
@@ -1065,6 +1070,8 @@ class post_parser
 			? Attachment::reindexArray($in['ATTACHMENTS'])
 			: array();
 
+		$this->topic_id = isset($in['TID']) ? intval($in['TID']) : 0;
+		
 		$this->in_sig = $in['SIGNATURE'];
 		$txt          = $in['TEXT'];
 
@@ -1136,8 +1143,8 @@ class post_parser
 			$this->quote_error  = 0;
 			$this->quote_closed = 0;
 
-			$txt = preg_replace("#(\[quote([^\]]*)\].*\[/quote\])#ies", "\$this->regex_parse_quotes('\\1', '{$in['TID']}')", $txt);
-
+			$txt = preg_replace_callback('#\[quote(?:[^\]]*)\].*\[/quote\]#is', [$this, 'regex_parse_quotes'], $txt );
+				
 			//---------------------------------
 			// Do [CODE] tag
 			//---------------------------------
@@ -1804,7 +1811,7 @@ class post_parser
 			}
 		}
 
-		usort($this->badwords, array('post_parser', 'word_length_sort'));
+		usort($this->badwords, array('PostParser', 'word_length_sort'));
 
 		if (count($this->badwords) > 0)
 		{
@@ -2407,8 +2414,9 @@ class post_parser
 	// [QUOTE] .. [/QUOTE] - allows for embedded quotes
 	/**************************************************/
 
-	function regex_parse_quotes($the_txt = "", $tid = "0")
+	function regex_parse_quotes($matches)
 	{
+		$the_txt = $matches[0];
 
 		if (!$the_txt)
 		{
@@ -2421,23 +2429,22 @@ class post_parser
 
 		$this->quote_html = $this->wrap_style(array('STYLE' => 'QUOTE'));
 
-		$txt = preg_replace("#\[quote\]#ie", "\$this->regex_simple_quote_tag()", $txt);
+		$txt = preg_replace_callback('#\[quote\]#i', [$this,'regex_simple_quote_tag'], $txt);
 
 		// Song * quote with post link, 26.11.04
 
-		// for old date quote format
-		$txt = preg_replace("#\[quote\s*=([^\]]+?),([^\]]+?),([^\]]+?),([^\]]+?)\]#ie", "\$this->regex_quote_tag('\\1', '\\2'.'\\3', '\\4', $tid)", $txt);
+		// for old date quote format: Wes,22.03.04, 22:24
+		$txt = preg_replace_callback('#\[quote\s*=([^\],]+?),(\d{2,4}\.\d{2}\.\d{2},\s*\d{2}:\d{2}(?:\d{2})?)(?:,(\d+))?\]#i', [$this,'regex_quote_tag'], $txt);
 
-		// for new date quote format
-		$txt = preg_replace("#\[quote\s*=([^\]]+?),([^\]]+?),([^\]]+?)\]#ie", "\$this->regex_quote_tag('\\1', '\\2'	     , '\\3', $tid)", $txt);
+		// for new date quote format: negram,1364666527,2642750
+		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?),(\d+?),(\d+?)\]#i', [$this,'regex_quote_tag'], $txt);
 
 		// Song * quote with post link, 26.11.04
-
-		$txt = preg_replace("#\[quote\s*=([^\]]+?),([^\]]+?)\]#ie", "\$this->regex_quote_tag('\\1', '\\2'	     , ''   , $tid)", $txt);
-		$txt = preg_replace("#\[quote\s*=([^\]]+?)\]#ie", "\$this->regex_quote_tag('\\1', ''   	     , ''   , $tid)", $txt);
-		$txt = preg_replace("#\[/quote\]#ie", "\$this->regex_close_quote()", $txt);
-
-		// $txt = preg_replace( "/\n/", "<br>", $txt );
+		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?),(\d+?)\]#i', [$this, 'regex_quote_tag'], $txt);
+		
+		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?)\]#i', [$this,'regex_quote_tag'], $txt);
+		
+		$txt = preg_replace_callback('#\[/quote\]#i', [$this, 'regex_close_quote'], $txt);
 
 		if ($this->quote_open == $this->quote_closed and !$this->quote_error)
 		{
@@ -2467,8 +2474,6 @@ class post_parser
 
 	function regex_simple_quote_tag()
 	{
-		global $ibforums;
-
 		$this->quote_open++;
 
 		//		return "<!--QuoteBegin-->{$this->quote_html['START']}<!--QuoteEBegin-->";
@@ -2500,9 +2505,15 @@ class post_parser
 	// [QUOTE=Matthew,14 February 2002]
 	/**************************************************/
 
-	function regex_quote_tag($name = "", $date = "", $pid = "", $tid = "")
+	function regex_quote_tag($matches)
 	{
 		global $ibforums, $std;
+			
+		$name = $matches[1];
+		$date = $matches[2];
+		$pid  = intval($matches[3]);
+		
+		$tid = $this->topic_id;
 
 		$name = str_replace("+", "&#043;", $name);
 		$name = str_replace("-", "&#045;", $name);
@@ -2514,8 +2525,8 @@ class post_parser
 			$html = $this->wrap_style(array(
 			                               'STYLE' => "QUOTE",
 			                               'EXTRA' => "($name)",
-			                               'PID'   => intval($pid),
-			                               'TID'   => intval($tid)
+			                               'PID'   => $pid,
+			                               'TID'   => $tid
 			                          ));
 
 		} else
@@ -2533,8 +2544,8 @@ class post_parser
 			$html = $this->wrap_style(array(
 			                               'STYLE' => "QUOTE",
 			                               'EXTRA' => "($name &#064; $date)",
-			                               'PID'   => intval($pid),
-			                               'TID'   => intval($tid)
+			                               'PID'   => $pid,
+			                               'TID'   => $tid
 			                          ));
 		}
 
