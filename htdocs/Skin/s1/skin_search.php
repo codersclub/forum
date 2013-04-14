@@ -69,14 +69,14 @@ return <<<EOF
 EOF;
 }
 
-/* >--- Jureth --- */ 
+/* >--- Jureth --- */
 
 
 function RenderRow($Data) {
 global $ibforums;
 return <<<EOF
 
-    <tr> 
+    <tr>
       <td align='center' class='row4'>{$Data['folder_img']}</td>
       <td align='center' width='3%' class='row2'>{$Data['topic_icon']}</td>
       <td class='row4'>{$Data['go_new_post']}{$Data['prefix']} <a href='{$ibforums->base_url}showtopic={$Data['tid']}&amp;hl={$Data['keywords']}'>{$Data['title']}</a>  {$Data[PAGES]}<br>
@@ -162,16 +162,20 @@ return <<<EOF
 <br>
 <div>{$Data[SHOW_PAGES]}</div>
 <div align='left' class="wrapmini">
-	<{B_NEW}>&nbsp;&nbsp;{$ibforums->lang['pm_open_new']}
-	<br><{B_NORM}>&nbsp;&nbsp;{$ibforums->lang['pm_open_no']}
-	<br><{B_HOT}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_new']}
-	<br><{B_HOT_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_no']}
+  <{B_NEW}>&nbsp;&nbsp;{$ibforums->lang['pm_open_new']}
+  <br><{B_NORM}>&nbsp;&nbsp;{$ibforums->lang['pm_open_no']}
+  <br><{B_HOT}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_new']}
+  <br><{B_HOT_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_no']}
+  <br><{B_PIN}>&nbsp;&nbsp;{$ibforums->lang['pm_pin']}
+  <br><{B_MIRRORED}>&nbsp;&nbsp;{$ibforums->lang['pm_mirror']}
+  <br><{B_MIRRORED_NO}>&nbsp;&nbsp;{$ibforums->lang['pm_mirror_no']}
 </div>
 <div align='left' class="wrapmini">
-	<{B_POLL}>&nbsp;&nbsp;{$ibforums->lang['pm_poll']}
-	<br><{B_POLL_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_poll_no']}
-	<br><{B_LOCKED}>&nbsp;&nbsp;{$ibforums->lang['pm_locked']}
-	<br><{B_MOVED}>&nbsp;&nbsp;{$ibforums->lang['pm_moved']}
+  <{B_POLL}>&nbsp;&nbsp;{$ibforums->lang['pm_poll']}
+  <br><{B_POLL_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_poll_no']}
+  <br><{B_DECIDED}>&nbsp;&nbsp;{$ibforums->lang['pm_open_decided']}
+  <br><{B_LOCKED}>&nbsp;&nbsp;{$ibforums->lang['pm_locked']}
+  <br><{B_MOVED}>&nbsp;&nbsp;{$ibforums->lang['pm_moved']}
 </div>
 
 EOF;
@@ -225,7 +229,7 @@ function RenderPinnedRow($Data) {
 global $ibforums;
 return <<<EOF
 
-    <tr> 
+    <tr>
       <td align='center' class='pinned_topic'>{$Data['folder_img']}</td>
       <td align='center' width='3%' class='pinned_topic'>{$Data['topic_icon']}</td>
       <td class='pinned_topic'>{$Data['go_new_post']}{$data['prefix']}  <a href='{$ibforums->base_url}showtopic={$Data['tid']}&amp;hl={$Data['keywords']}'><b>{$Data['title']}</b></a> {$Data[PAGES]}<br>
@@ -317,7 +321,7 @@ $hidden_fields
 </div>
 <br>
 <div class="tableborder">
-<table cellpadding='4' cellspacing='0' border='0' width='100%'>         
+<table cellpadding='4' cellspacing='0' border='0' width='100%'>
 <tr>
 	<td colspan='2' class="maintitle"  align='center'>{$ibforums->lang['search_options']}</td>
 </tr>
@@ -395,7 +399,7 @@ $hidden_fields
 </table>
 </div>
 </form>
-    
+
 
 EOF;
 }
@@ -416,16 +420,20 @@ return <<<EOF
 <div>{$Data[SHOW_PAGES]}</div>
 <br>
 <div align='left' class="wrapmini">
-	<{B_NEW}>&nbsp;&nbsp;{$ibforums->lang['pm_open_new']}
-	<br><{B_NORM}>&nbsp;&nbsp;{$ibforums->lang['pm_open_no']}
-	<br><{B_HOT}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_new']}
-	<br><{B_HOT_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_no']}
+  <{B_NEW}>&nbsp;&nbsp;{$ibforums->lang['pm_open_new']}
+  <br><{B_NORM}>&nbsp;&nbsp;{$ibforums->lang['pm_open_no']}
+  <br><{B_HOT}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_new']}
+  <br><{B_HOT_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_hot_no']}
+  <br><{B_PIN}>&nbsp;&nbsp;{$ibforums->lang['pm_pin']}
+  <br><{B_MIRRORED}>&nbsp;&nbsp;{$ibforums->lang['pm_mirror']}
+  <br><{B_MIRRORED_NO}>&nbsp;&nbsp;{$ibforums->lang['pm_mirror_no']}
 </div>
 <div align='left' class="wrapmini">
-	<{B_POLL}>&nbsp;&nbsp;{$ibforums->lang['pm_poll']}
-	<br><{B_POLL_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_poll_no']}
-	<br><{B_LOCKED}>&nbsp;&nbsp;{$ibforums->lang['pm_locked']}
-	<br><{B_MOVED}>&nbsp;&nbsp;{$ibforums->lang['pm_moved']}
+  <{B_POLL}>&nbsp;&nbsp;{$ibforums->lang['pm_poll']}
+  <br><{B_POLL_NN}>&nbsp;&nbsp;{$ibforums->lang['pm_poll_no']}
+  <br><{B_DECIDED}>&nbsp;&nbsp;{$ibforums->lang['pm_open_decided']}
+  <br><{B_LOCKED}>&nbsp;&nbsp;{$ibforums->lang['pm_locked']}
+  <br><{B_MOVED}>&nbsp;&nbsp;{$ibforums->lang['pm_moved']}
 </div>
 <br>
 <br clear="all">
@@ -466,7 +474,7 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['be_m5']}</td>
  </tr>
  </table>
-</div> 
+</div>
 
 EOF;
 }
@@ -523,7 +531,7 @@ function go_gadget_advanced()
 }
 function win_pop()
 {
-    window.open('{$ibforums->js_base_url}act=Search&CODE=explain','WIN','width=400,height=300,resizable=yes,scrollbars=yes'); 
+    window.open('{$ibforums->js_base_url}act=Search&CODE=explain','WIN','width=400,height=300,resizable=yes,scrollbars=yes');
 }
 -->
 </script>
@@ -558,7 +566,7 @@ $hidden_fields
   </div>
 </div>
 </form>
-    
+
 
 EOF;
 }
@@ -589,11 +597,11 @@ return <<<EOF
   <tr align="center">
    <td width="50%">
 <FORM NAME="web" METHOD="get" ACTION="http://www.yandex.ru/yandsearch">
-<INPUT TYPE="text" NAME="text" SIZE=40 VALUE="" MAXLENGTH=160> 
-<INPUT TYPE="hidden" NAME="serverurl" VALUE="forum.sources.ru"> 
-<INPUT TYPE="hidden" NAME="server_name" VALUE="forum.sources.Ru"> 
-<INPUT TYPE="hidden" NAME="referrer1" VALUE="http://forum.sources.ru/"> 
-<INPUT TYPE="hidden" NAME="referrer2" VALUE="forum.sources.ru"> 
+<INPUT TYPE="text" NAME="text" SIZE=40 VALUE="" MAXLENGTH=160>
+<INPUT TYPE="hidden" NAME="serverurl" VALUE="forum.sources.ru">
+<INPUT TYPE="hidden" NAME="server_name" VALUE="forum.sources.Ru">
+<INPUT TYPE="hidden" NAME="referrer1" VALUE="http://forum.sources.ru/">
+<INPUT TYPE="hidden" NAME="referrer2" VALUE="forum.sources.ru">
 <INPUT TYPE=SUBMIT VALUE="Search">
 </form>
    </td>
