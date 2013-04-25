@@ -198,7 +198,7 @@ try {
 
 	if ( count($forums) )
 	{
-		$query_last .= "forum_id" . IBPDO::placeholders($forums) . " and edit_time > (".time()."-60*60*24*5) and ";
+		$query_last .= "forum_id IN (" . IBPDO::placeholders($forums) . ") and edit_time > (?-60*60*24*5) and ";
 		$params = array_merge($params, (array)$forums);
 		$params[] = time();
 	}
