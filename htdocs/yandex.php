@@ -192,7 +192,7 @@ try {
 
 	if ( count($tids) )
 	{
-		$query_last .= "topic_id" . IBPDO::placeholders($tids) . " and ";
+		$query_last .= "topic_id IN (" . IBPDO::placeholders($tids) . ") and ";
 		$params = array_merge($params, (array)$tids);
 	}
 
