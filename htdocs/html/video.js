@@ -57,7 +57,7 @@ arVideoPlayers['youtube'] =
 };
 
 //Twitch|Justin.tv
-arVideoPlayers['twitch'] =
+arVideoPlayers['twitch_past_broadcasts'] =
 {
     regexp :
     {
@@ -81,6 +81,34 @@ arVideoPlayers['twitch'] =
     height: '378',
     preprocessCallback : function(result){
         tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
+        this.flashvars.flashvars = tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]);
+    }
+};
+
+arVideoPlayers['twitch_highlights'] =
+{
+    regexp :
+    {
+        url : /twitch\.tv\/[a-z0-9_]+\/c\/\d+/i,
+        vid : /([a-z0-9_]+)\/c\/(\d+)/i,
+    },
+    flashvars:
+    {
+        movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+        allowScriptAccess : 'always',
+        allowNetworking : 'all',
+        allowFullScreen : 'true',
+        flashvars : '',
+    },
+    embedvars:
+    {
+
+    },
+    url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+    width: '620',
+    height: '378',
+    preprocessCallback : function(result){
+        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
         this.flashvars.flashvars = tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]);
     }
 };
