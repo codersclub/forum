@@ -56,6 +56,30 @@ arVideoPlayers['youtube'] =
 	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999'
 };
 
+arVideoPlayers['youtube_short'] =
+{
+	regexp :
+	{
+		url : /youtu.be\/.+/,
+		vid : /youtu.be\/(.+)/
+	},
+	flashvars :
+	{
+		allowScriptAccess : 'always',
+		allowFullScreen : 'true',
+		width : '480',
+		height : '295'
+	},
+	embedvars :
+	{
+		id : ''
+	},
+	width : '480',
+	height : '295',
+	url : 'http://www.youtube.com/v/%VIDEOID%',
+	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999'
+};
+
 // Google
 arVideoPlayers['google'] =
 {
