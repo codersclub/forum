@@ -78,6 +78,8 @@ arVideoPlayers['youtube_short'] =
 	height : '295',
 	url : 'http://www.youtube.com/v/%VIDEOID%',
 	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999'
+};
+
 //Twitch|Justin.tv
 arVideoPlayers['twitch_past_broadcasts'] =
 {
