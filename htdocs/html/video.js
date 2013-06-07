@@ -60,8 +60,8 @@ arVideoPlayers['youtube_short'] =
 {
 	regexp :
 	{
-		url : /youtu.be\/.+/,
-		vid : /youtu.be\/(.+)/
+		url : /youtu.be\/[^\/\?]+/,
+		vid : /youtu.be\/([^\/\?]+)/
 	},
 	flashvars :
 	{
