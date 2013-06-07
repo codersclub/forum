@@ -36,8 +36,8 @@ arVideoPlayers['youtube'] =
 {
 	regexp :
 	{
-		url : /youtube\.com\/watch\?v\=/i,
-		vid : /v\=(.*)?/
+		url : /youtube\.com\/watch\?(.*&)?v\=/i,
+		vid : /[\?&]v\=(.*)?/
 	},
 	flashvars :
 	{
@@ -53,7 +53,13 @@ arVideoPlayers['youtube'] =
 	width : '480',
 	height : '295',
 	url : 'http://www.youtube.com/v/%VIDEOID%',
-	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999'
+	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999',
+	preprocessCallback : function(result){
+		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.link);
+		if (time) {
+		   this.flashvars.flashvars = 'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4])));
+		}
+	}
 };
 
 arVideoPlayers['youtube_short'] =
@@ -77,7 +83,13 @@ arVideoPlayers['youtube_short'] =
 	width : '480',
 	height : '295',
 	url : 'http://www.youtube.com/v/%VIDEOID%',
-	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999'
+	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999',
+	preprocessCallback : function(result){
+		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.link);
+		if (time) {
+		   this.flashvars.flashvars = 'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4])));
+		}
+	}
 };
 
 //Twitch|Justin.tv
@@ -143,7 +155,7 @@ arVideoPlayers['google'] =
 	regexp :
 	{
 		url : /video\.google\.com\/videoplay\?docid\=/i,
-		vid : /docid\=(.*)?/i
+		vid : /[\?&]docid\=(.*)?/i
 	},
 	flashvars :
 	{
@@ -172,7 +184,7 @@ arVideoPlayers['rutube1'] =
 	regexp :
 	{
 		url : /rutube\.ru\/tracks\/\d+\.html\?v\=/i,
-		vid : /v\=(.*)?/i
+		vid : /[&\?]v\=(.*)?/i
 	},
 	flashvars :
 	{
@@ -242,7 +254,8 @@ function writeFlashPlayer(el, player)
 {
 	try
 	{
-		var url = unescape(el.href.replace(/&amp;/ig,'&')).split('&')[0];
+		var url = unescape(el.href.replace(/&amp;/ig,'&'));
+		player.link = url;
 		var result = player.regexp.vid.exec(url);
 
 		if (result != null)
