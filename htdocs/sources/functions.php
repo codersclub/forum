@@ -2732,7 +2732,7 @@ class FUNC
 		if ($this->offset_set == 0)
 		{
 			// Save redoing this code for each call, only do once per page load
-			$this->offset     = $this->get_time_offset();
+			$this->offset     = $this->get_time_offset_or_set_timezone();
 			$this->offset_set = 1;
 		}
 
@@ -2930,33 +2930,6 @@ class FUNC
 		$offset = $this->get_time_offset_or_set_timezone();
 
 		return date('j.m.y', $date + $offset);
-	}
-
-	/* ------------------------------------------------------------------------- */
-
-	// Returns the offset needed and stuff - quite groovy.
-	/* ------------------------------------------------------------------------- */
-
-	function get_time_offset()
-	{
-		global $ibforums;
-
-		$r = 0;
-
-		$r = (($ibforums->member['time_offset'] != "")
-			? : $ibforums->vars['time_offset']) * 3600;
-
-		if ($ibforums->vars['time_adjust'])
-		{
-			$r += ($ibforums->vars['time_adjust'] * 60);
-		}
-
-		if ($ibforums->member['dst_in_use'])
-		{
-			$r += 3600;
-		}
-
-		return $r;
 	}
 
 	/* ------------------------------------------------------------------------- */

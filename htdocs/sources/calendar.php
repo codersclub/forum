@@ -61,7 +61,7 @@ class calendar
 		// This handrolled method seems to take into account
 		// DST where getdate refuses.
 
-		$a = explode(',', gmdate('Y,n,j,G,i,s', time() + $std->get_time_offset()));
+		$a = explode(',', gmdate('Y,n,j,G,i,s', time() + $std->get_time_offset_or_set_timezone()));
 
 		$this->now_date = array(
 			'year'    => $a[0],
