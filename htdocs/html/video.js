@@ -39,13 +39,17 @@ arVideoPlayers['youtube'] =
 		url : /youtube\.com\/watch\?(.*&)?v\=/i,
 		vid : /[\?&]v\=(.*)?/
 	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '480',
-		height : '295'
-	},
+	flashvars : function(url, result)
+    {
+        time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(url);
+        return {
+            allowScriptAccess : 'always',
+            allowFullScreen : 'true',
+            width : '480',
+            height : '295',
+            flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
+        };
+    },
 	embedvars :
 	{
 		id : ''
@@ -54,12 +58,6 @@ arVideoPlayers['youtube'] =
 	height : '295',
 	url : 'http://www.youtube.com/v/%VIDEOID%',
 	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999',
-	preprocessCallback : function(result){
-		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.link);
-		if (time) {
-		   this.flashvars.flashvars = 'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4])));
-		}
-	}
 };
 
 arVideoPlayers['youtube_short'] =
@@ -69,13 +67,17 @@ arVideoPlayers['youtube_short'] =
 		url : /youtu.be\/[^\/\?]+/,
 		vid : /youtu.be\/([^\/\?]+)/
 	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '480',
-		height : '295'
-	},
+    flashvars : function(url, result)
+    {
+        time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(url);
+        return {
+            allowScriptAccess : 'always',
+            allowFullScreen : 'true',
+            width : '480',
+            height : '295',
+            flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
+        };
+    },
 	embedvars :
 	{
 		id : ''
@@ -84,12 +86,6 @@ arVideoPlayers['youtube_short'] =
 	height : '295',
 	url : 'http://www.youtube.com/v/%VIDEOID%',
 	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999',
-	preprocessCallback : function(result){
-		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.link);
-		if (time) {
-		   this.flashvars.flashvars = 'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4])));
-		}
-	}
 };
 
 //Twitch|Justin.tv
@@ -100,13 +96,16 @@ arVideoPlayers['twitch_past_broadcasts'] =
         url : /twitch\.tv\/[a-z0-9_]+\/b\/\d+/i,
         vid : /([a-z0-9_]+)\/b\/(\d+)/i,
     },
-    flashvars:
+    flashvars : function(url, result)
     {
-        movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-        allowScriptAccess : 'always',
-        allowNetworking : 'all',
-        allowFullScreen : 'true',
-        flashvars : '',
+        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
+        return {
+            movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+            allowScriptAccess : 'always',
+            allowNetworking : 'all',
+            allowFullScreen : 'true',
+            flashvars : tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]),
+        };
     },
     embedvars:
     {
@@ -114,11 +113,7 @@ arVideoPlayers['twitch_past_broadcasts'] =
     },
     url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
     width: '620',
-    height: '378',
-    preprocessCallback : function(result){
-        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
-        this.flashvars.flashvars = tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]);
-    }
+    height: '378'
 };
 
 arVideoPlayers['twitch_highlights'] =
@@ -128,13 +123,16 @@ arVideoPlayers['twitch_highlights'] =
         url : /twitch\.tv\/[a-z0-9_]+\/c\/\d+/i,
         vid : /([a-z0-9_]+)\/c\/(\d+)/i,
     },
-    flashvars:
+    flashvars : function(url, result)
     {
-        movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-        allowScriptAccess : 'always',
-        allowNetworking : 'all',
-        allowFullScreen : 'true',
-        flashvars : '',
+        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
+        return {
+            movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+            allowScriptAccess : 'always',
+            allowNetworking : 'all',
+            allowFullScreen : 'true',
+            flashvars : tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]),
+        };
     },
     embedvars:
     {
@@ -142,11 +140,7 @@ arVideoPlayers['twitch_highlights'] =
     },
     url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
     width: '620',
-    height: '378',
-    preprocessCallback : function(result){
-        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
-        this.flashvars.flashvars = tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]);
-    }
+    height: '378'
 };
 
 // Google
@@ -157,15 +151,17 @@ arVideoPlayers['google'] =
 		url : /video\.google\.com\/videoplay\?docid\=/i,
 		vid : /[\?&]docid\=(.*)?/i
 	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '400',
-		height : '326',
-		locale:'ru',
-		hl:'ru'
-	},
+    flashvars : function(url, result)
+    {
+        return {
+            allowScriptAccess : 'always',
+            allowFullScreen : 'true',
+            width : '400',
+            height : '326',
+            locale:'ru',
+            hl:'ru'
+        };
+    },
 	embedvars :
 	{
 		id : '',
@@ -186,13 +182,15 @@ arVideoPlayers['rutube1'] =
 		url : /rutube\.ru\/tracks\/\d+\.html\?v\=/i,
 		vid : /[&\?]v\=(.*)?/i
 	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '470',
-		height : '353'
-	},
+	flashvars : function(url, result)
+    {
+        return {
+            allowScriptAccess : 'always',
+            allowFullScreen : 'true',
+            width : '470',
+            height : '353'
+        };
+    },
 	embedvars :
 	{
 		id : ''
@@ -211,13 +209,15 @@ arVideoPlayers['rutube2'] =
 		url : /video\.rutube\.ru\/[\w]+$/i,
 		vid : /video\.rutube\.ru\/(.*)?/i
 	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '470',
-		height : '353'
-	},
+    flashvars : function(url, result)
+    {
+        return {
+            allowScriptAccess : 'always',
+            allowFullScreen : 'true',
+            width : '470',
+            height : '353'
+        };
+    },
 	embedvars :
 	{
 		id : ''
@@ -255,7 +255,6 @@ function writeFlashPlayer(el, player)
 	try
 	{
 		var url = unescape(el.href.replace(/&amp;/ig,'&'));
-		player.link = url;
 		var result = player.regexp.vid.exec(url);
 
 		if (result != null)
@@ -264,9 +263,6 @@ function writeFlashPlayer(el, player)
 			var rand = Math.round(Math.random() * 100000);
 			var playerID = 'FlashPlayer'+rand;
 
-			if(player.preprocessCallback){
-				player.preprocessCallback(result);
-			}
 			var divBox = document.createElement('DIV');
 			divBox.id = 'FlashPlayerBox'+rand;
 			el.parentNode.insertBefore(divBox, el.nextSibling);
@@ -278,8 +274,8 @@ function writeFlashPlayer(el, player)
 
 			var embed = player.embedvars;
 			embed.id = playerID;
-			url = player.url.replace(/%VIDEOID%/, videoID);
-			swfobject.embedSWF(url+player.urlvars, playerID, player.width, player.height, '8', null, null, player.flashvars, embed);
+			p_url = player.url.replace(/%VIDEOID%/, videoID);
+			swfobject.embedSWF(p_url+player.urlvars, playerID, player.width, player.height, '8', null, null, player.flashvars(url, result), embed);
 			el.title = 'Открыть в новом окне';
 		}
 	}
