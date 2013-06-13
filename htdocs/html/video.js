@@ -40,16 +40,16 @@ arVideoPlayers['youtube'] =
 		vid : /[\?&]v\=(.*)?/
 	},
 	flashvars : function(url, result)
-    {
-        time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(url);
-        return {
-            allowScriptAccess : 'always',
-            allowFullScreen : 'true',
-            width : '480',
-            height : '295',
-            flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
-        };
-    },
+	{
+		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(url);
+		return {
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : '480',
+			height : '295',
+			flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
+		};
+	},
 	embedvars :
 	{
 		id : ''
@@ -67,17 +67,17 @@ arVideoPlayers['youtube_short'] =
 		url : /youtu.be\/[^\/\?]+/,
 		vid : /youtu.be\/([^\/\?]+)/
 	},
-    flashvars : function(url, result)
-    {
-        time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(url);
-        return {
-            allowScriptAccess : 'always',
-            allowFullScreen : 'true',
-            width : '480',
-            height : '295',
-            flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
-        };
-    },
+	flashvars : function(url, result)
+	{
+		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(url);
+		return {
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : '480',
+			height : '295',
+			flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
+		};
+	},
 	embedvars :
 	{
 		id : ''
@@ -91,56 +91,56 @@ arVideoPlayers['youtube_short'] =
 //Twitch|Justin.tv
 arVideoPlayers['twitch_past_broadcasts'] =
 {
-    regexp :
-    {
-        url : /twitch\.tv\/[a-z0-9_]+\/b\/\d+/i,
-        vid : /([a-z0-9_]+)\/b\/(\d+)/i,
-    },
-    flashvars : function(url, result)
-    {
-        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
-        return {
-            movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-            allowScriptAccess : 'always',
-            allowNetworking : 'all',
-            allowFullScreen : 'true',
-            flashvars : tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]),
-        };
-    },
-    embedvars:
-    {
+	regexp :
+	{
+		url : /twitch\.tv\/[a-z0-9_]+\/b\/\d+/i,
+		vid : /([a-z0-9_]+)\/b\/(\d+)/i,
+	},
+	flashvars : function(url, result)
+	{
+		tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
+		return {
+			movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+			allowScriptAccess : 'always',
+			allowNetworking : 'all',
+			allowFullScreen : 'true',
+			flashvars : tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]),
+		};
+	},
+	embedvars:
+	{
 
-    },
-    url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-    width: '620',
-    height: '378'
+	},
+	url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+	width: '620',
+	height: '378'
 };
 
 arVideoPlayers['twitch_highlights'] =
 {
-    regexp :
-    {
-        url : /twitch\.tv\/[a-z0-9_]+\/c\/\d+/i,
-        vid : /([a-z0-9_]+)\/c\/(\d+)/i,
-    },
-    flashvars : function(url, result)
-    {
-        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
-        return {
-            movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-            allowScriptAccess : 'always',
-            allowNetworking : 'all',
-            allowFullScreen : 'true',
-            flashvars : tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]),
-        };
-    },
-    embedvars:
-    {
+	regexp :
+	{
+		url : /twitch\.tv\/[a-z0-9_]+\/c\/\d+/i,
+		vid : /([a-z0-9_]+)\/c\/(\d+)/i,
+	},
+	flashvars : function(url, result)
+	{
+		tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
+		return {
+			movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+			allowScriptAccess : 'always',
+			allowNetworking : 'all',
+			allowFullScreen : 'true',
+			flashvars : tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]),
+		};
+	},
+	embedvars:
+	{
 
-    },
-    url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-    width: '620',
-    height: '378'
+	},
+	url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+	width: '620',
+	height: '378'
 };
 
 // Google
@@ -151,17 +151,17 @@ arVideoPlayers['google'] =
 		url : /video\.google\.com\/videoplay\?docid\=/i,
 		vid : /[\?&]docid\=(.*)?/i
 	},
-    flashvars : function(url, result)
-    {
-        return {
-            allowScriptAccess : 'always',
-            allowFullScreen : 'true',
-            width : '400',
-            height : '326',
-            locale:'ru',
-            hl:'ru'
-        };
-    },
+	flashvars : function(url, result)
+	{
+		return {
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : '400',
+			height : '326',
+			locale:'ru',
+			hl:'ru'
+		};
+	},
 	embedvars :
 	{
 		id : '',
@@ -183,14 +183,14 @@ arVideoPlayers['rutube1'] =
 		vid : /[&\?]v\=(.*)?/i
 	},
 	flashvars : function(url, result)
-    {
-        return {
-            allowScriptAccess : 'always',
-            allowFullScreen : 'true',
-            width : '470',
-            height : '353'
-        };
-    },
+	{
+		return {
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : '470',
+			height : '353'
+		};
+	},
 	embedvars :
 	{
 		id : ''
@@ -209,15 +209,15 @@ arVideoPlayers['rutube2'] =
 		url : /video\.rutube\.ru\/[\w]+$/i,
 		vid : /video\.rutube\.ru\/(.*)?/i
 	},
-    flashvars : function(url, result)
-    {
-        return {
-            allowScriptAccess : 'always',
-            allowFullScreen : 'true',
-            width : '470',
-            height : '353'
-        };
-    },
+	flashvars : function(url, result)
+	{
+		return {
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : '470',
+			height : '353'
+		};
+	},
 	embedvars :
 	{
 		id : ''
