@@ -2,19 +2,21 @@
 	video.js
 
 	@name			Патч для forum.sources.ru
-	@description	Автоматически конвертирует ссылки на видео
+	@description		Автоматически конвертирует ссылки на видео
 	@author			Иваныч, http://forum.sources.ru/index.php?showuser=10034
-	@version		2.0.0 / 19.05.2009
+	@author			Minin 'Jureth' Yuri
+	@version		2.1.0 / 13.06.2013
 */
 
 /*
 	версия			описание
-	
+
 	1.0.0			первая версия скрипта
 	1.0.1			добавлены шаблоны для rutube.ru
 	1.0.2			Internet Explorer 6.0 fix
 
 	2.0.0			скрипт переписан с использованием библиотеки SWFObject
+	2.1.0			добавлены шаблоны для twitch/justin.tv, частичный рефакторинг
 */
 
 /*
@@ -29,204 +31,203 @@ var __DEBUG = false;
 // стиль элемента в котором будет размещен flash-плеер
 var styleFlashPlayerBox = 'margin-top:3px; margin-bottom:3px;';
 
-var arVideoPlayers = new Array();
+var basePlayer = 
+{
+	width : '480',//defaults for youtube actually, not for others
+	height : '295',
+	flashvars :
+    {
+    },
+	embedvars :
+	{
+		id : ''
+	},
+	filterUrl : function(url)
+	{
+		return unescape(url.replace(/&amp;/ig,'&'))
+	}
+};
+
+var baseContainer = 
+{
+	urlRegexp : /./,
+	testUrl : function(url)
+	{
+		return this.urlRegexp.test(url);
+	},
+	getPlayer : function(url)
+	{
+		this._player.prototype = basePlayer;
+		return new this._player(url);
+	},
+	_player : function(url)
+	{
+	}
+};
+
+var arVideoPlayers =
+{
+	add : function(name, object, proto)
+	{
+		proto || (proto = baseContainer);
+		object.prototype = proto;
+		this[name] = new object(); //not Object
+	}
+};
 
 // Youtube
-arVideoPlayers['youtube'] =
+arVideoPlayers.add('youtube', function()
 {
-	regexp :
+	this.urlRegexp = /youtube\.com\/watch\?(.*&)?v\=([a-z0-9\-_])/i;
+	this._player = function(url)
 	{
-		url : /youtube\.com\/watch\?(.*&)?v\=/i,
-		vid : /[\?&]v\=(.*)?/
-	},
-	flashvars :
+		this.url = this.filterUrl(url);
+		id = /[\?&]v\=(.*)?/.exec(this.url)[1];
+		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.url);
+		this.flashvars =
+		{
+			allowScriptAccess : 'always',
+			allowFullScreen   : 'true',
+			width             : this.width,
+			height : this.height,
+			flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
+		};
+		this.playerUrl = 'http://www.youtube.com/v/%VIDEOID%'.replace(/%VIDEOID%/, id) + '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999';
+	};
+});
+
+// Youtube
+arVideoPlayers.add('youtube_short', function()
+{
+	this.urlRegexp = /youtu.be\/[^\/\?]+/i,
+	this._player = function(url)
 	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '480',
-		height : '295'
-	},
-	embedvars :
-	{
-		id : ''
-	},
-	width : '480',
-	height : '295',
-	url : 'http://www.youtube.com/v/%VIDEOID%',
-	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999',
-	preprocessCallback : function(result){
-		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.link);
-		if (time) {
-		   this.flashvars.flashvars = 'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4])));
-		}
+		this.url = this.filterUrl(url);
+		id = /youtu.be\/([^\/\?]+)/i.exec(this.url)[1];
+		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.url);
+		this.flashvars =
+		{
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : this.width,
+			height : this.height,
+			flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
+		};
+		this.playerUrl = 'http://www.youtube.com/v/%VIDEOID%'.replace(/%VIDEOID%/, id) + '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999';
 	}
-};
+});
 
-arVideoPlayers['youtube_short'] =
+////Twitch|Justin.tv
+arVideoPlayers.add('twitch_past_broadcasts', function()
 {
-	regexp :
+	this.urlRegexp = /twitch\.tv\/[a-z0-9_]+\/b\/\d+/i
+	this._player = function (url)
 	{
-		url : /youtu.be\/[^\/\?]+/,
-		vid : /youtu.be\/([^\/\?]+)/
-	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '480',
-		height : '295'
-	},
-	embedvars :
-	{
-		id : ''
-	},
-	width : '480',
-	height : '295',
-	url : 'http://www.youtube.com/v/%VIDEOID%',
-	urlvars : '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999',
-	preprocessCallback : function(result){
-		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.link);
-		if (time) {
-		   this.flashvars.flashvars = 'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4])));
-		}
+		this.url = this.filterUrl(url);
+		ids = /([a-z0-9_]+)\/b\/(\d+)/i.exec(this.url);
+		tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
+		this.flashvars =
+		{
+			movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+			allowScriptAccess : 'always',
+			allowNetworking : 'all',
+			allowFullScreen : 'true',
+			flashvars : tpl.replace('%ID%', ids[2]).replace('%CHANNEL%', ids[1]),
+		};
+		this.playerUrl = 'http://www.twitch.tv/widgets/archive_embed_player.swf';
+		this.width = '620';
+		this.height = '378';
 	}
-};
+});
 
-//Twitch|Justin.tv
-arVideoPlayers['twitch_past_broadcasts'] =
+arVideoPlayers.add('twitch_highlights', function()
 {
-    regexp :
-    {
-        url : /twitch\.tv\/[a-z0-9_]+\/b\/\d+/i,
-        vid : /([a-z0-9_]+)\/b\/(\d+)/i,
-    },
-    flashvars:
-    {
-        movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-        allowScriptAccess : 'always',
-        allowNetworking : 'all',
-        allowFullScreen : 'true',
-        flashvars : '',
-    },
-    embedvars:
-    {
-
-    },
-    url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-    width: '620',
-    height: '378',
-    preprocessCallback : function(result){
-        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
-        this.flashvars.flashvars = tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]);
-    }
-};
-
-arVideoPlayers['twitch_highlights'] =
-{
-    regexp :
-    {
-        url : /twitch\.tv\/[a-z0-9_]+\/c\/\d+/i,
-        vid : /([a-z0-9_]+)\/c\/(\d+)/i,
-    },
-    flashvars:
-    {
-        movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-        allowScriptAccess : 'always',
-        allowNetworking : 'all',
-        allowFullScreen : 'true',
-        flashvars : '',
-    },
-    embedvars:
-    {
-
-    },
-    url : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
-    width: '620',
-    height: '378',
-    preprocessCallback : function(result){
-        tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
-        this.flashvars.flashvars = tpl.replace('%ID%', result[2]).replace('%CHANNEL%', result[1]);
-    }
-};
+	this.urlRegexp = /twitch\.tv\/[a-z0-9_]+\/c\/\d+/i
+	this._player = function (url)
+	{
+		this.url = this.filterUrl(url);
+		ids = /([a-z0-9_]+)\/c\/(\d+)/i.exec(this.url);
+		tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
+		this.flashvars =
+		{
+			movie : 'http://www.twitch.tv/widgets/archive_embed_player.swf',
+			allowScriptAccess : 'always',
+			allowNetworking : 'all',
+			allowFullScreen : 'true',
+			flashvars : tpl.replace('%ID%', ids[2]).replace('%CHANNEL%', ids[1]),
+		};
+		this.playerUrl = 'http://www.twitch.tv/widgets/archive_embed_player.swf';
+		this.width = '620';
+		this.height = '378';
+	}
+});
 
 // Google
-arVideoPlayers['google'] =
+arVideoPlayers.add('google', function()
 {
-	regexp :
+	this.urlRegexp = /video\.google\.com\/videoplay\?docid\=/i
+	this._player = function (url)
 	{
-		url : /video\.google\.com\/videoplay\?docid\=/i,
-		vid : /[\?&]docid\=(.*)?/i
-	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '400',
-		height : '326',
-		locale:'ru',
-		hl:'ru'
-	},
-	embedvars :
-	{
-		id : '',
-		locale : 'ru',
-		hl : 'ru'
-	},
-	width : '400',
-	height : '326',
-	url : 'http://video.google.com/googleplayer.swf?docId=%VIDEOID%',
-	urlvars : '&hl=ru&fs=true'
-};
+		this.url = this.filterUrl(url);
+		id = /[\?&]docid\=(.*)?/i.exec(this.url)[1];
+		this.embedvars.locale = 'ru';
+		this.embedvars.hl = 'ru';
+		this.width = '400';
+		this.height = '326';
+		this.flashvars = {
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : this.width,
+			height : this.height,
+			locale:'ru',
+			hl:'ru'
+		};
+		this.PlayerUrl = 'http://video.google.com/googleplayer.swf?docId=%VIDEOID%'.replace('%VIDEOID%', id) + '&hl=ru&fs=true';
+	}
+});
 
 // Rutube1
-arVideoPlayers['rutube1'] =
+arVideoPlayers.add('rutube1', function()
 {
-	regexp :
+	this.urlRegexp = /rutube\.ru\/tracks\/\d+\.html\?v\=/i
+	this._player = function (url)
 	{
-		url : /rutube\.ru\/tracks\/\d+\.html\?v\=/i,
-		vid : /[&\?]v\=(.*)?/i
-	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '470',
-		height : '353'
-	},
-	embedvars :
-	{
-		id : ''
-	},
-	width : '470',
-	height : '353',
-	url : 'http://video.rutube.ru/%VIDEOID%',
-	urlvars : ''
-};
+		this.url = this.filterUrl(url);
+		id = /[&\?]v\=(.*)?/i.exec(this.url)[1];
+		this.playerUrl = 'http://video.rutube.ru/%VIDEOID%'.replace('%VIDEOID%', id);
+		this.width = '470';
+		this.height = '353';
+		this.flashvars =
+		{
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : this.width,
+			height : this.height
+		};
+	}
+});
 
 // Rutube2
-arVideoPlayers['rutube2'] =
+arVideoPlayers.add('rutube2', function()
 {
-	regexp :
+	this.urlRegexp = /video\.rutube\.ru\/[\w]+$/i
+	this._player = function (url)
 	{
-		url : /video\.rutube\.ru\/[\w]+$/i,
-		vid : /video\.rutube\.ru\/(.*)?/i
-	},
-	flashvars :
-	{
-		allowScriptAccess : 'always',
-		allowFullScreen : 'true',
-		width : '470',
-		height : '353'
-	},
-	embedvars :
-	{
-		id : ''
-	},
-	width : '470',
-	height : '353',
-	url : 'http://video.rutube.ru/%VIDEOID%',
-	urlvars : ''
-};
+		this.url = this.filterUrl(url);
+		id = /video\.rutube\.ru\/(.*)?/i.exec(this.url)[1];
+		this.flashvars =
+		{
+			allowScriptAccess : 'always',
+			allowFullScreen : 'true',
+			width : '470',
+			height : '353'
+		};
+		this.playerUrl = 'http://video.rutube.ru/%VIDEOID%'.replace('%VIDEOID%', id);
+		this.width = '470';
+		this.height = '353';
+	}
+});
+delete arVideoPlayers['add'];//заметаем следы
 
 // IE hack
 if ( typeof document.getElementsByClassName == 'undefined' )
@@ -254,34 +255,22 @@ function writeFlashPlayer(el, player)
 {
 	try
 	{
-		var url = unescape(el.href.replace(/&amp;/ig,'&'));
-		player.link = url;
-		var result = player.regexp.vid.exec(url);
+		var rand = Math.round(Math.random() * 100000);
+		var playerID = 'FlashPlayer'+rand;
 
-		if (result != null)
-		{
-			var videoID = result[1];
-			var rand = Math.round(Math.random() * 100000);
-			var playerID = 'FlashPlayer'+rand;
+		var divBox = document.createElement('DIV');
+		divBox.id = 'FlashPlayerBox'+rand;
+		el.parentNode.insertBefore(divBox, el.nextSibling);
+		swfobject.createCSS('#FlashPlayerBox'+rand, styleFlashPlayerBox);
 
-			if(player.preprocessCallback){
-				player.preprocessCallback(result);
-			}
-			var divBox = document.createElement('DIV');
-			divBox.id = 'FlashPlayerBox'+rand;
-			el.parentNode.insertBefore(divBox, el.nextSibling);
-			swfobject.createCSS('#FlashPlayerBox'+rand, styleFlashPlayerBox);
+		var divPlayer = document.createElement('DIV');
+		divPlayer.id = playerID;
+		divBox.appendChild(divPlayer);
 
-			var divPlayer = document.createElement('DIV');
-			divPlayer.id = playerID;
-			divBox.appendChild(divPlayer);
-
-			var embed = player.embedvars;
-			embed.id = playerID;
-			url = player.url.replace(/%VIDEOID%/, videoID);
-			swfobject.embedSWF(url+player.urlvars, playerID, player.width, player.height, '8', null, null, player.flashvars, embed);
-			el.title = 'Открыть в новом окне';
-		}
+		var embed = player.embedvars;
+		embed.id = playerID;
+		swfobject.embedSWF(player.playerUrl, playerID, player.width, player.height, '8', null, null, player.flashvars, embed);
+		el.title = 'Открыть в новом окне';
 	}
 	catch(ex) { if (__DEBUG) alert('Ошибка:\n\n' + ex); }
 }
@@ -295,9 +284,9 @@ function parseLinks()
 		{
 			for (var j in arVideoPlayers)
 			{
-				if ( arVideoPlayers[j].regexp.url.test(e.href) != false )
+				if ( arVideoPlayers[j].testUrl(e.href) != false )
 				{
-					writeFlashPlayer(e, arVideoPlayers[j]);
+					writeFlashPlayer(e, arVideoPlayers[j].getPlayer(e.href));
 					continue;
 				}
 			}
