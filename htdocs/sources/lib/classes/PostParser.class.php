@@ -1089,9 +1089,13 @@ class PostParser
 			// Auto parse URLs
 			//--------------------------------------
 
-			//		$txt = preg_replace( "#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#ie"  , "\$this->regex_build_url(array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))", $txt );
-			// Jureth		$txt = preg_replace( "#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]\)<$]+)#ie"  , "\$this->regex_build_url(array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))", $txt );
-			$txt = preg_replace("#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]<$]+)#ie", "\$this->regex_build_url(array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))", $txt); // Jureth removed \) from regexp
+			//there can't be letters or digits before protocol descriptions,
+			//also we check for _ for historical reasons
+			$txt = preg_replace(
+				"#([^a-z0-9_]?)((http|https|news|ftp)://\w+[^\s\[\]<$]+)#ie",
+				"\$this->regex_build_url(array('html' => '\\2', 'show' => '', 'st' => '\\1'))",
+				$txt
+			);
 
 			// Swop \n back to <br>
 			$txt = preg_replace("/\n/", "<br>", $txt);
@@ -1149,11 +1153,6 @@ class PostParser
 			// Do [CODE] tag
 			//---------------------------------
 			$txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->regex_code_syntax('\\3', '\\2', '{$in['HID']}')", $txt);
-			//--------------------------------------
-			// Auto parse URLs
-			//--------------------------------------
-
-			$txt = preg_replace("#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#ie", "\$this->regex_build_url(array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))", $txt);
 
 			$txt = $this->parse_attach_tags($txt);
 			if ($in['SIGNATURE'] != 1)
@@ -1326,6 +1325,21 @@ class PostParser
 			? "\$std->old_get_date( '\\1' )"
 			: "\$std->get_date(     '\\1' )", $txt);
 
+		//--------------------------------------
+		// Auto parse URLs
+		//--------------------------------------
+		//It must to be after all text conversions to prevent interference with tags
+		//However there are additional problems with already created <a> and <img> tags,
+		//so first we skip urls after href= and src=
+		//second, we need to avoid situations like <a href="url">url</a> can be added by [url] tag
+		//so we add &shy; symbol to links created by [url] and check for it here
+		$txt = preg_replace(
+			//better, but [:alnum:] don't understand cyr characters sometimes.
+			//'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/([[:alpha:]][[:alnum:]-]*[[:alnum:]]\.?)+(:\d+)?([[:alnum:]_\.\-:\/\?\#\[\]@\!\$\&\'\(\)\*\+\,\;\=]|%[A-Z0-9]{2})*)#ie',
+			'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/[^\s\[\]\<\>\"]+)#ie',
+			"\$this->regex_build_url(array('html' => '\\1', 'show' => '', 'st' => ''))",
+			$txt
+		);
 		// Leprecon * return &shy; back to ''
 
 		$txt = preg_replace("#&shy;#", "", $txt);
@@ -2755,9 +2769,23 @@ class PostParser
 
 	function regex_build_url($url = array())
 	{
-
 		$url['html'] = str_replace("/TEST/", "/", $url['html']);
 
+		//add 'end' key
+		if(!isset($url['end']))
+		{
+			$url['end'] = '';
+		}
+		$matches = null;
+		//look for ascii symbols and html version of forbidden ones (<>"{}~) and break url
+		//on the first of them.
+		if(preg_match('/&#\d+;|&quot;|&lt;|&gt;/', $url['html'], $matches, PREG_OFFSET_CAPTURE))
+		{
+			$pos = $matches[0][1];
+			$url['end'] = substr($url['html'], $pos) . $url['end'];
+			$url['html'] = substr($url['html'], 0, $pos);
+			var_dump($url);
+		}
 		if (!trim($url['show']))
 		{
 			$url['show'] = $url['html'];
@@ -2770,7 +2798,7 @@ class PostParser
 
 		if (preg_match("/([\.,\?]|&#33;)$/", $url['html'], $match))
 		{
-			$url['end'] .= $match[1];
+			$url['end'] = $match[1] . $url['end'];
 			$url['html'] = preg_replace("/([\.,\?]|&#33;)$/", "", $url['html']);
 			$url['show'] = preg_replace("/([\.,\?]|&#33;)$/", "", $url['show']);
 		}
@@ -2829,7 +2857,7 @@ class PostParser
 			$show = $uri_type . '://' . substr($stripped, 0, 35) . '...' . substr($stripped, -15);
 		}
 
-		return $url['st'] . "<a href='" . $url['html'] . "' target='_blank'>" . $show . "</a>" . $url['end'];
+		return $url['st'] . "<a href='" . $url['html'] . "' target='_blank'>&shy;" . $show . "</a>" . $url['end'];
 
 	}
 
