@@ -454,7 +454,7 @@ class Boards {
 
 			if ($ibf->vars['show_birthdays'])
 			{
-				$a = explode(',', gmdate('Y,n,j,G,i,s', time() + $std->get_time_offset()));
+				$a = explode(',', gmdate('Y,n,j,G,i,s', time() + $std->get_time_offset_or_set_timezone()));
 
 				$day   = (int)$a[2];
 				$month = (int)$a[1];
@@ -521,7 +521,7 @@ class Boards {
 				if ($ibf->vars['calendar_limit'] < 2)
 					$ibf->vars['calendar_limit'] = 2;
 
-				$our_unix = time() + $std->get_time_offset();
+				$our_unix = time() + $std->get_time_offset_or_set_timezone();
 
 				$max_date = $our_unix + ($ibf->vars['calendar_limit'] * 86400);
 
