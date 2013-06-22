@@ -2784,7 +2784,6 @@ class PostParser
 			$pos = $matches[0][1];
 			$url['end'] = substr($url['html'], $pos) . $url['end'];
 			$url['html'] = substr($url['html'], 0, $pos);
-			var_dump($url);
 		}
 		if (!trim($url['show']))
 		{
