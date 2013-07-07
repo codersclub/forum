@@ -780,7 +780,7 @@ class PostParser
 		 */
 		$this->attachments      = array();
 		$this->post_attachments = array();
-		$txt                    = preg_replace_callback('#\[attach\s*=\s*(p?)(\d+)?\s*\](.*?)\[/attach\]#i', array(
+		$txt                    = preg_replace_callback('#\[attach=(p?)(\d+)?(?:,([a-z,]+))?\](.*?)\[/attach\]#i', array(
 		                                                                                                          $this,
 		                                                                                                          'regex_attach'
 		                                                                                                     ), $txt);
@@ -795,10 +795,12 @@ class PostParser
 		 * $matches[0] = '[attach=00000,link]...[/attach]'
 		 * $matches[1] = { 'p' | '' }
 		 * $matches[2] = <id>
-		 * $matches[3] = <текст>
+		 * $matches[3] = options
+		 * $matches[4] = <текст>
 		 */
 
-		list(, $p, $id, $text) = $matches;
+		list(, $p, $id, $opt_string, $text) = $matches;
+		$opts = explode(',', $opt_string);
 
 		if (!trim($p))
 		{
@@ -838,6 +840,7 @@ class PostParser
 		{
 			return $text;
 		}
+		$attach->setOptions($opts);
 		$text = $this->render_attach($attach, $text);
 		return trim($text);
 	}
@@ -864,11 +867,15 @@ class PostParser
 		return $text;
 	}
 
-	private function renderPreview(Attachment $attach, $text)
+	private function renderPreview(AttachImage $attach, $text)
 	{
 		global $ibforums, $std;
 		$alt = htmlspecialchars("{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}");
-		if ($ibforums->vars['siu_width'] AND $ibforums->vars['siu_height'])
+
+		if($attach->hasOption('img'))
+		{
+			$text = "<img src='" . $attach->getHref() . "' border='0' alt='$alt'>";
+		} elseif ($ibforums->vars['siu_width'] AND $ibforums->vars['siu_height'])
 		{
 
 			if (!trim($text))
