@@ -21,6 +21,11 @@ if (!class_exists('Attachment'))
 
 		private $item_id;
 		private $item_type = self::ITEM_TYPE_POST;
+		/**
+		 * Additional options
+		 * @var array
+		 */
+		private $options = [];
 
 		protected $realFilename;
 
@@ -698,6 +703,22 @@ if (!class_exists('Attachment'))
 
 			return $return;
 
+		}
+
+		public function setOptions($options = [])
+		{
+			$this->options = array_fill_keys(array_map('strtolower', array_filter($options)), 1);
+
+		}
+
+		public function getOptions()
+		{
+			return array_keys($this->options);
+		}
+
+		public function hasOption($option)
+		{
+			return isset($this->options[$option]);
 		}
 	}
 
