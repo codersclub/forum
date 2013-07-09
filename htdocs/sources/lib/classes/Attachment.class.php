@@ -272,6 +272,7 @@ if (!class_exists('Attachment'))
 		{
 			if (self::isImageType($row['type']))
 			{
+				//todo move to Factory class
 				$a = new AttachImage;
 			} else
 			{
