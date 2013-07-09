@@ -852,7 +852,7 @@ class PostParser
 
 		$preview_enabled = ($this->siu_thumb and $ibforums->member['view_img'] or $ibforums->vars['show_img_upload']);
 
-		if ($attach->isImage() and $preview_enabled)
+		if ($attach instanceof AttachImage and $preview_enabled)
 		{
 			$text = $this->renderPreview($attach, $text);
 		} else
@@ -870,32 +870,29 @@ class PostParser
 	private function renderPreview(AttachImage $attach, $text)
 	{
 		global $ibforums, $std;
-		$alt = htmlspecialchars("{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}");
+		$alt = htmlspecialchars("{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}", 0, 'CP1251');
+		$show_reduced = $ibforums->vars['siu_width'] AND $ibforums->vars['siu_height'];
+
+		if (!trim($text))
+		{
+			$text = $show_reduced
+				? $ibforums->lang['pic_attach_thumb']
+				: $ibforums->lang['pic_attach'];
+		}
 
 		if($attach->hasOption('img'))
+		{   //image as itself
+			$text = "<img src='" . $attach->getHref() . "' border='0' alt='{$text}' title='{$text}'>";
+		} elseif ($show_reduced)
 		{
-			$text = "<img src='" . $attach->getHref() . "' border='0' alt='$alt'>";
-		} elseif ($ibforums->vars['siu_width'] AND $ibforums->vars['siu_height'])
-		{
-
-			if (!trim($text))
-			{
-				$text = $ibforums->lang['pic_attach_thumb'];
-			}
-
+			//image as reduced preview
 			$img_size = $attach->getPreviewSizes();
 			$text     = "<span class='attach_preview'><p>{$text}:</p><br><a href='{$attach->getHref()}' title='{$alt}' target='_blank'><img src='{$attach->getPeviewLink()}' width='{$img_size['img_width']}' height='{$img_size['img_height']}' class='attach' alt='{$alt}'></a></span>";
 
 		} else
 		{
-
-			if (!trim($text))
-			{
-				$text = $ibforums->lang['pic_attach'];
-			}
-
+			//image as preview
 			$text = "<span class='attach_preview'><p>{$text}:</p><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$alt}'></span>";
-
 		}
 		return $text;
 	}
