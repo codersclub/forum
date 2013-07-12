@@ -39,6 +39,7 @@ error_reporting  (E_ERROR | E_WARNING | E_PARSE);
 
 require_once './autoload.php';
 require ROOT_PATH."sources/functions.php";
+require ROOT_PATH."sources/display.php";
 require ROOT_PATH."sources/session.php";
 
 //--------------------------------
