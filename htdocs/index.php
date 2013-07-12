@@ -45,6 +45,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require './autoload.php';
 require ROOT_PATH . "sources/session.php";
 require ROOT_PATH . "sources/functions.php";
+require ROOT_PATH . "sources/display.php";
 
 //--------------------------------
 // Import $INFO, now!
