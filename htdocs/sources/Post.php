@@ -1112,9 +1112,9 @@ class Post
 
 			$array = $attach->saveToDB($save_to);
 
-			if (strpos($post, "[attach=#{$i}]") !== false)
+			if (preg_match('/\[attach=#' . $i . '(,[a-z,]+)?\]/i', $post) !== 0)
 			{
-				$post = str_replace("[attach=#{$i}]", "[attach=" . $attach->attachId() . "]", $post);
+				$post = preg_replace('/\[attach=#' . $i . '(,[a-z,]+)?\]/', "[attach=" . $attach->attachId() . "$1]", $post);
 			} else
 			{
 				$attach_append .= "\n[attach={$attach->attachId()}][/attach]";

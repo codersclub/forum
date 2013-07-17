@@ -780,7 +780,7 @@ class PostParser
 		 */
 		$this->attachments      = array();
 		$this->post_attachments = array();
-		$txt                    = preg_replace_callback('#\[attach\s*=\s*(p?)(\d+)?\s*\](.*?)\[/attach\]#i', array(
+		$txt                    = preg_replace_callback('#\[attach=(p?)(\d+)?(?:,([a-z,]+))?\](.*?)\[/attach\]#i', array(
 		                                                                                                          $this,
 		                                                                                                          'regex_attach'
 		                                                                                                     ), $txt);
@@ -795,10 +795,12 @@ class PostParser
 		 * $matches[0] = '[attach=00000,link]...[/attach]'
 		 * $matches[1] = { 'p' | '' }
 		 * $matches[2] = <id>
-		 * $matches[3] = <текст>
+		 * $matches[3] = options
+		 * $matches[4] = <текст>
 		 */
 
-		list(, $p, $id, $text) = $matches;
+		list(, $p, $id, $opt_string, $text) = $matches;
+		$opts = explode(',', $opt_string);
 
 		if (!trim($p))
 		{
@@ -838,6 +840,7 @@ class PostParser
 		{
 			return $text;
 		}
+		$attach->setOptions($opts);
 		$text = $this->render_attach($attach, $text);
 		return trim($text);
 	}
@@ -849,7 +852,7 @@ class PostParser
 
 		$preview_enabled = ($this->siu_thumb and $ibforums->member['view_img'] or $ibforums->vars['show_img_upload']);
 
-		if ($attach->isImage() and $preview_enabled)
+		if ($attach instanceof AttachImage and $preview_enabled)
 		{
 			$text = $this->renderPreview($attach, $text);
 		} else
@@ -864,31 +867,32 @@ class PostParser
 		return $text;
 	}
 
-	private function renderPreview(Attachment $attach, $text)
+	private function renderPreview(AttachImage $attach, $text)
 	{
 		global $ibforums, $std;
-		$alt = htmlspecialchars("{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}");
-		if ($ibforums->vars['siu_width'] AND $ibforums->vars['siu_height'])
+		$alt = htmlspecialchars("{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}", 0, 'CP1251');
+		$show_reduced = $ibforums->vars['siu_width'] AND $ibforums->vars['siu_height'];
+
+		if (!trim($text))
 		{
+			$text = $show_reduced
+				? $ibforums->lang['pic_attach_thumb']
+				: $ibforums->lang['pic_attach'];
+		}
 
-			if (!trim($text))
-			{
-				$text = $ibforums->lang['pic_attach_thumb'];
-			}
-
+		if($attach->hasOption('img'))
+		{   //image as itself
+			$text = "<img src='" . $attach->getHref() . "' border='0' alt='{$text}' title='{$text}'>";
+		} elseif ($show_reduced)
+		{
+			//image as reduced preview
 			$img_size = $attach->getPreviewSizes();
 			$text     = "<span class='attach_preview'><p>{$text}:</p><br><a href='{$attach->getHref()}' title='{$alt}' target='_blank'><img src='{$attach->getPeviewLink()}' width='{$img_size['img_width']}' height='{$img_size['img_height']}' class='attach' alt='{$alt}'></a></span>";
 
 		} else
 		{
-
-			if (!trim($text))
-			{
-				$text = $ibforums->lang['pic_attach'];
-			}
-
+			//image as preview
 			$text = "<span class='attach_preview'><p>{$text}:</p><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$alt}'></span>";
-
 		}
 		return $text;
 	}
