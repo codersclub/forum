@@ -1149,8 +1149,7 @@ class Forums
 
 		$this->new_posts = 0;
 
-		//		$this->favs = explode(",", $ibforums->member['favorites']);
-		$this->favs = $ibforums->member['favorites'];
+		$this->favs = Ibf::app()->member['favorites']->getTopicIds();
 
 		$this->total_topics = $total_topics_printed;
 

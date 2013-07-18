@@ -4074,7 +4074,7 @@ class display
 	{
 		$ibforums = Ibf::app();
 		//        $std->update_favorites();
-
+		//todo move somewhere
 		$stmt = $ibforums->db->query("SELECT f.tid FROM ibf_favorites f
 	    	    INNER JOIN ibf_topics t
 	    	         ON f.tid=t.tid

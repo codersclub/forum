@@ -136,7 +136,6 @@ class ForumApplication extends CoreApplication
 	{
 		$data              = parent::loadMember();
 		$data['show_wp']   = intval($data['show_wp']);
-		$data['favorites'] = $data->getFavorites();
 		return $data;
 	}
 
