@@ -81,6 +81,7 @@ if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0)
 
 require_once ROOT_PATH . "autoload.php";
 require ROOT_PATH . "sources/functions.php";
+require ROOT_PATH . "sources/display.php";
 
 /*-----------------------------------------------
   Import $INFO

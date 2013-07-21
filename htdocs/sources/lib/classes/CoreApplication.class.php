@@ -11,7 +11,7 @@ class CoreApplication
 	 */
 	public $session;
 	/**
-	 * @var FUNC
+	 * @var functions
 	 */
 	public $functions;
 	/**
@@ -38,7 +38,7 @@ class CoreApplication
 	{
 		global $INFO;
 		$this->vars      = & $INFO;
-		$this->functions = new FUNC();
+		$this->functions = new functions();
 
 		if (!$this->initDB())
 		{

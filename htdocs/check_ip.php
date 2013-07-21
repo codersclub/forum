@@ -5,7 +5,7 @@ define( 'ROOT_PATH', "./" );
 
 require ROOT_PATH."../conf_global.php";
 require ROOT_PATH."sources/functions.php";
-$std   = new FUNC;
+$std   = new functions;
 $sess  = new session();
 
 $INFO['sql_driver'] = !$INFO['sql_driver'] ? 'mySQL' : $INFO['sql_driver'];
