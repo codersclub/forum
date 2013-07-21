@@ -500,10 +500,7 @@ class post_functions extends Post
 
 		if ($ibforums->member['id'] and $ibforums->input['fav'])
 		{
-			require ROOT_PATH . "sources/fav.php";
-
-			$fav = new fav();
-			$fav->addTopic($this->topic['tid']);
+			Ibf::app()->member['favorites']->addTopic($this->topic['tid']);
 		}
 
 	}

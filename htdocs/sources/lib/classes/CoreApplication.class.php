@@ -19,7 +19,7 @@ class CoreApplication
 	 */
 	public $input;
 	/**
-	 *
+	 * @var Member
 	 */
 	public $member;
 
