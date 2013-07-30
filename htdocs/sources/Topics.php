@@ -1437,7 +1437,7 @@ class Topics
 		if ($ibforums->member['id'])
 		{
 			//		$favs = explode(",",$ibforums->member['favorites']);
-			$favs = $ibforums->member['favorites'];
+			$favs = $ibforums->member['favorites']->getTopicIds();
 
 			if (in_array($this->topic['tid'], $favs))
 			{

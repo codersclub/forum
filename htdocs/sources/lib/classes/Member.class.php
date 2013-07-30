@@ -8,24 +8,12 @@ class Member implements ArrayAccess, IteratorAggregate
 
 	/**
 	 * Returns favorites list from database
-	 * @return array Favorite topics ids
+	 * @return Favorites Favorites object
 	 */
 	public function getFavorites()
 	{
-		$ibforums = Ibf::app();
-
-		// Get Favs from ibf_favorites
-		$stmt = $ibforums->db
-			->prepare("SELECT tid FROM ibf_favorites WHERE mid=:mid")
-			->bindParam(':mid', $this->data['id'])
-			->execute();
-
-		$f = [];
-		foreach ($stmt as $row)
-		{
-			$f[] = (int)$row['tid'];
-		}
-		return $f;
+		$this->data['favorites'] = new Favorites($this);
+		return $this->data['favorites'];
 	}
 
 	/**
@@ -80,7 +68,13 @@ class Member implements ArrayAccess, IteratorAggregate
 	 */
 	public function offsetGet($offset)
 	{
-		return $this->data[$offset];
+		if(isset($this->data[$offset])){
+			return $this->data[$offset];
+		}elseif(method_exists($this, $method = 'get' . $offset)){
+			return $this->$method();
+		}else{
+			return NULL; //todo throw new exception?
+		}
 	}
 
 	/**
