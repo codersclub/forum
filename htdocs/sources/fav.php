@@ -208,7 +208,7 @@ class fav
 
 			if (!empty($remove))
 			{
-				Ibf::app()->member['favorites']->purgeTopics($remove);
+				Favorites::purgeTopics($remove);
 			}
 
 			$this->output .= $this->html->main($html);

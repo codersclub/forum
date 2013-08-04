@@ -92,7 +92,7 @@ class Favorites
 	 * Delete topics from all memebers favorites
 	 * @param $topic_ids array topic's ids
 	 */
-	protected function purgeTopics($topic_ids)
+	public static function purgeTopics($topic_ids)
 	{
 		if (!empty($topic_ids))
 		{
