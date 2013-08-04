@@ -259,13 +259,14 @@ class Boards {
 				if ($ibf->member['id'])
 				{
 					$stmt = $ibf->db->prepare("SELECT contact_id
-				    FROM ibf_contacts
-				    WHERE
-						member_id = :member_id
-					AND
-						show_online = :online");
-					$stmt->bindParam(':member_id', $ibf->member['id']);
-					$stmt->bindValue(':online', 1);
+					    FROM ibf_contacts
+					    WHERE
+							member_id = :member_id
+						AND
+							show_online = :online")
+						->bindParam(':member_id', $ibf->member['id'])
+						->bindValue(':online', 1)
+						->execute();
 
 					while ($contact = $stmt->fetch())
 					{
