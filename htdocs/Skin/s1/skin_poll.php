@@ -166,13 +166,13 @@ function Render_row_form_weighted($id, $choice, $name, $places) {
 global $ibforums;
 $output = "<tr><td class='row1' colspan='3' align='left'><select name='$name' class='forminput' onChange='doDropdown(this)'>";
 $places++;
-$output .= "<option value=''>Не голосую";
+$output .= "<option value=''>РќРµ РіРѕР»РѕСЃСѓСЋ";
 for ($i=1; $i<$places; $i++) {
  $output .= "<option value='$i'>$i";
- if ($i == 1) { $output .= "-е место"; }
- else if ($i == 2) { $output .= "-е место"; }
- else if ($i == 3) { $output .= "-е место"; }
- else { $output .= "-е место"; }
+ if ($i == 1) { $output .= "-Рµ РјРµСЃС‚Рѕ"; }
+ else if ($i == 2) { $output .= "-Рµ РјРµСЃС‚Рѕ"; }
+ else if ($i == 3) { $output .= "-Рµ РјРµСЃС‚Рѕ"; }
+ else { $output .= "-Рµ РјРµСЃС‚Рѕ"; }
 }
 
 $output .= "</select> $choice</td></tr>\n";

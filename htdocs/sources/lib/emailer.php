@@ -147,7 +147,7 @@ class emailer
 
 			$this->mail_headers .= "MIME-Version: 1.0\n";
 			$this->mail_headers .= "Content-Type: multipart/mixed;\n\tboundary=\"" . $this->boundry . "\"\n\nThis is a MIME encoded message.\n\n--" . $this->boundry;
-			$this->mail_headers .= "\nContent-Type: text/plain;\n\tcharset=\"windows-1251\"\nContent-Transfer-Encoding: quoted-printable\n\n" . $this->message . "\n\n--" . $this->boundry;
+			$this->mail_headers .= "\nContent-Type: text/plain;\n\tcharset=\"utf-8\"\nContent-Transfer-Encoding: quoted-printable\n\n" . $this->message . "\n\n--" . $this->boundry;
 			$this->mail_headers .= $this->build_multipart();
 
 			$this->message = "";
@@ -195,8 +195,8 @@ class emailer
 		$this->to   = preg_replace("/,,/", ",", $this->to);
 		$this->from = preg_replace("/,,/", ",", $this->from);
 
-		$this->to   = preg_replace("#\#\[\]'\"\(\):;/\$!£%\^&\*\{\}#", "", $this->to);
-		$this->from = preg_replace("#\#\[\]'\"\(\):;/\$!£%\^&\*\{\}#", "", $this->from);
+		$this->to   = preg_replace("#\#\[\]'\"\(\):;/\$!Ğˆ%\^&\*\{\}#", "", $this->to);
+		$this->from = preg_replace("#\#\[\]'\"\(\):;/\$!Ğˆ%\^&\*\{\}#", "", $this->from);
 
 		if ($this->subject == "")
 		{

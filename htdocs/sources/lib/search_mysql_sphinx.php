@@ -30,7 +30,7 @@ class search_lib extends Search
 	public $realtime = true;
 
 	/**
-	 * Êîëè÷åñòâî íàéäåíûõ ïîñòîâ/òîïèêîâ
+	 * ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð½Ð°Ð¹Ð´ÐµÐ½Ñ‹Ñ… Ð¿Ð¾ÑÑ‚Ð¾Ð²/Ñ‚Ð¾Ð¿Ð¸ÐºÐ¾Ð²
 	 * @var integer
 	 */
 	protected $documents_found = 0;
@@ -100,7 +100,7 @@ class search_lib extends Search
 
 		if ($ibforums->input['search_in'] == 'titles')
 		{
-			// @ - ñëóæåáíûé ñèìâîë äëÿ ñôèíêñà â ðåæèìå match=extend
+			// @ - ÑÐ»ÑƒÐ¶ÐµÐ±Ð½Ñ‹Ð¹ ÑÐ¸Ð¼Ð²Ð¾Ð» Ð´Ð»Ñ ÑÑ„Ð¸Ð½ÐºÑÐ° Ð² Ñ€ÐµÐ¶Ð¸Ð¼Ðµ match=extend
 			// $keywords = str_replace('@', '', $keywords);
 		}
 
@@ -254,12 +254,12 @@ class search_lib extends Search
 
 		$unique_id = md5(uniqid(microtime(), 1));
 
-		// ýòî ðàçäåëèòåëü ïîëåé â çàïðîñå ê ñôèíêñó
+		// ÑÑ‚Ð¾ Ñ€Ð°Ð·Ð´ÐµÐ»Ð¸Ñ‚ÐµÐ»ÑŒ Ð¿Ð¾Ð»ÐµÐ¹ Ð² Ð·Ð°Ð¿Ñ€Ð¾ÑÐµ Ðº ÑÑ„Ð¸Ð½ÐºÑÑƒ
 		$keywords = str_replace(';', '', $keywords);
 		if ($type != 'nameonly')
 		{
 
-			// sphinx_snippets(p.post, 'test1', 'Ïóïêèí'),
+			// sphinx_snippets(p.post, 'test1', 'ÐŸÑƒÐ¿ÐºÐ¸Ð½'),
 			$keywords     = substr($ibforums->db->quote($keywords), 1, -1);
 			$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$topics_name}"), 1, -1);
 
@@ -277,8 +277,8 @@ class search_lib extends Search
 					: 'any';
 			}
 			/*
-			 * SQL_NO_CACHE íóæåí äëÿ òîãî, ÷òîáû îáíîâèëîñü/óñòàíîâèëîñü çíà÷åíèå ïåðåìåííîé ñîñòîÿíèÿ
-			 * sphinx_total_found (ñì. íèæå, ãäå ïðèñâàèâàåòñÿ çíà÷åíèå $this->documents_found)
+			 * SQL_NO_CACHE Ð½ÑƒÐ¶ÐµÐ½ Ð´Ð»Ñ Ñ‚Ð¾Ð³Ð¾, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¾Ð±Ð½Ð¾Ð²Ð¸Ð»Ð¾ÑÑŒ/ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ð»Ð¾ÑÑŒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ñ
+			 * sphinx_total_found (ÑÐ¼. Ð½Ð¸Ð¶Ðµ, Ð³Ð´Ðµ Ð¿Ñ€Ð¸ÑÐ²Ð°Ð¸Ð²Ð°ÐµÑ‚ÑÑ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ $this->documents_found)
 			 */
 			if ($this->is->search_in == 'posts')
 			{

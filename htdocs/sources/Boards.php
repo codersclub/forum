@@ -1292,7 +1292,7 @@ class Boards {
 								: ' ') . 'class="' . $style . '">' . $forum_data['tree'] . '</td>
 						<td class="row4" align="center">' . $forum_data['img_new_post'] . '</td>';
 
-						/* removed by Лёха
+						/* removed by Р›С‘С…Р°
 						  } elseif ( 0 == $level )
 						  {
 						  $forum_data['tree'] = '  <td colspan="2" class="row4" align="center">'.$forum_data['img_new_post'].'</td>';
@@ -1302,7 +1302,7 @@ class Boards {
 						  }
 						 */
 						// Collapse boards error correction:
-						// added by Лёха ( http://forum.sources.ru/index.php?showtopic=218110 )
+						// added by Р›С‘С…Р° ( http://forum.sources.ru/index.php?showtopic=218110 )
 //				} elseif ( 0 == $level || (isset($this->fs[ $forum_data['parent_id'] ]) && $this->fs[ $forum_data['parent_id'] ] == 0) )
 					} elseif (0 == $level || (isset($this->fs[$forum_data['parent_id']]) && $this->fs[$forum_data['parent_id']] == 0 && $ibforums->input['show'] != 'all'))
 					{
@@ -1311,7 +1311,7 @@ class Boards {
 					{
 						$forum_data['tree'] = '  <td class="row4" align="center">' . $forum_data['img_new_post'] . '</td>';
 					}
-					// end of  Лёха code
+					// end of  Р›С‘С…Р° code
 
 
 					if (count($this->children[$forum_data['id']]) AND !$expanded)
@@ -1351,7 +1351,7 @@ class Boards {
 									$name = "<span class='movedprefix'>{$name}</span>";
 								}
 
-							$html .= "<a href='{$ibforums->base_url}showforum={$children['id']}'{$style}>{$name}</a> · ";
+							$html .= "<a href='{$ibforums->base_url}showforum={$children['id']}'{$style}>{$name}</a> В· ";
 						}
 
 						if ($html != "(")
@@ -1520,12 +1520,12 @@ class Boards {
 
 		if (strlen($forum_data['icon']) > 4 && intval($ibforums->skin['uid']) != 13 && intval($ibforums->member['forum_icon']) == 1)
 		{
-			// класс для изображения
+			// РєР»Р°СЃСЃ РґР»СЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 			$class = preg_match("~_OFF~is", $forum_data['img_new_post'])
 				? ' class="icon_off"'
 				: '';
 
-			// создаем html
+			// СЃРѕР·РґР°РµРј html
 			$forum_data['img_new_post'] = '<img' . $class . ' src="' . $forum_data['icon'] . '">';
 		}
 

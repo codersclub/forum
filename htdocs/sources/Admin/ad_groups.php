@@ -2138,8 +2138,8 @@ class ad_groups
 
 		//+-------------------------------
 
-		$SKIN->td_header[] = array("ÿ", "40%");
-		$SKIN->td_header[] = array("ÿ", "60%");
+		$SKIN->td_header[] = array("Ñ", "40%");
+		$SKIN->td_header[] = array("Ñ", "60%");
 
 		//+-------------------------------
 		$ADMIN->html .= $SKIN->start_table("IBStore Settings", "IBStore Settings");

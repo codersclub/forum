@@ -1,38 +1,38 @@
 <?php
 
 
-$lang['member_photo']  = "Фото";
-$lang['ch_begins']  = "Начинается с";
-$lang['ch_contains']  = "Содержит";
-$lang['ch_all']  = "Найти всех доступных";
-$lang['qs_go']  = "Вперёд!";
-$lang['pages']  = "Страниц:";
-$lang['photo_only']  = "Показать только тех, у кого есть фото?";
-$lang['member_group']  = "Группа";
+$lang['member_photo']  = "Р¤РѕС‚Рѕ";
+$lang['ch_begins']  = "РќР°С‡РёРЅР°РµС‚СЃСЏ СЃ";
+$lang['ch_contains']  = "РЎРѕРґРµСЂР¶РёС‚";
+$lang['ch_all']  = "РќР°Р№С‚Рё РІСЃРµС… РґРѕСЃС‚СѓРїРЅС‹С…";
+$lang['qs_go']  = "Р’РїРµСЂС‘Рґ!";
+$lang['pages']  = "РЎС‚СЂР°РЅРёС†:";
+$lang['photo_only']  = "РџРѕРєР°Р·Р°С‚СЊ С‚РѕР»СЊРєРѕ С‚РµС…, Сѓ РєРѕРіРѕ РµСЃС‚СЊ С„РѕС‚Рѕ?";
+$lang['member_group']  = "Р“СЂСѓРїРїР°";
 $lang['member_aol']  = "AOL";
 $lang['sort_by_icq']  = "ICQ";
-$lang['sort_by_name']  = "именам";
-$lang['sort_by_rep']  = "рейтингу";
+$lang['sort_by_name']  = "РёРјРµРЅР°Рј";
+$lang['sort_by_rep']  = "СЂРµР№С‚РёРЅРіСѓ";
 $lang['sort_by_dgm']  = "DigiMoney";
-$lang['sort_by_location']  = "городу";
-$lang['member_joined']  = "Регистрация";
-$lang['member_location']  = "Город";
+$lang['sort_by_location']  = "РіРѕСЂРѕРґСѓ";
+$lang['member_joined']  = "Р РµРіРёСЃС‚СЂР°С†РёСЏ";
+$lang['member_location']  = "Р“РѕСЂРѕРґ";
 $lang['member_icq']  = "ICQ";
-$lang['sorting_text']  = "Показать <#FILTER#> по <#SORT_KEY#> в порядке <#SORT_ORDER#> с <#MAX_RESULTS#> результатами на странице";
-$lang['member_name']  = "Имя";
-$lang['member_posts']  = "Сообщений";
-$lang['multi_pages']  = "Несколько страниц";
-$lang['sort_by_posts']  = "кол-ву сообщений";
-$lang['descending_order']  = "убывания";
-$lang['ascending_order']  = "возрастания";
-$lang['show_admin']  = "администраторов";
-$lang['member_level']  = "Уровень";
-$lang['sort_submit']  = "Вперёд!";
-$lang['show_all']  = "всех пользователей";
-$lang['member_email']  = "Е-мэйл";
-$lang['sort_by_joined']  = "дате регистрации";
-$lang['sort_by_level']  = "Уровень пользователя";
-$lang['show_staff']  = "Администрация форума";
-$lang['page_title']  = "Пользователи";
+$lang['sorting_text']  = "РџРѕРєР°Р·Р°С‚СЊ <#FILTER#> РїРѕ <#SORT_KEY#> РІ РїРѕСЂСЏРґРєРµ <#SORT_ORDER#> СЃ <#MAX_RESULTS#> СЂРµР·СѓР»СЊС‚Р°С‚Р°РјРё РЅР° СЃС‚СЂР°РЅРёС†Рµ";
+$lang['member_name']  = "РРјСЏ";
+$lang['member_posts']  = "РЎРѕРѕР±С‰РµРЅРёР№";
+$lang['multi_pages']  = "РќРµСЃРєРѕР»СЊРєРѕ СЃС‚СЂР°РЅРёС†";
+$lang['sort_by_posts']  = "РєРѕР»-РІСѓ СЃРѕРѕР±С‰РµРЅРёР№";
+$lang['descending_order']  = "СѓР±С‹РІР°РЅРёСЏ";
+$lang['ascending_order']  = "РІРѕР·СЂР°СЃС‚Р°РЅРёСЏ";
+$lang['show_admin']  = "Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРІ";
+$lang['member_level']  = "РЈСЂРѕРІРµРЅСЊ";
+$lang['sort_submit']  = "Р’РїРµСЂС‘Рґ!";
+$lang['show_all']  = "РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№";
+$lang['member_email']  = "Р•-РјСЌР№Р»";
+$lang['sort_by_joined']  = "РґР°С‚Рµ СЂРµРіРёСЃС‚СЂР°С†РёРё";
+$lang['sort_by_level']  = "РЈСЂРѕРІРµРЅСЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ";
+$lang['show_staff']  = "РђРґРјРёРЅРёСЃС‚СЂР°С†РёСЏ С„РѕСЂСѓРјР°";
+$lang['page_title']  = "РџРѕР»СЊР·РѕРІР°С‚РµР»Рё";
 
 ?>

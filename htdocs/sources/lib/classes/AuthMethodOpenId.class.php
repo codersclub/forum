@@ -76,7 +76,7 @@ class AuthMethodOpenId extends AuthBasic
 	}
 
 	/**
-	 * Это возврат от сервера OpenID
+	 * Р­С‚Рѕ РІРѕР·РІСЂР°С‚ РѕС‚ СЃРµСЂРІРµСЂР° OpenID
 	 */
 	private function isReturn()
 	{
@@ -283,7 +283,7 @@ class AuthMethodOpenId extends AuthBasic
 			// displayError("Authentication error; not a valid OpenID.");
 		}
 
-		// только для регистрации
+		// С‚РѕР»СЊРєРѕ РґР»СЏ СЂРµРіРёСЃС‚СЂР°С†РёРё
 		$sreg_request = NULL; /*Auth_OpenID_SRegRequest::build(
 				// Required
 				array('nickname'),

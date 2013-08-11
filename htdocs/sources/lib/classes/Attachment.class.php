@@ -478,7 +478,7 @@ if (!class_exists('Attachment'))
 
 		public function delteFromDB()
 		{
-			// TODO: ñäåëàòü óäàëåíèå òîëüêî íóæíîãî îáúåêòà, à èç ibf_attachments_link óäàëÿòü òîëüêî åñëè íå îñòàëîñü ññûëîê â ibf_attachments_link
+			// TODO: ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ðµ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½ÑƒÐ¶Ð½Ð¾Ð³Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°, Ð° Ð¸Ð· ibf_attachments_link ÑƒÐ´Ð°Ð»ÑÑ‚ÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÑÐ»Ð¸ Ð½Ðµ Ð¾ÑÑ‚Ð°Ð»Ð¾ÑÑŒ ÑÑÑ‹Ð»Ð¾Ðº Ð² ibf_attachments_link
 			$ibforums = Ibf::app();
 
 			if (!$this->from_post_row)
@@ -556,7 +556,7 @@ if (!class_exists('Attachment'))
 		public function getLink()
 		{
 			global $ibforums;
-			return $this->getImageOfType() . "<a href='{$this->getHref()}' title='Ñêà÷àòü ôàéë' target='_blank'>" . ($this->filename()) . "</a>";
+			return $this->getImageOfType() . "<a href='{$this->getHref()}' title='Ð¡ÐºÐ°Ñ‡Ð°Ñ‚ÑŒ Ñ„Ð°Ð¹Ð»' target='_blank'>" . ($this->filename()) . "</a>";
 		}
 
 		public function accessIsAllowed($member)

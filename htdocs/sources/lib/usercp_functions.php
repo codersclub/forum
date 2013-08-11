@@ -1378,7 +1378,7 @@ class usercp_functions
 					            ));
 				}
 
-				if (preg_match("#[a-z]+#i", $len_u) && preg_match("#[à-ÿ]+#i", $len_u))
+				if (preg_match("#[a-z]+#i", $len_u) && preg_match("#[Ð°-Ñ]+#i", $len_u))
 				{
 					$std->Error(array(
 					                 'LEVEL' => 1,

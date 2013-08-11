@@ -146,7 +146,7 @@ class ad_prefs
 	a:link, a:visited, a:active  { color:#000055 }
 	a:hover                      { color:#333377;text-decoration:underline }
 	input {vertical-align:middle}
-	.textinput { background-color: #DFE6EF;; color:Ê#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px; }
+	.textinput { background-color: #DFE6EF;; color:Ðš#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px; }
 
   </style>
   <script type='text/javascript'>

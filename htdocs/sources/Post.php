@@ -1089,16 +1089,16 @@ class Post
 	 *
 	 * Enter description here ...
 	 * @param text &$post
-	 *             òåêñò ïîñòà, â êîòîğîì ïğîèçâîäèòü çàìåíû.
+	 *             Ñ‚ĞµĞºÑÑ‚ Ğ¿Ğ¾ÑÑ‚Ğ°, Ğ² ĞºĞ¾Ñ‚Ğ¾Ñ€Ğ¾Ğ¼ Ğ¿Ñ€Ğ¾Ğ¸Ğ·Ğ²Ğ¾Ğ´Ğ¸Ñ‚ÑŒ Ğ·Ğ°Ğ¼ĞµĞ½Ñ‹.
 	 *
 	 * @param array $attachments
-	 *             ìàññèâ àòòà÷åé, áóäóò ñîõğàíåíû â ÁÄ, ıòîé ôóíêöèåé
+	 *             Ğ¼Ğ°ÑÑĞ¸Ğ² Ğ°Ñ‚Ñ‚Ğ°Ñ‡ĞµĞ¹, Ğ±ÑƒĞ´ÑƒÑ‚ ÑĞ¾Ñ…Ñ€Ğ°Ğ½ĞµĞ½Ñ‹ Ğ² Ğ‘Ğ”, ÑÑ‚Ğ¾Ğ¹ Ñ„ÑƒĞ½ĞºÑ†Ğ¸ĞµĞ¹
 	 *
 	 * @param int $save_id
-	 *             $save_id id ıëåìåíòà ãäå àòòà÷è äîëæíû õğàíèòüñÿ
+	 *             $save_id id ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ° Ğ³Ğ´Ğµ Ğ°Ñ‚Ñ‚Ğ°Ñ‡Ğ¸ Ğ´Ğ¾Ğ»Ğ¶Ğ½Ñ‹ Ñ…Ñ€Ğ°Ğ½Ğ¸Ñ‚ÑŒÑÑ
 	 *
 	 * @param string $save_to
-	 *             òèï ıëåìåíòà, ãäå áóäåò õğàíèòüñÿ: topic_draft, post
+	 *             Ñ‚Ğ¸Ğ¿ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ°, Ğ³Ğ´Ğµ Ğ±ÑƒĞ´ĞµÑ‚ Ñ…Ñ€Ğ°Ğ½Ğ¸Ñ‚ÑŒÑÑ: topic_draft, post
 	 */
 	function replace_attachments_tags(&$post, array $attachments, $save_id, $save_to = 'post')
 	{
@@ -1178,8 +1178,8 @@ class Post
 	}
 
 	/**
-	 * ïèøåò â ëîã èíôîğìàöèş î òèïå ôàéëà, êîòîğûé íå óäàëîñü
-	 * ñõîğàíèòü, ââèäó íåäîïóñòèìîãî òèïà
+	 * Ğ¿Ğ¸ÑˆĞµÑ‚ Ğ² Ğ»Ğ¾Ğ³ Ğ¸Ğ½Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ†Ğ¸Ñ Ğ¾ Ñ‚Ğ¸Ğ¿Ğµ Ñ„Ğ°Ğ¹Ğ»Ğ°, ĞºĞ¾Ñ‚Ğ¾Ñ€Ñ‹Ğ¹ Ğ½Ğµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ
+	 * ÑÑ…Ğ¾Ñ€Ğ°Ğ½Ğ¸Ñ‚ÑŒ, Ğ²Ğ²Ğ¸Ğ´Ñƒ Ğ½ĞµĞ´Ğ¾Ğ¿ÑƒÑÑ‚Ğ¸Ğ¼Ğ¾Ğ³Ğ¾ Ñ‚Ğ¸Ğ¿Ğ°
 	 *
 	 */
 	function upload_log_typefails($real_file_name)
@@ -1212,8 +1212,8 @@ class Post
 			$logfile = new SplFileObject("{$ibforums->vars['bad_upload_log_path']}/log", 'a');
 			$block   = 1;
 			$i       = 0;
-			// åñëè òğåáóåòñÿ áëîêèğîâêà, ïğîáóåì 5 ğàçà ñ èíòåğâàëîì 50ìñåê
-			// åñëè íå ïîëó÷àåòñÿ, çàáèâàåì ıòî äåëî
+			// ĞµÑĞ»Ğ¸ Ñ‚Ñ€ĞµĞ±ÑƒĞµÑ‚ÑÑ Ğ±Ğ»Ğ¾ĞºĞ¸Ñ€Ğ¾Ğ²ĞºĞ°, Ğ¿Ñ€Ğ¾Ğ±ÑƒĞµĞ¼ 5 Ñ€Ğ°Ğ·Ğ° Ñ Ğ¸Ğ½Ñ‚ĞµÑ€Ğ²Ğ°Ğ»Ğ¾Ğ¼ 50Ğ¼ÑĞµĞº
+			// ĞµÑĞ»Ğ¸ Ğ½Ğµ Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµÑ‚ÑÑ, Ğ·Ğ°Ğ±Ğ¸Ğ²Ğ°ĞµĞ¼ ÑÑ‚Ğ¾ Ğ´ĞµĞ»Ğ¾
 			while (!$logfile->flock(LOCK_EX | LOCK_NB, $block))
 			{
 				if ($block)
@@ -1531,7 +1531,7 @@ class Post
 		{
 			if ($type == "reply")
 			{
-				// Sunny: ãàëî÷êà "ñêëåèâàíèå ñîîáùåíèé"
+				// Sunny: Ğ³Ğ°Ğ»Ğ¾Ñ‡ĞºĞ° "ÑĞºĞ»ĞµĞ¸Ğ²Ğ°Ğ½Ğ¸Ğµ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğ¹"
 				if (isset($ibforums->input['add_merge_edit']) and !$ibforums->input['add_merge_edit'])
 				{
 					$default_checked['merge'] = "";
@@ -1539,7 +1539,7 @@ class Post
 				$this->output = str_replace('<!--IBF.MERGE_POST_LABEL-->', $this->html->add_merge_edit_box($default_checked['merge']), $this->output);
 			} elseif ($type == "edit" && $ibforums->member['g_edit_posts'] == 1)
 			{
-				// Sunny: ãàëî÷êà "íàäïèñü îòğåäàêòèğîâàíî"
+				// Sunny: Ğ³Ğ°Ğ»Ğ¾Ñ‡ĞºĞ° "Ğ½Ğ°Ğ´Ğ¿Ğ¸ÑÑŒ Ğ¾Ñ‚Ñ€ĞµĞ´Ğ°ĞºÑ‚Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¾"
 				if (isset($ibforums->input['add_edit']) and !$ibforums->input['add_edit'])
 				{
 					$default_checked['edit'] = "";

@@ -318,7 +318,7 @@ class PostParser
 
 	/**
 	 *
-	 * возвращает валидный, с точки зрения html, цвет
+	 * РІРѕР·РІСЂР°С‰Р°РµС‚ РІР°Р»РёРґРЅС‹Р№, СЃ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ html, С†РІРµС‚
 	 * @param string $val
 	 * @return string
 	 */
@@ -387,7 +387,7 @@ class PostParser
 						// (because there is confusing with
 						// russian "C" letter), 03.03.05
 
-						if ($syntax == "1С" or $syntax == "1с")
+						if ($syntax == "1РЎ" or $syntax == "1СЃ")
 						{
 							$syntax = "1C";
 						}
@@ -439,7 +439,7 @@ class PostParser
 
 								$txt = $rule->tags[$n] . str_replace("\n", $rule->tags[($n + 1) % 10] . "**[*]**" . $rule->tags[$n], $txt) . $rule->tags[($n + 1) % 10];
 
-								// пустой текст не надо подсвечивать
+								// РїСѓСЃС‚РѕР№ С‚РµРєСЃС‚ РЅРµ РЅР°РґРѕ РїРѕРґСЃРІРµС‡РёРІР°С‚СЊ
 								$view .= str_replace($rule->tags[$n] . $rule->tags[($n + 1) % 10], '', $txt);
 
 								$l += strlen($match[$n]);
@@ -570,18 +570,18 @@ class PostParser
 
 	}
 
-	//суть функции в том, чтобы при парсинге узнать соответствие открытых и закрытых тегов (с учетом их порядка)
-	//чтобы потом решить - что с ними делать.
+	//СЃСѓС‚СЊ С„СѓРЅРєС†РёРё РІ С‚РѕРј, С‡С‚РѕР±С‹ РїСЂРё РїР°СЂСЃРёРЅРіРµ СѓР·РЅР°С‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РѕС‚РєСЂС‹С‚С‹С… Рё Р·Р°РєСЂС‹С‚С‹С… С‚РµРіРѕРІ (СЃ СѓС‡РµС‚РѕРј РёС… РїРѕСЂСЏРґРєР°)
+	//С‡С‚РѕР±С‹ РїРѕС‚РѕРј СЂРµС€РёС‚СЊ - С‡С‚Рѕ СЃ РЅРёРјРё РґРµР»Р°С‚СЊ.
 	//
-	//Результаты работы функии (после обработки последнего [/spoiler] в посте):
-	//quote_open - количество [spoiler] оставшиеся без пары
-	//quote_error - количество [/spoiler] без пары
-	//все закрывающие [/spoiler] без пары останутся необработанными, однако открывающие теги будут обработаны!!!
-	//за исключением тех, которые находятся дальше последнего [/spoiler], ибо они сюда даже не попадут
+	//Р РµР·СѓР»СЊС‚Р°С‚С‹ СЂР°Р±РѕС‚С‹ С„СѓРЅРєРёРё (РїРѕСЃР»Рµ РѕР±СЂР°Р±РѕС‚РєРё РїРѕСЃР»РµРґРЅРµРіРѕ [/spoiler] РІ РїРѕСЃС‚Рµ):
+	//quote_open - РєРѕР»РёС‡РµСЃС‚РІРѕ [spoiler] РѕСЃС‚Р°РІС€РёРµСЃСЏ Р±РµР· РїР°СЂС‹
+	//quote_error - РєРѕР»РёС‡РµСЃС‚РІРѕ [/spoiler] Р±РµР· РїР°СЂС‹
+	//РІСЃРµ Р·Р°РєСЂС‹РІР°СЋС‰РёРµ [/spoiler] Р±РµР· РїР°СЂС‹ РѕСЃС‚Р°РЅСѓС‚СЃСЏ РЅРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅС‹РјРё, РѕРґРЅР°РєРѕ РѕС‚РєСЂС‹РІР°СЋС‰РёРµ С‚РµРіРё Р±СѓРґСѓС‚ РѕР±СЂР°Р±РѕС‚Р°РЅС‹!!!
+	//Р·Р° РёСЃРєР»СЋС‡РµРЅРёРµРј С‚РµС…, РєРѕС‚РѕСЂС‹Рµ РЅР°С…РѕРґСЏС‚СЃСЏ РґР°Р»СЊС€Рµ РїРѕСЃР»РµРґРЅРµРіРѕ [/spoiler], РёР±Рѕ РѕРЅРё СЃСЋРґР° РґР°Р¶Рµ РЅРµ РїРѕРїР°РґСѓС‚
 	private function convert_spoiler($matches)
 	{
 		global $ibforums;
-		//Проверка matches[4] здесь - выяснение, сработало вхождение [spoiler] или [/spoiler].
+		//РџСЂРѕРІРµСЂРєР° matches[4] Р·РґРµСЃСЊ - РІС‹СЏСЃРЅРµРЅРёРµ, СЃСЂР°Р±РѕС‚Р°Р»Рѕ РІС…РѕР¶РґРµРЅРёРµ [spoiler] РёР»Рё [/spoiler].
 		if (!$matches[4])
 		{
 			// Starting Tag
@@ -626,9 +626,9 @@ class PostParser
 
 		if ($this->quote_open || $this->quote_error)
 		{
-			//Можно просто закрыть все оставшиеся теги спойлера
+			//РњРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ Р·Р°РєСЂС‹С‚СЊ РІСЃРµ РѕСЃС‚Р°РІС€РёРµСЃСЏ С‚РµРіРё СЃРїРѕР№Р»РµСЂР°
 			//$txt .= str_repeat('</div></div>', $this->quote_open);
-			//а можно ещё проще вернуть всё фсад
+			//Р° РјРѕР¶РЅРѕ РµС‰С‘ РїСЂРѕС‰Рµ РІРµСЂРЅСѓС‚СЊ РІСЃС‘ С„СЃР°Рґ
 			$txt = $the_txt;
 		}
 
@@ -796,7 +796,7 @@ class PostParser
 		 * $matches[1] = { 'p' | '' }
 		 * $matches[2] = <id>
 		 * $matches[3] = options
-		 * $matches[4] = <текст>
+		 * $matches[4] = <С‚РµРєСЃС‚>
 		 */
 
 		list(, $p, $id, $opt_string, $text) = $matches;
@@ -1262,8 +1262,8 @@ class PostParser
 		// Swop \n back to <br>
 		//negram	$txt = preg_replace( "/\n/", "<br>", $txt );
 		/*
-	 * очистить от переносов строки внутри структуры таблиц
-	 * чтоб не получилось такого:
+	 * РѕС‡РёСЃС‚РёС‚СЊ РѕС‚ РїРµСЂРµРЅРѕСЃРѕРІ СЃС‚СЂРѕРєРё РІРЅСѓС‚СЂРё СЃС‚СЂСѓРєС‚СѓСЂС‹ С‚Р°Р±Р»РёС†
+	 * С‡С‚РѕР± РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ С‚Р°РєРѕРіРѕ:
 	 * <table><br>
 	 * <tr><br><td></td>
 	 * </tr>
@@ -1575,8 +1575,8 @@ class PostParser
 		$txt = preg_replace("#\[st\s*=\s*(\S+?)\s*\](.*?)\[\/st\]#ie", "\$this->regex_word_search('\\2','sf','title','\\1')", $txt);
 
 		// tags for moderators
-		$txt = preg_replace("/(\.[Пп]равил(а){0,1}(, п.\d+)*)/e", "\$this->wordreplacer('\\1','boardrules')", $txt);
-		$txt = preg_replace("/(\.[Пп]оиск[а-я]{0,})/e", "\$this->wordreplacer('\\1','Search')", $txt);
+		$txt = preg_replace("/(\.[РџРї]СЂР°РІРёР»(Р°){0,1}(, Рї.\d+)*)/e", "\$this->wordreplacer('\\1','boardrules')", $txt);
+		$txt = preg_replace("/(\.[РџРї]РѕРёСЃРє[Р°-СЏ]{0,})/e", "\$this->wordreplacer('\\1','Search')", $txt);
 		$txt = preg_replace("/(\.FAQ{0,})/e", "\$this->wordreplacer('\\1','faq',$fid)", $txt);
 
 		// user tag
@@ -1605,10 +1605,10 @@ class PostParser
 
 		if ($type == "sf")
 		{
-			$link = "ПОИСК: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&f={$fid}&keywords={$word_url}]{$word}[/URL]";
+			$link = "РџРћРРЎРљ: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&f={$fid}&keywords={$word_url}]{$word}[/URL]";
 		} else
 		{
-			$link = "ПОИСК: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&keywords={$word_url}]{$word}[/URL]";
+			$link = "РџРћРРЎРљ: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&keywords={$word_url}]{$word}[/URL]";
 		}
 
 		return $link;
@@ -2096,7 +2096,7 @@ class PostParser
 
 		$possible_use = array(
 			'CODE'  => array('CODE', ''),
-			'QUOTE' => array('QUOTE', 'Цитата'),
+			'QUOTE' => array('QUOTE', 'Р¦РёС‚Р°С‚Р°'),
 			'SQL'   => array('CODE', 'SQL'),
 			'HTML'  => array('CODE', 'HTML'),
 			'PHP'   => array('CODE', 'PHP')
@@ -2137,7 +2137,7 @@ class PostParser
 
 			if (!$ibforums->member['id'])
 			{
-				$extra .= " title='Подсветка синтаксиса доступна зарегистрированным участникам Форума.'";
+				$extra .= " title='РџРѕРґСЃРІРµС‚РєР° СЃРёРЅС‚Р°РєСЃРёСЃР° РґРѕСЃС‚СѓРїРЅР° Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рј СѓС‡Р°СЃС‚РЅРёРєР°Рј Р¤РѕСЂСѓРјР°.'";
 				$class = " code_collapsed ";
 			} else
 			{
@@ -2386,7 +2386,7 @@ class PostParser
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
 
-		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid blue;'><TD align=middle bgColor=#6060ff valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em' ><B>М</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
+		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid blue;'><TD align=middle bgColor=#6060ff valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em' ><B>Рњ</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
 
 		return $html;
 	}
@@ -2980,7 +2980,7 @@ class PostParser
 
 				if (preg_match("~p=(\d+)~", $show, $find))
 				{
-					$record['title'] = $record['title'] . " (сообщение #" . $find[1] . ")";
+					$record['title'] = $record['title'] . " (СЃРѕРѕР±С‰РµРЅРёРµ #" . $find[1] . ")";
 				}
 
 				$show = $record['title'];
@@ -3091,7 +3091,7 @@ class PostParser
 				{
 					if (preg_match("~p=(\d+)~", $show, $find))
 					{
-						$record['title'] = $record['title'] . " (сообщение #" . $find[1] . ")";
+						$record['title'] = $record['title'] . " (СЃРѕРѕР±С‰РµРЅРёРµ #" . $find[1] . ")";
 					}
 
 					$show = $record['title'];
