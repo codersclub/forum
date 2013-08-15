@@ -206,7 +206,7 @@ if ( file_exists( $ips_file ) )
 		$env = "";
 		foreach( $IN as $name => $line ) $env .= $name."=".$line."<br>";
 
-		$stmt = $ibforums->db->query("INSERT INTO ibf_admin_foreign_visits (dt,ip_address,content) VALUES (CURRENT_TIMESTAMP,'".$IN['IP_ADDRESS']."','".mysql_escape_string($env)."')");
+		$stmt = $ibforums->db->query("INSERT INTO ibf_admin_foreign_visits (dt,ip_address,content) VALUES (CURRENT_TIMESTAMP,'".$IN['IP_ADDRESS']."','".mysql_real_escape_string($env)."')");
 
 		fatal_error("You do not have access to the administrative CP");
 	}
