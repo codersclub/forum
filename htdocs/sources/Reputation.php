@@ -273,33 +273,33 @@ class Reputation
 			    $check['topic_id'] != $ibforums->input['t']
 			)
 			{
-				$mes = "Участником [URL={$ibforums->base_url}showuser={$ibforums->member['id']}]{$ibforums->member['name']}[/URL] ";
-				$mes .= "была предпринята попытка подделать адресную строку ссылки изменения рейтинга.\r\n";
+				$mes = "РЈС‡Р°СЃС‚РЅРёРєРѕРј [URL={$ibforums->base_url}showuser={$ibforums->member['id']}]{$ibforums->member['name']}[/URL] ";
+				$mes .= "Р±С‹Р»Р° РїСЂРµРґРїСЂРёРЅСЏС‚Р° РїРѕРїС‹С‚РєР° РїРѕРґРґРµР»Р°С‚СЊ Р°РґСЂРµСЃРЅСѓСЋ СЃС‚СЂРѕРєСѓ СЃСЃС‹Р»РєРё РёР·РјРµРЅРµРЅРёСЏ СЂРµР№С‚РёРЅРіР°.\r\n";
 				$mes .= "\r\n";
 
-				$mes .= "<b><u>Правильные данные</u></b>:\r\n";
-				$mes .= "Пост #{$ibforums->input['p']}: [URL={$ibforums->base_url}showtopic={$check['topic_id']}&view=findpost&p={$ibforums->input['p']}]#{$ibforums->input['p']}[/URL]\r\n";
-				$mes .= "Топик #{$check['topic_id']}: [URL={$ibforums->base_url}showtopic={$check['topic_id']}]{$check['title']}[/URL]\r\n";
-				$mes .= "Раздел #{$check['forum_id']}: [URL={$ibforums->base_url}showforum={$check['forum_id']}]{$check['forum_name']}[/URL]\r\n";
-				$mes .= "Участник #{$check['author_id']}: [URL={$ibforums->base_url}showuser={$check['author_id']}]{$check['member_name']}[/URL]\r\n";
+				$mes .= "<b><u>РџСЂР°РІРёР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ</u></b>:\r\n";
+				$mes .= "РџРѕСЃС‚ #{$ibforums->input['p']}: [URL={$ibforums->base_url}showtopic={$check['topic_id']}&view=findpost&p={$ibforums->input['p']}]#{$ibforums->input['p']}[/URL]\r\n";
+				$mes .= "РўРѕРїРёРє #{$check['topic_id']}: [URL={$ibforums->base_url}showtopic={$check['topic_id']}]{$check['title']}[/URL]\r\n";
+				$mes .= "Р Р°Р·РґРµР» #{$check['forum_id']}: [URL={$ibforums->base_url}showforum={$check['forum_id']}]{$check['forum_name']}[/URL]\r\n";
+				$mes .= "РЈС‡Р°СЃС‚РЅРёРє #{$check['author_id']}: [URL={$ibforums->base_url}showuser={$check['author_id']}]{$check['member_name']}[/URL]\r\n";
 				$mes .= "\r\n";
 
-				$mes .= "<b><u>Данные переданной пользовательской формы</u></b>:\r\n";
-				$mes .= "Пост #{$ibforums->input['p']}: [URL={$ibforums->base_url}showtopic={$ibforums->input['t']}&view=findpost&p={$ibforums->input['p']}]#{$ibforums->input['p']}[/URL]\r\n";
-				$mes .= "Топик #{$ibforums->input['t']}: [URL={$ibforums->base_url}showtopic={$ibforums->input['t']}]#{$ibforums->input['t']}[/URL]\r\n";
-				$mes .= "Раздел #{$ibforums->input['f']}: [URL={$ibforums->base_url}showforum={$ibforums->input['f']}]#{$ibforums->input['f']}[/URL]\r\n";
-				$mes .= "Участник #{$ibforums->input['mid']}: [URL={$ibforums->base_url}showuser={$ibforums->input['mid']}]#{$ibforums->input['mid']}[/URL]\r\n";
+				$mes .= "<b><u>Р”Р°РЅРЅС‹Рµ РїРµСЂРµРґР°РЅРЅРѕР№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№ С„РѕСЂРјС‹</u></b>:\r\n";
+				$mes .= "РџРѕСЃС‚ #{$ibforums->input['p']}: [URL={$ibforums->base_url}showtopic={$ibforums->input['t']}&view=findpost&p={$ibforums->input['p']}]#{$ibforums->input['p']}[/URL]\r\n";
+				$mes .= "РўРѕРїРёРє #{$ibforums->input['t']}: [URL={$ibforums->base_url}showtopic={$ibforums->input['t']}]#{$ibforums->input['t']}[/URL]\r\n";
+				$mes .= "Р Р°Р·РґРµР» #{$ibforums->input['f']}: [URL={$ibforums->base_url}showforum={$ibforums->input['f']}]#{$ibforums->input['f']}[/URL]\r\n";
+				$mes .= "РЈС‡Р°СЃС‚РЅРёРє #{$ibforums->input['mid']}: [URL={$ibforums->base_url}showuser={$ibforums->input['mid']}]#{$ibforums->input['mid']}[/URL]\r\n";
 				$mes .= "\r\n";
 
-				$mes .= "Дата записи выставления данного рейтинга в таблице рейтинга участника [URL={$ibforums->base_url}showuser={$check['author_id']}]{$check['member_name']}[/URL] ";
+				$mes .= "Р”Р°С‚Р° Р·Р°РїРёСЃРё РІС‹СЃС‚Р°РІР»РµРЅРёСЏ РґР°РЅРЅРѕРіРѕ СЂРµР№С‚РёРЅРіР° РІ С‚Р°Р±Р»РёС†Рµ СЂРµР№С‚РёРЅРіР° СѓС‡Р°СЃС‚РЅРёРєР° [URL={$ibforums->base_url}showuser={$check['author_id']}]{$check['member_name']}[/URL] ";
 				$mes .= $std->get_date(time()) . ".\r\n\r\n";
-				$mes .= "Проверьте несовпадение всех перечисленных параметров и действуйте в соответствии.\r\n";
-				$mes .= "Данное сообщение направлено <b>всем</b> модераторам раздела ";
-				$mes .= "[URL={$ibforums->base_url}showforum={$check['forum_id']}]{$check['forum_name']}[/URL], поэтому ";
-				$mes .= "действуйте скоординированно.\r\n\r\n";
-				$mes .= "Письмо сгенирировано ботом Форума на Исходниках.RU, спасибо за внимание. \r\n/Forum_Bot/";
+				$mes .= "РџСЂРѕРІРµСЂСЊС‚Рµ РЅРµСЃРѕРІРїР°РґРµРЅРёРµ РІСЃРµС… РїРµСЂРµС‡РёСЃР»РµРЅРЅС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ Рё РґРµР№СЃС‚РІСѓР№С‚Рµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё.\r\n";
+				$mes .= "Р”Р°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ РЅР°РїСЂР°РІР»РµРЅРѕ <b>РІСЃРµРј</b> РјРѕРґРµСЂР°С‚РѕСЂР°Рј СЂР°Р·РґРµР»Р° ";
+				$mes .= "[URL={$ibforums->base_url}showforum={$check['forum_id']}]{$check['forum_name']}[/URL], РїРѕСЌС‚РѕРјСѓ ";
+				$mes .= "РґРµР№СЃС‚РІСѓР№С‚Рµ СЃРєРѕРѕСЂРґРёРЅРёСЂРѕРІР°РЅРЅРѕ.\r\n\r\n";
+				$mes .= "РџРёСЃСЊРјРѕ СЃРіРµРЅРёСЂРёСЂРѕРІР°РЅРѕ Р±РѕС‚РѕРј Р¤РѕСЂСѓРјР° РЅР° РСЃС…РѕРґРЅРёРєР°С….RU, СЃРїР°СЃРёР±Рѕ Р·Р° РІРЅРёРјР°РЅРёРµ. \r\n/Forum_Bot/";
 
-				$title = "Обнаружена подделка ссылки выставления рейтинга";
+				$title = "РћР±РЅР°СЂСѓР¶РµРЅР° РїРѕРґРґРµР»РєР° СЃСЃС‹Р»РєРё РІС‹СЃС‚Р°РІР»РµРЅРёСЏ СЂРµР№С‚РёРЅРіР°";
 
 				$stmt = $ibforums->db->query("SELECT member_id FROM ibf_moderators WHERE member_id != -1 and forum_id='" . $check['forum_id'] . "'");
 				while ($moderator = $stmt->fetch())

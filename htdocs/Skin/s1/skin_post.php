@@ -260,9 +260,9 @@ foreach ($data as $history_item) {
   $res .= <<<EOF
   <table width="100%" border="0" cellspacing="1" cellpadding="3">
   <tr>
-  <th class="row4">{$history_item['time']} by {$history_item['member']}<br>Было (<a href="{$ibforums->base_url}act=Post&amp;CODE=08&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;restore_id={$history_item['id']}&amp;preview=1">восстановить</a>)
+  <th class="row4">{$history_item['time']} by {$history_item['member']}<br>Р‘С‹Р»Рѕ (<a href="{$ibforums->base_url}act=Post&amp;CODE=08&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;restore_id={$history_item['id']}&amp;preview=1">РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ</a>)
   </td>
-  <th valign="bottom" class="row4">Стало (<a href="javascript:PopUpCD('{$ibforums->base_url}act=Post&amp;CODE=16&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;st=0&amp;oldpost={$history_item['id']}','500','300')">отобразить изменения</a>)</td>
+  <th valign="bottom" class="row4">РЎС‚Р°Р»Рѕ (<a href="javascript:PopUpCD('{$ibforums->base_url}act=Post&amp;CODE=16&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;st=0&amp;oldpost={$history_item['id']}','500','300')">РѕС‚РѕР±СЂР°Р·РёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ</a>)</td>
   </tr>
 	<tr>
 	<td width="50%" valign="top" class="$class">{$history_item['old_text']}</td>
@@ -504,7 +504,7 @@ var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 var prompt_start        = "{$ibforums->lang['js_text_to_format']}";
 var MessageMax  	= "{$ibforums->lang['the_max_length']}";
 var Override    	= "{$ibforums->lang['override']}";
-var rusLet		= new Array("Э","Щ","Щ","Ч","Ч","Ш","Ш","Ё","Ё","Ё","Ё","Ю","Ю","Ю","Ю","Я","Я","Я","Я","Ж","Ж","А","Б","В","Г","Д","Е","З","ИЙ","ИЙ","ЫЙ","ЫЙ","И","Й","К","КС","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Щ","Ы","э","щ","ч","ш","ё","ё","ю","ю","я","я","ж","а","б","в","г","д","е","з","ий","ий","ый","ый","и","й","к","кс","л","м","н","о","п","р","с","т","у","ф","х","ц","щ","щ","ы","ъ","ъ","ь");
+var rusLet		= new Array("Р­","Р©","Р©","Р§","Р§","РЁ","РЁ","РЃ","РЃ","РЃ","РЃ","Р®","Р®","Р®","Р®","РЇ","РЇ","РЇ","РЇ","Р–","Р–","Рђ","Р‘","Р’","Р“","Р”","Р•","Р—","РР™","РР™","Р«Р™","Р«Р™","Р","Р™","Рљ","РљРЎ","Р›","Рњ","Рќ","Рћ","Рџ","Р ","РЎ","Рў","РЈ","Р¤","РҐ","Р¦","Р©","Р«","СЌ","С‰","С‡","С€","С‘","С‘","СЋ","СЋ","СЏ","СЏ","Р¶","Р°","Р±","РІ","Рі","Рґ","Рµ","Р·","РёР№","РёР№","С‹Р№","С‹Р№","Рё","Р№","Рє","РєСЃ","Р»","Рј","РЅ","Рѕ","Рї","СЂ","СЃ","С‚","Сѓ","С„","С…","С†","С‰","С‰","С‹","СЉ","СЉ","СЊ");
 var engReg		= new Array(/E'/g,/SHCH/g,/Shch/g,/CH/g,/Ch/g,/SH/g,/Sh/g,/YO/g,/JO/g,/Yo/g,/Jo/g,/YU/g,/JU/g,/Yu/g,/Ju/g,/YA/g,/JA/g,/Ya/g,/Ja/g,/ZH/g,/Zh/g,/A/g,/B/g,/V/g,/G/g,/D/g,/E/g,/Z/g,/II/g,/IY/g,/YI/g,/YY/g,/I/g,/J/g,/K/g,/X/g,/L/g,/M/g,/N/g,/O/g,/P/g,/R/g,/S/g,/T/g,/U/g,/F/g,/H/g,/C/g,/W/g,/Y/g,/e'/g,/shch/g,/ch/g,/sh/g,/yo/g,/jo/g,/yu/g,/ju/g,/ya/g,/ja/g,/zh/g,/a/g,/b/g,/v/g,/g/g,/d/g,/e/g,/z/g,/ii/g,/iy/g,/yi/g,/yy/g,/i/g,/j/g,/k/g,/x/g,/l/g,/m/g,/n/g,/o/g,/p/g,/r/g,/s/g,/t/g,/u/g,/f/g,/h/g,/c/g,/w/g,/#/g,/y/g,/`/g,/~/g,/'/g);
 MessageMax      	= parseInt(MessageMax);
 if ( MessageMax < 0 ) MessageMax = 0;
@@ -679,14 +679,14 @@ return <<<EOF
            <input type='button' value='sup' onclick='simpletag("sup")' class='codebuttons' name='sup' title='Superscript'>
 
 	   <input type='button' value=' L ' onclick='simpletag("L")' class='codebuttons' name='L' title='Left'">
-	   <input type='button' accesskey='с' value=' C ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
+	   <input type='button' accesskey='СЃ' value=' C ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
 	   <input type='button' accesskey='r' value=' R ' onclick='simpletag("R")' class='codebuttons' name='R' title='Rigth'">
 	   
          <!-- e-moe: table buttons -->
-         <input value='table' onclick='tag_table()' class='codebuttons' name='table' title='Таблица' type='button'>
-	 <input value='tr' onclick='simpletag("tr")' class='codebuttons' name='tr' title='Ряд' type='button'>
-	 <input value='td' onclick='simpletag("td")' class='codebuttons' name='td' title='Ячейка' type='button'>
-	 <input value='th' onclick='simpletag("th")' class='codebuttons' name='th' title='Шапка' type='button'>
+         <input value='table' onclick='tag_table()' class='codebuttons' name='table' title='РўР°Р±Р»РёС†Р°' type='button'>
+	 <input value='tr' onclick='simpletag("tr")' class='codebuttons' name='tr' title='Р СЏРґ' type='button'>
+	 <input value='td' onclick='simpletag("td")' class='codebuttons' name='td' title='РЇС‡РµР№РєР°' type='button'>
+	 <input value='th' onclick='simpletag("th")' class='codebuttons' name='th' title='РЁР°РїРєР°' type='button'>
 			 
 	   <!-- barazuk: [HR] -->
 	   <input type='button' value='hr' onclick='doInsert("[HR]", true)' class='codebuttons' name='hr' title='Horizontal Line'>&nbsp;
@@ -707,7 +707,7 @@ return <<<EOF
            {$ipicture}
 	   
            <input type='button' accesskey='y' value='TRANSLIT' onClick='rusLang()'class='codebuttons' name="TRANSLIT">
-           <input type='button' accesskey='r' value='Русская клавиатура' onclick='javascript:keyb_pop()' class='codebuttons'>
+           <input type='button' accesskey='r' value='Р СѓСЃСЃРєР°СЏ РєР»Р°РІРёР°С‚СѓСЂР°' onclick='javascript:keyb_pop()' class='codebuttons'>
 
 	   &nbsp;&nbsp;
 	   <input type='button' value='{$ibforums->lang['js_close_all_tags']}' onclick='javascript:closeall();' class='codebuttons'>

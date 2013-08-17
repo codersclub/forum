@@ -585,13 +585,13 @@ return <<<EOF
 <table class="pformstrip" cellspacing=0 cellpadding=8 width="100%">
   <tr align="center">
    <td>
-   <a href="http://www.yandex.ru" target="_blank" title="Яndex: Найдется ВСЁ!"><img src="/img/yandex.gif" border=0 width=76 height=48></a>
+   <a href="http://www.yandex.ru" target="_blank" title="РЇndex: РќР°Р№РґРµС‚СЃСЏ Р’РЎРЃ!"><img src="/img/yandex.gif" border=0 width=76 height=48></a>
    </td>
 
    <td class=tableborder width=1><img src=/html/sys-img/blank.gif></td>
 
    <td width="50%">
-   <a href="http://www.google.ru/webhp?hl=ru" target=_blank title="Google: а ничего и не терялось!"><img src="/img/google.gif" width=150 height=55 border=0 vspace=12></a>
+   <a href="http://www.google.ru/webhp?hl=ru" target=_blank title="Google: Р° РЅРёС‡РµРіРѕ Рё РЅРµ С‚РµСЂСЏР»РѕСЃСЊ!"><img src="/img/google.gif" width=150 height=55 border=0 vspace=12></a>
    </td>
   </tr>
   <tr align="center">
@@ -679,7 +679,7 @@ global $ibforums;
 return <<<EOF
 
 <div id='submenu'><center>{$ibforums->lang['boardlay_successful']}</center></div>
-<center><a href='javascript:self.close();'>Закрыть окно</a></center>
+<center><a href='javascript:self.close();'>Р—Р°РєСЂС‹С‚СЊ РѕРєРЅРѕ</a></center>
 
 
 EOF;

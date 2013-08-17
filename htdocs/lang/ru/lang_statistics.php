@@ -1,6 +1,6 @@
 <?php
 
 
-$lang['WHERE_Statistics']  = "Ïðîñìîòð ñòàòèñòèêè";
+$lang['WHERE_Statistics']  = "ÐŸÑ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€ ÑÑ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ¸";
 
 ?>

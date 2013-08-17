@@ -1592,7 +1592,7 @@ class Moderate
 
 			// vot: BAD MESSAGE
 			$ibforums->db->exec("UPDATE ibf_topics
-				    SET description='голосование окончено'
+				    SET description='РіРѕР»РѕСЃРѕРІР°РЅРёРµ РѕРєРѕРЅС‡РµРЅРѕ'
 				    WHERE tid='" . $this->topic['tid'] . "'");
 		}
 
@@ -2325,8 +2325,8 @@ class Moderate
 		$delete_from = $ibforums->input['delete_from'];
 
 		/**
-		 * Даже, если ничего не перенадо, то стоит пройтись. Если зеркал не осталось,
-		 * то ф-ция topic_delete_mirrors() поправит флаг ibf_topics.has_mirror
+		 * Р”Р°Р¶Рµ, РµСЃР»Рё РЅРёС‡РµРіРѕ РЅРµ РїРµСЂРµРЅР°РґРѕ, С‚Рѕ СЃС‚РѕРёС‚ РїСЂРѕР№С‚РёСЃСЊ. Р•СЃР»Рё Р·РµСЂРєР°Р» РЅРµ РѕСЃС‚Р°Р»РѕСЃСЊ,
+		 * С‚Рѕ С„-С†РёСЏ topic_delete_mirrors() РїРѕРїСЂР°РІРёС‚ С„Р»Р°Рі ibf_topics.has_mirror
 		 */
 		!$delete_from && $delete_from = array();
 
@@ -2504,7 +2504,7 @@ class Moderate
 		         <input type='hidden' name='f' value='{$this->forum['id']}'>
 		         <input type='hidden' name='t' value='{$this->topic['tid']}'>
 			 <select name='linkid' class='forminput'>
-		         <optgroup label=\"Выберите ссылку для удаления\">";
+		         <optgroup label=\"Р’С‹Р±РµСЂРёС‚Рµ СЃСЃС‹Р»РєСѓ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ\">";
 
 		$stmt = $ibforums->db->query("SELECT
 				t.tid as topic_id,
@@ -2531,7 +2531,7 @@ class Moderate
 			$i++;
 		}
 
-		$html .= "</optgroup>\n</select>&nbsp;<input type='submit' value='Удалить ссылку' ";
+		$html .= "</optgroup>\n</select>&nbsp;<input type='submit' value='РЈРґР°Р»РёС‚СЊ СЃСЃС‹Р»РєСѓ' ";
 		if (!$i)
 		{
 			$html .= "disabled ";
@@ -2554,7 +2554,7 @@ class Moderate
 		         <input type='hidden' name='f' value='{$this->forum['id']}'>
 		         <input type='hidden' name='t' value='{$this->topic['tid']}'>
 			 <select name='linkid' class='forminput'>
-		         <optgroup label=\"Выберите ссылку для удаления\">";
+		         <optgroup label=\"Р’С‹Р±РµСЂРёС‚Рµ СЃСЃС‹Р»РєСѓ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ\">";
 
 		$stmt = $ibforums->db->query("SELECT
 				id,
@@ -2571,7 +2571,7 @@ class Moderate
 			$i++;
 		}
 
-		$html .= "</optgroup>\n</select>&nbsp;<input type='submit' value='Удалить ссылку' ";
+		$html .= "</optgroup>\n</select>&nbsp;<input type='submit' value='РЈРґР°Р»РёС‚СЊ СЃСЃС‹Р»РєСѓ' ";
 		if (!$i)
 		{
 			$html .= "disabled ";
@@ -2751,7 +2751,7 @@ class Moderate
 		{
 
 			require ROOT_PATH . "/sources/Topics.php";
-			header('Content-Type: text/html; charset=windows-1251');
+			header('Content-Type: text/html; charset=utf-8');
 			$row = $ibforums->db->query("
 			SELECT
 									p.*,
@@ -3766,7 +3766,7 @@ class Moderate
 
 		//--------------------------------------------
 		// Get the topic ID of the entered URL
-		// (Ещё бы я это сам писал! Делать нечего! :Р)
+		// (Р•С‰С‘ Р±С‹ СЏ СЌС‚Рѕ СЃР°Рј РїРёСЃР°Р»! Р”РµР»Р°С‚СЊ РЅРµС‡РµРіРѕ! :Р )
 		//--------------------------------------------
 
 		preg_match("/(\?|&amp;)(t|showtopic)=(\d+)($|&amp;)/", $ibforums->input['where2move'], $match);
@@ -4136,7 +4136,7 @@ class Moderate
 		{
 			require ROOT_PATH . "/sources/Topics.php";
 
-			header('Content-Type: text/html; charset=windows-1251');
+			header('Content-Type: text/html; charset=utf-8');
 
 			$count = 1;
 			$out   = (new Topics())->process_one_post($row, 0, $count, true);
@@ -4224,7 +4224,7 @@ class Moderate
 		if ($ibforums->input['ajax'] == 'on')
 		{
 			$ibforums->lang = $std->load_words($ibforums->lang, 'lang_topic', $ibforums->lang_id);
-			header('Content-type: text/html; charset=windows-1251');
+			header('Content-type: text/html; charset=utf-8');
 			echo $std->get_autodelete_message($state, $ibforums->lang['delete_waiting_message'], $ibforums->lang['delete_through_message']);
 			die;
 		}

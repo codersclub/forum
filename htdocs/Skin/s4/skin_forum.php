@@ -110,7 +110,7 @@ return <<<EOF
 var js_base_url = "{$ibforums->js_base_url}";
 </script>
 <script type='text/javascript' src='html/forums.js'></script>
-Координаторы: {$data['moderators']}
+РљРѕРѕСЂРґРёРЅР°С‚РѕСЂС‹: {$data['moderators']}
 <br>
 <!--IBF.SUBFORUMS-->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

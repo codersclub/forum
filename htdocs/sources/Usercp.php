@@ -1456,7 +1456,7 @@ class UserCP
 				{
 					if ($match[1] == $offset)
 					{
-						$time_select_append .= "<br><br>Ваша текущая установка: " . $words;
+						$time_select_append .= "<br><br>Р’Р°С€Р° С‚РµРєСѓС‰Р°СЏ СѓСЃС‚Р°РЅРѕРІРєР°: " . $words;
 					}
 				}
 			}
@@ -1466,7 +1466,7 @@ class UserCP
 
 		}
 
-		$time_select = "Регион: <select id='u_tz_region' name='u_tz_region' class='forminput'></select>" . " Часовая зона: <select id='u_tz_zone' name='u_tz_zone' class='forminput'></select>" . "<script src='" . $ibforums->vars['board_url'] . "/html/timezones.js.php?current=" . $str_offset . "'></script>" . $time_select_append;
+		$time_select = "Р РµРіРёРѕРЅ: <select id='u_tz_region' name='u_tz_region' class='forminput'></select>" . " Р§Р°СЃРѕРІР°СЏ Р·РѕРЅР°: <select id='u_tz_zone' name='u_tz_zone' class='forminput'></select>" . "<script src='" . $ibforums->vars['board_url'] . "/html/timezones.js.php?current=" . $str_offset . "'></script>" . $time_select_append;
 
 		/*$time_select = "<select name='u_timezone' class='forminput'>";
 

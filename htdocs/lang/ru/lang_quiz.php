@@ -1,58 +1,58 @@
 <?php
 
 
-$lang['quizs']			= "Викторины";
-$lang['quiz']			= "Викторина";
-$lang['quiz_answer']		= "Ответ";
-$lang['quiz_close']		= "Закрыть";
-$lang['quiz_closed']		= "Закрыто";
-$lang['quiz_days']		= "Дней";
-$lang['quiz_desc']		= "Описание";
-$lang['quiz_is_closed'] 	= "Вы пытаетесь обмануть викторину, и всё ещё пытаетесь играть, а оно ЗАКРЫТО!";
-$lang['quiz_items_gotten']	= "С помощью викторины вы выиграли следующие вещи: <#ITEMS#>";
-$lang['quiz_name']		= "Название викторины";
-$lang['quiz_nav']		= "Викторины";
-$lang['quiz_notenoughtcorrect']	= "Ваш результат <CORRECT_PERCENT>% (<CORRECT_NUMBER> правильных ответов) из необходимых <QUIZ_PERCENT_NEEDED>% правильных ответы, Вы не выигрывали ";
-$lang['quiz_play']		= "Играть";
-$lang['quiz_playedalready']	= "Вы уже принимали участие в этой викторине";
-$lang['quiz_qa_submit']		= "Ок";
-$lang['quiz_question']		= "Вопрос";
-$lang['quiz_questions']		= "Вопросы";
-$lang['quiz_starter']		= "Автор";
-$lang['quiz_stats']		= "Статус";
-$lang['quiz_status']		= "Время до завершения";
-$lang['quiz_winner']		= "Ваш результат <CORRECT_PERCENT>% (<CORRECT_NUMBER> правильных ответов) из необходимых <TOTAl_QUESTIONS> правильных овтетов, Вы выиграли <WIN_AMOUNT> <CURRENCY>.";
-$lang['quiz_winnings']		= "Выигрыш";
+$lang['quizs']			= "Р’РёРєС‚РѕСЂРёРЅС‹";
+$lang['quiz']			= "Р’РёРєС‚РѕСЂРёРЅР°";
+$lang['quiz_answer']		= "РћС‚РІРµС‚";
+$lang['quiz_close']		= "Р—Р°РєСЂС‹С‚СЊ";
+$lang['quiz_closed']		= "Р—Р°РєСЂС‹С‚Рѕ";
+$lang['quiz_days']		= "Р”РЅРµР№";
+$lang['quiz_desc']		= "РћРїРёСЃР°РЅРёРµ";
+$lang['quiz_is_closed'] 	= "Р’С‹ РїС‹С‚Р°РµС‚РµСЃСЊ РѕР±РјР°РЅСѓС‚СЊ РІРёРєС‚РѕСЂРёРЅСѓ, Рё РІСЃС‘ РµС‰С‘ РїС‹С‚Р°РµС‚РµСЃСЊ РёРіСЂР°С‚СЊ, Р° РѕРЅРѕ Р—РђРљР Р«РўРћ!";
+$lang['quiz_items_gotten']	= "РЎ РїРѕРјРѕС‰СЊСЋ РІРёРєС‚РѕСЂРёРЅС‹ РІС‹ РІС‹РёРіСЂР°Р»Рё СЃР»РµРґСѓСЋС‰РёРµ РІРµС‰Рё: <#ITEMS#>";
+$lang['quiz_name']		= "РќР°Р·РІР°РЅРёРµ РІРёРєС‚РѕСЂРёРЅС‹";
+$lang['quiz_nav']		= "Р’РёРєС‚РѕСЂРёРЅС‹";
+$lang['quiz_notenoughtcorrect']	= "Р’Р°С€ СЂРµР·СѓР»СЊС‚Р°С‚ <CORRECT_PERCENT>% (<CORRECT_NUMBER> РїСЂР°РІРёР»СЊРЅС‹С… РѕС‚РІРµС‚РѕРІ) РёР· РЅРµРѕР±С…РѕРґРёРјС‹С… <QUIZ_PERCENT_NEEDED>% РїСЂР°РІРёР»СЊРЅС‹С… РѕС‚РІРµС‚С‹, Р’С‹ РЅРµ РІС‹РёРіСЂС‹РІР°Р»Рё ";
+$lang['quiz_play']		= "РРіСЂР°С‚СЊ";
+$lang['quiz_playedalready']	= "Р’С‹ СѓР¶Рµ РїСЂРёРЅРёРјР°Р»Рё СѓС‡Р°СЃС‚РёРµ РІ СЌС‚РѕР№ РІРёРєС‚РѕСЂРёРЅРµ";
+$lang['quiz_qa_submit']		= "РћРє";
+$lang['quiz_question']		= "Р’РѕРїСЂРѕСЃ";
+$lang['quiz_questions']		= "Р’РѕРїСЂРѕСЃС‹";
+$lang['quiz_starter']		= "РђРІС‚РѕСЂ";
+$lang['quiz_stats']		= "РЎС‚Р°С‚СѓСЃ";
+$lang['quiz_status']		= "Р’СЂРµРјСЏ РґРѕ Р·Р°РІРµСЂС€РµРЅРёСЏ";
+$lang['quiz_winner']		= "Р’Р°С€ СЂРµР·СѓР»СЊС‚Р°С‚ <CORRECT_PERCENT>% (<CORRECT_NUMBER> РїСЂР°РІРёР»СЊРЅС‹С… РѕС‚РІРµС‚РѕРІ) РёР· РЅРµРѕР±С…РѕРґРёРјС‹С… <TOTAl_QUESTIONS> РїСЂР°РІРёР»СЊРЅС‹С… РѕРІС‚РµС‚РѕРІ, Р’С‹ РІС‹РёРіСЂР°Р»Рё <WIN_AMOUNT> <CURRENCY>.";
+$lang['quiz_winnings']		= "Р’С‹РёРіСЂС‹С€";
 
-$lang['cannot_find_quiz']	= "Мы не можем найти викторину, в которую Вы хотите поиграть.";
-$lang['couldnotloadanswer']	= "Не могу загрузить ответы и вопросы. Пожалуйста свяжитесь с администратором";
-$lang['didnotfilloutfields']	= "Пожалуйста, заполните все поля.";
+$lang['cannot_find_quiz']	= "РњС‹ РЅРµ РјРѕР¶РµРј РЅР°Р№С‚Рё РІРёРєС‚РѕСЂРёРЅСѓ, РІ РєРѕС‚РѕСЂСѓСЋ Р’С‹ С…РѕС‚РёС‚Рµ РїРѕРёРіСЂР°С‚СЊ.";
+$lang['couldnotloadanswer']	= "РќРµ РјРѕРіСѓ Р·Р°РіСЂСѓР·РёС‚СЊ РѕС‚РІРµС‚С‹ Рё РІРѕРїСЂРѕСЃС‹. РџРѕР¶Р°Р»СѓР№СЃС‚Р° СЃРІСЏР¶РёС‚РµСЃСЊ СЃ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРј";
+$lang['didnotfilloutfields']	= "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, Р·Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ.";
 
-$lang['main_quizs_nav']		= "На главную страницу викторины";
-$lang['none_played']		= "никто";
+$lang['main_quizs_nav']		= "РќР° РіР»Р°РІРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РІРёРєС‚РѕСЂРёРЅС‹";
+$lang['none_played']		= "РЅРёРєС‚Рѕ";
 
-$lang['played_quizalready']	= "Вы уже принимали участие в данной викторине";
-$lang['played_quiz_already']	= "Вы пытаетесь обмануть систему или сыграть ещё раз? Так и запишем в протоколе!";
-$lang['plays_left']		= "Приняли участие";
+$lang['played_quizalready']	= "Р’С‹ СѓР¶Рµ РїСЂРёРЅРёРјР°Р»Рё СѓС‡Р°СЃС‚РёРµ РІ РґР°РЅРЅРѕР№ РІРёРєС‚РѕСЂРёРЅРµ";
+$lang['played_quiz_already']	= "Р’С‹ РїС‹С‚Р°РµС‚РµСЃСЊ РѕР±РјР°РЅСѓС‚СЊ СЃРёСЃС‚РµРјСѓ РёР»Рё СЃС‹РіСЂР°С‚СЊ РµС‰С‘ СЂР°Р·? РўР°Рє Рё Р·Р°РїРёС€РµРј РІ РїСЂРѕС‚РѕРєРѕР»Рµ!";
+$lang['plays_left']		= "РџСЂРёРЅСЏР»Рё СѓС‡Р°СЃС‚РёРµ";
 
-$lang['results_place']		= "Место";
-$lang['results_name']		= "Имя пользователя";
-$lang['results_right']		= "Правильных Ответов";
-$lang['results_timetook']	= "Время до завершения";
-$lang['results_lessthen']	= "Менее минуты";
-$lang['results_minute']		= "Минута";
-$lang['results_minutes']	= "Минуты";
+$lang['results_place']		= "РњРµСЃС‚Рѕ";
+$lang['results_name']		= "РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ";
+$lang['results_right']		= "РџСЂР°РІРёР»СЊРЅС‹С… РћС‚РІРµС‚РѕРІ";
+$lang['results_timetook']	= "Р’СЂРµРјСЏ РґРѕ Р·Р°РІРµСЂС€РµРЅРёСЏ";
+$lang['results_lessthen']	= "РњРµРЅРµРµ РјРёРЅСѓС‚С‹";
+$lang['results_minute']		= "РњРёРЅСѓС‚Р°";
+$lang['results_minutes']	= "РњРёРЅСѓС‚С‹";
 
-$lang['show_results']		= "Участники";
+$lang['show_results']		= "РЈС‡Р°СЃС‚РЅРёРєРё";
 
-$lang['take_quiz']		= "Играть";
-$lang['takequiz_nav']		= "Играем";
+$lang['take_quiz']		= "РРіСЂР°С‚СЊ";
+$lang['takequiz_nav']		= "РРіСЂР°РµРј";
 
 
-$lang['questions_nav']		= "Вопросы викторины";
-$lang['quiz_is_open']		= "Викторина открыта";
-$lang['editquiz_nav']		= "Редактировать викторину";
-$lang['user_answers']		= "Ответы пользователя";
-$lang['results_nav']		= "Результаты викторины";
-$lang['quiz_edit']		= "Редактировать";
-$lang['create_quiz']		= "Создать викторину";
+$lang['questions_nav']		= "Р’РѕРїСЂРѕСЃС‹ РІРёРєС‚РѕСЂРёРЅС‹";
+$lang['quiz_is_open']		= "Р’РёРєС‚РѕСЂРёРЅР° РѕС‚РєСЂС‹С‚Р°";
+$lang['editquiz_nav']		= "Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ РІРёРєС‚РѕСЂРёРЅСѓ";
+$lang['user_answers']		= "РћС‚РІРµС‚С‹ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ";
+$lang['results_nav']		= "Р РµР·СѓР»СЊС‚Р°С‚С‹ РІРёРєС‚РѕСЂРёРЅС‹";
+$lang['quiz_edit']		= "Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ";
+$lang['create_quiz']		= "РЎРѕР·РґР°С‚СЊ РІРёРєС‚РѕСЂРёРЅСѓ";

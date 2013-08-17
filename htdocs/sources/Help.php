@@ -146,7 +146,7 @@ class Help
 		}
 
 		$search_string = strtolower(str_replace("*", "%", $ibforums->input['search_q']));
-		$search_string = preg_replace("/[<>\!\@£\$\^&\+\=\=\[\]\{\}\(\)\"':;\.,\/]/", "", $search_string);
+		$search_string = preg_replace("/[<>\!\@Ðˆ\$\^&\+\=\=\[\]\{\}\(\)\"':;\.,\/]/", "", $search_string);
 
 		$seen = array();
 

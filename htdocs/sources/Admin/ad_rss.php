@@ -593,17 +593,17 @@ class ad_rss
 		if ($IN['id'])
 		{
 			/* Channels
-				   id   		int(11)  		Нет   	0
-				 descr  	varchar(32) 	  	Нет
-				 channel_url  	varchar(255) 	  	Нет
-				 source_id  	int(11) 		Нет  	0
-				 forum_id  	int(11) 		Нет  	0
-				 posting_type  	set('SHORT', 'FULL') 	Нет  	SHORT
-				 user_id  	int(11) 		Нет  	0
-				 user_name  	varchar(32) 	 	Нет
-				 url_handler  	varchar(32) 	 	Нет
-				 body_handler  	varchar(32) 	  	Нет
-				 is_active  	tinyint(1) 		Нет	0
+				   id   		int(11)  		п╬п∙п╓   	0
+				 descr  	varchar(32) 	  	п╬п∙п╓
+				 channel_url  	varchar(255) 	  	п╬п∙п╓
+				 source_id  	int(11) 		п╬п∙п╓  	0
+				 forum_id  	int(11) 		п╬п∙п╓  	0
+				 posting_type  	set('SHORT', 'FULL') 	п╬п∙п╓  	SHORT
+				 user_id  	int(11) 		п╬п∙п╓  	0
+				 user_name  	varchar(32) 	 	п╬п∙п╓
+				 url_handler  	varchar(32) 	 	п╬п∙п╓
+				 body_handler  	varchar(32) 	  	п╬п∙п╓
+				 is_active  	tinyint(1) 		п╬п∙п╓	0
 			*/
 
 			$query = "UPDATE ibf_rss_channels

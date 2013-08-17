@@ -76,7 +76,7 @@ class item
 		$save['wlog_type'] = 'pos';
 		$save['wlog_date'] = time();
 
-		$reason = "Уменьшение уровня предупреждений по покупке уменьшения предупреждений в магазине проекта DigiMania";
+		$reason = "РЈРјРµРЅСЊС€РµРЅРёРµ СѓСЂРѕРІРЅСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ РїРѕ РїРѕРєСѓРїРєРµ СѓРјРµРЅСЊС€РµРЅРёСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ РІ РјР°РіР°Р·РёРЅРµ РїСЂРѕРµРєС‚Р° DigiMania";
 
 		$save['wlog_notes'] = "<content>{$reason}</content>";
 		$save['wlog_notes'] .= "<mod>{$ibforums->input['mod_value']},{$ibforums->input['mod_unit']},{$ibforums->input['mod_indef']}</mod>";
