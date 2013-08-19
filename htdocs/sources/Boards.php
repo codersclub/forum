@@ -259,13 +259,14 @@ class Boards {
 				if ($ibf->member['id'])
 				{
 					$stmt = $ibf->db->prepare("SELECT contact_id
-				    FROM ibf_contacts
-				    WHERE
-						member_id = :member_id
-					AND
-						show_online = :online");
-					$stmt->bindParam(':member_id', $ibf->member['id']);
-					$stmt->bindValue(':online', 1);
+					    FROM ibf_contacts
+					    WHERE
+							member_id = :member_id
+						AND
+							show_online = :online")
+						->bindParam(':member_id', $ibf->member['id'])
+						->bindValue(':online', 1)
+						->execute();
 
 					while ($contact = $stmt->fetch())
 					{
@@ -413,12 +414,8 @@ class Boards {
 				// all
 				$user_stat_html = str_replace("#ALL#", $members + $guests + $bots, $user_stat_html);
 
-				// start new line
-				$user_stat_html .= "<br>";
-
-				$blank = $ibf->lang['users_online_yesterday'];
-
-				$user_stat_html .= $blank;
+				// yesterday info at the new line
+				$user_stat_html .= "<br>" . $ibf->lang['users_online_yesterday'];
 
 				// fetch yesterday info
 				$yesterday =  $stats->bindValue(':day', $std->yesterday_day())
@@ -625,8 +622,9 @@ class Boards {
 					$params[':' . $key] = $value;
 					$sql[] = "$key = :$key";
 				}
-				$stmt = $ibf->db->prepare('UPDATE ibf_stats SET ' . implode(',', $sql));
-				//$query->execute($params);
+				$ibf->db
+					->prepare('UPDATE ibf_stats SET ' . implode(',', $sql))
+					->execute($params);
 
 				// Song * record of visit
 
