@@ -107,7 +107,7 @@ class Topics
 			}
 		}
 
-		$mod_string = "Модераторы: ";
+		$mod_string = "РњРѕРґРµСЂР°С‚РѕСЂС‹: ";
 
 		foreach ($this->mod as $moderator)
 		{
@@ -601,7 +601,7 @@ class Topics
 		{
 			if (!$row['g_use_signature'])
 			{
-				$poster['signature'] = "[color=gray][size=1]Подпись выключена.[/size][/color]";
+				$poster['signature'] = "[color=gray][size=1]РџРѕРґРїРёСЃСЊ РІС‹РєР»СЋС‡РµРЅР°.[/size][/color]";
 			}
 
 			$data = array(
@@ -708,8 +708,8 @@ class Topics
 		    !$this->topic['approved'] and !$post_count
 		)
 		{
-			$link = "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$this->topic['tid']}=approve'>{$ibforums->lang['modcp_accept']}</a> · ";
-			$link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$this->topic['tid']}=remove'>{$ibforums->lang['modcp_reject']}</a> · ";
+			$link = "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$this->topic['tid']}=approve'>{$ibforums->lang['modcp_accept']}</a> В· ";
+			$link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$this->topic['tid']}=remove'>{$ibforums->lang['modcp_reject']}</a> В· ";
 		}
 
 		if ($ibforums->member['id'] and
@@ -719,7 +719,7 @@ class Topics
 		    $row['queued'] and $this->topic['approved']
 		)
 		{
-			$link = "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodposts&amp;f={$this->forum['id']}&amp;tid={$this->topic['tid']}&amp;PID_{$row['pid']}=approve&amp;alter={$row['pid']}'>{$ibforums->lang['modcp_accept']}</a> · ";
+			$link = "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodposts&amp;f={$this->forum['id']}&amp;tid={$this->topic['tid']}&amp;PID_{$row['pid']}=approve&amp;alter={$row['pid']}'>{$ibforums->lang['modcp_accept']}</a> В· ";
 		}
 
 		$row['queued_link'] = $link;
@@ -760,7 +760,7 @@ class Topics
 			{
 				if ($ibforums->input['ajax'])
 				{
-					header('Content-Type: text/html; charset=windows-1251');
+					header('Content-Type: text/html; charset=utf-8');
 					echo $print->prepare_output($this->html->RenderDeletedRow($row, $poster, $preview));
 					exit;
 				} else
@@ -772,7 +772,7 @@ class Topics
 
 				if (intval($ibforums->member['post_wrap_size']) != 0 && $ibforums->member['post_wrap_size'] < strlen(strip_tags($row['post'])) && $row['new_topic'] != 1)
 				{
-					$row['post'] = '<div class="spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">Многа букав</div><div class="body">' . $row['post'] . '</div></div>';
+					$row['post'] = '<div class="spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">РњРЅРѕРіР° Р±СѓРєР°РІ</div><div class="body">' . $row['post'] . '</div></div>';
 				}
 
 				return $this->html->RenderRow($row, $poster);
@@ -1331,7 +1331,7 @@ class Topics
 		// Song * define rights for creating topic
 
 		$this->topic['TOPIC_BUTTON'] = ($this->allow_topic())
-			? "<a href='" . $this->base_url . "act=Post&amp;CODE=00&amp;f=" . $this->forum['id'] . "'><{A_POST}></a> · "
+			? "<a href='" . $this->base_url . "act=Post&amp;CODE=00&amp;f=" . $this->forum['id'] . "'><{A_POST}></a> В· "
 			: '';
 
 		$this->topic['POLL_BUTTON'] = ($this->forum['allow_poll'])
@@ -2336,7 +2336,7 @@ class Topics
 				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
 			}
 
-			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
+			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> В· <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
 
 			// $member['profile'] = $member['points'] . "+".$member['fined']."+". $member['profile'] ;
 			// Show ratting + dgm
@@ -2394,7 +2394,7 @@ class Topics
 				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0'>";
 			}
 
-			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
+			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> В· <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
 		}
 
 		//--------------------------------------------------------------
@@ -3071,9 +3071,9 @@ class Topics
 
 			if ($ibforums->member['g_is_supmod'] or $this->moderator['mid'])
 			{
-				return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'><{A_LOCKED_B}></a> · ";
+				return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'><{A_LOCKED_B}></a> В· ";
 			} else
-				return "<{A_LOCKED_B}> · ";
+				return "<{A_LOCKED_B}> В· ";
 		}
 
 		if ($std->check_perms($this->forum['reply_perms']) == FALSE)
@@ -3098,7 +3098,7 @@ class Topics
 			? $ibforums->lang['topic_draft']
 			: '<{A_REPLY}>';
 
-		return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'>$reply_title</a> · ";
+		return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'>$reply_title</a> В· ";
 	}
 
 	static function topic_has_draft($tid)
@@ -3189,7 +3189,7 @@ class Topics
 				    WHERE tid='" . $this->topic['tid'] . "'");
 				// vot: BAD QUERY
 				$ibforums->db->exec("UPDATE ibf_topics
-				    SET description='голосование окончено'
+				    SET description='РіРѕР»РѕСЃРѕРІР°РЅРёРµ РѕРєРѕРЅС‡РµРЅРѕ'
 				    WHERE tid='" . $this->topic['tid'] . "'");
 
 				$poll_data['state'] = "closed";
@@ -3375,12 +3375,12 @@ class Topics
 
 			if ($poll_data['is_multi_poll'])
 			{
-				$min_max = '( Минимально пунктов выбора: ' . $poll_data['multi_poll_min'] . ', Максимально пунктов выбора: ' . $poll_data['multi_poll_max'] . ' )';
+				$min_max = '( РњРёРЅРёРјР°Р»СЊРЅРѕ РїСѓРЅРєС‚РѕРІ РІС‹Р±РѕСЂР°: ' . $poll_data['multi_poll_min'] . ', РњР°РєСЃРёРјР°Р»СЊРЅРѕ РїСѓРЅРєС‚РѕРІ РІС‹Р±РѕСЂР°: ' . $poll_data['multi_poll_max'] . ' )';
 			}
 			if ($poll_data['is_weighted_poll'])
 			{
 				$places  = $poll_data['weighted_poll_places'];
-				$min_max = '( Распределите ' . $places . ' мест )';
+				$min_max = '( Р Р°СЃРїСЂРµРґРµР»РёС‚Рµ ' . $places . ' РјРµСЃС‚ )';
 				while (list($key, $value) = each($poll_answers))
 				{
 					if ($value)

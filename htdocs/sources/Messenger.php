@@ -281,12 +281,12 @@ class Messenger
 	}
 
 	/**
-	 * PM-ôëóä-êîíòğîëü
+	 * PM-Ñ„Ğ»ÑƒĞ´-ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ÑŒ
 	 */
 	function pm_flood_begin()
 	{
 		global $std, $ibforums;
-		// áûâàåò, èç-çà ãëşêîâ, îòğèöàòåëüíîå çíà÷åíèå
+		// Ğ±Ñ‹Ğ²Ğ°ĞµÑ‚, Ğ¸Ğ·-Ğ·Ğ° Ğ³Ğ»ÑĞºĞ¾Ğ², Ğ¾Ñ‚Ñ€Ğ¸Ñ†Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾Ğµ Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ğµ
 		if ($ibforums->member['posts'] < 0)
 		{
 			$ibforums->member['posts'] = 0;
@@ -301,10 +301,10 @@ class Messenger
 		}
 
 		/*
-		 * from_id != member_id îçíà÷àåò, ÷òî èùåì â ïàïêàõ äğóãèõ şçâåğåé.
-		 * (ò.ê. íà îäíî ñîîáùåíèå â òàáëèöå ibf_messages ïîïàäàşò 2 çàïèñè
+		 * from_id != member_id Ğ¾Ğ·Ğ½Ğ°Ñ‡Ğ°ĞµÑ‚, Ñ‡Ñ‚Ğ¾ Ğ¸Ñ‰ĞµĞ¼ Ğ² Ğ¿Ğ°Ğ¿ĞºĞ°Ñ… Ğ´Ñ€ÑƒĞ³Ğ¸Ñ… ÑĞ·Ğ²ĞµÑ€ĞµĞ¹.
+		 * (Ñ‚.Ğº. Ğ½Ğ° Ğ¾Ğ´Ğ½Ğ¾ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ñ‚Ğ°Ğ±Ğ»Ğ¸Ñ†Ğµ ibf_messages Ğ¿Ğ¾Ğ¿Ğ°Ğ´Ğ°ÑÑ‚ 2 Ğ·Ğ°Ğ¿Ğ¸ÑĞ¸
 		 *
-		 * vid != 'unsent' îçíà÷àåò, ÷òî ñ÷èòàåì òîëüêî îòïğàâëåííûå ñîîáùåíèÿ (èãíîğèğóÿ ÷åğíîâèêè)
+		 * vid != 'unsent' Ğ¾Ğ·Ğ½Ğ°Ñ‡Ğ°ĞµÑ‚, Ñ‡Ñ‚Ğ¾ ÑÑ‡Ğ¸Ñ‚Ğ°ĞµĞ¼ Ñ‚Ğ¾Ğ»ÑŒĞºĞ¾ Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ½Ñ‹Ğµ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ñ (Ğ¸Ğ³Ğ½Ğ¾Ñ€Ğ¸Ñ€ÑƒÑ Ñ‡ĞµÑ€Ğ½Ğ¾Ğ²Ğ¸ĞºĞ¸)
 		 */
 		$q = 'SELECT count(*) as msg_count, min(msg_date) as fist_message
  			FROM ibf_messages
@@ -313,7 +313,7 @@ class Messenger
  				AND vid != \'unsent\'
  				AND msg_date > ' . strtotime('-1 hour');
 		//todo not a good idea, I think
-		extract($ibforums->db->query($q)->fetch()); // ñîçäà¸ò $msg_count è $fist_message
+		extract($ibforums->db->query($q)->fetch()); // ÑĞ¾Ğ·Ğ´Ğ°Ñ‘Ñ‚ $msg_count Ğ¸ $fist_message
 
 		if ($msg_count >= $limit)
 		{

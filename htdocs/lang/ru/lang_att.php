@@ -1,17 +1,17 @@
 <?php
 //table
-$lang['link'] = "Ссылка";
-$lang['size'] = "Размер";
-$lang['hits'] = "Скачан";
-$lang['date'] = "Дата";
-$lang['post'] = "Пост";
-$lang['topic'] = "Тема";
-$lang['forum'] = "Раздел";
+$lang['link'] = "РЎСЃС‹Р»РєР°";
+$lang['size'] = "Р Р°Р·РјРµСЂ";
+$lang['hits'] = "РЎРєР°С‡Р°РЅ";
+$lang['date'] = "Р”Р°С‚Р°";
+$lang['post'] = "РџРѕСЃС‚";
+$lang['topic'] = "РўРµРјР°";
+$lang['forum'] = "Р Р°Р·РґРµР»";
 //etc
-$lang['attachments'] = "Аттачи";
-$lang['title'] = "%s пользователя %s";
-$lang['attchments_in'] = "Аттачи</a> в ";
-$lang['error_has_not'] = "У пользователя %s нет аттачей!";
+$lang['attachments'] = "РђС‚С‚Р°С‡Рё";
+$lang['title'] = "%s РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ %s";
+$lang['attchments_in'] = "РђС‚С‚Р°С‡Рё</a> РІ ";
+$lang['error_has_not'] = "РЈ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ %s РЅРµС‚ Р°С‚С‚Р°С‡РµР№!";
 /*$lang[''] = "";
 $lang[''] = "";
 $lang[''] = "";

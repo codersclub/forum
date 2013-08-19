@@ -310,7 +310,7 @@ return <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"> 
  <head> 
-  <meta http-equiv="content-type" content="text/html;  charset=windows-1251"> 
+  <meta http-equiv="content-type" content="text/html;  charset=utf-8"> 
   <title>$title</title>
   $css
  </head>
@@ -449,21 +449,21 @@ var st 			= "{$ibforums->input['st']}";
 var tpl_q1 		= "{$ibforums->lang['tpl_q1']}";
 var base_url		= "{$ibforums->base_url}";
 
-var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}"; //lang_post: Введите полный адрес ссылки
-var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}"; //lang_post: Введите название сайта
-var text_enter_email	= "{$ibforums->lang['jscode_text_enter_email']}"; //lang_post: Введите адрес электронной почты
-var text_enter_email_name = "{$ibforums->lang['jscode_text_enter_email_name']}"; //lang_post: Введите имя
-var list_prompt         = "{$ibforums->lang['jscode_tag_list']}"; //lang_post: Введите пункт списка....
+var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}"; //lang_post: Р’РІРµРґРёС‚Рµ РїРѕР»РЅС‹Р№ Р°РґСЂРµСЃ СЃСЃС‹Р»РєРё
+var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}"; //lang_post: Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ СЃР°Р№С‚Р°
+var text_enter_email	= "{$ibforums->lang['jscode_text_enter_email']}"; //lang_post: Р’РІРµРґРёС‚Рµ Р°РґСЂРµСЃ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚С‹
+var text_enter_email_name = "{$ibforums->lang['jscode_text_enter_email_name']}"; //lang_post: Р’РІРµРґРёС‚Рµ РёРјСЏ
+var list_prompt         = "{$ibforums->lang['jscode_tag_list']}"; //lang_post: Р’РІРµРґРёС‚Рµ РїСѓРЅРєС‚ СЃРїРёСЃРєР°....
 var text_enter_image	= "{$ibforums->lang['jscode_text_enter_image']}";
 var text_spoiler = "{$ibforums->lang['jscode_text_spoiler']}";
 var text_quote = "{$ibforums->lang['jscode_text_quote']}";
 var text_img = "{$ibforums->lang['jscode_text_img']}";
 var text_url = "{$ibforums->lang['jscode_text_url']}";
 var text_list = "{$ibforums->lang['jscode_text_list']}";
-var error_no_url        = "{$ibforums->lang['jscode_error_no_url']}"; //lang_post: Вы должны ввести адрес
-var error_no_title      = "{$ibforums->lang['jscode_error_no_title']}"; //lang_post: Вы должны ввести название";
-var error_no_email      = "{$ibforums->lang['jscode_error_no_email']}"; //lang_posr: Вы должны ввести адрес электронной почты
-var error_no_email_name = "{$ibforums->lang['jscode_error_no_email_name']}"; //lang_post: Вы должны ввести имя";
+var error_no_url        = "{$ibforums->lang['jscode_error_no_url']}"; //lang_post: Р’С‹ РґРѕР»Р¶РЅС‹ РІРІРµСЃС‚Рё Р°РґСЂРµСЃ
+var error_no_title      = "{$ibforums->lang['jscode_error_no_title']}"; //lang_post: Р’С‹ РґРѕР»Р¶РЅС‹ РІРІРµСЃС‚Рё РЅР°Р·РІР°РЅРёРµ";
+var error_no_email      = "{$ibforums->lang['jscode_error_no_email']}"; //lang_posr: Р’С‹ РґРѕР»Р¶РЅС‹ РІРІРµСЃС‚Рё Р°РґСЂРµСЃ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚С‹
+var error_no_email_name = "{$ibforums->lang['jscode_error_no_email_name']}"; //lang_post: Р’С‹ РґРѕР»Р¶РЅС‹ РІРІРµСЃС‚Рё РёРјСЏ";
 var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
 var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
 var text_enter_quote    = "{$ibforums->lang['jscode_text_enter_quote']}";
@@ -480,7 +480,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 
 <table border='0' width='100%' cellspacing='0' cellpadding='1'>
 <tr id='logostrip'>
-<td width=210><a href='{$ibforums->vars['home_url']}' title='На главную'><img src='{$ibforums->vars['img_url']}/logo4.gif' alt='На главную' border='0'></a></td>
+<td width=210><a href='{$ibforums->vars['home_url']}' title='РќР° РіР»Р°РІРЅСѓСЋ'><img src='{$ibforums->vars['img_url']}/logo4.gif' alt='РќР° РіР»Р°РІРЅСѓСЋ' border='0'></a></td>
 
 <td align=center>
 <!-- SLOGAN -->
@@ -493,21 +493,21 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 
 <tr style='height:24px;'>
 <td align=right>
-Наши проекты:
+РќР°С€Рё РїСЂРѕРµРєС‚С‹:
 </td>
 <td colspan=2>
 &middot; 
-<a href="http://magazine.sources.ru/"><b>Журнал</b></a>
+<a href="http://magazine.sources.ru/"><b>Р–СѓСЂРЅР°Р»</b></a>
 &middot; 
-<a href="http://alglib.sources.ru/"><b>Алгоритмы</b></a>
+<a href="http://alglib.sources.ru/"><b>РђР»РіРѕСЂРёС‚РјС‹</b></a>
 &middot; 
-<a href="http://e-science.sources.ru/"><b>Естественные Науки</b></a>
+<a href="http://e-science.sources.ru/"><b>Р•СЃС‚РµСЃС‚РІРµРЅРЅС‹Рµ РќР°СѓРєРё</b></a>
 &middot;
 <a href="http://wiki.sources.ru/"><b>Wiki</b></a>
 &middot;
 <a href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
 &middot;
-<a href="http://forum.sources.ru/donate.php"><b>Помощь&nbsp;проекту</b></a>
+<a href="http://forum.sources.ru/donate.php"><b>РџРѕРјРѕС‰СЊ&nbsp;РїСЂРѕРµРєС‚Сѓ</b></a>
 </td>
 </tr>
 </table>
@@ -521,7 +521,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
  <td><a href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'><{atb_search}> {$ibforums->lang['tb_search']}</a></td>
  <td><a href='{$ibforums->base_url}act=Members'><{atb_members}> {$ibforums->lang['tb_mlist']}</a></td>
  <td><a href='{$ibforums->base_url}act=calendar'><{atb_calendar}> {$ibforums->lang['tb_calendar']}</a></td>
- <td><a href='{$ibforums->base_url}act=fav&show=1'>$image Избранное</a></td>
+ <td><a href='{$ibforums->base_url}act=fav&show=1'>$image РР·Р±СЂР°РЅРЅРѕРµ</a></td>
  <td><a href='{$ibforums->base_url}act=store'><{atb_store}> {$ibforums->lang['ibstore']}</a></td>
  <td><{RSS}></td>
 </tr>
@@ -571,10 +571,10 @@ return <<<EOF
 			<td class="donate_text">
 				<div>{$ibforums->lang['like_sources']}</div>
 			</td>
-			<td rowspan="2" class="donate_image"><input type="image" src="img/5rub/5rub_gold.png" title="Яндекс.Деньги"></td>
+			<td rowspan="2" class="donate_image"><input type="image" src="img/5rub/5rub_gold.png" title="РЇРЅРґРµРєСЃ.Р”РµРЅСЊРіРё"></td>
 		</tr>
 		<tr>
-			<td class="donate_button"><input type="submit" title="Яндекс.Деньги" value="{$ibforums->lang['donate_5rub']}"/></td>
+			<td class="donate_button"><input type="submit" title="РЇРЅРґРµРєСЃ.Р”РµРЅСЊРіРё" value="{$ibforums->lang['donate_5rub']}"/></td>
 		</tr>
 		</table>
 	</form>
@@ -607,7 +607,7 @@ function mod_buttons_label() {
 global $ibforums;
 return <<<EOF
 
-<div style="height:3px"><!-- --></div><b>Модераторские</b>: 
+<div style="height:3px"><!-- --></div><b>РњРѕРґРµСЂР°С‚РѕСЂСЃРєРёРµ</b>: 
 
 EOF;
 }
@@ -645,25 +645,25 @@ return <<<EOF
 <input type='button' name='SALL' value='SALL' onclick="simpletag('SALL')" class='codebuttons'>
 <input type='button' name='STALL' value='STALL' onclick="simpletag('STALL')" class='codebuttons'>
 <select name='rules' class='codebuttons' onchange="doInsert(this.options[this.selectedIndex].value, '', false)">
-<option value='-1'>Ссылки</option>
-<option value='[URL={$ibforums->base_url}showtopic=50223]FAQ форума[/URL]'>FAQ форума</option>
-<option value='.FAQ'>FAQ раздела</option>
-<option value='.Поиск'>Поиск</option>
-<option value='.Правила'>Правила</option>
-<option value='.Правила, п.1'>Правила, п.1</option>
-<option value='.Правила, п.2'>Правила, п.2</option>
-<option value='.Правила, п.3'>Правила, п.3</option>
-<option value='.Правила, п.4'>Правила, п.4</option>
-<option value='.Правила, п.5'>Правила, п.5</option>
-<option value='.Правила, п.6'>Правила, п.6</option>
-<option value='.Правила, п.7'>Правила, п.7</option>
-<option value='.Правила, п.8'>Правила, п.8</option>
-<option value='.Правила, п.9'>Правила, п.9</option>
-<option value='.Правила, п.10'>Правила, п.10</option>
-<option value='.Правила, п.11'>Правила, п.11</option>
-<option value='.Правила, п.12'>Правила, п.12</option>
-<option value='.Правила, п.13'>Правила, п.13</option>
-<option value='.Правила, п.14'>Правила, п.14</option>
+<option value='-1'>РЎСЃС‹Р»РєРё</option>
+<option value='[URL={$ibforums->base_url}showtopic=50223]FAQ С„РѕСЂСѓРјР°[/URL]'>FAQ С„РѕСЂСѓРјР°</option>
+<option value='.FAQ'>FAQ СЂР°Р·РґРµР»Р°</option>
+<option value='.РџРѕРёСЃРє'>РџРѕРёСЃРє</option>
+<option value='.РџСЂР°РІРёР»Р°'>РџСЂР°РІРёР»Р°</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.1'>РџСЂР°РІРёР»Р°, Рї.1</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.2'>РџСЂР°РІРёР»Р°, Рї.2</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.3'>РџСЂР°РІРёР»Р°, Рї.3</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.4'>РџСЂР°РІРёР»Р°, Рї.4</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.5'>РџСЂР°РІРёР»Р°, Рї.5</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.6'>РџСЂР°РІРёР»Р°, Рї.6</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.7'>РџСЂР°РІРёР»Р°, Рї.7</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.8'>РџСЂР°РІРёР»Р°, Рї.8</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.9'>РџСЂР°РІРёР»Р°, Рї.9</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.10'>РџСЂР°РІРёР»Р°, Рї.10</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.11'>РџСЂР°РІРёР»Р°, Рї.11</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.12'>РџСЂР°РІРёР»Р°, Рї.12</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.13'>РџСЂР°РІРёР»Р°, Рї.13</option>
+<option value='.РџСЂР°РІРёР»Р°, Рї.14'>РџСЂР°РІРёР»Р°, Рї.14</option>
 </select>
 &nbsp;
 

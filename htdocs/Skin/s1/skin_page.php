@@ -96,7 +96,7 @@ function quick_reply_box_closed() {
 global $ibforums;
 return <<<EOF
 
-	<a href="javascript:ShowHide('qr_open','qr_closed');" title="{$ibforums->lang['qr_open']}" accesskey="f"><{T_QREPLY}></a> · 
+	<a href="javascript:ShowHide('qr_open','qr_closed');" title="{$ibforums->lang['qr_open']}" accesskey="f"><{T_QREPLY}></a> В· 
 
 
 EOF;
@@ -167,7 +167,7 @@ list_prompt         = "{$ibforums->lang['js_tag_list']}",
 prompt_start        = "{$ibforums->lang['js_text_to_format']}",
 MessageMax  	    = "{$ibforums->lang['the_max_length']}",
 Override    	    = "{$ibforums->lang['override']}",
-rusLet		    = new Array("Э","Щ","Щ","Ч","Ч","Ш","Ш","Ё","Ё","Ё","Ё","Ю","Ю","Ю","Ю","Я","Я","Я","Я","Ж","Ж","А","Б","В","Г","Д","Е","З","ИЙ","ИЙ","ЫЙ","ЫЙ","И","Й","К","КС","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Щ","Ы","э","щ","ч","ш","ё","ё","ю","ю","я","я","ж","а","б","в","г","д","е","з","ий","ий","ый","ый","и","й","к","кс","л","м","н","о","п","р","с","т","у","ф","х","ц","щ","щ","ы","ъ","ъ","ь"),
+rusLet		    = new Array("Р­","Р©","Р©","Р§","Р§","РЁ","РЁ","РЃ","РЃ","РЃ","РЃ","Р®","Р®","Р®","Р®","РЇ","РЇ","РЇ","РЇ","Р–","Р–","Рђ","Р‘","Р’","Р“","Р”","Р•","Р—","РР™","РР™","Р«Р™","Р«Р™","Р","Р™","Рљ","РљРЎ","Р›","Рњ","Рќ","Рћ","Рџ","Р ","РЎ","Рў","РЈ","Р¤","РҐ","Р¦","Р©","Р«","СЌ","С‰","С‡","С€","С‘","С‘","СЋ","СЋ","СЏ","СЏ","Р¶","Р°","Р±","РІ","Рі","Рґ","Рµ","Р·","РёР№","РёР№","С‹Р№","С‹Р№","Рё","Р№","Рє","РєСЃ","Р»","Рј","РЅ","Рѕ","Рї","СЂ","СЃ","С‚","Сѓ","С„","С…","С†","С‰","С‰","С‹","СЉ","СЉ","СЊ"),
 engReg		    = new Array(/E'/g,/SHCH/g,/Shch/g,/CH/g,/Ch/g,/SH/g,/Sh/g,/YO/g,/JO/g,/Yo/g,/Jo/g,/YU/g,/JU/g,/Yu/g,/Ju/g,/YA/g,/JA/g,/Ya/g,/Ja/g,/ZH/g,/Zh/g,/A/g,/B/g,/V/g,/G/g,/D/g,/E/g,/Z/g,/II/g,/IY/g,/YI/g,/YY/g,/I/g,/J/g,/K/g,/X/g,/L/g,/M/g,/N/g,/O/g,/P/g,/R/g,/S/g,/T/g,/U/g,/F/g,/H/g,/C/g,/W/g,/Y/g,/e'/g,/shch/g,/ch/g,/sh/g,/yo/g,/jo/g,/yu/g,/ju/g,/ya/g,/ja/g,/zh/g,/a/g,/b/g,/v/g,/g/g,/d/g,/e/g,/z/g,/ii/g,/iy/g,/yi/g,/yy/g,/i/g,/j/g,/k/g,/x/g,/l/g,/m/g,/n/g,/o/g,/p/g,/r/g,/s/g,/t/g,/u/g,/f/g,/h/g,/c/g,/w/g,/#/g,/y/g,/`/g,/~/g,/'/g),
 decline1 	    = "<{P_DECLINE}>",
 decline2 	    = "<{P_RESTORE}>",
@@ -399,7 +399,7 @@ return <<<EOF
 
 <div align='left' style='float:left;width:auto'>
 <form method='POST' style='display:inline' name='modform' action='{$ibforums->base_url}'>
-<div style='display:none;' id='wc'><input type='text' class='textinput' style='width:250px;' name='why_close' value="Введите причину закрытия темы здесь" onclick="this.select();"></div>
+<div style='display:none;' id='wc'><input type='text' class='textinput' style='width:250px;' name='why_close' value="Р’РІРµРґРёС‚Рµ РїСЂРёС‡РёРЅСѓ Р·Р°РєСЂС‹С‚РёСЏ С‚РµРјС‹ Р·РґРµСЃСЊ" onclick="this.select();"></div>
 <div style='display:none;' id='w2m'><input type='text' class='textinput' style='width:250px;' name='where2move' value="{$ibforums->lang['where2move']}" onclick="this.select();"/></div>
 <input type='hidden' name='t' value='$tid'>
 <input type='hidden' name='f' value='$fid'>

@@ -153,7 +153,7 @@ class IBPDO extends PDOWrapper
 
 	/**
 	 * Update table
-	 * @todo Οεπεδελΰςό
+	 * @todo ΠΠµΡ€ΠµΠ΄ΠµΠ»Π°Ρ‚Ρ
 	 * @param string $table Table name
 	 * @param array|string $values Prepared values for update
 	 * @param string $where Prepared where part

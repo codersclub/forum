@@ -1,32 +1,32 @@
 <?php
 
 
-$lang['who_farted']  = "Àâòîð ñîîáùåíèÿ â:";
-$lang['no_forums']  = "Îáçîð ðàçäåëîâ (%s âñåãî...)";
-$lang['who_poster']  = "Àâòîð";
-$lang['who_posts']  = "Ñîîáùåíèé";
-$lang['who_go']  = "Çàêðûòü îêíî è îòêðûòü òåìó";
-$lang['todays_posters']  = "10 àâòîðîâ ñåãîäíÿ";
-$lang['member']  = "Ïîëüçîâàòåëü";
-$lang['member_posts']  = "Âñåãî ñîîáùåíèé";
-$lang['member_today']  = "Ñîîáùåíèé ñåãîäíÿ";
-$lang['member_joined']  = "Ðåãèñòðàöèÿ";
-$lang['member_percent']  = "% ñåãîäíÿøíèõ ñîîáùåíèé";
-$lang['total_today']  = "Âñåãî ñîîáùåíèé ñåãîäíÿ: ";
-$lang['no_info']  = "Íåò äîñòóïíîé èíôîðìàöèè";
-$lang['top_poster_title']  = "10 àâòîðîâ ñåãîäíÿ";
-$lang['forum_leaders']  = "Àäìèíèñòðàöèÿ";
-$lang['leader_admins']  = "Àäìèíèñòðàòîðû";
-$lang['leader_global']  = "Ãëàâíûå ìîäåðàòîðû";
-$lang['leader_mods']  = "Ìîäåðàòîðû ðàçäåëîâ";
-$lang['leader_name']  = "Èìÿ";
+$lang['who_farted']  = "ÐÐ²Ñ‚Ð¾Ñ€ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð²:";
+$lang['no_forums']  = "ÐžÐ±Ð·Ð¾Ñ€ Ñ€Ð°Ð·Ð´ÐµÐ»Ð¾Ð² (%s Ð²ÑÐµÐ³Ð¾...)";
+$lang['who_poster']  = "ÐÐ²Ñ‚Ð¾Ñ€";
+$lang['who_posts']  = "Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹";
+$lang['who_go']  = "Ð—Ð°ÐºÑ€Ñ‹Ñ‚ÑŒ Ð¾ÐºÐ½Ð¾ Ð¸ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ñ‚ÐµÐ¼Ñƒ";
+$lang['todays_posters']  = "10 Ð°Ð²Ñ‚Ð¾Ñ€Ð¾Ð² ÑÐµÐ³Ð¾Ð´Ð½Ñ";
+$lang['member']  = "ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ";
+$lang['member_posts']  = "Ð’ÑÐµÐ³Ð¾ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹";
+$lang['member_today']  = "Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹ ÑÐµÐ³Ð¾Ð´Ð½Ñ";
+$lang['member_joined']  = "Ð ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ";
+$lang['member_percent']  = "% ÑÐµÐ³Ð¾Ð´Ð½ÑÑˆÐ½Ð¸Ñ… ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹";
+$lang['total_today']  = "Ð’ÑÐµÐ³Ð¾ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹ ÑÐµÐ³Ð¾Ð´Ð½Ñ: ";
+$lang['no_info']  = "ÐÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾Ð¹ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸";
+$lang['top_poster_title']  = "10 Ð°Ð²Ñ‚Ð¾Ñ€Ð¾Ð² ÑÐµÐ³Ð¾Ð´Ð½Ñ";
+$lang['forum_leaders']  = "ÐÐ´Ð¼Ð¸Ð½Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ";
+$lang['leader_admins']  = "ÐÐ´Ð¼Ð¸Ð½Ð¸ÑÑ‚Ñ€Ð°Ñ‚Ð¾Ñ€Ñ‹";
+$lang['leader_global']  = "Ð“Ð»Ð°Ð²Ð½Ñ‹Ðµ Ð¼Ð¾Ð´ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ñ‹";
+$lang['leader_mods']  = "ÐœÐ¾Ð´ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ñ‹ Ñ€Ð°Ð·Ð´ÐµÐ»Ð¾Ð²";
+$lang['leader_name']  = "Ð˜Ð¼Ñ";
 $lang['leader_email']  = "E-mail";
 $lang['leader_aol']  = "AOL";
 $lang['leader_icq']  = "ICQ";
-$lang['leader_location']  = "Ìåñòî æèòåëüñòâà";
-$lang['leader_forums']  = "Ðàçäåëû";
-$lang['leader_all_forums']  = "Âñå ðàçäåëû";
-$lang['mod_posts']  = "Ñîîáùåíèé ìîäåðàòîðà â ðàçäåëå";
-$lang['mod_number']  = "¹";
+$lang['leader_location']  = "ÐœÐµÑÑ‚Ð¾ Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²Ð°";
+$lang['leader_forums']  = "Ð Ð°Ð·Ð´ÐµÐ»Ñ‹";
+$lang['leader_all_forums']  = "Ð’ÑÐµ Ñ€Ð°Ð·Ð´ÐµÐ»Ñ‹";
+$lang['mod_posts']  = "Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹ Ð¼Ð¾Ð´ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð° Ð² Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ";
+$lang['mod_number']  = "â„–";
 
 ?>

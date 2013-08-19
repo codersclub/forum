@@ -10,29 +10,29 @@ return <<<EOF
 	<div class="tableborder">
 	<table width="100%" cellpadding="4" cellspacing="1">
     	<tr>
-    		<td class="maintitle" colspan="6">Избранные темы</td>
+    		<td class="maintitle" colspan="6">РР·Р±СЂР°РЅРЅС‹Рµ С‚РµРјС‹</td>
     	</tr>
         <tr>
-        	<td class="titlemedium" colspan="6">Темы, в которых есть новые сообщения с момента Вашего последнего визита</td>
+        	<td class="titlemedium" colspan="6">РўРµРјС‹, РІ РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ РЅРѕРІС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ СЃ РјРѕРјРµРЅС‚Р° Р’Р°С€РµРіРѕ РїРѕСЃР»РµРґРЅРµРіРѕ РІРёР·РёС‚Р°</td>
         </tr>
         <tr>
-            <td class="pformstrip">Тема</td>
-            <td class="pformstrip">Начал</td>
-            <td class="pformstrip">Обновлена</td>
-            <td class="pformstrip">Обновлена в</td>
-            <td class="pformstrip">Удалить</td>
-            <td class="pformstrip">Удалить и подписаться<br>на уведомления по эл. почте</td>
+            <td class="pformstrip">РўРµРјР°</td>
+            <td class="pformstrip">РќР°С‡Р°Р»</td>
+            <td class="pformstrip">РћР±РЅРѕРІР»РµРЅР°</td>
+            <td class="pformstrip">РћР±РЅРѕРІР»РµРЅР° РІ</td>
+            <td class="pformstrip">РЈРґР°Р»РёС‚СЊ</td>
+            <td class="pformstrip">РЈРґР°Р»РёС‚СЊ Рё РїРѕРґРїРёСЃР°С‚СЊСЃСЏ<br>РЅР° СѓРІРµРґРѕРјР»РµРЅРёСЏ РїРѕ СЌР». РїРѕС‡С‚Рµ</td>
         </tr>
         {$html['new']}
         <tr>
-        	<td class="titlemedium" colspan="6">Темы, в которых нет новых сообщений</td>
+        	<td class="titlemedium" colspan="6">РўРµРјС‹, РІ РєРѕС‚РѕСЂС‹С… РЅРµС‚ РЅРѕРІС‹С… СЃРѕРѕР±С‰РµРЅРёР№</td>
         </tr>
-        	<td class="pformstrip">Тема</td>
-            <td class="pformstrip">Начал</td>
-            <td class="pformstrip">Обновлена</td>
-            <td class="pformstrip">Обновлена в</td>
-            <td class="pformstrip">Удалить</td>
-            <td class="pformstrip">Удалить и подписаться<br>на уведомления по эл. почте</td>
+        	<td class="pformstrip">РўРµРјР°</td>
+            <td class="pformstrip">РќР°С‡Р°Р»</td>
+            <td class="pformstrip">РћР±РЅРѕРІР»РµРЅР°</td>
+            <td class="pformstrip">РћР±РЅРѕРІР»РµРЅР° РІ</td>
+            <td class="pformstrip">РЈРґР°Р»РёС‚СЊ</td>
+            <td class="pformstrip">РЈРґР°Р»РёС‚СЊ Рё РїРѕРґРїРёСЃР°С‚СЊСЃСЏ<br>РЅР° СѓРІРµРґРѕРјР»РµРЅРёСЏ РїРѕ СЌР». РїРѕС‡С‚Рµ</td>
         </tr>
         {$html['nonew']}
     </table>
@@ -47,7 +47,7 @@ global $ibforums;
 return <<<EOF
 
     <tr>
-    	<td class="row1" style="text-align: center; padding: 5px; font-weight: 900;" colspan="6">Нет</td>
+    	<td class="row1" style="text-align: center; padding: 5px; font-weight: 900;" colspan="6">РќРµС‚</td>
     </tr>
 
 EOF;
@@ -83,8 +83,8 @@ return <<<EOF
     	<td class="row1"><a href="{$ibforums->base_url}showuser={$t['starter_id']}">{$t['starter_name']}</a></td>
     	<td class="row1"><a href="{$ibforums->base_url}showuser={$t['last_poster_id']}">{$t['last_poster_name']}</td>
     	<td class="row1">{$t['last_post']}</td>
-    	<td class="row1"><a href="{$ibforums->base_url}act=fav&amp;topic={$t['tid']}">Удалить</a></td>
-    	<td class="row1"><a href="{$ibforums->base_url}act=fav&amp;topic={$t['tid']}&amp;track=1">Удалить и подписаться</a></td>
+    	<td class="row1"><a href="{$ibforums->base_url}act=fav&amp;topic={$t['tid']}">РЈРґР°Р»РёС‚СЊ</a></td>
+    	<td class="row1"><a href="{$ibforums->base_url}act=fav&amp;topic={$t['tid']}&amp;track=1">РЈРґР°Р»РёС‚СЊ Рё РїРѕРґРїРёСЃР°С‚СЊСЃСЏ</a></td>
 	</tr>
 
 EOF;

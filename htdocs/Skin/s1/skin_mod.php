@@ -505,15 +505,15 @@ global $ibforums;
 return <<<EOF
 
  <tr>
-  <td class='pformleftw'><strong>Выберите время действия предупреждения</strong></td>
+  <td class='pformleftw'><strong>Р’С‹Р±РµСЂРёС‚Рµ РІСЂРµРјСЏ РґРµР№СЃС‚РІРёСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ</strong></td>
   <td class='pformright'>
     <select name='time' class='forminput'>
-    <optgroup label="Время действия">
-    <option value="1">1 день</option>
-    <option value="3">3 дня</option>
-    <option value="7">7 дней</option>
-    <option value="14">14 дней</option>
-    <option value="30">30 дней</option>
+    <optgroup label="Р’СЂРµРјСЏ РґРµР№СЃС‚РІРёСЏ">
+    <option value="1">1 РґРµРЅСЊ</option>
+    <option value="3">3 РґРЅСЏ</option>
+    <option value="7">7 РґРЅРµР№</option>
+    <option value="14">14 РґРЅРµР№</option>
+    <option value="30">30 РґРЅРµР№</option>
         
     </optgroup></select>
    </td>
@@ -618,14 +618,14 @@ return <<<EOF
   //-->
   </script>
 <select name='lazy' class='codebuttons' onchange='doInsert(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'>
-<option value=-1>Выберите причину из списка или введите сами</option>
-<option>Нарушение п. 1 .Правил Форума</option>
-<option>Спам/реклама</option>
-<option>Флуд в тематическом разделе</option>
-<option>Использование текста программы без тега [code=XXX]</option>
-<option>Отсутствие подсветки в теге [code] ([code=XXX])</option>
-<option>Офтопик</option>
-<option>Личная переписка</option>
+<option value=-1>Р’С‹Р±РµСЂРёС‚Рµ РїСЂРёС‡РёРЅСѓ РёР· СЃРїРёСЃРєР° РёР»Рё РІРІРµРґРёС‚Рµ СЃР°РјРё</option>
+<option>РќР°СЂСѓС€РµРЅРёРµ Рї. 1 .РџСЂР°РІРёР» Р¤РѕСЂСѓРјР°</option>
+<option>РЎРїР°Рј/СЂРµРєР»Р°РјР°</option>
+<option>Р¤Р»СѓРґ РІ С‚РµРјР°С‚РёС‡РµСЃРєРѕРј СЂР°Р·РґРµР»Рµ</option>
+<option>РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ С‚РµРєСЃС‚Р° РїСЂРѕРіСЂР°РјРјС‹ Р±РµР· С‚РµРіР° [code=XXX]</option>
+<option>РћС‚СЃСѓС‚СЃС‚РІРёРµ РїРѕРґСЃРІРµС‚РєРё РІ С‚РµРіРµ [code] ([code=XXX])</option>
+<option>РћС„С‚РѕРїРёРє</option>
+<option>Р›РёС‡РЅР°СЏ РїРµСЂРµРїРёСЃРєР°</option>
 </select>
 
 EOF;

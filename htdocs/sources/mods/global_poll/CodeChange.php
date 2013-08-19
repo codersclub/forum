@@ -18,7 +18,7 @@
 
 [INTERFACE]
 'title' => 'Global Poll',
-'sub_title' => 'Puts a global poll on the forum´s main page',
+'sub_title' => 'Puts a global poll on the forumÒ‘s main page',
 'version' => '1.2 a',
 'category' => 'Minor Mod',
 'compatible' => 'Invision Power Board  1.2',

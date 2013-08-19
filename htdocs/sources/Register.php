@@ -805,7 +805,7 @@ class Register
 
 		// Song * dont mixing english and russian letters
 
-		if (preg_match("#[a-z]+#i", $in_username) && preg_match("#[à-ÿ]+#i", $in_username))
+		if (preg_match("#[a-z]+#i", $in_username) && preg_match("#[Ğ°-Ñ]+#i", $in_username))
 		{
 			$this->show_reg_form('err_rus_en_user_name');
 			return;
@@ -1072,7 +1072,7 @@ class Register
 
 		// Song * new register patch for increment, 27.12.04
 		//------------------------------
-		// Îòñûëêà ÏÌ íîâûì ïîëüçîâàòåëÿì
+		// ĞÑ‚ÑÑ‹Ğ»ĞºĞ° ĞŸĞœ Ğ½Ğ¾Ğ²Ñ‹Ğ¼ Ğ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»ÑĞ¼
 		//------------------------------
 		//	if ( $mem_group == $ibforums->vars['member_group'] and $ibforums->vars['auto_pm_on'] == 1 )
 		if ($mem_group == $ibforums->vars['newbie_group'] and $ibforums->vars['auto_pm_on'] == 1)

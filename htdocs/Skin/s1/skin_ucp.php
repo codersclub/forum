@@ -120,7 +120,7 @@ return <<<EOF
 </tr>
 <tr>
   <td><span style='color:gray'>{$ibforums->lang['want_highlight']}</span><br></td>
-  <td><span style='color:red'>(более недоступно)</span></td>
+  <td><span style='color:red'>(Р±РѕР»РµРµ РЅРµРґРѕСЃС‚СѓРїРЅРѕ)</span></td>
 </tr>
 <tr>
   <td>{$ibforums->lang['close_category']}<br></td>

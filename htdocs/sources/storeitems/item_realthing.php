@@ -33,13 +33,13 @@ class item
 		return <<<EOF
 
 	 <form action='{$ibforums->base_url}act=store&code=useitem&itemid={$itemid}' name='item' method='post'>
-	 <tr><td class='pformstrip' width='100%' colspan='4'>Доставка купленного в магазине Digitex товара</td></tr>
-	 <tr><td class='pformleft' width='100%' colspan='2'><b>Укажите в поле справа</b> Ваш реальный (почтовый) адрес для доставки Вам купленного товара.<br>
-	 Если Вы поняли, что ошиблись в адресе, когда уже отослали его, срочно напишите личное письмо администратору.</td>
+	 <tr><td class='pformstrip' width='100%' colspan='4'>Р”РѕСЃС‚Р°РІРєР° РєСѓРїР»РµРЅРЅРѕРіРѕ РІ РјР°РіР°Р·РёРЅРµ Digitex С‚РѕРІР°СЂР°</td></tr>
+	 <tr><td class='pformleft' width='100%' colspan='2'><b>РЈРєР°Р¶РёС‚Рµ РІ РїРѕР»Рµ СЃРїСЂР°РІР°</b> Р’Р°С€ СЂРµР°Р»СЊРЅС‹Р№ (РїРѕС‡С‚РѕРІС‹Р№) Р°РґСЂРµСЃ РґР»СЏ РґРѕСЃС‚Р°РІРєРё Р’Р°Рј РєСѓРїР»РµРЅРЅРѕРіРѕ С‚РѕРІР°СЂР°.<br>
+	 Р•СЃР»Рё Р’С‹ РїРѕРЅСЏР»Рё, С‡С‚Рѕ РѕС€РёР±Р»РёСЃСЊ РІ Р°РґСЂРµСЃРµ, РєРѕРіРґР° СѓР¶Рµ РѕС‚РѕСЃР»Р°Р»Рё РµРіРѕ, СЃСЂРѕС‡РЅРѕ РЅР°РїРёС€РёС‚Рµ Р»РёС‡РЅРѕРµ РїРёСЃСЊРјРѕ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂСѓ.</td>
 	     <td class='pformleft' width='100%' colspan='1'><input type='text' name='address' size='40'></td>
 	 </tr>
 	 <tr>
-	     <td class='pformleft' width='100%' align='center' colspan='4'><input type='submit' name='change' value='Отослать адрес'></td>
+	     <td class='pformleft' width='100%' align='center' colspan='4'><input type='submit' name='change' value='РћС‚РѕСЃР»Р°С‚СЊ Р°РґСЂРµСЃ'></td>
 	 </tr>
 	 </form>
 
@@ -59,17 +59,17 @@ EOF;
 
 		if ($item = $stmt->fetch())
 		{
-			$txt = 'Участник [url=' . $ibforums->base_url . 'showuser=' . $ibforums->member['id'];
-			$txt .= ']' . $ibforums->member['name'] . '[/url] купил вещь "' . $item['item_name'] . '" ';
-			$txt .= '("' . $item['item_desc'] . '") и попросил доставить её по адресу: ';
+			$txt = 'РЈС‡Р°СЃС‚РЅРёРє [url=' . $ibforums->base_url . 'showuser=' . $ibforums->member['id'];
+			$txt .= ']' . $ibforums->member['name'] . '[/url] РєСѓРїРёР» РІРµС‰СЊ "' . $item['item_name'] . '" ';
+			$txt .= '("' . $item['item_desc'] . '") Рё РїРѕРїСЂРѕСЃРёР» РґРѕСЃС‚Р°РІРёС‚СЊ РµС‘ РїРѕ Р°РґСЂРµСЃСѓ: ';
 			$txt .= $ibforums->input['address'];
 
 			$txt = str_replace("&lt;br&gt;", " ", $txt);
-			$std->sendpm('2', $txt, "Покупка вещи", 9431, 1, 1);
-			//			$std->sendpm('303',$txt,"Покупка вещи",9431,1,1);
+			$std->sendpm('2', $txt, "РџРѕРєСѓРїРєР° РІРµС‰Рё", 9431, 1, 1);
+			//			$std->sendpm('303',$txt,"РџРѕРєСѓРїРєР° РІРµС‰Рё",9431,1,1);
 		}
 
-		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, '"' . $ibforums->member['name'] . '" заказал доставку товара "' . $row['item_name'] . '"', '', 'item');
+		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, '"' . $ibforums->member['name'] . '" Р·Р°РєР°Р·Р°Р» РґРѕСЃС‚Р°РІРєСѓ С‚РѕРІР°СЂР° "' . $row['item_name'] . '"', '', 'item');
 		$lib->delete_item($ibforums->input['itemid']);
 		return "";
 

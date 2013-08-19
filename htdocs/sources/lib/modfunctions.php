@@ -386,7 +386,7 @@ class modfunctions
 				ibf_forums f
 			    WHERE
 				p.topic_id" . $tid . " AND
-				p.post NOT LIKE '[MOD]Òåìà ïåðåíåñåíà èç%' AND
+				p.post NOT LIKE '[MOD]Ð¢ÐµÐ¼Ð° Ð¿ÐµÑ€ÐµÐ½ÐµÑÐµÐ½Ð° Ð¸Ð·%' AND
 				p.post NOT LIKE '[MOD]Topic moved here from%' AND
 				p.forum_id=f.id AND
 				f.inc_postcount=1 AND
@@ -972,7 +972,7 @@ class modfunctions
 		!is_array($topics) && $topics = array($topics);
 
 		/*
-		 * óáðàòü èç ìàññèâà äóáëèêàòû, ÷òîáû íå ñîçäàâàòü íåñêîëüêî çåðêàë â îäíîì ðàçäåëå
+		 * ÑƒÐ±Ñ€Ð°Ñ‚ÑŒ Ð¸Ð· Ð¼Ð°ÑÑÐ¸Ð²Ð° Ð´ÑƒÐ±Ð»Ð¸ÐºÐ°Ñ‚Ñ‹, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ðµ ÑÐ¾Ð·Ð´Ð°Ð²Ð°Ñ‚ÑŒ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð·ÐµÑ€ÐºÐ°Ð» Ð² Ð¾Ð´Ð½Ð¾Ð¼ Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ
 		 */
 		$moveto = array_unique($moveto);
 
@@ -998,7 +998,7 @@ class modfunctions
 			{
 				if ($current_topic['forum_id'] == $current_move_forum)
 				{
-					// íå ñîçäàâàòü çåðêàëî â òîì æå ðàçäåëå, ãäå íàõîäèòñÿ òîïèê
+					// Ð½Ðµ ÑÐ¾Ð·Ð´Ð°Ð²Ð°Ñ‚ÑŒ Ð·ÐµÑ€ÐºÐ°Ð»Ð¾ Ð² Ñ‚Ð¾Ð¼ Ð¶Ðµ Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ, Ð³Ð´Ðµ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ñ‚Ð¾Ð¿Ð¸Ðº
 					continue 2;
 				}
 				$stmt = $ibforums->db->query("SELECT * FROM ibf_topics
@@ -1007,7 +1007,7 @@ class modfunctions
 							LIMIT 1");
 				if ($stmt->fetch())
 				{
-					// â ýòîì ðàçäåëå óæå åñòü çåðêàëî íà ýòó òåìó
+					// Ð² ÑÑ‚Ð¾Ð¼ Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ ÑƒÐ¶Ðµ ÐµÑÑ‚ÑŒ Ð·ÐµÑ€ÐºÐ°Ð»Ð¾ Ð½Ð° ÑÑ‚Ñƒ Ñ‚ÐµÐ¼Ñƒ
 					continue 2;
 				}
 				$source_forum['name'] = str_replace('&#33;', '!', $current_topic['forum_name']);
@@ -1162,7 +1162,7 @@ class modfunctions
 	}
 
 	/**
-	 * Óäàëÿþò çåðêàëà äëÿ òîïèêà èç óêàçàííûõ ðàçäåëîâ
+	 * Ð£Ð´Ð°Ð»ÑÑŽÑ‚ Ð·ÐµÑ€ÐºÐ°Ð»Ð° Ð´Ð»Ñ Ñ‚Ð¾Ð¿Ð¸ÐºÐ° Ð¸Ð· ÑƒÐºÐ°Ð·Ð°Ð½Ð½Ñ‹Ñ… Ñ€Ð°Ð·Ð´ÐµÐ»Ð¾Ð²
 	 *
 	 */
 	function topic_delete_mirrors($topic_id, array $forum_ids)
@@ -1492,7 +1492,7 @@ class modfunctions
 
 		// vot: BAD MESSAGE. NEED TO LOAD LANGUAGE FILE
 
-		if ($ibforums->input['why_close'] == 'Ââåäèòå ïðè÷èíó çàêðûòèÿ òåìû: ')
+		if ($ibforums->input['why_close'] == 'Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½Ñƒ Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ñ Ñ‚ÐµÐ¼Ñ‹: ')
 		{
 			$ibforums->input['why_close'] = "";
 		}
@@ -1505,7 +1505,7 @@ class modfunctions
 
 		// vot: BAD MESSAGE. NEED TO LOAD LANGUAGE FILE
 
-		$ibforums->input['why_close'] = '[b][size=5][color=red]Çàêðûòî[/color][/size] ' . $ibforums->member['name'] . '[/b] ' . date('d-m-Y', time()) . ': ' . $ibforums->input['why_close'];
+		$ibforums->input['why_close'] = '[b][size=5][color=red]Ð—Ð°ÐºÑ€Ñ‹Ñ‚Ð¾[/color][/size] ' . $ibforums->member['name'] . '[/b] ' . date('d-m-Y', time()) . ': ' . $ibforums->input['why_close'];
 
 		$this->stm[] = array(
 			'state'     => 'closed',

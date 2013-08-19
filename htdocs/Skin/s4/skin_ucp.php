@@ -431,7 +431,7 @@ function ValidateProfile() {
 <div class='pformstrip'>{$ibforums->lang['profile_title']}</div>
 <table width='100%'>
 <tr>
- <td class='pformleft' width='40%'><b>Логин (Ник)</b></td>
+ <td class='pformleft' width='40%'><b>Р›РѕРіРёРЅ (РќРёРє)</b></td>
  <td class='pformright'><input type='text' size='40' maxlength='65' name='MemberName' value='{$Profile['name']}' class='forminput'></td>
 </tr>
 <!--{MEMBERTITLE}-->

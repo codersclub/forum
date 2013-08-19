@@ -13,7 +13,7 @@ function mime_crutch($filename)
 	if (!$handle)
 	{
 		//  echo("File not found!\n");
-		// А что тут, собственно, делать при ошибке открытия - не знаю. Пустую строку вернуть?
+		// Рђ С‡С‚Рѕ С‚СѓС‚, СЃРѕР±СЃС‚РІРµРЅРЅРѕ, РґРµР»Р°С‚СЊ РїСЂРё РѕС€РёР±РєРµ РѕС‚РєСЂС‹С‚РёСЏ - РЅРµ Р·РЅР°СЋ. РџСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІРµСЂРЅСѓС‚СЊ?
 		return "";
 	}
 
@@ -198,11 +198,11 @@ function mime_type_file_util($filename)
 	global $INFO, $ibforums;
 	if (isset($INFO) && isset($INFO['file_util_command']))
 	{
-		// на случай, когда работаем со страницы mime.php
+		// РЅР° СЃР»СѓС‡Р°Р№, РєРѕРіРґР° СЂР°Р±РѕС‚Р°РµРј СЃРѕ СЃС‚СЂР°РЅРёС†С‹ mime.php
 		$file_util_command = $INFO['file_util_command'];
 	} elseif (isset($ibforums) && isset($ibforums->vars['file_util_command']))
 	{
-		// во всех остальных случаях
+		// РІРѕ РІСЃРµС… РѕСЃС‚Р°Р»СЊРЅС‹С… СЃР»СѓС‡Р°СЏС…
 		$file_util_command = $ibforums->vars['file_util_command'];
 	} else
 	{
@@ -219,10 +219,10 @@ function mime_type_file_util($filename)
 function detect_mime_type($filename, $try_all_methods = false)
 {
 	static $methods = array(
-		'mime_type_fileinfo', // перавя, т.к. рекомендуемая
+		'mime_type_fileinfo', // РїРµСЂР°РІСЏ, С‚.Рє. СЂРµРєРѕРјРµРЅРґСѓРµРјР°СЏ
 		'mime_type_file_util',
-		'mime_type_by_content', // не вторая, т.к. устаревшая
-		'mime_crutch' // последняя, ибо кастыль
+		'mime_type_by_content', // РЅРµ РІС‚РѕСЂР°СЏ, С‚.Рє. СѓСЃС‚Р°СЂРµРІС€Р°СЏ
+		'mime_crutch' // РїРѕСЃР»РµРґРЅСЏСЏ, РёР±Рѕ РєР°СЃС‚С‹Р»СЊ
 	);
 	$checks = array();
 	foreach ($methods as $func)
