@@ -62,6 +62,7 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
     public function up(PDO &$db)
     {
         $this->convert($db, self::DOWN, self::UP);
+		$db->query('alter database ' . $this->getTableName() . ' default charset ' . self::UP);
 		$db->query("update ibf_templates SET template = REPLACE(template, 'windows-1251', 'UTF-8')");
     }
  
