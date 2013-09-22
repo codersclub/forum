@@ -118,32 +118,32 @@ class Auth_Yadis_HTTPFetcher {
     function _findRedirect($headers, $url)
     {
         foreach ($headers as $line) {
-            if (strpos(strtolower($line), "location: ") === 0) {
+            if (mb_strpos(mb_strtolower($line), "location: ") === 0) {
                 $parts = explode(" ", $line, 2);
                 $loc = $parts[1];
-                $ppos = strpos($loc, "://");
-                if ($ppos === false || $ppos > strpos($loc, "/")) {
+                $ppos = mb_strpos($loc, "://");
+                if ($ppos === false || $ppos > mb_strpos($loc, "/")) {
                   /* no host; add it */
-                  $hpos = strpos($url, "://");
-                  $prt = substr($url, 0, $hpos+3);
-                  $url = substr($url, $hpos+3);
-                  if (substr($loc, 0, 1) == "/") {
+                  $hpos = mb_strpos($url, "://");
+                  $prt = mb_substr($url, 0, $hpos+3);
+                  $url = mb_substr($url, $hpos+3);
+                  if (mb_substr($loc, 0, 1) == "/") {
                     /* absolute path */
-                    $fspos = strpos($url, "/");
-                    if ($fspos) $loc = $prt.substr($url, 0, $fspos).$loc;
+                    $fspos = mb_strpos($url, "/");
+                    if ($fspos) $loc = $prt.mb_substr($url, 0, $fspos).$loc;
                     else $loc = $prt.$url.$loc;
                   } else {
                     /* relative path */
                     $pp = $prt;
                     while (1) {
-                      $xpos = strpos($url, "/");
+                      $xpos = mb_strpos($url, "/");
                       if ($xpos === false) break;
-                      $apos = strpos($url, "?");
+                      $apos = mb_strpos($url, "?");
                       if ($apos !== false && $apos < $xpos) break;
-                      $apos = strpos($url, "&");
+                      $apos = mb_strpos($url, "&");
                       if ($apos !== false && $apos < $xpos) break;
-                      $pp .= substr($url, 0, $xpos+1);
-                      $url = substr($url, $xpos+1);
+                      $pp .= mb_substr($url, 0, $xpos+1);
+                      $url = mb_substr($url, $xpos+1);
                     }
                     $loc = $pp.$loc;
                   }

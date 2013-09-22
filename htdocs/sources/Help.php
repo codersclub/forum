@@ -145,8 +145,8 @@ class Help
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_help_file'));
 		}
 
-		$search_string = strtolower(str_replace("*", "%", $ibforums->input['search_q']));
-		$search_string = preg_replace("/[<>\!\@Ðˆ\$\^&\+\=\=\[\]\{\}\(\)\"':;\.,\/]/", "", $search_string);
+		$search_string = mb_strtolower(str_replace("*", "%", $ibforums->input['search_q']));
+		$search_string = preg_replace("/[<>\!\@£\$\^&\+\=\=\[\]\{\}\(\)\"':;\.,\/]/", "", $search_string);
 
 		$seen = array();
 

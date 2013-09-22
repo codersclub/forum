@@ -249,7 +249,7 @@ class Auth_OpenID_ServerError {
 
         if ($this->hasReturnTo()) {
             if ($this->message->isOpenID2() &&
-                (strlen($this->encodeToURL()) >
+                (mb_strlen($this->encodeToURL()) >
                    Auth_OpenID_OPENID1_URL_LIMIT)) {
                 return Auth_OpenID_ENCODE_HTML_FORM;
             } else {
@@ -1196,7 +1196,7 @@ class Auth_OpenID_ServerResponse {
 
         if (in_array($this->request->mode, $_Auth_OpenID_Request_Modes)) {
             if ($this->fields->isOpenID2() &&
-                (strlen($this->encodeToURL()) >
+                (mb_strlen($this->encodeToURL()) >
                    Auth_OpenID_OPENID1_URL_LIMIT)) {
                 return Auth_OpenID_ENCODE_HTML_FORM;
             } else {

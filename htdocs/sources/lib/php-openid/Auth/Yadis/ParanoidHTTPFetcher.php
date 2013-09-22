@@ -44,7 +44,7 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
     function _writeHeader($ch, $header)
     {
         array_push($this->headers, rtrim($header));
-        return strlen($header);
+        return mb_strlen($header);
     }
 
     /**
@@ -52,11 +52,11 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
      */
     function _writeData($ch, $data)
     {
-        if (strlen($this->data) > 1024*Auth_OpenID_FETCHER_MAX_RESPONSE_KB) {
+        if (mb_strlen($this->data) > 1024*Auth_OpenID_FETCHER_MAX_RESPONSE_KB) {
             return 0;
         } else {
             $this->data .= $data;
-            return strlen($data);
+            return mb_strlen($data);
         }
     }
 
@@ -160,7 +160,7 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
                 $new_headers = array();
 
                 foreach ($headers as $header) {
-                    if (strpos($header, ': ')) {
+                    if (mb_strpos($header, ': ')) {
                         list($name, $value) = explode(': ', $header, 2);
                         $new_headers[$name] = $value;
                     }
@@ -228,7 +228,7 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
         $new_headers = $extra_headers;
 
         foreach ($this->headers as $header) {
-            if (strpos($header, ': ')) {
+            if (mb_strpos($header, ': ')) {
                 list($name, $value) = explode(': ', $header, 2);
                 $new_headers[$name] = $value;
             }

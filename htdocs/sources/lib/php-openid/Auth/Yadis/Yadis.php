@@ -273,7 +273,7 @@ class Auth_Yadis_Yadis {
     {
         foreach ($header_list as $name => $value) {
             foreach ($names as $n) {
-                if (strtolower($name) == strtolower($n)) {
+                if (mb_strtolower($name) == mb_strtolower($n)) {
                     return $value;
                 }
             }
@@ -289,7 +289,7 @@ class Auth_Yadis_Yadis {
     {
         if ($content_type_header) {
             $parts = explode(";", $content_type_header);
-            return strtolower($parts[0]);
+            return mb_strtolower($parts[0]);
         }
     }
 

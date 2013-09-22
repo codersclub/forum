@@ -61,7 +61,7 @@ class task_functions
 		{
 			$this->type = 'cron';
 
-			$this->cron_key = substr(trim($ibforums->input['ck']), 0, 32);
+			$this->cron_key = mb_substr(trim($ibforums->input['ck']), 0, 32);
 		}
 
 		$this->time_now = time();

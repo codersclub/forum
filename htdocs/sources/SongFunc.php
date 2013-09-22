@@ -406,7 +406,7 @@ class SongFunc
 
 			for ($i = 0; $i < count($temp_words); $i++)
 			{
-				$length = strlen($temp_words[$i]);
+				$length = mb_strlen($temp_words[$i]);
 
 				if ($length > 2 and $length < 50)
 				{

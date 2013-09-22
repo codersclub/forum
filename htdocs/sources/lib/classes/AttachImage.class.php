@@ -53,7 +53,7 @@ class AttachImage extends Attachment
 
 		$dest = imagecreatetruecolor($w_dest, $h_dest);
 
-		if (substr($this->realFilename(), -4) == '.png')
+		if (mb_substr($this->realFilename(), -4) == '.png')
 		{
 			imagealphablending($dest, false);
 			imagesavealpha($dest, true);

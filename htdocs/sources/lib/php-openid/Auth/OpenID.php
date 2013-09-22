@@ -346,7 +346,7 @@ class Auth_OpenID {
         }
 
         $sep = '?';
-        if (strpos($url, '?') !== false) {
+        if (mb_strpos($url, '?') !== false) {
             $sep = '&';
         }
 
@@ -423,7 +423,7 @@ class Auth_OpenID {
 
         if (isset($parsed['scheme']) &&
             isset($parsed['host'])) {
-            $scheme = strtolower($parsed['scheme']);
+            $scheme = mb_strtolower($parsed['scheme']);
             if (!in_array($scheme, array('http', 'https'))) {
                 return null;
             }
@@ -464,7 +464,7 @@ class Auth_OpenID {
      */
     static function bytes($str)
     {
-        return strlen(bin2hex($str)) / 2;
+        return mb_strlen(bin2hex($str)) / 2;
     }
 
     /**
@@ -480,8 +480,8 @@ class Auth_OpenID {
         }
 
         $b = array();
-        for ($i = 0; $i < strlen($hex); $i += 2) {
-            $b[] = chr(base_convert(substr($hex, $i, 2), 16, 10));
+        for ($i = 0; $i < mb_strlen($hex); $i += 2) {
+            $b[] = chr(base_convert(mb_substr($hex, $i, 2), 16, 10));
         }
 
         return $b;

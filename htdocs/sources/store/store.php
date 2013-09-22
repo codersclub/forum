@@ -1120,7 +1120,7 @@ class store
 		$msg = str_replace(",", "&cedil;", $msg);
 		$msg = str_replace("&cedil;", "", $msg);
 		$msg = str_replace("&nbsp;", "", $msg);
-		$msg = strtolower($msg);
+		$msg = mb_strtolower($msg);
 		$msg = stripslashes($msg);
 		return $msg;
 	}
@@ -1207,7 +1207,7 @@ class store
 		global $ibforums;
 		$tables = "id,name";
 		$tables .= $addon;
-		$extra = "LOWER(name)='" . strtolower($username) . "'";
+		$extra = "LOWER(name)='" . mb_strtolower($username) . "'";
 		$extra .= $extra_a;
 		$stmt = $ibforums->db->query("SELECT " . $tables . " FROM ibf_members WHERE " . $extra . " LIMIT 1");
 		if ($stmt->rowCount() == 0)

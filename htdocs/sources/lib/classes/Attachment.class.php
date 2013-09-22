@@ -708,7 +708,7 @@ if (!class_exists('Attachment'))
 
 		public function setOptions($options = [])
 		{
-			$this->options = array_fill_keys(array_map('strtolower', array_filter($options)), 1);
+			$this->options = array_fill_keys(array_map('mb_strtolower', array_filter($options)), 1);
 
 		}
 

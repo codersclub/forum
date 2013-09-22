@@ -253,7 +253,7 @@ class search_lib extends Search
 					$boolean = $matches[1][$i];
 					$word    = trim($matches[2][$i]);
 
-					if (strlen($word) < $ibforums->vars['min_search_word'])
+					if (mb_strlen($word) < $ibforums->vars['min_search_word'])
 					{
 						$std->Error(array(
 						                 'LEVEL' => 1,
@@ -280,7 +280,7 @@ class search_lib extends Search
 			} else
 			{
 
-				if (strlen(trim($keywords)) < $ibforums->vars['min_search_word'])
+				if (mb_strlen(trim($keywords)) < $ibforums->vars['min_search_word'])
 				{
 					$std->Error(array(
 					                 'LEVEL' => 1,

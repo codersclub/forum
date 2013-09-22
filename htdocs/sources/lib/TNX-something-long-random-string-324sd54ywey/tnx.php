@@ -48,7 +48,7 @@ class TNX_n
                         return false;
                 }
                 // осталось со старого варианта, не знаю зачем, но видно надо.
-                if (strlen($_SERVER['REQUEST_URI']) > 180)
+                if (mb_strlen($_SERVER['REQUEST_URI']) > 180)
                 {
                         return false;
                 }
@@ -65,7 +65,7 @@ class TNX_n
                         {
                                 if($_SERVER['REQUEST_URI'] == $exceptions[$i]) return false;
                                 if($exceptions[$i] == '/' AND preg_match("#^\/index\.\w{1,5}$#", $_SERVER['REQUEST_URI'])) return false;
-                                if(strpos($_SERVER['REQUEST_URI'], $exceptions[$i]) !== false) return false;
+                                if(mb_strpos($_SERVER['REQUEST_URI'], $exceptions[$i]) !== false) return false;
                         }
                 }
 
@@ -78,17 +78,17 @@ class TNX_n
                         }
                 }
 
-                $login = strtolower($login);
+                $login = mb_strtolower($login);
                 $this->_host = $login . '.tnx.net';
 
                 $file = base64_encode($_SERVER['REQUEST_URI']);
-                $user_pref = substr($login, 0, 2);
+                $user_pref = mb_substr($login, 0, 2);
                 $this->_md5 = md5($file);
-                $index = substr($this->_md5, 0, 2);
+                $index = mb_substr($this->_md5, 0, 2);
 
                 $site = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 
-                $this->_path = '/users/' . $user_pref . '/' . $login . '/' . $site. '/' . substr($this->_md5, 0, 1) . '/' . substr($this->_md5, 1, 2) . '/' . $file . '.txt';
+                $this->_path = '/users/' . $user_pref . '/' . $login . '/' . $site. '/' . mb_substr($this->_md5, 0, 1) . '/' . mb_substr($this->_md5, 1, 2) . '/' . $file . '.txt';
 
                 $this->_url = 'http://' . $this->_host . $this->_path;
 
@@ -284,7 +284,7 @@ class TNX_n
                         $page = curl_exec($c);
 
                         // проверяем все ли прошло гладко, получили ли ссылки, нормальные ответы 200 и 404
-                        if(curl_error($c) OR (curl_getinfo($c, CURLINFO_HTTP_CODE) != '200' AND curl_getinfo($c, CURLINFO_HTTP_CODE) != '404') OR strpos($page, 'fsockopen') !== false)
+                        if(curl_error($c) OR (curl_getinfo($c, CURLINFO_HTTP_CODE) != '200' AND curl_getinfo($c, CURLINFO_HTTP_CODE) != '404') OR mb_strpos($page, 'fsockopen') !== false)
                         {
                                 curl_close($c);
 
@@ -319,7 +319,7 @@ class TNX_n
 
                                 $page = explode("\r\n\r\n", $buff);
                                 $page = $page[1];
-                                if((!preg_match("#^HTTP/1\.\d 200$#", substr($buff, 0, 12)) AND !preg_match("#^HTTP/1\.\d 404$#", substr($buff, 0, 12))) OR $errno!=0 OR strpos($page, 'fsockopen') !== false)
+                                if((!preg_match("#^HTTP/1\.\d 200$#", mb_substr($buff, 0, 12)) AND !preg_match("#^HTTP/1\.\d 404$#", mb_substr($buff, 0, 12))) OR $errno!=0 OR mb_strpos($page, 'fsockopen') !== false)
                                 {
                                         $this->check_down();
                                         return false;
@@ -327,7 +327,7 @@ class TNX_n
                         }
                 }
                 // если у нас 404
-                if(strpos($page, '404 Not Found'))
+                if(mb_strpos($page, '404 Not Found'))
                 {
                         return '';
                 }
@@ -460,11 +460,11 @@ class TNX_n
                         while (!feof($fp))
                         {
                                  $buffer = fgets($fp);
-                                 if (substr($buffer, 0, 32) == $this->_md5)
+                                 if (mb_substr($buffer, 0, 32) == $this->_md5)
                                  {
                                          flock($fp, LOCK_UN);
                                          fclose($fp);
-                                         return substr($buffer, 33);
+                                         return mb_substr($buffer, 33);
                                  }
                         }
                         flock($fp, LOCK_UN);

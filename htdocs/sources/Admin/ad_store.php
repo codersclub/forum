@@ -692,7 +692,7 @@ class ad_store
 					if (!@touch(ROOT_PATH . "/sources/storeitems/ibs_lock.lock", time()))
 					{
 						$fh = @fopen(ROOT_PATH . "/sources/storeitems/ibs_lock.lock", "w");
-						@fwrite($fh, 'Safty thingy ma bob', 19);
+						@fwrite($fh, 'Safty thingy ma bob');
 						@fclose($fh);
 					}
 					@chmod(ROOT_PATH . "/sources/storeitems/ibs_lock.lock", 0666);
@@ -705,7 +705,7 @@ class ad_store
 				ftruncate($pf, 0);
 				$truncate = false;
 			}
-			fwrite($pf, $temp, strlen($temp));
+			fwrite($pf, $temp);
 		}
 		if ($truncate)
 		{

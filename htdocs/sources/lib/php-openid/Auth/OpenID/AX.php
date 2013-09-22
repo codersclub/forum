@@ -50,11 +50,11 @@ class Auth_OpenID_AX {
  */
 function Auth_OpenID_AX_checkAlias($alias)
 {
-  if (strpos($alias, ',') !== false) {
+  if (mb_strpos($alias, ',') !== false) {
       return new Auth_OpenID_AX_Error(sprintf(
                    "Alias %s must not contain comma", $alias));
   }
-  if (strpos($alias, '.') !== false) {
+  if (mb_strpos($alias, '.') !== false) {
       return new Auth_OpenID_AX_Error(sprintf(
                    "Alias %s must not contain period", $alias));
   }
@@ -439,8 +439,8 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
         $aliases = new Auth_OpenID_NamespaceMap();
 
         foreach ($ax_args as $key => $value) {
-            if (strpos($key, 'type.') === 0) {
-                $alias = substr($key, 5);
+            if (mb_strpos($key, 'type.') === 0) {
+                $alias = mb_substr($key, 5);
                 $type_uri = $value;
 
                 $alias = $aliases->addAlias($type_uri, $alias);
@@ -628,9 +628,9 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
         $aliases = new Auth_OpenID_NamespaceMap();
 
         foreach ($ax_args as $key => $value) {
-            if (strpos($key, 'type.') === 0) {
+            if (mb_strpos($key, 'type.') === 0) {
                 $type_uri = $value;
-                $alias = substr($key, 5);
+                $alias = mb_substr($key, 5);
 
                 $result = Auth_OpenID_AX_checkAlias($alias);
 

@@ -86,7 +86,7 @@ class post_functions extends Post
 		// check to make sure we have a valid topic title
 		//-------------------------------------------------
 
-		if ((strlen($ibforums->input['TopicTitle']) < 2) or (!$ibforums->input['TopicTitle']))
+		if ((mb_strlen($ibforums->input['TopicTitle']) < 2) or (!$ibforums->input['TopicTitle']))
 		{
 			$class->obj['post_errors'] = 'no_topic_title';
 		}
@@ -99,7 +99,7 @@ class post_functions extends Post
 
 		$temp = preg_replace("/&#([0-9]+);/", "-", $temp);
 
-		if (strlen($temp) > $ibforums->vars['max_title_length'])
+		if (mb_strlen($temp) > $ibforums->vars['max_title_length'])
 		{
 			$class->obj['post_errors'] = 'topic_title_long';
 		}

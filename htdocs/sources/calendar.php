@@ -557,12 +557,12 @@ class calendar
 			// Do we have a valid post?
 			//-----------------------------------------
 
-			if (strlen(trim($_POST['Post'])) < 1)
+			if (mb_strlen(trim($_POST['Post'])) < 1)
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_post'));
 			}
 
-			if (strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
+			if (mb_strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'post_too_long'));
 			}
@@ -575,12 +575,12 @@ class calendar
 
 			$ibforums->input['event_title'] = trim(stripslashes($ibforums->input['event_title']));
 
-			if ((strlen($ibforums->input['event_title']) < 2) or (!$ibforums->input['event_title']))
+			if ((mb_strlen($ibforums->input['event_title']) < 2) or (!$ibforums->input['event_title']))
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_title_none'));
 			}
 
-			if (strlen($ibforums->input['event_title']) > 64)
+			if (mb_strlen($ibforums->input['event_title']) > 64)
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_title_long'));
 			}
@@ -1261,7 +1261,7 @@ class calendar
 			// Make single quotes as URL's with html entites in them
 			// are parsed by the browser, so ' causes JS error :o
 
-			if (strstr($elmo['typed'], "&#39;"))
+			if (mb_strstr($elmo['typed'], "&#39;"))
 			{
 				$in_delim  = '"';
 				$out_delim = "'";
@@ -1360,12 +1360,12 @@ class calendar
 		// Do we have a valid post?
 		//-----------------------------------------
 
-		if (strlen(trim($_POST['Post'])) < 1)
+		if (mb_strlen(trim($_POST['Post'])) < 1)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_post'));
 		}
 
-		if (strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
+		if (mb_strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'post_too_long'));
 		}
@@ -1378,12 +1378,12 @@ class calendar
 
 		$ibforums->input['event_title'] = trim(stripslashes($ibforums->input['event_title']));
 
-		if ((strlen($ibforums->input['event_title']) < 2) or (!$ibforums->input['event_title']))
+		if ((mb_strlen($ibforums->input['event_title']) < 2) or (!$ibforums->input['event_title']))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_title_none'));
 		}
 
-		if (strlen($ibforums->input['event_title']) > 64)
+		if (mb_strlen($ibforums->input['event_title']) > 64)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_title_long'));
 		}

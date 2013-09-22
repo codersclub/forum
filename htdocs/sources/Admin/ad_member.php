@@ -702,7 +702,7 @@ class ad_forums
 
 		$stmt = $ibforums->db->query("SELECT id
 			    FROM ibf_members
-			    WHERE LOWER(name)='" . strtolower($new_name) . "'");
+			    WHERE LOWER(name)='" . mb_strtolower($new_name) . "'");
 
 		if ($stmt->rowCount())
 		{
@@ -2213,7 +2213,7 @@ class ad_forums
 		$data = [
 			'name'        => trim($IN['name']),
 			'password'    => md5(trim($IN['password'])),
-			'email'       => trim(strtolower($IN['email'])),
+			'email'       => trim(mb_strtolower($IN['email'])),
 			'mgroup'      => $IN['mgroup'],
 			'old_group'   => $IN['mgroup'],
 			'joined'      => time(),

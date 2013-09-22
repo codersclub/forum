@@ -64,7 +64,7 @@ EOF;
 		$username = preg_replace("/\s{2,}/", " ", $username);
 
 		$stmt = $ibforums->db->query("SELECT name FROM ibf_members WHERE
-			    LOWER(name)='" . addslashes(strtolower($username)) . "' and
+			    LOWER(name)='" . addslashes(mb_strtolower($username)) . "' and
 			    id!='" . $ibforums->member['id'] . "' LIMIT 1");
 
 		if ($stmt->rowCount() > 0)
@@ -97,12 +97,12 @@ EOF;
 			$lib->itemerror("Вы не можете использовать такое имя.");
 		}
 
-		if (strlen($len_u) < 3)
+		if (mb_strlen($len_u) < 3)
 		{
 			$lib->itemerror("Вы не можете использовать такое имя.");
 		}
 
-		if (strlen($len_u) > 32)
+		if (mb_strlen($len_u) > 32)
 		{
 			$lib->itemerror("Вы не можете использовать такое имя.");
 		}

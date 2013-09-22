@@ -83,12 +83,12 @@ EOF;
 		$maximum   = (int)$maximum;
 		$protected = (int)$protected;
 
-		if (strlen($ibforums->input['new_title']) < $minimum)
+		if (mb_strlen($ibforums->input['new_title']) < $minimum)
 		{
 			$lib->itemerror("Слишком мало символов в названии статуса.");
 		}
 
-		if (strlen($ibforums->input['new_title']) > $maximum)
+		if (mb_strlen($ibforums->input['new_title']) > $maximum)
 		{
 			$lib->itemerror("Слишком много символов в названии статуса.");
 		}

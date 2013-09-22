@@ -222,7 +222,7 @@ class Auth_OpenID_Parse {
             return preg_match($regexp, $text, $match);
         }
 
-        $regexp = substr($regexp, 1, strlen($regexp) - 2 - strlen($this->_re_flags));
+        $regexp = mb_substr($regexp, 1, mb_strlen($regexp) - 2 - mb_strlen($this->_re_flags));
         mb_ereg_search_init($text);
         if (!mb_ereg_search($regexp)) {
             return false;
@@ -237,7 +237,7 @@ class Auth_OpenID_Parse {
      *
      * @todo This is quite ineffective and may fail with the default
      *       pcre.backtrack_limit of 100000 in PHP 5.2, if $html is big.
-     *       It should rather use stripos (in PHP5) or strpos()+strtoupper()
+     *       It should rather use stripos (in PHP5) or mb_strpos()+strtoupper()
      *       in PHP4 to manage this.
      *
      * @param string $html The text to parse
@@ -258,10 +258,10 @@ class Auth_OpenID_Parse {
         }
 
         if ($html_end === false) {
-            $html_end = strlen($stripped);
+            $html_end = mb_strlen($stripped);
         }
 
-        $stripped = substr($stripped, $html_begin,
+        $stripped = mb_substr($stripped, $html_begin,
                            $html_end - $html_begin);
 
         // Workaround to prevent PREG_BACKTRACK_LIMIT_ERROR:
@@ -293,7 +293,7 @@ class Auth_OpenID_Parse {
                 $value = $this->replaceEntities(
                               $this->removeQuotes($attr_matches[2][$index]));
 
-                $link_attrs[strtolower($name)] = $value;
+                $link_attrs[mb_strtolower($name)] = $value;
             }
             $link_data[] = $link_attrs;
         }
@@ -308,7 +308,7 @@ class Auth_OpenID_Parse {
         // XXX: TESTME
         $rels = preg_split("/\s+/", trim($rel_attr));
         foreach ($rels as $rel) {
-            $rel = strtolower($rel);
+            $rel = mb_strtolower($rel);
             if ($rel == $target_rel) {
                 return 1;
             }

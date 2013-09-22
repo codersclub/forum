@@ -234,7 +234,7 @@ class ad_settings
 		// Insert macro name into DB
 		//----------------------------------
 
-		$set_name = "New Macro Set (Upload ID: " . substr(time(), -6) . ")";
+		$set_name = "New Macro Set (Upload ID: " . mb_substr(time(), -6) . ")";
 
 		$data = [
 			'set_name' => $set_name,
@@ -477,7 +477,7 @@ class ad_settings
 
 		$l_name = preg_replace("/\s{1,}/", "_", $name['set_name']);
 
-		$file_name = "macro-" . substr($l_name, 0, 8) . ".txt";
+		$file_name = "macro-" . mb_substr($l_name, 0, 8) . ".txt";
 
 		$contents = "";
 
@@ -675,9 +675,9 @@ class ad_settings
 			$real = str_replace("<", "&lt;", $row['macro_replace']);
 			$real = str_replace(">", "&gt;", $real);
 
-			if (strlen($real) > 55)
+			if (mb_strlen($real) > 55)
 			{
-				$real = substr($real, 0, 52) . '...';
+				$real = mb_substr($real, 0, 52) . '...';
 			}
 
 			if ($INFO['preview'] == 0)
