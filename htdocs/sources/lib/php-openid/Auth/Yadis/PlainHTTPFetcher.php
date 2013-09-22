@@ -166,7 +166,7 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
         $headers[] = "POST ".$post_path." HTTP/1.0";
         $headers[] = "Host: " . $parts['host'];
         $headers[] = "Content-type: application/x-www-form-urlencoded";
-        $headers[] = "Content-length: " . strval(strlen($body));
+        $headers[] = "Content-length: " . strval(mb_strlen($body));
 
         if ($extra_headers &&
             is_array($extra_headers)) {

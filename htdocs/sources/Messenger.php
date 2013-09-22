@@ -1641,13 +1641,13 @@ class Messenger
 			: '-';
 
 		//----------------------------------------------------------------
-		if (strlen($ibforums->input['msg_title']) < 2)
+		if (mb_strlen($ibforums->input['msg_title']) < 2)
 		{
 			$this->send_form(0, $ibforums->lang['err_no_title']);
 			return;
 		}
 		//----------------------------------------------------------------
-		if (strlen($ibforums->input['Post']) < 2)
+		if (mb_strlen($ibforums->input['Post']) < 2)
 		{
 			$this->send_form(0, $ibforums->lang['err_no_msg']);
 			return;
@@ -1670,8 +1670,8 @@ class Messenger
 
 		$to_member = array();
 
-		$ibforums->input['entered_name'] = strtolower(str_replace('|', '&#124;', $ibforums->input['entered_name']));
-		$ibforums->input['from_contact'] = strtolower(str_replace('|', '&#124;', $ibforums->input['from_contact']));
+		$ibforums->input['entered_name'] = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['entered_name']));
+		$ibforums->input['from_contact'] = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['from_contact']));
 
 		if ($ibforums->input['from_contact'] == '-')
 		{
@@ -1824,7 +1824,7 @@ class Messenger
 		{
 			$can_mass_pm = 1;
 
-			$ibforums->input['carbon_copy'] = strtolower(str_replace('|', '&#124;', $ibforums->input['carbon_copy']));
+			$ibforums->input['carbon_copy'] = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['carbon_copy']));
 
 			if (isset($ibforums->input['carbon_copy']) and $ibforums->input['carbon_copy'] != "")
 			{
@@ -1843,7 +1843,7 @@ class Messenger
 
 					foreach ($temp_array as $name)
 					{
-						$name = "'" . trim(strtolower($name)) . "'";
+						$name = "'" . trim(mb_strtolower($name)) . "'";
 
 						if (in_array($name, $new_array))
 						{
@@ -1896,7 +1896,7 @@ class Messenger
 
 								foreach ($cc_array as $idx => $cc_user)
 								{
-									$tmp = "'" . strtolower($cc_user['name']) . "'";
+									$tmp = "'" . mb_strtolower($cc_user['name']) . "'";
 
 									if ($tmp == $n)
 									{
@@ -2529,7 +2529,7 @@ class Messenger
 			// Make single quotes as URL's with html entites in them
 			// are parsed by the browser, so ' causes JS error :o
 
-			if (strstr($elmo['typed'], "&#39;"))
+			if (mb_strstr($elmo['typed'], "&#39;"))
 			{
 				$in_delim  = '"';
 				$out_delim = "'";

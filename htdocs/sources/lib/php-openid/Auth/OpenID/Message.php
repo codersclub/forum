@@ -146,7 +146,7 @@ class Auth_OpenID_Mapping {
     static function isA($thing)
     {
         return (is_object($thing) &&
-                strtolower(get_class($thing)) == 'auth_openid_mapping');
+                mb_strtolower(get_class($thing)) == 'auth_openid_mapping');
     }
 
     /**
@@ -328,7 +328,7 @@ class Auth_OpenID_NamespaceMap {
 
         // Check that desired_alias does not contain a period as per
         // the spec.
-        if (strpos($desired_alias, '.') !== false) {
+        if (mb_strpos($desired_alias, '.') !== false) {
             Auth_OpenID::log('"%s" must not contain a dot', $desired_alias);
             return null;
         }
@@ -644,13 +644,13 @@ class Auth_OpenID_Message {
         $post_args = $this->toPostArgs();
         $kvargs = array();
         foreach ($post_args as $k => $v) {
-            if (strpos($k, 'openid.') !== 0) {
+            if (mb_strpos($k, 'openid.') !== 0) {
                 // raise ValueError(
                 //   'This message can only be encoded as a POST, because it '
                 //   'contains arguments that are not prefixed with "openid."')
                 return null;
             } else {
-                $kvargs[substr($k, 7)] = $v;
+                $kvargs[mb_substr($k, 7)] = $v;
             }
         }
 
@@ -750,7 +750,7 @@ class Auth_OpenID_Message {
         }
 
         if (($namespace != Auth_OpenID_BARE_NS) &&
-            (strpos($namespace, ':') === false)) {
+            (mb_strpos($namespace, ':') === false)) {
             // fmt = 'OpenID 2.0 namespace identifiers SHOULD be URIs. Got %r'
             // warnings.warn(fmt % (namespace,), DeprecationWarning)
 

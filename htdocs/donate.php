@@ -6,7 +6,7 @@
   $right_referer = 'http://sources/donate.php';
 
   $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-  $referer = strtolower($referer);
+  $referer = mb_strtolower($referer);
 
 /*
   // Check for proper referer

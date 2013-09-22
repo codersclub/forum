@@ -59,7 +59,7 @@ class Auth_OpenID_CryptUtil {
             for ($i = 0; $i < $num_bytes; $i += 4) {
                 $bytes .= pack('L', mt_rand());
             }
-            $bytes = substr($bytes, 0, $num_bytes);
+            $bytes = mb_substr($bytes, 0, $num_bytes);
         } else {
             $bytes = fread($f, $num_bytes);
         }
@@ -83,7 +83,7 @@ class Auth_OpenID_CryptUtil {
             return Auth_OpenID_CryptUtil::getBytes($length);
         }
 
-        $popsize = strlen($population);
+        $popsize = mb_strlen($population);
 
         if ($popsize > 256) {
             $msg = 'More than 256 characters supplied to ' . __FUNCTION__;
@@ -107,12 +107,12 @@ class Auth_OpenID_CryptUtil {
 
     static function constEq($s1, $s2)
     {
-        if (strlen($s1) != strlen($s2)) {
+        if (mb_strlen($s1) != mb_strlen($s2)) {
             return false;
         }
 
         $result = true;
-        $length = strlen($s1);
+        $length = mb_strlen($s1);
         for ($i = 0; $i < $length; $i++) {
             $result &= ($s1[$i] == $s2[$i]);
         }

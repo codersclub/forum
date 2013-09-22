@@ -97,7 +97,7 @@ class session
 
 		$this->ip_address = $ibforums->input['IP_ADDRESS'];
 
-		$this->user_agent = substr($_SERVER['HTTP_USER_AGENT'], 0, 50);
+		$this->user_agent = mb_substr($_SERVER['HTTP_USER_AGENT'], 0, 50);
 
 		$this->time_now = time();
 
@@ -160,7 +160,7 @@ class session
 				$ibforums->is_bot        = 1;
 				$this->session_id        = "";
 
-				$match = strtolower($match[1]);
+				$match = mb_strtolower($match[1]);
 
 				if (!$agent = $remap_agents[$match])
 				{
@@ -1240,9 +1240,9 @@ class session
 
 			if (count($temp_loc) > 10)
 			{
-				$locasion = substr($locasion, 0, strrpos($locasion, '|'));
-				$in_forum = substr($in_forum, 0, strrpos($in_forum, ','));
-				$in_topic = substr($in_topic, 0, strrpos($in_topic, ','));
+				$locasion = mb_substr($locasion, 0, mb_strrpos($locasion, '|'));
+				$in_forum = mb_substr($in_forum, 0, mb_strrpos($in_forum, ','));
+				$in_topic = mb_substr($in_topic, 0, mb_strrpos($in_topic, ','));
 			}
 
 			$data = array(
@@ -1421,9 +1421,9 @@ class session
 			return;
 		}
 
-		if ((substr($this->r_location, 0, strpos($this->r_location, '|')) == $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE']) AND
-		    (substr($this->r_in_forum, 0, strpos($this->r_in_forum, ',')) == intval($ibforums->input['f'])) AND
-		    (substr($this->r_in_topic, 0, strpos($this->r_in_topic, ',')) == intval($ibforums->input['t']))
+		if ((mb_substr($this->r_location, 0, mb_strpos($this->r_location, '|')) == $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE']) AND
+		    (mb_substr($this->r_in_forum, 0, mb_strpos($this->r_in_forum, ',')) == intval($ibforums->input['f'])) AND
+		    (mb_substr($this->r_in_topic, 0, mb_strpos($this->r_in_topic, ',')) == intval($ibforums->input['t']))
 		)
 		{
 
@@ -1456,9 +1456,9 @@ class session
 
 			if (count($temp_loc) > 10)
 			{
-				$locasion = substr($locasion, 0, strrpos($locasion, '|'));
-				$in_forum = substr($in_forum, 0, strrpos($in_forum, ','));
-				$in_topic = substr($in_topic, 0, strrpos($in_topic, ','));
+				$locasion = mb_substr($locasion, 0, mb_strrpos($locasion, '|'));
+				$in_forum = mb_substr($in_forum, 0, mb_strrpos($in_forum, ','));
+				$in_topic = mb_substr($in_topic, 0, mb_strrpos($in_topic, ','));
 			}
 
 			$db_str = array(
@@ -1495,9 +1495,9 @@ class session
 			return;
 		}
 
-		if ((substr($this->r_location, 0, strpos($this->r_location, '|')) == $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE']) AND
-		    (substr($this->r_in_forum, 0, strpos($this->r_in_forum, ',')) == intval($ibforums->input['f'])) AND
-		    (substr($this->r_in_topic, 0, strpos($this->r_in_topic, ',')) == intval($ibforums->input['t']))
+		if ((mb_substr($this->r_location, 0, mb_strpos($this->r_location, '|')) == $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE']) AND
+		    (mb_substr($this->r_in_forum, 0, mb_strpos($this->r_in_forum, ',')) == intval($ibforums->input['f'])) AND
+		    (mb_substr($this->r_in_topic, 0, mb_strpos($this->r_in_topic, ',')) == intval($ibforums->input['t']))
 		)
 		{
 			return;
@@ -1519,9 +1519,9 @@ class session
 			$temp_loc = explode('|', $locasion);
 			if (count($temp_loc) > 10)
 			{
-				$locasion = substr($locasion, 0, strrpos($locasion, '|'));
-				$in_forum = substr($in_forum, 0, strrpos($in_forum, ','));
-				$in_topic = substr($in_topic, 0, strrpos($in_topic, ','));
+				$locasion = mb_substr($locasion, 0, mb_strrpos($locasion, '|'));
+				$in_forum = mb_substr($in_forum, 0, mb_strrpos($in_forum, ','));
+				$in_topic = mb_substr($in_topic, 0, mb_strrpos($in_topic, ','));
 			}
 
 			$db_str = array(

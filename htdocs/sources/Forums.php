@@ -245,9 +245,9 @@ class Forums
 
 				foreach ($list as $l)
 				{
-					if (substr($l, 1, 1) == "f")
+					if (mb_substr($l, 1, 1) == "f")
 					{
-						$this->see[substr($l, 2)] = substr($l, 0, 1);
+						$this->see[mb_substr($l, 2)] = mb_substr($l, 0, 1);
 					}
 				}
 			}
@@ -603,9 +603,9 @@ class Forums
 			$forum_data['last_title'] = str_replace("&#33;", "!", $forum_data['last_title']);
 			$forum_data['last_title'] = str_replace("&quot;", "\"", $forum_data['last_title']);
 
-			if (strlen($forum_data['last_title']) > 30)
+			if (mb_strlen($forum_data['last_title']) > 30)
 			{
-				$forum_data['last_title'] = substr($forum_data['last_title'], 0, 27) . "...";
+				$forum_data['last_title'] = mb_substr($forum_data['last_title'], 0, 27) . "...";
 				$forum_data['last_title'] = preg_replace('/&(#(\d+;?)?)?\.\.\.$/', '...', $forum_data['last_title']);
 			} else
 			{

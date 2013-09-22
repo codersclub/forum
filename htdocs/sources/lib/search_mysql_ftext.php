@@ -71,7 +71,7 @@ class search_lib extends Search
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_search_words'));
 			}
 
-			if (strlen(trim($keywords)) < 2)
+			if (mb_strlen(trim($keywords)) < 2)
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'search_word_short', 'EXTRA' => 4));
 			}
@@ -274,10 +274,10 @@ class search_lib extends Search
 
 				$start     = 0;
 				$end       = 250;
-				$tmp_post  = strtolower($row['post']);
-				$tmp_words = explode(" ", trim(strtolower($check_keywords)));
+				$tmp_post  = mb_strtolower($row['post']);
+				$tmp_words = explode(" ", trim(mb_strtolower($check_keywords)));
 
-				if ($st = strpos($tmp_post, $tmp_words[0]))
+				if ($st = mb_strpos($tmp_post, $tmp_words[0]))
 				{
 					$start = $st - 100;
 					$start = $start < 0
@@ -286,7 +286,7 @@ class search_lib extends Search
 					$end += $start;
 				}
 
-				$row['post'] = substr($row['post'], $start, $end);
+				$row['post'] = mb_substr($row['post'], $start, $end);
 
 				// Finish tidy up..
 
@@ -300,11 +300,11 @@ class search_lib extends Search
 					{
 						// find the first space..
 
-						if ($new_start = strpos($row['post'], " "))
+						if ($new_start = mb_strpos($row['post'], " "))
 						{
 							// Cut to space..
 
-							$row['post'] = substr($row['post'], $new_start);
+							$row['post'] = mb_substr($row['post'], $new_start);
 
 							$row['post'] = '...' . $row['post'];
 						}
@@ -314,11 +314,11 @@ class search_lib extends Search
 				// Tidy up the end..
 				// Find the last space..
 
-				if (strlen($row['post']) > 250)
+				if (mb_strlen($row['post']) > 250)
 				{
-					if ($new_end = strrpos($row['post'], " "))
+					if ($new_end = mb_strrpos($row['post'], " "))
 					{
-						$row['post'] = substr($row['post'], 0, $new_end);
+						$row['post'] = mb_substr($row['post'], 0, $new_end);
 
 						$row['post'] .= '...';
 					}
@@ -435,7 +435,7 @@ class search_lib extends Search
 			}
 		} else
 		{
-			if (strlen(trim($keywords)) < 2)
+			if (mb_strlen(trim($keywords)) < 2)
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'search_word_short', 'EXTRA' => 4));
 			}
@@ -564,7 +564,7 @@ class search_lib extends Search
 
 		if ($type != 'nameonly')
 		{
-			if (strlen(trim($keywords)) < $ibforums->vars['min_search_word'])
+			if (mb_strlen(trim($keywords)) < $ibforums->vars['min_search_word'])
 			{
 				$std->Error(array(
 				                 'LEVEL' => 1,

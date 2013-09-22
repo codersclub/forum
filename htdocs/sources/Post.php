@@ -899,7 +899,7 @@ class Post
 		// Do we have a valid post?
 		//------------------------------------------------------------
 
-		if (strlen(trim($_POST['Post'])) < 1)
+		if (mb_strlen(trim($_POST['Post'])) < 1)
 		{
 			if (!$_POST['preview'])
 			{
@@ -910,7 +910,7 @@ class Post
 			}
 		}
 
-		if (strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
+		if (mb_strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'post_too_long'));
 		}
@@ -1683,7 +1683,7 @@ class Post
 			// Make single quotes as URL's with html entites in them
 			// are parsed by the browser, so ' causes JS error :o
 
-			if (strstr($elmo['typed'], "&#39;"))
+			if (mb_strstr($elmo['typed'], "&#39;"))
 			{
 				$in_delim  = '"';
 				$out_delim = "'";

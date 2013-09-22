@@ -407,7 +407,7 @@ class post_functions extends Post
 
 			if ($ibforums->vars['etfilter_shout'])
 			{
-				$ibforums->input['TopicTitle'] = ucwords(strtolower($ibforums->input['TopicTitle']));
+				$ibforums->input['TopicTitle'] = ucwords(mb_strtolower($ibforums->input['TopicTitle']));
 			}
 
 			$ibforums->input['TopicTitle'] = trim($class->parser->bad_words($ibforums->input['TopicTitle']));

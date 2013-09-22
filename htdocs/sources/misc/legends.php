@@ -130,7 +130,7 @@ class legends
 		// Check for input, etc
 		//-----------------------------------------
 
-		$ibforums->input['username'] = strtolower(trim($ibforums->input['username']));
+		$ibforums->input['username'] = mb_strtolower(trim($ibforums->input['username']));
 
 		if ($ibforums->input['username'] == "")
 		{
@@ -429,7 +429,7 @@ class legends
 
 			while ($r = $stmt->fetch())
 			{
-				if (strstr($r['typed'], "&quot;"))
+				if (mb_strstr($r['typed'], "&quot;"))
 				{
 					$in_delim  = "'";
 					$out_delim = '"';

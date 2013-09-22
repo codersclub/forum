@@ -183,7 +183,7 @@ class Auth_Yadis_ParseHTML {
         }
         // the effective </head> is the min of the following
         if (is_null($key_tags_pos[2])) {
-            $key_tags_pos[2] = strlen($html_string);
+            $key_tags_pos[2] = mb_strlen($html_string);
         }
         foreach (array($key_tags_pos[3], $key_tags_pos[4]) as $pos) {
             if (!is_null($pos) && $pos < $key_tags_pos[2]) {
@@ -199,7 +199,7 @@ class Auth_Yadis_ParseHTML {
         if (!is_null($key_tags_pos[0]) && $key_tags_pos[1] < $key_tags_pos[0]) {
             return array();
         }
-        $html_string = substr($html_string, $key_tags_pos[1],
+        $html_string = mb_substr($html_string, $key_tags_pos[1],
                               ($key_tags_pos[2]-$key_tags_pos[1]));
 
         $link_data = array();
@@ -219,7 +219,7 @@ class Auth_Yadis_ParseHTML {
                 $value = $this->replaceEntities(
                               $this->removeQuotes($attr_matches[2][$index]));
 
-                $link_attrs[strtolower($name)] = $value;
+                $link_attrs[mb_strtolower($name)] = $value;
             }
             $link_data[] = $link_attrs;
         }
@@ -244,7 +244,7 @@ class Auth_Yadis_ParseHTML {
         if ($meta_tags) {
             foreach ($meta_tags as $tag) {
                 if (array_key_exists('http-equiv', $tag) &&
-                    (in_array(strtolower($tag['http-equiv']),
+                    (in_array(mb_strtolower($tag['http-equiv']),
                               array('x-xrds-location', 'x-yadis-location'))) &&
                     array_key_exists('content', $tag)) {
                     return $tag['content'];

@@ -305,8 +305,8 @@ class Auth_OpenID_Association {
         $signed_prefix = 'openid.';
 
         foreach ($message_keys as $k) {
-            if (strpos($k, $signed_prefix) === 0) {
-                $signed_list[] = substr($k, strlen($signed_prefix));
+            if (mb_strpos($k, $signed_prefix) === 0) {
+                $signed_list[] = mb_substr($k, mb_strlen($signed_prefix));
             }
         }
 

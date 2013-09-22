@@ -1674,12 +1674,12 @@ class Moderate
 			// Is it a current poll thingy?
 			//-----------------------------------
 
-			if (strlen($rearranged[$nid][1]) > 0)
+			if (mb_strlen($rearranged[$nid][1]) > 0)
 			{
 				$new_poll_array[] = array($rearranged[$nid][0], $ibforums->input['POLL_' . $nid], $rearranged[$nid][2]);
 			} else
 			{
-				if (strlen($ibforums->input['POLL_' . $nid]) > 0)
+				if (mb_strlen($ibforums->input['POLL_' . $nid]) > 0)
 				{
 					$new_poll_array[] = array($nid, $ibforums->input['POLL_' . $nid], 0);
 				}

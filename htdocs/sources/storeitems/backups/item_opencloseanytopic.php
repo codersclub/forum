@@ -92,8 +92,8 @@ EOF;
 		}
 		$ibforums->db->exec("UPDATE ibf_topics SET state='{$state}' WHERE tid='{$topic['tid']}' LIMIT 1");
 		$lib->delete_item($ibforums->input['itemid']);
-		$lib->write_log("Topic \"<a href='{$ibforums->base_url}showtopic={$topic['tid']}'>{$topic['title']}</a>\" " . ucfirst(strtolower($state)) . "!", "item");
-		$lib->redirect("Topic \"{$topic['title']}\" " . ucfirst(strtolower($state)) . "!", "showtopic={$topic['tid']}", "1");
+		$lib->write_log("Topic \"<a href='{$ibforums->base_url}showtopic={$topic['tid']}'>{$topic['title']}</a>\" " . ucfirst(mb_strtolower($state)) . "!", "item");
+		$lib->redirect("Topic \"{$topic['title']}\" " . ucfirst(mb_strtolower($state)) . "!", "showtopic={$topic['tid']}", "1");
 		return "";
 	}
 }

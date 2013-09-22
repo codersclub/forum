@@ -331,8 +331,8 @@ class Topics
 		{
 			// check if code tag text is present
 			if ($ibforums->member['syntax'] != 'none' and
-			    (strpos($row['post'], "[code") !== FALSE or
-			     strpos($row['post'], "[CODE") !== FALSE)
+			    (mb_strpos($row['post'], "[code") !== FALSE or
+			     mb_strpos($row['post'], "[CODE") !== FALSE)
 			)
 			{
 				// first state of post
@@ -448,7 +448,7 @@ class Topics
 			$row['post'] .= "<br><br><span class='edit'>" . sprintf($ibforums->lang['edited_by'], $row['edit_name'], $e_time) . "</span>";
 		}
 
-		if ($row['delete_after'] && !$row['use_sig'] && strlen(rtrim($row['post'])) > 0)
+		if ($row['delete_after'] && !$row['use_sig'] && mb_strlen(rtrim($row['post'])) > 0)
 		{
 
 			$days = $std->get_autodelete_message($row['delete_after'], $ibforums->lang['delete_waiting_message'], $ibforums->lang['delete_through_message']);
@@ -770,7 +770,7 @@ class Topics
 			} else
 			{
 
-				if (intval($ibforums->member['post_wrap_size']) != 0 && $ibforums->member['post_wrap_size'] < strlen(strip_tags($row['post'])) && $row['new_topic'] != 1)
+				if (intval($ibforums->member['post_wrap_size']) != 0 && $ibforums->member['post_wrap_size'] < mb_strlen(strip_tags($row['post'])) && $row['new_topic'] != 1)
 				{
 					$row['post'] = '<div class="spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">Многа букав</div><div class="body">' . $row['post'] . '</div></div>';
 				}
@@ -785,7 +785,7 @@ class Topics
 	function mod_tags_cut($the_tag, $txt)
 	{
 
-		$the_tag = strtoupper($the_tag);
+		$the_tag = mb_strtoupper($the_tag);
 
 		$this->mod_tags .= "[" . $the_tag . "]" . $txt . "[/" . $the_tag . "]";
 	}
@@ -2074,7 +2074,7 @@ class Topics
 			// Make single quotes as URL's with html entites in them
 			// are parsed by the browser, so ' causes JS error :o
 
-			if (strstr($elmo['typed'], "&#39;"))
+			if (mb_strstr($elmo['typed'], "&#39;"))
 			{
 				$in_delim  = '"';
 				$out_delim = "'";
@@ -2918,7 +2918,7 @@ class Topics
 					}
 				} else
 				{
-					if ($this->moderator[strtolower($key)])
+					if ($this->moderator[mb_strtolower($key)])
 					{
 						$mod_links .= $this->append_link($key);
 					}
@@ -3327,7 +3327,7 @@ class Topics
 					$choice = $entry[1];
 					$votes  = $entry[2];
 
-					if (strlen($choice) < 1)
+					if (mb_strlen($choice) < 1)
 						continue;
 
 					if ($ibforums->vars['poll_tags'])
@@ -3407,7 +3407,7 @@ class Topics
 					$choice = $entry[1];
 					$votes  = $entry[2];
 
-					if (strlen($choice) < 1)
+					if (mb_strlen($choice) < 1)
 						continue;
 
 					if ($ibforums->vars['poll_tags'])

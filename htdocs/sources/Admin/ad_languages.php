@@ -334,7 +334,7 @@ class ad_langs
 		$file_content = "<?php\n\n\$config=array('lauthor' => \"" . addslashes($row['lauthor']) . "\", 'lemail'=>\"" . addslashes($row['lemail']) . "\")\n\n?" . ">";
 
 		$FH = fopen($archive_dir . "/" . $new_dir . "/" . "conf.inc", 'w');
-		fwrite($FH, $file_content, strlen($file_content));
+		fwrite($FH, $file_content);
 		fclose($FH);
 
 		// Add files and write tarball
@@ -750,7 +750,7 @@ class ad_langs
 
 		if ($fh = fopen($lang_file, 'w'))
 		{
-			fwrite($fh, $start, strlen($start));
+			fwrite($fh, $start);
 			fclose($fh);
 		} else
 		{

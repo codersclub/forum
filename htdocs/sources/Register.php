@@ -192,7 +192,7 @@ class Register
 
 		$stmt = $ibforums->db->query("SELECT *
 			    FROM ibf_members
-			    WHERE LOWER(name)='" . strtolower($ibforums->input['username']) . "'");
+			    WHERE LOWER(name)='" . mb_strtolower($ibforums->input['username']) . "'");
 
 		if (!$member = $stmt->fetch())
 		{
@@ -438,7 +438,7 @@ class Register
 		// Check for input and it's in a valid format.
 		//------------------------------------------------------------
 
-		$member_name = trim(strtolower($ibforums->input['member_name']));
+		$member_name = trim(mb_strtolower($ibforums->input['member_name']));
 
 		if ($member_name == "")
 		{
@@ -743,7 +743,7 @@ class Register
 
 			if ($row['fmaxinput'] > 0)
 			{
-				if (strlen($_POST['field_' . $row['fid']]) > $row['fmaxinput'])
+				if (mb_strlen($_POST['field_' . $row['fid']]) > $row['fmaxinput'])
 				{
 					$std->Error(array('LEVEL' => 1, 'MSG' => 'cf_to_long', 'EXTRA' => $row['ftitle']));
 				}
@@ -757,9 +757,9 @@ class Register
 
 		$in_username = trim(str_replace('|', '&#124;', $ibforums->input['UserName']));
 		$in_password = trim($ibforums->input['PassWord']);
-		$in_email    = strtolower(trim($ibforums->input['EmailAddress']));
+		$in_email    = mb_strtolower(trim($ibforums->input['EmailAddress']));
 
-		$ibforums->input['EmailAddress_two'] = strtolower(trim($ibforums->input['EmailAddress_two']));
+		$ibforums->input['EmailAddress_two'] = mb_strtolower(trim($ibforums->input['EmailAddress_two']));
 
 		if ($ibforums->input['EmailAddress_two'] != $in_email)
 		{
@@ -792,12 +792,12 @@ class Register
 			$this->show_reg_form('err_no_username');
 			return;
 		}
-		if (strlen($len_u) < 3)
+		if (mb_strlen($len_u) < 3)
 		{
 			$this->show_reg_form('err_no_username');
 			return;
 		}
-		if (strlen($len_u) > 30)
+		if (mb_strlen($len_u) > 30)
 		{
 			$this->show_reg_form('err_no_username');
 			return;
@@ -818,12 +818,12 @@ class Register
 			$this->show_reg_form('err_no_password');
 			return;
 		}
-		if (strlen($len_p) < 3)
+		if (mb_strlen($len_p) < 3)
 		{
 			$this->show_reg_form('err_no_password');
 			return;
 		}
-		if (strlen($len_p) > 30)
+		if (mb_strlen($len_p) > 30)
 		{
 			$this->show_reg_form('err_no_password');
 			return;
@@ -833,7 +833,7 @@ class Register
 			$this->show_reg_form('err_pass_match');
 			return;
 		}
-		if (strlen($in_email) < 6)
+		if (mb_strlen($in_email) < 6)
 		{
 			$this->show_reg_form('err_invalid_email');
 			return;
@@ -857,7 +857,7 @@ class Register
 
 		$stmt = $ibforums->db->query("SELECT id
 		    FROM ibf_members
-		    WHERE LOWER(name)='" . addslashes(strtolower($in_username)) . "'
+		    WHERE LOWER(name)='" . addslashes(mb_strtolower($in_username)) . "'
 		    LIMIT 1");
 
 		$name_check = $stmt->fetch();
@@ -868,7 +868,7 @@ class Register
 			return;
 		}
 
-		if (strtolower($in_username) == 'guest')
+		if (mb_strtolower($in_username) == 'guest')
 		{
 			$this->show_reg_form('err_user_exists');
 			return;
@@ -1395,7 +1395,7 @@ class Register
 					$pass_a = trim($ibforums->input['pass1']);
 					$pass_b = trim($ibforums->input['pass2']);
 
-					if (strlen($pass_a) < 3)
+					if (mb_strlen($pass_a) < 3)
 					{
 						$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_too_short'));
 					}
@@ -1623,10 +1623,10 @@ class Register
 				return false;
 			}
 
-			$p = intval($ibforums->input['p']) - 1; //substr starts from 0, not 1 :p
+			$p = intval($ibforums->input['p']) - 1; //mb_substr starts from 0, not 1 :p
 			//echo "this_number=".$this_number."<br>";
 
-			$this_number = substr($row['regcode'], $p, 1);
+			$this_number = mb_substr($row['regcode'], $p, 1);
 
 			$std->show_gif_img($this_number);
 		}

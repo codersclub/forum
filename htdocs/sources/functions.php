@@ -1530,7 +1530,7 @@ class functions
 		if ($ibforums->vars['use_ttf'] != 1)
 		{
 			$font_style = 5;
-			$no_chars   = strlen($content);
+			$no_chars   = mb_strlen($content);
 
 			$charheight = ImageFontHeight($font_style);
 			$charwidth  = ImageFontWidth($font_style);
@@ -2152,7 +2152,7 @@ class functions
 
 			// Song * show all posts in the topic
 
-			if (strpos($data['BASE_URL'], "showtopic") !== FALSE and
+			if (mb_strpos($data['BASE_URL'], "showtopic") !== FALSE and
 			    $data['TOTAL_POSS'] < $ibforums->vars['max_show_all_posts']
 			)
 			{
@@ -2803,7 +2803,7 @@ class functions
 					// определяем окончание слова
 					$ending = "";
 					$strm   = ($mins > 20)
-						? substr((string)$mins, -1)
+						? mb_substr((string)$mins, -1)
 						: false;
 					if ($mins == 1 || $strm == "1")
 					{
@@ -2830,7 +2830,7 @@ class functions
 				// определяем окончание слова
 				$ending = "";
 				$strm   = ($hours > 20)
-					? substr((string)$hours, -1)
+					? mb_substr((string)$hours, -1)
 					: false;
 				if ($hours == 2 || $hours == 3 || $hours == 4 || $strm == "2" || $strm == "3" || $strm == "4")
 				{
@@ -3054,8 +3054,8 @@ class functions
 		$return['IP_ADDRESS'] = preg_replace("/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/", "\\1.\\2.\\3.\\4", $return['IP_ADDRESS']);
 
 		$return['request_method'] = ($_SERVER['REQUEST_METHOD'] != "")
-			? strtolower($_SERVER['REQUEST_METHOD'])
-			: strtolower($REQUEST_METHOD);
+			? mb_strtolower($_SERVER['REQUEST_METHOD'])
+			: mb_strtolower($REQUEST_METHOD);
 
 		return $return;
 	}
@@ -3943,7 +3943,7 @@ class functions
 	{
 		global $ibforums;
 
-		$post = strtolower($post);
+		$post = mb_strtolower($post);
 
 		// Replace line endings by a space
 		$post = preg_replace("/[\n\r]/is", " ", $post);
@@ -4005,7 +4005,7 @@ class functions
 		foreach ($results as $item)
 		{
 
-			$length = strlen($item);
+			$length = mb_strlen($item);
 
 			if (($length >= $ibforums->vars['min_search_word']) && ($length <= $ibforums->vars['max_search_word']))
 			{

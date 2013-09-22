@@ -95,7 +95,7 @@ function mime_crutch($filename)
 
 			//    "application/x-gtar" => array( 1, 'zip.gif'       , 'GZipped TAR Ball') ,
 			// 257   string      ustar\040\040\0   application/x-gtar
-			if (!strncmp(substr($content2, 257), "ustar  \0", 8))
+			if (!strncmp(mb_substr($content2, 257), "ustar  \0", 8))
 			{
 				$return_type = "application/x-gtar";
 				break;
@@ -103,7 +103,7 @@ function mime_crutch($filename)
 
 			//    "application/x-tar"     => array( 1, 'zip.gif'       , 'TAR Ball'       ) ,
 			// 257   string      ustar\0     application/x-tar
-			if (!strncmp(substr($content2, 257), "ustar\0", 6))
+			if (!strncmp(mb_substr($content2, 257), "ustar\0", 6))
 			{
 				$return_type = "application/x-tar";
 				break;

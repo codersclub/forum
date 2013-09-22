@@ -399,8 +399,8 @@ class Login
 					'member_id'    => $member['id'],
 					'running_time' => time(),
 					'member_group' => $member['mgroup'],
-					'ip_address'   => substr($ibf->input['IP_ADDRESS'], 0, 50),
-					'browser'      => substr($std->clean_value($_SERVER['HTTP_USER_AGENT']), 0, 50),
+					'ip_address'   => mb_substr($ibf->input['IP_ADDRESS'], 0, 50),
+					'browser'      => mb_substr($std->clean_value($_SERVER['HTTP_USER_AGENT']), 0, 50),
 					'login_type'   => $ibf->input['Privacy']
 						? 1
 						: 0

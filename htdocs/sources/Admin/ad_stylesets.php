@@ -198,7 +198,7 @@ class ad_settings
 		$wrap['template'] = preg_replace("/\r/", "\n", $wrap['template']);
 
 		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $wrap_name, 'w');
-		fwrite($FH, $wrap['template'], strlen($wrap['template']));
+		fwrite($FH, $wrap['template']);
 		fclose($FH);
 
 		@chmod($archive_dir . "/" . $new_dir . "/" . $wrap_name, 0777);
@@ -209,7 +209,7 @@ class ad_settings
 		$css_text = file_get_contents($ibforums->vars['base_dir'] . "/cache/css_{$row['css_id']}.css");
 
 		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $css_name, 'w');
-		fwrite($FH, $css_text, strlen($css_text));
+		fwrite($FH, $css_text);
 		fclose($FH);
 
 		@chmod($archive_dir . "/" . $new_dir . "/" . $css_name, 0777);
@@ -241,7 +241,7 @@ class ad_settings
 		}
 
 		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $macro_name, 'w');
-		fwrite($FH, $file_content, strlen($file_content));
+		fwrite($FH, $file_content);
 		fclose($FH);
 
 		@chmod($archive_dir . "/" . $new_dir . "/" . $macro_name, 0777);
@@ -291,7 +291,7 @@ class ad_settings
 		}
 
 		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $template_name, 'w');
-		fwrite($FH, $output, strlen($output));
+		fwrite($FH, $output);
 		fclose($FH);
 
 		@chmod($archive_dir . "/" . $new_dir . "/" . $template_name, 0777);
@@ -303,7 +303,7 @@ class ad_settings
 		$file_content = "<?php\n\n" . "\$config=array('author' => \"" . addslashes($tmpl['author']) . "\", " . "'email'=>\"" . addslashes($tmpl['email']) . "\", " . "'url'=>\"" . addslashes($tmpl['url']) . "\")\n\n?" . ">";
 
 		$FH = fopen($archive_dir . "/" . $new_dir . "/" . "templates_conf.inc", 'w');
-		fwrite($FH, $file_content, strlen($file_content));
+		fwrite($FH, $file_content);
 		fclose($FH);
 
 		@chmod($archive_dir . "/" . $new_dir . "/" . "templates_conf.inc", 0777);

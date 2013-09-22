@@ -487,7 +487,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
     {
         $result = "";
         for ($i = 0; $i < Auth_OpenID::bytes($str); $i++) {
-            $ch = substr($str, $i, 1);
+            $ch = mb_substr($str, $i, 1);
             if ($ch == "\\") {
                 $result .= "\\\\\\\\";
             } else if (ord($ch) == 0) {
@@ -509,13 +509,13 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
     {
         $result = "";
         $i = 0;
-        while ($i < strlen($str)) {
+        while ($i < mb_strlen($str)) {
             $char = $str[$i];
             if ($char == "\\") {
                 // Look to see if the next char is a backslash and
                 // append it.
                 if ($str[$i + 1] != "\\") {
-                    $octal_digits = substr($str, $i + 1, 3);
+                    $octal_digits = mb_substr($str, $i + 1, 3);
                     $dec = octdec($octal_digits);
                     $char = chr($dec);
                     $i += 4;
