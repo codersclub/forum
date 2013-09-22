@@ -64,7 +64,7 @@ EOF;
 	{
 		global $ibforums, $print, $lib;
 
-		if ((strlen($ibforums->input['signature']) > $ibforums->vars['max_sig_length']) && ($ibforums->vars['max_sig_length']))
+		if ((mb_strlen($ibforums->input['signature']) > $ibforums->vars['max_sig_length']) && ($ibforums->vars['max_sig_length']))
 		{
 			$lib->itemerror("The signature you entered for that member is too long. Maximum Signature length is: {$ibforums->vars['max_sig_length']}.");
 		}
@@ -76,7 +76,7 @@ EOF;
 		                                                      'HTML'      => $ibforums->vars['sig_allow_html'],
 		                                                      'SIGNATURE' => 1
 		                                                 ));
-		$stmt                         = $ibforums->db->query("SELECT id,name,mgroup FROM ibf_members WHERE LOWER(name)='" . strtolower($ibforums->input['username']) . "' LIMIT 1");
+		$stmt                         = $ibforums->db->query("SELECT id,name,mgroup FROM ibf_members WHERE LOWER(name)='" . mb_strtolower($ibforums->input['username']) . "' LIMIT 1");
 		if ($stmt->rowCount() == 0)
 		{
 			$lib->itemerror("We cannot seem to find that name.");

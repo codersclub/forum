@@ -196,7 +196,7 @@ class tar
 					'name'  => $d['name'],
 					'size'  => $d['size'],
 					'mtime' => $d['mtime'],
-					'mode'  => substr(decoct($d['mode']), -4),
+					'mode'  => mb_substr(decoct($d['mode']), -4),
 				);
 			} else
 			{
@@ -394,7 +394,7 @@ class tar
 			{
 				if ($FH = fopen($file_name, "wb"))
 				{
-					fputs($FH, $file['data'], strlen($file['data']));
+					fputs($FH, $file['data']);
 					fclose($FH);
 				} else
 				{
@@ -559,7 +559,7 @@ class tar
 				'mode'     => $mode,
 				'uid'      => $uid,
 				'gid'      => $gid,
-				'size'     => strlen($data),
+				'size'     => mb_strlen($data),
 				'mtime'    => $mtime,
 				'chksum'   => "      ",
 				'typeflag' => $typeflag,
@@ -620,18 +620,18 @@ class tar
 
 			// make sure the filename isn't longer than 99 characters.
 
-			if (strlen($file['name']) > 99)
+			if (mb_strlen($file['name']) > 99)
 			{
-				$pos = strrpos($file['name'], "/");
+				$pos = mb_strrpos($file['name'], "/");
 				if (is_string($pos) && !$pos)
 				{
 					// filename alone is longer than 99 characters!
 					$this->error[] = "Filename {$file['name']} exceeds the length allowed by GNU Tape ARchives";
 					continue;
 				}
-				$prefix       = substr($file['name'], 0, $pos); // Move the path to the prefix
-				$file['name'] = substr($file['name'], ($pos + 1));
-				if (strlen($prefix) > 154)
+				$prefix       = mb_substr($file['name'], 0, $pos); // Move the path to the prefix
+				$file['name'] = mb_substr($file['name'], ($pos + 1));
+				if (mb_strlen($prefix) > 154)
 				{
 					$this->error[] = "File path exceeds the length allowed by GNU Tape ARchives";
 					continue;
@@ -660,7 +660,7 @@ class tar
 			$last .= pack("a155", $prefix);
 			//$last .= pack("a12", "");
 			$test_len = $tmp . $last . "12345678";
-			$last .= $this->internal_build_string("\0", ($this->tar_header_length - strlen($test_len)));
+			$last .= $this->internal_build_string("\0", ($this->tar_header_length - mb_strlen($test_len)));
 
 			// Here comes the science bit, handling
 			// the checksum.
@@ -669,7 +669,7 @@ class tar
 
 			for ($i = 0; $i < 148; $i++)
 			{
-				$checksum += ord(substr($tmp, $i, 1));
+				$checksum += ord(mb_substr($tmp, $i, 1));
 			}
 
 			for ($i = 148; $i < 156; $i++)
@@ -679,7 +679,7 @@ class tar
 
 			for ($i = 156, $j = 0; $i < 512; $i++, $j++)
 			{
-				$checksum += ord(substr($last, $j, 1));
+				$checksum += ord(mb_substr($last, $j, 1));
 			}
 
 			$checksum = sprintf("%6s ", decoct($checksum));
@@ -711,7 +711,7 @@ class tar
 		// print it to the tar file
 
 		$FH = fopen($this->tarfile_path_name, 'wb');
-		fputs($FH, $tardata, strlen($tardata));
+		fputs($FH, $tardata);
 		fclose($FH);
 
 		@chmod($this->tarfile_path_name, 0777);
@@ -768,7 +768,7 @@ class tar
 
 			for ($i = 0; $i < 148; $i++)
 			{
-				$checksum += ord(substr($buffer, $i, 1));
+				$checksum += ord(mb_substr($buffer, $i, 1));
 			}
 			for ($i = 148; $i < 156; $i++)
 			{
@@ -776,7 +776,7 @@ class tar
 			}
 			for ($i = 156; $i < 512; $i++)
 			{
-				$checksum += ord(substr($buffer, $i, 1));
+				$checksum += ord(mb_substr($buffer, $i, 1));
 			}
 
 			$fa = unpack($this->tar_unpack_header, $buffer);
@@ -829,7 +829,7 @@ class tar
 
 			$data = fread($FH, $size);
 
-			if (strlen($data) != $size)
+			if (mb_strlen($data) != $size)
 			{
 				$this->error = "Read error on tar file";
 				fclose($FH);

@@ -148,7 +148,7 @@ class Moderate
 
 		// Song * mod access
 
-		if (!$this->pass and !($ibforums->member['id'] and (strpos($ibforums->input['CODE'], "ip") !== FALSE or $ibforums->input['CODE'] == "topicchoice")))
+		if (!$this->pass and !($ibforums->member['id'] and (mb_strpos($ibforums->input['CODE'], "ip") !== FALSE or $ibforums->input['CODE'] == "topicchoice")))
 		{
 			if (!$ibforums->member['is_mod'])
 			{
@@ -364,7 +364,7 @@ class Moderate
 		// Issit coz i is black?
 		//---------------------------------------
 
-		if (!strstr($ibforums->input['tact'], 't_'))
+		if (!mb_strstr($ibforums->input['tact'], 't_'))
 		{
 			$this->mod_error('stupid_beggar');
 		}
@@ -3125,7 +3125,7 @@ class Moderate
 			}
 
 			// delete last delimiter
-			$prepare = substr($prepare, 0, strlen($prepare) - 1);
+			$prepare = mb_substr($prepare, 0, mb_strlen($prepare) - 1);
 
 			// parse its to HTML
 			$ready = $this->parser->prepare(array(

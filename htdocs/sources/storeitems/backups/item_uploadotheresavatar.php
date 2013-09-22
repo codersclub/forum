@@ -64,7 +64,7 @@ EOF;
 	function do_on_use($blank = "", $blank = "", $allowed)
 	{
 		global $ibforums, $print, $lib, $HTTP_POST_FILES;
-		$stmt      = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE LOWER(name)='" . strtolower($ibforums->input['username']) . "' LIMIT 1");
+		$stmt      = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE LOWER(name)='" . mb_strtolower($ibforums->input['username']) . "' LIMIT 1");
 		$user      = $stmt->fetch();
 		$allowed   = explode(",", $allowed);
 		$file_type = $HTTP_POST_FILES['name']['type'];

@@ -159,7 +159,7 @@ class ad_settings
 		// Insert wrapper into DB
 		//----------------------------------
 
-		$wrap_name .= "New Wrapper (Upload ID: " . substr(time(), -6) . ")";
+		$wrap_name .= "New Wrapper (Upload ID: " . mb_substr(time(), -6) . ")";
 
 		$data = [
 			'name'     => $wrap_name,
@@ -199,7 +199,7 @@ class ad_settings
 
 		$l_name = preg_replace("/\s{1,}/", "_", $row['name']);
 
-		$file_name = "wrap-" . substr($l_name, 0, 8) . ".html";
+		$file_name = "wrap-" . mb_substr($l_name, 0, 8) . ".html";
 
 		$row['template'] = preg_replace("/\r\n/", "\n", $row['template']);
 

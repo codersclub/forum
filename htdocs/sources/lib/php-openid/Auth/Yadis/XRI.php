@@ -125,7 +125,7 @@ function Auth_Yadis_XRIAppendArgs($url, $args)
     //  leading question mark), or a query component consisting of
     //  only question marks, one additional leading question mark MUST
     //  be added when adding any XRI resolution parameters."
-    if (strpos(rtrim($url, '?'), '?') !== false) {
+    if (mb_strpos(rtrim($url, '?'), '?') !== false) {
         $sep = '&';
     } else {
         $sep = '?';
@@ -136,8 +136,8 @@ function Auth_Yadis_XRIAppendArgs($url, $args)
 
 function Auth_Yadis_providerIsAuthoritative($providerID, $canonicalID)
 {
-    $lastbang = strrpos($canonicalID, '!');
-    $p = substr($canonicalID, 0, $lastbang);
+    $lastbang = mb_strrpos($canonicalID, '!');
+    $p = mb_substr($canonicalID, 0, $lastbang);
     return $p == $providerID;
 }
 
@@ -148,7 +148,7 @@ function Auth_Yadis_rootAuthority($xri)
     $root = null;
 
     if (Auth_Yadis_startswith($xri, 'xri://')) {
-        $xri = substr($xri, 6);
+        $xri = mb_substr($xri, 6);
     }
 
     $authority = explode('/', $xri, 2);
@@ -159,7 +159,7 @@ function Auth_Yadis_rootAuthority($xri)
         //   there is another close-paren in there.  Hopefully nobody
         //   does that before we have a real xriparse function.
         //   Hopefully nobody does that *ever*.
-        $root = substr($authority, 0, strpos($authority, ')') + 1);
+        $root = mb_substr($authority, 0, mb_strpos($authority, ')') + 1);
     } else if (in_array($authority[0], Auth_Yadis_getXRIAuthorities())) {
         // Other XRI reference.
         $root = $authority[0];
@@ -207,7 +207,7 @@ function Auth_Yadis_getCanonicalID($iname, $xrds)
     for ($i = 1; $i < count($xrd_list); $i++) {
         $xrd = $xrd_list[$i];
 
-        $parent_sought = substr($childID, 0, strrpos($childID, '!'));
+        $parent_sought = mb_substr($childID, 0, mb_strrpos($childID, '!'));
         $parentCID = $parser->evalXPath('xrd:CanonicalID', $xrd);
         if (!$parentCID) {
             return false;

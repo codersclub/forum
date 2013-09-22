@@ -222,7 +222,7 @@ class PostParser
 			$words = explode(chr(9), $line);
 
 			$line = $words[0];
-			$col  = strlen($line);
+			$col  = mb_strlen($line);
 			$size = sizeof($words);
 
 			for ($n = 1; $n < $size; $n++)
@@ -238,7 +238,7 @@ class PostParser
 
 				$word = $words[$n];
 				$line = str_pad($line, $col) . $word;
-				$col += strlen($word);
+				$col += mb_strlen($word);
 			}
 
 			$view .= $line . "\n";
@@ -360,14 +360,14 @@ class PostParser
 					$temp = 'server';
 				}
 
-				$length = strlen($code);
+				$length = mb_strlen($code);
 
 				// Song * Opera tool
 				// Client highlight is very slow for large text,
 				// so, reset highlight to server if current browser
 				// Opera and length of code tag is more than 10 kb.
 
-				if ($temp == 'client' && $length > 10 * 1024 && strpos($sess->user_agent, 'Opera') !== FALSE)
+				if ($temp == 'client' && $length > 10 * 1024 && mb_strpos($sess->user_agent, 'Opera') !== FALSE)
 				{
 					$temp = 'server';
 				}
@@ -411,7 +411,7 @@ class PostParser
 
 				$pos    = 0;
 				$match  = array();
-				$length = strlen($code);
+				$length = mb_strlen($code);
 
 				while ($pos < $length)
 				{
@@ -442,35 +442,35 @@ class PostParser
 								// пустой текст не надо подсвечивать
 								$view .= str_replace($rule->tags[$n] . $rule->tags[($n + 1) % 10], '', $txt);
 
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 
 							if ($rule->actions[$n] == 'none')
 							{
 								$view .= $rule->tags[$n] . $rule->tags[($n + 1) % 10];
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 
 							if ($rule->actions[$n] == 'value')
 							{
 								$view .= $match[$n];
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 
 							if ($rule->actions[$n] == 'count')
 							{
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 						}
 
 						$pos += $l;
-						$code = substr($code, $l);
+						$code = mb_substr($code, $l);
 					} else
 					{
 						$view .= $this->syntax_code_to_view($code[0]);
 
 						$pos++;
-						$code = substr($code, 1);
+						$code = mb_substr($code, 1);
 					}
 				}
 
@@ -649,22 +649,22 @@ class PostParser
 
 	function smilie_length_sort($a, $b)
 	{
-		if (strlen($a['typed']) == strlen($b['typed']))
+		if (mb_strlen($a['typed']) == mb_strlen($b['typed']))
 		{
 			return 0;
 		}
-		return (strlen($a['typed']) > strlen($b['typed']))
+		return (mb_strlen($a['typed']) > mb_strlen($b['typed']))
 			? -1
 			: 1;
 	}
 
 	function word_length_sort($a, $b)
 	{
-		if (strlen($a['type']) == strlen($b['type']))
+		if (mb_strlen($a['type']) == mb_strlen($b['type']))
 		{
 			return 0;
 		}
-		return (strlen($a['type']) > strlen($b['type']))
+		return (mb_strlen($a['type']) > mb_strlen($b['type']))
 			? -1
 			: 1;
 	}
@@ -1087,7 +1087,7 @@ class PostParser
 		// Song * do not parse message if "[" is absent in it's body,
 		// but parse smiles
 
-		if (strpos($txt, "[") === FALSE)
+		if (mb_strpos($txt, "[") === FALSE)
 		{
 			//--------------------------------------
 			// Auto parse URLs
@@ -1543,7 +1543,7 @@ class PostParser
 	function regex_mod_tag_convert($the_tag, $txt)
 	{
 
-		$the_tag = strtoupper($the_tag);
+		$the_tag = mb_strtoupper($the_tag);
 		return "[" . $the_tag . "]" . $txt . "[/" . $the_tag . "]";
 	}
 
@@ -1624,7 +1624,7 @@ class PostParser
 			return "";
 		}
 
-		$stmt = $ibforums->db->query("SELECT id FROM ibf_members WHERE LOWER(name)='" . strtolower(addslashes(trim($user_name))) . "'");
+		$stmt = $ibforums->db->query("SELECT id FROM ibf_members WHERE LOWER(name)='" . mb_strtolower(addslashes(trim($user_name))) . "'");
 		if (!$stmt->rowCount())
 		{
 			return $user_name;
@@ -2218,7 +2218,7 @@ class PostParser
 		}
 
 		return array(
-			'START' => "<div class='{$pre_div_class}'>{$label}<div class='" . strtolower($possible_use[$in['STYLE']][0]) . " $class'{$extra}>",
+			'START' => "<div class='{$pre_div_class}'>{$label}<div class='" . mb_strtolower($possible_use[$in['STYLE']][0]) . " $class'{$extra}>",
 			'END'   => "</div></div>"
 		);
 	}
@@ -2552,7 +2552,7 @@ class PostParser
 			// with point - old format of date
 			// without point - new format of date in UNIX time
 
-			if (strpos($date, ".") === FALSE)
+			if (mb_strpos($date, ".") === FALSE)
 			{
 				$date = ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
 					? $std->old_get_date($date)
@@ -2661,7 +2661,7 @@ class PostParser
 		{
 			$extension = preg_replace("#^.*\.(\S+)$#", "\\1", $url);
 
-			$extension = strtolower($extension);
+			$extension = mb_strtolower($extension);
 
 			if ((!$extension) OR (preg_match("#/#", $extension)))
 			{
@@ -2669,7 +2669,7 @@ class PostParser
 				return $default;
 			}
 
-			$ibforums->vars['img_ext'] = strtolower($ibforums->vars['img_ext']);
+			$ibforums->vars['img_ext'] = mb_strtolower($ibforums->vars['img_ext']);
 
 			if (!preg_match("/" . preg_quote($extension, '/') . "(\||$)/", $ibforums->vars['img_ext']))
 			{
@@ -2786,8 +2786,8 @@ class PostParser
 		if(preg_match('/&#\d+;|&quot;|&lt;|&gt;/', $url['html'], $matches, PREG_OFFSET_CAPTURE))
 		{
 			$pos = $matches[0][1];
-			$url['end'] = substr($url['html'], $pos) . $url['end'];
-			$url['html'] = substr($url['html'], 0, $pos);
+			$url['end'] = mb_substr($url['html'], $pos) . $url['end'];
+			$url['html'] = mb_substr($url['html'], 0, $pos);
 		}
 		if (!trim($url['show']))
 		{
@@ -2838,7 +2838,7 @@ class PostParser
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
 
-		if ((strlen($url['show']) - 58) < 3)
+		if ((mb_strlen($url['show']) - 58) < 3)
 		{
 			$skip_it = 1;
 		}
@@ -2857,7 +2857,7 @@ class PostParser
 			$stripped = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\2", $url['show']);
 			$uri_type = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\1", $url['show']);
 
-			$show = $uri_type . '://' . substr($stripped, 0, 35) . '...' . substr($stripped, -15);
+			$show = $uri_type . '://' . mb_substr($stripped, 0, 35) . '...' . mb_substr($stripped, -15);
 		}
 
 		return $url['st'] . "<a href='" . $url['html'] . "' target='_blank'>&shy;" . $show . "</a>" . $url['end'];
@@ -2954,7 +2954,7 @@ class PostParser
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
 
-		if ((strlen($url['show']) - 58) < 3)
+		if ((mb_strlen($url['show']) - 58) < 3)
 		{
 			$skip_it = 1;
 		}
@@ -3008,7 +3008,7 @@ class PostParser
 				$stripped = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\2", $url['show']);
 				$uri_type = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\1", $url['show']);
 
-				$show = $uri_type . '://' . substr($stripped, 0, 35) . '...' . substr($stripped, -15);
+				$show = $uri_type . '://' . mb_substr($stripped, 0, 35) . '...' . mb_substr($stripped, -15);
 			}
 		}
 
@@ -3065,7 +3065,7 @@ class PostParser
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
 
-		if ((strlen($url['show']) - 58) < 3)
+		if ((mb_strlen($url['show']) - 58) < 3)
 		{
 			$skip_it = 1;
 		}

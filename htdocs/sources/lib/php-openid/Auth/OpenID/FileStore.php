@@ -154,7 +154,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
             return null;
         }
 
-        if (strpos($server_url, '://') === false) {
+        if (mb_strpos($server_url, '://') === false) {
             trigger_error(sprintf("Bad server URL: %s", $server_url),
                           E_USER_WARNING);
             return null;
@@ -255,7 +255,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
             $name = basename($filename);
             foreach ($association_files as $association_file) {
                 $base = basename($association_file);
-                if (strpos($base, $name) === 0) {
+                if (mb_strpos($base, $name) === 0) {
                     $matching_files[] = $association_file;
                 }
             }
@@ -468,7 +468,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
      */
     function _rmtree($dir)
     {
-        if ($dir[strlen($dir) - 1] != DIRECTORY_SEPARATOR) {
+        if ($dir[mb_strlen($dir) - 1] != DIRECTORY_SEPARATOR) {
             $dir .= DIRECTORY_SEPARATOR;
         }
 
@@ -555,7 +555,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
     {
         $_Auth_OpenID_filename_allowed = Auth_OpenID_letters .
             Auth_OpenID_digits . ".";
-        return (strpos($_Auth_OpenID_filename_allowed, $char) !== false);
+        return (mb_strpos($_Auth_OpenID_filename_allowed, $char) !== false);
     }
 
     /**

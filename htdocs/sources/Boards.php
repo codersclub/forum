@@ -300,7 +300,7 @@ class Boards {
 
 				while ($result = $stmt->fetch())
 				{
-					if (strstr($result['id'], '_session'))
+					if (mb_strstr($result['id'], '_session'))
 					{
 						if ($ibf->vars['spider_anon'])
 						{
@@ -765,7 +765,7 @@ class Boards {
 			$fm_s = -1;
 			foreach ($list as $l)
 			{
-				if (substr($l, 1, 1) == "c")
+				if (mb_substr($l, 1, 1) == "c")
 				{
 					if (isset($c_id))
 						if (!isset($this->contr[$c_id]))
@@ -774,19 +774,19 @@ class Boards {
 							$this->contr[$c_id] = $fm_s;
 							$fm_s = -1;
 						} //-1 no forums,0 show contract,1 some something
-					$c_id = substr($l, 2);
-					$this->cs[$c_id] = substr($l, 0, 1);
+					$c_id = mb_substr($l, 2);
+					$this->cs[$c_id] = mb_substr($l, 0, 1);
 					if (!isset($this->contr[$c_id]))
 						$this->contr[$c_id] = $fm_s; else
 					{
 						$this->contr[$c_id] = $fm_s;
 						$fm_s = -1;
 					} //-1 no forums,0 show contract,1 some something
-				} elseif (substr($l, 1, 1) == "f")
+				} elseif (mb_substr($l, 1, 1) == "f")
 				{
-					$this->fs[substr($l, 2)] = substr($l, 0, 1);
+					$this->fs[mb_substr($l, 2)] = mb_substr($l, 0, 1);
 					if ($fm_s != 1)
-						$fm_s = substr($l, 0, 1);
+						$fm_s = mb_substr($l, 0, 1);
 				}
 			}
 
@@ -1356,7 +1356,7 @@ class Boards {
 
 						if ($html != "(")
 						{
-							$html = substr($html, 0, strlen($html) - 3);
+							$html = mb_substr($html, 0, mb_strlen($html) - 3);
 							$html .= ")";
 
 							if ($forum_data['description'])
@@ -1518,7 +1518,7 @@ class Boards {
 	{
 		global $ibforums;
 
-		if (strlen($forum_data['icon']) > 4 && intval($ibforums->skin['uid']) != 13 && intval($ibforums->member['forum_icon']) == 1)
+		if (mb_strlen($forum_data['icon']) > 4 && intval($ibforums->skin['uid']) != 13 && intval($ibforums->member['forum_icon']) == 1)
 		{
 			// класс для изображения
 			$class = preg_match("~_OFF~is", $forum_data['img_new_post'])

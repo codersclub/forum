@@ -379,7 +379,7 @@ class admin_functions
 
 		if ($fh = fopen(ROOT_PATH . '../conf_global.php', 'w'))
 		{
-			fputs($fh, $file_string, strlen($file_string));
+			fputs($fh, $file_string);
 			fclose($fh);
 		} else
 		{

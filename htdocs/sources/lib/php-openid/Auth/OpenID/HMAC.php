@@ -35,7 +35,7 @@ function Auth_OpenID_SHA1($text)
         $hex = sha1($text);
         $raw = '';
         for ($i = 0; $i < 40; $i += 2) {
-            $hexcode = substr($hex, $i, 2);
+            $hexcode = mb_substr($hex, $i, 2);
             $charcode = (int)base_convert($hexcode, 16, 10);
             $raw .= chr($charcode);
         }

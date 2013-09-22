@@ -206,7 +206,7 @@ try {
 
 	if ( $query_last )
 	{
-		$query_last = substr($query_last, 0, strlen($query_last) - 4);
+		$query_last = mb_substr($query_last, 0, mb_strlen($query_last) - 4);
 
 		$query .= "WHERE ".$query_last;
 	}

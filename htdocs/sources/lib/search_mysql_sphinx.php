@@ -260,8 +260,8 @@ class search_lib extends Search
 		{
 
 			// sphinx_snippets(p.post, 'test1', 'Пупкин'),
-			$keywords     = substr($ibforums->db->quote($keywords), 1, -1);
-			$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$topics_name}"), 1, -1);
+			$keywords     = mb_substr($ibforums->db->quote($keywords), 1, -1);
+			$sphinx_query = mb_substr($ibforums->db->quote("{$posts_datecut}{$forums}{$topics_name}"), 1, -1);
 
 			if ($ibforums->input['st'])
 			{
@@ -296,7 +296,7 @@ class search_lib extends Search
 						AND t.approved=1
 					";
 
-				$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
+				$sphinx_query = mb_substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
 
 				if ($ibforums->input['st'])
 				{
@@ -338,7 +338,7 @@ class search_lib extends Search
 						AND t.approved=1
 					";
 
-				$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
+				$sphinx_query = mb_substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
 
 				if ($ibforums->input['st'])
 				{

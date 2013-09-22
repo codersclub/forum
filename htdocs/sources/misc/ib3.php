@@ -197,18 +197,18 @@ EOF;
 		// Check for input length
 		//-------------------------------------------------
 
-		if (strlen($ibforums->input['UserName']) > 32)
+		if (mb_strlen($ibforums->input['UserName']) > 32)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'username_long'));
 		}
 
-		if (strlen($ibforums->input['PassWord']) > 32)
+		if (mb_strlen($ibforums->input['PassWord']) > 32)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_too_long'));
 		}
 
-		$username = strtolower($ibforums->input['UserName']);
-		$password = crypt($ibforums->input['PassWord'], substr(strtolower($ibforums->input['UserName']), 0, 2));
+		$username = mb_strtolower($ibforums->input['UserName']);
+		$password = crypt($ibforums->input['PassWord'], mb_substr(mb_strtolower($ibforums->input['UserName']), 0, 2));
 
 		//-------------------------------------------------
 		// Attempt to get the user details
@@ -272,8 +272,8 @@ EOF;
 					'member_id'    => $member['id'],
 					'running_time' => time(),
 					'member_group' => $member['mgroup'],
-					'ip_address'   => substr($ibforums->input['IP_ADDRESS'], 0, 50),
-					'browser'      => substr($_SERVER['HTTP_USER_AGENT'], 0, 50),
+					'ip_address'   => mb_substr($ibforums->input['IP_ADDRESS'], 0, 50),
+					'browser'      => mb_substr($_SERVER['HTTP_USER_AGENT'], 0, 50),
 					'login_type'   => $ibforums->input['Privacy']
 						? 1
 						: 0

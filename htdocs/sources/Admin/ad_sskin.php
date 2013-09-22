@@ -285,7 +285,7 @@ class ad_sskins
 			$ADMIN->error("You must pass a valid emoticon id, silly!");
 		}
 
-		if (strstr($IN['before'], '&#092;'))
+		if (mb_strstr($IN['before'], '&#092;'))
 		{
 			$ADMIN->error("You cannot use the backslash character in \"{$IN['before']}\". Please use another character");
 		}
@@ -439,7 +439,7 @@ class ad_sskins
 			$ADMIN->error("You must enter an emoticon text to replace, silly!");
 		}
 
-		if (strstr($IN['before'], '&#092;'))
+		if (mb_strstr($IN['before'], '&#092;'))
 		{
 			$ADMIN->error("You cannot use the backslash character in \"{$IN['before']}\". Please use another character");
 		}
@@ -464,22 +464,22 @@ class ad_sskins
 
 	function perly_length_sort($a, $b)
 	{
-		if (strlen($a['typed']) == strlen($b['typed']))
+		if (mb_strlen($a['typed']) == mb_strlen($b['typed']))
 		{
 			return 0;
 		}
-		return (strlen($a['typed']) > strlen($b['typed']))
+		return (mb_strlen($a['typed']) > mb_strlen($b['typed']))
 			? -1
 			: 1;
 	}
 
 	function perly_word_sort($a, $b)
 	{
-		if (strlen($a['type']) == strlen($b['type']))
+		if (mb_strlen($a['type']) == mb_strlen($b['type']))
 		{
 			return 0;
 		}
-		return (strlen($a['type']) > strlen($b['type']))
+		return (mb_strlen($a['type']) > mb_strlen($b['type']))
 			? -1
 			: 1;
 	}

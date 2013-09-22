@@ -1005,7 +1005,7 @@ class quiz
 
 			$m = intval($member['time_took'] / 60);
 			$s = $member['time_took'] - $m * 60;
-			if (strlen($s) < 2)
+			if (mb_strlen($s) < 2)
 				$s = "0" . $s;
 
 			$member['time_took'] = $m . ":" . $s;
@@ -1195,7 +1195,7 @@ class quiz
 			$row['quiz_status'] = 'CLOSED';
 		}
 
-		$row['quiz_status'] = ucfirst(strtolower($row['quiz_status']));
+		$row['quiz_status'] = ucfirst(mb_strtolower($row['quiz_status']));
 
 		//    $row['amount_won'] = $std->do_number_format($row['amount_won']);
 
@@ -1319,7 +1319,7 @@ class quiz
 				$quiz['status_days'] = 0;
 			}
 
-			$quiz['quiz_status'] = ucfirst(strtolower($quiz['quiz_status']));
+			$quiz['quiz_status'] = ucfirst(mb_strtolower($quiz['quiz_status']));
 			$quiz['amount_won']  = $std->do_number_format($quiz['amount_won']);
 			$this->output .= $this->html->list_quiz($quiz);
 
@@ -2094,7 +2094,7 @@ class quiz
 		$msg = str_replace(",", "&cedil;", $msg);
 		$msg = str_replace("&cedil;", "", $msg);
 		$msg = str_replace("&nbsp;", "", $msg);
-		$msg = strtolower($msg);
+		$msg = mb_strtolower($msg);
 		$msg = stripslashes($msg);
 		return $msg;
 	}
@@ -2106,7 +2106,7 @@ class quiz
 		global $ibforums;
 		$tables = "id,name";
 		$tables .= $addon;
-		$extra = "LOWER(name)='" . strtolower($username) . "'";
+		$extra = "LOWER(name)='" . mb_strtolower($username) . "'";
 		$extra .= $extra_a;
 		$stmt = $ibforums->db->query("SELECT " . $tables . " FROM ibf_members WHERE " . $extra . " LIMIT 1");
 		if ($stmt->rowCount() == 0)

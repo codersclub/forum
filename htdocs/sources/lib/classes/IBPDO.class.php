@@ -34,9 +34,9 @@ class IBPDO extends PDOWrapper
 		$values = [];
 		foreach ($params as $key => $item)
 		{
-			if (substr($key, 0, 1) === ':')
+			if (mb_substr($key, 0, 1) === ':')
 			{
-				$key = substr($key, 1);
+				$key = mb_substr($key, 1);
 			}
 			$keys[]             = "$key = :$key";
 			$values[':' . $key] = $item;
@@ -107,7 +107,7 @@ class IBPDO extends PDOWrapper
 		assert(!empty($table));
 		assert(!empty($values));
 
-		if (!empty($options) && !in_array(strtoupper($options), ['DELAYED', 'IGNORE']))
+		if (!empty($options) && !in_array(mb_strtoupper($options), ['DELAYED', 'IGNORE']))
 		{
 			$options = '';
 		}

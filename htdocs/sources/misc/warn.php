@@ -869,7 +869,7 @@ class  warn
 
 			if ($main)
 			{
-				$main = substr($main, 0, strlen($main) - 1);
+				$main = mb_substr($main, 0, mb_strlen($main) - 1);
 				$ibforums->db->exec("UPDATE ibf_members SET " . $main . " WHERE id='" . $this->warn_member['id'] . "'");
 			}
 
@@ -877,7 +877,7 @@ class  warn
 
 			if ($forum2)
 			{
-				$forum = substr($forum, 0, strlen($forum) - 1);
+				$forum = mb_substr($forum, 0, mb_strlen($forum) - 1);
 				$ibforums->db->exec("INSERT INTO ibf_preview_user SET mid='" . $this->warn_member['id'] . "',fid='" . $fid . "'," . $forum);
 			}
 		} else

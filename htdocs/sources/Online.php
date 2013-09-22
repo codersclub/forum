@@ -305,7 +305,7 @@ class Online
 
 			$inv = '';
 
-			if (strstr($sess['id'], '_session'))
+			if (mb_strstr($sess['id'], '_session'))
 			{
 				$sess['is_bot'] = 1;
 
@@ -361,13 +361,13 @@ class Online
 
 				do
 				{
-					$sess['location'] = substr($location, 0, strpos($location, '|'));
-					$sess['in_forum'] = substr($in_forum, 0, strpos($in_forum, ','));
-					$sess['in_topic'] = substr($in_topic, 0, strpos($in_topic, ','));
+					$sess['location'] = mb_substr($location, 0, mb_strpos($location, '|'));
+					$sess['in_forum'] = mb_substr($in_forum, 0, mb_strpos($in_forum, ','));
+					$sess['in_topic'] = mb_substr($in_topic, 0, mb_strpos($in_topic, ','));
 
-					$location = substr($location, strpos($location, '|') + 1);
-					$in_forum = substr($in_forum, strpos($in_forum, ',') + 1);
-					$in_topic = substr($in_topic, strpos($in_topic, ',') + 1);
+					$location = mb_substr($location, mb_strpos($location, '|') + 1);
+					$in_forum = mb_substr($in_forum, mb_strpos($in_forum, ',') + 1);
+					$in_topic = mb_substr($in_topic, mb_strpos($in_topic, ',') + 1);
 
 					list($act, $pid) = explode(",", $sess['location']);
 					$fid = $sess['in_forum'];
@@ -434,7 +434,7 @@ class Online
 					}
 
 					$line .= '<br>';
-				} while (strstr($location, '|'));
+				} while (mb_strstr($location, '|'));
 			} else
 			{
 				$line .= " {$ibforums->lang['board_index']}";

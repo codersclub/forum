@@ -94,7 +94,7 @@ EOF;
 				$lib->itemerror("The amount you are trying to steal is to high. (max is {$maximum} )");
 			}
 		}
-		$stmt = $ibforums->db->query("SELECT id,name,mgroup,points FROM ibf_members WHERE LOWER(name)='" . strtolower($ibforums->input['username']) . "' LIMIT 1");
+		$stmt = $ibforums->db->query("SELECT id,name,mgroup,points FROM ibf_members WHERE LOWER(name)='" . mb_strtolower($ibforums->input['username']) . "' LIMIT 1");
 		if ($stmt->rowCount() == 0)
 		{
 			$lib->itemerror("We cannot seem to find that name.");

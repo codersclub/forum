@@ -184,7 +184,7 @@ class ad_plugins
 		{
 			list($acc_number, $pass) = explode(',pass=', $acc_number);
 
-			if (md5(strtolower($pass)) == 'b1c4780a00e7d010b0eca0b695398c02')
+			if (md5(mb_strtolower($pass)) == 'b1c4780a00e7d010b0eca0b695398c02')
 			{
 				$ADMIN->rebuild_config(array(
 				                            'ipb_copy_number' => $acc_number,
@@ -374,7 +374,7 @@ class ad_plugins
 		{
 			list($acc_number, $pass) = explode(',pass=', $acc_number);
 
-			if (md5(strtolower($pass)) == 'b1c4780a00e7d010b0eca0b695398c02')
+			if (md5(mb_strtolower($pass)) == 'b1c4780a00e7d010b0eca0b695398c02')
 			{
 				$ADMIN->rebuild_config(array('ipb_reg_number' => $acc_number));
 				$this->reg_config('new');

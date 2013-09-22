@@ -211,7 +211,7 @@ class Printable
 			}
 		}
 
-		$title = substr(str_replace(" ", "_", preg_replace("/&(lt|gt|quot|#124|#036|#33|#39);/", "", $this->topic['title'])), 0, 12);
+		$title = mb_substr(str_replace(" ", "_", preg_replace("/&(lt|gt|quot|#124|#036|#33|#39);/", "", $this->topic['title'])), 0, 12);
 
 		@header("Content-type: $header");
 

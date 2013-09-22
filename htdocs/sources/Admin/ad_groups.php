@@ -667,7 +667,7 @@ class ad_groups
 
 		while ($r = $stmt->fetch())
 		{
-			if (strstr($r['org_perm_id'], ","))
+			if (mb_strstr($r['org_perm_id'], ","))
 			{
 				foreach (explode(",", $r['org_perm_id']) as $pid)
 				{
@@ -690,7 +690,7 @@ class ad_groups
 
 		while ($r = $stmt->fetch())
 		{
-			if (strstr($r['g_perm_id'], ","))
+			if (mb_strstr($r['g_perm_id'], ","))
 			{
 				foreach (explode(",", $r['g_perm_id']) as $pid)
 				{

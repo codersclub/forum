@@ -37,13 +37,13 @@ class AuthMethodPassword extends AuthBasic
 		// Check for input length
 		//-------------------------------------------------
 
-		if (strlen($len_u) > 32)
+		if (mb_strlen($len_u) > 32)
 		{
 			$this->setLastErrorCode('username_long');
 			return false;
 		}
 
-		if (strlen($len_p) > 32)
+		if (mb_strlen($len_p) > 32)
 		{
 			$this->setLastErrorCode('pass_too_long');
 			return false;
@@ -72,7 +72,7 @@ class AuthMethodPassword extends AuthBasic
 	{
 		global $ibforums, $std, $print, $sess;
 
-		$username = strtolower(str_replace('|', '&#124;', $ibforums->input['UserName']));
+		$username = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['UserName']));
 		$password = md5($ibforums->input['PassWord']);
 
 		//-------------------------------------------------

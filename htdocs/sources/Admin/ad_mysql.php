@@ -282,7 +282,7 @@ class ad_mysql
 			$crc      = crc32(ob_get_contents());
 			$contents = gzcompress(ob_get_contents());
 			ob_end_clean();
-			echo $this->str_gzip_header . substr($contents, 0, strlen($contents) - 4) . $this->gzip_four_chars($crc) . $this->gzip_four_chars($size);
+			echo $this->str_gzip_header . mb_substr($contents, 0, mb_strlen($contents) - 4) . $this->gzip_four_chars($crc) . $this->gzip_four_chars($size);
 		}
 
 		exit();
@@ -691,9 +691,9 @@ class ad_mysql
 				if ($man_query == 1)
 				{
 					// Limit output
-					if (strlen($r[$fields[$i]['name']]) > 2000)
+					if (mb_strlen($r[$fields[$i]['name']]) > 2000)
 					{
-						$r[$fields[$i]['name']] = substr($r[$fields[$i]['name']], 0, 2000) . '...';
+						$r[$fields[$i]['name']] = mb_substr($r[$fields[$i]['name']], 0, 2000) . '...';
 					}
 				}
 
@@ -772,14 +772,14 @@ class ad_mysql
 		// optimize analyze check repair
 		//-------------------------------------------------------------
 
-		if (strtoupper($IN['tool']) == 'DROP' || strtoupper($IN['tool']) == 'CREATE' || strtoupper($IN['tool']) == 'FLUSH')
+		if (mb_strtoupper($IN['tool']) == 'DROP' || mb_strtoupper($IN['tool']) == 'CREATE' || mb_strtoupper($IN['tool']) == 'FLUSH')
 		{
 			$ADMIN->error("You can't do that, sorry");
 		}
 
 		foreach ($tables as $table)
 		{
-			$stmt = $ibforums->db->query(strtoupper($IN['tool']) . " TABLE $table");
+			$stmt = $ibforums->db->query(mb_strtoupper($IN['tool']) . " TABLE $table");
 
 			$fields = $this->get_result_fields($stmt);
 

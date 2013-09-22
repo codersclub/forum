@@ -62,7 +62,7 @@ EOF;
 		global $ibforums, $print, $lib;
 		$increase  = (int)$increase;
 		$protected = (int)$protected;
-		$stmt      = $ibforums->db->query("SELECT id,name,mgroup FROM ibf_members WHERE LOWER(name)='" . strtolower($ibforums->input['name']) . "' LIMIT 1");
+		$stmt      = $ibforums->db->query("SELECT id,name,mgroup FROM ibf_members WHERE LOWER(name)='" . mb_strtolower($ibforums->input['name']) . "' LIMIT 1");
 		if ($stmt->rowCount() <= 0)
 		{
 			$lib->itemerror("Cannot find member.");
