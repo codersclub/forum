@@ -346,10 +346,10 @@ class post_functions extends Post
 
 				if ($ibforums->member['id'] and $timedeff < 3500 and !$std->mod_tag_exists($lastpost['post'], 1))
 				{
-					//Ñïÿùèé                                        if  ( (!(($ibforums->member['g_is_supmod'] == 1) or ($ibforums->member['is_mod']))) or
-					//Ñïÿùèé                                              ((($ibforums->member['g_is_supmod'] == 1) or ($ibforums->member['is_mod'])) and ($ibforums->input['add_merge_edit'] == 1))
-					//Ñïÿùèé                                            )
-					if ($ibforums->input['add_merge_edit']) //Ñïÿùèé
+					//Ð¡Ð¿ÑÑ‰Ð¸Ð¹                                        if  ( (!(($ibforums->member['g_is_supmod'] == 1) or ($ibforums->member['is_mod']))) or
+					//Ð¡Ð¿ÑÑ‰Ð¸Ð¹                                              ((($ibforums->member['g_is_supmod'] == 1) or ($ibforums->member['is_mod'])) and ($ibforums->input['add_merge_edit'] == 1))
+					//Ð¡Ð¿ÑÑ‰Ð¸Ð¹                                            )
+					if ($ibforums->input['add_merge_edit']) //Ð¡Ð¿ÑÑ‰Ð¸Ð¹
 					{
 						if ($ibforums->member['g_avoid_flood'] != 1)
 						{

@@ -53,7 +53,7 @@ require ROOT_PATH . "sources/display.php";
 
 require ROOT_PATH . "../conf_global.php";
 
-setlocale(LC_ALL, 'ru_RU.CP1251');
+setlocale(LC_ALL, 'ru_RU.UTF-8');
 
 $INFO['mm_groups'] = array(
 	$INFO['admin_group'],

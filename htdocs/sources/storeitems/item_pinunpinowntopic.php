@@ -32,14 +32,14 @@ class item
 		return <<<EOF
 			 <form action='{$ibforums->base_url}act=store&code=useitem&itemid={$itemid}' name='item' method='post'>
 			  <tr>
-				<td class='pformstrip' width='100%' colspan='4'>Прикрепить <b>свою</b> тему</td>
+				<td class='pformstrip' width='100%' colspan='4'>РџСЂРёРєСЂРµРїРёС‚СЊ <b>СЃРІРѕСЋ</b> С‚РµРјСѓ</td>
 			</tr>
 			  <tr>
-				<td class='pformleft' width='50%' colspan='2'><strong>Укажите в поле справа ссылку на нужную тему(в ссылке должно прослеживаться showtopic=id_топика), <b>автором которой Вы являетесь</b>:</strong></td>
+				<td class='pformleft' width='50%' colspan='2'><strong>РЈРєР°Р¶РёС‚Рµ РІ РїРѕР»Рµ СЃРїСЂР°РІР° СЃСЃС‹Р»РєСѓ РЅР° РЅСѓР¶РЅСѓСЋ С‚РµРјСѓ(РІ СЃСЃС‹Р»РєРµ РґРѕР»Р¶РЅРѕ РїСЂРѕСЃР»РµР¶РёРІР°С‚СЊСЃСЏ showtopic=id_С‚РѕРїРёРєР°), <b>Р°РІС‚РѕСЂРѕРј РєРѕС‚РѕСЂРѕР№ Р’С‹ СЏРІР»СЏРµС‚РµСЃСЊ</b>:</strong></td>
 				<td class='pformleft' width='50%' colspan='1'><input type='text' name='url'></td>
 			 </tr>
 			  <tr>
-				<td class='pformleft' width='100%' align='center' colspan='4'><input type='submit' name='change' value='Изменить состояние темы'></td>
+				<td class='pformleft' width='100%' align='center' colspan='4'><input type='submit' name='change' value='РР·РјРµРЅРёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ С‚РµРјС‹'></td>
 			   </tr>
 			</form>
 
@@ -58,7 +58,7 @@ EOF;
 		//http://www.subzerofx.com/shop/index.php?showtopic=286
 		if (!$ibforums->input['url'])
 		{
-			$lib->itemerror("Вы не указали ссылку на тему, которую хотите прикрепить");
+			$lib->itemerror("Р’С‹ РЅРµ СѓРєР°Р·Р°Р»Рё СЃСЃС‹Р»РєСѓ РЅР° С‚РµРјСѓ, РєРѕС‚РѕСЂСѓСЋ С…РѕС‚РёС‚Рµ РїСЂРёРєСЂРµРїРёС‚СЊ");
 		}
 		// First remove the board URL and index.php? from the string
 		$ibforums->input['url'] = str_replace($ibforums->vars['board_url'], "", $ibforums->input['url']);
@@ -86,7 +86,7 @@ EOF;
 		$stmt      = $ibforums->db->query("SELECT tid,title,starter_id,pinned FROM ibf_topics WHERE tid='{$topic_num}' AND starter_id='{$ibforums->member['id']}' LIMIT 1");
 		if ($stmt->rowCount() <= 0)
 		{
-			$lib->itemerror("Топик, ссылка на который Вы привели, не найден. Возможно, это неправильная ссылка, или Вы не являетесь автором данного топика.");
+			$lib->itemerror("РўРѕРїРёРє, СЃСЃС‹Р»РєР° РЅР° РєРѕС‚РѕСЂС‹Р№ Р’С‹ РїСЂРёРІРµР»Рё, РЅРµ РЅР°Р№РґРµРЅ. Р’РѕР·РјРѕР¶РЅРѕ, СЌС‚Рѕ РЅРµРїСЂР°РІРёР»СЊРЅР°СЏ СЃСЃС‹Р»РєР°, РёР»Рё Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ Р°РІС‚РѕСЂРѕРј РґР°РЅРЅРѕРіРѕ С‚РѕРїРёРєР°.");
 		}
 		$topic = $stmt->fetch();
 		if ($topic['pinned'])
@@ -100,7 +100,7 @@ EOF;
 		}
 		$ibforums->db->exec("UPDATE ibf_topics SET pinned='{$state}' WHERE tid='{$topic['tid']}' LIMIT 1");
 		$lib->delete_item($ibforums->input['itemid']);
-		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "Использован товар: 'Перевести тему \"{$topic['title']}\" в разряд {$pin}'!", "", "item");
+		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "РСЃРїРѕР»СЊР·РѕРІР°РЅ С‚РѕРІР°СЂ: 'РџРµСЂРµРІРµСЃС‚Рё С‚РµРјСѓ \"{$topic['title']}\" РІ СЂР°Р·СЂСЏРґ {$pin}'!", "", "item");
 		$lib->redirect("Topic \"{$topic['title']}\" {$pin}!", "showtopic={$topic['tid']}", "1");
 		return "";
 	}

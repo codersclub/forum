@@ -86,12 +86,12 @@ EOF;
 		{
 			$lib->itemerror("You are trying to change a protected member's group.");
 		}
-		if (strlen($ibforums->input['new_title']) < $minimum)
+		if (mb_strlen($ibforums->input['new_title']) < $minimum)
 		{
 			$lib->itemerror("To little characters in title, please add some more to it.");
 		}
 
-		if (strlen($ibforums->input['new_title']) > $maximum)
+		if (mb_strlen($ibforums->input['new_title']) > $maximum)
 		{
 			$lib->itemerror("To many characters in title, please shorten it.");
 		}

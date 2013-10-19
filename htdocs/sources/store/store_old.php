@@ -311,7 +311,7 @@ class store
 		$item = $stmt->fetch();
 
 		// vot: log added
-		$lib->write_log(0, '', round(($ibforums->vars['resell_percentage'] / 100) * $price['price_payed']), "Товар '" . $item['item_name'] . "' возвращён в магазин", "Resell item");
+		$lib->write_log(0, '', round(($ibforums->vars['resell_percentage'] / 100) * $price['price_payed']), "РўРѕРІР°СЂ '" . $item['item_name'] . "' РІРѕР·РІСЂР°С‰С‘РЅ РІ РјР°РіР°Р·РёРЅ", "Resell item");
 		$lib->redirect("resolditem", "act=store&code=inventory");
 	}
 
@@ -360,12 +360,12 @@ class store
 
 		$member['points'] = $ibforums->input['fine_amount'];
 
-		$lib->add_reason($ibforums->member['id'], $ibforums->member['name'], $member['id'], $member['name'], $member['points'], "Поощрён участник " . $member['name'] . " ­  " . $member['points'] . " " . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "fine");
+		$lib->add_reason($ibforums->member['id'], $ibforums->member['name'], $member['id'], $member['name'], $member['points'], "РџРѕРѕС‰СЂС‘РЅ СѓС‡Р°СЃС‚РЅРёРє " . $member['name'] . " В­В  " . $member['points'] . " " . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "fine");
 		$ibforums->db->exec("UPDATE ibf_members SET points=points+'{$member['points']}' WHERE id='{$member['id']}' LIMIT 1");
 		//vot: log added
 
-		$lib->write_log($member, $ibforums->input['username'], $ibforums->input['fine_amount'], "Поощрён участник " . $ibforums->input['username'] . " на " . $ibforums->input['fine_amount'] . ' ' . $ibforums->vars['currency_name'], "Fine User");
-		//	$lib->write_log("Поощрён участник ".$ibforums->input['username']." на ".$ibforums->input['fine_amount'].' '.$ibforums->vars['currency_name'],"Fine User");
+		$lib->write_log($member, $ibforums->input['username'], $ibforums->input['fine_amount'], "РџРѕРѕС‰СЂС‘РЅ СѓС‡Р°СЃС‚РЅРёРє " . $ibforums->input['username'] . " РЅР° " . $ibforums->input['fine_amount'] . ' ' . $ibforums->vars['currency_name'], "Fine User");
+		//	$lib->write_log("РџРѕРѕС‰СЂС‘РЅ СѓС‡Р°СЃС‚РЅРёРє ".$ibforums->input['username']." РЅР° ".$ibforums->input['fine_amount'].' '.$ibforums->vars['currency_name'],"Fine User");
 		$lib->redirect("fined_user", "act=store");
 	}
 
@@ -415,11 +415,11 @@ class store
 		} else
 		{
 			$itemm->do_on_use($item['extra_one'], $item['extra_two'], $item['extra_three']);
-			$output = "<center>Запрос выполнен!</center><br><p>";
-			$output .= "<ul type='square'>Сейчас Вы можете:";
-			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=store&code=inventory'>Перейти к другим Вашим купленным вещам</li>";
-			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=store'>Посмотреть другие товары магазина</li>";
-			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=idx'>Перейти в Форум на Исходниках.RU</a></li>";
+			$output = "<center>Р—Р°РїСЂРѕСЃ РІС‹РїРѕР»РЅРµРЅ!</center><br><p>";
+			$output .= "<ul type='square'>РЎРµР№С‡Р°СЃ Р’С‹ РјРѕР¶РµС‚Рµ:";
+			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=store&code=inventory'>РџРµСЂРµР№С‚Рё Рє РґСЂСѓРіРёРј Р’Р°С€РёРј РєСѓРїР»РµРЅРЅС‹Рј РІРµС‰Р°Рј</li>";
+			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=store'>РџРѕСЃРјРѕС‚СЂРµС‚СЊ РґСЂСѓРіРёРµ С‚РѕРІР°СЂС‹ РјР°РіР°Р·РёРЅР°</li>";
+			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=idx'>РџРµСЂРµР№С‚Рё РІ Р¤РѕСЂСѓРј РЅР° РСЃС…РѕРґРЅРёРєР°С….RU</a></li>";
 			$output .= "</ul></p>";
 			$this->output .= $output;
 		}
@@ -468,8 +468,8 @@ class store
 		$ibforums->db->exec("UPDATE ibf_members SET points='{$reciver['points']}' WHERE id='{$reciver['id']}' LIMIT 1");
 		$ibforums->db->exec("UPDATE ibf_members SET points='{$ibforums->member['points']}' WHERE id='{$ibforums->member['id']}' LIMIT 1");
 
-		$lib->write_log($reciver['id'], $ibforums->input['username'], $ibforums->input['amount'], "Передано " . $ibforums->input['amount'] . " " . $ibforums->vars['currency_name'] . " участнику " . $ibforums->input['username'], "donate_m");
-		//	$lib->write_log("Послано ".$ibforums->input['amount']." участнику ".$ibforums->input['username'],"donate_m");
+		$lib->write_log($reciver['id'], $ibforums->input['username'], $ibforums->input['amount'], "РџРµСЂРµРґР°РЅРѕ " . $ibforums->input['amount'] . " " . $ibforums->vars['currency_name'] . " СѓС‡Р°СЃС‚РЅРёРєСѓ " . $ibforums->input['username'], "donate_m");
+		//	$lib->write_log("РџРѕСЃР»Р°РЅРѕ ".$ibforums->input['amount']." СѓС‡Р°СЃС‚РЅРёРєСѓ ".$ibforums->input['username'],"donate_m");
 		$message = str_replace("{to}", $reciver['name'], $ibforums->vars['money_donation']);
 		$message = str_replace("{from}", $ibforums->member['name'], $message);
 		$message = str_replace("{amount}", $ibforums->input['amount'], $message);
@@ -528,8 +528,8 @@ class store
 				$send = $stmt->fetch();
 				$ibforums->db->exec("UPDATE ibf_store_inventory SET owner_id='{$sendto['id']}' WHERE i_id='{$send['i_id']}' LIMIT 1");
 
-				$lib->write_log($sendto, $ibforums->input['username'], $send['price_payed'], "Передан товар " . $send['item_name'] . " участнику " . $ibforums->input['username'], "donate_i");
-				//	    $lib->write_log("Послан товар ".$send['item_name']." участнику ".$ibforums->input['username'],"donate_i");
+				$lib->write_log($sendto, $ibforums->input['username'], $send['price_payed'], "РџРµСЂРµРґР°РЅ С‚РѕРІР°СЂ " . $send['item_name'] . " СѓС‡Р°СЃС‚РЅРёРєСѓ " . $ibforums->input['username'], "donate_i");
+				//	    $lib->write_log("РџРѕСЃР»Р°РЅ С‚РѕРІР°СЂ ".$send['item_name']." СѓС‡Р°СЃС‚РЅРёРєСѓ ".$ibforums->input['username'],"donate_i");
 				$ibforums->vars['item_donation'] = str_replace("{to}", $sendto['name'], $ibforums->vars['item_donation']);
 				$ibforums->vars['item_donation'] = str_replace("{from}", $ibforums->member['name'], $ibforums->vars['item_donation']);
 				$ibforums->vars['item_donation'] = str_replace("{value}", $send['price_payed'], $ibforums->vars['item_donation']);
@@ -729,13 +729,13 @@ class store
 				$i++;
 			}
 
-			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])), "Куплен товар '" . $item['item_name'] . "x" . $i . "' за " . round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])) . ' ' . $ibforums->vars['currency_name'], "bought_item");
-			//	    $lib->write_log("Куплен товар '".$item['item_name']."x".$i."' за ".round($item['sell_price'] - (($ibforums->member['g_discount']/100)*$item['sell_price'])).' '.$ibforums->vars['currency_name'],"bought_item");
+			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])), "РљСѓРїР»РµРЅ С‚РѕРІР°СЂ '" . $item['item_name'] . "x" . $i . "' Р·Р° " . round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])) . ' ' . $ibforums->vars['currency_name'], "bought_item");
+			//	    $lib->write_log("РљСѓРїР»РµРЅ С‚РѕРІР°СЂ '".$item['item_name']."x".$i."' Р·Р° ".round($item['sell_price'] - (($ibforums->member['g_discount']/100)*$item['sell_price'])).' '.$ibforums->vars['currency_name'],"bought_item");
 		} else
 		{
 			$ibforums->db->exec("INSERT INTO ibf_store_inventory(i_id,owner_id,item_id,price_payed) VALUES('','{$ibforums->member['id']}','{$item_id}','{$item['sell_price']}')");
-			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])), "Куплен товар '" . $item['item_name'] . "x" . $i . "' за " . round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])) . ' ' . $ibforums->vars['currency_name'], "bought_item");
-			//	    $lib->write_log("Куплен товар '".$item['item_name']."' за ".round($item['sell_price'] - (($ibforums->member['g_discount']/100)*$item['sell_price'])).' '.$ibforums->vars['currency_name'],"bought_item");
+			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])), "РљСѓРїР»РµРЅ С‚РѕРІР°СЂ '" . $item['item_name'] . "x" . $i . "' Р·Р° " . round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])) . ' ' . $ibforums->vars['currency_name'], "bought_item");
+			//	    $lib->write_log("РљСѓРїР»РµРЅ С‚РѕРІР°СЂ '".$item['item_name']."' Р·Р° ".round($item['sell_price'] - (($ibforums->member['g_discount']/100)*$item['sell_price'])).' '.$ibforums->vars['currency_name'],"bought_item");
 		}
 		// vot: redirect added
 		$lib->redirect("item_bought", "act=store&code=inventory", "item_bought");
@@ -835,7 +835,7 @@ class store
 	{
 		global $ibforums, $lib;
 		$member = $this->getmid($ibforums->input['username']);
-		$lib->add_reason($ibforums->member['id'], $ibforums->member['name'], $member['id'], $ibforums->input['username'], $ibforums->input['points'], "Корректировка: " . $ibforums->input['username'] . ": " . $ibforums->input['points'] . " " . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "edit");
+		$lib->add_reason($ibforums->member['id'], $ibforums->member['name'], $member['id'], $ibforums->input['username'], $ibforums->input['points'], "РљРѕСЂСЂРµРєС‚РёСЂРѕРІРєР°: " . $ibforums->input['username'] . ": " . $ibforums->input['points'] . " " . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "edit");
 		$ibforums->db->exec("UPDATE ibf_members SET points='{$ibforums->input['points']}' WHERE LOWER(name)='{$ibforums->input['username']}' LIMIT 1");
 		$lib->redirect("edited_user", "act=store");
 	}
@@ -1065,7 +1065,7 @@ class store
 		$msg = str_replace(",", "&cedil;", $msg);
 		$msg = str_replace("&cedil;", "", $msg);
 		$msg = str_replace("&nbsp;", "", $msg);
-		$msg = strtolower($msg);
+		$msg = mb_strtolower($msg);
 		$msg = stripslashes($msg);
 		return $msg;
 	}
@@ -1123,7 +1123,7 @@ class store
 			{
 				$quiz['status_days'] = 0;
 			}
-			$quiz['quiz_status'] = ucfirst(strtolower($quiz['quiz_status']));
+			$quiz['quiz_status'] = ucfirst(mb_strtolower($quiz['quiz_status']));
 			$quiz['amount_won']  = $std->do_number_format($quiz['amount_won']);
 			$this->output .= $this->html->list_quiz($quiz);
 			if ($ibforums->vars['showplaysleft'])
@@ -1432,7 +1432,7 @@ class store
 		global $ibforums;
 		$tables = "id,name";
 		$tables .= $addon;
-		$extra = "LOWER(name)='" . strtolower($username) . "'";
+		$extra = "LOWER(name)='" . mb_strtolower($username) . "'";
 		$extra .= $extra_a;
 		$stmt = $ibforums->db->query("SELECT " . $tables . " FROM ibf_members WHERE " . $extra . " LIMIT 1");
 		if ($stmt->rowCount() == 0)
@@ -1492,7 +1492,7 @@ class store
 					$auto_interest                 = $interest_points * $cancollect;
 					$ibforums->member['deposited'] = round($ibforums->member['deposited'] + $auto_interest);
 					$ibforums->db->exec("UPDATE ibf_members SET last_collect='{$time}', deposited='{$ibforums->member['deposited']}' WHERE id='{$ibforums->member['id']}' LIMIT 1");
-					$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $auto_interest, "Начислен процент: " . $auto_interest . ' ' . $ibforums->vars['currency_name'] . " Всего денег в банке: " . $ibforums->member['deposited'] . ' ' . $ibforums->vars['currency_name'], "auto_collect_int");
+					$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $auto_interest, "РќР°С‡РёСЃР»РµРЅ РїСЂРѕС†РµРЅС‚: " . $auto_interest . ' ' . $ibforums->vars['currency_name'] . " Р’СЃРµРіРѕ РґРµРЅРµРі РІ Р±Р°РЅРєРµ: " . $ibforums->member['deposited'] . ' ' . $ibforums->vars['currency_name'], "auto_collect_int");
 				}
 			}
 		}
@@ -1534,7 +1534,7 @@ class store
 			}
 			$ibforums->member['deposited'] = round($ibforums->member['deposited'] + $interest_points);
 			$ibforums->db->exec("UPDATE ibf_members SET deposited='{$ibforums->member['deposited']}',last_collect='{$time}' WHERE id='{$ibforums->member['id']}' LIMIT 1");
-			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], round($interest_points), "Начислен процент: " . $std->do_number_format(round($interest_points)) . ' ' . $ibforums->vars['currency_name'] . " Всего денег в банке: " . $std->do_number_format(round($ibforums->member['deposited'])) . ' ' . $ibforums->vars['currency_name'], "collect_int");
+			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], round($interest_points), "РќР°С‡РёСЃР»РµРЅ РїСЂРѕС†РµРЅС‚: " . $std->do_number_format(round($interest_points)) . ' ' . $ibforums->vars['currency_name'] . " Р’СЃРµРіРѕ РґРµРЅРµРі РІ Р±Р°РЅРєРµ: " . $std->do_number_format(round($ibforums->member['deposited'])) . ' ' . $ibforums->vars['currency_name'], "collect_int");
 			$lib->redirect("collected", "act=store&code=bank");
 		}
 		if ($ibforums->input['type'] == 'deposit')

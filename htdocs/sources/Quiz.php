@@ -1005,7 +1005,7 @@ class quiz
 
 			$m = intval($member['time_took'] / 60);
 			$s = $member['time_took'] - $m * 60;
-			if (strlen($s) < 2)
+			if (mb_strlen($s) < 2)
 				$s = "0" . $s;
 
 			$member['time_took'] = $m . ":" . $s;
@@ -1195,7 +1195,7 @@ class quiz
 			$row['quiz_status'] = 'CLOSED';
 		}
 
-		$row['quiz_status'] = ucfirst(strtolower($row['quiz_status']));
+		$row['quiz_status'] = ucfirst(mb_strtolower($row['quiz_status']));
 
 		//    $row['amount_won'] = $std->do_number_format($row['amount_won']);
 
@@ -1319,7 +1319,7 @@ class quiz
 				$quiz['status_days'] = 0;
 			}
 
-			$quiz['quiz_status'] = ucfirst(strtolower($quiz['quiz_status']));
+			$quiz['quiz_status'] = ucfirst(mb_strtolower($quiz['quiz_status']));
 			$quiz['amount_won']  = $std->do_number_format($quiz['amount_won']);
 			$this->output .= $this->html->list_quiz($quiz);
 
@@ -1728,24 +1728,24 @@ class quiz
 			{
 				$answers = explode("||", $correct_answer);
 
-				/*  Алгоритм для варианта CHECKBOX:
-				  Сумма_ответов_юзера = 0.
-				  Сумма_правильных_ответов = кол-во ответов с "1" на конце (answer_n_1).
-				  Цикл по всем вариантам ответа
-				  Если на очередном_ответе нажата галка
-				  Если очередной_ответ является правильным
-				  то Сумма_ответов_юзера ++
-				  Иначе
-				  то Сумма_ответов_юзера --
-				  КонецЕсли
-				  КонецЕсли
-				  конец цикла
+				/*  РђР»РіРѕСЂРёС‚Рј РґР»СЏ РІР°СЂРёР°РЅС‚Р° CHECKBOX:
+				  РЎСѓРјРјР°_РѕС‚РІРµС‚РѕРІ_СЋР·РµСЂР° = 0.
+				  РЎСѓРјРјР°_РїСЂР°РІРёР»СЊРЅС‹С…_РѕС‚РІРµС‚РѕРІ = РєРѕР»-РІРѕ РѕС‚РІРµС‚РѕРІ СЃ "1" РЅР° РєРѕРЅС†Рµ (answer_n_1).
+				  Р¦РёРєР» РїРѕ РІСЃРµРј РІР°СЂРёР°РЅС‚Р°Рј РѕС‚РІРµС‚Р°
+				  Р•СЃР»Рё РЅР° РѕС‡РµСЂРµРґРЅРѕРј_РѕС‚РІРµС‚Рµ РЅР°Р¶Р°С‚Р° РіР°Р»РєР°
+				  Р•СЃР»Рё РѕС‡РµСЂРµРґРЅРѕР№_РѕС‚РІРµС‚ СЏРІР»СЏРµС‚СЃСЏ РїСЂР°РІРёР»СЊРЅС‹Рј
+				  С‚Рѕ РЎСѓРјРјР°_РѕС‚РІРµС‚РѕРІ_СЋР·РµСЂР° ++
+				  РРЅР°С‡Рµ
+				  С‚Рѕ РЎСѓРјРјР°_РѕС‚РІРµС‚РѕРІ_СЋР·РµСЂР° --
+				  РљРѕРЅРµС†Р•СЃР»Рё
+				  РљРѕРЅРµС†Р•СЃР»Рё
+				  РєРѕРЅРµС† С†РёРєР»Р°
 
-				  Если сумма_правильных_ответов == сумма_ответов_юзера
-				  то юзер ответил ПРАВИЛЬНО.
-				  в противном случае
-				  юзер ответил НЕВЕРНО.
-				  КонецЕсли
+				  Р•СЃР»Рё СЃСѓРјРјР°_РїСЂР°РІРёР»СЊРЅС‹С…_РѕС‚РІРµС‚РѕРІ == СЃСѓРјРјР°_РѕС‚РІРµС‚РѕРІ_СЋР·РµСЂР°
+				  С‚Рѕ СЋР·РµСЂ РѕС‚РІРµС‚РёР» РџР РђР’РР›Р¬РќРћ.
+				  РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ
+				  СЋР·РµСЂ РѕС‚РІРµС‚РёР» РќР•Р’Р•Р РќРћ.
+				  РљРѕРЅРµС†Р•СЃР»Рё
 				 */
 
 				$user_score     = 0;
@@ -2094,7 +2094,7 @@ class quiz
 		$msg = str_replace(",", "&cedil;", $msg);
 		$msg = str_replace("&cedil;", "", $msg);
 		$msg = str_replace("&nbsp;", "", $msg);
-		$msg = strtolower($msg);
+		$msg = mb_strtolower($msg);
 		$msg = stripslashes($msg);
 		return $msg;
 	}
@@ -2106,7 +2106,7 @@ class quiz
 		global $ibforums;
 		$tables = "id,name";
 		$tables .= $addon;
-		$extra = "LOWER(name)='" . strtolower($username) . "'";
+		$extra = "LOWER(name)='" . mb_strtolower($username) . "'";
 		$extra .= $extra_a;
 		$stmt = $ibforums->db->query("SELECT " . $tables . " FROM ibf_members WHERE " . $extra . " LIMIT 1");
 		if ($stmt->rowCount() == 0)
@@ -2361,7 +2361,7 @@ class quiz
 				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
 			}
 
-			$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
+			$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> В· <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
 
 			// $member['profile'] = $member['points'] . "+".$member['fined']."+". $member['profile'] ;
 			// Show ratting + dgm
@@ -2371,7 +2371,7 @@ class quiz
 			)
 			{
 				$member['member_points'] = $std->do_number_format($member['fined']);
-				$member['member_points'] = "<a href='{$ibforums->base_url}act=store&code=showfine&id={$member['id']}'>Поощрения</a>: {$member['member_points']} {$ibforums->vars['currency_name']}";
+				$member['member_points'] = "<a href='{$ibforums->base_url}act=store&code=showfine&id={$member['id']}'>РџРѕРѕС‰СЂРµРЅРёСЏ</a>: {$member['member_points']} {$ibforums->vars['currency_name']}";
 				$member['member_points'] .= "<br>";
 			} else
 				$member['member_points'] = "";
@@ -2421,7 +2421,7 @@ class quiz
 					$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0'>";
 				}
 
-				$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
+				$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> В· <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
 			}
 
 			/*

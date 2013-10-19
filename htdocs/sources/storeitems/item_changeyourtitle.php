@@ -23,7 +23,7 @@ class item
 		                                       $SKIN->form_input("extra_two", $EXTRA['extra_two'])
 		                                  ));
 		$ADMIN->HTML .= $SKIN->add_td_row(array(
-		                                       "<b>Количество месяцев для ношения статуса</b>",
+		                                       "<b>РљРѕР»РёС‡РµСЃС‚РІРѕ РјРµСЃСЏС†РµРІ РґР»СЏ РЅРѕС€РµРЅРёСЏ СЃС‚Р°С‚СѓСЃР°</b>",
 		                                       $SKIN->form_input("extra_three", $EXTRA['extra_three'])
 		                                  ));
 
@@ -59,14 +59,14 @@ class item
 		return <<<EOF
 			<form action='{$ibforums->base_url}act=store&code=useitem&itemid={$itemid}' name='item' method='post'>
 			  <tr>
-				<td class='pformstrip' width='100%' colspan='4'>Изменить статус</td>
+				<td class='pformstrip' width='100%' colspan='4'>РР·РјРµРЅРёС‚СЊ СЃС‚Р°С‚СѓСЃ</td>
 			</tr>
 			  <tr>
-				<td class='pformleft' width='50%' colspan='2'><strong>Название нового статуса:</strong></td>
+				<td class='pformleft' width='50%' colspan='2'><strong>РќР°Р·РІР°РЅРёРµ РЅРѕРІРѕРіРѕ СЃС‚Р°С‚СѓСЃР°:</strong></td>
 				<td class='pformleft' width='50%' colspan='1'><input type='text' name='new_title'></td>
 			 </tr>
 			  <tr>
-				<td class='pformleft' width='100%' align='center' colspan='4'><input type='submit' name='change' value='Послать запрос'></td>
+				<td class='pformleft' width='100%' align='center' colspan='4'><input type='submit' name='change' value='РџРѕСЃР»Р°С‚СЊ Р·Р°РїСЂРѕСЃ'></td>
 			   </tr>
 			</form>
 EOF;
@@ -83,19 +83,19 @@ EOF;
 		$maximum   = (int)$maximum;
 		$protected = (int)$protected;
 
-		if (strlen($ibforums->input['new_title']) < $minimum)
+		if (mb_strlen($ibforums->input['new_title']) < $minimum)
 		{
-			$lib->itemerror("Слишком мало символов в названии статуса.");
+			$lib->itemerror("РЎР»РёС€РєРѕРј РјР°Р»Рѕ СЃРёРјРІРѕР»РѕРІ РІ РЅР°Р·РІР°РЅРёРё СЃС‚Р°С‚СѓСЃР°.");
 		}
 
-		if (strlen($ibforums->input['new_title']) > $maximum)
+		if (mb_strlen($ibforums->input['new_title']) > $maximum)
 		{
-			$lib->itemerror("Слишком много символов в названии статуса.");
+			$lib->itemerror("РЎР»РёС€РєРѕРј РјРЅРѕРіРѕ СЃРёРјРІРѕР»РѕРІ РІ РЅР°Р·РІР°РЅРёРё СЃС‚Р°С‚СѓСЃР°.");
 		}
 
 		$new_time = time() + $month_count * 60 * 60 * 24 * 30;
 		$ibforums->db->exec("UPDATE ibf_members SET title='{$ibforums->input['new_title']}',title_date='{$new_time}' WHERE id='{$ibforums->member['id']}' LIMIT 1");
-		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "Смена статуса пользователя на " . $month_count . " месяцев. Новый Статус: '" . $ibforums->input['new_title'] . "'", "", "item");
+		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "РЎРјРµРЅР° СЃС‚Р°С‚СѓСЃР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅР° " . $month_count . " РјРµСЃСЏС†РµРІ. РќРѕРІС‹Р№ РЎС‚Р°С‚СѓСЃ: '" . $ibforums->input['new_title'] . "'", "", "item");
 		$lib->delete_item($ibforums->input['itemid']);
 		$lib->redirect("Changed Title", "act=store&code=inventory", 1);
 		return "";

@@ -123,7 +123,7 @@ class Search
 			? $ibforums->vars['sql_driver']
 			: 'mysql';
 
-		$this->load_lib = 'search_' . strtolower($sql) . '_' . $method . '.php';
+		$this->load_lib = 'search_' . mb_strtolower($sql) . '_' . $method . '.php';
 
 		require ($ibforums->vars['base_dir'] . "sources/lib/" . $this->load_lib);
 
@@ -1829,7 +1829,7 @@ class Search
 				}
 			}
 
-			$topic['PAGES'] = substr($topic['PAGES'], 0, strlen($topic['PAGES']) - 1);
+			$topic['PAGES'] = mb_substr($topic['PAGES'], 0, mb_strlen($topic['PAGES']) - 1);
 
 			if ($topic['posts'] < $ibforums->vars['max_show_all_posts'])
 			{
@@ -1923,7 +1923,7 @@ class Search
 		{
 			if ($ibforums->vars['search_post_cut'])
 			{
-				$topic['post'] = substr($this->parser->unconvert($topic['post']), 0, $ibforums->vars['search_post_cut']) . '...';
+				$topic['post'] = mb_substr($this->parser->unconvert($topic['post']), 0, $ibforums->vars['search_post_cut']) . '...';
 				$topic['post'] = str_replace("\n", "<br />", $topic['post']);
 			}
 
@@ -1971,7 +1971,7 @@ class Search
 
 		// force to lowercase and swop % into a safer version
 
-		$words = trim(strtolower(str_replace("%", "\\%", $words)));
+		$words = trim(mb_strtolower(str_replace("%", "\\%", $words)));
 
 		// Remove trailing boolean operators
 

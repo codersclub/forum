@@ -177,7 +177,7 @@ class functions
 	}
 
 	/**
-	 * возвращает строке "уд. 5 дн."
+	 * РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєРµ "СѓРґ. 5 РґРЅ."
 	 *
 	 */
 	function get_autodelete_message($days, $delete_waiting_message, $delete_through_message)
@@ -888,7 +888,7 @@ class functions
 
 		// vot: BAD Message!!!
 
-		$syntax_html .= "<option value='no'>Без подсветки</option>";
+		$syntax_html .= "<option value='no'>Р‘РµР· РїРѕРґСЃРІРµС‚РєРё</option>";
 
 		$syntax_html .= "</select>";
 
@@ -1530,7 +1530,7 @@ class functions
 		if ($ibforums->vars['use_ttf'] != 1)
 		{
 			$font_style = 5;
-			$no_chars   = strlen($content);
+			$no_chars   = mb_strlen($content);
 
 			$charheight = ImageFontHeight($font_style);
 			$charwidth  = ImageFontWidth($font_style);
@@ -2152,7 +2152,7 @@ class functions
 
 			// Song * show all posts in the topic
 
-			if (strpos($data['BASE_URL'], "showtopic") !== FALSE and
+			if (mb_strpos($data['BASE_URL'], "showtopic") !== FALSE and
 			    $data['TOTAL_POSS'] < $ibforums->vars['max_show_all_posts']
 			)
 			{
@@ -2695,7 +2695,7 @@ class functions
 	 */
 	function load_words($current_lang_array, $area, $lang_type)
 	{
-		$lang = [];//todo проще можно, намного
+		$lang = [];//todo РїСЂРѕС‰Рµ РјРѕР¶РЅРѕ, РЅР°РјРЅРѕРіРѕ
 		require Ibf::app()->vars['base_dir'] . "lang/" . $lang_type . "/" . $area . ".php";
 
 		foreach ($lang as $k => $v)
@@ -2739,21 +2739,21 @@ class functions
 		return gmdate("j.m.y, H:i", $date + $this->offset);
 	}
 
-	// возврат форматированной даты
+	// РІРѕР·РІСЂР°С‚ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅРѕР№ РґР°С‚С‹
 	function get_date($date, $html = 1)
 	{
 		global $ibforums;
 
-		// возвращаем прочерк если нет даты
+		// РІРѕР·РІСЂР°С‰Р°РµРј РїСЂРѕС‡РµСЂРє РµСЃР»Рё РЅРµС‚ РґР°С‚С‹
 		if (!$date)
 		{
 			return "&mdash;";
 		}
 
-		// определяем временную зону
+		// РѕРїСЂРµРґРµР»СЏРµРј РІСЂРµРјРµРЅРЅСѓСЋ Р·РѕРЅСѓ
 		$offset = $this->get_time_offset_or_set_timezone();
 
-		// определяем форматирование
+		// РѕРїСЂРµРґРµР»СЏРµРј С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ
 		$formatting = array(
 			"-1" => array("", ""),
 			"0"  => array("[b]", "[/b]"),
@@ -2765,45 +2765,45 @@ class functions
 		$datef      = $ibforums->vars['datef_template'];
 		$datef_date = $ibforums->vars['datef_date'];
 
-		// отключен человекопонятный формат
+		// РѕС‚РєР»СЋС‡РµРЅ С‡РµР»РѕРІРµРєРѕРїРѕРЅСЏС‚РЅС‹Р№ С„РѕСЂРјР°С‚
 		if ($ibforums->member['hotclocks'] == 0)
 		{
-			// формат для ботов
+			// С„РѕСЂРјР°С‚ РґР»СЏ Р±РѕС‚РѕРІ
 			$datef_date = "%d.%m.%y";
 		} else
 		{
-			// включена функция "отброса года из даты"
+			// РІРєР»СЋС‡РµРЅР° С„СѓРЅРєС†РёСЏ "РѕС‚Р±СЂРѕСЃР° РіРѕРґР° РёР· РґР°С‚С‹"
 			if ($ibforums->vars['datef_dropyear'] == "1" && strftime("%Y", $date) == strftime("%Y"))
 			{
 				$datef_date = trim(str_replace("%Y", "", $datef_date));
 			}
 
-			// переводим месяц в нормальный формат
+			// РїРµСЂРµРІРѕРґРёРј РјРµСЃСЏС† РІ РЅРѕСЂРјР°Р»СЊРЅС‹Р№ С„РѕСЂРјР°С‚
 			if (!empty($ibforums->lang['month' . strftime("%m", $date)]))
 			{
 				$datef_date = str_replace("%B", $ibforums->lang['month' . strftime("%m", $date)], $datef_date);
 			}
 		}
 
-		// вычисляем дату
+		// РІС‹С‡РёСЃР»СЏРµРј РґР°С‚Сѓ
 		$datef_date = strftime($datef_date, $date + $offset);
 
-		// включена функция "человекопонятного времени"
+		// РІРєР»СЋС‡РµРЅР° С„СѓРЅРєС†РёСЏ "С‡РµР»РѕРІРµРєРѕРїРѕРЅСЏС‚РЅРѕРіРѕ РІСЂРµРјРµРЅРё"
 		if ($ibforums->member['hotclocks'] > 0)
 		{
-			// вычисляем сколько минут прошло
+			// РІС‹С‡РёСЃР»СЏРµРј СЃРєРѕР»СЊРєРѕ РјРёРЅСѓС‚ РїСЂРѕС€Р»Рѕ
 			$mins = floor((time() - $date) / 60);
 
-			// в течении часа
+			// РІ С‚РµС‡РµРЅРёРё С‡Р°СЃР°
 			if ($mins >= 0 && $mins < 60 && in_array($ibforums->member['hotclocks'], array(1, 2)))
 			{
-				// n минут назад
+				// n РјРёРЅСѓС‚ РЅР°Р·Р°Рґ
 				if ($mins > 0)
 				{
-					// определяем окончание слова
+					// РѕРїСЂРµРґРµР»СЏРµРј РѕРєРѕРЅС‡Р°РЅРёРµ СЃР»РѕРІР°
 					$ending = "";
 					$strm   = ($mins > 20)
-						? substr((string)$mins, -1)
+						? mb_substr((string)$mins, -1)
 						: false;
 					if ($mins == 1 || $strm == "1")
 					{
@@ -2813,24 +2813,24 @@ class functions
 						$ending = $ibforums->lang['minutes_ending2'];
 					}
 
-					// собираем в кучу
+					// СЃРѕР±РёСЂР°РµРј РІ РєСѓС‡Сѓ
 					$datef_date = $html[0] . $mins . " " . sprintf($ibforums->lang['minutes_ago'], $ending . $html[1]);
 					$datef      = "%date";
 				} else
 				{
-					// менее минуты назад
+					// РјРµРЅРµРµ РјРёРЅСѓС‚С‹ РЅР°Р·Р°Рґ
 					$datef_date = $html[0] . $ibforums->lang['minutes_less'] . $html[1];
 					$datef      = "%date";
 				}
 			} elseif ($mins >= 60 && $mins <= 1440 && $ibforums->member['hotclocks'] == 2)
 			{
-				// n часов назад
+				// n С‡Р°СЃРѕРІ РЅР°Р·Р°Рґ
 				$hours = floor($mins / 60);
 
-				// определяем окончание слова
+				// РѕРїСЂРµРґРµР»СЏРµРј РѕРєРѕРЅС‡Р°РЅРёРµ СЃР»РѕРІР°
 				$ending = "";
 				$strm   = ($hours > 20)
-					? substr((string)$hours, -1)
+					? mb_substr((string)$hours, -1)
 					: false;
 				if ($hours == 2 || $hours == 3 || $hours == 4 || $strm == "2" || $strm == "3" || $strm == "4")
 				{
@@ -2840,7 +2840,7 @@ class functions
 					$ending = $ibforums->lang['hours_ending1'];
 				}
 
-				// собираем в кучу
+				// СЃРѕР±РёСЂР°РµРј РІ РєСѓС‡Сѓ
 				$datef_date = $html[0] . $hours . " " . sprintf($ibforums->lang['hours_ago'], $ending . $html[1]);
 				$datef      = "%date";
 			} elseif (date('Y', $date) !== date('Y'))
@@ -2848,19 +2848,19 @@ class functions
 				//nothing to do
 			} elseif (strftime("%j", $date) == strftime("%j"))
 			{
-				// сегодняшняя дата
+				// СЃРµРіРѕРґРЅСЏС€РЅСЏСЏ РґР°С‚Р°
 				$datef_date = $html[0] . $ibforums->lang['today'] . $html[1];
 			} elseif (strftime("%j", $date) == strftime("%j", time() - 86400))
 			{
-				// вчерашняя дата
+				// РІС‡РµСЂР°С€РЅСЏСЏ РґР°С‚Р°
 				$datef_date = $ibforums->lang['yesterday'];
 			}
 		}
 
-		// вычисляем время
+		// РІС‹С‡РёСЃР»СЏРµРј РІСЂРµРјСЏ
 		$datef_time = strftime($ibforums->vars['datef_time'], $date + $offset);
 
-		// подставляем по шаблону
+		// РїРѕРґСЃС‚Р°РІР»СЏРµРј РїРѕ С€Р°Р±Р»РѕРЅСѓ
 		$datef = str_replace(array("%date", "%time"), array($datef_date, $datef_time), $datef);
 
 		return $datef;
@@ -2870,22 +2870,22 @@ class functions
 	{
 		global $ibforums;
 
-		// определяем временную зону
+		// РѕРїСЂРµРґРµР»СЏРµРј РІСЂРµРјРµРЅРЅСѓСЋ Р·РѕРЅСѓ
 		$offset = $member['time_offset']
 			? : $member['time_offset'];
 
 		if (preg_match("~UTC|\w+/[\w/]+~", $offset))
 		{
-			// именные временные зоны 'Europe/Moscow'
+			// РёРјРµРЅРЅС‹Рµ РІСЂРµРјРµРЅРЅС‹Рµ Р·РѕРЅС‹ 'Europe/Moscow'
 			date_default_timezone_set($offset);
 
 			$offset = 0;
 		} else
 		{
-			// временная зона по умолчанию
+			// РІСЂРµРјРµРЅРЅР°СЏ Р·РѕРЅР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 			date_default_timezone_set("UTC");
 
-			// вычисление сдвига времени старым способом
+			// РІС‹С‡РёСЃР»РµРЅРёРµ СЃРґРІРёРіР° РІСЂРµРјРµРЅРё СЃС‚Р°СЂС‹Рј СЃРїРѕСЃРѕР±РѕРј
 			if ($this->offset_set == 0)
 			{
 				$this->offset = $offset * 3600;
@@ -2895,7 +2895,7 @@ class functions
 					$this->offset += (intval($ibforums->vars['time_adjust']) * 60);
 				}
 
-				// летнее время
+				// Р»РµС‚РЅРµРµ РІСЂРµРјСЏ
 				if ($member['dst_in_use'])
 				{
 					$this->offset += (int)date("I") * 3600;
@@ -2921,7 +2921,7 @@ class functions
 	{
 		global $ibforums;
 
-		// возвращаем прочерк если нет даты
+		// РІРѕР·РІСЂР°С‰Р°РµРј РїСЂРѕС‡РµСЂРє РµСЃР»Рё РЅРµС‚ РґР°С‚С‹
 		if (!$date)
 		{
 			return "&mdash;";
@@ -3054,8 +3054,8 @@ class functions
 		$return['IP_ADDRESS'] = preg_replace("/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/", "\\1.\\2.\\3.\\4", $return['IP_ADDRESS']);
 
 		$return['request_method'] = ($_SERVER['REQUEST_METHOD'] != "")
-			? strtolower($_SERVER['REQUEST_METHOD'])
-			: strtolower($REQUEST_METHOD);
+			? mb_strtolower($_SERVER['REQUEST_METHOD'])
+			: mb_strtolower($REQUEST_METHOD);
 
 		return $return;
 	}
@@ -3482,10 +3482,10 @@ class functions
 	}
 
 	/**
-	 * Возвращает время последнего просмотра топика текущим пользователем
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ РїСЂРѕСЃРјРѕС‚СЂР° С‚РѕРїРёРєР° С‚РµРєСѓС‰РёРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј
 	 *
 	 * @param int $topic_id
-	 * @return int (timestamp) 0 если не было просмотров
+	 * @return int (timestamp) 0 РµСЃР»Рё РЅРµ Р±С‹Р»Рѕ РїСЂРѕСЃРјРѕС‚СЂРѕРІ
 	 */
 	function get_topic_last_read($topic_id, $checkmont = true)
 	{
@@ -3503,8 +3503,8 @@ class functions
 		}
 		if ($checkmont)
 		{
-			// проверим на сколько давно топик создан. Если больше, чем месяц назад
-			// то следует редиректить на тот пост, что был сделан за этот самый месяц
+			// РїСЂРѕРІРµСЂРёРј РЅР° СЃРєРѕР»СЊРєРѕ РґР°РІРЅРѕ С‚РѕРїРёРє СЃРѕР·РґР°РЅ. Р•СЃР»Рё Р±РѕР»СЊС€Рµ, С‡РµРј РјРµСЃСЏС† РЅР°Р·Р°Рґ
+			// С‚Рѕ СЃР»РµРґСѓРµС‚ СЂРµРґРёСЂРµРєС‚РёС‚СЊ РЅР° С‚РѕС‚ РїРѕСЃС‚, С‡С‚Рѕ Р±С‹Р» СЃРґРµР»Р°РЅ Р·Р° СЌС‚РѕС‚ СЃР°РјС‹Р№ РјРµСЃСЏС†
 			$last = $ibforums->db->query("SELECT min(post_date) FROM ibf_posts WHERE topic_id = {$topic_id}")
 				->fetchColumn();
 
@@ -3559,7 +3559,7 @@ class functions
 				mid='{$ibforums->member['id']}'");
 			if ($upd === 0)
 			{
-				//ничего не обновилось
+				//РЅРёС‡РµРіРѕ РЅРµ РѕР±РЅРѕРІРёР»РѕСЃСЊ
 				$ibforums->db->exec("INSERT INTO ibf_log_topics
 			    VALUES('{$ibforums->member['id']}', '{$tid}', '{$fid}', " . time() . " )");
 			}
@@ -3943,7 +3943,7 @@ class functions
 	{
 		global $ibforums;
 
-		$post = strtolower($post);
+		$post = mb_strtolower($post);
 
 		// Replace line endings by a space
 		$post = preg_replace("/[\n\r]/is", " ", $post);
@@ -4005,7 +4005,7 @@ class functions
 		foreach ($results as $item)
 		{
 
-			$length = strlen($item);
+			$length = mb_strlen($item);
 
 			if (($length >= $ibforums->vars['min_search_word']) && ($length <= $ibforums->vars['max_search_word']))
 			{

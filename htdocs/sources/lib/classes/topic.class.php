@@ -10,7 +10,7 @@ class topic
 
 	/**
 	 *
-	 * требуемые поля: tid, forum_id
+	 * С‚СЂРµР±СѓРµРјС‹Рµ РїРѕР»СЏ: tid, forum_id
 	 */
 	public function update_last_post_time()
 	{
@@ -28,7 +28,7 @@ class topic
 
 		if ($last_post)
 		{
-			// если вообще есть не отклонённые ответы...
+			// РµСЃР»Рё РІРѕРѕР±С‰Рµ РµСЃС‚СЊ РЅРµ РѕС‚РєР»РѕРЅС‘РЅРЅС‹Рµ РѕС‚РІРµС‚С‹...
 			$ibforums->db->exec("UPDATE ibf_topics t
 				    SET
 						t.last_post='" . $last_post['post_date'] . "',
@@ -38,7 +38,7 @@ class topic
 				    WHERE (t.tid='{$this->tid}' OR mirrored_topic_id='{$this->tid}')");
 		}
 
-		// обновить все зеркала
+		// РѕР±РЅРѕРІРёС‚СЊ РІСЃРµ Р·РµСЂРєР°Р»Р°
 		$topics = $this->get_mirrors();
 		array_push($topics, $this);
 		foreach ($topics as $t)

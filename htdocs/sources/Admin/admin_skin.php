@@ -1022,11 +1022,11 @@ class admin_skin
 
 					.fauxbutton a:link, .fauxbutton  a:visited, .fauxbutton  a:active { font-size:10px;font-weight:bold; }
 
-					.textinput { background-color: #FFF; color:Ê#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px; border:2px inset #BCD0ED; }
+					.textinput { background-color: #FFF; color:Ðš#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px; border:2px inset #BCD0ED; }
 
-					.dropdown { background-color: #FFF; color:Ê#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px;  border:2px inset #BCD0ED; }
+					.dropdown { background-color: #FFF; color:Ðš#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px;  border:2px inset #BCD0ED; }
 
-					.multitext { background-color: #FFF; color:Ê#000; font-size:10px;font-family: Verdana,Arial, Sans-Serif; padding:2px;  border:2px inset #BCD0ED; }
+					.multitext { background-color: #FFF; color:Ðš#000; font-size:10px;font-family: Verdana,Arial, Sans-Serif; padding:2px;  border:2px inset #BCD0ED; }
 
 					.jmenu, .jmenubutton { vertical-align:middle;
 										  background-color: #FFF;

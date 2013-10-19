@@ -407,7 +407,7 @@ class post_functions extends Post
 
 			if ($ibforums->vars['etfilter_shout'])
 			{
-				$ibforums->input['TopicTitle'] = ucwords(strtolower($ibforums->input['TopicTitle']));
+				$ibforums->input['TopicTitle'] = ucwords(mb_strtolower($ibforums->input['TopicTitle']));
 			}
 
 			$ibforums->input['TopicTitle'] = trim($class->parser->bad_words($ibforums->input['TopicTitle']));
@@ -605,9 +605,9 @@ class post_functions extends Post
 		// Sort out the "raw" textarea input and make it safe incase
 		// we have a <textarea> tag in the raw post var.
 		//
-		// использовать нужно именно $_POST['Post'], ибо переменная в $ibforums->input пропущена через functions::clean_value()
-		// и после пропускания ещё через txt_htmlspecialchars, получается ерунда. В дальнейшем, их надо бы согласовать как-нибудь
-		// но сначала надо разобраться какая ф-ция, как и где используется.
+		// РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РЅСѓР¶РЅРѕ РёРјРµРЅРЅРѕ $_POST['Post'], РёР±Рѕ РїРµСЂРµРјРµРЅРЅР°СЏ РІ $ibforums->input РїСЂРѕРїСѓС‰РµРЅР° С‡РµСЂРµР· functions::clean_value()
+		// Рё РїРѕСЃР»Рµ РїСЂРѕРїСѓСЃРєР°РЅРёСЏ РµС‰С‘ С‡РµСЂРµР· txt_htmlspecialchars, РїРѕР»СѓС‡Р°РµС‚СЃСЏ РµСЂСѓРЅРґР°. Р’ РґР°Р»СЊРЅРµР№С€РµРј, РёС… РЅР°РґРѕ Р±С‹ СЃРѕРіР»Р°СЃРѕРІР°С‚СЊ РєР°Рє-РЅРёР±СѓРґСЊ
+		// РЅРѕ СЃРЅР°С‡Р°Р»Р° РЅР°РґРѕ СЂР°Р·РѕР±СЂР°С‚СЊСЃСЏ РєР°РєР°СЏ С„-С†РёСЏ, РєР°Рє Рё РіРґРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ.
 		//-------------------------------------------------
 
 		$raw_post = isset($_POST['Post'])

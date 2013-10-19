@@ -76,7 +76,7 @@ class AuthMethodOpenId extends AuthBasic
 	}
 
 	/**
-	 * Это возврат от сервера OpenID
+	 * Р­С‚Рѕ РІРѕР·РІСЂР°С‚ РѕС‚ СЃРµСЂРІРµСЂР° OpenID
 	 */
 	private function isReturn()
 	{
@@ -89,7 +89,7 @@ class AuthMethodOpenId extends AuthBasic
 
 		if (!$this->username())
 		{
-			$username = strtolower(str_replace('|', '&#124;', $ibforums->input['UserName']));
+			$username = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['UserName']));
 			$this->setUsername($username);
 		}
 
@@ -193,7 +193,7 @@ class AuthMethodOpenId extends AuthBasic
 			$store_path = sys_get_temp_dir();
 		} else
 		{
-			if (strpos(PHP_OS, 'WIN') === 0)
+			if (mb_strpos(PHP_OS, 'WIN') === 0)
 			{
 				$store_path = $_ENV['TMP'];
 				if (!isset($store_path))
@@ -283,7 +283,7 @@ class AuthMethodOpenId extends AuthBasic
 			// displayError("Authentication error; not a valid OpenID.");
 		}
 
-		// только для регистрации
+		// С‚РѕР»СЊРєРѕ РґР»СЏ СЂРµРіРёСЃС‚СЂР°С†РёРё
 		$sreg_request = NULL; /*Auth_OpenID_SRegRequest::build(
 				// Required
 				array('nickname'),

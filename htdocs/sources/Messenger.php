@@ -281,12 +281,12 @@ class Messenger
 	}
 
 	/**
-	 * PM-ôëóä-êîíòðîëü
+	 * PM-Ñ„Ð»ÑƒÐ´-ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»ÑŒ
 	 */
 	function pm_flood_begin()
 	{
 		global $std, $ibforums;
-		// áûâàåò, èç-çà ãëþêîâ, îòðèöàòåëüíîå çíà÷åíèå
+		// Ð±Ñ‹Ð²Ð°ÐµÑ‚, Ð¸Ð·-Ð·Ð° Ð³Ð»ÑŽÐºÐ¾Ð², Ð¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ
 		if ($ibforums->member['posts'] < 0)
 		{
 			$ibforums->member['posts'] = 0;
@@ -301,10 +301,10 @@ class Messenger
 		}
 
 		/*
-		 * from_id != member_id îçíà÷àåò, ÷òî èùåì â ïàïêàõ äðóãèõ þçâåðåé.
-		 * (ò.ê. íà îäíî ñîîáùåíèå â òàáëèöå ibf_messages ïîïàäàþò 2 çàïèñè
+		 * from_id != member_id Ð¾Ð·Ð½Ð°Ñ‡Ð°ÐµÑ‚, Ñ‡Ñ‚Ð¾ Ð¸Ñ‰ÐµÐ¼ Ð² Ð¿Ð°Ð¿ÐºÐ°Ñ… Ð´Ñ€ÑƒÐ³Ð¸Ñ… ÑŽÐ·Ð²ÐµÑ€ÐµÐ¹.
+		 * (Ñ‚.Ðº. Ð½Ð° Ð¾Ð´Ð½Ð¾ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ð² Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ðµ ibf_messages Ð¿Ð¾Ð¿Ð°Ð´Ð°ÑŽÑ‚ 2 Ð·Ð°Ð¿Ð¸ÑÐ¸
 		 *
-		 * vid != 'unsent' îçíà÷àåò, ÷òî ñ÷èòàåì òîëüêî îòïðàâëåííûå ñîîáùåíèÿ (èãíîðèðóÿ ÷åðíîâèêè)
+		 * vid != 'unsent' Ð¾Ð·Ð½Ð°Ñ‡Ð°ÐµÑ‚, Ñ‡Ñ‚Ð¾ ÑÑ‡Ð¸Ñ‚Ð°ÐµÐ¼ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð½Ñ‹Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ (Ð¸Ð³Ð½Ð¾Ñ€Ð¸Ñ€ÑƒÑ Ñ‡ÐµÑ€Ð½Ð¾Ð²Ð¸ÐºÐ¸)
 		 */
 		$q = 'SELECT count(*) as msg_count, min(msg_date) as fist_message
  			FROM ibf_messages
@@ -313,7 +313,7 @@ class Messenger
  				AND vid != \'unsent\'
  				AND msg_date > ' . strtotime('-1 hour');
 		//todo not a good idea, I think
-		extract($ibforums->db->query($q)->fetch()); // ñîçäà¸ò $msg_count è $fist_message
+		extract($ibforums->db->query($q)->fetch()); // ÑÐ¾Ð·Ð´Ð°Ñ‘Ñ‚ $msg_count Ð¸ $fist_message
 
 		if ($msg_count >= $limit)
 		{
@@ -1641,13 +1641,13 @@ class Messenger
 			: '-';
 
 		//----------------------------------------------------------------
-		if (strlen($ibforums->input['msg_title']) < 2)
+		if (mb_strlen($ibforums->input['msg_title']) < 2)
 		{
 			$this->send_form(0, $ibforums->lang['err_no_title']);
 			return;
 		}
 		//----------------------------------------------------------------
-		if (strlen($ibforums->input['Post']) < 2)
+		if (mb_strlen($ibforums->input['Post']) < 2)
 		{
 			$this->send_form(0, $ibforums->lang['err_no_msg']);
 			return;
@@ -1670,8 +1670,8 @@ class Messenger
 
 		$to_member = array();
 
-		$ibforums->input['entered_name'] = strtolower(str_replace('|', '&#124;', $ibforums->input['entered_name']));
-		$ibforums->input['from_contact'] = strtolower(str_replace('|', '&#124;', $ibforums->input['from_contact']));
+		$ibforums->input['entered_name'] = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['entered_name']));
+		$ibforums->input['from_contact'] = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['from_contact']));
 
 		if ($ibforums->input['from_contact'] == '-')
 		{
@@ -1824,7 +1824,7 @@ class Messenger
 		{
 			$can_mass_pm = 1;
 
-			$ibforums->input['carbon_copy'] = strtolower(str_replace('|', '&#124;', $ibforums->input['carbon_copy']));
+			$ibforums->input['carbon_copy'] = mb_strtolower(str_replace('|', '&#124;', $ibforums->input['carbon_copy']));
 
 			if (isset($ibforums->input['carbon_copy']) and $ibforums->input['carbon_copy'] != "")
 			{
@@ -1843,7 +1843,7 @@ class Messenger
 
 					foreach ($temp_array as $name)
 					{
-						$name = "'" . trim(strtolower($name)) . "'";
+						$name = "'" . trim(mb_strtolower($name)) . "'";
 
 						if (in_array($name, $new_array))
 						{
@@ -1896,7 +1896,7 @@ class Messenger
 
 								foreach ($cc_array as $idx => $cc_user)
 								{
-									$tmp = "'" . strtolower($cc_user['name']) . "'";
+									$tmp = "'" . mb_strtolower($cc_user['name']) . "'";
 
 									if ($tmp == $n)
 									{
@@ -2529,7 +2529,7 @@ class Messenger
 			// Make single quotes as URL's with html entites in them
 			// are parsed by the browser, so ' causes JS error :o
 
-			if (strstr($elmo['typed'], "&#39;"))
+			if (mb_strstr($elmo['typed'], "&#39;"))
 			{
 				$in_delim  = '"';
 				$out_delim = "'";

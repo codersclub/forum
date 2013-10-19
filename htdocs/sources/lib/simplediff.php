@@ -307,7 +307,7 @@ class simpleDiff
 
 			if ($line[0] == '>')
 			{
-				$new[] = substr($line, 2);
+				$new[] = mb_substr($line, 2);
 			} elseif (preg_match('!^(?P<ob>[0-9]+)(?:,(?P<oe>[0-9]+))?(?P<mode>[acd])(?P<nb>[0-9]+)(?:,(?<ne>[0-9]+))?$!', trim($line), $match))
 			{
 				$sub = ($match['mode'] == 'a')

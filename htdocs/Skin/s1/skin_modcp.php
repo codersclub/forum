@@ -1032,8 +1032,8 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 						if($action == 'tag') $syntax_edit_form .= "<option value='tag' selected>tag</option>";
 						else $syntax_edit_form .= "<option value='tag'>tag</option>";
 
-						if($action == 'value') $syntax_edit_form .= "<option value='value' selected>value</option>"; // вот тут добавление
-						else $syntax_edit_form .= "<option value='value'>value</option>"; // вот тут добавление
+						if($action == 'value') $syntax_edit_form .= "<option value='value' selected>value</option>"; // РІРѕС‚ С‚СѓС‚ РґРѕР±Р°РІР»РµРЅРёРµ
+						else $syntax_edit_form .= "<option value='value'>value</option>"; // РІРѕС‚ С‚СѓС‚ РґРѕР±Р°РІР»РµРЅРёРµ
 
 						if($action == 'count') $syntax_edit_form .= "<option value='count' selected>count</option>";
 						else $syntax_edit_form .= "<option value='count'>count</option>";

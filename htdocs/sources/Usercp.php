@@ -511,9 +511,9 @@ class UserCP
 				$forum['last_title'] = str_replace("&#33;", "!", $forum['last_title']);
 				$forum['last_title'] = str_replace("&quot;", "\"", $forum['last_title']);
 
-				if (strlen($forum['last_title']) > 30)
+				if (mb_strlen($forum['last_title']) > 30)
 				{
-					$forum['last_title'] = substr($forum['last_title'], 0, 27) . "...";
+					$forum['last_title'] = mb_substr($forum['last_title'], 0, 27) . "...";
 					$forum['last_title'] = preg_replace('/&(#(\d+;?)?)?\.\.\.$/', '...', $forum['last_title']);
 				}
 
@@ -751,8 +751,8 @@ class UserCP
 
 		//--------------------------------------------
 
-		$email_one = strtolower(trim($ibforums->input['in_email_1']));
-		$email_two = strtolower(trim($ibforums->input['in_email_2']));
+		$email_one = mb_strtolower(trim($ibforums->input['in_email_1']));
+		$email_two = mb_strtolower(trim($ibforums->input['in_email_2']));
 
 		if ($email_one != $email_two)
 		{
@@ -1456,7 +1456,7 @@ class UserCP
 				{
 					if ($match[1] == $offset)
 					{
-						$time_select_append .= "<br><br>Ваша текущая установка: " . $words;
+						$time_select_append .= "<br><br>Р’Р°С€Р° С‚РµРєСѓС‰Р°СЏ СѓСЃС‚Р°РЅРѕРІРєР°: " . $words;
 					}
 				}
 			}
@@ -1466,7 +1466,7 @@ class UserCP
 
 		}
 
-		$time_select = "Регион: <select id='u_tz_region' name='u_tz_region' class='forminput'></select>" . " Часовая зона: <select id='u_tz_zone' name='u_tz_zone' class='forminput'></select>" . "<script src='" . $ibforums->vars['board_url'] . "/html/timezones.js.php?current=" . $str_offset . "'></script>" . $time_select_append;
+		$time_select = "Р РµРіРёРѕРЅ: <select id='u_tz_region' name='u_tz_region' class='forminput'></select>" . " Р§Р°СЃРѕРІР°СЏ Р·РѕРЅР°: <select id='u_tz_zone' name='u_tz_zone' class='forminput'></select>" . "<script src='" . $ibforums->vars['board_url'] . "/html/timezones.js.php?current=" . $str_offset . "'></script>" . $time_select_append;
 
 		/*$time_select = "<select name='u_timezone' class='forminput'>";
 
@@ -1837,8 +1837,8 @@ class UserCP
 
 	function sort_avatars($a, $b)
 	{
-		$aa = strtolower($a[1]);
-		$bb = strtolower($b[1]);
+		$aa = mb_strtolower($a[1]);
+		$bb = mb_strtolower($b[1]);
 
 		if ($aa == $bb)
 		{
@@ -2646,9 +2646,9 @@ class UserCP
 				return false;
 			}
 
-			$p = intval($ibforums->input['p']) - 1; //substr starts from 0, not 1 :p
+			$p = intval($ibforums->input['p']) - 1; //mb_substr starts from 0, not 1 :p
 
-			$this_number = substr($row['regcode'], $p, 1);
+			$this_number = mb_substr($row['regcode'], $p, 1);
 
 			$std->show_gif_img($this_number);
 		}
@@ -2713,14 +2713,14 @@ class UserCP
 
 		foreach ($list as $l)
 		{
-			if (substr($l, 1, 1) == "c")
+			if (mb_substr($l, 1, 1) == "c")
 			{
-				$cs[substr($l, 2)] = substr($l, 0, 1);
+				$cs[mb_substr($l, 2)] = mb_substr($l, 0, 1);
 			} else
 			{
-				if (substr($l, 1, 1) == "f")
+				if (mb_substr($l, 1, 1) == "f")
 				{
-					$fs[substr($l, 2)] = substr($l, 0, 1);
+					$fs[mb_substr($l, 2)] = mb_substr($l, 0, 1);
 				}
 			}
 		}
@@ -2898,7 +2898,7 @@ class UserCP
 
 		$out = ($fcnt == $fall and $ccnt == $call)
 			? "NULL"
-			: "'" . substr($out, 0, -1) . "'";
+			: "'" . mb_substr($out, 0, -1) . "'";
 
 		$ibforums->db->exec("UPDATE ibf_members
 			    SET board_layout=$out

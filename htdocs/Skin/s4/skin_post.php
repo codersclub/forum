@@ -193,7 +193,7 @@ return <<<EOF
 	   <input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
 	   <input type='button' accesskey='l' value=' LIST ' onclick='tag_list()' class='codebuttons' name="LIST">&nbsp;
            <input type='button' accesskey='y' value='TRANSLIT' onClick='rusLang()'class='codebuttons' name="TRANSLIT">
-           <input type='button' accesskey='r' value='Ðóññêàÿ êëàâèàòóðà' onclick='javascript:keyb_pop()' class='codebuttons'>
+           <input type='button' accesskey='r' value='Ð ÑƒÑÑÐºÐ°Ñ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ð°' onclick='javascript:keyb_pop()' class='codebuttons'>
 	   &nbsp;<a href='javascript:closeall();'>{$ibforums->lang['js_close_all_tags']}</a>
    </td>
    </tr>
@@ -339,7 +339,7 @@ return <<<EOF
 	   <input type='button' accesskey='b' value=' B '       onclick='simpletag("B")' class='codebuttons' name='B' style="font-weight:bold" onmouseover="hstat('bold')">
 	   <input type='button' accesskey='i' value=' I '       onclick='simpletag("I")' class='codebuttons' name='I' style="font-style:italic" onmouseover="hstat('italic')">
 	   <input type='button' accesskey='u' value=' U '       onclick='simpletag("U")' class='codebuttons' name='U' style="text-decoration:underline" onmouseover="hstat('under')">
-	   <input type='button' accesskey='ñ' value=' Ñ ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
+	   <input type='button' accesskey='Ñ' value=' Ð¡ ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
 	   <input type='button' value=' L ' onclick='simpletag("L")' class='codebuttons' name='L' title='Left'">
 	   <input type='button' accesskey='r' value=' R ' onclick='simpletag("R")' class='codebuttons' name='R' title='Rigth'">
 	   

@@ -85,7 +85,7 @@ function Auth_OpenID_pct_encoded_replace_unreserved($mo)
     if ($_unreserved[$i]) {
         return chr($i);
     } else {
-        return strtoupper($mo[0]);
+        return mb_strtoupper($mo[0]);
     }
 }
 
@@ -100,15 +100,15 @@ function Auth_OpenID_remove_dot_segments($path)
 
     while ($path) {
         if (Auth_Yadis_startswith($path, '../')) {
-            $path = substr($path, 3);
+            $path = mb_substr($path, 3);
         } else if (Auth_Yadis_startswith($path, './')) {
-            $path = substr($path, 2);
+            $path = mb_substr($path, 2);
         } else if (Auth_Yadis_startswith($path, '/./')) {
-            $path = substr($path, 2);
+            $path = mb_substr($path, 2);
         } else if ($path == '/.') {
             $path = '/';
         } else if (Auth_Yadis_startswith($path, '/../')) {
-            $path = substr($path, 3);
+            $path = mb_substr($path, 3);
             if ($result_segments) {
                 array_pop($result_segments);
             }
@@ -125,12 +125,12 @@ function Auth_OpenID_remove_dot_segments($path)
             if ($path[0] == '/') {
                 $i = 1;
             }
-            $i = strpos($path, '/', $i);
+            $i = mb_strpos($path, '/', $i);
             if ($i === false) {
-                $i = strlen($path);
+                $i = mb_strlen($path);
             }
-            $result_segments[] = substr($path, 0, $i);
-            $path = substr($path, $i);
+            $result_segments[] = mb_substr($path, 0, $i);
+            $path = mb_substr($path, $i);
         }
     }
 
@@ -157,7 +157,7 @@ function Auth_OpenID_urinorm($uri)
 
     $scheme = $uri_matches[2];
     if ($scheme) {
-        $scheme = strtolower($scheme);
+        $scheme = mb_strtolower($scheme);
     }
 
     $scheme = $uri_matches[2];
@@ -166,7 +166,7 @@ function Auth_OpenID_urinorm($uri)
         return null;
     }
 
-    $scheme = strtolower($scheme);
+    $scheme = mb_strtolower($scheme);
     if (!in_array($scheme, array('http', 'https'))) {
         // Not an absolute HTTP or HTTPS URI
         return null;
@@ -198,15 +198,15 @@ function Auth_OpenID_urinorm($uri)
         $userinfo = '';
     }
 
-    if (strpos($host, '%') !== -1) {
-        $host = strtolower($host);
+    if (mb_strpos($host, '%') !== -1) {
+        $host = mb_strtolower($host);
         $host = preg_replace_callback(
                   Auth_OpenID_getEncodedPattern(),
                   'Auth_OpenID_pct_encoded_replace', $host);
         // NO IDNA.
         // $host = unicode($host, 'utf-8').encode('idna');
     } else {
-        $host = strtolower($host);
+        $host = mb_strtolower($host);
     }
 
     if ($port) {

@@ -750,7 +750,7 @@ class ad_downloads
 		{
 			$dext .= $value . "|";
 		}
-		$dext = substr($dext, 0, -1);
+		$dext = mb_substr($dext, 0, -1);
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>What are the allowable file extensions for files?</b><br>Must be seperated by '|' eg \".txt|.zip\"",
 		                                       $SKIN->form_input("d_allowable_ext", $dext, "text"),
@@ -761,7 +761,7 @@ class ad_downloads
 		{
 			$sext .= $value . "|";
 		}
-		$sext = substr($sext, 0, -1);
+		$sext = mb_substr($sext, 0, -1);
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>What are the allowable file extensions for screenshots?</b><br>Must be seperated by '|' eg \".gif|.jpeg\"",
 		                                       $SKIN->form_input("d_screenshot_ext", $sext, "text"),
@@ -779,7 +779,7 @@ class ad_downloads
 			{
 				$pages .= $value . "|";
 			}
-			$pages = substr($pages, 0, -1);
+			$pages = mb_substr($pages, 0, -1);
 		}
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>What options do you want in the number of files per page dropdown menu?</b><br />Must be separated by '|' eg \"10|20|30\"",
@@ -954,9 +954,9 @@ class ad_downloads
 		$allowable = "";
 		foreach ($allow1 as $value)
 		{
-			$allowable .= "'" . strtolower($value) . "', ";
+			$allowable .= "'" . mb_strtolower($value) . "', ";
 		}
-		$allowable = substr($allowable, 0, -2);
+		$allowable = mb_substr($allowable, 0, -2);
 		$content .= "\$INFO['d_allowable_ext']         = array($allowable);\n";
 		$screen     = preg_replace("/&#124;/", "|", stripslashes($HTTP_POST_VARS['d_screenshot_ext']));
 		$screen     = explode('|', $screen);
@@ -965,7 +965,7 @@ class ad_downloads
 		{
 			$screenshot .= "'" . $value . "', ";
 		}
-		$screenshot = substr($screenshot, 0, -2);
+		$screenshot = mb_substr($screenshot, 0, -2);
 		$content .= "\$INFO['d_screenshot_ext']        	= array({$screenshot});\n";
 
 		$filesperpage = preg_replace("/&#124;/", "|", stripslashes($HTTP_POST_VARS['d_files_perpage']));
@@ -975,7 +975,7 @@ class ad_downloads
 		{
 			$theoptions .= "'" . $value . "', ";
 		}
-		$theoptions = substr($theoptions, 0, -2);
+		$theoptions = mb_substr($theoptions, 0, -2);
 		$content .= "\$INFO['d_files_perpage']        	= array({$theoptions});\n";
 		$content .= "\$INFO['d_max_dwnld_size']        	= {$IN['d_max_dwnld_size']};\n";
 		$content .= "\$INFO['d_screen_max_dwnld_size'] 	= {$IN['d_screen_max_dwnld_size']};\n";

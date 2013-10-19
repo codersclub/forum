@@ -30,7 +30,7 @@ class search_lib extends Search
 	public $realtime = true;
 
 	/**
-	 * Êîëè÷åñòâî íàéäåíûõ ïîñòîâ/òîïèêîâ
+	 * ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½Ñ‹Ñ… Ğ¿Ğ¾ÑÑ‚Ğ¾Ğ²/Ñ‚Ğ¾Ğ¿Ğ¸ĞºĞ¾Ğ²
 	 * @var integer
 	 */
 	protected $documents_found = 0;
@@ -100,7 +100,7 @@ class search_lib extends Search
 
 		if ($ibforums->input['search_in'] == 'titles')
 		{
-			// @ - ñëóæåáíûé ñèìâîë äëÿ ñôèíêñà â ğåæèìå match=extend
+			// @ - ÑĞ»ÑƒĞ¶ĞµĞ±Ğ½Ñ‹Ğ¹ ÑĞ¸Ğ¼Ğ²Ğ¾Ğ» Ğ´Ğ»Ñ ÑÑ„Ğ¸Ğ½ĞºÑĞ° Ğ² Ñ€ĞµĞ¶Ğ¸Ğ¼Ğµ match=extend
 			// $keywords = str_replace('@', '', $keywords);
 		}
 
@@ -254,14 +254,14 @@ class search_lib extends Search
 
 		$unique_id = md5(uniqid(microtime(), 1));
 
-		// ıòî ğàçäåëèòåëü ïîëåé â çàïğîñå ê ñôèíêñó
+		// ÑÑ‚Ğ¾ Ñ€Ğ°Ğ·Ğ´ĞµĞ»Ğ¸Ñ‚ĞµĞ»ÑŒ Ğ¿Ğ¾Ğ»ĞµĞ¹ Ğ² Ğ·Ğ°Ğ¿Ñ€Ğ¾ÑĞµ Ğº ÑÑ„Ğ¸Ğ½ĞºÑÑƒ
 		$keywords = str_replace(';', '', $keywords);
 		if ($type != 'nameonly')
 		{
 
-			// sphinx_snippets(p.post, 'test1', 'Ïóïêèí'),
-			$keywords     = substr($ibforums->db->quote($keywords), 1, -1);
-			$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$topics_name}"), 1, -1);
+			// sphinx_snippets(p.post, 'test1', 'ĞŸÑƒĞ¿ĞºĞ¸Ğ½'),
+			$keywords     = mb_substr($ibforums->db->quote($keywords), 1, -1);
+			$sphinx_query = mb_substr($ibforums->db->quote("{$posts_datecut}{$forums}{$topics_name}"), 1, -1);
 
 			if ($ibforums->input['st'])
 			{
@@ -277,8 +277,8 @@ class search_lib extends Search
 					: 'any';
 			}
 			/*
-			 * SQL_NO_CACHE íóæåí äëÿ òîãî, ÷òîáû îáíîâèëîñü/óñòàíîâèëîñü çíà÷åíèå ïåğåìåííîé ñîñòîÿíèÿ
-			 * sphinx_total_found (ñì. íèæå, ãäå ïğèñâàèâàåòñÿ çíà÷åíèå $this->documents_found)
+			 * SQL_NO_CACHE Ğ½ÑƒĞ¶ĞµĞ½ Ğ´Ğ»Ñ Ñ‚Ğ¾Ğ³Ğ¾, Ñ‡Ñ‚Ğ¾Ğ±Ñ‹ Ğ¾Ğ±Ğ½Ğ¾Ğ²Ğ¸Ğ»Ğ¾ÑÑŒ/ÑƒÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ¸Ğ»Ğ¾ÑÑŒ Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ğµ Ğ¿ĞµÑ€ĞµĞ¼ĞµĞ½Ğ½Ğ¾Ğ¹ ÑĞ¾ÑÑ‚Ğ¾ÑĞ½Ğ¸Ñ
+			 * sphinx_total_found (ÑĞ¼. Ğ½Ğ¸Ğ¶Ğµ, Ğ³Ğ´Ğµ Ğ¿Ñ€Ğ¸ÑĞ²Ğ°Ğ¸Ğ²Ğ°ĞµÑ‚ÑÑ Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ğµ $this->documents_found)
 			 */
 			if ($this->is->search_in == 'posts')
 			{
@@ -296,7 +296,7 @@ class search_lib extends Search
 						AND t.approved=1
 					";
 
-				$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
+				$sphinx_query = mb_substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
 
 				if ($ibforums->input['st'])
 				{
@@ -338,7 +338,7 @@ class search_lib extends Search
 						AND t.approved=1
 					";
 
-				$sphinx_query = substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
+				$sphinx_query = mb_substr($ibforums->db->quote("{$posts_datecut}{$forums}{$posts_name}"), 1, -1);
 
 				if ($ibforums->input['st'])
 				{

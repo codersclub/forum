@@ -19,7 +19,7 @@
 |   > Date started: 13th August 2003
 |
 |   > Module Version 1.2 b
-|                                             >русский перевод> bizzznesmen
+|                                             >СЂСѓСЃСЃРєРёР№ РїРµСЂРµРІРѕРґ> bizzznesmen
 +--------------------------------------------------------------------------
 */
 
@@ -35,9 +35,9 @@ class AdminGlobalPoll
 		global $ADMIN, $SKIN, $INFO, $std;
 		$ibforums = Ibf::app();
 
-		// letґs collect all polls and put them into a simple array
+		// letТ‘s collect all polls and put them into a simple array
 		$i             = 0;
-		$pollArray[$i] = array(0, "нет глобального опроса");
+		$pollArray[$i] = array(0, "РЅРµС‚ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ РѕРїСЂРѕСЃР°");
 		$i++;
 		$stmt = $ibforums->db->query("SELECT pid,tid, poll_question FROM ibf_polls");
 		while ($r = $stmt->fetch())
@@ -49,7 +49,7 @@ class AdminGlobalPoll
 		$ADMIN->html .= $SKIN->add_td_basic('Global Poll Mod', 'left', 'catrow2');
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Выберите опрос, который будет показан на главной станице форумов</b><br> <i>[ ID Опроса ] -> Вопрос опроса</i>",
+		                                       "<b>Р’С‹Р±РµСЂРёС‚Рµ РѕРїСЂРѕСЃ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РїРѕРєР°Р·Р°РЅ РЅР° РіР»Р°РІРЅРѕР№ СЃС‚Р°РЅРёС†Рµ С„РѕСЂСѓРјРѕРІ</b><br> <i>[ ID РћРїСЂРѕСЃР° ] -> Р’РѕРїСЂРѕСЃ РѕРїСЂРѕСЃР°</i>",
 		                                       $SKIN->form_dropdown('global_poll', $pollArray, $INFO['global_poll'])
 		                                  ));
 

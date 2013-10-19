@@ -29,7 +29,7 @@ class ad_sskins
 
 		//---------------------------------------
 
-		// ×òî äåëàòü ?
+		// Ð§Ñ‚Ð¾ Ð´ÐµÐ»Ð°Ñ‚ÑŒ ?
 		switch ($IN['code'])
 		{
 
@@ -53,15 +53,15 @@ class ad_sskins
 				$this->rename_s();
 				break;
 
-			case 'remove': // Óäàëèòü
+			case 'remove': // Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ
 				$this->remove();
 				break;
 
-			case 'add': // Äîáàâèòü
+			case 'add': // Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ
 				$this->add();
 				break;
 
-			default: // Ïîêàçàòü ñïèñîê
+			default: // ÐŸÐ¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ ÑÐ¿Ð¸ÑÐ¾Ðº
 				$this->list_current();
 				break;
 		}
@@ -72,16 +72,16 @@ class ad_sskins
 		global $ADMIN, $IN, $std, $SKIN;
 		$ibforums = Ibf::app();
 
-		// Ïðîâåðÿåìñÿ
+		// ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ÑÑ
 		if ($IN['id'] == '')
 		{
 			$ADMIN->error("Bad request ( no id )");
 		}
 
-		// Ïîëó÷àåì òåêóùåå èìÿ ñêèíà
+		// ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ñ‚ÐµÐºÑƒÑ‰ÐµÐµ Ð¸Ð¼Ñ ÑÐºÐ¸Ð½Ð°
 		$stmt = $ibforums->db->query("SELECT `name` FROM ibf_emoticons_skins WHERE id = {$IN['id']}");
 
-		// À åñòü ëè òàêîé ñêèí ?
+		// Ð ÐµÑÑ‚ÑŒ Ð»Ð¸ Ñ‚Ð°ÐºÐ¾Ð¹ ÑÐºÐ¸Ð½ ?
 		if ($stmt->rowCount() == 0)
 		{
 			$ADMIN->error("Invalid skin");
@@ -89,20 +89,20 @@ class ad_sskins
 
 		$t_array = $stmt->fetch();
 
-		// À ìåíÿëè ëè ìû íàçâàíèå ?
+		// Ð Ð¼ÐµÐ½ÑÐ»Ð¸ Ð»Ð¸ Ð¼Ñ‹ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ?
 		if ($IN['name'] == $t_array['name'])
 		{
-			$std->boink_it($SKIN->base_url . "&act=sskin&code=edit&id={$IN['id']}"); // Íåò :)
+			$std->boink_it($SKIN->base_url . "&act=sskin&code=edit&id={$IN['id']}"); // ÐÐµÑ‚ :)
 			exit();
 		}
 
-		// íàïèñàòü ÷òîíèòü íàäà :)
+		// Ð½Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ Ñ‡Ñ‚Ð¾Ð½Ð¸Ñ‚ÑŒ Ð½Ð°Ð´Ð° :)
 		if ($IN['name'] == '')
 		{
 			$ADMIN->error("Name is empty");
 		}
 
-		// ïåðåèìåíóåì è åñëè óñ¸ îê òî çàïèøåì â áàçó
+		// Ð¿ÐµÑ€ÐµÐ¸Ð¼ÐµÐ½ÑƒÐµÐ¼ Ð¸ ÐµÑÐ»Ð¸ ÑƒÑÑ‘ Ð¾Ðº Ñ‚Ð¾ Ð·Ð°Ð¿Ð¸ÑˆÐµÐ¼ Ð² Ð±Ð°Ð·Ñƒ
 		if (rename(ROOT_PATH . 'smiles/' . $t_array['name'], ROOT_PATH . 'smiles/' . $IN['name']))
 		{
 			$ibforums->db->exec("UPDATE ibf_emoticons_skins SET `name` = '{$IN['name']}' WHERE `id` = '{$IN['id']}'");
@@ -117,40 +117,40 @@ class ad_sskins
 		global $ADMIN, $IN, $std, $SKIN;
 		$ibforums = Ibf::app();
 
-		// Ïðîâåðÿåìñÿ
+		// ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ÑÑ
 		if ($IN['id'] == '')
 		{
 			$ADMIN->error("Bad request ( no id )");
 		}
 
-		// À åñòü ëè òàêîå ?
+		// Ð ÐµÑÑ‚ÑŒ Ð»Ð¸ Ñ‚Ð°ÐºÐ¾Ðµ ?
 		$stmt = $ibforums->db->query("SELECT `name` FROM ibf_emoticons_skins WHERE id = {$IN['id']}");
 		if ($stmt->rowCount() == 0)
 		{
 			$ADMIN->error("Invalid ID");
 		}
 
-		// Íàø ñêèí
+		// ÐÐ°Ñˆ ÑÐºÐ¸Ð½
 		$sskin_td = $stmt->fetch();
 
-		// Îäèí ÷òîá îñòàëñÿ
+		// ÐžÐ´Ð¸Ð½ Ñ‡Ñ‚Ð¾Ð± Ð¾ÑÑ‚Ð°Ð»ÑÑ
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_emoticons_skins WHERE id <> {$IN['id']}");
 		if ($stmt->rowCount() == 0)
 		{
 			$ADMIN->error("Only one skin left - dont do this");
 		}
 
-		// Ñêèí íà êîòîðûé çàìåíèòü %)
+		// Ð¡ÐºÐ¸Ð½ Ð½Ð° ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð·Ð°Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ %)
 		$fallonskin = $stmt->fetch();
 
-		// Ìåíÿåì ñìàéëîñêèí þçâåðîâ
+		// ÐœÐµÐ½ÑÐµÐ¼ ÑÐ¼Ð°Ð¹Ð»Ð¾ÑÐºÐ¸Ð½ ÑŽÐ·Ð²ÐµÑ€Ð¾Ð²
 		$ibforums->db->exec("UPDATE ibf_members SET `sskin_id` = {$fallonskin['id']} WHERE `sskin_id` = {$IN['id']} ");
-		// ×èñòèì áàçó
+		// Ð§Ð¸ÑÑ‚Ð¸Ð¼ Ð±Ð°Ð·Ñƒ
 		$ibforums->db->exec("DELETE FROM ibf_emoticons_skins WHERE id={$IN['id']}");
 
-		// Óäàëÿåì äèðó
+		// Ð£Ð´Ð°Ð»ÑÐµÐ¼ Ð´Ð¸Ñ€Ñƒ
 		$ADMIN->rm_dir(ROOT_PATH . 'smiles/' . $sskin_td['name']);
-		// Óñ¸
+		// Ð£ÑÑ‘
 		$std->boink_it($SKIN->base_url . "&act=sskin");
 		exit();
 	}
@@ -160,7 +160,7 @@ class ad_sskins
 		global $ADMIN, $IN, $INFO, $std, $SKIN;
 		$ibforums = Ibf::app();
 
-		// Ïðîâåðÿåì òî ÷òî íà âõîäå
+		// ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‚Ð¾ Ñ‡Ñ‚Ð¾ Ð½Ð° Ð²Ñ…Ð¾Ð´Ðµ
 		if ($IN['name'] == 'Name of set')
 		{
 			$std->boink_it($SKIN->base_url . "&act=sskin");
@@ -172,40 +172,40 @@ class ad_sskins
 			$ADMIN->error("Name is empty");
 		}
 
-		// Ïðîâåðÿåì íàçâàíèå
+		// ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ
 		$stmt = $ibforums->db->query("SELECT id FROM ibf_emoticons_skins WHERE `name` = '{$IN['name']}'");
 		if ($stmt->rowCount() > 0)
 		{
 			$ADMIN->error("Set with this name already exists");
 		}
 
-		// Äîáàâëÿåì
+		// Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼
 		$ibforums->db->exec("INSERT INTO ibf_emoticons_skins (`name`) VALUES('{$IN['name']}')");
 
 		$new_id = $ibforums->db->lastInsertId();
 
-		// Íàçâàíèå ïåðâîãî ñêèíà
+		// ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¿ÐµÑ€Ð²Ð¾Ð³Ð¾ ÑÐºÐ¸Ð½Ð°
 		$stmt = $ibforums->db->query("SELECT name FROM ibf_emoticons_skins WHERE `id` = 1");
 		if (!($name_a = $stmt->fetch()))
 		{
 			$ADMIN->error("No skin with id 1");
 		}
 
-		// cîçäà¸ì äèðó
+		// cÐ¾Ð·Ð´Ð°Ñ‘Ð¼ Ð´Ð¸Ñ€Ñƒ
 		if (!$ADMIN->copy_dir(ROOT_PATH . 'smiles/' . $name_a['name'], ROOT_PATH . 'smiles/' . $IN['name']))
 		{
 			$ibforums->db->exec("DELETE FROM ibf_emoticons_skins WHERE name='{$IN['name']}'");
 			$ADMIN->error($ADMIN->errors);
 		}
 
-		// Ïîñëåäíåå - êîïèðóåì ñìàéëû
+		// ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ - ÐºÐ¾Ð¿Ð¸Ñ€ÑƒÐµÐ¼ ÑÐ¼Ð°Ð¹Ð»Ñ‹
 		$stmt = $ibforums->db->query("SELECT `typed`, `image`, `clickable` FROM ibf_emoticons WHERE `skid` = 1");
 		while ($line = $stmt->fetch())
 		{
 			$ibforums->db->exec("INSERT INTO ibf_emoticons ( `typed`, `image`, `clickable`, `skid` ) VALUES ( '{$line['typed']}', '{$line['image']}', '{$line['clickable']}', '{$new_id}')");
 		}
 
-		// Ôñ¸ %)
+		// Ð¤ÑÑ‘ %)
 		$std->boink_it($SKIN->base_url . "&act=sskin");
 		exit();
 	}
@@ -223,17 +223,17 @@ class ad_sskins
 
 		$ADMIN->html .= $SKIN->start_table("Smiles sets");
 
-		// ×èòàåì óñ¸
+		// Ð§Ð¸Ñ‚Ð°ÐµÐ¼ ÑƒÑÑ‘
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_emoticons_skins ORDER BY `id`");
 
-		// Ìîæíî ëè óäàëÿòü ?
+		// ÐœÐ¾Ð¶Ð½Ð¾ Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÑ‚ÑŒ ?
 		$remove = FALSE;
 		if ($stmt->rowCount() > 1)
 		{
 			$remove = TRUE;
 		}
 
-		// ãåíåðèì òàáëèöó
+		// Ð³ÐµÐ½ÐµÑ€Ð¸Ð¼ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñƒ
 		while ($line = $stmt->fetch())
 		{
 			$remove_str = '';
@@ -249,7 +249,7 @@ class ad_sskins
 
 		$ADMIN->html .= $SKIN->end_table();
 
-		// Ôîðìà êëîíèðîâàíèÿ
+		// Ð¤Ð¾Ñ€Ð¼Ð° ÐºÐ»Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ
 		$ADMIN->html .= $SKIN->start_form(array(
 		                                       1 => array('code', 'add'),
 		                                       2 => array('act', 'sskin'),
@@ -285,7 +285,7 @@ class ad_sskins
 			$ADMIN->error("You must pass a valid emoticon id, silly!");
 		}
 
-		if (strstr($IN['before'], '&#092;'))
+		if (mb_strstr($IN['before'], '&#092;'))
 		{
 			$ADMIN->error("You cannot use the backslash character in \"{$IN['before']}\". Please use another character");
 		}
@@ -439,7 +439,7 @@ class ad_sskins
 			$ADMIN->error("You must enter an emoticon text to replace, silly!");
 		}
 
-		if (strstr($IN['before'], '&#092;'))
+		if (mb_strstr($IN['before'], '&#092;'))
 		{
 			$ADMIN->error("You cannot use the backslash character in \"{$IN['before']}\". Please use another character");
 		}
@@ -464,22 +464,22 @@ class ad_sskins
 
 	function perly_length_sort($a, $b)
 	{
-		if (strlen($a['typed']) == strlen($b['typed']))
+		if (mb_strlen($a['typed']) == mb_strlen($b['typed']))
 		{
 			return 0;
 		}
-		return (strlen($a['typed']) > strlen($b['typed']))
+		return (mb_strlen($a['typed']) > mb_strlen($b['typed']))
 			? -1
 			: 1;
 	}
 
 	function perly_word_sort($a, $b)
 	{
-		if (strlen($a['type']) == strlen($b['type']))
+		if (mb_strlen($a['type']) == mb_strlen($b['type']))
 		{
 			return 0;
 		}
-		return (strlen($a['type']) > strlen($b['type']))
+		return (mb_strlen($a['type']) > mb_strlen($b['type']))
 			? -1
 			: 1;
 	}
@@ -497,7 +497,7 @@ class ad_sskins
 		$test_ss = $stmt->fetch();
 		$emo_url = ROOT_PATH . "/smiles/{$test_ss['name']}/";
 
-		// Ïåðåèìåíîâàíèå
+		// ÐŸÐµÑ€ÐµÐ¸Ð¼ÐµÐ½Ð¾Ð²Ð°Ð½Ð¸Ðµ
 		$ADMIN->html .= $SKIN->start_form(array(
 		                                       1 => array('code', 'rename'),
 		                                       2 => array('act', 'sskin'),

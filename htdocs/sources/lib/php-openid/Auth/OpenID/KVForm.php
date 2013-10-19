@@ -92,15 +92,15 @@ class Auth_OpenID_KVForm {
                 list($key, $value) = array($value[0], $value[1]);
             }
 
-            if (strpos($key, ':') !== false) {
+            if (mb_strpos($key, ':') !== false) {
                 return null;
             }
 
-            if (strpos($key, "\n") !== false) {
+            if (mb_strpos($key, "\n") !== false) {
                 return null;
             }
 
-            if (strpos($value, "\n") !== false) {
+            if (mb_strpos($value, "\n") !== false) {
                 return null;
             }
             $serialized .= "$key:$value\n";

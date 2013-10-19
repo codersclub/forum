@@ -415,7 +415,7 @@ else
 	// DB
 	//----------------------------------
 
-	$stmt = $ibforums->db->query("SELECT name, password, id, mgroup FROM ibf_members WHERE LOWER(name)='".strtolower($IN['username'])."'");
+	$stmt = $ibforums->db->query("SELECT name, password, id, mgroup FROM ibf_members WHERE LOWER(name)='".mb_strtolower($IN['username'])."'");
 	$mem = $stmt->fetch();
 
 	if ( empty($mem['id']) )
@@ -634,7 +634,7 @@ function do_admin_stuff() {
 	{
 		list( $a, $b, $c, $d, $e ) = explode( '-', $INFO['ipb_reg_number'] );
 
-		if ( strlen($e) > 9 )
+		if ( mb_strlen($e) > 9 )
 		{
 			if ( time() > $e )
 			{

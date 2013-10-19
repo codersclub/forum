@@ -305,17 +305,17 @@ class Login
 		// Check for input length
 		//-------------------------------------------------
 
-		if (strlen($ibforums->input['UserName']) > 32)
+		if (mb_strlen($ibforums->input['UserName']) > 32)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'username_long'));
 		}
 
-		if (strlen($ibforums->input['PassWord']) > 32)
+		if (mb_strlen($ibforums->input['PassWord']) > 32)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'pass_too_long'));
 		}
 
-		$username = strtolower($ibforums->input['UserName']);
+		$username = mb_strtolower($ibforums->input['UserName']);
 		$password = md5($ibforums->input['PassWord']);
 
 		//-------------------------------------------------
@@ -328,7 +328,7 @@ class Login
 
 		// Is it unconverted?
 
-		if (strlen($yabb_member['misc']) > 3)
+		if (mb_strlen($yabb_member['misc']) > 3)
 		{
 			// Unconverted IB member..
 
@@ -338,7 +338,7 @@ class Login
 
 			if ($yabb_member['password'] < 32)
 			{
-				$decr = crypt($in_pass, substr($username, 0, 2));
+				$decr = crypt($in_pass, mb_substr($username, 0, 2));
 			} else
 			{
 				$decr = md5($ibforums->input['PassWord'] . $username);
@@ -419,8 +419,8 @@ class Login
 					'member_id'    => $member['id'],
 					'running_time' => time(),
 					'member_group' => $member['mgroup'],
-					'ip_address'   => substr($ibforums->input['IP_ADDRESS'], 0, 50),
-					'browser'      => substr($_SERVER['HTTP_USER_AGENT'], 0, 50),
+					'ip_address'   => mb_substr($ibforums->input['IP_ADDRESS'], 0, 50),
+					'browser'      => mb_substr($_SERVER['HTTP_USER_AGENT'], 0, 50),
 					'login_type'   => $ibforums->input['Privacy']
 						? 1
 						: 0

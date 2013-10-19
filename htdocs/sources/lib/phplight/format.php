@@ -29,7 +29,7 @@ class HiLight_Format
 	function func1(&$arr,$sch,$c,&$cfg)
 	{
 		$arr=array();
-		foreach($sch as $k=>$v)if($cfg->hash['CMP'](substr($v,0,strlen($c)),$c))$arr[]=$v;
+		foreach($sch as $k=>$v)if($cfg->hash['CMP'](mb_substr($v,0,mb_strlen($c)),$c))$arr[]=$v;
 		return count($arr);
 	}
 
@@ -55,7 +55,7 @@ class HiLight_Format
 	function func6(&$arr,$sch,$c,&$cfg)
 	{
 		$arr=array();
-		foreach($sch as $k=>$v)if($cfg->hash['CMP'](substr($v[0],0,strlen($c)),$c))$arr[]=$v;
+		foreach($sch as $k=>$v)if($cfg->hash['CMP'](mb_substr($v[0],0,mb_strlen($c)),$c))$arr[]=$v;
 		return count($arr);
 	}
 
@@ -67,14 +67,14 @@ class HiLight_Format
 
 		while(strGetC($str,$c))
 		{
-			if(!(strpos($this->cfg->hash['CHARS'][0],$c)===false))
+			if(!(mb_strpos($this->cfg->hash['CHARS'][0],$c)===false))
 			{
 				$cstr.=$c;
 				continue;
 			}
 			else
 			{
-				if(strlen($cstr))
+				if(mb_strlen($cstr))
 				{
 					$res=false;
 					foreach($this->cfg->hash['KEYWORD'] as $k1=>$v1)
@@ -102,7 +102,7 @@ class HiLight_Format
 				$l=$c;
 				$cstr=$c;
 
-				while(strlen($cstr)&&strGetC($str,$c))
+				while(mb_strlen($cstr)&&strGetC($str,$c))
 				{
 					$cstr.=$c;
 					if(!$this->cfg->hash['CMP']($c,$l))continue;
@@ -155,9 +155,9 @@ class HiLight_Format
 					$all=count($arr);
 					if($all==1&&$this->cfg->hash['CMP']($arr[0],$cstr))
 					{
-						$pos=intVal(strpos($str,"\n"));
-						$cstr=$c.$c.substr($str,0,$pos+1);
-						$str=substr($str,$pos+1);
+						$pos=intVal(mb_strpos($str,"\n"));
+						$cstr=$c.$c.mb_substr($str,0,$pos+1);
+						$str=mb_substr($str,$pos+1);
 
 						$this->addStr($nstr,$this->cfg->hash['STYLE']['Comment'],array($cstr));
 						$cstr='';
@@ -196,14 +196,14 @@ class HiLight_Format
 
 					if(!$bool)continue;
 
-					if(($key=ucfirst(strToLower($v)))==='Prefix')
+					if(($key=ucfirst(mb_strtolower($v)))==='Prefix')
 					{
 						$this->addStr($nstr,$this->cfg->hash['STYLE'][$key.'1'],array($c));
 						$c='';
 
 						$str=preg_replace('/^(['.quotemeta($this->cfg->hash['CHARS'][0]).']+)/e',
 																		'func3($c,'."'\\1'".')',$str);
-						if(!strlen($c))continue;
+						if(!mb_strlen($c))continue;
 
 						$key.='2';
 					}

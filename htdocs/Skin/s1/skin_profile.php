@@ -225,8 +225,8 @@ return <<<EOF
 	  </tr>
 	  </tr>
 	  <tr>
-		<td class="row3" valign='top'><b>Статистика сообщений пользователя</b></td>
-		<td align='left' class='row1'><a href="{$ibforums->base_url}act=Profile&amp;CODE=show_stat&amp;MID={$info['mid']}">Показать</a></td>
+		<td class="row3" valign='top'><b>РЎС‚Р°С‚РёСЃС‚РёРєР° СЃРѕРѕР±С‰РµРЅРёР№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</b></td>
+		<td align='left' class='row1'><a href="{$ibforums->base_url}act=Profile&amp;CODE=show_stat&amp;MID={$info['mid']}">РџРѕРєР°Р·Р°С‚СЊ</a></td>
 	  </tr>
 	  <tr>
 		<td class="row3" valign='top'><b>{$ibforums->lang['last_activity']}</b></td>
@@ -338,7 +338,7 @@ return <<<EOF
 	</tr>
 <tr>
   <td colspan=2 valign='top' class="plainborder">
- <div class='pformstrip' align='center'>&lt;( <a href='javascript:history.go(-1)'>назад</a> )</div>
+ <div class='pformstrip' align='center'>&lt;( <a href='javascript:history.go(-1)'>РЅР°Р·Р°Рґ</a> )</div>
   </td>
 </tr>
 </table>

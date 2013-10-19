@@ -217,13 +217,13 @@ return <<<EOF
 <table class="pformstrip" cellspacing=0 cellpadding=8 width="100%">
   <tr align="center">
    <td>
-   <a href="http://www.yandex.ru" target="_blank" title="ßndex: Íàéäåòñÿ ÂÑ¨!"><img src="/img/yandex.gif" border=0 width=76 height=48></a>
+   <a href="http://www.yandex.ru" target="_blank" title="Ğ¯ndex: ĞĞ°Ğ¹Ğ´ĞµÑ‚ÑÑ Ğ’Ğ¡Ğ!"><img src="/img/yandex.gif" border=0 width=76 height=48></a>
    </td>
 
    <td class=tableborder width=1><img src=/html/sys-img/blank.gif></td>
 
    <td width="50%">
-   <a href="http://www.google.ru/webhp?hl=ru" target=_blank title="Google: à íè÷åãî è íå òåğÿëîñü!"><img src="/img/google.gif" width=150 height=55 border=0 vspace=12></a>
+   <a href="http://www.google.ru/webhp?hl=ru" target=_blank title="Google: Ğ° Ğ½Ğ¸Ñ‡ĞµĞ³Ğ¾ Ğ¸ Ğ½Ğµ Ñ‚ĞµÑ€ÑĞ»Ğ¾ÑÑŒ!"><img src="/img/google.gif" width=150 height=55 border=0 vspace=12></a>
    </td>
   </tr>
   <tr align="center">

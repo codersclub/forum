@@ -130,7 +130,7 @@ class legends
 		// Check for input, etc
 		//-----------------------------------------
 
-		$ibforums->input['username'] = strtolower(trim($ibforums->input['username']));
+		$ibforums->input['username'] = mb_strtolower(trim($ibforums->input['username']));
 
 		if ($ibforums->input['username'] == "")
 		{
@@ -192,53 +192,53 @@ class legends
 	{
 		global $ibforums, $std;
 
-		$this->page_title = 'Русская клавиатура';
+		$this->page_title = 'Р СѓСЃСЃРєР°СЏ РєР»Р°РІРёР°С‚СѓСЂР°';
 
-		//  $this->output .= $this->html->page_header('Русская клавиатура' ,'', '<FONT size=1>by SergeS</FONT>');
+		//  $this->output .= $this->html->page_header('Р СѓСЃСЃРєР°СЏ РєР»Р°РІРёР°С‚СѓСЂР°' ,'', '<FONT size=1>by SergeS</FONT>');
 
 		$this->output .= $this->html->keyb_javascript();
 
 		$this->output .= '</table><DIV id="keys1" style="display:none"><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
 
 		$keys1 = array(
-			'Й',
-			'Ц',
-			'У',
-			'К',
-			'Е',
-			'Н',
-			'Г',
-			'Ш',
-			'Щ',
-			'З',
-			'Х',
-			'Ъ',
+			'Р™',
+			'Р¦',
+			'РЈ',
+			'Рљ',
+			'Р•',
+			'Рќ',
+			'Р“',
+			'РЁ',
+			'Р©',
+			'Р—',
+			'РҐ',
+			'РЄ',
 			'tbr',
 			'cap',
-			'Ф',
-			'Ы',
-			'В',
-			'А',
-			'П',
-			'Р',
-			'О',
-			'Л',
-			'Д',
-			'Ж',
-			'Э',
+			'Р¤',
+			'Р«',
+			'Р’',
+			'Рђ',
+			'Рџ',
+			'Р ',
+			'Рћ',
+			'Р›',
+			'Р”',
+			'Р–',
+			'Р­',
 			'tab',
 			'tbr',
 			'tab',
 			'tab',
-			'Я',
-			'Ч',
-			'С',
-			'М',
-			'И',
-			'Т',
-			'Ь',
-			'Б',
-			'Ю',
+			'РЇ',
+			'Р§',
+			'РЎ',
+			'Рњ',
+			'Р',
+			'Рў',
+			'Р¬',
+			'Р‘',
+			'Р®',
 			'tab',
 			'tab',
 			'tbr',
@@ -257,7 +257,7 @@ class legends
 				$this->output .= '<td align=center bgcolor=#FFFFFF width = \'90\'><font size=4><a href="javascript:ShowHide(\'keys1\',\'keys2\')">Caps Lock</A></font></td>';
 			} elseif ($ckey == 'spc')
 			{
-				$this->output .= '<td align=center bgcolor=#FFFFFF><font size=4><a href=javascript:add_smilie("&nbsp;")>( большой красивый пробел )</A></font></td>';
+				$this->output .= '<td align=center bgcolor=#FFFFFF><font size=4><a href=javascript:add_smilie("&nbsp;")>( Р±РѕР»СЊС€РѕР№ РєСЂР°СЃРёРІС‹Р№ РїСЂРѕР±РµР» )</A></font></td>';
 			} elseif ($ckey == 'tbr')
 			{
 				$this->output .= '</tr></table><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
@@ -275,44 +275,44 @@ class legends
 		$this->output .= '</table><DIV id="keys2" style="display:show"><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
 
 		$keys2 = array(
-			'й',
-			'ц',
-			'у',
-			'к',
-			'е',
-			'н',
-			'г',
-			'ш',
-			'щ',
-			'з',
-			'х',
-			'ъ',
+			'Р№',
+			'С†',
+			'Сѓ',
+			'Рє',
+			'Рµ',
+			'РЅ',
+			'Рі',
+			'С€',
+			'С‰',
+			'Р·',
+			'С…',
+			'СЉ',
 			'tbr',
 			'cap',
-			'ф',
-			'ы',
-			'в',
-			'а',
-			'п',
-			'р',
-			'о',
-			'л',
-			'д',
-			'ж',
-			'э',
+			'С„',
+			'С‹',
+			'РІ',
+			'Р°',
+			'Рї',
+			'СЂ',
+			'Рѕ',
+			'Р»',
+			'Рґ',
+			'Р¶',
+			'СЌ',
 			'tab',
 			'tbr',
 			'tab',
 			'tab',
-			'я',
-			'ч',
-			'с',
-			'м',
-			'и',
-			'т',
-			'ь',
-			'б',
-			'ю',
+			'СЏ',
+			'С‡',
+			'СЃ',
+			'Рј',
+			'Рё',
+			'С‚',
+			'СЊ',
+			'Р±',
+			'СЋ',
 			'tab',
 			'tab',
 			'tbr',
@@ -331,7 +331,7 @@ class legends
 				$this->output .= '<td align=center bgcolor=#FFFFFF width = \'90\'><font size=4><a href=javascript:ShowHide("keys1","keys2")>Caps Lock</A></font></td>';
 			} elseif ($ckey == 'spc')
 			{
-				$this->output .= '<td align=center bgcolor=#FFFFFF><font size=4><a href=javascript:add_smilie("&nbsp;")>( большой красивый пробел )</A></font></td>';
+				$this->output .= '<td align=center bgcolor=#FFFFFF><font size=4><a href=javascript:add_smilie("&nbsp;")>( Р±РѕР»СЊС€РѕР№ РєСЂР°СЃРёРІС‹Р№ РїСЂРѕР±РµР» )</A></font></td>';
 			} elseif ($ckey == 'tbr')
 			{
 				$this->output .= '</tr></table><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
@@ -429,7 +429,7 @@ class legends
 
 			while ($r = $stmt->fetch())
 			{
-				if (strstr($r['typed'], "&quot;"))
+				if (mb_strstr($r['typed'], "&quot;"))
 				{
 					$in_delim  = "'";
 					$out_delim = '"';
@@ -500,20 +500,20 @@ class legends
 			22    => array(
 				'[pre]',
 				'[/pre]',
-				'Тег pre позволяет использовать<br>  заранее отформатированный текст<br>    не удаляя лишних пробелов и<br>      знаков табуляций, что, несомненно,<br>        является очень удобной функцией.'
+				'РўРµРі pre РїРѕР·РІРѕР»СЏРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ<br>  Р·Р°СЂР°РЅРµРµ РѕС‚С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅС‹Р№ С‚РµРєСЃС‚<br>    РЅРµ СѓРґР°Р»СЏСЏ Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ Рё<br>      Р·РЅР°РєРѕРІ С‚Р°Р±СѓР»СЏС†РёР№, С‡С‚Рѕ, РЅРµСЃРѕРјРЅРµРЅРЅРѕ,<br>        СЏРІР»СЏРµС‚СЃСЏ РѕС‡РµРЅСЊ СѓРґРѕР±РЅРѕР№ С„СѓРЅРєС†РёРµР№.'
 			),
 			'22a' => array(
 				'',
 				'',
-				'[table][tr][th]Header1[/th][th]Header2[/th][/tr]<br>[tr][td]Ячейка1[/td][td]Ячейка2[/td][/tr][/table]'
+				'[table][tr][th]Header1[/th][th]Header2[/th][/tr]<br>[tr][td]РЇС‡РµР№РєР°1[/td][td]РЇС‡РµР№РєР°2[/td][/tr][/table]'
 			),
-			23    => array('[code]', '[/code]', '$this_var = "Код с подсветкой по умолчанию (может быть не задана)";'),
-			24    => array('[code=no]', '[/code]', '$this_var = "Код без подсветки";'),
+			23    => array('[code]', '[/code]', '$this_var = "РљРѕРґ СЃ РїРѕРґСЃРІРµС‚РєРѕР№ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµ Р·Р°РґР°РЅР°)";'),
+			24    => array('[code=no]', '[/code]', '$this_var = "РљРѕРґ Р±РµР· РїРѕРґСЃРІРµС‚РєРё";'),
 			25    => array(
 				'[code=no]',
 				'[/code]',
-				'$this_var = 123; // Подсветка части кода
-				// {b}красным{/b} цветом."'
+				'$this_var = 123; // РџРѕРґСЃРІРµС‚РєР° С‡Р°СЃС‚Рё РєРѕРґР°
+				// {b}РєСЂР°СЃРЅС‹Рј{/b} С†РІРµС‚РѕРј."'
 			),
 		);
 

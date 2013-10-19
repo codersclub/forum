@@ -68,12 +68,12 @@ EOF;
 		$maximum   = (int)$maximum;
 		$protected = (int)$protected;
 
-		if (strlen($ibforums->input['new_title']) < $minimum)
+		if (mb_strlen($ibforums->input['new_title']) < $minimum)
 		{
 			$lib->itemerror("To little characters in title, please add some more to it.");
 		}
 
-		if (strlen($ibforums->input['new_title']) > $maximum)
+		if (mb_strlen($ibforums->input['new_title']) > $maximum)
 		{
 			$lib->itemerror("To many characters in title, please shorten it.");
 		}

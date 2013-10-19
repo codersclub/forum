@@ -199,6 +199,7 @@ M_12			=>	"December",
 'minutes_ago' => "minute%s ago",
 'minutes_ending1' => "s",
 'minutes_ending2' => "s",
+
 'hours_ago' => "hour%s ago",
 'hours_ending1' => "s",
 'hours_ending2' => "s",

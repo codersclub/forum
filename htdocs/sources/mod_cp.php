@@ -148,7 +148,7 @@ class Moderate
 
 		// Song * mod access
 
-		if (!$this->pass and !($ibforums->member['id'] and (strpos($ibforums->input['CODE'], "ip") !== FALSE or $ibforums->input['CODE'] == "topicchoice")))
+		if (!$this->pass and !($ibforums->member['id'] and (mb_strpos($ibforums->input['CODE'], "ip") !== FALSE or $ibforums->input['CODE'] == "topicchoice")))
 		{
 			if (!$ibforums->member['is_mod'])
 			{
@@ -364,7 +364,7 @@ class Moderate
 		// Issit coz i is black?
 		//---------------------------------------
 
-		if (!strstr($ibforums->input['tact'], 't_'))
+		if (!mb_strstr($ibforums->input['tact'], 't_'))
 		{
 			$this->mod_error('stupid_beggar');
 		}
@@ -1114,7 +1114,7 @@ class Moderate
 			{
 				if ($row['mgroup'] == $ibforums->vars['admin_group'])
 				{
-					$row['ip_address'] = "<i>скрыто</i>";
+					$row['ip_address'] = "<i>СЃРєСЂС‹С‚Рѕ</i>";
 				}
 
 				$row['joined'] = $std->format_date_without_time($row['joined']);
@@ -1457,7 +1457,7 @@ class Moderate
 			return;
 		}
 
-		// удалить зеркала
+		// СѓРґР°Р»РёС‚СЊ Р·РµСЂРєР°Р»Р°
 		$topic_ids = implode(",", array_keys($this->tids_forums));
 		$stmt      = $ibforums->db->query("SELECT tid,forum_id FROM ibf_topics WHERE state='mirror' AND mirrored_topic_id IN ($topic_ids)");
 		$tmp_forum = $this->modfunc->forum;
@@ -2013,12 +2013,12 @@ class Moderate
 	}
 
 	/**
-	 *  функция для массового удаления топиков по ряду заданных условий:
-	 *  - по дате последнего поста (типа устаревшие топики)
-	 *  - по ИД стартера
-	 *  - по минимальному количеству постов в топике (например, все топики без ответов)
-	 *  - по статусу топика
-	 *  - доп. признак: - игнорировать прикрепленные топики или нет
+	 *  С„СѓРЅРєС†РёСЏ РґР»СЏ РјР°СЃСЃРѕРІРѕРіРѕ СѓРґР°Р»РµРЅРёСЏ С‚РѕРїРёРєРѕРІ РїРѕ СЂСЏРґСѓ Р·Р°РґР°РЅРЅС‹С… СѓСЃР»РѕРІРёР№:
+	 *  - РїРѕ РґР°С‚Рµ РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕСЃС‚Р° (С‚РёРїР° СѓСЃС‚Р°СЂРµРІС€РёРµ С‚РѕРїРёРєРё)
+	 *  - РїРѕ РР” СЃС‚Р°СЂС‚РµСЂР°
+	 *  - РїРѕ РјРёРЅРёРјР°Р»СЊРЅРѕРјСѓ РєРѕР»РёС‡РµСЃС‚РІСѓ РїРѕСЃС‚РѕРІ РІ С‚РѕРїРёРєРµ (РЅР°РїСЂРёРјРµСЂ, РІСЃРµ С‚РѕРїРёРєРё Р±РµР· РѕС‚РІРµС‚РѕРІ)
+	 *  - РїРѕ СЃС‚Р°С‚СѓСЃСѓ С‚РѕРїРёРєР°
+	 *  - РґРѕРї. РїСЂРёР·РЅР°Рє: - РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїСЂРёРєСЂРµРїР»РµРЅРЅС‹Рµ С‚РѕРїРёРєРё РёР»Рё РЅРµС‚
 	 *
 	 *
 	 */
@@ -2397,7 +2397,7 @@ class Moderate
 
 		if (isset($ibforums->input['show_ips']))
 		{
-			$ip_row .= "\n<tr><td class='pformleft'>\nЗарегистрированные ИП адреса</td>\n<td class='pformright'>\n";
+			$ip_row .= "\n<tr><td class='pformleft'>\nР—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рµ РРџ Р°РґСЂРµСЃР°</td>\n<td class='pformright'>\n";
 			$stmt = $ibforums->db->query("SELECT
 				DISTINCT ip_address
 			FROM	ibf_posts
@@ -2423,7 +2423,7 @@ class Moderate
 			$ip_row .= "\n</textarea>\n</td>\n</tr>\n";
 			$this->output = preg_replace("`(<\/table>)`is", "$ip_row\\1", $this->output);
 		}
-		$this->output = preg_replace("`(<input type.*?submit.*?>)`is", "\\1&nbsp;&nbsp;<input type='submit' name='show_ips' value='IP адреса' class='forminput' />", $this->output);
+		$this->output = preg_replace("`(<input type.*?submit.*?>)`is", "\\1&nbsp;&nbsp;<input type='submit' name='show_ips' value='IP Р°РґСЂРµСЃР°' class='forminput' />", $this->output);
 
 		//-- mod_member_ips end
 
@@ -3125,7 +3125,7 @@ class Moderate
 			}
 
 			// delete last delimiter
-			$prepare = substr($prepare, 0, strlen($prepare) - 1);
+			$prepare = mb_substr($prepare, 0, mb_strlen($prepare) - 1);
 
 			// parse its to HTML
 			$ready = $this->parser->prepare(array(

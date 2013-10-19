@@ -899,7 +899,7 @@ class Post
 		// Do we have a valid post?
 		//------------------------------------------------------------
 
-		if (strlen(trim($_POST['Post'])) < 1)
+		if (mb_strlen(trim($_POST['Post'])) < 1)
 		{
 			if (!$_POST['preview'])
 			{
@@ -910,7 +910,7 @@ class Post
 			}
 		}
 
-		if (strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
+		if (mb_strlen($_POST['Post']) > ($ibforums->vars['max_post_length'] * 1024))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'post_too_long'));
 		}
@@ -1089,16 +1089,16 @@ class Post
 	 *
 	 * Enter description here ...
 	 * @param text &$post
-	 *             òåêñò ïîñòà, â êîòîðîì ïðîèçâîäèòü çàìåíû.
+	 *             Ñ‚ÐµÐºÑÑ‚ Ð¿Ð¾ÑÑ‚Ð°, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÑŒ Ð·Ð°Ð¼ÐµÐ½Ñ‹.
 	 *
 	 * @param array $attachments
-	 *             ìàññèâ àòòà÷åé, áóäóò ñîõðàíåíû â ÁÄ, ýòîé ôóíêöèåé
+	 *             Ð¼Ð°ÑÑÐ¸Ð² Ð°Ñ‚Ñ‚Ð°Ñ‡ÐµÐ¹, Ð±ÑƒÐ´ÑƒÑ‚ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ñ‹ Ð² Ð‘Ð”, ÑÑ‚Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
 	 *
 	 * @param int $save_id
-	 *             $save_id id ýëåìåíòà ãäå àòòà÷è äîëæíû õðàíèòüñÿ
+	 *             $save_id id ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð° Ð³Ð´Ðµ Ð°Ñ‚Ñ‚Ð°Ñ‡Ð¸ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒÑÑ
 	 *
 	 * @param string $save_to
-	 *             òèï ýëåìåíòà, ãäå áóäåò õðàíèòüñÿ: topic_draft, post
+	 *             Ñ‚Ð¸Ð¿ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°, Ð³Ð´Ðµ Ð±ÑƒÐ´ÐµÑ‚ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒÑÑ: topic_draft, post
 	 */
 	function replace_attachments_tags(&$post, array $attachments, $save_id, $save_to = 'post')
 	{
@@ -1178,8 +1178,8 @@ class Post
 	}
 
 	/**
-	 * ïèøåò â ëîã èíôîðìàöèþ î òèïå ôàéëà, êîòîðûé íå óäàëîñü
-	 * ñõîðàíèòü, ââèäó íåäîïóñòèìîãî òèïà
+	 * Ð¿Ð¸ÑˆÐµÑ‚ Ð² Ð»Ð¾Ð³ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¾ Ñ‚Ð¸Ð¿Ðµ Ñ„Ð°Ð¹Ð»Ð°, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð½Ðµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ
+	 * ÑÑ…Ð¾Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ, Ð²Ð²Ð¸Ð´Ñƒ Ð½ÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ð¾Ð³Ð¾ Ñ‚Ð¸Ð¿Ð°
 	 *
 	 */
 	function upload_log_typefails($real_file_name)
@@ -1212,8 +1212,8 @@ class Post
 			$logfile = new SplFileObject("{$ibforums->vars['bad_upload_log_path']}/log", 'a');
 			$block   = 1;
 			$i       = 0;
-			// åñëè òðåáóåòñÿ áëîêèðîâêà, ïðîáóåì 5 ðàçà ñ èíòåðâàëîì 50ìñåê
-			// åñëè íå ïîëó÷àåòñÿ, çàáèâàåì ýòî äåëî
+			// ÐµÑÐ»Ð¸ Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ Ð±Ð»Ð¾ÐºÐ¸Ñ€Ð¾Ð²ÐºÐ°, Ð¿Ñ€Ð¾Ð±ÑƒÐµÐ¼ 5 Ñ€Ð°Ð·Ð° Ñ Ð¸Ð½Ñ‚ÐµÑ€Ð²Ð°Ð»Ð¾Ð¼ 50Ð¼ÑÐµÐº
+			// ÐµÑÐ»Ð¸ Ð½Ðµ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÑ‚ÑÑ, Ð·Ð°Ð±Ð¸Ð²Ð°ÐµÐ¼ ÑÑ‚Ð¾ Ð´ÐµÐ»Ð¾
 			while (!$logfile->flock(LOCK_EX | LOCK_NB, $block))
 			{
 				if ($block)
@@ -1531,7 +1531,7 @@ class Post
 		{
 			if ($type == "reply")
 			{
-				// Sunny: ãàëî÷êà "ñêëåèâàíèå ñîîáùåíèé"
+				// Sunny: Ð³Ð°Ð»Ð¾Ñ‡ÐºÐ° "ÑÐºÐ»ÐµÐ¸Ð²Ð°Ð½Ð¸Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹"
 				if (isset($ibforums->input['add_merge_edit']) and !$ibforums->input['add_merge_edit'])
 				{
 					$default_checked['merge'] = "";
@@ -1539,7 +1539,7 @@ class Post
 				$this->output = str_replace('<!--IBF.MERGE_POST_LABEL-->', $this->html->add_merge_edit_box($default_checked['merge']), $this->output);
 			} elseif ($type == "edit" && $ibforums->member['g_edit_posts'] == 1)
 			{
-				// Sunny: ãàëî÷êà "íàäïèñü îòðåäàêòèðîâàíî"
+				// Sunny: Ð³Ð°Ð»Ð¾Ñ‡ÐºÐ° "Ð½Ð°Ð´Ð¿Ð¸ÑÑŒ Ð¾Ñ‚Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¾"
 				if (isset($ibforums->input['add_edit']) and !$ibforums->input['add_edit'])
 				{
 					$default_checked['edit'] = "";
@@ -1683,7 +1683,7 @@ class Post
 			// Make single quotes as URL's with html entites in them
 			// are parsed by the browser, so ' causes JS error :o
 
-			if (strstr($elmo['typed'], "&#39;"))
+			if (mb_strstr($elmo['typed'], "&#39;"))
 			{
 				$in_delim  = '"';
 				$out_delim = "'";

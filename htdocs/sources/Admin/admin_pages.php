@@ -58,7 +58,7 @@ $PAGES = array(
 		6 => array('Re-Order Forums', 'act=forum&code=reorder'),
 		7 => array('Moderators', 'act=mod'),
 		8 => array('Topic Multi-Moderation', 'act=multimod'),
-		9 => array('Syntax Highlight', 'act=syntax'), // Âîò ýòó. Leprecon
+		9 => array('Syntax Highlight', 'act=syntax'), // Ð’Ð¾Ñ‚ ÑÑ‚Ñƒ. Leprecon
 	),
 	4  => array(
 		1 => array('Moderator\'s CP', 'act=modcp', 1),

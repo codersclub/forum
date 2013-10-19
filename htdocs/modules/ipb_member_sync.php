@@ -208,7 +208,7 @@ class ipb_member_sync
 		{
 			$topic = array(
 				'title'            => $ibforums->member['name'],
-				'description'      => "приём в Клуб",
+				'description'      => "РїСЂРёС‘Рј РІ РљР»СѓР±",
 				'state'            => 'open',
 				'posts'            => 0,
 				'starter_id'       => 8617,
@@ -231,29 +231,29 @@ class ipb_member_sync
 
 			$tid = $ibforums->db->lastInsertId();
 
-			$message = "Профиль: [URL={$ibforums->base_url}showuser={$ibforums->member['id']}]{$ibforums->member['name']}[/URL]\n";
+			$message = "РџСЂРѕС„РёР»СЊ: [URL={$ibforums->base_url}showuser={$ibforums->member['id']}]{$ibforums->member['name']}[/URL]\n";
 
-			$message .= "Посещемость в разделах: [URL={$ibforums->base_url}act=Profile&CODE=show_stat&MID={$ibforums->member['id']}]нажмите ссылку[/URL]\n";
+			$message .= "РџРѕСЃРµС‰РµРјРѕСЃС‚СЊ РІ СЂР°Р·РґРµР»Р°С…: [URL={$ibforums->base_url}act=Profile&CODE=show_stat&MID={$ibforums->member['id']}]РЅР°Р¶РјРёС‚Рµ СЃСЃС‹Р»РєСѓ[/URL]\n";
 
-			$message .= "Рейтинги:[List]";
+			$message .= "Р РµР№С‚РёРЅРіРё:[List]";
 
-			$message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=t&mid={$ibforums->member['id']}]полезный[/URL]: [b]" . intval($ibforums->member['rep']) . "[/b]\n";
+			$message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=t&mid={$ibforums->member['id']}]РїРѕР»РµР·РЅС‹Р№[/URL]: [b]" . intval($ibforums->member['rep']) . "[/b]\n";
 
-			$message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=f&mid={$ibforums->member['id']}]флеймовый[/URL]: [b]" . intval($ibforums->member['ratting']) . "[/b][/List]\n";
+			$message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=f&mid={$ibforums->member['id']}]С„Р»РµР№РјРѕРІС‹Р№[/URL]: [b]" . intval($ibforums->member['ratting']) . "[/b][/List]\n";
 
-			$message .= "Зарегистрирован на Форуме с " . $std->format_date_without_time($ibforums->member['joined']) . "\n";
+			$message .= "Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ РЅР° Р¤РѕСЂСѓРјРµ СЃ " . $std->format_date_without_time($ibforums->member['joined']) . "\n";
 
-			$message .= "Дата рождения: ";
+			$message .= "Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ: ";
 
 			if ($ibforums->member['bday_month'])
 			{
 				$message .= $ibforums->member['bday_day'] . "." . $ibforums->member['bday_month'] . "." . $ibforums->member['bday_year'] . "\n";
 			} else
 			{
-				$message .= "(нет информации)\n";
+				$message .= "(РЅРµС‚ РёРЅС„РѕСЂРјР°С†РёРё)\n";
 			}
 
-			$message .= "Взыскания: ";
+			$message .= "Р’Р·С‹СЃРєР°РЅРёСЏ: ";
 
 			$stmt = $ibforums->db->query("SELECT COUNT(wlog_id) as cnt FROM ibf_warn_logs WHERE wlog_mid='" . $ibforums->member['id'] . "' and wlog_type='neg'");
 
@@ -261,20 +261,20 @@ class ipb_member_sync
 
 			// vot: 15.06.2006: added warn link
 
-			//		$message .= ( $row['cnt'] == "0" ) ? "нет" : "да, ".$row['cnt']." раз. ";
+			//		$message .= ( $row['cnt'] == "0" ) ? "РЅРµС‚" : "РґР°, ".$row['cnt']." СЂР°Р·. ";
 			if ($row['cnt'] == "0")
 			{
-				$message .= "нет\n";
+				$message .= "РЅРµС‚\n";
 			} else
 			{
 				$message .= "[URL={$ibforums->base_url}act=warn&CODE=view&mid={$ibforums->member['id']}]";
-				$message .= "да, " . $row['cnt'] . " раз.";
+				$message .= "РґР°, " . $row['cnt'] . " СЂР°Р·.";
 				$message .= "[/URL]\n";
 			}
 
-			$message .= "\n[GM][URL={$ibforums->base_url}act=checker&CODE=club_enable&mid={$ibforums->member['id']}]Принять данного участника в группу &quot;Клуб&quot;![/URL]\n";
+			$message .= "\n[GM][URL={$ibforums->base_url}act=checker&CODE=club_enable&mid={$ibforums->member['id']}]РџСЂРёРЅСЏС‚СЊ РґР°РЅРЅРѕРіРѕ СѓС‡Р°СЃС‚РЅРёРєР° РІ РіСЂСѓРїРїСѓ &quot;РљР»СѓР±&quot;![/URL]\n";
 
-			$message .= "[b]Примечание[/b]: сообщение добавлено от имени председателя, с целью, чтобы последний мог видеть вышеприведённую ссылку.[/GM]\n";
+			$message .= "[b]РџСЂРёРјРµС‡Р°РЅРёРµ[/b]: СЃРѕРѕР±С‰РµРЅРёРµ РґРѕР±Р°РІР»РµРЅРѕ РѕС‚ РёРјРµРЅРё РїСЂРµРґСЃРµРґР°С‚РµР»СЏ, СЃ С†РµР»СЊСЋ, С‡С‚РѕР±С‹ РїРѕСЃР»РµРґРЅРёР№ РјРѕРі РІРёРґРµС‚СЊ РІС‹С€РµРїСЂРёРІРµРґС‘РЅРЅСѓСЋ СЃСЃС‹Р»РєСѓ.[/GM]\n";
 
 			$message .= "The topic was created by [b]Forum_Bot[/b]\n";
 
@@ -300,7 +300,7 @@ class ipb_member_sync
 
 			$ibforums->db->insertRow("ibf_posts", $post);
 
-			$poll_choices = "За<br>Против<br>Воздержался<br>";
+			$poll_choices = "Р—Р°<br>РџСЂРѕС‚РёРІ<br>Р’РѕР·РґРµСЂР¶Р°Р»СЃСЏ<br>";
 
 			$poll_choices = preg_replace("/<br><br>/", "", $poll_choices);
 
@@ -328,7 +328,7 @@ class ipb_member_sync
 
 			$life = time() + 60 * 60 * 24 * $life;
 
-			$question = $ibforums->member['name'] . ": Согласны ли вы принять в Клуб данного участника Форума?";
+			$question = $ibforums->member['name'] . ": РЎРѕРіР»Р°СЃРЅС‹ Р»Рё РІС‹ РїСЂРёРЅСЏС‚СЊ РІ РљР»СѓР± РґР°РЅРЅРѕРіРѕ СѓС‡Р°СЃС‚РЅРёРєР° Р¤РѕСЂСѓРјР°?";
 
 			$poll = array(
 				'tid'                  => $tid,

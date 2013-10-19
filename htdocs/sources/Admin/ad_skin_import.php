@@ -240,7 +240,7 @@ class ad_langs
 		// Attempt to create the new directories
 		//------------------------------------------------------
 
-		$next_id['images'] = str_replace(" ", "_", substr($this->name_translated, 0, 8)) . '-' . substr(time(), 7, 10);
+		$next_id['images'] = str_replace(" ", "_", mb_substr($this->name_translated, 0, 8)) . '-' . mb_substr(time(), 7, 10);
 
 		if (!mkdir($images_dir . "/" . $next_id['images'], 0777))
 		{
@@ -632,7 +632,7 @@ class ad_langs
 
 			if ($fh = fopen($skin_dir . "/" . $group . ".php", 'w'))
 			{
-				fwrite($fh, $final, strlen($final));
+				fwrite($fh, $final);
 				fclose($fh);
 
 				@chmod($skin_dir . "/" . $group . ".php", 0777);
@@ -963,7 +963,7 @@ class ad_langs
 
 						if ($fh = fopen($skins_dir . "/" . $name . ".php", 'w'))
 						{
-							fwrite($fh, $final, strlen($final));
+							fwrite($fh, $final);
 							fclose($fh);
 							@chmod($skins_dir . "/" . $name . ".php", 0777);
 						} else

@@ -124,14 +124,14 @@ class Auth_OpenID_TrustRoot {
             return false;
         }
 
-        $scheme = strtolower($parts['scheme']);
+        $scheme = mb_strtolower($parts['scheme']);
         $allowed_schemes = array('http', 'https');
         if (!in_array($scheme, $allowed_schemes)) {
             return false;
         }
         $parts['scheme'] = $scheme;
 
-        $host = strtolower($parts['host']);
+        $host = mb_strtolower($parts['host']);
         $hostparts = explode('*', $host);
         switch (count($hostparts)) {
         case 1:
@@ -139,7 +139,7 @@ class Auth_OpenID_TrustRoot {
             break;
         case 2:
             if ($hostparts[0] ||
-                ($hostparts[1] && substr($hostparts[1], 0, 1) != '.')) {
+                ($hostparts[1] && mb_substr($hostparts[1], 0, 1) != '.')) {
                 return false;
             }
             $host = $hostparts[1];
@@ -148,15 +148,15 @@ class Auth_OpenID_TrustRoot {
         default:
             return false;
         }
-        if (strpos($host, ':') !== false) {
+        if (mb_strpos($host, ':') !== false) {
             return false;
         }
 
         $parts['host'] = $host;
 
         if (isset($parts['path'])) {
-            $path = strtolower($parts['path']);
-            if (substr($path, 0, 1) != '/') {
+            $path = mb_strtolower($parts['path']);
+            if (mb_substr($path, 0, 1) != '/') {
                 return false;
             }
         } else {
@@ -247,7 +247,7 @@ class Auth_OpenID_TrustRoot {
             // so there needs to be more than two segments specified
             // (e.g. *.co.uk is insane)
             $second_level = $host_parts[count($host_parts) - 2];
-            if (strlen($tld) == 2 && strlen($second_level) <= 3) {
+            if (mb_strlen($tld) == 2 && mb_strlen($second_level) <= 3) {
                 return count($host_parts) > 2;
             }
         }
@@ -285,8 +285,8 @@ class Auth_OpenID_TrustRoot {
             $host_tail = $trust_root_parsed['host'];
             $host = $url_parsed['host'];
             if ($host_tail &&
-                substr($host, -(strlen($host_tail))) != $host_tail &&
-                substr($host_tail, 1) != $host) {
+                mb_substr($host, -(mb_strlen($host_tail))) != $host_tail &&
+                mb_substr($host_tail, 1) != $host) {
                 return false;
             }
         } else {
@@ -300,18 +300,18 @@ class Auth_OpenID_TrustRoot {
         $path = $url_parsed['path'];
         if (!isset($trust_root_parsed['query'])) {
             if ($base_path != $path) {
-                if (substr($path, 0, strlen($base_path)) != $base_path) {
+                if (mb_substr($path, 0, mb_strlen($base_path)) != $base_path) {
                     return false;
                 }
-                if (substr($base_path, strlen($base_path) - 1, 1) != '/' &&
-                    substr($path, strlen($base_path), 1) != '/') {
+                if (mb_substr($base_path, mb_strlen($base_path) - 1, 1) != '/' &&
+                    mb_substr($path, mb_strlen($base_path), 1) != '/') {
                     return false;
                 }
             }
         } else {
             $base_query = $trust_root_parsed['query'];
             $query = @$url_parsed['query'];
-            $qplus = substr($query, 0, strlen($base_query) + 1);
+            $qplus = mb_substr($query, 0, mb_strlen($base_query) + 1);
             $bqplus = $base_query . '&';
             if ($base_path != $path ||
                 ($base_query != $query && $qplus != $bqplus)) {

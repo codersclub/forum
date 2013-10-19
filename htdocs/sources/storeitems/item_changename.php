@@ -4,8 +4,8 @@
 //---------------------------------------------------
 class item
 {
-	var $name = "Изменить логин";
-	var $desc = "Изменение логина пользователя";
+	var $name = "РР·РјРµРЅРёС‚СЊ Р»РѕРіРёРЅ";
+	var $desc = "РР·РјРµРЅРµРЅРёРµ Р»РѕРіРёРЅР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ";
 	var $extra_one = "";
 	var $extra_two = "";
 	var $extra_three = "";
@@ -37,14 +37,14 @@ class item
 		return <<<EOF
 			<form action='{$ibforums->base_url}act=store&code=useitem&itemid={$itemid}' name='item' method='post'>
 			  <tr>
-				<td class='pformstrip' width='100%' colspan='4'>Изменить логин</td>
+				<td class='pformstrip' width='100%' colspan='4'>РР·РјРµРЅРёС‚СЊ Р»РѕРіРёРЅ</td>
 			</tr>
 			  <tr>
-				<td class='pformleft' width='50%' colspan='2'><strong>Ваш новый логин:</strong></td>
+				<td class='pformleft' width='50%' colspan='2'><strong>Р’Р°С€ РЅРѕРІС‹Р№ Р»РѕРіРёРЅ:</strong></td>
 				<td class='pformleft' width='50%' colspan='1'><input type='text' name='username' size='32'></td>
 			 </tr>
 			  <tr>
-				<td class='pformleft' width='100%' align='center' colspan='3'><input type='submit' name='change' value='Применить'></td>
+				<td class='pformleft' width='100%' align='center' colspan='3'><input type='submit' name='change' value='РџСЂРёРјРµРЅРёС‚СЊ'></td>
 			   </tr>
 			</form>
 EOF;
@@ -64,12 +64,12 @@ EOF;
 		$username = preg_replace("/\s{2,}/", " ", $username);
 
 		$stmt = $ibforums->db->query("SELECT name FROM ibf_members WHERE
-			    LOWER(name)='" . addslashes(strtolower($username)) . "' and
+			    LOWER(name)='" . addslashes(mb_strtolower($username)) . "' and
 			    id!='" . $ibforums->member['id'] . "' LIMIT 1");
 
 		if ($stmt->rowCount() > 0)
 		{
-			$lib->itemerror("Извините, такое имя уже использовано.");
+			$lib->itemerror("РР·РІРёРЅРёС‚Рµ, С‚Р°РєРѕРµ РёРјСЏ СѓР¶Рµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ.");
 		}
 
 		if ($ibforums->vars['ban_names'])
@@ -84,7 +84,7 @@ EOF;
 
 				if (preg_match("/" . preg_quote($name, '/') . "/i", $username))
 				{
-					$lib->itemerror("Вы не можете использовать такое имя.");
+					$lib->itemerror("Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚Р°РєРѕРµ РёРјСЏ.");
 				}
 			}
 		}
@@ -94,28 +94,28 @@ EOF;
 
 		if (empty($username))
 		{
-			$lib->itemerror("Вы не можете использовать такое имя.");
+			$lib->itemerror("Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚Р°РєРѕРµ РёРјСЏ.");
 		}
 
-		if (strlen($len_u) < 3)
+		if (mb_strlen($len_u) < 3)
 		{
-			$lib->itemerror("Вы не можете использовать такое имя.");
+			$lib->itemerror("Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚Р°РєРѕРµ РёРјСЏ.");
 		}
 
-		if (strlen($len_u) > 32)
+		if (mb_strlen($len_u) > 32)
 		{
-			$lib->itemerror("Вы не можете использовать такое имя.");
+			$lib->itemerror("Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚Р°РєРѕРµ РёРјСЏ.");
 		}
 
-		if (preg_match("#[a-z]+#i", $username) && preg_match("#[а-я]+#i", $username))
+		if (preg_match("#[a-z]+#i", $username) && preg_match("#[Р°-СЏ]+#i", $username))
 		{
-			$lib->itemerror("Вы не можете использовать такое имя.");
+			$lib->itemerror("Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚Р°РєРѕРµ РёРјСЏ.");
 		}
 
 		$ibforums->db->exec("UPDATE ibf_members SET name='" . addslashes($username) . "' WHERE id='" . $ibforums->member['id'] . "'");
 		$lib->delete_item($ibforums->input['itemid']);
 
-		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "'{$ibforums->member['name']}' изменил свой ник на '{$username}'", "", "item");
+		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "'{$ibforums->member['name']}' РёР·РјРµРЅРёР» СЃРІРѕР№ РЅРёРє РЅР° '{$username}'", "", "item");
 
 		$lib->redirect("", "act=store", "1");
 		return "";

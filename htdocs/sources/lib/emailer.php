@@ -147,7 +147,7 @@ class emailer
 
 			$this->mail_headers .= "MIME-Version: 1.0\n";
 			$this->mail_headers .= "Content-Type: multipart/mixed;\n\tboundary=\"" . $this->boundry . "\"\n\nThis is a MIME encoded message.\n\n--" . $this->boundry;
-			$this->mail_headers .= "\nContent-Type: text/plain;\n\tcharset=\"windows-1251\"\nContent-Transfer-Encoding: quoted-printable\n\n" . $this->message . "\n\n--" . $this->boundry;
+			$this->mail_headers .= "\nContent-Type: text/plain;\n\tcharset=\"utf-8\"\nContent-Transfer-Encoding: quoted-printable\n\n" . $this->message . "\n\n--" . $this->boundry;
 			$this->mail_headers .= $this->build_multipart();
 
 			$this->message = "";
@@ -195,8 +195,8 @@ class emailer
 		$this->to   = preg_replace("/,,/", ",", $this->to);
 		$this->from = preg_replace("/,,/", ",", $this->from);
 
-		$this->to   = preg_replace("#\#\[\]'\"\(\):;/\$!£%\^&\*\{\}#", "", $this->to);
-		$this->from = preg_replace("#\#\[\]'\"\(\):;/\$!£%\^&\*\{\}#", "", $this->from);
+		$this->to   = preg_replace("#\#\[\]'\"\(\):;/\$!Ðˆ%\^&\*\{\}#", "", $this->to);
+		$this->from = preg_replace("#\#\[\]'\"\(\):;/\$!Ðˆ%\^&\*\{\}#", "", $this->from);
 
 		if ($this->subject == "")
 		{
@@ -221,7 +221,7 @@ class emailer
 				//				$pathy = '/Library/WebServer/Documents/mail/'.date("F.Y.h:i.A").".txt"; // OS X rules!
 				$pathy = '/tmp/!sendmail/' . date("F.Y.h:i.A") . ".txt"; // OS X rules!
 				$fh    = fopen($pathy, 'w');
-				fputs($fh, $blah, strlen($blah));
+				fputs($fh, $blah);
 				fclose($fh);
 			} else
 			{
@@ -437,13 +437,13 @@ class emailer
 	//
 	function encode_header2($string, $default_charset = 'iso-8859-1')
 	{
-		if (strtolower($default_charset) == 'iso-8859-1')
+		if (mb_strtolower($default_charset) == 'iso-8859-1')
 		{
 			$string = str_replace("\240", ' ', $string);
 		}
 
-		$j         = strlen($string);
-		$max_l     = 75 - strlen($default_charset) - 7;
+		$j         = mb_strlen($string);
+		$max_l     = 75 - mb_strlen($default_charset) - 7;
 		$aRet      = array();
 		$ret       = '';
 		$iEncStart = $enc_init = false;
@@ -466,7 +466,7 @@ class emailer
 					$cur_l += 3;
 					if ($cur_l > ($max_l - 2))
 					{
-						$aRet[]    = substr($string, $iOffset, $iEncStart - $iOffset);
+						$aRet[]    = mb_substr($string, $iOffset, $iEncStart - $iOffset);
 						$aRet[]    = "=?$default_charset?Q?$ret?=";
 						$iOffset   = $i;
 						$cur_l     = 0;
@@ -481,7 +481,7 @@ class emailer
 				case ')':
 					if ($iEncStart !== false)
 					{
-						$aRet[]    = substr($string, $iOffset, $iEncStart - $iOffset);
+						$aRet[]    = mb_substr($string, $iOffset, $iEncStart - $iOffset);
 						$aRet[]    = "=?$default_charset?Q?$ret?=";
 						$iOffset   = $i;
 						$cur_l     = 0;
@@ -495,7 +495,7 @@ class emailer
 						$cur_l++;
 						if ($cur_l > $max_l)
 						{
-							$aRet[]    = substr($string, $iOffset, $iEncStart - $iOffset);
+							$aRet[]    = mb_substr($string, $iOffset, $iEncStart - $iOffset);
 							$aRet[]    = "=?$default_charset?Q?$ret?=";
 							$iOffset   = $i;
 							$cur_l     = 0;
@@ -514,18 +514,18 @@ class emailer
 						if ($iEncStart === false)
 						{
 							// do not start encoding in the middle of a string, also take the rest of the word.
-							$sLeadString  = substr($string, 0, $i);
+							$sLeadString  = mb_substr($string, 0, $i);
 							$aLeadString  = explode(' ', $sLeadString);
 							$sToBeEncoded = array_pop($aLeadString);
-							$iEncStart    = $i - strlen($sToBeEncoded);
+							$iEncStart    = $i - mb_strlen($sToBeEncoded);
 							$ret .= $sToBeEncoded;
-							$cur_l += strlen($sToBeEncoded);
+							$cur_l += mb_strlen($sToBeEncoded);
 						}
 						$cur_l += 3;
 						// first we add the encoded string that reached it's max size
 						if ($cur_l > ($max_l - 2))
 						{
-							$aRet[]    = substr($string, $iOffset, $iEncStart - $iOffset);
+							$aRet[]    = mb_substr($string, $iOffset, $iEncStart - $iOffset);
 							$aRet[]    = "=?$default_charset?Q?$ret?= ";
 							$cur_l     = 3;
 							$ret       = '';
@@ -541,7 +541,7 @@ class emailer
 							$cur_l++;
 							if ($cur_l > $max_l)
 							{
-								$aRet[]    = substr($string, $iOffset, $iEncStart - $iOffset);
+								$aRet[]    = mb_substr($string, $iOffset, $iEncStart - $iOffset);
 								$aRet[]    = "=?$default_charset?Q?$ret?=";
 								$iEncStart = false;
 								$iOffset   = $i;
@@ -560,11 +560,11 @@ class emailer
 		{
 			if ($iEncStart !== false)
 			{
-				$aRet[] = substr($string, $iOffset, $iEncStart - $iOffset);
+				$aRet[] = mb_substr($string, $iOffset, $iEncStart - $iOffset);
 				$aRet[] = "=?$default_charset?Q?$ret?=";
 			} else
 			{
-				$aRet[] = substr($string, $iOffset);
+				$aRet[] = mb_substr($string, $iOffset);
 			}
 			$string = implode('', $aRet);
 		}
@@ -599,7 +599,7 @@ class emailer
 		{
 			$this->smtp_msg .= $line;
 
-			if (substr($line, 3, 1) == " ")
+			if (mb_substr($line, 3, 1) == " ")
 			{
 				break;
 			}
@@ -623,7 +623,7 @@ class emailer
 
 		$this->smtp_get_line();
 
-		$this->smtp_code = substr($this->smtp_msg, 0, 3);
+		$this->smtp_code = mb_substr($this->smtp_msg, 0, 3);
 
 		return $this->smtp_code == ""
 			? FALSE
@@ -686,7 +686,7 @@ class emailer
 
 		$this->smtp_get_line();
 
-		$this->smtp_code = substr($this->smtp_msg, 0, 3);
+		$this->smtp_code = mb_substr($this->smtp_msg, 0, 3);
 
 		if ($this->smtp_code == 220)
 		{

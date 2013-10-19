@@ -154,7 +154,7 @@ class Search
 			? $ibforums->vars['sql_driver']
 			: 'mysql';
 
-		$this->load_lib = 'search_' . strtolower($sql) . '_' . $method . '.php';
+		$this->load_lib = 'search_' . mb_strtolower($sql) . '_' . $method . '.php';
 
 		require (ROOT_PATH . "/sources/lib/" . $this->load_lib);
 
@@ -590,7 +590,7 @@ class Search
 		//-----------------------------------
 		// Parse the keywords
 
-		if ($type != 'nameonly' && false) // эта проверка и так есть в search_mysql_index
+		if ($type != 'nameonly' && false) // СЌС‚Р° РїСЂРѕРІРµСЂРєР° Рё С‚Р°Рє РµСЃС‚СЊ РІ search_mysql_index
 		{
 
 			//--------------------------
@@ -606,7 +606,7 @@ class Search
 					$this->output .= "wordlist: '$word'<br>\n";
 				}
 
-				if (strlen($word) < $ibforums->vars['min_search_word'])
+				if (mb_strlen($word) < $ibforums->vars['min_search_word'])
 				{
 					if ($this->debug)
 					{
@@ -1764,8 +1764,8 @@ class Search
 	}
 
 	/**
-	 * из строки вида "1,1,2,3,4"
-	 * удаляет повторяющиеся значения и возвращает количество оставшихся
+	 * РёР· СЃС‚СЂРѕРєРё РІРёРґР° "1,1,2,3,4"
+	 * СѓРґР°Р»СЏРµС‚ РїРѕРІС‚РѕСЂСЏСЋС‰РёРµСЃСЏ Р·РЅР°С‡РµРЅРёСЏ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕСЃС‚Р°РІС€РёС…СЃСЏ
 	 * @param string $items
 	 */
 	static function unique_string_items(&$items)
@@ -1779,8 +1779,8 @@ class Search
 	}
 
 	/**
-	 * фильтр-ф-ция обратного вызова для ф-ции чуть выше
-	 * удаляет пустые элементы из массива
+	 * С„РёР»СЊС‚СЂ-С„-С†РёСЏ РѕР±СЂР°С‚РЅРѕРіРѕ РІС‹Р·РѕРІР° РґР»СЏ С„-С†РёРё С‡СѓС‚СЊ РІС‹С€Рµ
+	 * СѓРґР°Р»СЏРµС‚ РїСѓСЃС‚С‹Рµ СЌР»РµРјРµРЅС‚С‹ РёР· РјР°СЃСЃРёРІР°
 	 * @param type $a
 	 * @return bool
 	 */
@@ -2123,7 +2123,7 @@ class Search
 		if ($topic['decided'])
 		{
 			$topic['topic_icon'] = "<{B_DECIDED}>";
-		} //уРСЭЙК
+		} //СѓР РЎР­Р™Рљ
 
 		if ($topic['pinned'])
 		{
@@ -2136,7 +2136,7 @@ class Search
 		//Jureth
 		if ($this->modfunctions)
 		{
-			if ((strpos(',' . $ibforums->member['modforums'] . ',', ',' . $topic['forum_id'] . ',') !== false) or ($ibforums->member['g_is_supmod']))
+			if ((mb_strpos(',' . $ibforums->member['modforums'] . ',', ',' . $topic['forum_id'] . ',') !== false) or ($ibforums->member['g_is_supmod']))
 			{
 				$topic['mod_checkbox'] = $this->html->mod_checkbox($topic['pinned']
 					? 'pinned_topic'
@@ -2182,7 +2182,7 @@ class Search
 				}
 			}
 
-			$topic['PAGES'] = substr($topic['PAGES'], 0, strlen($topic['PAGES']) - 1);
+			$topic['PAGES'] = mb_substr($topic['PAGES'], 0, mb_strlen($topic['PAGES']) - 1);
 
 			if ($topic['posts'] < $ibforums->vars['max_show_all_posts'])
 			{
@@ -2275,7 +2275,7 @@ class Search
 		{
 			if ($ibforums->vars['search_post_cut'])
 			{
-				$topic['post'] = substr($this->parser->unconvert($topic['post']), 0, $ibforums->vars['search_post_cut']) . '...';
+				$topic['post'] = mb_substr($this->parser->unconvert($topic['post']), 0, $ibforums->vars['search_post_cut']) . '...';
 				$topic['post'] = str_replace("\n", "<br />", $topic['post']);
 			}
 
@@ -2327,7 +2327,7 @@ class Search
 
 		// force to lowercase
 
-		$words = trim(strtolower($words));
+		$words = trim(mb_strtolower($words));
 
 		// force to swop % into a safer version
 

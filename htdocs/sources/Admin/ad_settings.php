@@ -1372,7 +1372,7 @@ class ad_settings
 			$ADMIN->error("You must pass a valid emoticon id, silly!");
 		}
 
-		if (strstr($IN['before'], '&#092;'))
+		if (mb_strstr($IN['before'], '&#092;'))
 		{
 			$ADMIN->error("You cannot use the backslash character in \"{$IN['before']}\". Please use another character");
 		}
@@ -1517,7 +1517,7 @@ class ad_settings
 			$ADMIN->error("You must enter an emoticon text to replace, silly!");
 		}
 
-		if (strstr($IN['before'], '&#092;'))
+		if (mb_strstr($IN['before'], '&#092;'))
 		{
 			$ADMIN->error("You cannot use the backslash character in \"{$IN['before']}\". Please use another character");
 		}
@@ -1541,22 +1541,22 @@ class ad_settings
 
 	function perly_length_sort($a, $b)
 	{
-		if (strlen($a['typed']) == strlen($b['typed']))
+		if (mb_strlen($a['typed']) == mb_strlen($b['typed']))
 		{
 			return 0;
 		}
-		return (strlen($a['typed']) > strlen($b['typed']))
+		return (mb_strlen($a['typed']) > mb_strlen($b['typed']))
 			? -1
 			: 1;
 	}
 
 	function perly_word_sort($a, $b)
 	{
-		if (strlen($a['type']) == strlen($b['type']))
+		if (mb_strlen($a['type']) == mb_strlen($b['type']))
 		{
 			return 0;
 		}
-		return (strlen($a['type']) > strlen($b['type']))
+		return (mb_strlen($a['type']) > mb_strlen($b['type']))
 			? -1
 			: 1;
 	}
@@ -1782,7 +1782,7 @@ class ad_settings
 			? 1
 			: 0;
 
-		$IN['swop'] = strlen($IN['swop']) > 1
+		$IN['swop'] = mb_strlen($IN['swop']) > 1
 			? $IN['swop']
 			: "";
 
@@ -1892,7 +1892,7 @@ class ad_settings
 			? 1
 			: 0;
 
-		$IN['swop'] = strlen($IN['swop']) > 1
+		$IN['swop'] = mb_strlen($IN['swop']) > 1
 			? $IN['swop']
 			: "";
 
@@ -2269,27 +2269,27 @@ class ad_settings
 
 		//-----------------------------------------------------------------------------------------------------------
 
-		$ADMIN->html .= $SKIN->add_td_basic('Отсылка ПМ новым пользователям', 'left', 'catrow2');
+		$ADMIN->html .= $SKIN->add_td_basic('РћС‚СЃС‹Р»РєР° РџРњ РЅРѕРІС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРј', 'left', 'catrow2');
 
 		//-----------------------------------------------------------------------------------------------------------
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Отсылать ПМ новым пользователям?</b><br>(Если Да, то новые пользователи после регистрации будут получать ПМ с Вашим приветствием)",
+		                                       "<b>РћС‚СЃС‹Р»Р°С‚СЊ РџРњ РЅРѕРІС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРј?</b><br>(Р•СЃР»Рё Р”Р°, С‚Рѕ РЅРѕРІС‹Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё РїРѕСЃР»Рµ СЂРµРіРёСЃС‚СЂР°С†РёРё Р±СѓРґСѓС‚ РїРѕР»СѓС‡Р°С‚СЊ РџРњ СЃ Р’Р°С€РёРј РїСЂРёРІРµС‚СЃС‚РІРёРµРј)",
 		                                       $SKIN->form_yes_no("auto_pm_on", $INFO['auto_pm_on'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>От кого посылать сообщение??</b><br>(ID пользователя, от которого будет отослано ПМ)<br>(Например, 1 - ID администратора)",
+		                                       "<b>РћС‚ РєРѕРіРѕ РїРѕСЃС‹Р»Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ??</b><br>(ID РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РѕС‚ РєРѕС‚РѕСЂРѕРіРѕ Р±СѓРґРµС‚ РѕС‚РѕСЃР»Р°РЅРѕ РџРњ)<br>(РќР°РїСЂРёРјРµСЂ, 1 - ID Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°)",
 		                                       $SKIN->form_input("auto_pm_from", $INFO['auto_pm_from'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Заголовок</b><br>(Заголовок отсылаемого сообщения)",
+		                                       "<b>Р—Р°РіРѕР»РѕРІРѕРє</b><br>(Р—Р°РіРѕР»РѕРІРѕРє РѕС‚СЃС‹Р»Р°РµРјРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ)",
 		                                       $SKIN->form_input("auto_pm_subject", $INFO['auto_pm_subject'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Содержание сообщения</b><br>(Используйте *username*, для обращения к новому пользователю.)<br>(*username* будет заменено на имя пользователя )",
+		                                       "<b>РЎРѕРґРµСЂР¶Р°РЅРёРµ СЃРѕРѕР±С‰РµРЅРёСЏ</b><br>(РСЃРїРѕР»СЊР·СѓР№С‚Рµ *username*, РґР»СЏ РѕР±СЂР°С‰РµРЅРёСЏ Рє РЅРѕРІРѕРјСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ.)<br>(*username* Р±СѓРґРµС‚ Р·Р°РјРµРЅРµРЅРѕ РЅР° РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ )",
 		                                       $SKIN->form_textarea("auto_pm_message", $INFO['auto_pm_message'])
 		                                  ));
 
@@ -2322,7 +2322,7 @@ class ad_settings
 		$ADMIN->html .= $SKIN->add_td_basic('Other', 'left', 'catrow2');
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Версия клиентских скриптов</b><br>(Измените это значение при обновлении скриптов, чтобы избежать проблем с кешированием у пользователей)",
+		                                       "<b>Р’РµСЂСЃРёСЏ РєР»РёРµРЅС‚СЃРєРёС… СЃРєСЂРёРїС‚РѕРІ</b><br>(РР·РјРµРЅРёС‚Рµ СЌС‚Рѕ Р·РЅР°С‡РµРЅРёРµ РїСЂРё РѕР±РЅРѕРІР»РµРЅРёРё СЃРєСЂРёРїС‚РѕРІ, С‡С‚РѕР±С‹ РёР·Р±РµР¶Р°С‚СЊ РїСЂРѕР±Р»РµРј СЃ РєРµС€РёСЂРѕРІР°РЅРёРµРј Сѓ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№)",
 		                                       $SKIN->form_input("client_script_version", $INFO['client_script_version'])
 		                                  ));
 
@@ -2574,7 +2574,7 @@ class ad_settings
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Allowed photo URL extensions</b><br>Seperate with comma (gif,png,jpeg) etc",
-		                                       $SKIN->form_input("photo_ext", strlen($INFO['photo_ext']) > 1
+		                                       $SKIN->form_input("photo_ext", mb_strlen($INFO['photo_ext']) > 1
 			                                       ? $INFO['photo_ext']
 			                                       : "gif,jpg,jpeg,png")
 		                                  ));

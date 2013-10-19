@@ -140,13 +140,13 @@ try {
       </item>
 	";
 
-  	$to_echo = "<?xml version='1.0' encoding=\"windows-1251\"?>
+  	$to_echo = "<?xml version='1.0' encoding=\"utf-8\"?>
       <rss version='2.0'>
       <channel>
-      <title>Форум на Исходниках.RU</title>
+      <title>Р¤РѕСЂСѓРј РЅР° РСЃС…РѕРґРЅРёРєР°С….RU</title>
       <link>http://forum.sources.ru</link>
-      <description>Форум на Исходниках.RU</description>
-      <generator>Форум на Исходниках.RU</generator>
+      <description>Р¤РѕСЂСѓРј РЅР° РСЃС…РѕРґРЅРёРєР°С….RU</description>
+      <generator>Р¤РѕСЂСѓРј РЅР° РСЃС…РѕРґРЅРёРєР°С….RU</generator>
   	";
 
 	$mask = array();
@@ -171,7 +171,7 @@ try {
 
 	if ( count($categories) and !count($forums) )
 	{
-		fatal_error("Не найдено разделов для категорий cat_id=".implode(",", $categories));
+		fatal_error("РќРµ РЅР°Р№РґРµРЅРѕ СЂР°Р·РґРµР»РѕРІ РґР»СЏ РєР°С‚РµРіРѕСЂРёР№ cat_id=".implode(",", $categories));
 	}
 
 	$query = "SELECT pid, author_name, post_date, forum_id, topic_id, author_id, post, use_sig, queued FROM ibf_posts ";
@@ -206,7 +206,7 @@ try {
 
 	if ( $query_last )
 	{
-		$query_last = substr($query_last, 0, strlen($query_last) - 4);
+		$query_last = mb_substr($query_last, 0, mb_strlen($query_last) - 4);
 
 		$query .= "WHERE ".$query_last;
 	}
@@ -220,7 +220,7 @@ try {
 	{
 		$std->flood_end();
 
-		fatal_error("Запрос не вернул результатов. Проверьте правильность аргументов вызова.");
+		fatal_error("Р—Р°РїСЂРѕСЃ РЅРµ РІРµСЂРЅСѓР» СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ. РџСЂРѕРІРµСЂСЊС‚Рµ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р°СЂРіСѓРјРµРЅС‚РѕРІ РІС‹Р·РѕРІР°.");
 	}
 
 	unset($tids);
@@ -317,7 +317,7 @@ try {
 
 	if ( !$p )
 	{
-		fatal_error("Запрос не вернул результатов. Проверьте правильность аргументов вызова.");
+		fatal_error("Р—Р°РїСЂРѕСЃ РЅРµ РІРµСЂРЅСѓР» СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ. РџСЂРѕРІРµСЂСЊС‚Рµ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р°СЂРіСѓРјРµРЅС‚РѕРІ РІС‹Р·РѕРІР°.");
 	}
 
 	$to_echo  .= "
@@ -342,7 +342,7 @@ try {
 
 } catch(exception $e)
 {
-	fatal_error("Невозможно соединиться с БД.");
+	fatal_error("РќРµРІРѕР·РјРѕР¶РЅРѕ СЃРѕРµРґРёРЅРёС‚СЊСЃСЏ СЃ Р‘Р”.");
 }
 
 exit();

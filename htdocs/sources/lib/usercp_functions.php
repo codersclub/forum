@@ -273,7 +273,7 @@ class usercp_functions
 
 			foreach ($ext as $v)
 			{
-				if (strtolower($v) == strtolower($av_ext))
+				if (mb_strtolower($v) == mb_strtolower($av_ext))
 				{
 					$checked = 1;
 				}
@@ -1055,7 +1055,7 @@ class usercp_functions
 
 			foreach ($ext as $v)
 			{
-				if (strtolower($v) == strtolower($av_ext))
+				if (mb_strtolower($v) == mb_strtolower($av_ext))
 				{
 					if (($v == 'swf') AND ($ibforums->vars['allow_flash'] != 1))
 					{
@@ -1192,7 +1192,7 @@ class usercp_functions
 
 			if ($row['fmaxinput'] > 0)
 			{
-				if (strlen($_POST['field_' . $row['fid']]) > $row['fmaxinput'])
+				if (mb_strlen($_POST['field_' . $row['fid']]) > $row['fmaxinput'])
 				{
 					$std->Error(array(
 					                 'LEVEL' => 1,
@@ -1207,7 +1207,7 @@ class usercp_functions
 
 		//+--------------------
 
-		if ((strlen($_POST['Interests']) > $ibforums->vars['max_interest_length']) and ($ibforums->vars['max_interest_length']))
+		if ((mb_strlen($_POST['Interests']) > $ibforums->vars['max_interest_length']) and ($ibforums->vars['max_interest_length']))
 		{
 			$std->Error(array(
 			                 'LEVEL' => 1,
@@ -1215,7 +1215,7 @@ class usercp_functions
 			            ));
 		}
 		//+--------------------
-		if ((strlen($_POST['Location']) > $ibforums->vars['max_location_length']) and ($ibforums->vars['max_location_length']))
+		if ((mb_strlen($_POST['Location']) > $ibforums->vars['max_location_length']) and ($ibforums->vars['max_location_length']))
 		{
 			$std->Error(array(
 			                 'LEVEL' => 1,
@@ -1223,7 +1223,7 @@ class usercp_functions
 			            ));
 		}
 		//+--------------------
-		if (strlen($_POST['WebSite']) > 150)
+		if (mb_strlen($_POST['WebSite']) > 150)
 		{
 			$std->Error(array(
 			                 'LEVEL' => 1,
@@ -1231,7 +1231,7 @@ class usercp_functions
 			            ));
 		}
 		//+--------------------
-		if (strlen($_POST['Photo']) > 150)
+		if (mb_strlen($_POST['Photo']) > 150)
 		{
 			$std->Error(array(
 			                 'LEVEL' => 1,
@@ -1317,7 +1317,7 @@ class usercp_functions
 				$stmt = $ibforums->db->query("SELECT name
 				    FROM ibf_members
 				    WHERE
-				    	LOWER(name)='" . addslashes(strtolower($username)) . "'
+				    	LOWER(name)='" . addslashes(mb_strtolower($username)) . "'
 					AND
 					id!='" . $ibforums->member['id'] . "'
 				    LIMIT 1");
@@ -1362,7 +1362,7 @@ class usercp_functions
 					            ));
 				}
 
-				if (strlen($len_u) < 3)
+				if (mb_strlen($len_u) < 3)
 				{
 					$std->Error(array(
 					                 'LEVEL' => 1,
@@ -1370,7 +1370,7 @@ class usercp_functions
 					            ));
 				}
 
-				if (strlen($len_u) > 30)
+				if (mb_strlen($len_u) > 30)
 				{
 					$std->Error(array(
 					                 'LEVEL' => 1,
@@ -1378,7 +1378,7 @@ class usercp_functions
 					            ));
 				}
 
-				if (preg_match("#[a-z]+#i", $len_u) && preg_match("#[à-ÿ]+#i", $len_u))
+				if (preg_match("#[a-z]+#i", $len_u) && preg_match("#[Ð°-Ñ]+#i", $len_u))
 				{
 					$std->Error(array(
 					                 'LEVEL' => 1,
@@ -1470,7 +1470,7 @@ class usercp_functions
 		// Check for bad entry
 		//----------------------------------
 
-		if ((strlen($_POST['Post']) > $ibforums->vars['max_sig_length']) and ($ibforums->vars['max_sig_length']))
+		if ((mb_strlen($_POST['Post']) > $ibforums->vars['max_sig_length']) and ($ibforums->vars['max_sig_length']))
 		{
 			$std->Error(array(
 			                 'LEVEL' => 1,

@@ -1,1 +1,5 @@
-AddDefaultCharset windows-1251
+AddDefaultCharset UTF-8
+<IfModule mod_php5.c>
+    php_value mbstring.func_overload 2
+    php_value mbstring.internal_encoding UTF-8
+</IfModule>

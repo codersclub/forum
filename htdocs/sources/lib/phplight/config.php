@@ -25,30 +25,30 @@ class HiLight_Config
 		$fh=fopen($this->fname,'r');
 		#flock($fh,4);
 		while(fReadLine($fh,$_))
-			if(strpos($_,$this->delimeter[0])===0)
+			if(mb_strpos($_,$this->delimeter[0])===0)
 			{
-				if(count($arr=explode($this->equation,substr($_,1),2))!=2)continue;
+				if(count($arr=explode($this->equation,mb_substr($_,1),2))!=2)continue;
 
 				$arr[0]=trim($arr[0]);
 				if(isSet($arr[1]))$arr[1]=trim($arr[1]);
 
-				if(substr($arr[1],0,1)===$this->delimeter[2]&&
-					substr($arr[1],-1)===$this->delimeter[3])
+				if(mb_substr($arr[1],0,1)===$this->delimeter[2]&&
+					mb_substr($arr[1],-1)===$this->delimeter[3])
 				{
 					if(!isSet($this->hash[$arr[0]])||!is_array($this->hash[$arr[0]]))
 												$this->hash[$arr[0]]=array();
-					if(!isSet($this->hash[$arr[0]][$key=trim(substr($arr[1],1,-1))])||
+					if(!isSet($this->hash[$arr[0]][$key=trim(mb_substr($arr[1],1,-1))])||
 						!is_array($this->hash[$arr[0]][$key]))
 												$this->hash[$arr[0]][$key]=array();
 
-					while(fReadLine($fh,$_)&&strlen($_))$this->hash[$arr[0]][$key][]=$_;
+					while(fReadLine($fh,$_)&&mb_strlen($_))$this->hash[$arr[0]][$key][]=$_;
 				}
 				else
 				{
 					$arr[1]=explode($this->delimeter[1],$arr[1],2);
 
-					if(!strlen($arr[1][0]=trim($arr[1][0]))||
-						(($bool=isSet($arr[1][1]))&&!strlen($arr[1][1]=trim($arr[1][1]))))continue;
+					if(!mb_strlen($arr[1][0]=trim($arr[1][0]))||
+						(($bool=isSet($arr[1][1]))&&!mb_strlen($arr[1][1]=trim($arr[1][1]))))continue;
 
 					if(isSet($this->hash[$arr[0]]))
 					{

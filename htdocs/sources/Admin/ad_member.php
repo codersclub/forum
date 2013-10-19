@@ -702,7 +702,7 @@ class ad_forums
 
 		$stmt = $ibforums->db->query("SELECT id
 			    FROM ibf_members
-			    WHERE LOWER(name)='" . strtolower($new_name) . "'");
+			    WHERE LOWER(name)='" . mb_strtolower($new_name) . "'");
 
 		if ($stmt->rowCount())
 		{
@@ -2213,7 +2213,7 @@ class ad_forums
 		$data = [
 			'name'        => trim($IN['name']),
 			'password'    => md5(trim($IN['password'])),
-			'email'       => trim(strtolower($IN['email'])),
+			'email'       => trim(mb_strtolower($IN['email'])),
 			'mgroup'      => $IN['mgroup'],
 			'old_group'   => $IN['mgroup'],
 			'joined'      => time(),
@@ -2844,7 +2844,7 @@ class ad_forums
 		}
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Запретить автоматическую смену группы?</b><br>(например, автоматический переход в Клуб)",
+		                                       "<b>Р—Р°РїСЂРµС‚РёС‚СЊ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєСѓСЋ СЃРјРµРЅСѓ РіСЂСѓРїРїС‹?</b><br>(РЅР°РїСЂРёРјРµСЂ, Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ РїРµСЂРµС…РѕРґ РІ РљР»СѓР±)",
 		                                       $SKIN->form_yes_no("disable_group", $mem['disable_group'])
 		                                  ));
 
@@ -3171,20 +3171,20 @@ class ad_forums
 		$SKIN->td_header[] = array("&nbsp;", "40%");
 		$SKIN->td_header[] = array("&nbsp;", "60%");
 
-		$ADMIN->html .= $SKIN->start_table("Контроль подписок и электронной почты");
+		$ADMIN->html .= $SKIN->start_table("РљРѕРЅС‚СЂРѕР»СЊ РїРѕРґРїРёСЃРѕРє Рё СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚С‹");
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Удалить все подписки пользователя на темы и форумы</b>?",
+		                                       "<b>РЈРґР°Р»РёС‚СЊ РІСЃРµ РїРѕРґРїРёСЃРєРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅР° С‚РµРјС‹ Рё С„РѕСЂСѓРјС‹</b>?",
 		                                       $SKIN->form_checkbox("subscribe_delete", 0)
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Запретить пользователю работу с электронной почтой</b>?",
+		                                       "<b>Р—Р°РїСЂРµС‚РёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ СЂР°Р±РѕС‚Сѓ СЃ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚РѕР№</b>?",
 		                                       $SKIN->form_yes_no("disable_mail", $mem['disable_mail'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Причина блокировки</b>",
+		                                       "<b>РџСЂРёС‡РёРЅР° Р±Р»РѕРєРёСЂРѕРІРєРё</b>",
 		                                       $SKIN->form_textarea("disable_mail_reason", $mem['disable_mail_reason'])
 		                                  ));
 

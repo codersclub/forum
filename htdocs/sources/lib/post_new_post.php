@@ -71,7 +71,7 @@ class post_functions extends Post
 
 		$ibforums->input['TopicTitle'] = trim($ibforums->input['TopicTitle']);
 
-		if ((strlen($ibforums->input['TopicTitle']) < 2) or (!$ibforums->input['TopicTitle']))
+		if ((mb_strlen($ibforums->input['TopicTitle']) < 2) or (!$ibforums->input['TopicTitle']))
 		{
 			$class->obj['post_errors'] = 'no_topic_title';
 		}
@@ -84,7 +84,7 @@ class post_functions extends Post
 
 		$temp = preg_replace("/&#([0-9]+);/", "-", $temp);
 
-		if (strlen($temp) > $ibforums->vars['max_title_length'])
+		if (mb_strlen($temp) > $ibforums->vars['max_title_length'])
 		{
 			$class->obj['post_errors'] = 'topic_title_long';
 		}
@@ -128,7 +128,7 @@ class post_functions extends Post
 
 		if ($ibforums->vars['etfilter_shout'])
 		{
-			$ibforums->input['TopicTitle'] = ucwords(strtolower($ibforums->input['TopicTitle']));
+			$ibforums->input['TopicTitle'] = ucwords(mb_strtolower($ibforums->input['TopicTitle']));
 		}
 
 		$ibforums->input['TopicTitle'] = $class->parser->bad_words($ibforums->input['TopicTitle']);

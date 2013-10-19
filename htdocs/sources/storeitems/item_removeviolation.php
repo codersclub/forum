@@ -98,14 +98,14 @@ class item
 			$group = 3;
 		}
 
-		$mes = "Уменьшение уровня предупреждений по покупке уменьшения предупреждений в магазине проекта DigiMania";
+		$mes = "РЈРјРµРЅСЊС€РµРЅРёРµ СѓСЂРѕРІРЅСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ РїРѕ РїРѕРєСѓРїРєРµ СѓРјРµРЅСЊС€РµРЅРёСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ РІ РјР°РіР°Р·РёРЅРµ РїСЂРѕРµРєС‚Р° DigiMania";
 
 		if (($group == 3) or ($group == 25))
 		{
-			$mes .= "\r\n\r\n[color=green]Вы обратно переведены в группу участников.[/color]";
+			$mes .= "\r\n\r\n[color=green]Р’С‹ РѕР±СЂР°С‚РЅРѕ РїРµСЂРµРІРµРґРµРЅС‹ РІ РіСЂСѓРїРїСѓ СѓС‡Р°СЃС‚РЅРёРєРѕРІ.[/color]";
 		} else
 		{
-			$mes .= "\r\n\r\n[color=red]Вы переведены в группу нарушивших правила уровня " . $warn_level . ".[/color]";
+			$mes .= "\r\n\r\n[color=red]Р’С‹ РїРµСЂРµРІРµРґРµРЅС‹ РІ РіСЂСѓРїРїСѓ РЅР°СЂСѓС€РёРІС€РёС… РїСЂР°РІРёР»Р° СѓСЂРѕРІРЅСЏ " . $warn_level . ".[/color]";
 		}
 
 		$save['wlog_notes'] = "<content>{$mes}</content>";
@@ -123,7 +123,7 @@ class item
 			warn_lastwarn='" . time() . "',
 			mgroup='" . $group . "' WHERE id='" . $ibforums->member['id'] . "' LIMIT 1");
 
-		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "Использован товар 'Уменьшение уровня предупреждений' на " . $remove . " единиц.", "", "item");
+		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "РСЃРїРѕР»СЊР·РѕРІР°РЅ С‚РѕРІР°СЂ 'РЈРјРµРЅСЊС€РµРЅРёРµ СѓСЂРѕРІРЅСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№' РЅР° " . $remove . " РµРґРёРЅРёС†.", "", "item");
 		$lib->delete_item($ibforums->input['itemid']);
 		$lib->redirect('Added onto Post Count', 'act=store&code=inventory', '1');
 		return "";

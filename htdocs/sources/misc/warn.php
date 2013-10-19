@@ -560,7 +560,7 @@ class  warn
 
 			if ($ibforums->input['level'] == 'add')
 			{
-				$ibforums->input['reason'] .= "\r\nÑðîê äåéñòâèÿ ïðåäóïðåæäåíèÿ: " . $restrict_time . " äíåé(ÿ).";
+				$ibforums->input['reason'] .= "\r\nÐ¡Ñ€Ð¾Ðº Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ Ð¿Ñ€ÐµÐ´ÑƒÐ¿Ñ€ÐµÐ¶Ð´ÐµÐ½Ð¸Ñ: " . $restrict_time . " Ð´Ð½ÐµÐ¹(Ñ).";
 			}
 
 			if ($ibforums->input['mod_indef'] == 1)
@@ -698,7 +698,7 @@ class  warn
 
 			if ($ibforums->input['level'] == 'add')
 			{
-				$mes = "\nÇà ñîîáùåíèå: {$ibforums->base_url}showtopic={$ibforums->input['t']}&view=findpost&p={$pid}\n\n";
+				$mes = "\nÐ—Ð° ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ: {$ibforums->base_url}showtopic={$ibforums->input['t']}&view=findpost&p={$pid}\n\n";
 			} else
 			{
 				$mes = "\n\n";
@@ -708,29 +708,29 @@ class  warn
 			{
 				if ($group == $ibforums->vars['ban_group'])
 				{
-					$mes .= "[color=red][b]Âû íàáðàëè ìàêñèìàëüíîå êîëè÷åñòâî ïðåäóïðåæäåíèé è ïåðåâåäåíû â ãðóïïó ÁÀÍ.[/b][/color]";
+					$mes .= "[color=red][b]Ð’Ñ‹ Ð½Ð°Ð±Ñ€Ð°Ð»Ð¸ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¿Ñ€ÐµÐ´ÑƒÐ¿Ñ€ÐµÐ¶Ð´ÐµÐ½Ð¸Ð¹ Ð¸ Ð¿ÐµÑ€ÐµÐ²ÐµÐ´ÐµÐ½Ñ‹ Ð² Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ Ð‘ÐÐ.[/b][/color]";
 
 				} elseif ($group == 3 or $group == 25 or $group == 26 or $group == 9)
 				{
-					$mes .= "[color=green]Âû îáðàòíî ïåðåâåäåíû â ãðóïïó ó÷àñòíèêîâ.[/color]";
+					$mes .= "[color=green]Ð’Ñ‹ Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ²ÐµÐ´ÐµÐ½Ñ‹ Ð² Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ ÑƒÑ‡Ð°ÑÑ‚Ð½Ð¸ÐºÐ¾Ð².[/color]";
 				} else
 				{
-					$mes .= "[color=red]Âû ïåðåâåäåíû â ãðóïïó íàðóøèâøèõ ïðàâèëà óðîâíÿ " . $warn_level . ".[/color]";
+					$mes .= "[color=red]Ð’Ñ‹ Ð¿ÐµÑ€ÐµÐ²ÐµÐ´ÐµÐ½Ñ‹ Ð² Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ Ð½Ð°Ñ€ÑƒÑˆÐ¸Ð²ÑˆÐ¸Ñ… Ð¿Ñ€Ð°Ð²Ð¸Ð»Ð° ÑƒÑ€Ð¾Ð²Ð½Ñ " . $warn_level . ".[/color]";
 				}
 			}
 
 			if ($warn_level > 1 and $ibforums->input['level'] == 'add')
 			{
-				$mes .= "\nÑðîê äåéñòâèÿ âñåõ ïðåäóïðåæäåíèé, âûäàííûõ Âàì ðàíåå, áóäåò óâåëè÷åí íà ñðîê äåéñòâèÿ äàííîãî.";
+				$mes .= "\nÐ¡Ñ€Ð¾Ðº Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ Ð²ÑÐµÑ… Ð¿Ñ€ÐµÐ´ÑƒÐ¿Ñ€ÐµÐ¶Ð´ÐµÐ½Ð¸Ð¹, Ð²Ñ‹Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð’Ð°Ð¼ Ñ€Ð°Ð½ÐµÐµ, Ð±ÑƒÐ´ÐµÑ‚ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½ Ð½Ð° ÑÑ€Ð¾Ðº Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ Ð´Ð°Ð½Ð½Ð¾Ð³Ð¾.";
 			}
 
 			$ibforums->input['reason'] .= $mes;
 
 		} else
 		{
-			$mes = "Âû ïîëó÷èëè óñòíîå ïðåäóïðåæäåíèå îò ìîäåðàòîðà:\n";
+			$mes = "Ð’Ñ‹ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»Ð¸ ÑƒÑÑ‚Ð½Ð¾Ðµ Ð¿Ñ€ÐµÐ´ÑƒÐ¿Ñ€ÐµÐ¶Ð´ÐµÐ½Ð¸Ðµ Ð¾Ñ‚ Ð¼Ð¾Ð´ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð°:\n";
 			$mes .= $ibforums->input['reason'];
-			$mes .= "\nÇà ñîîáùåíèå: {$ibforums->base_url}showtopic={$ibforums->input['t']}&view=findpost&p={$pid}\n\n";
+			$mes .= "\nÐ—Ð° ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ: {$ibforums->base_url}showtopic={$ibforums->input['t']}&view=findpost&p={$pid}\n\n";
 			$ibforums->input['reason'] = $mes;
 		}
 
@@ -869,7 +869,7 @@ class  warn
 
 			if ($main)
 			{
-				$main = substr($main, 0, strlen($main) - 1);
+				$main = mb_substr($main, 0, mb_strlen($main) - 1);
 				$ibforums->db->exec("UPDATE ibf_members SET " . $main . " WHERE id='" . $this->warn_member['id'] . "'");
 			}
 
@@ -877,7 +877,7 @@ class  warn
 
 			if ($forum2)
 			{
-				$forum = substr($forum, 0, strlen($forum) - 1);
+				$forum = mb_substr($forum, 0, mb_strlen($forum) - 1);
 				$ibforums->db->exec("INSERT INTO ibf_preview_user SET mid='" . $this->warn_member['id'] . "',fid='" . $fid . "'," . $forum);
 			}
 		} else
@@ -1122,7 +1122,7 @@ class  warn
 			$this->output .= $this->html->warn_time();
 		}
 
-		$ibforums->input['subject'] = "Âàì âûíåñåíî ïðåäóïðåæäåíèå îò ìîäåðàòîðà";
+		$ibforums->input['subject'] = "Ð’Ð°Ð¼ Ð²Ñ‹Ð½ÐµÑÐµÐ½Ð¾ Ð¿Ñ€ÐµÐ´ÑƒÐ¿Ñ€ÐµÐ¶Ð´ÐµÐ½Ð¸Ðµ Ð¾Ñ‚ Ð¼Ð¾Ð´ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð°";
 
 		$this->output .= $this->html->warn_footer($this->html->lazy_combobox());
 

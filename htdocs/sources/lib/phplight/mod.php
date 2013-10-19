@@ -11,13 +11,13 @@ function fReadLine(&$fh,&$str)
 function quoteAll($str)
 {
 	$nstr='';
-	while(strlen($str))
+	while(mb_strlen($str))
 	{
-		if(strpos('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_',$str[0])===false)
+		if(mb_strpos('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_',$str[0])===false)
 			$nstr.="\\".$str[0];
 		else $nstr.=$str[0];
 
-		$str=substr($str,1);
+		$str=mb_substr($str,1);
 	}
 	return$nstr;
 }
@@ -25,14 +25,14 @@ function quoteAll($str)
 function strGetC(&$str,&$c)
 {
 	$c=$str[0];
-	$str=substr($str,1);
-	return strlen($c);
+	$str=mb_substr($str,1);
+	return mb_strlen($c);
 }
 
 function toUpperCase($str)
 {
-	return strtr(strToUpper($str),'àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿ',
-									'ÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß');
+	return strtr(mb_strtoupper($str),'Ğ°Ğ±Ğ²Ğ³Ğ´ĞµÑ‘Ğ¶Ğ·Ğ¸Ğ¹ĞºĞ»Ğ¼Ğ½Ğ¾Ğ¿Ñ€ÑÑ‚ÑƒÑ„Ñ…Ñ†Ñ‡ÑˆÑ‰ÑŠÑ‹ÑŒÑÑÑ',
+									'ĞĞ‘Ğ’Ğ“Ğ”Ğ•ĞĞ–Ğ—Ğ˜Ğ™ĞšĞ›ĞœĞĞĞŸĞ Ğ¡Ğ¢Ğ£Ğ¤Ğ¥Ğ¦Ğ§Ğ¨Ğ©ĞªĞ«Ğ¬Ğ­Ğ®Ğ¯');
 }
 
 function CompareNoCase($a,$b)

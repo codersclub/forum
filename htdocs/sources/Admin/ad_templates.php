@@ -347,7 +347,7 @@ class ad_settings
 
 		while (false !== ($file = readdir($handle)))
 		{
-			if (strpos($file, ".php") !== FALSE)
+			if (mb_strpos($file, ".php") !== FALSE)
 			{
 
 				$skin_iname = strtr($file, array(".php" => ""));
@@ -376,9 +376,9 @@ class ad_settings
 					while (!feof($fte))
 					{
 						$line = fgets($fte, 1024);
-						if (strpos(strtolower($line), "function ") !== FALSE)
+						if (mb_strpos(mb_strtolower($line), "function ") !== FALSE)
 						{
-							$func_l[] = strtr(substr($line, 0, strpos($line, "(")), array(
+							$func_l[] = strtr(mb_substr($line, 0, mb_strpos($line, "(")), array(
 							                                                             "function " => "",
 							                                                             " "         => ""
 							                                                        ));
@@ -513,11 +513,11 @@ class ad_settings
 		$nat_a = intval($a['easy_name']);
 		$nat_b = intval($b['easy_name']);
 
-		if (strlen($nat_a) < 2)
+		if (mb_strlen($nat_a) < 2)
 		{
 			$nat_a = '0' . $nat_a;
 		}
-		if (strlen($nat_b) < 2)
+		if (mb_strlen($nat_b) < 2)
 		{
 			$nat_b = '0' . $nat_b;
 		}
@@ -705,9 +705,9 @@ class ad_settings
 			foreach ($IN as $key => $value)
 			{
 				// SergeS - RSDB
-				if ((strpos($key, "cb_") !== FALSE) && (strpos($key, "cb_") === 0))
+				if ((mb_strpos($key, "cb_") !== FALSE) && (mb_strpos($key, "cb_") === 0))
 				{
-					$ids[] = substr($key, 3);
+					$ids[] = mb_substr($key, 3);
 				}
 				// SergeS - End
 			}
@@ -840,9 +840,9 @@ class ad_settings
 		// SergeS - RSDB
 		foreach ($IN as $key => $value)
 		{
-			if ((strpos($key, "txt_") !== FALSE) && (strpos($key, "txt_") === 0))
+			if ((mb_strpos($key, "txt_") !== FALSE) && (mb_strpos($key, "txt_") === 0))
 			{
-				$ids[] = substr($key, 4);
+				$ids[] = mb_substr($key, 4);
 			}
 		}
 		// SergeS - End
@@ -916,13 +916,13 @@ class ad_settings
 				$file_write = fopen ( $phpskin, 'w' );
 				$writing_new = FALSE;
 				foreach ( $php_data as $line ) {
-					if (strpos(strtolower($line), 'function ') !== FALSE)
+					if (mb_strpos(mb_strtolower($line), 'function ') !== FALSE)
 						$writing_new = FALSE;
 
 					if (!$writing_new)
-						if (strpos(strtolower($line), 'function ') !== FALSE)
+						if (mb_strpos(mb_strtolower($line), 'function ') !== FALSE)
 							foreach ( $ids as $id )
-								if (strpos(strtolower($line), strtolower($id)) !== FALSE) {
+								if (mb_strpos(mb_strtolower($line), mb_strtolower($id)) !== FALSE) {
 									$text = stripslashes($_POST['txt_'.$id]);
 									$text = preg_replace("/&#60;/", "<", $text);
 									$text = preg_replace("/&#62;/", ">", $text);

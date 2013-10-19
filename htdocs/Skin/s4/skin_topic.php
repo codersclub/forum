@@ -420,7 +420,7 @@ function bbc_pop()
 	//-->
 </script>
 <script language="JavaScript" type="text/javascript">
-var rusLet=new Array("Э","Щ","Щ","Ч","Ч","Ш","Ш","Ё","Ё","Ё","Ё","Ю","Ю","Ю","Ю","Я","Я","Я","Я","Ж","Ж","А","Б","В","Г","Д","Е","З","ИЙ","ИЙ","ЫЙ","ЫЙ","И","Й","К","КС","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Щ","Ы","э","щ","ч","ш","ё","ё","ю","ю","я","я","ж","а","б","в","г","д","е","з","ий","ий","ый","ый","и","й","к","кс","л","м","н","о","п","р","с","т","у","ф","х","ц","щ","щ","ы","ъ","ъ","ь");
+var rusLet=new Array("Р­","Р©","Р©","Р§","Р§","РЁ","РЁ","РЃ","РЃ","РЃ","РЃ","Р®","Р®","Р®","Р®","РЇ","РЇ","РЇ","РЇ","Р–","Р–","Рђ","Р‘","Р’","Р“","Р”","Р•","Р—","РР™","РР™","Р«Р™","Р«Р™","Р","Р™","Рљ","РљРЎ","Р›","Рњ","Рќ","Рћ","Рџ","Р ","РЎ","Рў","РЈ","Р¤","РҐ","Р¦","Р©","Р«","СЌ","С‰","С‡","С€","С‘","С‘","СЋ","СЋ","СЏ","СЏ","Р¶","Р°","Р±","РІ","Рі","Рґ","Рµ","Р·","РёР№","РёР№","С‹Р№","С‹Р№","Рё","Р№","Рє","РєСЃ","Р»","Рј","РЅ","Рѕ","Рї","СЂ","СЃ","С‚","Сѓ","С„","С…","С†","С‰","С‰","С‹","СЉ","СЉ","СЊ");
 var engReg=new Array(/E'/g,/SHCH/g,/Shch/g,/CH/g,/Ch/g,/SH/g,/Sh/g,/YO/g,/JO/g,/Yo/g,/Jo/g,/YU/g,/JU/g,/Yu/g,/Ju/g,/YA/g,/JA/g,/Ya/g,/Ja/g,/ZH/g,/Zh/g,/A/g,/B/g,/V/g,/G/g,/D/g,/E/g,/Z/g,/II/g,/IY/g,/YI/g,/YY/g,/I/g,/J/g,/K/g,/X/g,/L/g,/M/g,/N/g,/O/g,/P/g,/R/g,/S/g,/T/g,/U/g,/F/g,/H/g,/C/g,/W/g,/Y/g,/e'/g,/shch/g,/ch/g,/sh/g,/yo/g,/jo/g,/yu/g,/ju/g,/ya/g,/ja/g,/zh/g,/a/g,/b/g,/v/g,/g/g,/d/g,/e/g,/z/g,/ii/g,/iy/g,/yi/g,/yy/g,/i/g,/j/g,/k/g,/x/g,/l/g,/m/g,/n/g,/o/g,/p/g,/r/g,/s/g,/t/g,/u/g,/f/g,/h/g,/c/g,/w/g,/#/g,/y/g,/`/g,/~/g,/'/g);
 function rusLang()
 {
@@ -481,7 +481,7 @@ if (textar) {
 	   <input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
 	   <input type='button' accesskey='l' value=' LIST ' onclick='tag_list()' class='codebuttons' name="LIST">&nbsp;
            <input type='button' accesskey='y' value='TRANSLIT' onClick='rusLang()'class='codebuttons' name="TRANSLIT">
-           <input type='button' accesskey='r' value='Русская клавиатура' onclick='javascript:keyb_pop()' class='codebuttons'>
+           <input type='button' accesskey='r' value='Р СѓСЃСЃРєР°СЏ РєР»Р°РІРёР°С‚СѓСЂР°' onclick='javascript:keyb_pop()' class='codebuttons'>
 	   &nbsp;&nbsp;<a href='javascript:closeall();'>{$ibforums->lang['js_close_all_tags']}</a>
    </td>
    </tr>

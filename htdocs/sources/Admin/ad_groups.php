@@ -667,7 +667,7 @@ class ad_groups
 
 		while ($r = $stmt->fetch())
 		{
-			if (strstr($r['org_perm_id'], ","))
+			if (mb_strstr($r['org_perm_id'], ","))
 			{
 				foreach (explode(",", $r['org_perm_id']) as $pid)
 				{
@@ -690,7 +690,7 @@ class ad_groups
 
 		while ($r = $stmt->fetch())
 		{
-			if (strstr($r['g_perm_id'], ","))
+			if (mb_strstr($r['g_perm_id'], ","))
 			{
 				foreach (explode(",", $r['g_perm_id']) as $pid)
 				{
@@ -2138,8 +2138,8 @@ class ad_groups
 
 		//+-------------------------------
 
-		$SKIN->td_header[] = array("ÿ", "40%");
-		$SKIN->td_header[] = array("ÿ", "60%");
+		$SKIN->td_header[] = array("Ñ", "40%");
+		$SKIN->td_header[] = array("Ñ", "60%");
 
 		//+-------------------------------
 		$ADMIN->html .= $SKIN->start_table("IBStore Settings", "IBStore Settings");

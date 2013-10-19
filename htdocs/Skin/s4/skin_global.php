@@ -135,7 +135,7 @@ var base_url	= "{$ibforums->base_url}";
   <a href='{$ibforums->base_url}act=Help'><{atb_help}> {$ibforums->lang['tb_help']}</a>
    &nbsp;&nbsp;&nbsp;<a href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'><{atb_search}> {$ibforums->lang['tb_search']}</a>
    &nbsp;&nbsp;&nbsp;<a href='{$ibforums->base_url}act=Members'><{atb_members}> {$ibforums->lang['tb_mlist']}</a>
-   &nbsp;&nbsp;&nbsp;<a href='{$ibforums->base_url}act=calendar'><{atb_calendar}> {$ibforums->lang['tb_calendar']}</a>&nbsp;&nbsp;&nbsp;<a href='{$ibforums->base_url}act=fav'>$image Избранное</a>
+   &nbsp;&nbsp;&nbsp;<a href='{$ibforums->base_url}act=calendar'><{atb_calendar}> {$ibforums->lang['tb_calendar']}</a>&nbsp;&nbsp;&nbsp;<a href='{$ibforums->base_url}act=fav'>$image РР·Р±СЂР°РЅРЅРѕРµ</a>
    &nbsp;&nbsp;&nbsp;<a href='{$ibforums->base_url}act=store'><{atb_store}> {$ibforums->lang['ibstore']}</a>
    <!--IBF.CHATLINK-->
  </td>
@@ -471,7 +471,7 @@ function mod_buttons_label() {
 global $ibforums;
 return <<<EOF
 
-<div style="height:3px"><!-- --></div><b>Модераторские</b>: 
+<div style="height:3px"><!-- --></div><b>РњРѕРґРµСЂР°С‚РѕСЂСЃРєРёРµ</b>: 
 
 EOF;
 }
@@ -509,11 +509,11 @@ return <<<EOF
 <input type='button' name='SALL' value='SALL' onclick="simpletag('SALL')" class='codebuttons'>
 <input type='button' name='STALL' value='STALL' onclick="simpletag('STALL')" class='codebuttons'>
 <select name='rules' class='codebuttons' onchange="doInsert(this.options[this.selectedIndex].value, '', false)">
-<option value='-1'>Ссылки</option>
-<option value='.Правила'>Правила</option>
-<option value='.Поиск'>Поиск</option>
-<option value='.FAQ'>FAQ раздела</option>
-<option value='[URL={$ibforums->base_url}showtopic=50223]FAQ форума[/URL]'>FAQ форума</option>
+<option value='-1'>РЎСЃС‹Р»РєРё</option>
+<option value='.РџСЂР°РІРёР»Р°'>РџСЂР°РІРёР»Р°</option>
+<option value='.РџРѕРёСЃРє'>РџРѕРёСЃРє</option>
+<option value='.FAQ'>FAQ СЂР°Р·РґРµР»Р°</option>
+<option value='[URL={$ibforums->base_url}showtopic=50223]FAQ С„РѕСЂСѓРјР°[/URL]'>FAQ С„РѕСЂСѓРјР°</option>
 </select>
 &nbsp;
 

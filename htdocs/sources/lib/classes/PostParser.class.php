@@ -222,7 +222,7 @@ class PostParser
 			$words = explode(chr(9), $line);
 
 			$line = $words[0];
-			$col  = strlen($line);
+			$col  = mb_strlen($line);
 			$size = sizeof($words);
 
 			for ($n = 1; $n < $size; $n++)
@@ -238,7 +238,7 @@ class PostParser
 
 				$word = $words[$n];
 				$line = str_pad($line, $col) . $word;
-				$col += strlen($word);
+				$col += mb_strlen($word);
 			}
 
 			$view .= $line . "\n";
@@ -318,7 +318,7 @@ class PostParser
 
 	/**
 	 *
-	 * возвращает валидный, с точки зрения html, цвет
+	 * РІРѕР·РІСЂР°С‰Р°РµС‚ РІР°Р»РёРґРЅС‹Р№, СЃ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ html, С†РІРµС‚
 	 * @param string $val
 	 * @return string
 	 */
@@ -360,14 +360,14 @@ class PostParser
 					$temp = 'server';
 				}
 
-				$length = strlen($code);
+				$length = mb_strlen($code);
 
 				// Song * Opera tool
 				// Client highlight is very slow for large text,
 				// so, reset highlight to server if current browser
 				// Opera and length of code tag is more than 10 kb.
 
-				if ($temp == 'client' && $length > 10 * 1024 && strpos($sess->user_agent, 'Opera') !== FALSE)
+				if ($temp == 'client' && $length > 10 * 1024 && mb_strpos($sess->user_agent, 'Opera') !== FALSE)
 				{
 					$temp = 'server';
 				}
@@ -387,7 +387,7 @@ class PostParser
 						// (because there is confusing with
 						// russian "C" letter), 03.03.05
 
-						if ($syntax == "1С" or $syntax == "1с")
+						if ($syntax == "1РЎ" or $syntax == "1СЃ")
 						{
 							$syntax = "1C";
 						}
@@ -411,7 +411,7 @@ class PostParser
 
 				$pos    = 0;
 				$match  = array();
-				$length = strlen($code);
+				$length = mb_strlen($code);
 
 				while ($pos < $length)
 				{
@@ -439,38 +439,38 @@ class PostParser
 
 								$txt = $rule->tags[$n] . str_replace("\n", $rule->tags[($n + 1) % 10] . "**[*]**" . $rule->tags[$n], $txt) . $rule->tags[($n + 1) % 10];
 
-								// пустой текст не надо подсвечивать
+								// РїСѓСЃС‚РѕР№ С‚РµРєСЃС‚ РЅРµ РЅР°РґРѕ РїРѕРґСЃРІРµС‡РёРІР°С‚СЊ
 								$view .= str_replace($rule->tags[$n] . $rule->tags[($n + 1) % 10], '', $txt);
 
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 
 							if ($rule->actions[$n] == 'none')
 							{
 								$view .= $rule->tags[$n] . $rule->tags[($n + 1) % 10];
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 
 							if ($rule->actions[$n] == 'value')
 							{
 								$view .= $match[$n];
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 
 							if ($rule->actions[$n] == 'count')
 							{
-								$l += strlen($match[$n]);
+								$l += mb_strlen($match[$n]);
 							}
 						}
 
 						$pos += $l;
-						$code = substr($code, $l);
+						$code = mb_substr($code, $l);
 					} else
 					{
 						$view .= $this->syntax_code_to_view($code[0]);
 
 						$pos++;
-						$code = substr($code, 1);
+						$code = mb_substr($code, 1);
 					}
 				}
 
@@ -570,18 +570,18 @@ class PostParser
 
 	}
 
-	//суть функции в том, чтобы при парсинге узнать соответствие открытых и закрытых тегов (с учетом их порядка)
-	//чтобы потом решить - что с ними делать.
+	//СЃСѓС‚СЊ С„СѓРЅРєС†РёРё РІ С‚РѕРј, С‡С‚РѕР±С‹ РїСЂРё РїР°СЂСЃРёРЅРіРµ СѓР·РЅР°С‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РѕС‚РєСЂС‹С‚С‹С… Рё Р·Р°РєСЂС‹С‚С‹С… С‚РµРіРѕРІ (СЃ СѓС‡РµС‚РѕРј РёС… РїРѕСЂСЏРґРєР°)
+	//С‡С‚РѕР±С‹ РїРѕС‚РѕРј СЂРµС€РёС‚СЊ - С‡С‚Рѕ СЃ РЅРёРјРё РґРµР»Р°С‚СЊ.
 	//
-	//Результаты работы функии (после обработки последнего [/spoiler] в посте):
-	//quote_open - количество [spoiler] оставшиеся без пары
-	//quote_error - количество [/spoiler] без пары
-	//все закрывающие [/spoiler] без пары останутся необработанными, однако открывающие теги будут обработаны!!!
-	//за исключением тех, которые находятся дальше последнего [/spoiler], ибо они сюда даже не попадут
+	//Р РµР·СѓР»СЊС‚Р°С‚С‹ СЂР°Р±РѕС‚С‹ С„СѓРЅРєРёРё (РїРѕСЃР»Рµ РѕР±СЂР°Р±РѕС‚РєРё РїРѕСЃР»РµРґРЅРµРіРѕ [/spoiler] РІ РїРѕСЃС‚Рµ):
+	//quote_open - РєРѕР»РёС‡РµСЃС‚РІРѕ [spoiler] РѕСЃС‚Р°РІС€РёРµСЃСЏ Р±РµР· РїР°СЂС‹
+	//quote_error - РєРѕР»РёС‡РµСЃС‚РІРѕ [/spoiler] Р±РµР· РїР°СЂС‹
+	//РІСЃРµ Р·Р°РєСЂС‹РІР°СЋС‰РёРµ [/spoiler] Р±РµР· РїР°СЂС‹ РѕСЃС‚Р°РЅСѓС‚СЃСЏ РЅРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅС‹РјРё, РѕРґРЅР°РєРѕ РѕС‚РєСЂС‹РІР°СЋС‰РёРµ С‚РµРіРё Р±СѓРґСѓС‚ РѕР±СЂР°Р±РѕС‚Р°РЅС‹!!!
+	//Р·Р° РёСЃРєР»СЋС‡РµРЅРёРµРј С‚РµС…, РєРѕС‚РѕСЂС‹Рµ РЅР°С…РѕРґСЏС‚СЃСЏ РґР°Р»СЊС€Рµ РїРѕСЃР»РµРґРЅРµРіРѕ [/spoiler], РёР±Рѕ РѕРЅРё СЃСЋРґР° РґР°Р¶Рµ РЅРµ РїРѕРїР°РґСѓС‚
 	private function convert_spoiler($matches)
 	{
 		global $ibforums;
-		//Проверка matches[4] здесь - выяснение, сработало вхождение [spoiler] или [/spoiler].
+		//РџСЂРѕРІРµСЂРєР° matches[4] Р·РґРµСЃСЊ - РІС‹СЏСЃРЅРµРЅРёРµ, СЃСЂР°Р±РѕС‚Р°Р»Рѕ РІС…РѕР¶РґРµРЅРёРµ [spoiler] РёР»Рё [/spoiler].
 		if (!$matches[4])
 		{
 			// Starting Tag
@@ -626,9 +626,9 @@ class PostParser
 
 		if ($this->quote_open || $this->quote_error)
 		{
-			//Можно просто закрыть все оставшиеся теги спойлера
+			//РњРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ Р·Р°РєСЂС‹С‚СЊ РІСЃРµ РѕСЃС‚Р°РІС€РёРµСЃСЏ С‚РµРіРё СЃРїРѕР№Р»РµСЂР°
 			//$txt .= str_repeat('</div></div>', $this->quote_open);
-			//а можно ещё проще вернуть всё фсад
+			//Р° РјРѕР¶РЅРѕ РµС‰С‘ РїСЂРѕС‰Рµ РІРµСЂРЅСѓС‚СЊ РІСЃС‘ С„СЃР°Рґ
 			$txt = $the_txt;
 		}
 
@@ -649,22 +649,22 @@ class PostParser
 
 	function smilie_length_sort($a, $b)
 	{
-		if (strlen($a['typed']) == strlen($b['typed']))
+		if (mb_strlen($a['typed']) == mb_strlen($b['typed']))
 		{
 			return 0;
 		}
-		return (strlen($a['typed']) > strlen($b['typed']))
+		return (mb_strlen($a['typed']) > mb_strlen($b['typed']))
 			? -1
 			: 1;
 	}
 
 	function word_length_sort($a, $b)
 	{
-		if (strlen($a['type']) == strlen($b['type']))
+		if (mb_strlen($a['type']) == mb_strlen($b['type']))
 		{
 			return 0;
 		}
-		return (strlen($a['type']) > strlen($b['type']))
+		return (mb_strlen($a['type']) > mb_strlen($b['type']))
 			? -1
 			: 1;
 	}
@@ -796,7 +796,7 @@ class PostParser
 		 * $matches[1] = { 'p' | '' }
 		 * $matches[2] = <id>
 		 * $matches[3] = options
-		 * $matches[4] = <текст>
+		 * $matches[4] = <С‚РµРєСЃС‚>
 		 */
 
 		list(, $p, $id, $opt_string, $text) = $matches;
@@ -1087,7 +1087,7 @@ class PostParser
 		// Song * do not parse message if "[" is absent in it's body,
 		// but parse smiles
 
-		if (strpos($txt, "[") === FALSE)
+		if (mb_strpos($txt, "[") === FALSE)
 		{
 			//--------------------------------------
 			// Auto parse URLs
@@ -1262,8 +1262,8 @@ class PostParser
 		// Swop \n back to <br>
 		//negram	$txt = preg_replace( "/\n/", "<br>", $txt );
 		/*
-	 * очистить от переносов строки внутри структуры таблиц
-	 * чтоб не получилось такого:
+	 * РѕС‡РёСЃС‚РёС‚СЊ РѕС‚ РїРµСЂРµРЅРѕСЃРѕРІ СЃС‚СЂРѕРєРё РІРЅСѓС‚СЂРё СЃС‚СЂСѓРєС‚СѓСЂС‹ С‚Р°Р±Р»РёС†
+	 * С‡С‚РѕР± РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ С‚Р°РєРѕРіРѕ:
 	 * <table><br>
 	 * <tr><br><td></td>
 	 * </tr>
@@ -1543,7 +1543,7 @@ class PostParser
 	function regex_mod_tag_convert($the_tag, $txt)
 	{
 
-		$the_tag = strtoupper($the_tag);
+		$the_tag = mb_strtoupper($the_tag);
 		return "[" . $the_tag . "]" . $txt . "[/" . $the_tag . "]";
 	}
 
@@ -1575,8 +1575,8 @@ class PostParser
 		$txt = preg_replace("#\[st\s*=\s*(\S+?)\s*\](.*?)\[\/st\]#ie", "\$this->regex_word_search('\\2','sf','title','\\1')", $txt);
 
 		// tags for moderators
-		$txt = preg_replace("/(\.[Пп]равил(а){0,1}(, п.\d+)*)/e", "\$this->wordreplacer('\\1','boardrules')", $txt);
-		$txt = preg_replace("/(\.[Пп]оиск[а-я]{0,})/e", "\$this->wordreplacer('\\1','Search')", $txt);
+		$txt = preg_replace("/(\.[РџРї]СЂР°РІРёР»(Р°){0,1}(, Рї.\d+)*)/e", "\$this->wordreplacer('\\1','boardrules')", $txt);
+		$txt = preg_replace("/(\.[РџРї]РѕРёСЃРє[Р°-СЏ]{0,})/e", "\$this->wordreplacer('\\1','Search')", $txt);
 		$txt = preg_replace("/(\.FAQ{0,})/e", "\$this->wordreplacer('\\1','faq',$fid)", $txt);
 
 		// user tag
@@ -1605,10 +1605,10 @@ class PostParser
 
 		if ($type == "sf")
 		{
-			$link = "ПОИСК: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&f={$fid}&keywords={$word_url}]{$word}[/URL]";
+			$link = "РџРћРРЎРљ: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&f={$fid}&keywords={$word_url}]{$word}[/URL]";
 		} else
 		{
-			$link = "ПОИСК: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&keywords={$word_url}]{$word}[/URL]";
+			$link = "РџРћРРЎРљ: [URL={$ibforums->base_url}act=Search&CODE={$search_in}&keywords={$word_url}]{$word}[/URL]";
 		}
 
 		return $link;
@@ -1624,7 +1624,7 @@ class PostParser
 			return "";
 		}
 
-		$stmt = $ibforums->db->query("SELECT id FROM ibf_members WHERE LOWER(name)='" . strtolower(addslashes(trim($user_name))) . "'");
+		$stmt = $ibforums->db->query("SELECT id FROM ibf_members WHERE LOWER(name)='" . mb_strtolower(addslashes(trim($user_name))) . "'");
 		if (!$stmt->rowCount())
 		{
 			return $user_name;
@@ -2096,7 +2096,7 @@ class PostParser
 
 		$possible_use = array(
 			'CODE'  => array('CODE', ''),
-			'QUOTE' => array('QUOTE', 'Цитата'),
+			'QUOTE' => array('QUOTE', 'Р¦РёС‚Р°С‚Р°'),
 			'SQL'   => array('CODE', 'SQL'),
 			'HTML'  => array('CODE', 'HTML'),
 			'PHP'   => array('CODE', 'PHP')
@@ -2137,7 +2137,7 @@ class PostParser
 
 			if (!$ibforums->member['id'])
 			{
-				$extra .= " title='Подсветка синтаксиса доступна зарегистрированным участникам Форума.'";
+				$extra .= " title='РџРѕРґСЃРІРµС‚РєР° СЃРёРЅС‚Р°РєСЃРёСЃР° РґРѕСЃС‚СѓРїРЅР° Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рј СѓС‡Р°СЃС‚РЅРёРєР°Рј Р¤РѕСЂСѓРјР°.'";
 				$class = " code_collapsed ";
 			} else
 			{
@@ -2218,7 +2218,7 @@ class PostParser
 		}
 
 		return array(
-			'START' => "<div class='{$pre_div_class}'>{$label}<div class='" . strtolower($possible_use[$in['STYLE']][0]) . " $class'{$extra}>",
+			'START' => "<div class='{$pre_div_class}'>{$label}<div class='" . mb_strtolower($possible_use[$in['STYLE']][0]) . " $class'{$extra}>",
 			'END'   => "</div></div>"
 		);
 	}
@@ -2386,7 +2386,7 @@ class PostParser
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
 
-		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid blue;'><TD align=middle bgColor=#6060ff valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em' ><B>М</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
+		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid blue;'><TD align=middle bgColor=#6060ff valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em' ><B>Рњ</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
 
 		return $html;
 	}
@@ -2552,7 +2552,7 @@ class PostParser
 			// with point - old format of date
 			// without point - new format of date in UNIX time
 
-			if (strpos($date, ".") === FALSE)
+			if (mb_strpos($date, ".") === FALSE)
 			{
 				$date = ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
 					? $std->old_get_date($date)
@@ -2661,7 +2661,7 @@ class PostParser
 		{
 			$extension = preg_replace("#^.*\.(\S+)$#", "\\1", $url);
 
-			$extension = strtolower($extension);
+			$extension = mb_strtolower($extension);
 
 			if ((!$extension) OR (preg_match("#/#", $extension)))
 			{
@@ -2669,7 +2669,7 @@ class PostParser
 				return $default;
 			}
 
-			$ibforums->vars['img_ext'] = strtolower($ibforums->vars['img_ext']);
+			$ibforums->vars['img_ext'] = mb_strtolower($ibforums->vars['img_ext']);
 
 			if (!preg_match("/" . preg_quote($extension, '/') . "(\||$)/", $ibforums->vars['img_ext']))
 			{
@@ -2786,8 +2786,8 @@ class PostParser
 		if(preg_match('/&#\d+;|&quot;|&lt;|&gt;/', $url['html'], $matches, PREG_OFFSET_CAPTURE))
 		{
 			$pos = $matches[0][1];
-			$url['end'] = substr($url['html'], $pos) . $url['end'];
-			$url['html'] = substr($url['html'], 0, $pos);
+			$url['end'] = mb_substr($url['html'], $pos) . $url['end'];
+			$url['html'] = mb_substr($url['html'], 0, $pos);
 		}
 		if (!trim($url['show']))
 		{
@@ -2838,7 +2838,7 @@ class PostParser
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
 
-		if ((strlen($url['show']) - 58) < 3)
+		if ((mb_strlen($url['show']) - 58) < 3)
 		{
 			$skip_it = 1;
 		}
@@ -2857,7 +2857,7 @@ class PostParser
 			$stripped = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\2", $url['show']);
 			$uri_type = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\1", $url['show']);
 
-			$show = $uri_type . '://' . substr($stripped, 0, 35) . '...' . substr($stripped, -15);
+			$show = $uri_type . '://' . mb_substr($stripped, 0, 35) . '...' . mb_substr($stripped, -15);
 		}
 
 		return $url['st'] . "<a href='" . $url['html'] . "' target='_blank'>&shy;" . $show . "</a>" . $url['end'];
@@ -2954,7 +2954,7 @@ class PostParser
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
 
-		if ((strlen($url['show']) - 58) < 3)
+		if ((mb_strlen($url['show']) - 58) < 3)
 		{
 			$skip_it = 1;
 		}
@@ -2980,7 +2980,7 @@ class PostParser
 
 				if (preg_match("~p=(\d+)~", $show, $find))
 				{
-					$record['title'] = $record['title'] . " (сообщение #" . $find[1] . ")";
+					$record['title'] = $record['title'] . " (СЃРѕРѕР±С‰РµРЅРёРµ #" . $find[1] . ")";
 				}
 
 				$show = $record['title'];
@@ -3008,7 +3008,7 @@ class PostParser
 				$stripped = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\2", $url['show']);
 				$uri_type = preg_replace("#^(http|ftp|https|news)://(\S+)$#i", "\\1", $url['show']);
 
-				$show = $uri_type . '://' . substr($stripped, 0, 35) . '...' . substr($stripped, -15);
+				$show = $uri_type . '://' . mb_substr($stripped, 0, 35) . '...' . mb_substr($stripped, -15);
 			}
 		}
 
@@ -3065,7 +3065,7 @@ class PostParser
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
 
-		if ((strlen($url['show']) - 58) < 3)
+		if ((mb_strlen($url['show']) - 58) < 3)
 		{
 			$skip_it = 1;
 		}
@@ -3091,7 +3091,7 @@ class PostParser
 				{
 					if (preg_match("~p=(\d+)~", $show, $find))
 					{
-						$record['title'] = $record['title'] . " (сообщение #" . $find[1] . ")";
+						$record['title'] = $record['title'] . " (СЃРѕРѕР±С‰РµРЅРёРµ #" . $find[1] . ")";
 					}
 
 					$show = $record['title'];

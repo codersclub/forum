@@ -54,13 +54,13 @@ class item
 			if ($row = $stmt->fetch())
 			{
 
-				$txt = 'Ó÷àñòíèê [url=' . $ibforums->base_url . 'showuser=' . $ibforums->member['id'] . ']' . $ibforums->member['name'] . '[/url] êóïèë âåùü "' . $row['item_desc'] . '". Ñåêðåòíûé êîä 1707.';
+				$txt = 'Ð£Ñ‡Ð°ÑÑ‚Ð½Ð¸Ðº [url=' . $ibforums->base_url . 'showuser=' . $ibforums->member['id'] . ']' . $ibforums->member['name'] . '[/url] ÐºÑƒÐ¿Ð¸Ð» Ð²ÐµÑ‰ÑŒ "' . $row['item_desc'] . '". Ð¡ÐµÐºÑ€ÐµÑ‚Ð½Ñ‹Ð¹ ÐºÐ¾Ð´ 1707.';
 
 				$data = [
 					'member_id'    => $ibforums->member['id'],
 					'msg_date'     => time(),
 					'read_state'   => '0',
-					'title'        => "Ïîêóïêà âåùè",
+					'title'        => "ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ð²ÐµÑ‰Ð¸",
 					'message'      => $std->remove_tags($txt),
 					'from_id'      => $ibforums->member['id'],
 					'vid'          => 'in',
@@ -80,7 +80,7 @@ class item
 				$email->build_message(array(
 				                           'NAME'   => "Vot",
 				                           'POSTER' => $ibforums->member['name'],
-				                           'TITLE'  => "Ïîêóïêà âåùè",
+				                           'TITLE'  => "ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ð²ÐµÑ‰Ð¸",
 				                           'LINK'   => "?act=Msg&CODE=03&VID=in&MSID=$new_id",
 				                      ));
 
@@ -92,7 +92,7 @@ class item
 					'member_id'    => $ibforums->member['id'],
 					'msg_date'     => time(),
 					'read_state'   => '0',
-					'title'        => "Ïîêóïêà âåùè",
+					'title'        => "ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ð²ÐµÑ‰Ð¸",
 					'message'      => $std->remove_tags($txt),
 					'from_id'      => $ibforums->member['id'],
 					'vid'          => 'in',
@@ -112,7 +112,7 @@ class item
 				$email->build_message(array(
 				                           'NAME'   => "Song",
 				                           'POSTER' => $ibforums->member['name'],
-				                           'TITLE'  => "Ïîêóïêà âåùè",
+				                           'TITLE'  => "ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ð²ÐµÑ‰Ð¸",
 				                           'LINK'   => "?act=Msg&CODE=03&VID=in&MSID=$new_id",
 				                      ));
 
@@ -124,7 +124,7 @@ class item
 
 		}
 
-		$lib->write_log('Ó÷àñòíèê ' . $ibforums->member['name'] . ' êóïèë âåùü "' . $row['item_desc'] . '"', 'item');
+		$lib->write_log('Ð£Ñ‡Ð°ÑÑ‚Ð½Ð¸Ðº ' . $ibforums->member['name'] . ' ÐºÑƒÐ¿Ð¸Ð» Ð²ÐµÑ‰ÑŒ "' . $row['item_desc'] . '"', 'item');
 		$lib->delete_item($ibforums->input['itemid']);
 		$lib->redirect('', 'act=store&code=inventory', '1');
 		return "";
