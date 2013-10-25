@@ -1,22 +1,24 @@
 /*
 	video.js
 
-	@name			Патч для forum.sources.ru
-	@description		Автоматически конвертирует ссылки на видео
-	@author			Иваныч, http://forum.sources.ru/index.php?showuser=10034
-	@author			Minin 'Jureth' Yuri
-	@version		2.1.0 / 13.06.2013
+	@name			РџР°С‚С‡ РґР»СЏ forum.sources.ru
+	@description		РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё РєРѕРЅРІРµСЂС‚РёСЂСѓРµС‚ СЃСЃС‹Р»РєРё РЅР° РІРёРґРµРѕ
+	@author			РРІР°РЅС‹С‡, http://forum.sources.ru/index.php?showuser=10034
+	@author			Yuri 'Jureth' Minin
+	@version		2.1.1 / 25.10.2013
 */
 
 /*
-	версия			описание
+	РІРµСЂСЃРёСЏ			РѕРїРёСЃР°РЅРёРµ
 
-	1.0.0			первая версия скрипта
-	1.0.1			добавлены шаблоны для rutube.ru
+	1.0.0			РїРµСЂРІР°СЏ РІРµСЂСЃРёСЏ СЃРєСЂРёРїС‚Р°
+	1.0.1			РґРѕР±Р°РІР»РµРЅС‹ С€Р°Р±Р»РѕРЅС‹ РґР»СЏ rutube.ru
 	1.0.2			Internet Explorer 6.0 fix
 
-	2.0.0			скрипт переписан с использованием библиотеки SWFObject
-	2.1.0			добавлены шаблоны для twitch/justin.tv, частичный рефакторинг
+	2.0.0			СЃРєСЂРёРїС‚ РїРµСЂРµРїРёСЃР°РЅ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Р±РёР±Р»РёРѕС‚РµРєРё SWFObject
+	2.1.0			РґРѕР±Р°РІР»РµРЅС‹ С€Р°Р±Р»РѕРЅС‹ РґР»СЏ twitch/justin.tv, С‡Р°СЃС‚РёС‡РЅС‹Р№ СЂРµС„Р°РєС‚РѕСЂРёРЅРі
+	2.1.1			РґРѕР±Р°РІР»РµРЅР° С‚Р°РєРё РїРѕРґРґРµСЂР¶РєР° Justin.tv, РґРѕР±Р°РІР»РµРЅР° РїРѕРґРґРµСЂР¶РєР° iframe РґР»СЏ rutube
+					С€Р°Р±Р»РѕРЅ РґР»СЏ youtube СЃРјРµРЅС‘РЅ РЅР° iframe (СЃРѕРјРЅРёС‚РµР»СЊРЅРѕ С‡С‚Рѕ Р±СѓРґРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ РЅР° IE7)
 */
 
 /*
@@ -28,7 +30,7 @@ var swfobject=function(){var b="undefined",Q="object",n="Shockwave Flash",p="Sho
 
 var __DEBUG = false;
 
-// стиль элемента в котором будет размещен flash-плеер
+// СЃС‚РёР»СЊ СЌР»РµРјРµРЅС‚Р° РІ РєРѕС‚РѕСЂРѕРј Р±СѓРґРµС‚ СЂР°Р·РјРµС‰РµРЅ flash-РїР»РµРµСЂ
 var styleFlashPlayerBox = 'margin-top:3px; margin-bottom:3px;';
 
 var basePlayer = 
@@ -82,17 +84,19 @@ arVideoPlayers.add('youtube', function()
 	this._player = function(url)
 	{
 		this.url = this.filterUrl(url);
-		id = /[\?&]v\=(.*)?/.exec(this.url)[1];
-		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.url);
-		this.flashvars =
-		{
-			allowScriptAccess : 'always',
-			allowFullScreen   : 'true',
-			width             : this.width,
-			height : this.height,
-			flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
-		};
-		this.playerUrl = 'http://www.youtube.com/v/%VIDEOID%'.replace(/%VIDEOID%/, id) + '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999';
+        this.customEmbed = function(container)
+        {
+            time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.url);
+		    id = /[\?&]v\=([a-z0-9\-_]+)?/i.exec(this.url)[1];
+            strtime = (time) ?  '&start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : '';
+            $('<iframe></iframe>')
+                .attr('width', this.width)
+                .attr('height', this.height)
+                .attr('src', '//youtube.com/embed/'+ id + '?fs=1&rel=0&showinfo=0&theme=light' + strtime)
+                .attr('frameborder', '0')
+                .attr('allowfullscreen', '')
+                .appendTo(container);
+        }
 	};
 });
 
@@ -103,21 +107,68 @@ arVideoPlayers.add('youtube_short', function()
 	this._player = function(url)
 	{
 		this.url = this.filterUrl(url);
-		id = /youtu.be\/([^\/\?]+)/i.exec(this.url)[1];
-		time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.url);
-		this.flashvars =
-		{
-			allowScriptAccess : 'always',
-			allowFullScreen : 'true',
-			width : this.width,
-			height : this.height,
-			flashvars : (time) ?  'start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : null,
-		};
-		this.playerUrl = 'http://www.youtube.com/v/%VIDEOID%'.replace(/%VIDEOID%/, id) + '&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999';
+        this.customEmbed = function(container)
+        {
+            time = /[\?#&]t\=((\d+)m)?((\d+)s)/.exec(this.url);
+		    id = /youtu.be\/([^\/\?]+)/i.exec(this.url)[1];
+            strtime = (time) ?  '&start=' + ((isNaN(time[2]) ? 0 : parseInt(time[2])) * 60 + (isNaN(time[4]) ? 0 : parseInt(time[4]))) : '';
+            $('<iframe></iframe>')
+                .attr('width', this.width)
+                .attr('height', this.height)
+                .attr('src', '//youtube.com/embed/'+ id + '?fs=1&rel=0&showinfo=0&theme=light' + strtime)
+                .attr('frameborder', '0')
+                .attr('allowfullscreen', '')
+                .appendTo(container);
+        }
 	}
 });
 
-////Twitch|Justin.tv
+////Justin.tv
+arVideoPlayers.add('justin_past_broadcasts', function()
+{
+	this.urlRegexp = /justin\.tv\/[a-z0-9_]+\/b\/\d+/i
+	this._player = function (url)
+	{
+		this.url = this.filterUrl(url);
+		ids = /([a-z0-9_]+)\/b\/(\d+)/i.exec(this.url);
+		tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&archive_id=%ID%';
+		this.flashvars =
+		{
+			movie : 'http://www-cdn.justin.tv/widgets/archive_embed_player.swf',
+			allowScriptAccess : 'always',
+			allowNetworking : 'all',
+			allowFullScreen : 'true',
+			flashvars : tpl.replace('%ID%', ids[2]).replace('%CHANNEL%', ids[1]),
+		};
+		this.playerUrl = 'http://www-cdn.justin.tv/widgets/archive_embed_player.swf';
+		this.width = '620';
+		this.height = '378';
+	}
+});
+
+arVideoPlayers.add('justin_highlights', function()
+{
+	this.urlRegexp = /justin\.tv\/[a-z0-9_]+\/c\/\d+/i
+	this._player = function (url)
+	{
+		this.url = this.filterUrl(url);
+		ids = /([a-z0-9_]+)\/c\/(\d+)/i.exec(this.url);
+		tpl = 'auto_play=false&channel=%CHANNEL%&start_volume=25&chapter_id=%ID%';
+		this.flashvars =
+		{
+			movie : 'http://www-cdn.justin.tv/widgets/archive_embed_player.swf',
+			allowScriptAccess : 'always',
+			allowNetworking : 'all',
+			allowFullScreen : 'true',
+			flashvars : tpl.replace('%ID%', ids[2]).replace('%CHANNEL%', ids[1]),
+		};
+		this.playerUrl = 'http://www-cdn.justin.tv/widgets/archive_embed_player.swf';
+		this.width = '620';
+		this.height = '378';
+	}
+});
+
+////Twitch.tv
 arVideoPlayers.add('twitch_past_broadcasts', function()
 {
 	this.urlRegexp = /twitch\.tv\/[a-z0-9_]+\/b\/\d+/i
@@ -227,7 +278,29 @@ arVideoPlayers.add('rutube2', function()
 		this.height = '353';
 	}
 });
-delete arVideoPlayers['add'];//заметаем следы
+//Rutube Iframe
+arVideoPlayers.add('rutube3', function()
+{
+    this.urlRegexp = /rutube\.ru\/video\/\w+/i
+    this._player = function (url)
+    {
+        this.url = this.filterUrl(url);
+        this.customEmbed = function(container)
+        {
+            id = /rutube\.ru\/video\/(\w+)/i.exec(this.url)[1];
+            $('<iframe>')
+                .attr('width', this.width)
+                .attr('height', this.height)
+                .attr('src', 'http://rutube.ru/video/embed/' + id)
+                .attr('frameborder', 0)
+                .attr('allowfullscreen', '')
+                .attr('mozallowfullscreen', '')
+                .attr('webkitallowfullscreen', '')
+                .appendTo(container);
+        }
+    }
+});
+delete arVideoPlayers['add'];//Р·Р°РјРµС‚Р°РµРј СЃР»РµРґС‹
 
 // IE hack
 if ( typeof document.getElementsByClassName == 'undefined' )
@@ -246,7 +319,7 @@ if ( typeof document.getElementsByClassName == 'undefined' )
 					objElements[count++] = e;
 			}
 		}
-		catch(ex) { if (__DEBUG) alert('Ошибка:\n\n' + ex); }
+		catch(ex) { if (__DEBUG) alert('РћС€РёР±РєР°:\n\n' + ex); }
 		return objElements;
 	};
 }
@@ -266,20 +339,23 @@ function writeFlashPlayer(el, player)
 		var divPlayer = document.createElement('DIV');
 		divPlayer.id = playerID;
 		divBox.appendChild(divPlayer);
-
-		var embed = player.embedvars;
-		embed.id = playerID;
-		swfobject.embedSWF(player.playerUrl, playerID, player.width, player.height, '8', null, null, player.flashvars, embed);
-		el.title = 'Открыть в новом окне';
+        if (player.customEmbed != undefined) {
+            player.customEmbed(divPlayer);
+        } else {
+		    var embed = player.embedvars;
+		    embed.id = playerID;
+		    swfobject.embedSWF(player.playerUrl, playerID, player.width, player.height, '8', null, null, player.flashvars, embed);
+        }
+		el.title = 'РћС‚РєСЂС‹С‚СЊ РІ РЅРѕРІРѕРј РѕРєРЅРµ';
 	}
-	catch(ex) { if (__DEBUG) alert('Ошибка:\n\n' + ex); }
+	catch(ex) { if (__DEBUG) alert('РћС€РёР±РєР°:\n\n' + ex); }
 }
 
 function parseLinks()
 {
 	try
 	{
-		var objList = (document.getElementsByClassName('tableborder')[0]).getElementsByTagName('A');  // массив ссылок
+		var objList = (document.getElementsByClassName('tableborder')[0]).getElementsByTagName('A');  // РјР°СЃСЃРёРІ СЃСЃС‹Р»РѕРє
 		for (var i=0, e; e=objList[i]; i++)
 		{
 			for (var j in arVideoPlayers)
@@ -292,7 +368,7 @@ function parseLinks()
 			}
 		}
 	}
-	catch(ex) { if (__DEBUG) alert('Ошибка:\n\n' + ex); }
+	catch(ex) { if (__DEBUG) alert('РћС€РёР±РєР°:\n\n' + ex); }
 }
 
 if ( top==self )
