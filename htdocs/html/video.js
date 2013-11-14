@@ -2,10 +2,10 @@
 	video.js
 
 	@name			Патч для forum.sources.ru
-	@description		Автоматически конвертирует ссылки на видео
+	@description	Автоматически конвертирует ссылки на видео
 	@author			Иваныч, http://forum.sources.ru/index.php?showuser=10034
 	@author			Yuri 'Jureth' Minin
-	@version		2.1.1 / 25.10.2013
+	@version		2.2.0 / 14.11.2013
 */
 
 /*
@@ -19,6 +19,7 @@
 	2.1.0			добавлены шаблоны для twitch/justin.tv, частичный рефакторинг
 	2.1.1			добавлена таки поддержка Justin.tv, добавлена поддержка iframe для rutube
 					шаблон для youtube сменён на iframe (сомнительно что будет работать на IE7)
+    2.2.0			Добавлена поддержка vimeo.com
 */
 
 /*
