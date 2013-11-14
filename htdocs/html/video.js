@@ -77,6 +77,29 @@ var arVideoPlayers =
 	}
 };
 
+// Vimeo
+arVideoPlayers.add('vimeo', function()
+{
+    this.urlRegexp = /vimeo\.com\/\d+/;
+    this._player = function(url)
+    {
+        this.url = this.filterUrl(url);
+        this.customEmbed = function(container)
+        {
+            id = /vimeo\.com\/(\d+)/.exec(this.url)[1];
+            $('<iframe></iframe>')
+                .attr('width', this.width)
+                .attr('height', this.height)
+                .attr('src', '//player.vimeo.com/video/' + id + '?title=0&amp;byline=0&amp;portrait=0')
+                .attr('frameborder', '0')
+                .attr('allowfullscreen', '')
+                .attr('weballowfullscreen', '')
+                .attr('mozillaallowfullscreen', '')
+                .appendTo(container);
+        }
+    }
+});
+
 // Youtube
 arVideoPlayers.add('youtube', function()
 {
