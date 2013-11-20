@@ -2,10 +2,10 @@
 	video.js
 
 	@name			Патч для forum.sources.ru
-	@description		Автоматически конвертирует ссылки на видео
+	@description	Автоматически конвертирует ссылки на видео
 	@author			Иваныч, http://forum.sources.ru/index.php?showuser=10034
 	@author			Yuri 'Jureth' Minin
-	@version		2.1.1 / 25.10.2013
+	@version		2.2.0 / 14.11.2013
 */
 
 /*
@@ -19,6 +19,7 @@
 	2.1.0			добавлены шаблоны для twitch/justin.tv, частичный рефакторинг
 	2.1.1			добавлена таки поддержка Justin.tv, добавлена поддержка iframe для rutube
 					шаблон для youtube сменён на iframe (сомнительно что будет работать на IE7)
+    2.2.0			Добавлена поддержка vimeo.com
 */
 
 /*
@@ -76,6 +77,29 @@ var arVideoPlayers =
 		this[name] = new object(); //not Object
 	}
 };
+
+// Vimeo
+arVideoPlayers.add('vimeo', function()
+{
+    this.urlRegexp = /vimeo\.com\/\d+/;
+    this._player = function(url)
+    {
+        this.url = this.filterUrl(url);
+        this.customEmbed = function(container)
+        {
+            id = /vimeo\.com\/(\d+)/.exec(this.url)[1];
+            $('<iframe></iframe>')
+                .attr('width', this.width)
+                .attr('height', this.height)
+                .attr('src', '//player.vimeo.com/video/' + id + '?title=0&amp;byline=0&amp;portrait=0')
+                .attr('frameborder', '0')
+                .attr('allowfullscreen', '')
+                .attr('weballowfullscreen', '')
+                .attr('mozillaallowfullscreen', '')
+                .appendTo(container);
+        }
+    }
+});
 
 // Youtube
 arVideoPlayers.add('youtube', function()
