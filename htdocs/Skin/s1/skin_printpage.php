@@ -7,9 +7,11 @@ class skin_printpage {
 function pp_header($forum_name, $topic_title, $topic_starter,$fid, $tid) {
 global $ibforums;
 return <<<EOF
-    <html>
+<!DOCTYPE html>
     <head>
-      <title>{$topic_title} -> {$ibforums->vars['board_name']} [Powered by Invision Power Board]</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+    <title>{$topic_title} -> {$ibforums->vars['board_name']} [Powered by Invision Power Board]</title>
     </head>
     <body bgcolor='#FFFFFF' alink='#000000' vlink='#000000' link='#000000'>
      <table width='90%' border='0' align='center' cellpadding='6'>
