@@ -1043,9 +1043,9 @@ class session
 	{
 		global $ibforums, $std;
 
-		$topics = $ibforums->db->query("SELECT COUNT(tid) as tcount from ibf_topics WHERE approved=1")->fetch();
+		$topics = $ibforums->db->query("SELECT COUNT(*) as tcount from ibf_topics WHERE approved=1")->fetch();
 
-		$posts = $ibforums->db->query("SELECT COUNT(pid) as pcount from ibf_posts WHERE queued != 1")->fetch();
+		$posts = $ibforums->db->query("SELECT COUNT(*) as pcount from ibf_posts WHERE queued != 1")->fetch();
 
 		$posts = $posts['pcount'] - $topics['tcount'];
 
