@@ -3,7 +3,7 @@
 # BOT.PL
 # Perform Forum Cron Tasks
 # written by Valery Votintsev <admin@sources.ru>
-#            http://www.sources.ru
+# http://www.sources.ru
 # May 03, 2005
 #
 # modified by negram at sources.ru
@@ -70,12 +70,12 @@ $body .= "Start time:  ".timetostr($time)."\n";
 $body .= "Connecting to the DataBase $db_name\.\.\. ";
 
 my $dbh = DBI->connect("DBI:mysql:database=$db_name;
-                   host=$db_host;
-                   port=$db_port",
-                   $db_user,
-                   $db_password,
-                   {'RaiseError'=>1 }
-                 );
+				   host=$db_host;
+				   port=$db_port",
+				   $db_user,
+				   $db_password,
+				   {'RaiseError'=>1 }
+				 );
 
 $body .= "ok\n";
 $body .= "---------------------------------------------------------\n";
@@ -113,14 +113,37 @@ my @task_list = (
 		'SELECT'	=> '',
 		'DELETE'	=> 'DELETE FROM ibf_post_edit_history WHERE edit_time < $age',
 		'DTL'		=> 180
- 	},
+	},
 	{
 		'TITLE'		=> "5. Clear topic drafts without attachments (items older 14 days ):\n",
 		'SELECT'	=> '',
 		'DELETE'	=> 'DELETE FROM ibf_topic_draft WHERE created < $age AND not exists (SELECT * FROM ibf_attachments_link WHERE item_type = \'topic_draft\' AND item_id = ibf_topic_draft.id )',
 		'DTL'		=> 14
- 	}
-
+	},
+	{
+		'TITLE'		=> "6.1 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_m_visitors WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "6.2 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_g_visitors WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "6.3 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_b_visitors WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	},
+	{
+		'TITLE'		=> "6.4 Remove topic visits logs:\n",
+		'SELECT'	=> '',
+		'DELETE'	=> 'DELETE FROM ibf_users_stat WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
+		'DTL'		=> 30
+	}
 #	{
 #		'TITLE'		=> "5 Delete delayed posts:\n",
 #		'SELECT'	=> '',
@@ -151,7 +174,7 @@ foreach my $task (@task_list) {
 	if ($task->{'SELECT'}) {
 		$sql = $task->{'SELECT'};
 		$sql =~ s/\$age/$age/;
-        
+
 		$request = $dbh->prepare($sql);
 		$request->execute();
 		while (my @row = $request->fetchrow_array() ) {
@@ -221,9 +244,9 @@ exit;
 sub PressAnyKey {
   my $title = shift;
   if ($title) {
-  	print "\* $title"
+	print "\* $title"
   } else {
-  	print "* Press Enter: "
+	print "* Press Enter: "
   }
   my $tmp = <>;
 }
