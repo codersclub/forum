@@ -81,7 +81,7 @@ option.sub { font-weight: bold; color: #555 }
 .unreg { font-size: 11px; font-weight: bold; color: #900 }
 .post1 { background-color: #F5F9FD }
 .post2 { background-color: #EEF2F7 }
-.postlinksbar { background-color: #D1DCEB; padding: 7px; margin-top: 1px; font-size: 10px; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif) }
+.topic-links { background-color: #D1DCEB; padding: 7px; margin-top: 1px; font-size: 10px; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif); text-align: right; font-weight: bold; }
 .row1 { background-color: #F5F9FD }
 .row2 { background-color: #DFE6EF }
 .row3 { background-color: #EEF2F7 }
@@ -174,4 +174,26 @@ span.attach_preview img {
 }
 span.attach_preview p img {
 	border: 0px;
+}
+div.rules-wrapper {
+    text-align: left;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#GlobalMessage {
+	border: 1px solid #BCD0ED;
+	background-color: #DFE6EF;
+	font-size: 10px;
+	margin: 3px 0px 3px 0px;
+	color: #3A4F6C;
+	font-weight: bold;
+}
+#GlobalMessage a:link,
+#GlobalMessage  a:visited,
+#GlobalMessage a:active {
+	font-weight: bold;
+	font-size: 10px;
+	text-decoration: none;
+	color: #3A4F6C;
 }

@@ -77,8 +77,8 @@ px; margin: 0px }
 .pformright { background-color: #E9E7E2; padding: 6px; margin-top: 1px; border-top: 1px solid #C2CFDF }
 .post1 { background-color: #E2DFD8 }
 .post2 { background-color: #E9E7E2 }
-.postlinksbar { background-color: #E2DFD8; padding: 7px; margin-top: 1px; font-size: 10px; background-image: url(
-http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif) }
+.topic-links { background-color: #E2DFD8; padding: 7px; margin-top: 1px; font-size: 10px; background-image: url(
+http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align: right; font-weight: bold; }
 .row1 { background-color: #E9E7E2 }
 .row2 { background-color: #E2DFD8 }
 .row3 { background-color: #F0EDE8 /*#EEF2F7*/ }
@@ -186,4 +186,20 @@ span.attach_preview img {
 }
 span.attach_preview p img {
 	border: 0px;
+}
+#GlobalMessage {
+	border: 1px solid #AAB7C8;
+	background-color: #BBC9DB;
+	font-size: 10px;
+	margin: 3px 0px 3px 0px;
+	color: #3A4F6C;
+	font-weight: bold;
+}
+#GlobalMessage a:link,
+#GlobalMessage  a:visited,
+#GlobalMessage a:active {
+	font-weight: bold;
+	font-size: 10px;
+	text-decoration: none;
+	color: #3A4F6C;
 }

@@ -646,7 +646,6 @@ class Forums
 	// Show the forum rules on a separate page
 	//
 	//+----------------------------------------------------------------
-
 	function show_rules()
 	{
 		global $print, $skin_universal;
@@ -685,15 +684,14 @@ class Forums
 
 			$rules['body'] = str_replace(";&lt;br&gt;", "<br>", $rules['body']);
 
-			if ($this->forum['red_border'])
+			if ( $this->forum['red_border'] )
 			{
-				$rules['body'] .= "</td></tr></table>";
-				$rules['body'] = "<table bgColor=#ffffff style='border:2px solid red;'><tr><td>" . $rules['body'];
+				$rules['body'] = "<div class='rules-border'>" . $rules['body'] . '</div>';
 			}
 
 			$this->output .= $this->html->show_rules($rules);
 
-			$print->add_output("$this->output");
+			$print->add_output($this->output);
 
 			$print->do_output(array(
 			                       'TITLE' => $ibforums->vars['board_name'] . " -&gt; " . $this->forum['name'],

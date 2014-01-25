@@ -1345,8 +1345,7 @@ class functions
 
 				if ($forum['red_border'] and $forum['show_rules'] == 2)
 				{
-					$rules['body'] .= "</td></tr></table>";
-					$rules['body'] = "<table {$ibforums->skin['white_background']} style='border:2px solid red;'><tr><td>" . $rules['body'];
+					$rules['body'] = "<div class='rules-border'>" . $rules['body'] . '</div>';
 				}
 
 				$rules['fid'] = $forum['id'];

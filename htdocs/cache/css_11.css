@@ -109,9 +109,9 @@ option.sub { color: #555; font-weight: bold }
 .errtd { border: solid 1px #c0c000; border-top: none; padding: 7px }
 .post1 { background-color: #754c24; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif') }
 .post2 { background-color: #7a5a21; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback2.gif') }
-.postlinksbar { background-color: #c0c000; color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/gback.gif'); font-size: 10px; margin-top: 0px; padding: 7px; border-left: solid 1px #c0c000; border-right: solid 1px #c0c000 }
-.postlinksbar A:link, .postlinksbar A:visited { color: #754c24; text-decoration: none }
-.postlinksbar A:hover { text-decoration: underline }
+.topic-links { background-color: #c0c000; color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/gback.gif'); font-size: 10px; margin-top: 0px; padding: 7px; border-left: solid 1px #c0c000; border-right: solid 1px #c0c000; text-align: right; font-weight: bold; }
+.topic-links A:link, .topic-links A:visited { color: #754c24; text-decoration: none }
+.topic-links A:hover { text-decoration: underline }
 .row1 { background-color: #8c6239; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif') }
 .row2, .errtd { background-color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif'); color: #ffffc0 }
 .row3 { background-color: #9b8612; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif'); color: #ffffc0 }
@@ -213,4 +213,32 @@ span.attach_preview p img {
 }
 .donate td.donate_text {
 	color: #ffffc0;
+}
+div.rules-wrapper {
+    MARGIN-LEFT: auto;
+    MARGIN-RIGHT: auto;
+    TEXT-ALIGN: left;
+    WIDTH: 95%;
+}
+#GlobalMessage {
+    background-color: #9a8612;
+	border: solid 1px #c0c000;
+	color: #ffffc0;
+	font-size: 10px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif');
+}
+#GlobalMessage A:link {
+    color: #ffffc0;
+	font-size: 10px;
+	font-weight: bold;
+	text-decoration: none;
+}
+#GlobalMessage A:visited {
+    color: #ffffc0
+}
+#GlobalMessage A:hover {
+    text-decoration: underline;
 }
