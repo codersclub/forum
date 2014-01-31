@@ -1464,7 +1464,7 @@ class Topics
 
 		if ($stmt->rowCount())
 		{
-			$links = $ibforums->lang['attached_links'] . "<ul style='margin-top:0; margin-bottom:0'>";
+			$links = $ibforums->lang['attached_links'] . "<ul class='topic-attached-links-list'>";
 
 			while ($r = $stmt->fetch())
 			{
@@ -1472,7 +1472,7 @@ class Topics
 					? " (" . $r['description'] . ")"
 					: "";
 
-				$links .= "<li><a href='{$ibforums->base_url}showtopic={$r['topic_id']}' target='_blank'><b>" . $r['title'] . "</b></a>" . $desc . "</li>";
+				$links .= "<li><a href='{$ibforums->base_url}showtopic={$r['topic_id']}' target='_blank'>" . $r['title'] . "</a>" . $desc . "</li>";
 			}
 		}
 
@@ -1490,7 +1490,7 @@ class Topics
 
 			while ($r = $stmt->fetch())
 			{
-				$links .= "<li><a href='{$r['link']}' target='_blank'><b>" . $r['name'] . "</b></a></li>";
+				$links .= "<li><a href='{$r['link']}' target='_blank'>" . $r['name'] . "</a></li>";
 			}
 		}
 

@@ -1,7 +1,7 @@
 <?php
 
 
-$lang['attached_links']  = "<span style='color:maroon'><b>See also:</b></span>";
+$lang['attached_links']  = "<span class='topic-attached-links-title'>See also:</span>";
 $lang['entry_pinned_post']  = "Pinned post";
 $lang['entry_post']  = "Post";
 $lang['g_entry_post']  = "Global";
