@@ -3105,27 +3105,21 @@ class Moderate
 	{
 		global $std, $ibforums, $print;
 
-		$passed = 0;
-
 		if ($ibforums->member['g_is_supmod'] == 1)
 		{
 			$passed = 1;
-		} else {
-			if ($this->topic['starter_id'] == $ibforums->member['id'])
+		} else
+		{
+			if ($this->moderator['close_topic'] == 1)
 			{
-				if ($ibforums->member['g_open_close_posts'] == 1)
-				{
-					$passed = 1;
-				}
+				$passed = 1;
+			}elseif ($this->topic['starter_id'] == $ibforums->member['id'] && $ibforums->member['g_open_close_posts'] == 1)
+			{
+				$passed = 1;
 			} else
 			{
 				$passed = 0;
 			}
-		}
-
-		if ($this->moderator['close_topic'] == 1)
-		{
-			$passed = 1;
 		}
 
 		if ($passed != 1)
