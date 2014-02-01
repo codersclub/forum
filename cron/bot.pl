@@ -123,26 +123,26 @@ my @task_list = (
 	{
 		'TITLE'		=> "6.1 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_m_visitors WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
-		'DTL'		=> 30
+		'DELETE'	=> 'DELETE FROM ibf_m_visitors WHERE `month` = month(current_timestamp - interval 2 month)',
+		'DTL'		=> 28
 	},
 	{
 		'TITLE'		=> "6.2 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_g_visitors WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
-		'DTL'		=> 30
+		'DELETE'	=> 'DELETE FROM ibf_g_visitors WHERE `month` = month(current_timestamp - interval 2 month)',
+		'DTL'		=> 28
 	},
 	{
 		'TITLE'		=> "6.3 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_b_visitors WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
-		'DTL'		=> 30
+		'DELETE'	=> 'DELETE FROM ibf_b_visitors WHERE `month` = month(current_timestamp - interval 2 month)',
+		'DTL'		=> 28
 	},
 	{
 		'TITLE'		=> "6.4 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_users_stat WHERE `day` <= DAY(current_timestamp - interval 2 day) AND `month` <= month(current_timestamp - interval 2 month)',
-		'DTL'		=> 30
+		'DELETE'	=> 'DELETE FROM ibf_users_stat WHERE `month` = month(current_timestamp - interval 2 month)',
+		'DTL'		=> 28
 	}
 #	{
 #		'TITLE'		=> "5 Delete delayed posts:\n",
