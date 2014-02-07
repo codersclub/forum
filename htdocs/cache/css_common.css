@@ -155,6 +155,7 @@ div.bordered-red {
 
 div.rules-border {
 	padding: 2px;
+    background-color: transparent;
 }
 
 div.warning-message {

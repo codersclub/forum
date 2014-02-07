@@ -242,3 +242,6 @@ div.rules-wrapper {
 #GlobalMessage A:hover {
     text-decoration: underline;
 }
+div.rules-border {
+    border-color: #FF4500;
+}

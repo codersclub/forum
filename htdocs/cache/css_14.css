@@ -308,7 +308,6 @@ UL#help {
 	BACKGROUND-COLOR: #585858
 }
 .titlemedium {
-	HEIGHT: 28px;
 	MARGIN: 1px 0 px;
 	BORDER-LEFT: #444444 1px solid;
 	BORDER-RIGHT: #0c0c0c 1px solid;
@@ -797,7 +796,7 @@ LABEL {
 	FONT-SIZE: 12px
 }
 .unreg {
-	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #900
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; color: orangered; 
 }
 .topic-links {
 	PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; FONT-SIZE: 10px; BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif'); PADDING-BOTTOM: 7px; PADDING-TOP: 7px; BACKGROUND-COLOR: #d1dceb; text-align: right; font-weight: bold;
