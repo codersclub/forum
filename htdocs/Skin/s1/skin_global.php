@@ -7,7 +7,7 @@ function rss($param = "") {
 global $ibforums;
 return <<<EOF
 
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{$ibforums->vars['board_url']}/yandex.php{$param}">
+<link class="rss-link" rel="alternate" type="application/rss+xml" title="RSS" href="{$ibforums->vars['board_url']}/yandex.php{$param}">
 
 EOF;
 }
@@ -16,11 +16,10 @@ function signature_separator($sig="") {
 global $ibforums;
 return <<<EOF
 
-<br>___________<br><div class='signature'>$sig</div>
+<div class='signatore-separator'>___________</div><div class='signature'>$sig</div>
 
 EOF;
 }
-
 
 function Error($message, $ad_email_one="", $ad_email_two="") {
 global $ibforums;
@@ -50,7 +49,6 @@ return <<<EOF
 
 EOF;
 }
-
 
 function Redirect($Text, $Url, $css) {
 global $ibforums;
@@ -89,14 +87,12 @@ function warn_window($message) {
 global $ibforums;
 return <<<EOF
 
-<table {$ibforums->skin['white_background']} style='border:2px solid red;'><tr><td>
+<div class='warning-message' style='background-color: {$ibforums->skin['white_background']}'>
 {$message}
-</td></tr>
-</table>
+</div>
 
 EOF;
 }
-
 
 function css_inline($css="",$load_from_file = false) {
 global $ibforums;
@@ -112,7 +108,6 @@ return <<<EOF
 EOF;
 }
 
-
 function css_external($css, $img) {
 global $ibforums;
 return <<<EOF
@@ -121,11 +116,6 @@ return <<<EOF
 
 EOF;
 }
-
-
-
-
-
 
 function Member_bar($msg, $ad_link, $mod_link, $val_link) {
 global $ibforums;
@@ -310,7 +300,7 @@ return <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"> 
  <head> 
-  <meta http-equiv="content-type" content="text/html;  charset=utf-8"> 
+  <meta http-equiv="content-type" content="text/html;  charset=windows-1251"> 
   <title>$title</title>
   $css
  </head>
@@ -329,7 +319,7 @@ function forum_show_rules_full($rules) {
 global $ibforums;
 return <<<EOF
 
-    <div align='left' id='ipbwrapper'><{F_RULES}>&nbsp;<b>{$rules['title']}</b><br><br>{$rules['body']}</div>
+    <div align='left' class='rules-wrapper'><div class='rules-title'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<span class='rules-title-text'><b>{$rules['title']}</b></span></div><br><div class='rules-text'>{$rules['body']}</div></div>
 	<br>
 
 EOF;
@@ -340,7 +330,7 @@ function rules_link($url="", $title="") {
 global $ibforums;
 return <<<EOF
 
-<a href="$url" target="blank_"><img src="{$ibforums->vars['img_url']}/atb_rules.gif" border="0" alt="">$title</a>
+<a href="$url" target="blank_" class='rules-link'><img src="{$ibforums->vars['img_url']}/atb_rules.gif" border="0" alt="">$title</a>
 
 EOF;
 }
@@ -360,7 +350,6 @@ return <<<EOF
 <a href='{$ibforums->base_url}act=modcp&amp;forum={$ibforums->input['f']}'>{$ibforums->lang['mod_cp']}</a>&nbsp;&middot;
 EOF;
 }
-
 
 function show_chat_link_popup() {
 global $ibforums;
@@ -419,25 +408,6 @@ return <<<EOF
 
 EOF;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function BoardHeader($time="", $image) {
 global $ibforums;
@@ -532,8 +502,6 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 EOF;
 }
 
-
-
 function start_nav($NEW="") {
 global $ibforums;
 return <<<EOF
@@ -544,9 +512,6 @@ return <<<EOF
 
 EOF;
 }
-
-
-
 
 function end_nav() {
 global $ibforums, $std;
@@ -587,22 +552,6 @@ return <<<EOF
 EOF;
 }
 
-         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function mod_buttons_label() {
 global $ibforums;
 return <<<EOF
@@ -622,7 +571,6 @@ return <<<EOF
 
 EOF;
 }
-
 
 function mod_buttons() {
 global $ibforums;
@@ -674,7 +622,7 @@ function forum_show_rules_link($rules) {
 global $ibforums;
 return <<<EOF
 
-    <div align='left'><{F_RULES}>&nbsp;<b><a href='{$ibforums->base_url}act=SR&amp;f={$rules['fid']}'>{$rules['title']}</a></b></div>
+    <div align='left' class='rules-link-wrapper'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<b><a class='rules-link' href='{$ibforums->base_url}act=SR&amp;f={$rules['fid']}'><span class='rules-title-text'>{$rules['title']}</span></a></b></div>
 
 EOF;
 }
@@ -729,6 +677,5 @@ return <<<EOF
 EOF;
 }
 }
-
 
 }

@@ -94,7 +94,7 @@ function quick_reply_box_closed() {
 global $ibforums;
 return <<<EOF
 
-	<a href="javascript:ShowHide('qr_open','qr_closed');" title="{$ibforums->lang['qr_open']}" accesskey="f"><{T_QREPLY}></a> · 
+	<a href="javascript:ShowHide('qr_open','qr_closed');" title="{$ibforums->lang['qr_open']}" accesskey="f"><{T_QREPLY}></a> &middot;
 
 
 EOF;
@@ -281,24 +281,25 @@ if ( MessageMax < 0 ) MessageMax = 0;
 <a name='top'></a>
 <!--IBF.FORUM_RULES-->
 {$data['FORUM']['moderators']}
-<div>{$data['TOPIC']['links']}</div>
-<div>{$data['TOPIC']['why_close']}</div>
+<div class='topic-attached-links-contained'>{$data['TOPIC']['links']}</div>
+<div class='topic-close-reason'>{$data['TOPIC']['why_close']}</div>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
 <tr>
- <td align='left' width='20%' nowrap='nowrap'>{$data['TOPIC']['SHOW_PAGES']}&nbsp;{$data['TOPIC']['go_new']}&nbsp;{$data['TOPIC']['go_last']}</td>
- <td align='right' width='80%'>{$data[TOPIC][REPLY_BUTTON]}{$data[TOPIC][TOPIC_BUTTON]}{$data[TOPIC][POLL_BUTTON]}{$data[TOPIC][SOLVE_UPPER_BUTTON]}</td>
+ <td align='left' width='20%' nowrap='nowrap' class='topic-pager pager'>{$data['TOPIC']['SHOW_PAGES']}&nbsp;{$data['TOPIC']['go_new']}&nbsp;{$data['TOPIC']['go_last']}</td>
+ <td align='right' width='80%' class='forum-buttons'>{$data[TOPIC][REPLY_BUTTON]}{$data[TOPIC][TOPIC_BUTTON]}{$data[TOPIC][POLL_BUTTON]}{$data[TOPIC][SOLVE_UPPER_BUTTON]}</td>
 </tr>
 </table>
 <br>
-<div class='tableborder'>
-  <div class='maintitle'><{CAT_IMG}>&nbsp;<b>{$data['TOPIC']['title']}</b>{$data['TOPIC']['description']}{$data['TOPIC']['club']}</div>
+<div class='tableborder' id='PostsWrapper' class='posts-wrapper'>
+  <div class='maintitle'><span class='topic-image'><{CAT_IMG}></span>&nbsp;<span class='posts-topic-title'>{$data['TOPIC']['title']}</span><span class='posts-topic-description'>{$data['TOPIC']['description']}{$data['TOPIC']['club']}</span></div>
   <!--{IBF.POLL}-->
   {$data['TOPIC']['modform_open']}
-  <div align='right' class='postlinksbar'>
-  <b><!--{IBF.START_NEW_POLL}-->{$data['TOPIC']['subscribe']} |
-  <a href='{$ibforums->base_url}act=Forward&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['forward']}</a> |
-  <a href='{$ibforums->base_url}act=Print&amp;client=choose&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['av_title']}</a>{$data['TOPIC']['fav_text']}</b>
-  </div>
+  <div class='topic-links'>
+  <!--{IBF.START_NEW_POLL}-->{$data['TOPIC']['subscribe']} |
+  <a class='forward-topic' href='{$ibforums->base_url}act=Forward&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['forward']}</a> |
+  <a class='print-topic' href='{$ibforums->base_url}act=Print&amp;client=choose&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['av_title']}</a>
+	{$data['TOPIC']['fav_text']}
+</div>
 
 EOF;
 }

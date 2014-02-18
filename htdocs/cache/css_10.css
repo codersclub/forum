@@ -85,7 +85,7 @@ option.sub { font-weight: bold; color: #555 }
 .pinned_topic { background-color: #D1DCEB }
 .post1 { background-color: #F5F9FD }
 .post2 { background-color: #EEF2F7 }
-.postlinksbar { background-color: #9FBCE3; padding: 7px; margin-top: 1px; font-size: 91% }
+.topic-links { background-color: #9FBCE3; padding: 7px; margin-top: 1px; font-size: 91%; text-align: right; font-weight: bold; }
 .row1 { background-color: #F5F9FD }
 .row2 { background-color: #DFE6EF }
 .row3 { background-color: #EEF2F7 }
@@ -202,4 +202,26 @@ span.attach_preview img {
 }
 span.attach_preview p img {
 	border: 0px;
+}
+div.rules-wrapper {
+    text-align: left;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#GlobalMessage {
+    border: 1px solid #BCD0ED;
+    background-color: #DFE6EF;
+    font-size: 91%;
+    margin: 3px 0px 3px 0px;
+    color: #3A4F6C;
+    font-weight: bold
+}
+#GlobalMessage a:link,
+#GlobalMessage a:visited,
+#GlobalMessage a:active {
+    font-weight: bold;
+    font-size: 91%;
+    text-decoration: none;
+    color: #3A4F6C;
 }

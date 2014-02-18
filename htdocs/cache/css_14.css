@@ -112,6 +112,7 @@ UL#help {
 .menubar {
 	MARGIN: 0px 0px;
 }
+#GlobalMessage,
 #submenu {
 	MARGIN: 0px 0px;
 /*	PADDING-TOP: 4px;
@@ -125,30 +126,35 @@ UL#help {
 	BACKGROUND-COLOR: #000000;
 	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif') #0c0c0c
 }
+#GlobalMessage TD,
 #submenu TD {
 	BORDER-LEFT: #666666 1px solid;
 	BORDER-RIGHT: #222222 1px solid;
 	PADDING-LEFT: 4px;
 	PADDING-RIGHT: 4px;
 }
+#GlobalMessage A:link,
 #submenu A:link {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
+#GlobalMessage A:visited,
 #submenu A:visited {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
+#GlobalMessage A:active,
 #submenu A:active {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
+#GlobalMessage A:hover,
 #submenu A:hover {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
@@ -793,8 +799,8 @@ LABEL {
 .unreg {
 	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #900
 }
-.postlinksbar {
-	PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; FONT-SIZE: 10px; BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif'); PADDING-BOTTOM: 7px; PADDING-TOP: 7px; BACKGROUND-COLOR: #d1dceb
+.topic-links {
+	PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; FONT-SIZE: 10px; BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif'); PADDING-BOTTOM: 7px; PADDING-TOP: 7px; BACKGROUND-COLOR: #d1dceb; text-align: right; font-weight: bold;
 }
 
 .darkrow3 {
@@ -948,4 +954,7 @@ span.attach_preview p img {
 }
 .donate td.donate_text {
 	color: #cccccc;
+}
+div.rules-wrapper {
+	MARGIN-LEFT: auto; WIDTH: 95%; MARGIN-RIGHT: auto; TEXT-ALIGN: left
 }

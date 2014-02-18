@@ -19,7 +19,7 @@ function mod_checkbox($class, $tid) {
 global $ibforums;
 return <<<EOF
 
-<td class='$class' align='center'><input type='checkbox' name='TID_$tid' value='1' class='forminput' onclick="cca(this,'darkrow2');"></td>
+<td class='$class topic-mod_checkbox' align='center'><input type='checkbox' name='TID_$tid' value='1' class='forminput' onclick="cca(this,'darkrow2');"></td>
 
 EOF;
 }
@@ -28,15 +28,15 @@ function render_pinned_row($data) {
 global $ibforums;
 return <<<EOF
 
-    <tr> 
-      <td align='center' class='row4'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none">{$data['folder_img']}</a></td>
-      <td align='center' class='pinned_topic'>{$data['topic_icon']}</td>
-      <td class='{$data['color']}'>{$data['go_new_post']}{$data['prefix']} <a href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
+    <tr class="topic pinned-topic">
+      <td align='center' class='row4 topic-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
+      <td align='center' class='pinned_topic topic-icon'>{$data['topic_icon']}</td>
+      <td class='{$data['color']} topic-title'>{$data['go_new_post']}{$data['prefix']} <a href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
       <br><span class='desc'>{$data['description']}</span>{$data['queued_link']}</td>
-      <td align='center' class='pinned_topic'>{$data['starter']}</td>
-      <td align='center' class='pinned_topic'>{$data['posts']}</td>
-      <td align='center' class='pinned_topic'>{$data['views']}</td>
-      <td class='pinned_topic'{$data['colspan']}><span class='desc'>{$data['last_post']}<br><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a> <b>{$data['last_poster']}</b></span></td>
+      <td align='center' class='pinned_topic topic-author'>{$data['starter']}</td>
+      <td align='center' class='pinned_topic topic-posts_num'>{$data['posts']}</td>
+      <td align='center' class='pinned_topic topic-views_num'>{$data['views']}</td>
+      <td class='pinned_topic topic-last_post'{$data['colspan']}><span class='desc'><span class='last-post-date'>{$data['last_post']}</span><br><span class='last-post-text'><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a></span> <span class='last-post-author'><b>{$data['last_poster']}</b></span></span></td>
       {$data['mod_checkbox']}
     </tr>
 
@@ -47,15 +47,15 @@ function RenderRow($data) {
 global $ibforums;
 return <<<EOF
 
-    <tr> 
-      <td align='center' class='row4'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none">{$data['folder_img']}</a></td>
-      <td align='center' class='row2'>{$data['topic_icon']}</td>
-      <td class='{$data['color']}'>{$data['go_new_post']}{$data['prefix']} <a href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
+    <tr class="topic">
+      <td align='center' class='row4 topic-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
+      <td align='center' class='row2 topic-icon'>{$data['topic_icon']}</td>
+      <td class='{$data['color']} topic-title'>{$data['go_new_post']}{$data['prefix']} <a href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
       <br><span class='desc'>{$data['description']}</span>{$data['queued_link']}</td>
-      <td align='center' class='row2'>{$data['starter']}</td>
-      <td align='center' class='row4'>{$data['posts']}</td>
-      <td align='center' class='row2'>{$data['views']}</td>
-      <td class='row2'{$data['colspan']}><span class='desc'>{$data['last_post']}<br><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a> <b>{$data['last_poster']}</b></span></td>
+      <td align='center' class='row2 topic-author'>{$data['starter']}</td>
+      <td align='center' class='row4 topic-posts_num'>{$data['posts']}</td>
+      <td align='center' class='row2 topic-views_num'>{$data['views']}</td>
+      <td class='row2 topic-last_post'{$data['colspan']}><span class='desc'><span class='last-post-date'>{$data['last_post']}</span><br><span class='last-post-text'><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a></span> <span class='last-post-author'><b>{$data['last_poster']}</b></span></span></td>
       {$data['mod_checkbox']}
     </tr>
 
@@ -240,8 +240,8 @@ function last_mod_column() {
 global $ibforums;
 return <<<EOF
 
-<th width='23%' align='left' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_last_action']}</th>
-<th width='4%' align='center' class='titlemedium'>{$ibforums->lang['h_mod_checkbox']}</th>
+<th width='23%' align='left' nowrap="nowrap" class='titlemedium topic-last_post'>{$ibforums->lang['h_last_action']}</th>
+<th width='4%' align='center' class='titlemedium topic-mod_checkbox'>{$ibforums->lang['h_mod_checkbox']}</th>
 
 EOF;
 }
@@ -250,7 +250,7 @@ function last_column() {
 global $ibforums;
 return <<<EOF
 
-<th width='27%' align='left' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_last_action']}</th>
+<th width='27%' align='left' nowrap="nowrap" class='titlemedium topic-last_post'>{$ibforums->lang['h_last_action']}</th>
 
 EOF;
 }
@@ -265,30 +265,30 @@ var js_base_url = "{$ibforums->js_base_url}";
 </script>
 <script type='text/javascript' src='html/forums.js?{$ibforums->vars['client_script_version']}'></script>
 <table border=0 width="100%"><tr>
-<td align='left'>Модераторы: {$data['moderators']}</td>
-<td align='right'>{$data['quick_search']}</td></tr></table>
+<td class='moderators' align='left'><span class='moderators-title title'>Модераторы:</span> <span class='moderators-list'>{$data['moderators']}</span></td>
+<td class='quick-search' align='right'>{$data['quick_search']}</td></tr></table>
 <br>
 <!--IBF.SUBFORUMS-->
 <a name='List'>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
- <td align='left' width="20%" nowrap="nowrap">{$data['SHOW_PAGES']}{$data['show_all_topics']}</td>
- <td align='right' width="80%">{$data[TOPIC_BUTTON]}{$data[POLL_BUTTON]}</td>
+ <td class='pages-list-wrapper' align='left' width="20%" nowrap="nowrap">{$data['SHOW_PAGES']}{$data['show_all_topics']}</td>
+ <td class='new-buttons-wrapper' align='right' width="80%"><span class='new-topic-button'>{$data[TOPIC_BUTTON]}</span><span class='new-poll-button>'{$data[POLL_BUTTON]}</span></td>
 </tr>
 </table>
 <div align='center'>{$data['mark_read']} <!--IBF.SUB_FORUM_LINK--></div><br>
 {$data['filter']}
- <div class="tableborder">
-  <div class='maintitle'><{CAT_IMG}>&nbsp;{$data['name']}</div>
+ <div class="tableborder topics-wrapper">
+  <div class='maintitle forum-title'><{CAT_IMG}>&nbsp;{$data['name']}</div>
    {$data['modform_open']}
-   <table width='100%' border='0' cellspacing='1' cellpadding='4'>
-    <tr class='darkrow2'> 
-     <td align='center' class='titlemedium'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
-     <td align='center' class='titlemedium'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
-     <th width='45%' align='left' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_topic_title']}</th>
-     <th width='14%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_topic_starter']}</th>
-     <th width='7%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_replies']}</th>
-     <th width='7%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_hits']}</th>
+   <table width='100%' border='0' cellspacing='1' cellpadding='4' class='topics'>
+    <tr class='darkrow2 topics-header'> 
+     <td align='center' class='titlemedium topic-status'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
+     <td align='center' class='titlemedium topic-icon'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
+     <th width='45%' align='left' nowrap="nowrap" class='titlemedium topic-title'>{$ibforums->lang['h_topic_title']}</th>
+     <th width='14%' align='center' nowrap="nowrap" class='titlemedium topic-author'>{$ibforums->lang['h_topic_starter']}</th>
+     <th width='7%' align='center' nowrap="nowrap" class='titlemedium topic-posts_num'>{$ibforums->lang['h_replies']}</th>
+     <th width='7%' align='center' nowrap="nowrap" class='titlemedium topic-views_num'>{$ibforums->lang['h_hits']}</th>
      {$data['last_column']}
     </tr>
 
@@ -319,8 +319,8 @@ function modform_close() {
 global $ibforums;
 return <<<EOF
 
-<tr>
-<td class='darkrow3' colspan='3'>{$ibforums->lang['t_w_selected']}
+<tr class='topics-mod-actions'>
+<td class='darkrow3 topic-actions' colspan='3'>{$ibforums->lang['t_w_selected']}
 <select name='tact' class='forminput'>
  <option value='close'>{$ibforums->lang['cpt_close']}</option>
  <option value='open'>{$ibforums->lang['cpt_open']}</option>
@@ -334,7 +334,7 @@ return <<<EOF
  <option value='show'>{$ibforums->lang['cpt_show']}</option>
 </select> &nbsp;<input type='submit' value='{$ibforums->lang['sort_submit']}' class='forminput'></form>
 </td>
-<td class='darkrow3' colspan='5'>{$ibforums->lang['other_funcs']}
+<td class='darkrow3 other-actions' colspan='5'>{$ibforums->lang['other_funcs']}
 <form action='{$ibforums->base_url}act=modcp&f={$ibforums->input['f']}' method='post'>
 <select name='CODE' class='forminput'>
  <option value='rules_edit'>{$ibforums->lang['rules_edit']}</option>

@@ -122,7 +122,7 @@ option.sub { font-weight: bold; color: #555 }
 .pformright { background-color: #F5F9FD; padding: 6px; margin-top: 1px; border-top: 1px solid #C2CFDF }
 .post1 { background-color: #F8F8FD }
 .post2 { background-color: #E7E9EE }
-.postlinksbar { background-color: #D1DCEB; padding: 7px; margin-top: 1px; font-size: 10px }
+.topic-links { background-color: #D1DCEB; padding: 7px; margin-top: 1px; font-size: 10px; text-align: right; font-weight: bold; }
 .row1 { background-color: #F5F9FD }
 .row2 { background-color: #DFE6EF }
 .row3 { background-color: #EEF2F7 }
@@ -246,4 +246,20 @@ span.attach_preview img {
 }
 span.attach_preview p img {
 	border: 0px;
+}
+#GlobalMessage {
+    border: 1px solid #BCD0ED;
+	background-color: #DFE6EF;
+	font-size: 10px;
+	margin: 3px 0px 3px 0px;
+	color: #3A4F6C;
+	font-weight: bold;
+}
+#GlobalMessage a:link,
+#GlobalMessage a:visited,
+#GlobalMessage a:active {
+    font-weight: bold;
+	font-size: 10px;
+	text-decoration: none;
+	color: #3A4F6C;
 }

@@ -725,7 +725,7 @@ class Search
 		if ($stmt->rowCount())
 		{
 			$topic_list = array();
-			$tids       = "";
+			$tids       = [];
 
 			while ($row = $stmt->fetch())
 			{
@@ -740,12 +740,11 @@ class Search
 				$topic_list[$count] = $row;
 
 				$count++;
-				$tids .= $row['tid'] . ",";
+				$tids[] = $row['tid'];
 			}
 
-			if ($tids)
+			if (!empty($tids))
 			{
-				$tids = "," . $tids;
 				$this->fill_read_arrays($tids);
 			}
 
@@ -1203,54 +1202,61 @@ class Search
 		$print->redirect_screen($ibforums->lang['search_redirect'], "act=Select&CODE=show&searchid=$unique_id&search_in=" . $this->search_in . "&result_type=" . $this->result_type . "&highlite=" . urlencode(trim($result['keywords'])));
 	}
 
-	// Song * NEW
-
+	/**
+	 * Обновление времени прочтённости топиков
+	 * @author Song
+	 * @param $topics array topic ids to update
+	 */
 	function fill_read_arrays($topics)
 	{
-		global $ibforums;
+		$ibforums = Ibf::app();
 
 		if ($ibforums->member['id'])
 		{
 			// at first, collect data within visited topics
-			$stmt = $ibforums->db->query("SELECT tid,fid,logTime FROM ibf_log_topics WHERE
-			    mid='" . $ibforums->member['id'] . "' and tid IN (0" . $topics . "0)");
+			$stmt = $ibforums->db->prepare("SELECT tid,fid,logTime FROM ibf_log_topics WHERE
+			    mid=? and tid IN (" . IBPDO::placeholders($topics) . ")")
+			->execute(array_merge((array)$ibforums->member['id'], $topics));
 
 			while ($read = $stmt->fetch())
 			{
-				$fid = $read['fid'];
-				$tid = $read['tid'];
-
-				if (!$this->read_mark[$fid])
-				{
-					$this->read_mark[$fid] = $ibforums->forums_read[$fid];
-
-					$this->read_mark[$fid] = ($ibforums->member['board_read'] > $this->read_mark[$fid])
-						? $ibforums->member['board_read']
-						: $this->read_mark[$fid];
-
-					$this->read_mark[$fid] = ($this->read_mark[$fid] < (time() - 60 * 60 * 24 * 30))
-						? (time() - 60 * 60 * 24 * 30)
-						: $this->read_mark[$fid];
-				}
-
-				$this->read_array[$tid] = ($this->read_mark[$fid] > $read['logTime'])
-					? $this->read_mark[$fid]
-					: $read['logTime'];
+				$this->fillReadArrayItem($read['fid'], $read['tid'], $read['logTime']);
 			}
 		}
-
 	}
 
-	// Song * NEW
+	/**
+	 * Обновление времени прочтённости одного топика
+	 * @param $fid int forum id
+	 * @param $tid int topic id
+	 * @param $log_time int Текущее время обновления
+	 */
+	protected function fillReadArrayItem($fid, $tid, $log_time) {
 
-	/******************************************************/
-	// Show Results
-	// Shows the results of the search
-	/******************************************************/
+		if (!$this->read_mark[$fid])
+		{
+			$this->read_mark[$fid] = Ibf::app()->forums_read[$fid];
 
+			$this->read_mark[$fid] = (Ibf::app()->member['board_read'] > $this->read_mark[$fid])
+				? Ibf::app()->member['board_read']
+				: $this->read_mark[$fid];
+
+			$this->read_mark[$fid] = ($this->read_mark[$fid] < (time() - 60 * 60 * 24 * 30))
+				? (time() - 60 * 60 * 24 * 30)
+				: $this->read_mark[$fid];
+		}
+
+		$this->read_array[$tid] = ($this->read_mark[$fid] > $log_time)
+			? $this->read_mark[$fid]
+			: $log_time;
+	}
+
+	/**
+	 * Фильтрация доступов и выдача результата
+	 */
 	function show_results()
 	{
-		global $ibforums, $std;
+		$ibforums = Ibf::app();
 
 		$this->result_type = $ibforums->input['result_type'];
 		$this->search_in   = $ibforums->input['search_in'];
@@ -1264,60 +1270,29 @@ class Search
 
 		if (!$this->unique_id)
 		{
-			$std->Error(array(
+			$ibforums->functions->Error(array(
 			                 'LEVEL' => 1,
 			                 'MSG'   => 'no_search_results'
 			            ));
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-				     FROM ibf_search_results
-				     WHERE id='{$this->unique_id}'");
+		$stmt = $ibforums->db
+			->prepare("SELECT * FROM ibf_search_results WHERE id=:id")
+			->bindParam(':id', $this->unique_id)
+			->execute();
 		$sr   = $stmt->fetch();
-
-		$tmp_topics     = $sr['topic_id'];
-		$topic_max_hits = ""; //$sr['topic_max'];
-		$tmp_posts      = $sr['post_id'];
-		$post_max_hits  = ""; //$sr['post_max'];
 
 		$this->sort_order = $sr['sort_order'];
 		$this->sort_key   = $sr['sort_key'];
 
-		//------------------------------------------------
-		// Remove duplicates from the topic_id and post_id
-		//------------------------------------------------
-
-		$topics = ",";
-		$posts  = ",";
-
-		foreach (explode(",", $tmp_topics) as $tid)
-		{
-			if (!preg_match("/,$tid,/", $topics))
-			{
-				$topics .= "$tid,";
-				$topic_max_hits++;
-			}
-		}
+		$topics = explode(',', $sr['topic_id']);
+		$posts = explode(',', $sr['post_id']);
 
 		//-------------------------------------
 
-		foreach (explode(",", $tmp_posts) as $pid)
+		if (empty($topics) && empty($posts))
 		{
-			if (!preg_match("/,$pid,/", $posts))
-			{
-				$posts .= "$pid,";
-				$post_max_hits++;
-			}
-		}
-
-		$topics = str_replace(",,", ",", $topics);
-		$posts  = str_replace(",,", ",", $posts);
-
-		//-------------------------------------
-
-		if ($topics == "," and $posts == ",")
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_search_results'));
+			$ibforums->functions->Error(array('LEVEL' => 1, 'MSG' => 'no_search_results'));
 		}
 
 		$url_words = $this->convert_highlite_words($ibforums->input['highlite']);
@@ -1328,111 +1303,97 @@ class Search
 		{
 			if ($this->search_in == 'titles')
 			{
-				// Song * NEW
-				$this->fill_read_arrays($topics);
-				// Song * NEW
-				$this->output .= $this->start_page($topic_max_hits);
-
 				$query = "SELECT
 						t.*,
 						f.id as forum_id,
 						f.name as forum_name
-				          FROM
+				      FROM
 						ibf_topics t,
 						ibf_forums f
 					  WHERE
-						t.tid IN(0" . $topics . "0) and
-						f.id=t.forum_id and
-						t.approved=1
+						t.tid IN(" . IBPDO::placeholders($topics) . ")
+					  AND
+						f.id=t.forum_id
+					  AND
+						t.approved = 1
 					  ORDER BY t.pinned DESC,";
-				// Song * search new topics of user
 
-				// vot
 				if ($ibforums->input['new'])
 				{
 					$query .= "f.id ASC,";
 				}
-
-				// Song * search new topics of user
-
 				$query .= $this->sort_key . " " . $this->sort_order . " LIMIT " . $this->first . ",25";
 
-				$stmt = $ibforums->db->query($query);
+				$stmt = $ibforums
+					->db
+					->prepare($query)
+					->execute($topics);
 			} else
 			{
 				//--------------------------------------------
 				// we have tid and pid to sort out, woohoo NOT
 				//--------------------------------------------
 
-				// Array for forum id of each message
-				$forum_posts = array();
-
-				if ($posts != ",")
+				if (!empty($posts))
 				{
-					$stmt = $ibforums->db->query("SELECT
-							forum_id,
+					$stmt = $ibforums->db->prepare(
+						"SELECT
 							topic_id
 						FROM ibf_posts
 						WHERE
-							pid IN(0{$posts}0) AND
-							queued != 1");
+							pid IN(" . IBPDO::placeholders($posts) . ")
+						AND
+							queued != 1")
+					->execute($posts);
 
-					while ($pr = $stmt->fetch())
-					{
-						if (!preg_match("/," . $pr['topic_id'] . ",/", $topics))
-						{
-							$topics .= $pr['topic_id'] . ",";
-							$topic_max_hits++;
-
-							$forum_posts[$pr['topic_id']] = $pr['forum_id'];
-						}
+					while(FALSE !== $topic_id = $stmt->fetchColumn()){
+						$topics[] = $topic_id;
 					}
-
-					$topics = str_replace(",,", ",", $topics);
 				}
-				// Song * NEW
-				$this->fill_read_arrays($topics);
-				// Song * NEW
-				$this->output .= $this->start_page($topic_max_hits);
 
 				$query = "SELECT
 						t.*,
 						f.id as forum_id,
-						f.name as forum_name
+						f.name as forum_name,
+						l.logTime
 				  	  FROM ibf_topics t
 					  LEFT JOIN ibf_forums f ON (f.id=t.forum_id)
+					  LEFT JOIN ibf_log_topics l ON t.tid = l.tid AND l.fid = t.forum_id AND l.mid = ?
 					  WHERE
-						t.tid IN(0" . $topics . "0) and
+						t.tid IN(" . IBPDO::placeholders($topics) . ")
+				      AND
 						t.approved=1
 					  ORDER BY t.pinned DESC,";
-				// Song * search new topics of user
 
-				// vot
 				if ($ibforums->input['new'])
 				{
 					$query .= "f.id ASC,";
 				}
 
-				// Song * search new topics of user
-
 				$query .= "t." . $this->sort_key . " " . $this->sort_order . " LIMIT " . $this->first . ",25";
 
-				$stmt = $ibforums->db->query($query);
+				$stmt = $ibforums->db
+					->prepare($query)
+					->execute(array_merge((array)$ibforums->member['id'], $topics));
 			}
 
 			//--------------------------------------------
 
-			if ($stmt->rowCount())
+			if ($stmt->rowCount() > 0)
 			{
+				$topics = array_filter(array_unique($topics));
+				$this->output .= $this->start_page(count($topics));
+
 				while ($row = $stmt->fetch())
 				{
 					// Song * club tool
-					if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
+					if ($row['club'] and $ibforums->functions->check_perms($ibforums->member['club_perms']) == FALSE)
 					{
 						continue;
 					}
+					//обновляем информацию по прочитанности топика
+					$this->fillReadArrayItem($row['forum_id'], $row['tid'], $row['logTime'] );
 
-					$count++;
 					// Song * club tool
 					$row['keywords'] = $url_words;
 
@@ -1443,20 +1404,19 @@ class Search
 					{
 						$this->output .= $this->html->RenderRow($this->parse_entry($row));
 					}
-
+					$count++;
 				}
 
 			} else
 			{
-				$std->Error(array(
+				$ibforums->functions->Error([
 				                 'LEVEL' => 1,
 				                 'MSG'   => 'no_search_results'
-				            ));
+				            ]);
 			}
 
 			//--------------------------------------------
 
-			//Jureth			$this->output .= $this->html->end(array( 'SHOW_PAGES' => $this->links ));
 			$this->output .= $this->html->end(array(
 			                                       'SHOW_PAGES'    => $this->links,
 			                                       'modform_close' => ($this->modfunctions)
@@ -1466,14 +1426,14 @@ class Search
 
 		} else
 		{
-			
+			//Результат в виде постов
+
 			$this->parser = new PostParser();
 
 			if ($this->search_in == 'titles')
 			{
-				$this->output .= $this->start_page($topic_max_hits, 1);
-
-				$stmt = $ibforums->db->query("SELECT
+				//Результат в виде постов при поиске по заголовкам топиков? WTF?
+				$stmt = $ibforums->db->prepare("SELECT
 						t.*,
 						p.pid,
 						p.author_id,
@@ -1483,45 +1443,40 @@ class Search
 						f.id as forum_id,
 						f.name as forum_name
 					FROM ibf_topics t
-					LEFT JOIN ibf_posts p
-						ON (t.tid=p.topic_id AND
-						    p.new_topic=1 and p.use_sig=0)
-				        LEFT JOIN ibf_forums f
-						ON (f.id=t.forum_id)
-				        WHERE
-						t.tid IN(0{$topics}-1) and
+					LEFT JOIN
+						ibf_posts p ON (t.tid=p.topic_id AND p.new_topic=1 AND p.use_sig=0)
+			        LEFT JOIN
+			            ibf_forums f ON (f.id=t.forum_id)
+			        WHERE
+						t.tid IN(" . IBPDO::placeholders($topics) . ") and
 						p.queued != 1
 						and t.approved=1
-				        ORDER BY p.post_date DESC
-				        LIMIT {$this->first},25");
+			        ORDER BY
+			            p.post_date DESC
+			        LIMIT " . $this->first . ",25")
+				->execute($topics);
 			} else
 			{
 				$this->parser->prepareIcons();
 
-				if ($topics != ",")
+				if (!empty($topics))
 				{
-					$stmt = $ibforums->db->query("SELECT pid
+					$stmt = $ibforums->db->prepare("SELECT pid
 					FROM ibf_posts
 					WHERE
-						topic_id IN(0{$topics}0) AND
-						new_topic=1 and
-						queued != 1");
+						topic_id IN(" . IBPDO::placeholders($topics) . ")
+					AND
+						new_topic=1
+					AND
+						queued != 1")
+					->execute($topics);
 
-					while ($pr = $stmt->fetch())
-					{
-						if (!preg_match("/," . $pr['pid'] . ",/", $posts))
-						{
-							$posts .= $pr['pid'] . ",";
-							$post_max_hits++;
-						}
+					while(FALSE !== $pid = $stmt->fetchColumn()){
+						$posts[] = $pid;
 					}
-
-					$posts = str_replace(",,", ",", $posts);
 				}
 
-				$this->output .= $this->start_page($post_max_hits, 1);
-
-				$stmt = $ibforums->db->query("SELECT
+				$stmt = $ibforums->db->prepare("SELECT
 						t.*,
 						p.pid,
 						p.author_id,
@@ -1536,28 +1491,37 @@ class Search
 						f.use_html,
 						g.g_dohtml,
 						p.ip_address
-					FROM ibf_posts p
-					LEFT JOIN ibf_topics t
-						ON (t.tid=p.topic_id)
-					LEFT JOIN ibf_forums f
-						ON (f.id=p.forum_id)
-					LEFT JOIN ibf_members m
-						ON (m.id=p.author_id)
-					LEFT JOIN ibf_groups g
-						ON (m.mgroup=g.g_id)
+					FROM
+						ibf_posts p
+					LEFT JOIN
+						ibf_topics t ON (t.tid=p.topic_id)
+					LEFT JOIN
+						ibf_forums f ON (f.id=p.forum_id)
+					LEFT JOIN
+						ibf_members m ON (m.id=p.author_id)
+					LEFT JOIN
+						ibf_groups g ON (m.mgroup=g.g_id)
 					WHERE
-						p.pid IN(0{$posts}0) and
-						p.use_sig=0 and
-						p.queued != 1 and
-						t.approved=1
-					ORDER BY p.post_date DESC
-					LIMIT {$this->first},25");
+						p.pid IN(" . IBPDO::placeholders($posts) . ")
+					AND
+						p.use_sig = 0
+					AND
+						p.queued != 1
+					AND
+						t.approved = 1
+					ORDER BY
+						p.post_date DESC
+					LIMIT
+						" . $this->first . ", 25")
+				->execute($posts);
 			}
+
+			$posts = array_filter(array_unique($posts));//todo может всё-таки SQL COUNT()?
+			$this->output .= $this->start_page(count($posts), 1);
 
 			while ($row = $stmt->fetch())
 			{
-				// Song * ip address in a search
-
+				// Ip address in a search
 				if ($ibforums->member['g_is_supmod'])
 				{
 					$row['ip_address'] = "( <a href='{$ibforums->base_url}&act=modcp&CODE=ip&incoming={$row['ip_address']}' target='_blank'>{$row['ip_address']}</a> )";
@@ -1566,16 +1530,12 @@ class Search
 					$row['ip_address'] = "";
 				}
 
-				// Song * ip address in a search
-
-				// Song * club tool
-				if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
+				// Club tool
+				if ($row['club'] and $ibforums->functions->check_perms($ibforums->member['club_perms']) == FALSE)
 				{
 					continue;
 				}
 
-				$count++;
-				// Song * club tool
 				$data = array(
 					'TEXT'      => $row['post'],
 					'SMILIES'   => $row['use_emo'],
@@ -1593,12 +1553,11 @@ class Search
 
 				if (!trim($row['post']))
 				{
-					$count--;
 					continue;
 				}
 
 				$row['keywords']  = $url_words;
-				$row['post_date'] = $std->get_date($row['post_date']);
+				$row['post_date'] = $ibforums->functions->get_date($row['post_date']);
 
 				//--------------------------------------------------------------
 				// Parse HTML tag on the fly
@@ -1630,6 +1589,7 @@ class Search
 				}
 
 				$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
+				$count++;
 			}
 
 			$this->output .= $this->html->end_as_post(array('SHOW_PAGES' => $this->links));
@@ -1639,7 +1599,7 @@ class Search
 
 		if ($count <= 0)
 		{
-			$std->Error(array(
+			$ibforums->functions->Error(array(
 			                 'LEVEL' => 1,
 			                 'MSG'   => 'no_search_results'
 			            ));

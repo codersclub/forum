@@ -144,3 +144,47 @@ pre	{
       z-index:3;
       position:absolute;
 }
+
+div.rules-border,
+div.warning-message,
+div.bordered-red {
+	border: 2px solid red;
+	/* must depend on skin */
+	background-color: white;
+}
+
+div.rules-border {
+	padding: 2px;
+}
+
+div.warning-message {
+	margin: 10px 0;
+	padding: 3px;
+}
+
+.red-word {
+	color: red;
+	font-weight: bold;
+}
+
+.topic-attached-links-title {
+	color: maroon;
+	font-weight: bold;
+}
+
+.topic-attached-links-list {
+	margin-top:0;
+	margin-bottom:0;
+}
+
+.topic-attached-links-list a {
+	font-weight: bold;
+}
+
+.posts-topic-title {
+	font-weight: bold;
+}
+
+.posts-links-bar {
+	font-weight: bold;
+}
