@@ -568,11 +568,12 @@ A.warn_gr	{
     color: #FF9900
 }
 
-.pinned_topic {
+.pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 {
     BACKGROUND-COLOR: #777777;
     COLOR: #333333;
 }
-.pinned_topic .desc, .pinned_topic .desc a:link {
+
+.pinned_topic .desc, .pinned_topic .desc a:link, .topic-pinned .desc, .topic-pinned .desc a:link {
 	color: #222;
 }
 
@@ -956,4 +957,38 @@ span.attach_preview p img {
 }
 div.rules-wrapper {
 	MARGIN-LEFT: auto; WIDTH: 95%; MARGIN-RIGHT: auto; TEXT-ALIGN: left
+}
+
+.topic-favorite .topic-column-title{
+    MARGIN: 0px 0px;
+    PADDING: 4px 4px 4px 4px;
+    BORDER-LEFT: #555555 1px solid;
+    BORDER-TOP: #555555 1px solid;
+    BORDER-RIGHT: #282828 1px solid;
+    BORDER-BOTTOM: #282828 1px solid;
+    COLOR: #999999;
+    BACKGROUND-COLOR: #303030;
+}
+.topics .selected td {
+    MARGIN: 0px 0px;
+    PADDING: 4px 4px 4px 4px;
+    BORDER-LEFT: #555555 1px solid;
+    BORDER-TOP: #555555 1px solid;
+    BORDER-RIGHT: #282828 1px solid;
+    BORDER-BOTTOM: #282828 1px solid;
+    COLOR: #999999 !important;
+    BACKGROUND-COLOR: #303030 !important;
+}
+.topic-hidden .topic-column-title {
+    MARGIN: 0px 0px;
+    BORDER-LEFT: #555555 1px solid;
+    BORDER-TOP: #555555 1px solid;
+    BORDER-RIGHT: #282828 1px solid;
+    BORDER-BOTTOM: #282828 1px solid;
+    PADDING-LEFT: 4px;
+    PADDING-RIGHT: 4px;
+    PADDING-BOTTOM: 4px;
+    PADDING-TOP: 4px;
+    COLOR: #999999;
+    BACKGROUND-COLOR: #383838
 }

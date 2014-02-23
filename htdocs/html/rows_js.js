@@ -26,3 +26,9 @@ function cca(cb,style) {
 	   }
    }
  }
+
+$(document).ready(function(){
+    $('.topic-column-mod_checkbox input:checkbox').click(function(){
+        $(this).parents('tr').toggleClass('selected');
+    });
+})
