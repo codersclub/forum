@@ -28,10 +28,12 @@ function RenderRow($data) {
 global $ibforums;
 $topic_classes = ' topic-id-' . $data['tid'] . ' topic-author-' . $data['starter_id'];
 
-foreach(['pinned', 'hidden', 'decided', 'club', 'closed', 'mirror', 'has_new', 'deleted', 'has_my_posts', 'mine', 'favorite'] as $key)
+foreach(['pinned', 'hidden', 'decided', 'club', 'mirror', 'has_new', 'deleted', 'has_my_posts', 'mine', 'favorite'] as $key)
 	if ($data[$key])
 		$topic_classes .= ' topic-' . $key;
 if ($data['state'] == 'moved' || $data['state'] == 'link') $topic_classes .= ' topic-moved';
+if ($data['state'] == 'closed') $topic_classes .= ' topic-closed';
+if ($data['poll_state']) $topic_classes .= ' topic-is_poll';
 
 return <<<EOF
 
