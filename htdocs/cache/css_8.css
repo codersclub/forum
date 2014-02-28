@@ -84,7 +84,7 @@ http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align
 .row3 { background-color: #F0EDE8 /*#EEF2F7*/ }
 .row4 { background-color: #E2DFD8 }
 .row5 { background-color: #AAB7C8 }
-.pinned_topic { background-color: #AAB7C8 }
+.pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 { background-color: #AAB7C8 }
 .darkrow1 { background-color: #AAB7C8; color: #4C77B6 }
 .darkrow2 { background-color: #AAB7C8; color: #3A4F6C }
 .darkrow3 { background-color: #AAB7C8; color: #3A4F6C }
@@ -202,4 +202,18 @@ span.attach_preview p img {
 	font-size: 10px;
 	text-decoration: none;
 	color: #3A4F6C;
+}
+
+.topic-favorite .topic-column-title {
+    background-color: #AAB7C8;
+    color: #3A4F6C;
+}
+
+.topics .selected td {
+    background-color: #AAB7C8 !important;
+    color: #3A4F6C !important;
+}
+.topic-hidden .topic-column-title {
+    background-color: #AAB7C8;
+    color: #3A4F6C
 }
