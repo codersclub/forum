@@ -1617,6 +1617,7 @@ class Forums
 		}
 
 		$topic['has_my_posts'] = $this->dots[$topic['tid']];
+		$topic['is_mirror'] = (bool)$topic['mirrored_topic_id'] || $topic['state'] == 'mirror';
 
 		// Song * decided topics, 20.04.05
 
