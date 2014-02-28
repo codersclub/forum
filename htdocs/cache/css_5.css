@@ -97,7 +97,7 @@ option.sub { font-weight: bold; color: #555 }
 .row4 { padding: 4px 4px 4px 4px; background-color: #ffffff }
 .subs { padding: 4px 4px 4px 4px; border-left-width: 1px; border-bottom-width: 1px; border-right-width: 1px; border-top-width: 1px; border-left-color: #e9e9e9; border-bottom-color: #e6e6e6; border-right-color: #e9e9e9; border-top-color: #e9e9e9; border-style: dashed; background-color: #fbfbfb }
 .pinned { padding: 4px 4px 4px 4px; background-color: #ffffff }
-.pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 { background-color: #f9f9f9 }
+.pinned_topic { background-color: #f9f9f9 }
 .darkrow1 { color: #333333; background-color: #f9f9f9 }
 .darkrow2 { color: #333; background-color: #BCF }
 .darkrow3 { color: #333333; background-color: #f9f9f9 }
@@ -215,17 +215,4 @@ span.attach_preview p img {
 	font-size: 10px;
 	text-decoration: none;
 	color: #3A4F6C;
-}
-
-.topic-favorite .topic-column-title {
-    color: #333;
-    background-color: #BCF;
-}
-.topics .selected td {
-    color: #333 !important;
-    background-color: #BCF !important;
-}
-.topic-hidden .topic-column-title {
-    color: #333333;
-    background-color: #f9f9f9
 }

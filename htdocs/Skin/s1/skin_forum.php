@@ -15,35 +15,47 @@ return <<<EOF
 EOF;
 }
 
-function mod_checkbox($tid) {
+function mod_checkbox($class, $tid) {
 global $ibforums;
 return <<<EOF
 
-<td class='row4 topic-column-mod_checkbox' align='center'><input type='checkbox' name='TID_$tid' value='1' class='forminput'></td>
+<td class='$class topic-mod_checkbox' align='center'><input type='checkbox' name='TID_$tid' value='1' class='forminput' onclick="cca(this,'darkrow2');"></td>
+
+EOF;
+}
+
+function render_pinned_row($data) {
+global $ibforums;
+return <<<EOF
+
+    <tr class="topic pinned-topic">
+      <td align='center' class='row4 topic-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
+      <td align='center' class='pinned_topic topic-icon'>{$data['topic_icon']}</td>
+      <td class='{$data['color']} topic-title'>{$data['go_new_post']}{$data['prefix']} <a href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
+      <br><span class='desc'>{$data['description']}</span>{$data['queued_link']}</td>
+      <td align='center' class='pinned_topic topic-author'>{$data['starter']}</td>
+      <td align='center' class='pinned_topic topic-posts_num'>{$data['posts']}</td>
+      <td align='center' class='pinned_topic topic-views_num'>{$data['views']}</td>
+      <td class='pinned_topic topic-last_post'{$data['colspan']}><span class='desc'><span class='last-post-date'>{$data['last_post']}</span><br><span class='last-post-text'><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a></span> <span class='last-post-author'><b>{$data['last_poster']}</b></span></span></td>
+      {$data['mod_checkbox']}
+    </tr>
 
 EOF;
 }
 
 function RenderRow($data) {
 global $ibforums;
-$topic_classes = ' topic-id-' . $data['tid'] . ' topic-author-' . $data['starter_id'];
-
-foreach(['pinned', 'hidden', 'decided', 'club', 'closed', 'mirror', 'has_new', 'deleted', 'has_my_posts', 'mine', 'favorite'] as $key)
-	if ($data[$key])
-		$topic_classes .= ' topic-' . $key;
-if ($data['state'] == 'moved' || $data['state'] == 'link') $topic_classes .= ' topic-moved';
-
 return <<<EOF
 
-    <tr class="topic{$topic_classes}">
-      <td align='center' class='row4 topic-column-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
-      <td align='center' class='row2 topic-column-icon'>{$data['topic_icon']}</td>
-      <td class='row4 topic-column-title'>{$data['go_new_post']}{$data['prefix']} <a class="topic-link" href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
+    <tr class="topic">
+      <td align='center' class='row4 topic-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
+      <td align='center' class='row2 topic-icon'>{$data['topic_icon']}</td>
+      <td class='{$data['color']} topic-title'>{$data['go_new_post']}{$data['prefix']} <a href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
       <br><span class='desc'>{$data['description']}</span>{$data['queued_link']}</td>
-      <td align='center' class='row2 topic-column-author'>{$data['starter']}</td>
-      <td align='center' class='row4 topic-column-posts_num'>{$data['posts']}</td>
-      <td align='center' class='row2 topic-column-views_num'>{$data['views']}</td>
-      <td class='row2 topic-column-last_post'{$data['colspan']}><span class='desc'><span class='last-post-date'>{$data['last_post']}</span><br><span class='last-post-text'><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a></span> <span class='last-post-author'>{$data['last_poster']}</span></span></td>
+      <td align='center' class='row2 topic-author'>{$data['starter']}</td>
+      <td align='center' class='row4 topic-posts_num'>{$data['posts']}</td>
+      <td align='center' class='row2 topic-views_num'>{$data['views']}</td>
+      <td class='row2 topic-last_post'{$data['colspan']}><span class='desc'><span class='last-post-date'>{$data['last_post']}</span><br><span class='last-post-text'><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a></span> <span class='last-post-author'><b>{$data['last_poster']}</b></span></span></td>
       {$data['mod_checkbox']}
     </tr>
 
@@ -229,7 +241,7 @@ global $ibforums;
 return <<<EOF
 
 <th width='23%' align='left' nowrap="nowrap" class='titlemedium topic-last_post'>{$ibforums->lang['h_last_action']}</th>
-<th width='4%' align='center' class='titlemedium topic-column-mod_checkbox'>{$ibforums->lang['h_mod_checkbox']}</th>
+<th width='4%' align='center' class='titlemedium topic-mod_checkbox'>{$ibforums->lang['h_mod_checkbox']}</th>
 
 EOF;
 }
@@ -417,18 +429,6 @@ return <<<EOF
 EOF;
 }
 
-function renderGoNewPostLink($topic){
-	$ibf = Ibf::app();
-	return "<a href='{$ibf->base_url}showtopic={$topic['tid']}&amp;view=getnewpost'><{NEW_POST}></a>";
-}
-
-function renderPinnedTopicPrefix() {
-	return "<span class='pinnedprefix'>" . Ibf::app()->vars['pre_pinned'] . "</span> ";
-}
-
-function renderClubTopicPrefix() {
-	return "<span class='clubprefix'>" . Ibf::app()->vars['pre_club'] . "</span> ";
-}
 
 }
 ?>
