@@ -1510,7 +1510,7 @@ class Forums
 			// Song * NEW
 			if ($last_time && ($topic['last_post'] > $last_time))
 			{
-				$topic['go_new_post'] = $this->html->renderGoNewPostLink();
+				$topic['go_new_post'] = $this->html->renderGoNewPostLink($topic);
 				$topic['has_new'] = TRUE;
 
 				$this->new_posts++;
