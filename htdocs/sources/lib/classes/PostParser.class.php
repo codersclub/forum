@@ -1575,9 +1575,9 @@ class PostParser
 		$txt = preg_replace("#\[st\s*=\s*(\S+?)\s*\](.*?)\[\/st\]#ie", "\$this->regex_word_search('\\2','sf','title','\\1')", $txt);
 
 		// tags for moderators
-		$txt = preg_replace("/(\.[Пп]равил(а){0,1}(, п.\d+)*)/e", "\$this->wordreplacer('\\1','boardrules')", $txt);
-		$txt = preg_replace("/(\.[Пп]оиск[а-я]{0,})/e", "\$this->wordreplacer('\\1','Search')", $txt);
-		$txt = preg_replace("/(\.FAQ{0,})/e", "\$this->wordreplacer('\\1','faq',$fid)", $txt);
+		$txt = preg_replace("/\.правила?(, п\.\d+)*/uie", "\$this->wordreplacer('\\0','boardrules')", $txt);
+		$txt = preg_replace("/\.поиск[а-я]{0,}/uie", "\$this->wordreplacer('\\0','Search')", $txt);
+		$txt = preg_replace("/\.FAQ{0,}/ei", "\$this->wordreplacer('\\0','faq',$fid)", $txt);
 
 		// user tag
 		$txt = preg_replace("#\[user\](.+?)\[/user\]#ies", "\$this->user_link('\\1')", $txt);
