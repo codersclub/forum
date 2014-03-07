@@ -89,7 +89,7 @@ pre	{
 }
 
 /* DONATE FORM */
-/* Для скинов:
+/* Р”Р»СЏ СЃРєРёРЅРѕРІ:
  - Main
  - NewYear
  - Sources Winter
@@ -155,6 +155,7 @@ div.bordered-red {
 
 div.rules-border {
 	padding: 2px;
+    background-color: transparent;
 }
 
 div.warning-message {
@@ -187,4 +188,15 @@ div.warning-message {
 
 .posts-links-bar {
 	font-weight: bold;
+}
+
+.topic-mine .topic-column-author {
+    font-weight: bold;
+}
+
+.topic-pinned .topic-column-title {
+    font-weight: bold;
+}
+.last-post-author {
+    font-weight: bold;
 }

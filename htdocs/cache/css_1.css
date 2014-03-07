@@ -127,7 +127,7 @@ option.sub { font-weight: bold; color: #555 }
 .row2 { background-color: #DFE6EF }
 .row3 { background-color: #EEF2F7 }
 .row4 { background-color: #E4EAF2 }
-.pinned_topic { background-color: #D1DCEB }
+.pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 { background-color: #D1DCEB }
 .darkrow1 { background-color: #6EA1E3 }
 .darkrow2 { background-color: #BCD0ED; color: #3A4F6C }
 .darkrow3 { background-color: #D1DCEB; color: #3A4F6C }
@@ -262,4 +262,17 @@ span.attach_preview p img {
 	font-size: 10px;
 	text-decoration: none;
 	color: #3A4F6C;
+}
+.topic-favorite .topic-column-title {
+    background-color: #BCD0ED;
+    color: #3A4F6C;
+}
+.topics .selected td {
+    background-color: #BCD0ED;
+    color: #3A4F6C
+}
+
+.topic-hidden .topic-column-title {
+    background-color: #D1DCEB;
+    color: #3A4F6C;
 }

@@ -117,7 +117,11 @@ option.sub { color: #555; font-weight: bold }
 .row3 { background-color: #9b8612; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif'); color: #ffffc0 }
 .row4 { background-color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dlback.gif'); color: #ffffc0; padding-top: 3px; padding-bottom: 2px }
 .darkrow1 { background-color: #8c6239; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif') }
-.darkrow2, .pinned_topic { background-color: #8d6b28; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback2.gif') }
+.darkrow2, .pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 {
+    background-color: #8d6b28;
+    color: #ffffc0;
+    background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback2.gif')
+}
 .darkrow3 { background-color: #9b8612; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); padding: 6px; border: solid 1px #c0c000; border-top: none }
 .hlight { background-color: #8c6239; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif') }
 .dlight { background-color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif') }
@@ -241,4 +245,26 @@ div.rules-wrapper {
 }
 #GlobalMessage A:hover {
     text-decoration: underline;
+}
+div.rules-border {
+    border-color: #FF4500;
+}
+
+.topic-favorite .topic-column-title {
+    background-color: #8d6b28;
+    color: #ffffc0;
+    background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback2.gif');
+}
+.topics .selected td {
+    background-color: #8d6b28 !important;
+    color: #ffffc0 !important;
+    background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback2.gif') !important;
+}
+.topic-hidden .topic-column-title {
+    background-color: #9b8612;
+    color: #ffffc0;
+    background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif');
+    padding: 6px;
+    border: solid 1px #c0c000;
+    border-top: none
 }

@@ -225,3 +225,16 @@ div.rules-wrapper {
     text-decoration: none;
     color: #3A4F6C;
 }
+
+.topic-favorite .topic-column-title {
+    background-color: #BCD0ED;
+    color: #3A4F6C;
+}
+.topics .selected td {
+    background-color: #BCD0ED !important;
+    color: #3A4F6C !important;
+}
+.topic-hidden .topic-column-title {
+    background-color: #D1DCEB;
+    color: #3A4F6C
+}

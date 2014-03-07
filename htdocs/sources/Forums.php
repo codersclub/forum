@@ -44,7 +44,6 @@ class Forums
 	var $ids = "";
 	var $board_html = "";
 	var $sub_output = "";
-	var $pinned_print = 0;
 	var $new_posts = 0;
 	var $parser = "";
 	var $mode_id = 0;
@@ -1312,7 +1311,7 @@ class Forums
 
 		if ($topic['starter_id'] and $topic['starter_id'] == $ibforums->member['id'])
 		{
-			$topic['starter'] = "<b>" . $topic['starter'] . "</b>";
+			$topic['mine'] = TRUE;
 		}
 
 		if ($topic['poll_state'])
@@ -1511,7 +1510,8 @@ class Forums
 			// Song * NEW
 			if ($last_time && ($topic['last_post'] > $last_time))
 			{
-				$topic['go_new_post'] = "<a href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getnewpost'><{NEW_POST}></a>";
+				$topic['go_new_post'] = $this->html->renderGoNewPostLink();
+				$topic['has_new'] = TRUE;
 
 				$this->new_posts++;
 			} else
@@ -1540,12 +1540,6 @@ class Forums
 
 		//+----------------------------------------------------------------
 
-		$class   = ($topic['hidden'])
-			? "darkrow3"
-			: "row4";
-		$p_start = "";
-		$p_end   = "";
-
 		$topic['queued_link'] = "";
 
 		$q = 0;
@@ -1562,19 +1556,12 @@ class Forums
 			}
 		}
 
-		if ($topic['pinned'])
-		{
-			$class = "pinned_topic";
-
-			$topic['title'] = "<b>" . $topic['title'] . "</b>";
-		}
-
 		// Moderator checkbox, 09.04.2005
 		//	$this->mods[ $topic['old_forum_id'] ][ $ibforums->member['id'] ]
 
 		if ($this->is_moderator($topic['old_forum_id']))
 		{
-			$topic['mod_checkbox'] = $this->html->mod_checkbox($class, $topic['old_tid']);
+			$topic['mod_checkbox'] = $this->html->mod_checkbox($topic['old_tid']);
 		} else
 		{
 			$topic['colspan'] = " colspan='2'";
@@ -1584,15 +1571,13 @@ class Forums
 
 		if (in_array($topic['tid'], $this->favs))
 		{
-			$class = "darkrow2";
+			$topic['favorite'] = TRUE;
 		}
 
 		// Song * premoderation links
 
 		if ($q or (!$topic['approved'] and $topic['app']))
 		{
-			$class = "darkrow2";
-
 			$topic['queued_link'] = "";
 			$topic_link           = "<br>" . $ibforums->lang['waiting_topics'];
 			$topic_link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$topic['tid']}=approve'>{$ibforums->lang['modcp_accept']}</a> &middot; ";
@@ -1615,7 +1600,7 @@ class Forums
 
 		if ($topic['club'])
 		{
-			$topic['prefix'] = "<span class='clubprefix'>{$ibforums->vars['pre_club']}</span> ";
+			$topic['prefix'] = $this->html->renderClubTopicPrefix();
 		}
 
 		// Song * club tool
@@ -1631,9 +1616,7 @@ class Forums
 			}
 		}
 
-		// Song * forum filter, 06.01.05
-		// color of cell
-		$topic['color'] = $class;
+		$topic['has_my_posts'] = $this->dots[$topic['tid']];
 
 		// Song * decided topics, 20.04.05
 
@@ -1648,31 +1631,12 @@ class Forums
 		{
 			if (!$topic['prefix'])
 			{
-				$topic['prefix'] = "<span class='pinnedprefix'>{$ibforums->vars['pre_pinned']}</span> ";
+				$topic['prefix'] = $this->html->renderPinnedTopicPrefix();
 			}
 
 			$topic['topic_icon'] = "<{B_PIN}>";
-
-			if (!$this->pinned_print)
-			{
-				// we've a pinned topic, but we've not printed the pinned
-				// starter row, so..
-				$this->pinned_print = 1;
-			}
-
-			return $p_start . $this->html->render_pinned_row($topic);
-		} else
-		{
-			// This is not a pinned topic, so lets check to see if we've
-			// printed the footer yet.
-
-			if ($this->pinned_print)
-			{
-				$this->pinned_print = 0;
-			}
-
-			return $p_end . $this->html->RenderRow($topic);
 		}
+		return $this->html->RenderRow($topic);
 	}
 
 	//+----------------------------------------------------------------
