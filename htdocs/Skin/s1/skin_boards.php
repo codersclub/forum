@@ -70,7 +70,7 @@ return <<<EOF
 EOF;
 }
 
-function PageTop($lastvisit, $show_all = "") {
+function PageTop($show_all = "") {
 global $ibforums;
 return <<<EOF
 
