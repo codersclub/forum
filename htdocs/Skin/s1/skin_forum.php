@@ -26,16 +26,18 @@ EOF;
 
 function RenderRow($data) {
 global $ibforums;
-$topic_classes = ' topic-id-' . $data['tid'] . ' topic-author-' . $data['starter_id'];
+$topic_classes = "topic-id-{$data['tid']} topic-author-{$data['starter_id']}";
 
-foreach(['pinned', 'hidden', 'decided', 'club', 'closed', 'mirror', 'has_new', 'deleted', 'has_my_posts', 'mine', 'favorite'] as $key)
+foreach(['pinned', 'hidden', 'decided', 'club', 'closed', 'has_mirror', 'is_mirror', 'has_new', 'deleted', 'has_my_posts', 'mine', 'favorite'] as $key)
 	if ($data[$key])
 		$topic_classes .= ' topic-' . $key;
 if ($data['state'] == 'moved' || $data['state'] == 'link') $topic_classes .= ' topic-moved';
+if ($data['state'] == 'closed') $topic_classes .= ' topic-closed';
+if ($data['poll_state']) $topic_classes .= ' topic-is_poll';
 
 return <<<EOF
 
-    <tr class="topic{$topic_classes}">
+    <tr class="topic-row {$topic_classes}">
       <td align='center' class='row4 topic-column-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
       <td align='center' class='row2 topic-column-icon'>{$data['topic_icon']}</td>
       <td class='row4 topic-column-title'>{$data['go_new_post']}{$data['prefix']} <a class="topic-link" href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
