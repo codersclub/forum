@@ -96,7 +96,7 @@ http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align
 .maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
 .maintitle a:hover { text-decoration: underline }
 .plainborder { border: 1px solid #345487; background-color: #D2D0CB }
-.tableborder { border: 1px solid #345487; background-color: #D2D0CB; padding: 0; margin: 0 }
+.tableborder { border: 1px solid #345487; background-color: #D2D0CB; }
 .tableborder2 { border: 1px solid #345487; background-color: #E9E7E2; padding: 0; margin: 0 }
 .tablefill { border: 1px solid #345487; background-color: #E2DFD8; padding: 6px }
 .tablepad { background-color: #E9E7E2; padding: 6px }
@@ -105,7 +105,7 @@ http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
 .wrapmini { float: left; line-height: 1.5em; width: 25% }
 .pagelinks { float: left; line-height: 1.2em; width: 35% }
-.desc { font-size: 10px; color: #434951 }
+.topic-row .topic-column-last_post, .desc { font-size: 10px; color: #434951 }
 .desc2 { font-size: 10px; background-color: #E9E7E2 }
 .edit { font-size: 9px }
 .signature { font-size: 10px; color: #339; line-height: 150% }

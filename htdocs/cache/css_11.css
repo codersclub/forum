@@ -132,7 +132,7 @@ option.sub { color: #555; font-weight: bold }
 .maintitle A:active { color: #ffffc0 }
 .maintitle2 { border-left: none; border-top: none; border-right: none }
 .plainborder { background-color: #9b8612; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); border: solid 1px #c0c000 }
-.tableborder { background-color: #8c6239; margin: 0px; padding: 0px }
+.tableborder { background-color: #8c6239; }
 .tablefill { background-color: #8c6239; padding: 6px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif'); border: solid 1px #c0c000 }
 .tablepad { background-color: #8c6239; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif'); padding: 6px; border-left: solid 1px #c0c000; border-right: solid 1px #c0c000; border-bottom: solid 1px #c0c000 }
 .tablebasic, .tablebasic2 { border: 0px; margin: 0px; padding: 0px; width: 100% }
@@ -267,4 +267,8 @@ div.rules-border {
     padding: 6px;
     border: solid 1px #c0c000;
     border-top: none
+}
+.topic-row .topic-column-last_post {
+    font-size: 10px;
+    color: #cfcf90;
 }

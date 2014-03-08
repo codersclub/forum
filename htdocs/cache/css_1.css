@@ -139,7 +139,7 @@ option.sub { font-weight: bold; color: #555 }
 .maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFFFFF }
 .maintitle a:hover { text-decoration: underline }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
-.tableborder { border: 1px solid #345487; background-color: #6EA1E3; padding: 0; margin: 0 }
+.tableborder { border: 1px solid #345487; background-color: #6EA1E3; }
 .tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }
 .tablepad { background-color: #F5F9FD; padding: 6px }
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
@@ -275,4 +275,14 @@ span.attach_preview p img {
 .topic-hidden .topic-column-title {
     background-color: #D1DCEB;
     color: #3A4F6C;
+}
+
+.e-go_new_post-link {
+    font-weight: bold;
+    font-family: arial, sans-serif;
+}
+
+.topic-row .topic-column-last_post {
+    font-size: 10px;
+    color: #434951;
 }

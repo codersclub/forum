@@ -534,7 +534,7 @@ class Forums
 
 				if ($f_id)
 				{
-					$f_id = "<div align='center'><a href='{$ibforums->base_url}act=Login&amp;CODE=04&amp;f=" . $f_id . "&amp;i=1'>{$ibforums->lang['mark_as_read']}</a></div>";
+					$f_id = $this->html->renderMarkSubforumRead($f_id);
 				}
 			}
 
@@ -592,6 +592,7 @@ class Forums
 			$forum_data['img_new_post'] = $this->board_html->forum_img_with_link($forum_data['img_new_post'], $forum_data['id']);
 		}
 
+		$forum_data['last_post_std'] = date('c', $forum_data['last_post']);
 		$forum_data['last_post'] = $ibforums->functions->get_date($forum_data['last_post']);
 
 		$forum_data['last_topic'] = $ibforums->lang['f_none'];
@@ -1341,7 +1342,7 @@ class Forums
 
 		if ($pages > 1)
 		{
-			$topic['PAGES'] = "<span class='small'>({$ibforums->lang['topic_sp_pages']} ";
+			$topic['PAGES'] = "<span class='b-pages b-topic-pages small'><span class='e-pages-prefix'>({$ibforums->lang['topic_sp_pages']} </span>";
 
 			// Song * new pages, 14.02.05
 
@@ -1355,14 +1356,14 @@ class Forums
 				{
 					$tripledot = $pages == $page_no
 						? ""
-						: "... ";
+						: "<span class='e-pages-hellip'>... </span>";
 
 					$topic['PAGES'] .= $tripledot;
 
 					break;
 				} else
 				{
-					$topic['PAGES'] .= "<a href='{$this->base_url}showtopic={$topic['tid']}&amp;st=$real_no'>$page_no</a> ";
+					$topic['PAGES'] .= "<a class='e-view_page-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;st=$real_no'>$page_no</a> ";
 				}
 			}
 
@@ -1374,24 +1375,24 @@ class Forums
 
 					$page_no = $i + 1;
 
-					$topic['PAGES'] .= "<a href='{$this->base_url}showtopic={$topic['tid']}&amp;st=$real_no'>$page_no</a> ";
+					$topic['PAGES'] .= "<a class='e-view_page-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;st=$real_no'>$page_no</a> ";
 				}
 			} elseif ($page_no > 3)
 			{
-				$topic['PAGES'] .= "<a href='{$this->base_url}showtopic={$topic['tid']}&amp;st=" . ($pages - 1) * $ibforums->vars['display_max_posts'] . "'>$pages</a>";
+				$topic['PAGES'] .= "<a class='e-view_page-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;st=" . ($pages - 1) * $ibforums->vars['display_max_posts'] . "'>$pages</a>";
 			}
 
 			// Song * new pages, 14.02.05
 
-			$topic['PAGES'] .= " <a href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'>#</a>";
+			$topic['PAGES'] .= " <a class='e-view_last_post-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'>#</a>";
 			// Song * link "all"
 			if ($topic['posts'] < $ibforums->vars['max_show_all_posts'])
 			{
-				$topic['PAGES'] .= " <a href='{$this->base_url}showtopic={$topic['tid']}&amp;view=showall'>" . $ibforums->lang['all_posts'] . "</a>";
+				$topic['PAGES'] .= " <a class='e-view_all-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=showall'>" . $ibforums->lang['all_posts'] . "</a>";
 			}
 
 			// Song * link "all"
-			$topic['PAGES'] .= ")</span>";
+			$topic['PAGES'] .= "<span class='e-pages-suffux'>)</span></span>";
 		}
 
 		//------------------------------------------------
@@ -1531,7 +1532,8 @@ class Forums
 		// Topic icon
 		$topic['folder_img'] = $ibforums->functions->folder_icon($topic, $this->dots[$topic['tid']], $this->read_array[$topic['tid']], $this->read_mark[$topic['forum_id']]);
 
-		$topic['last_post'] = $ibforums->functions->get_date($topic['last_post'], 'SHORT');
+		$topic['last_post_std'] = date('c', $topic['last_post']);
+		$topic['last_post'] = $ibforums->functions->get_date($topic['last_post'], 'SHORT');//todo functions\get_date вообще вторым параметром принимает число, а short - это скорее к admin_functions\get_date
 
 		if ($topic['state'] != 'link')
 		{

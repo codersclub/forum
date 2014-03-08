@@ -644,10 +644,9 @@ function forum_filter($data) {
 global $ibforums;
 return <<<EOF
 
-<div class='tableborder'><div class='maintitle'>
-{$ibforums->lang['filter_text']}&nbsp;
-{$data}
-</div></div><br>
+<div class='b-forum-filter-wrapper tableborder'><div class='maintitle b-forum-filter'>
+{$ibforums->lang['filter_text']}&nbsp;{$data}
+</div></div>
 
 EOF;
 }
