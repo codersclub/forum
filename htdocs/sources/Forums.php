@@ -1533,7 +1533,7 @@ class Forums
 		$topic['folder_img'] = $ibforums->functions->folder_icon($topic, $this->dots[$topic['tid']], $this->read_array[$topic['tid']], $this->read_mark[$topic['forum_id']]);
 
 		$topic['last_post_std'] = date('c', $topic['last_post']);
-		$topic['last_post'] = $ibforums->functions->get_date($topic['last_post'], 'SHORT');//todo functions\get_date вообще вторым параметром принимает число, а short - это скорее к admin_functions\get_date
+		$topic['last_post'] = $ibforums->functions->get_date($topic['last_post']);
 
 		if ($topic['state'] != 'link')
 		{
@@ -1650,7 +1650,7 @@ class Forums
 
 	function get_last_date($topic)
 	{
-		return Ibf::app()->functions->get_date($topic['last_post'], 'SHORT');
+		return Ibf::app()->functions->get_date($topic['last_post']);
 	}
 
 	// Song * NEW
