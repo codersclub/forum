@@ -370,13 +370,6 @@ UL#help {
     COLOR: #ffffff; TEXT-DECORATION: underline
 }
 
-.tableborder {
-	MARGIN: 0px 0px;
-	PADDING-LEFT: 0px;
-	PADDING-TOP: 0px;
-	PADDING-RIGHT: 0px;
-	PADDING-BOTTOM: 0px;
-}
 /*	BORDER-LEFT: #666666 1px solid;
 	BORDER-RIGHT: #333333 1px solid;
 	BORDER-TOP: #666666 1px solid;
@@ -543,16 +536,16 @@ A.warn_gr	{
     FONT-SIZE: 10px;
     COLOR: #777
 }
-.desc A:link {
+.desc A:link, .topic-row .topic-column-last_post a:link {
     COLOR: #777; TEXT-DECORATION: underline
 }
-.desc A:visited {
+.topic-row .topic-column-last_post a:visited, .desc A:visited {
     COLOR: #777;
 }
-.desc A:active {
+.topic-row .topic-column-last_post a:active, .desc A:active {
     COLOR: #777;
 }
-.desc A:hover {
+.topic-row .topic-column-last_post a:hover, .desc A:hover {
     COLOR: #fff;
 }
 
@@ -991,4 +984,9 @@ div.rules-wrapper {
     PADDING-TOP: 4px;
     COLOR: #999999;
     BACKGROUND-COLOR: #383838
+}
+
+.topic-row .topic-column-last_post {
+    FONT-SIZE: 10px;
+    COLOR: #777
 }

@@ -98,13 +98,13 @@ option.sub { font-weight: bold; color: #555 }
 .maintitle a, .maintitle a:link, .maintitle a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
 .maintitle a:hover { text-decoration: underline }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
-.tableborder { border: 1px solid #345487; background-color: #FFF; padding: 0; margin: 0 }
+.tableborder { border: 1px solid #345487; background-color: #FFF; }
 .tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }
 .tablepad { background-color: #F5F9FD; padding: 6px }
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
 .wrapmini { float: left; line-height: 1.5em; width: 25% }
 .pagelinks { float: left; line-height: 1.2em; width: 35% }
-.desc { font-size: 10px; color: #434951 }
+.topic-row .topic-column-last_post, .desc { font-size: 10px; color: #434951 }
 .edit { font-size: 9px }
 .searchlite { font-weight: bold; color: #F00; background-color: #FF0 }
 .quote { white-space: normal; font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }

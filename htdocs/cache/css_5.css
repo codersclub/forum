@@ -229,3 +229,12 @@ span.attach_preview p img {
     color: #333333;
     background-color: #f9f9f9
 }
+.topic-row .topic-column-last_post,
+.topic-row .topic-column-last_post a:link,
+.topic-row .topic-column-last_post a:active,
+.topic-row .topic-column-last_post a:visited,
+.topic-row .topic-column-last_post a:hover
+{
+    font-size: 10px;
+    color: #4969AA;
+}

@@ -200,3 +200,50 @@ div.warning-message {
 .last-post-author {
     font-weight: bold;
 }
+
+.topic-column-status,
+.topic-column-icon,
+.topic-column-author,
+.topic-column-posts_num,
+.topic-column-views_num,
+.topic-column-mod_checkbox
+{
+    text-align: center;
+}
+
+.topic-column-last_post,
+.topic-column-title
+{
+    text-align: left;
+}
+
+.topics-header th {
+    white-space: nowrap;
+}
+
+.block {
+    display: block;
+}
+
+#forum-subscribtion-buttons {
+    text-align: center;
+    margin: 0.8em 0;
+}
+
+.b-forum-filter-wrapper {
+    margin-bottom: 1em !important;
+}
+
+.category {
+    margin-bottom: 0.8em;
+}
+
+.stats-links {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.b-subforum-subscribtion-buttons {
+    text-align: center;
+    margin-bottom: 0.8em;
+}
