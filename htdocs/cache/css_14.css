@@ -1,3 +1,4 @@
+/* black label */
 @import "/html/jqcd/skins/blacklabel/skin.css";
 
 HTML {
@@ -113,7 +114,7 @@ UL#help {
 	MARGIN: 0px 0px;
 }
 #GlobalMessage,
-#submenu {
+#top-menu {
 	MARGIN: 0px 0px;
 /*	PADDING-TOP: 4px;
 	PADDING-BOTTOM: 4px;
@@ -127,35 +128,35 @@ UL#help {
 	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif') #0c0c0c
 }
 #GlobalMessage TD,
-#submenu TD {
+#top-menu TD {
 	BORDER-LEFT: #666666 1px solid;
 	BORDER-RIGHT: #222222 1px solid;
 	PADDING-LEFT: 4px;
 	PADDING-RIGHT: 4px;
 }
 #GlobalMessage A:link,
-#submenu A:link {
+#top-menu A:link {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
 #GlobalMessage A:visited,
-#submenu A:visited {
+#top-menu A:visited {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
 #GlobalMessage A:active,
-#submenu A:active {
+#top-menu A:active {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
 #GlobalMessage A:hover,
-#submenu A:hover {
+#top-menu A:hover {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
@@ -197,7 +198,7 @@ UL#help {
 	COLOR: #FF9900;
 	TEXT-DECORATION: underline
 }
-#navstrip {
+.b-navigation-wrapper {
 	FONT-WEIGHT: bold;
 	COLOR: #cccccc;
 	PADDING-RIGHT: 0px;
@@ -989,4 +990,13 @@ div.rules-wrapper {
 .topic-row .topic-column-last_post {
     FONT-SIZE: 10px;
     COLOR: #777
+}
+
+td.b-menu-item {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+.b-menu-item img {
+    padding-bottom: 2px;
 }

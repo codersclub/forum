@@ -683,7 +683,7 @@ class Boards {
 		$this->output .= $this->html->bottom_links();
 
 
-// vot	$this->output .= '<% BOTTOM BANNER %>';
+// vot	$this->output .= '<% BOTTOM BANNER %%>';
 		//---------------------------------------
 		// Check for news forum.
 		//---------------------------------------
