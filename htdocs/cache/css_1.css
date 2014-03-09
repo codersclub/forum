@@ -286,3 +286,12 @@ span.attach_preview p img {
     font-size: 10px;
     color: #434951;
 }
+
+td.b-menu-item {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+.b-menu-item img {
+    padding-bottom: 2px;
+}

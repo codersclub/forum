@@ -207,7 +207,7 @@ return <<<EOF
 
        <tr class="forum-row forum-{$info['id']} forum-redirect">
          <td {$info[colspan]}class="row4 forum-image" align="center"><{BR_REDIRECT}></td>
-         <td class="row4 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a></b><div class='desc'>{$info['description']}</div></td>
+         <td class="row4 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a></b><div class='desc'>{$info['description']}</span></td>
          <td class="row2 forum-topics" align="center">-</td>
          <td class="row2 forum-replies" align="center">-</td>
          <td class="row2 forum-lastpost">{$ibforums->lang['rd_hits']}: {$info['redirect_hits']}</td>
