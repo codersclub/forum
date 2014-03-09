@@ -7,9 +7,7 @@ class skin_boards {
 function bottom_links() {
 global $ibforums;
 return <<<EOF
-
-<br>
-   <div align='right' id='BottomLinks'><a id='DeleteCookiesButtons' href="{$ibforums->base_url}act=Login&amp;CODE=06">{$ibforums->lang['d_delete_cookies']}</a> &middot; <a id="MarkReadAllButton" href="{$ibforums->base_url}act=Login&amp;CODE=05">{$ibforums->lang['d_post_read']}</a></div>
+   <div id='BottomLinks'><a id='DeleteCookiesButtons' href="{$ibforums->base_url}act=Login&amp;CODE=06">{$ibforums->lang['d_delete_cookies']}</a> &middot; <a id="MarkReadAllButton" href="{$ibforums->base_url}act=Login&amp;CODE=05">{$ibforums->lang['d_post_read']}</a></div>
 
 EOF;
 }
@@ -209,7 +207,7 @@ return <<<EOF
 
        <tr class="forum-row forum-{$info['id']} forum-redirect">
          <td {$info[colspan]}class="row4 forum-image" align="center"><{BR_REDIRECT}></td>
-         <td class="row4 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a></b><br><span class='desc'>{$info['description']}</span></td>
+         <td class="row4 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a></b><div class='desc'>{$info['description']}</div></td>
          <td class="row2 forum-topics" align="center">-</td>
          <td class="row2 forum-replies" align="center">-</td>
          <td class="row2 forum-lastpost">{$ibforums->lang['rd_hits']}: {$info['redirect_hits']}</td>
@@ -241,7 +239,7 @@ return <<<EOF
 
 <tr class="forum-row forum forum-{$info['id']}">
  {$info['tree']}
- <td class="row2 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}">{$info['name']}</a></b> <span class='desc'>{$info['description']}</span></td>
+ <td class="row2 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}">{$info['name']}</a></b> <span class='desc'>{$info['description']}</div></td>
  <td class="row4 forum-topics" align="center">{$info['topics']}</td>
  <td class="row4 forum-replies" align="center">{$info['posts']}</td>
  <td class="row2 forum-lastpost"><time class='block' datetime='{$info['last_post_std']}'>{$info['last_post']}</time><div class='b-last-topic-row'>{$ibforums->lang['in']}: {$info['last_topic']}</div><div class='b-poster-row'>{$ibforums->lang['by']}: {$info['last_poster']}</div></td>
@@ -270,9 +268,9 @@ EOF;
 function our_poll_link($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
- 
+
 <div class='poll'><b><span class='poll-header'>{$ibforums->lang['our_polls_link']}</span> <a class='poll-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></b><br></div>
- 
+
 EOF;
 }
 

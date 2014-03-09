@@ -66,10 +66,10 @@ option.sub { font-weight: bold; color: #555 }
 #ucpcontent p { padding: 10px; margin: 0px }
 #ipsbanner { position: absolute; top: 1px; right: 5% }
 #logostrip { border: 1px solid #345487; background-color: #6EA1E3; padding: 0px; margin: 0px }
-#submenu { border: 1px solid #BCD0ED; background-color: #DFE6EF; font-size: 91%; margin: 3px 0px 3px 0px; color: #3A4F6C; font-weight: bold }
-#submenu a:link, #submenu  a:visited, #submenu a:active { font-weight: bold; font-size: 91%; text-decoration: none; color: #3A4F6C }
+#top-menu { border: 1px solid #BCD0ED; background-color: #DFE6EF; font-size: 91%; margin: 3px 0px 3px 0px; color: #3A4F6C; font-weight: bold }
+#top-menu a:link, #top-menu  a:visited, #top-menu a:active { font-weight: bold; font-size: 91%; text-decoration: none; color: #3A4F6C }
 #userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
-#navstrip { font-weight: bold; padding: 6px 0px 6px 0px }
+.b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #BCD0ED; padding: 6px }
 .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }

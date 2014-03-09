@@ -66,10 +66,10 @@ img.icon_off{
 pre	{
     MARGIN: 0px;
     white-space: pre-wrap; /* css-3 */ 
-    white-space: -moz-pre-wrap; /* Mozilla, 1999 */ 
-    white-space: -pre-wrap; /* Opera 4-6 */ 
-    white-space: -o-pre-wrap; /* Opera 7 */ 
-    word-wrap: break-word; /* Internet Explorer 5.5+ */ 
+    white-space: -moz-pre-wrap; /* Mozilla, 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
 .open .body {    display: block; }
@@ -246,4 +246,72 @@ div.warning-message {
 .b-subforum-subscribtion-buttons {
     text-align: center;
     margin-bottom: 0.8em;
+}
+
+.b-welcome-message {
+    font-weight: bold;
+}
+
+.b-user-action-buttons .b-action-button-wrapper:before {
+    margin-left: 0.2em;
+    margin-right: 0.3em;
+    content: '\00B7'
+}
+
+.no-middot:before,
+.b-action-button-wrapper:first-child:before {
+    content: '' !important;
+    margin: 0 !important;
+}
+
+.b-menu-item-prefix {
+    margin-right: 0.5em;
+}
+
+.rules-title {
+    margin-bottom: 0.5em;
+}
+
+.rules-wrapper {
+    text-align: left;
+    margin-bottom: 0.2em;
+}
+#userlinks tr {
+    text-align: center;
+}
+
+.b-logo-wrapper {
+    width: 210px;
+}
+
+.b-header-banner-wrapper {
+    width: 468px;
+    text-align: right;
+}
+
+tr.b-neighbor-links-wrapper {
+    height: 24px;
+}
+.b-neighbor-links-title {
+    text-align: right;
+}
+.b-top-nav-banner-wrapper {
+    text-align: right;
+    vertical-align: middle;
+    width: 468px;
+}
+
+.b-donate-wrapper {
+    text-align: right;
+    vertical-align: middle;
+    width: 200px;
+}
+
+#BottomLinks {
+    margin-top: 0.5em;
+    text-align: right;
+}
+
+.b-navigation-wrapper {
+    text-align: left;
 }
