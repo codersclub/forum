@@ -148,7 +148,6 @@ return <<<EOF
 <span class='friends-title'>{$ibforums->lang['your_friends']}</span>
 <span class='friends-list'>{$active[FRIENDS]}</span>
 </div>
-<hr>
 
 EOF;
 }
@@ -251,7 +250,7 @@ EOF;
 function newslink($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
-<div class='news news-first'><b><span class='news-header news-first-header'>{$ibforums->lang['newslink']}</span> <a class='news-link news-first-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span class='voteprefix'>$title</span></a></b></div>
+<div class='news news-first'><span class='news-header news-first-header'>{$ibforums->lang['newslink']}</span> <a class='news-link news-first-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span class='voteprefix'>$title</span></a></div>
 
 EOF;
 }
@@ -260,7 +259,7 @@ function secondnewslink($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
 
-<div class='news news-second'><b><span class='news-header news-second-header'>{$ibforums->lang['secondnewslink']}</span> <a class='news-link news-second-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></b><br></div>
+<div class='news news-second'><span class='news-header news-second-header'>{$ibforums->lang['secondnewslink']}</span> <a class='news-link news-second-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></div>
 
 EOF;
 }
@@ -269,7 +268,7 @@ function our_poll_link($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
 
-<div class='poll'><b><span class='poll-header'>{$ibforums->lang['our_polls_link']}</span> <a class='poll-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></b><br></div>
+<div class='poll'><span class='poll-header'>{$ibforums->lang['our_polls_link']}</span> <a class='poll-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></div>
 
 EOF;
 }
@@ -323,8 +322,10 @@ return <<<EOF
 </tr>
 <tr class='online-stats-row'>
   <td class='row2 block-image' width='5%' valign='middle'><{F_STATS}></td>
-  <td class='row4 online-stats' width="95%" align='left'><div class="online-stats-today">{$activity}</div><div class='thin online-stats-record'>
-{$ibforums->lang['online_record']}<br>{$ibforums->lang['category_record']}</div><div class='online-stats-peak'>{$ibforums->lang['most_online']}</div></td>
+  <td class='row4 online-stats' width="95%" align='left'>
+    <div class="online-stats-today">{$activity}</div>
+    <div class='thin online-stats-record'><div class='online-total-record'>{$ibforums->lang['online_record']}</div><div class="online-category-record">{$ibforums->lang['category_record']}</div></div>
+    <div class='online-stats-peak'>{$ibforums->lang['most_online']}</div></td>
 </tr>
 
 EOF;

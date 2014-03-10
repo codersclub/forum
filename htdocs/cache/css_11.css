@@ -282,3 +282,8 @@ td.b-menu-item {
 .b-menu-item img {
     padding-bottom: 2px;
 }
+
+.friends-online {
+    border-bottom: 1px solid #808000;
+    padding-bottom: 5px;
+}

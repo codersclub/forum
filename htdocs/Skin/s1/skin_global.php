@@ -418,8 +418,16 @@ return <<<EOF
 EOF;
 }
 
-function BoardHeader($time="", $image) {
+function BoardHeader($fav_active) {
 global $ibforums;
+	if ($fav_active) {
+		$image = '<{atb_favs_new}>';
+		$fav_class = 'has-new-favorites';
+	}else{
+		$image = '<{atb_favs}>';
+		$fav_class = '';
+	}
+
 return <<<EOF
 
 <script language='JavaScript' type='text/javascript'>
@@ -457,7 +465,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jqcd/jqcd.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 
-<table border='0' width='100%' cellspacing='0' cellpadding='1'>
+<table id='b-header' border='0' width='100%' cellspacing='0' cellpadding='1'>
 <tr id='logostrip'>
 <td class='b-logo-wrapper'><a class='e-logo-link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='e-logo-img' src='{$ibforums->vars['img_url']}/logo4.gif' alt='На главную' border='0'></a></td>
 
@@ -500,7 +508,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
  <td class='b-menu-item b-menu-item-search'><a class='e-menu-item-search' href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'><span class='b-menu-item-prefix b-menu-item-search-prefix'><{atb_search}></span>{$ibforums->lang['tb_search']}</a></td>
  <td class='b-menu-item b-menu-item-members'><a class='e-menu-item-members' href='{$ibforums->base_url}act=Members'><span class='b-menu-item-prefix b-menu-item-members-prefix'><{atb_members}></span>{$ibforums->lang['tb_mlist']}</a></td>
  <td class='b-menu-item b-menu-item-calendar'><a class='e-menu-item-calendar' href='{$ibforums->base_url}act=calendar'><span class='b-menu-item-prefix b-menu-item-calendar-prefix'><{atb_calendar}></span>{$ibforums->lang['tb_calendar']}</a></td>
- <td class='b-menu-item b-menu-item-favorites'><a class='e-menu-item-favorites' href='{$ibforums->base_url}act=fav&show=1'><span class='b-menu-item-prefix b-menu-item-favorites-prefix'>$image</span>Избранное</a></td>
+ <td class='b-menu-item b-menu-item-favorites {$fav_class}'><a class='e-menu-item-favorites {$fav_class}' href='{$ibforums->base_url}act=fav&show=1'><span class='b-menu-item-prefix b-menu-item-favorites-prefix'>$image</span>Избранное</a></td>
  <td class='b-menu-item b-menu-item-store'><a class='e-menu-item-store' href='{$ibforums->base_url}act=store'><span class='b-menu-item-prefix b-menu-item-store-prefix'><{atb_store}></span>{$ibforums->lang['ibstore']}</a></td>
  <td class='b-menu-item b-menu-item-rss'><{RSS}></td>
 </tr>
@@ -684,4 +692,9 @@ EOF;
 }
 }
 
+function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
+return <<<EOF
+  <div class="e-script-execution-stats">[ Script Execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
+EOF;
+}
 }

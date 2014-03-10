@@ -114,7 +114,7 @@ http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align
 .normalname a:link, .normalname a:visited, .normalname a:active { font-size: 12px }
 .unreg { font-size: 11px; font-weight: bold; color: #900 }
 .searchlite { font-weight: bold; color: #F00; background-color: #FF0 }
-.quote { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #F8F8F8; border: 1px solid 
+.quote { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #F8F8F8; border: 1px solid
 #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
 div.code {  font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;	overflow: auto;         line-height: 120%;}
 .copyright { font-family: Verdana, Tahoma, Arial, Sans-Serif; font-size: 9px; line-height: 12px }
@@ -223,4 +223,9 @@ td.b-menu-item {
 
 .b-menu-item img {
     padding-bottom: 2px;
+}
+
+.friends-online {
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
 }

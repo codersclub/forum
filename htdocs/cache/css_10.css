@@ -238,3 +238,8 @@ div.rules-wrapper {
     background-color: #D1DCEB;
     color: #3A4F6C
 }
+
+.friends-online {
+    border-bottom: 1px solid gray;
+    padding-bottom: 5px;
+}
