@@ -117,17 +117,17 @@ return <<<EOF
 EOF;
 }
 
-function action_button_wrapper($html) {
+function action_button_wrapper($html, $name) {
 	return (empty($html))
 		? $html
-		: "<span class='b-action-button-wrapper'>{$html}</span>";
+		: "<span class='b-action-button'>{$html}</span>";
 }
 
 function Member_bar($msg, $ad_link, $mod_link, $val_link) {
 global $ibforums;
-$ad_link  = $this->action_button_wrapper($ad_link);
-$mod_link = $this->action_button_wrapper($mod_link);
-$val_link = $this->action_button_wrapper($val_link);
+$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
 
 return <<<EOF
 
@@ -140,12 +140,12 @@ return <<<EOF
       $ad_link
       $mod_link
       $val_link
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-cp-button' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-pm-button' href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-my_new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
-      <span class='b-action-button-wrapper no-middot'><a class='e-action-button e-user-new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-buddy-button' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-logout-button' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
+      <span class='b-action-button b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
+      <span class='b-action-button b-user-pm-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a></span>
+      <span class='b-action-button b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
+      <span class='b-action-button b-user-new_posts-button no-middot'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
+      <span class='b-action-button b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
+      <span class='b-action-button b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
     </td>
   </tr>
 </table>
@@ -161,9 +161,9 @@ EOF;
 
 function Member_no_usepm_bar($ad_link, $mod_link, $val_link) {
 global $ibforums;
-$ad_link  = $this->action_button_wrapper($ad_link);
-$mod_link = $this->action_button_wrapper($mod_link);
-$val_link = $this->action_button_wrapper($val_link);
+	$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+	$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+	$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
 return <<<EOF
 
 <table width="100%" id="userlinks" cellspacing="0">
@@ -175,11 +175,11 @@ return <<<EOF
       $ad_link
       $mod_link
       $val_link
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-cp-button' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-my_new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
-  <span class='b-action-button-wrapper no-middot'><a class='e-action-button e-user-new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-buddy-button' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-logout-button' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
+  <span class='b-action-button-wrapper b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
+  <span class='b-action-button-wrapper b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
+  <span class='b-action-button-wrapper b-user-new_posts-button no-middot'><a class='e-action-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
+  <span class='b-action-button-wrapper b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
+  <span class='b-action-button-wrapper b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
     </td>
   </tr>
 </table>

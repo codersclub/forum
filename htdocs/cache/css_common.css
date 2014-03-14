@@ -252,14 +252,14 @@ div.warning-message {
     font-weight: bold;
 }
 
-.b-user-action-buttons .b-action-button-wrapper:before {
+.b-user-action-buttons .b-action-button:before {
     margin-left: 0.2em;
     margin-right: 0.3em;
     content: '\00B7'
 }
 
 .no-middot:before,
-.b-action-button-wrapper:first-child:before {
+.b-action-button:first-child:before {
     content: '' !important;
     margin: 0 !important;
 }
