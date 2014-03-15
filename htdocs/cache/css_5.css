@@ -253,3 +253,8 @@ td.b-menu-item {
 .b-user-action-buttons img {
     vertical-align: middle;
 }
+
+.friends-online {
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 5px;
+}

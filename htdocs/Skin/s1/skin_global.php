@@ -117,17 +117,17 @@ return <<<EOF
 EOF;
 }
 
-function action_button_wrapper($html) {
+function action_button_wrapper($html, $name) {
 	return (empty($html))
 		? $html
-		: "<span class='b-action-button-wrapper'>{$html}</span>";
+		: "<span class='b-action-button'>{$html}</span>";
 }
 
 function Member_bar($msg, $ad_link, $mod_link, $val_link) {
 global $ibforums;
-$ad_link  = $this->action_button_wrapper($ad_link);
-$mod_link = $this->action_button_wrapper($mod_link);
-$val_link = $this->action_button_wrapper($val_link);
+$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
 
 return <<<EOF
 
@@ -140,12 +140,12 @@ return <<<EOF
       $ad_link
       $mod_link
       $val_link
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-cp-button' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-pm-button' href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-my_new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
-      <span class='b-action-button-wrapper no-middot'><a class='e-action-button e-user-new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-buddy-button' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
-      <span class='b-action-button-wrapper'><a class='e-action-button e-user-logout-button' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
+      <span class='b-action-button b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
+      <span class='b-action-button b-user-pm-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a></span>
+      <span class='b-action-button b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
+      <span class='b-action-button b-user-new_posts-button no-middot'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
+      <span class='b-action-button b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
+      <span class='b-action-button b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
     </td>
   </tr>
 </table>
@@ -161,9 +161,9 @@ EOF;
 
 function Member_no_usepm_bar($ad_link, $mod_link, $val_link) {
 global $ibforums;
-$ad_link  = $this->action_button_wrapper($ad_link);
-$mod_link = $this->action_button_wrapper($mod_link);
-$val_link = $this->action_button_wrapper($val_link);
+	$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+	$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+	$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
 return <<<EOF
 
 <table width="100%" id="userlinks" cellspacing="0">
@@ -175,11 +175,11 @@ return <<<EOF
       $ad_link
       $mod_link
       $val_link
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-cp-button' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-my_new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
-  <span class='b-action-button-wrapper no-middot'><a class='e-action-button e-user-new_posts-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-buddy-button' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
-  <span class='b-action-button-wrapper'><a class='e-action-button e-user-logout-button' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
+  <span class='b-action-button-wrapper b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
+  <span class='b-action-button-wrapper b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
+  <span class='b-action-button-wrapper b-user-new_posts-button no-middot'><a class='e-action-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
+  <span class='b-action-button-wrapper b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
+  <span class='b-action-button-wrapper b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
     </td>
   </tr>
 </table>
@@ -418,8 +418,16 @@ return <<<EOF
 EOF;
 }
 
-function BoardHeader($time="", $image) {
+function BoardHeader($fav_active) {
 global $ibforums;
+	if ($fav_active) {
+		$image = '<{atb_favs_new}>';
+		$fav_class = 'has-new-favorites';
+	}else{
+		$image = '<{atb_favs}>';
+		$fav_class = '';
+	}
+
 return <<<EOF
 
 <script language='JavaScript' type='text/javascript'>
@@ -457,7 +465,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jqcd/jqcd.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 
-<table border='0' width='100%' cellspacing='0' cellpadding='1'>
+<table id='b-header' border='0' width='100%' cellspacing='0' cellpadding='1'>
 <tr id='logostrip'>
 <td class='b-logo-wrapper'><a class='e-logo-link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='e-logo-img' src='{$ibforums->vars['img_url']}/logo4.gif' alt='На главную' border='0'></a></td>
 
@@ -500,7 +508,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
  <td class='b-menu-item b-menu-item-search'><a class='e-menu-item-search' href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'><span class='b-menu-item-prefix b-menu-item-search-prefix'><{atb_search}></span>{$ibforums->lang['tb_search']}</a></td>
  <td class='b-menu-item b-menu-item-members'><a class='e-menu-item-members' href='{$ibforums->base_url}act=Members'><span class='b-menu-item-prefix b-menu-item-members-prefix'><{atb_members}></span>{$ibforums->lang['tb_mlist']}</a></td>
  <td class='b-menu-item b-menu-item-calendar'><a class='e-menu-item-calendar' href='{$ibforums->base_url}act=calendar'><span class='b-menu-item-prefix b-menu-item-calendar-prefix'><{atb_calendar}></span>{$ibforums->lang['tb_calendar']}</a></td>
- <td class='b-menu-item b-menu-item-favorites'><a class='e-menu-item-favorites' href='{$ibforums->base_url}act=fav&show=1'><span class='b-menu-item-prefix b-menu-item-favorites-prefix'>$image</span>Избранное</a></td>
+ <td class='b-menu-item b-menu-item-favorites {$fav_class}'><a class='e-menu-item-favorites {$fav_class}' href='{$ibforums->base_url}act=fav&show=1'><span class='b-menu-item-prefix b-menu-item-favorites-prefix'>$image</span>Избранное</a></td>
  <td class='b-menu-item b-menu-item-store'><a class='e-menu-item-store' href='{$ibforums->base_url}act=store'><span class='b-menu-item-prefix b-menu-item-store-prefix'><{atb_store}></span>{$ibforums->lang['ibstore']}</a></td>
  <td class='b-menu-item b-menu-item-rss'><{RSS}></td>
 </tr>
@@ -684,4 +692,9 @@ EOF;
 }
 }
 
+function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
+return <<<EOF
+  <div class="e-script-execution-stats">[ Script Execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
+EOF;
+}
 }
