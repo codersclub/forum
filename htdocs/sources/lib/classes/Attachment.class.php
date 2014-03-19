@@ -504,7 +504,7 @@ if (!class_exists('Attachment'))
 		public function getHref()
 		{
 			global $ibforums;
-			return ($ibforums->base_url) . "act=Attach&amp;type=post&amp;id=" . ($this->postId()) . "&amp;attach_id=" . ($this->attachId());
+			return ($ibforums->base_url) . "act=Attach&amp;type=" . $this->itemType() . "&amp;id=" . ($this->postId()) . "&amp;attach_id=" . ($this->attachId());
 		}
 
 		public function acceptAttach(self $a)
@@ -556,7 +556,7 @@ if (!class_exists('Attachment'))
 		public function getLink()
 		{
 			global $ibforums;
-			return $this->getImageOfType() . "<a href='{$this->getHref()}' title='Скачать файл' target='_blank'>" . ($this->filename()) . "</a>";
+			return $this->getImageOfType() . "<a class='e-attach-link' href='{$this->getHref()}' title='Скачать файл' target='_blank'>" . ($this->filename()) . "</a>";
 		}
 
 		public function accessIsAllowed($member)

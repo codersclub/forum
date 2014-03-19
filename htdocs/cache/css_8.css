@@ -84,7 +84,7 @@ http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align
 .row4 { background-color: #E2DFD8 }
 .row5 { background-color: #AAB7C8 }
 .pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 { background-color: #AAB7C8 }
-.darkrow1 { background-color: #AAB7C8; color: #4C77B6 }
+.e-posts-separator, .darkrow1 { background-color: #AAB7C8; color: #4C77B6 }
 .darkrow2 { background-color: #AAB7C8; color: #3A4F6C }
 .darkrow3 { background-color: #AAB7C8; color: #3A4F6C }
 .hlight { background-color: #DFE6EF }
@@ -104,10 +104,10 @@ http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
 .wrapmini { float: left; line-height: 1.5em; width: 25% }
 .pagelinks { float: left; line-height: 1.2em; width: 35% }
-.topic-row .topic-column-last_post, .desc { font-size: 10px; color: #434951 }
+.b-topics-list-row .b-topics-list-column-last_post, .desc { font-size: 10px; color: #434951 }
 .desc2 { font-size: 10px; background-color: #E9E7E2 }
 .edit { font-size: 9px }
-.signature { font-size: 10px; color: #339; line-height: 150% }
+.e-signature { font-size: 10px; color: #339; line-height: 150% }
 .postdetails { font-size: 10px }
 .postcolor { font-size: 12px; line-height: 160% }
 .normalname { font-size: 12px; font-weight: bold; color: #003 }
@@ -129,7 +129,7 @@ div.code {  font-size: 11px; color: #465584; background-color: #FAFCFE; border: 
 .blue { color: blue; font-weight: bold }
 .orange { color: #F90; font-weight: bold }
 .voteprefix {color:green}
-.movedprefix {color:red}
+.e-new_warning_notice, .movedprefix {color:red}
 .mirrorprefix {
 	color:green;
 }
@@ -141,14 +141,11 @@ div.code {  font-size: 11px; color: #465584; background-color: #FAFCFE; border: 
 
 .spoiler {
   border: 1px solid black;
-  padding: 2px 0px;
   margin-top: 5px
 }
 
 .spoiler_header {
-  padding-left: 16px;
-  height: 18px;
-  vertical-align: middle;
+  padding: 2px 0 2px 16px;
   font-size: 80%;
 }
 
@@ -202,7 +199,7 @@ span.attach_preview p img {
 	color: #3A4F6C;
 }
 
-.topic-favorite .topic-column-title {
+.topic-favorite .b-topics-list-column-title {
     background-color: #AAB7C8;
     color: #3A4F6C;
 }
@@ -211,9 +208,25 @@ span.attach_preview p img {
     background-color: #AAB7C8 !important;
     color: #3A4F6C !important;
 }
-.topic-hidden .topic-column-title {
+.topic-hidden .b-topics-list-column-title {
     background-color: #AAB7C8;
     color: #3A4F6C
+}
+.e-author-online-text {
+    margin-left: 3px;
+    color:green;
+}
+
+.e-author-online-text:before {
+    content: '(';
+    color: black;
+}
+.e-author-online-text:after {
+    content: ')';
+    color: black;
+}
+.b-post-actions {
+    background-color: #E2DFD8;
 }
 
 td.b-menu-item {
@@ -223,6 +236,46 @@ td.b-menu-item {
 
 .b-menu-item img {
     padding-bottom: 2px;
+}
+.b-queued_topic-approve-button a:link,
+.b-queued_topic-reject-button a:link,
+.b-queued_topic-approve-button a:hover,
+.b-queued_topic-reject-button a:hover,
+.b-queued_topic-approve-button a:visited,
+.b-queued_topic-reject-button a:visited {
+    color: red;
+}
+
+.e-queued-topic-actions-title {
+    color: red;
+    font-weight: bold;
+}
+
+.b-posts-need-approve-button a:active,
+.b-posts-need-approve-button a:link,
+.b-posts-need-approve-button a:hover,
+.b-posts-need-approve-button a:visited {
+    font-weight: bold;
+    color: red;
+}
+
+ul.b-breadcrumbs-top li {
+    list-style: none;
+    background-image:  url('/style_images/Xpressio-296/open.gif');
+    background-repeat: no-repeat;
+}
+ul.b-breadcrumbs-top li:first-child{
+    padding-bottom: 3px;
+    list-style: none;
+    background-image: url('/style_images/Xpressio-296/nav.gif');
+    background-repeat: no-repeat;
+}
+
+.b-breadcrumbs-bottom li:first-child {
+    background-image: url('/style_images/Xpressio-296/nav.gif');
+    background-repeat: no-repeat;
+    background-position: left;
+    padding: 3px 0 4px 20px;
 }
 
 .friends-online {

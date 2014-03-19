@@ -454,6 +454,7 @@ class Topics
 			$days = $std->get_autodelete_message($row['delete_after'], $ibforums->lang['delete_waiting_message'], $ibforums->lang['delete_through_message']);
 			$row['post'] .= "<span class='autodelete_message'>{$days}</span>";
 		}
+		$row['deleting'] = (bool)$row['delete_after'];
 
 		// Song * Add to FAQ button, 02.05.04
 
@@ -463,7 +464,7 @@ class Topics
 		{
 			$row['add_to_faq'] = "<a href='{$this->base_url}act=Mod&amp;CODE=35&amp;auth_key=" . $this->md5_check . "&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}'>" . (($row['added_to_faq'])
 				? "<{P_FAQ_EXISTS}>"
-				: "<{P_FAQ_ADD}>") . "</a> &middot;";
+				: "<{P_FAQ_ADD}>") . "</a>";
 		}
 
 		// Song * delete post button
@@ -477,7 +478,7 @@ class Topics
 
 		// Song * delete delayed button, 13.04.05
 
-		if ($this->forum['days_off'])
+		if ($this->forum['days_off'] && !$row['use_sig'])
 		{
 			$row['delete_delayed'] = ($qr)
 				? $this->delayed_delete_button($row, $poster, $post_count)
@@ -516,10 +517,10 @@ class Topics
 		{
 			if ($row['use_sig'])
 			{
-				$row['restore_decline'] = "<a href='{$ibforums->base_url}act=Mod&amp;CODE=19&amp;auth_key=" . $this->md5_check . "&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return restoreAndDecline(this,{$row['pid']});\"><{P_RESTORE}></a> &middot;";
+				$row['restore_decline'] = "<a href='{$ibforums->base_url}act=Mod&amp;CODE=19&amp;auth_key=" . $this->md5_check . "&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return restoreAndDecline(this,{$row['pid']});\"><{P_RESTORE}></a>";
 			} else
 			{
-				$row['restore_decline'] = "<a href='{$ibforums->base_url}act=Mod&amp;CODE=18&amp;auth_key=" . $this->md5_check . "&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return restoreAndDecline(this,{$row['pid']});\"><{P_DECLINE}></a> &middot;";
+				$row['restore_decline'] = "<a href='{$ibforums->base_url}act=Mod&amp;CODE=18&amp;auth_key=" . $this->md5_check . "&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}' onclick=\"return restoreAndDecline(this,{$row['pid']});\"><{P_DECLINE}></a>";
 			}
 		}
 
@@ -534,7 +535,8 @@ class Topics
 
 		$row['old_post_date'] = $row['post_date'];
 
-		$row['post_date'] = $ibforums->lang['posted_on'] . $std->get_date($row['post_date']);
+		$row['std_post_date'] = date('r', $row['post_date']);
+		$row['post_date'] = $std->get_date($row['post_date']);
 
 		$row['post_icon'] = ($row['icon_id'] and $ibforums->member['view_img'])
 			? "<img src='" . $ibforums->vars['img_url'] . "/icon{$row['icon_id']}.gif' alt='' />&nbsp;&nbsp;"
@@ -652,18 +654,11 @@ class Topics
 			? ""
 			: "<a href='{$this->base_url}act=Post&amp;CODE=06&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}'><{P_QUOTE}></a>";
 
-		// Song * delete delayed, 13.04.05
-
-		if ($row['delete_delayed'] and $row['quote'])
-		{
-			$row['quote'] .= " &middot;";
-		}
-
 		// Song * quickquote post buttons
 
 		$row['quick_quote'] = ($qr == FALSE or $row['use_sig'])
 			? ""
-			: "<a onmouseover=\"get_selection('{$rname}', '{$row['old_post_date']}', '{$row['pid']}');\" href=\"javascript:Insert();\"><{P_QUICKQUOTE}></a> &middot;";
+			: "<a onmouseover=\"get_selection('{$rname}', '{$row['old_post_date']}', '{$row['pid']}');\" href=\"javascript:Insert();\"><{P_QUICKQUOTE}></a>";
 
 		// Song * leave link from guests nick too
 
@@ -699,7 +694,7 @@ class Topics
 			}
 		}
 
-		$link = "";
+		$post_actions = [];
 
 		if ($ibforums->member['id'] and
 		    ($ibforums->member['g_is_supmod'] or
@@ -708,8 +703,9 @@ class Topics
 		    !$this->topic['approved'] and !$post_count
 		)
 		{
-			$link = "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$this->topic['tid']}=approve'>{$ibforums->lang['modcp_accept']}</a> · ";
-			$link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$this->topic['tid']}=remove'>{$ibforums->lang['modcp_reject']}</a> · ";
+			$post_actions[] = $this->html->approveTopicLink($this->forum['id'], $this->topic['tid']);
+			$post_actions[] = $this->html->rejectTopicLink($this->forum['id'], $this->topic['tid']);
+
 		}
 
 		if ($ibforums->member['id'] and
@@ -719,10 +715,10 @@ class Topics
 		    $row['queued'] and $this->topic['approved']
 		)
 		{
-			$link = "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodposts&amp;f={$this->forum['id']}&amp;tid={$this->topic['tid']}&amp;PID_{$row['pid']}=approve&amp;alter={$row['pid']}'>{$ibforums->lang['modcp_accept']}</a> · ";
+			$post_actions[] = $this->html->approvePostLink($this->forum['id'], $this->topic['tid'], $row['pid']);
 		}
 
-		$row['queued_link'] = $link;
+		$row['queued'] = $row['queued'] || !$this->topic['approved'];
 
 		$this->alter_post = $row['pid'];
 
@@ -732,7 +728,7 @@ class Topics
 		// Song * online
 		if ($row['s_id'])
 		{
-			$poster['online'] = "<{ONLINE}>";
+			$poster['online'] = $this->html->renderElementOnline();
 		} else
 		{
 			$poster['online'] = "";
@@ -744,6 +740,7 @@ class Topics
 		{
 			$row['pinned_title'] = $ibforums->lang['entry_pinned_post'];
 			$row['post_css']     = "pinned_topic";
+			$row['pinned'] = TRUE;
 		} else
 		{
 			$row['pinned_title'] = $ibforums->lang['entry_post'];
@@ -753,6 +750,21 @@ class Topics
 		{
 			$post_count++;
 			$poster['postcount'] = $post_count;
+
+			array_push($post_actions,
+				$row['queued_link'],
+				$row['quick_quote'],
+				$row['add_to_faq'],
+				$row['restore_decline'],
+				$row['report_link'],
+				$row['delete_button'],
+				$row['edit_button'],
+				$row["show_preview_button"],
+				$row['edit_history_button'],
+				$row['quote'],
+				$row['delete_delayed']
+			);
+			$row['html_actions'] = $skin_universal->renderActionButtons($post_actions, 'b-post-actions', 'b-post-action-button');
 
 			// Song * message has been deleted by moderator, 13.11.2004, or by author (negram, January 2011)
 
@@ -1331,7 +1343,7 @@ class Topics
 		// Song * define rights for creating topic
 
 		$this->topic['TOPIC_BUTTON'] = ($this->allow_topic())
-			? "<a href='" . $this->base_url . "act=Post&amp;CODE=00&amp;f=" . $this->forum['id'] . "'><{A_POST}></a> · "
+			? "<a href='" . $this->base_url . "act=Post&amp;CODE=00&amp;f=" . $this->forum['id'] . "'><{A_POST}></a>"
 			: '';
 
 		$this->topic['POLL_BUTTON'] = ($this->forum['allow_poll'])
@@ -1347,11 +1359,6 @@ class Topics
 		if ($this->forum['decided'])
 		{
 			$this->decided_button($this->topic['SOLVE_UPPER_BUTTON'], $this->topic['SOLVE_DOWN_BUTTON']);
-		}
-
-		if ($this->topic['POLL_BUTTON'] and $this->topic['SOLVE_UPPER_BUTTON'])
-		{
-			$this->topic['POLL_BUTTON'] .= " &middot; ";
 		}
 
 		// /Song * decided topics, 20.04.05
@@ -1436,16 +1443,12 @@ class Topics
 
 		if ($ibforums->member['id'])
 		{
-			//		$favs = explode(",",$ibforums->member['favorites']);
 			$favs = $ibforums->member['favorites']->getTopicIds();
-
-			if (in_array($this->topic['tid'], $favs))
-			{
-				$this->topic['fav_text'] = " | <a href='" . $ibforums->vars['base_url'] . "index.php?act=fav&amp;topic=" . $this->topic['tid'] . "&amp;js=1' onclick=\"return JSRequest(this.href,unique_id(this));\">" . $ibforums->lang['fav_remove'] . "</a>";
-			} else
-			{
-				$this->topic['fav_text'] = " | <a href='" . $ibforums->vars['base_url'] . "index.php?act=fav&amp;topic=" . $this->topic['tid'] . "&amp;js=1' onclick=\"return JSRequest(this.href,unique_id(this));\">" . $ibforums->lang['fav_add'] . "</a>";
-			}
+			$txt = in_array($this->topic['tid'], $favs)
+				? $ibforums->lang['fav_remove']
+				: $ibforums->lang['fav_add'];
+			$this->topic['fav_text'] = $this->html->favoriteButton($this->topic['tid'], $txt);
+			unset($txt);
 		}
 
 		$links = "";
@@ -1536,7 +1539,7 @@ class Topics
 				    OR ($ibforums->member['g_is_supmod'] == 1)
 				)
 				{
-					$this->output = str_replace("<!--{IBF.START_NEW_POLL}-->", $this->html->start_poll_link($this->forum['id'], $this->topic['tid']), $this->output);
+					$this->output = str_replace("<!--{IBF.START_NEW_POLL}-->", $this->html->start_poll_button($this->forum['id'], $this->topic['tid']), $this->output);
 				}
 			}
 		}
@@ -1843,7 +1846,7 @@ class Topics
 			if ($ibforums->member['quick_reply'])
 				$show = "show";
 
-			$this->output = str_replace("<!--IBF.QUICK_REPLY_CLOSED-->", $this->html->quick_reply_box_closed(), $this->output);
+			$show_quick_reply_box_closed = TRUE;
 
 			$q       = 0;
 			$warning = "";
@@ -1958,6 +1961,21 @@ class Topics
 			$this->output = str_replace("<!--IBF.FORUM_RULES-->", $std->print_forum_rules($this->topic), $this->output);
 		}
 
+		$actions = [
+			$this->topic['REPLY_BUTTON'],
+			$this->topic['TOPIC_BUTTON'],
+			$this->topic['POLL_BUTTON'],
+			$this->topic['SOLVE_UPPER_BUTTON'],
+		];
+		$this->output = str_replace("<!--IBF.TOPIC_HEADER_BUTTONS-->", $skin_universal->renderActionButtons($actions, 'b-topic-header-buttons', 'b-topic-header-button'), $this->output);
+		$actions = [
+			$show_quick_reply_box_closed ?  $this->html->quick_reply_box_closed() : '',
+			$this->topic['REPLY_BUTTON'],
+			$this->topic['TOPIC_BUTTON'],
+			$this->topic['POLL_BUTTON'],
+			$this->topic['SOLVE_DOWN_BUTTON']
+       ];
+		$this->output = str_replace("<!--IBF.TOPIC_BOTTOM_BUTTONS-->", $skin_universal->renderActionButtons($actions, 'b-topic-footer-buttons', 'b-topic-footer-button'), $this->output);
 		//+----------------------------------------------------------------
 		// Topic multi-moderation - yay!
 		//+----------------------------------------------------------------
@@ -1966,7 +1984,7 @@ class Topics
 
 		// Pass it to our print routine
 
-		$print->add_output("$this->output");
+		$print->add_output($this->output);
 
 		$print->do_output(array(
 		                       'TITLE' => str_replace(array(
@@ -2230,7 +2248,7 @@ class Topics
 					? "<{WARN_ADD}>"
 					: "<span class='movedprefix'>+</span>";
 
-				$member['warn_add'] = "<a href='{$ibforums->base_url}act=warn&amp;type=add&amp;";
+				$member['warn_add'] = "<a class='e-add-warning-button' href='{$ibforums->base_url}act=warn&amp;type=add&amp;";
 				$member['warn_add'] .= "mid=" . $member['id'] . "&amp;t={$this->topic['tid']}&amp;p=" . $member['pid'] . "&amp;f=";
 				$member['warn_add'] .= $this->forum['id'] . "&amp;st=" . intval($ibforums->input['st']);
 				$member['warn_add'] .= "' title='{$ibforums->lang['tt_warn_add']}' style='text-decoration:none' target='_blank'>" . $up . "</a>";
@@ -2243,7 +2261,7 @@ class Topics
 
 				$member['warn_text'] = $ibforums->lang['tt_rating'];
 				$member['warn_text'] = $this->html->warn_title($member['id'], $member['warn_text']);
-				$member['warn_text'] .= $member['warn_minus'] . $member['warn_img'] . $member['warn_add'] . "<br>";
+				$member['warn_text'] .= $member['warn_minus'] . $member['warn_img'] . $member['warn_add'];
 			}
 		}
 
@@ -2323,20 +2341,20 @@ class Topics
 				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}' border='0'> ";
 			}
 
-			// add crlf
-			if ($member['member_rank_img'])
-				$member['member_rank_img'] .= "<br>";
-
-			// add crlf
-			if ($member['title'])
-				$member['title'] .= "<br>";
+//			// add crlf
+//			if ($member['member_rank_img'])
+//				$member['member_rank_img'] .= "<br>";
+//
+//			// add crlf
+//			if ($member['title'])
+//				$member['title'] .= "<br>";
 
 			if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 			{
 				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
 			}
 
-			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
+			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> &middot; <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a>";
 
 			// $member['profile'] = $member['points'] . "+".$member['fined']."+". $member['profile'] ;
 			// Show ratting + dgm
@@ -2354,7 +2372,7 @@ class Topics
 
 			if ((!$ibforums->member['id'] or $ibforums->member['show_ratting']) and $ibforums->vars['show_inventory'])
 			{
-				$member['member_inventory'] = $ibforums->lang['members_inventory'] . "<a href='{$ibforums->base_url}act=store&amp;code=view_inventory&amp;memberid={$member['id']}'>{$ibforums->lang['view_inventory']}</a><br>";
+				$member['member_inventory'] = $ibforums->lang['members_inventory'] . "<a href='{$ibforums->base_url}act=store&amp;code=view_inventory&amp;memberid={$member['id']}'>{$ibforums->lang['view_inventory']}</a>";
 			}
 
 			//--------------------------------------------------------------
@@ -2394,7 +2412,7 @@ class Topics
 				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0'>";
 			}
 
-			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
+			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> &middot; <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
 		}
 
 		//--------------------------------------------------------------
@@ -2468,13 +2486,11 @@ class Topics
 					// Song * new separated warning system
 					if ($ibforums->member['is_new_warn_exixts'])
 					{
-						$member['warn_text'] .= " <span class='movedprefix'>(new!)</span>";
+						$member['warn_text'] .= $this->html->renderNewWarnNotice();
 					} elseif (!$member['warn_level'])
 					{
 						$member['warn_text'] = "";
 					}
-
-					$member['warn_text'] .= "<br>";
 					// /Song * new warning system
 				}
 			}
@@ -2499,7 +2515,7 @@ class Topics
 			? "'{$ibforums->base_url}act=modcp&amp;CODE=domodposts&amp;f={$this->forum['id']}&amp;tid={$this->topic['tid']}&amp;PID_{$post_id}=remove&amp;alter={$this->alter_post}'"
 			: "'{$this->base_url}act=Mod&amp;CODE=04&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}&amp;auth_key={$this->md5_check}'";
 
-		$button = "<a href={$func} onclick='return deletePost(this,$post_id)'><{P_DELETE}></a> &middot;";
+		$button = "<a href={$func} onclick='return deletePost(this,$post_id)'><{P_DELETE}></a>";
 
 		if ($ibforums->member['g_is_supmod'] or $this->moderator['delete_post'])
 		{
@@ -2580,7 +2596,7 @@ class Topics
 			return "";
 		}
 
-		$button = "<a href=\"{$this->base_url}act=Post&amp;CODE=08&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}\"><{P_EDIT}></a> &middot;";
+		$button = "<a href=\"{$this->base_url}act=Post&amp;CODE=08&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}\"><{P_EDIT}></a>";
 
 		if ($ibforums->member['g_is_supmod'])
 			return $button;
@@ -2625,10 +2641,10 @@ class Topics
 
 		if ($preview)
 		{
-			$button = "<a onclick=\"return hideDeletedPost(this, $post_id)\" href=\"{$this->base_url}showtopic=" . $this->topic['tid'] . "&amp;view=findpost&amp;p={$post_id}\">{$ibforums->lang['show_preview_button']}</a> &middot;";
+			$button = "<a onclick=\"return hideDeletedPost(this, $post_id)\" href=\"{$this->base_url}showtopic=" . $this->topic['tid'] . "&amp;view=findpost&amp;p={$post_id}\">{$ibforums->lang['show_preview_button']}</a>";
 		} else
 		{
-			$button = "<a onclick=\"return previewDeletedPost(this, $post_id)\" href=\"{$this->base_url}showtopic=" . $this->topic['tid'] . "&amp;preview={$post_id}\">{$ibforums->lang['show_preview_button']}</a> &middot;";
+			$button = "<a onclick=\"return previewDeletedPost(this, $post_id)\" href=\"{$this->base_url}showtopic=" . $this->topic['tid'] . "&amp;preview={$post_id}\">{$ibforums->lang['show_preview_button']}</a>";
 		}
 
 		if ($ibforums->member['g_is_supmod'])
@@ -2658,7 +2674,7 @@ class Topics
 			return "";
 		}
 
-		$button = "<a href=\"{$this->base_url}act=Post&amp;CODE=16&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}\"><{P_EDIT_HISTORY}></a> &middot;";
+		$button = "<a href=\"{$this->base_url}act=Post&amp;CODE=16&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$post_id}&amp;st={$ibforums->input['st']}\"><{P_EDIT_HISTORY}></a>";
 
 		if ($ibforums->member['g_is_supmod'])
 			return $button;
@@ -3071,9 +3087,9 @@ class Topics
 
 			if ($ibforums->member['g_is_supmod'] or $this->moderator['mid'])
 			{
-				return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'><{A_LOCKED_B}></a> · ";
+				return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'><{A_LOCKED_B}></a>";
 			} else
-				return "<{A_LOCKED_B}> · ";
+				return "<{A_LOCKED_B}>";
 		}
 
 		if ($std->check_perms($this->forum['reply_perms']) == FALSE)
@@ -3086,19 +3102,19 @@ class Topics
 
 		if ($this->topic['state'] == 'moved')
 		{
-			return "<{A_MOVED_B}> &middot;";
+			return "<{A_MOVED_B}>";
 		}
 
 		if ($this->topic['poll_state'] == 'closed')
 		{
-			return "<{A_POLLONLY_B}> &middot;";
+			return "<{A_POLLONLY_B}>";
 		}
 
 		$reply_title = TopicDraft::draftExists($this->topic['tid'])
 			? $ibforums->lang['topic_draft']
 			: '<{A_REPLY}>';
 
-		return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'>$reply_title</a> · ";
+		return "<a href='{$this->base_url}act=Post&amp;CODE=02&amp;f=" . $this->forum['id'] . "&amp;t=" . $this->topic['tid'] . "'>$reply_title</a>";
 	}
 
 	static function topic_has_draft($tid)

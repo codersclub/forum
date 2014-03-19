@@ -66,8 +66,8 @@ function addForumToMirror()
 	var D = document;
 	function nelement(container) {
 		this.container = container;
-		
-		
+
+
 		this.list = D.getElementById('first_list_element').cloneNode(true);
 		this.list.id = this.list.id + number++;
 		this.list.value = '';
@@ -76,11 +76,11 @@ function addForumToMirror()
 		this.minus.type = 'button';
 		this.minus.innerHTML = '-';
 		this.minus.me = this;
-		
+
 		this.container.appendChild(this.br);
 		this.container.appendChild(this.list);
 		this.container.appendChild(this.minus);
-		
+
 		this.del = function() {
 			this.me.container.removeChild(this.me.list);
 			this.me.container.removeChild(this.me.br);
@@ -89,15 +89,15 @@ function addForumToMirror()
 			delete this;
 		};
 		this.minus.addEventListener('click', this.del, false);
-		
+
 	}
 	addForumToMirror = function () {
 		var i = D.getElementById('mirror_list_container');
-		
+
 		new nelement(i);
 	};
 	return addForumToMirror();
-	
+
 }
 function syntax_get_code_tag(el)
 {
@@ -108,9 +108,9 @@ function addClass(ele,cls) { // TODO: переделать на jQuery
 	if (!hasClass(ele,cls)) ele.className += " "+cls;
 }
 function removeClass(ele,cls) {	 // TODO: переделать на jQuery
-	if (hasClass(ele,cls)) {		
-		var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');		
-		ele.className=ele.className.replace(reg,' ');	
+	if (hasClass(ele,cls)) {
+		var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+		ele.className=ele.className.replace(reg,' ');
 	}
 }
 function syntax_change_button(name, enable, id)
@@ -145,7 +145,7 @@ function syntax_wrap(el,tag_id)
 		div.addClass('code_wrap');
 		syntax_change_button('wrap', true, tag_id);
 	}
-	
+
 	return false;
 }
 function syntax_numbering(el,tag_id)
@@ -184,24 +184,24 @@ function syntax_add_show_controls_on_mouseenter() {
 					timer = setTimeout(function(){$(element).siblings('.pre_code').fadeOut('fast');},2000);
 				};
 				$(element).mouseenter(
-				function() {					
+				function() {
 					stopTimer();
 					$(element).siblings('.pre_code').fadeIn(0);
 					if (displayed) {
 						return;
 					}
 					displayed = true;
-					
+
 					var left = 0;
 					$(element).siblings('.pre_code').each(function(el) {
 						var offset = $(this).children().offset();
 						// $(this).css('top', (offset.top - $(this).height() - 5) + 'px');
 						$(this).css('margin-top', '-1.6em'/*(offset.top - $(this).height() - 5) + 'px'*/);
-						
+
 					});
 				});
 				$(element).mouseleave(startTimer);
-				
+
 				$(element).siblings('span')
 					.mouseenter(stopTimer)
 					.mouseleave(startTimer);
@@ -214,7 +214,7 @@ function syntax_add_show_controls_on_mouseenter() {
  */
 function preloadCodeButtons(tag_id)
 {
-	
+
 	var loadImage = function(o) {
 		if (!o) return;
 		var im = new Image(80,80);
@@ -280,14 +280,14 @@ function PopUpCD(url, d_width,d_height) {
       pic_path: '/img/',
       has_buttons: true });
 
-    
+
     $.get(url, function(data) {
 	    str = new String(data);
 	    con=str.substring(str.indexOf('\n')+1);
-	    title=str.substring(0, str.indexOf('\n')); 
+	    title=str.substring(0, str.indexOf('\n'));
 	    $('#dialog').jqcd_set_caption(title);
-	    $('#dialog').jqcd_set_content(con);  
-    });   
+	    $('#dialog').jqcd_set_content(con);
+    });
 
 
 }
