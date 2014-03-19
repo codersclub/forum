@@ -1577,7 +1577,7 @@ class PostParser
 		// tags for moderators
 		$txt = preg_replace("/\.правила?(, п\.\d+)*/uie", "\$this->wordreplacer('\\0','boardrules')", $txt);
 		$txt = preg_replace("/\.поиск[а-я]{0,}/uie", "\$this->wordreplacer('\\0','Search')", $txt);
-		$txt = preg_replace("/\.FAQ{0,}/ei", "\$this->wordreplacer('\\0','faq',$fid)", $txt);
+		$txt = preg_replace("/\.FAQ(?![a-z,0-9])/ei", "\$this->wordreplacer('\\0','faq',$fid)", $txt);
 
 		// user tag
 		$txt = preg_replace("#\[user\](.+?)\[/user\]#ies", "\$this->user_link('\\1')", $txt);
