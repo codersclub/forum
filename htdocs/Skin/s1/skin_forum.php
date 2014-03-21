@@ -248,7 +248,7 @@ var js_base_url = "{$ibforums->js_base_url}";
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
  <td class='pages-list-wrapper' align='left' width="20%" nowrap="nowrap">{$data['SHOW_PAGES']}{$data['show_all_topics']}</td>
- <td class='new-buttons-wrapper' align='right' width="80%"><span class='new-topic-button'>{$data[TOPIC_BUTTON]}</span><span class='new-poll-button>'{$data[POLL_BUTTON]}</span></td>
+ <td class='new-buttons-wrapper' align='right' width="80%"><span class='new-topic-button'>{$data[TOPIC_BUTTON]}</span><span class='new-poll-button'>{$data[POLL_BUTTON]}</span></td>
 </tr>
 </table>
 <div align='center' id='forum-subscribtion-buttons' class='b-forum-subscribtion-buttons'>{$data['mark_read']} <!--IBF.SUB_FORUM_LINK--></div>
