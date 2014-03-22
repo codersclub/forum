@@ -34,7 +34,7 @@ var __DEBUG = false;
 // стиль элемента в котором будет размещен flash-плеер
 var styleFlashPlayerBox = 'margin-top:3px; margin-bottom:3px;';
 
-var basePlayer = 
+var basePlayer =
 {
 	width : '480',//defaults for youtube actually, not for others
 	height : '295',
@@ -51,7 +51,7 @@ var basePlayer =
 	}
 };
 
-var baseContainer = 
+var baseContainer =
 {
 	urlRegexp : /./,
 	testUrl : function(url)
@@ -355,21 +355,26 @@ function writeFlashPlayer(el, player)
 		var rand = Math.round(Math.random() * 100000);
 		var playerID = 'FlashPlayer'+rand;
 
-		var divBox = document.createElement('DIV');
-		divBox.id = 'FlashPlayerBox'+rand;
-		el.parentNode.insertBefore(divBox, el.nextSibling);
-		swfobject.createCSS('#FlashPlayerBox'+rand, styleFlashPlayerBox);
+		var divBox = $('<div>')
+			.attr('id', 'FlashPlayerBox'+rand)
+			.addClass("b-flash-player-wrapper")
+			.insertAfter(el);
+		divBox.append(el);
+		$(el).addClass('e-flash-player-link');
 
-		var divPlayer = document.createElement('DIV');
-		divPlayer.id = playerID;
-		divBox.appendChild(divPlayer);
-        if (player.customEmbed != undefined) {
-            player.customEmbed(divPlayer);
-        } else {
-		    var embed = player.embedvars;
-		    embed.id = playerID;
-		    swfobject.embedSWF(player.playerUrl, playerID, player.width, player.height, '8', null, null, player.flashvars, embed);
-        }
+		var divPlayer = $('<div>')
+			.addClass('b-flash-player');
+		divBox.append(divPlayer);
+
+		if (player.customEmbed != undefined) {
+			player.customEmbed(divPlayer);
+		} else {
+			divPlayer.append($('<div>').attr('id', playerID));
+			swfobject.createCSS('#' + playerID, styleFlashPlayerBox);
+			var embed = player.embedvars;
+			embed.id = playerID;
+			swfobject.embedSWF(player.playerUrl, playerID, player.width, player.height, '8', null, null, player.flashvars, embed);
+		}
 		el.title = 'Открыть в новом окне';
 	}
 	catch(ex) { if (__DEBUG) alert('Ошибка:\n\n' + ex); }

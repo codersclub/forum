@@ -327,3 +327,7 @@ tr.b-neighbor-links-wrapper {
     margin-top: 2em;
     margin-bottom: 1em;
 }
+
+.b-flash-player-wrapper {
+	display: inline-block;
+}
