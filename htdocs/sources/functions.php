@@ -1640,61 +1640,77 @@ class functions
 	//
 	/* ------------------------------------------------------------------------- */
 
+	/**
+	 * Загрузка шаблона.
+	 * @param string $name
+	 * @param string $id
+	 * @return stdClass
+	 */
 	function load_template($name, $id = '')
 	{
-		$ibforums = Ibf::app();
-
-		$tags = 1;
-
-		if (!$ibforums->vars['safe_mode_skins'])
+		static $templates;
+		if (!isset($templates[$name]))
 		{
-			// Simply require and return
-			// vot DEBUG:
-			//echo "load_template: ".$name." ".$id."<br>";
-			//echo "load_template: base_dir=".$ibforums->vars['base_dir']."<br>";
-			//echo "load_template: skin_id=".$ibforums->skin_id."<br>";
-			//echo "load_template: skin=".$ibforums->vars['base_dir']."Skin/".$ibforums->skin_id."/$name.php<br>";
-			return new $name();
-		} else
-		{
-			// We're using safe mode skins, yippee
-			// Load the data from the DB
+			$ibforums = Ibf::app();
 
-			$stmt = $ibforums->db->query("SELECT
-					func_name,
-					func_data,
-					section_content
-				    FROM ibf_skin_templates
-				    WHERE
-					set_id='" . $ibforums->skin_rid . "' AND
-					group_name='$name'");
+			$tags = 1;
 
-			if (!$stmt->rowCount())
+			if (!$ibforums->vars['safe_mode_skins'])
 			{
-				fatal_error("Could not fetch the templates from the database. Template $name, ID {$ibforums->skin_rid}");
+				// Simply require and return
+				// vot DEBUG:
+				//echo "load_template: ".$name." ".$id."<br>";
+				//echo "load_template: base_dir=".$ibforums->vars['base_dir']."<br>";
+				//echo "load_template: skin_id=".$ibforums->skin_id."<br>";
+				//echo "load_template: skin=".$ibforums->vars['base_dir']."Skin/".$ibforums->skin_id."/$name.php<br>";
+				$templates[$name] = new $name();
+
 			} else
 			{
-				$new_class = "class $name {\n";
+				// We're using safe mode skins, yippee
+				// Load the data from the DB
 
-				while ($row = $stmt->fetch())
+				$stmt = $ibforums->db->query(
+					"SELECT
+										func_name,
+										func_data,
+										section_content
+										FROM ibf_skin_templates
+										WHERE
+										set_id='" . $ibforums->skin_rid . "' AND
+					group_name='$name'"
+				);
+
+				if (!$stmt->rowCount())
 				{
-					if ($tags == 1)
+					fatal_error(
+						"Could not fetch the templates from the database. Template $name, ID {$ibforums->skin_rid}"
+					);
+				} else
+				{
+					$new_class = "class $name {\n";
+
+					while ($row = $stmt->fetch())
 					{
-						$comment = "<!--TEMPLATE: $name, Template Part: " . $row['func_name'] . "-->\n";
+						if ($tags == 1)
+						{
+							$comment = "<!--TEMPLATE: $name, Template Part: " . $row['func_name'] . "-->\n";
+						}
+
+						$new_class .= 'function ' . $row['func_name'] . '(' . $row['func_data'] . ") {\n";
+						$new_class .= "global \$ibforums;\n";
+						$new_class .= 'return <<<EOF' . "\n" . $comment . $row['section_content'] . "\nEOF;\n}\n";
 					}
 
-					$new_class .= 'function ' . $row['func_name'] . '(' . $row['func_data'] . ") {\n";
-					$new_class .= "global \$ibforums;\n";
-					$new_class .= 'return <<<EOF' . "\n" . $comment . $row['section_content'] . "\nEOF;\n}\n";
+					$new_class .= "}\n";
+
+					eval($new_class);
+
+					$templates[$name] = new $name();
 				}
-
-				$new_class .= "}\n";
-
-				eval($new_class);
-
-				return new $name();
 			}
 		}
+		return $templates[$name];
 	}
 
 	/* ------------------------------------------------------------------------- */
