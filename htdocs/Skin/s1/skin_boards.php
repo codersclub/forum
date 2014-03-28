@@ -7,9 +7,7 @@ class skin_boards {
 function bottom_links() {
 global $ibforums;
 return <<<EOF
-
-<br>
-   <div align='right' id='BottomLinks'><a id='DeleteCookiesButtons' href="{$ibforums->base_url}act=Login&amp;CODE=06">{$ibforums->lang['d_delete_cookies']}</a> &middot; <a id="MarkReadAllButton" href="{$ibforums->base_url}act=Login&amp;CODE=05">{$ibforums->lang['d_post_read']}</a></div>
+   <div id='BottomLinks'><a id='DeleteCookiesButtons' href="{$ibforums->base_url}act=Login&amp;CODE=06">{$ibforums->lang['d_delete_cookies']}</a> &middot; <a id="MarkReadAllButton" href="{$ibforums->base_url}act=Login&amp;CODE=05">{$ibforums->lang['d_post_read']}</a></div>
 
 EOF;
 }
@@ -37,8 +35,7 @@ function CatHeader_Collapsed($info,$plus = "") {
 global $ibforums;
 return <<<EOF
 
-<div class="tableborder category category-{$info['id']} category-collapsed category-collapsed-{$info['id']}"> <div class='maintitle' align='left'>{$plus}<a class='title-link category-title-link' href="{$ibforums->base_url}c={$info['id']}">{$info['name']}</a></div></div>
-<br>
+<div class="tableborder category category-{$info['id']} category-collapsed"> <div class='maintitle' align='left'>{$plus}<a class='title-link category-title-link' href="{$ibforums->base_url}c={$info['id']}">{$info['name']}</a></div></div>
 
 EOF;
 }
@@ -47,7 +44,7 @@ function CatHeader_Expanded($Data,$minus = "") {
 global $ibforums;
 return <<<EOF
 
- <div class="tableborder category category-{$Data['id']} category-expanded category-expanded-{$Data['id']}">
+ <div class="tableborder category category-{$Data['id']} category-expanded">
   <div class='maintitle' align='left'>{$minus}<a href="{$ibforums->base_url}c={$Data['id']}">{$Data['name']}</a></div>
     <table width="100%" border="0" cellspacing="1" cellpadding="4" class="forums-list">
 		<tr class="forums-list-header">
@@ -130,14 +127,12 @@ function stats_header() {
 global $ibforums;
 return <<<EOF
 
-    <br>
-	<div align='center' class='stats-links'>
+	<div class='stats-links'>
 		<a class='administration-link' href='{$ibforums->base_url}act=Stats&amp;CODE=leaders'>{$ibforums->lang['sm_forum_leaders']}</a> |
 		<a class='activity-link' href='{$ibforums->base_url}act=Select&amp;CODE=getactive'>{$ibforums->lang['sm_todays_posts']}</a> |
 		<a class='today-10-link' href='{$ibforums->base_url}act=Stats'>{$ibforums->lang['sm_today_posters']}</a> |
 		<a class='top-10-link' href='{$ibforums->base_url}act=Members&amp;max_results=10&amp;sort_key=posts&amp;sort_order=desc'>{$ibforums->lang['sm_all_posters']}</a>
 	</div>
-    <br>
 	<div class="tableborder board-stats">
 		<div class="maintitle">{$ibforums->lang['board_stats']}</div>
 		<table cellpadding='4' cellspacing='1' border='0' width='100%'>
@@ -153,7 +148,6 @@ return <<<EOF
 <span class='friends-title'>{$ibforums->lang['your_friends']}</span>
 <span class='friends-list'>{$active[FRIENDS]}</span>
 </div>
-<hr>
 
 EOF;
 }
@@ -212,7 +206,7 @@ return <<<EOF
 
        <tr class="forum-row forum-{$info['id']} forum-redirect">
          <td {$info[colspan]}class="row4 forum-image" align="center"><{BR_REDIRECT}></td>
-         <td class="row4 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a></b><br><span class='desc'>{$info['description']}</span></td>
+         <td class="row4 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a></b><div class='desc'>{$info['description']}</span></td>
          <td class="row2 forum-topics" align="center">-</td>
          <td class="row2 forum-replies" align="center">-</td>
          <td class="row2 forum-lastpost">{$ibforums->lang['rd_hits']}: {$info['redirect_hits']}</td>
@@ -244,10 +238,10 @@ return <<<EOF
 
 <tr class="forum-row forum forum-{$info['id']}">
  {$info['tree']}
- <td class="row2 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}">{$info['name']}</a></b> <span class='desc'>{$info['description']}</span></td>
+ <td class="row2 forum-title"><b><a href="{$ibforums->base_url}showforum={$info['id']}">{$info['name']}</a></b> <span class='desc'>{$info['description']}</div></td>
  <td class="row4 forum-topics" align="center">{$info['topics']}</td>
  <td class="row4 forum-replies" align="center">{$info['posts']}</td>
- <td class="row2 forum-lastpost">{$info['last_post']}<br>{$ibforums->lang['in']}: {$info['last_topic']}<br>{$ibforums->lang['by']}: {$info['last_poster']}</td>
+ <td class="row2 forum-lastpost"><time class='block' datetime='{$info['last_post_std']}'>{$info['last_post']}</time><div class='b-last-topic-row'>{$ibforums->lang['in']}: {$info['last_topic']}</div><div class='b-poster-row'>{$ibforums->lang['by']}: {$info['last_poster']}</div></td>
 </tr>
 
 EOF;
@@ -256,7 +250,7 @@ EOF;
 function newslink($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
-<div class='news news-first'><b><span class='news-header news-first-header'>{$ibforums->lang['newslink']}</span> <a class='news-link news-first-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span class='voteprefix'>$title</span></a></b></div>
+<div class='news news-first'><span class='news-header news-first-header'>{$ibforums->lang['newslink']}</span> <a class='news-link news-first-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span class='voteprefix'>$title</span></a></div>
 
 EOF;
 }
@@ -265,7 +259,7 @@ function secondnewslink($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
 
-<div class='news news-second'><b><span class='news-header news-second-header'>{$ibforums->lang['secondnewslink']}</span> <a class='news-link news-second-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></b><br></div>
+<div class='news news-second'><span class='news-header news-second-header'>{$ibforums->lang['secondnewslink']}</span> <a class='news-link news-second-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></div>
 
 EOF;
 }
@@ -273,9 +267,9 @@ EOF;
 function our_poll_link($fid="", $title="", $tid="") {
 global $ibforums;
 return <<<EOF
- 
-<div class='poll'><b><span class='poll-header'>{$ibforums->lang['our_polls_link']}</span> <a class='poll-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></b><br></div>
- 
+
+<div class='poll'><span class='poll-header'>{$ibforums->lang['our_polls_link']}</span> <a class='poll-link' href='{$ibforums->base_url}showtopic=$tid&view=getnewpost'><span style='color:blue'>$title</span></a></div>
+
 EOF;
 }
 
@@ -328,8 +322,10 @@ return <<<EOF
 </tr>
 <tr class='online-stats-row'>
   <td class='row2 block-image' width='5%' valign='middle'><{F_STATS}></td>
-  <td class='row4 online-stats' width="95%" align='left'><div class="online-stats-today">{$activity}</div><div class='thin online-stats-record'>
-{$ibforums->lang['online_record']}<br>{$ibforums->lang['category_record']}</div><div class='online-stats-peak'>{$ibforums->lang['most_online']}</div></td>
+  <td class='row4 online-stats' width="95%" align='left'>
+    <div class="online-stats-today">{$activity}</div>
+    <div class='thin online-stats-record'><div class='online-total-record'>{$ibforums->lang['online_record']}</div><div class="online-category-record">{$ibforums->lang['category_record']}</div></div>
+    <div class='online-stats-peak'>{$ibforums->lang['most_online']}</div></td>
 </tr>
 
 EOF;
@@ -376,7 +372,6 @@ return <<<EOF
 
       </table>
     </div>
-    <br>
 
 EOF;
 }
@@ -395,16 +390,17 @@ global $ibforums;
 return <<<EOF
 
 {$fid}
-<br>
- <div class="tableborder subforums">
-   <table width="100%" border="0" cellspacing="1" cellpadding="4" class='subforums-lists'>
+ <div class="tableborder b-subforums-wrapper">
+   <table width="100%" border="0" cellspacing="1" cellpadding="4" class='b-subforums'>
+   <thead>
    <tr class='forums-list-header'>
-  <td colspan="2" align="center" class='titlemedium forum-image-header'><img border="0" src="{$ibforums->vars['img_url']}/spacer.gif" alt="" width="28" height="1"></td>
+  <th colspan="2" align="center" class='titlemedium forum-image-header'><img border="0" src="{$ibforums->vars['img_url']}/spacer.gif" alt="" width="28" height="1"></th>
   <th align='left' width="59%" class='titlemedium forum-title-header'>{$ibforums->lang['cat_name']}</th>
   <th align="center" width="7%" class='titlemedium forum-topics-header'>{$ibforums->lang['topics']}</th>
   <th align="center" width="7%" class='titlemedium forum-replies-header'>{$ibforums->lang['replies']}</th>
   <th align='left' width="27%" class='titlemedium forum-lastpost-header'>{$ibforums->lang['last_post_info']}</th>
    </tr>
+   </thead>
 
 EOF;
 }

@@ -1,3 +1,4 @@
+/* black label */
 @import "/html/jqcd/skins/blacklabel/skin.css";
 
 HTML {
@@ -113,7 +114,7 @@ UL#help {
 	MARGIN: 0px 0px;
 }
 #GlobalMessage,
-#submenu {
+#top-menu {
 	MARGIN: 0px 0px;
 /*	PADDING-TOP: 4px;
 	PADDING-BOTTOM: 4px;
@@ -127,35 +128,35 @@ UL#help {
 	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif') #0c0c0c
 }
 #GlobalMessage TD,
-#submenu TD {
+#top-menu TD {
 	BORDER-LEFT: #666666 1px solid;
 	BORDER-RIGHT: #222222 1px solid;
 	PADDING-LEFT: 4px;
 	PADDING-RIGHT: 4px;
 }
 #GlobalMessage A:link,
-#submenu A:link {
+#top-menu A:link {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
 #GlobalMessage A:visited,
-#submenu A:visited {
+#top-menu A:visited {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
 #GlobalMessage A:active,
-#submenu A:active {
+#top-menu A:active {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
 	TEXT-DECORATION: none
 }
 #GlobalMessage A:hover,
-#submenu A:hover {
+#top-menu A:hover {
 	FONT-WEIGHT: bold;
 	FONT-SIZE: 10px;
 	COLOR: #FF9900;
@@ -197,7 +198,7 @@ UL#help {
 	COLOR: #FF9900;
 	TEXT-DECORATION: underline
 }
-#navstrip {
+.b-navigation-wrapper {
 	FONT-WEIGHT: bold;
 	COLOR: #cccccc;
 	PADDING-RIGHT: 0px;
@@ -370,13 +371,6 @@ UL#help {
     COLOR: #ffffff; TEXT-DECORATION: underline
 }
 
-.tableborder {
-	MARGIN: 0px 0px;
-	PADDING-LEFT: 0px;
-	PADDING-TOP: 0px;
-	PADDING-RIGHT: 0px;
-	PADDING-BOTTOM: 0px;
-}
 /*	BORDER-LEFT: #666666 1px solid;
 	BORDER-RIGHT: #333333 1px solid;
 	BORDER-TOP: #666666 1px solid;
@@ -499,14 +493,14 @@ A.warn_gr	{
 }
 
 .pformstrip {
-    PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; 
-    FONT-WEIGHT: bold; PADDING-BOTTOM: 7px; COLOR: #dddddd; 
+    PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px;
+    FONT-WEIGHT: bold; PADDING-BOTTOM: 7px; COLOR: #dddddd;
     PADDING-TOP: 7px; BACKGROUND-COLOR: #383838
 }
 
 .pformright {
-    PADDING-RIGHT: 6px; BORDER-TOP: #222222 1px solid; 
-    MARGIN-TOP: 1px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; 
+    PADDING-RIGHT: 6px; BORDER-TOP: #222222 1px solid;
+    MARGIN-TOP: 1px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px;
     PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
 }
 
@@ -515,24 +509,24 @@ A.warn_gr	{
 }
 
 .pformleft {
-    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px; 
-    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px; 
-    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 15%; 
+    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px;
+    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px;
+    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 15%;
     PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
 }
 
 .pformleftw {
-    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px; 
-    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px; 
-    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 40%; 
+    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px;
+    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px;
+    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 40%;
     PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
 }
 
 .tablefill {
-    BORDER-RIGHT: #222222 1px solid; PADDING-RIGHT: 6px; 
-    BORDER-TOP: #222222 1px solid; PADDING-LEFT: 6px; 
-    PADDING-BOTTOM: 6px; BORDER-LEFT: #222222 1px solid; 
-    PADDING-TOP: 6px; BORDER-BOTTOM: #222222 1px solid; 
+    BORDER-RIGHT: #222222 1px solid; PADDING-RIGHT: 6px;
+    BORDER-TOP: #222222 1px solid; PADDING-LEFT: 6px;
+    PADDING-BOTTOM: 6px; BORDER-LEFT: #222222 1px solid;
+    PADDING-TOP: 6px; BORDER-BOTTOM: #222222 1px solid;
     BACKGROUND-COLOR: #aaaaaa;
 }
 .tablefill a {
@@ -543,21 +537,21 @@ A.warn_gr	{
     FONT-SIZE: 10px;
     COLOR: #777
 }
-.desc A:link {
+.desc A:link, .topic-row .topic-column-last_post a:link {
     COLOR: #777; TEXT-DECORATION: underline
 }
-.desc A:visited {
+.topic-row .topic-column-last_post a:visited, .desc A:visited {
     COLOR: #777;
 }
-.desc A:active {
+.topic-row .topic-column-last_post a:active, .desc A:active {
     COLOR: #777;
 }
-.desc A:hover {
+.topic-row .topic-column-last_post a:hover, .desc A:hover {
     COLOR: #fff;
 }
 
 .activeuserstrip {
-    PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px; 
+    PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px;
     BACKGROUND-COLOR: #333333; color: #CCCCCC
 }
 .activeuserstrip a{
@@ -578,50 +572,50 @@ A.warn_gr	{
 }
 
 #ucpmenu {
-    BORDER-RIGHT: #444444 1px solid; 
-    BORDER-TOP: #444444 1px solid; 
-    BORDER-LEFT: #444444 1px solid; 
-    WIDTH: 22%; 
-    LINE-HEIGHT: 150%; 
-    BORDER-BOTTOM: #444444 1px solid; 
+    BORDER-RIGHT: #444444 1px solid;
+    BORDER-TOP: #444444 1px solid;
+    BORDER-LEFT: #444444 1px solid;
+    WIDTH: 22%;
+    LINE-HEIGHT: 150%;
+    BORDER-BOTTOM: #444444 1px solid;
     BACKGROUND-COLOR: #585858
 }
 
 #ucpcontent {
-    BORDER-RIGHT: #444444 1px solid; 
-    BORDER-TOP: #444444 1px solid; 
-    BORDER-LEFT: #444444 1px solid; 
-    WIDTH: auto; 
-    LINE-HEIGHT: 150%; 
-    BORDER-BOTTOM: #444444 1px solid; 
+    BORDER-RIGHT: #444444 1px solid;
+    BORDER-TOP: #444444 1px solid;
+    BORDER-LEFT: #444444 1px solid;
+    WIDTH: auto;
+    LINE-HEIGHT: 150%;
+    BORDER-BOTTOM: #444444 1px solid;
     BACKGROUND-COLOR: #aaaaaa
 }
 .tablepad {
-    PADDING-RIGHT: 6px; 
-    PADDING-LEFT: 6px; 
-    PADDING-BOTTOM: 6px; 
-    PADDING-TOP: 6px; 
+    PADDING-RIGHT: 6px;
+    PADDING-LEFT: 6px;
+    PADDING-BOTTOM: 6px;
+    PADDING-TOP: 6px;
     BACKGROUND-COLOR: #383838
 }
 
 .mstop {
     background: #666666;
-    border: 1px dotted #333333; 
+    border: 1px dotted #333333;
     border-bottom: 0;
     color: #ffffff;
     font-weight: bold;
-    font-size: 10px; 
+    font-size: 10px;
     margin: 8px auto 0 auto;
     padding: 3px
 }
 
 .msmain {
     background: #999999;
-    border: 1px dotted #333333; 
-    border-top: 0; 
+    border: 1px dotted #333333;
+    border-top: 0;
     color: #000000;
     padding: 4px;
-    margin: 0 auto 8px auto 
+    margin: 0 auto 8px auto
 }
 
 /*
@@ -644,21 +638,21 @@ A.warn_gr	{
 */
 
 .quote {
-	BORDER: #666 1px solid; 
-	PADDING: 2px; 
-	FONT-SIZE: 11px; 
-	COLOR: #383838; 
-	FONT-FAMILY: Verdana, Arial; WHITE-SPACE: normal; 
+	BORDER: #666 1px solid;
+	PADDING: 2px;
+	FONT-SIZE: 11px;
+	COLOR: #383838;
+	FONT-FAMILY: Verdana, Arial; WHITE-SPACE: normal;
 	BACKGROUND-COLOR: #8e8e8e;
 	overflow: auto;
 }
 
 
 .code {
-	BORDER: #000 1px solid; 
-	PADDING: 2px; 
-	FONT-SIZE: 11px; 
-	COLOR: #465584; 
+	BORDER: #000 1px solid;
+	PADDING: 2px;
+	FONT-SIZE: 11px;
+	COLOR: #465584;
 	BACKGROUND-COLOR: #999999;
 	line-height: 120%;
 }
@@ -797,7 +791,7 @@ LABEL {
 	FONT-SIZE: 12px
 }
 .unreg {
-	FONT-WEIGHT: bold; FONT-SIZE: 11px; color: orangered; 
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; color: orangered;
 }
 .topic-links {
 	PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; FONT-SIZE: 10px; BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif'); PADDING-BOTTOM: 7px; PADDING-TOP: 7px; BACKGROUND-COLOR: #d1dceb; text-align: right; font-weight: bold;
@@ -905,7 +899,7 @@ LABEL {
 	COLOR: blue
 }
 .pinnedprefix {
-	
+
 }
 .spoiler {
   border: 1px solid black;
@@ -991,4 +985,29 @@ div.rules-wrapper {
     PADDING-TOP: 4px;
     COLOR: #999999;
     BACKGROUND-COLOR: #383838
+}
+
+.topic-row .topic-column-last_post {
+    FONT-SIZE: 10px;
+    COLOR: #777
+}
+
+td.b-menu-item {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+.b-menu-item img {
+    padding-bottom: 2px;
+}
+
+.friends-online {
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 5px;
+}
+.online-stats-record,
+.members-categories,
+.friends-title
+{
+    color: #999999;
 }

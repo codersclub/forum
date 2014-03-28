@@ -38,14 +38,14 @@ if ($data['poll_state']) $topic_classes .= ' topic-is_poll';
 return <<<EOF
 
     <tr class="topic-row {$topic_classes}">
-      <td align='center' class='row4 topic-column-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
-      <td align='center' class='row2 topic-column-icon'>{$data['topic_icon']}</td>
+      <td class='row4 topic-column-status'><a href="{$ibforums->base_url}act=fav&topic={$data['tid']}" style="text-decoration:none" class="topic-status-link">{$data['folder_img']}</a></td>
+      <td class='row2 topic-column-icon'>{$data['topic_icon']}</td>
       <td class='row4 topic-column-title'>{$data['go_new_post']}{$data['prefix']} <a class="topic-link" href='{$ibforums->base_url}showtopic={$data['tid']}'{$data['forum_title']}>{$data['title']}</a> {$data[PAGES]}
-      <br><span class='desc'>{$data['description']}</span>{$data['queued_link']}</td>
-      <td align='center' class='row2 topic-column-author'>{$data['starter']}</td>
-      <td align='center' class='row4 topic-column-posts_num'>{$data['posts']}</td>
-      <td align='center' class='row2 topic-column-views_num'>{$data['views']}</td>
-      <td class='row2 topic-column-last_post'{$data['colspan']}><span class='desc'><span class='last-post-date'>{$data['last_post']}</span><br><span class='last-post-text'><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a></span> <span class='last-post-author'>{$data['last_poster']}</span></span></td>
+      <div class='desc'>{$data['description']}</span>{$data['queued_link']}</td>
+      <td class='row2 topic-column-author'>{$data['starter']}</td>
+      <td class='row4 topic-column-posts_num'>{$data['posts']}</td>
+      <td class='row2 topic-column-views_num'>{$data['views']}</td>
+      <td class='row2 topic-column-last_post'{$data['colspan']}><time datetime="{$data['last_post_std']}" class='last-post-date block'>{$data['last_post']}</time><span class='last-post-text'><a href='{$ibforums->base_url}showtopic={$data['tid']}&view=getlastpost'>{$data['last_text']}</a></span> <span class='last-post-author'>{$data['last_poster']}</span></td>
       {$data['mod_checkbox']}
     </tr>
 
@@ -203,20 +203,6 @@ return <<<EOF
 EOF;
 }
 
-
-function forum_filter($data) {
-global $ibforums;
-return <<<EOF
-
-<div class='tableborder'><div class='maintitle'>
-{$ibforums->lang['filter_text']}&nbsp;
-{$data}
-</div></div><br>
-
-EOF;
-}
-
-
 function mark_forum_read($data) {
 global $ibforums;
 return <<<EOF
@@ -230,8 +216,8 @@ function last_mod_column() {
 global $ibforums;
 return <<<EOF
 
-<th width='23%' align='left' nowrap="nowrap" class='titlemedium topic-last_post'>{$ibforums->lang['h_last_action']}</th>
-<th width='4%' align='center' class='titlemedium topic-column-mod_checkbox'>{$ibforums->lang['h_mod_checkbox']}</th>
+<th width='23%' class='titlemedium topic-column-last_post'>{$ibforums->lang['h_last_action']}</th>
+<th width='4%' class='titlemedium topic-column-mod_checkbox'>{$ibforums->lang['h_mod_checkbox']}</th>
 
 EOF;
 }
@@ -240,7 +226,7 @@ function last_column() {
 global $ibforums;
 return <<<EOF
 
-<th width='27%' align='left' nowrap="nowrap" class='titlemedium topic-last_post'>{$ibforums->lang['h_last_action']}</th>
+<th width='27%' class='titlemedium topic-column-last_post'>{$ibforums->lang['h_last_action']}</th>
 
 EOF;
 }
@@ -254,34 +240,34 @@ return <<<EOF
 var js_base_url = "{$ibforums->js_base_url}";
 </script>
 <script type='text/javascript' src='html/forums.js?{$ibforums->vars['client_script_version']}'></script>
-<table border=0 width="100%"><tr>
+<table style='b-moderators-row' border=0 width="100%"><tr>
 <td class='moderators' align='left'><span class='moderators-title title'>Модераторы:</span> <span class='moderators-list'>{$data['moderators']}</span></td>
 <td class='quick-search' align='right'>{$data['quick_search']}</td></tr></table>
-<br>
 <!--IBF.SUBFORUMS-->
-<a name='List'>
+<a name='List'></a>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
  <td class='pages-list-wrapper' align='left' width="20%" nowrap="nowrap">{$data['SHOW_PAGES']}{$data['show_all_topics']}</td>
  <td class='new-buttons-wrapper' align='right' width="80%"><span class='new-topic-button'>{$data[TOPIC_BUTTON]}</span><span class='new-poll-button>'{$data[POLL_BUTTON]}</span></td>
 </tr>
 </table>
-<div align='center'>{$data['mark_read']} <!--IBF.SUB_FORUM_LINK--></div><br>
+<div align='center' id='forum-subscribtion-buttons' class='b-forum-subscribtion-buttons'>{$data['mark_read']} <!--IBF.SUB_FORUM_LINK--></div>
 {$data['filter']}
  <div class="tableborder topics-wrapper">
   <div class='maintitle forum-title'><{CAT_IMG}>&nbsp;{$data['name']}</div>
    {$data['modform_open']}
    <table width='100%' border='0' cellspacing='1' cellpadding='4' class='topics'>
+    <thead>
     <tr class='darkrow2 topics-header'> 
-     <td align='center' class='titlemedium topic-status'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
-     <td align='center' class='titlemedium topic-icon'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
-     <th width='45%' align='left' nowrap="nowrap" class='titlemedium topic-title'>{$ibforums->lang['h_topic_title']}</th>
-     <th width='14%' align='center' nowrap="nowrap" class='titlemedium topic-author'>{$ibforums->lang['h_topic_starter']}</th>
-     <th width='7%' align='center' nowrap="nowrap" class='titlemedium topic-posts_num'>{$ibforums->lang['h_replies']}</th>
-     <th width='7%' align='center' nowrap="nowrap" class='titlemedium topic-views_num'>{$ibforums->lang['h_hits']}</th>
+     <th class='titlemedium topic-column-status'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
+     <th class='titlemedium topic-column-icon'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
+     <th width='45%' class='titlemedium topic-column-title'>{$ibforums->lang['h_topic_title']}</th>
+     <th width='14%' class='titlemedium topic-column-author'>{$ibforums->lang['h_topic_starter']}</th>
+     <th width='7%' class='titlemedium topic-column-posts_num'>{$ibforums->lang['h_replies']}</th>
+     <th width='7%' class='titlemedium topic-column-views_num'>{$ibforums->lang['h_hits']}</th>
      {$data['last_column']}
     </tr>
-
+	</thead>
 EOF;
 }
 
@@ -336,8 +322,6 @@ return <<<EOF
 </td>
 </tr>
 
-</div>
-
 EOF;
 }
 
@@ -346,8 +330,9 @@ EOF;
 function TableEnd($data) {
 global $ibforums;
 return <<<EOF
-
+<tfoot>
 {$data['modform_close']}
+</tfoot>
 </table>
 <!--IBF.FORUM_ACTIVE-->
 <div align='center' class='darkrow2' style='padding:4px'>
@@ -421,7 +406,7 @@ EOF;
 
 function renderGoNewPostLink($topic){
 	$ibf = Ibf::app();
-	return "<a href='{$ibf->base_url}showtopic={$topic['tid']}&amp;view=getnewpost'><{NEW_POST}></a>";
+	return "<a class='e-go_new_post-link' href='{$ibf->base_url}showtopic={$topic['tid']}&amp;view=getnewpost'><{NEW_POST}></a>";
 }
 
 function renderPinnedTopicPrefix() {
@@ -432,5 +417,13 @@ function renderClubTopicPrefix() {
 	return "<span class='clubprefix'>" . Ibf::app()->vars['pre_club'] . "</span> ";
 }
 
+function renderMarkSubforumRead($id) {
+	$ibf = Ibf::app();
+	return <<<EOF
+	<div class='b-subforum-subscribtion-buttons'>
+		<a class='e-mark_as_read-button' href='{$ibf->base_url}act=Login&amp;CODE=04&amp;f={$id}&amp;i=1'>{$ibf->lang['mark_as_read']}</a>
+	</div>
+EOF;
 }
-?>
+
+}

@@ -1,3 +1,4 @@
+/* winter graph */
 @import "/html/jqcd/skins/light-blue/skin.css";
 
 html { overflow-x: auto }
@@ -64,10 +65,10 @@ option.sub { font-weight: bold; color: #555 }
 #ucpcontent p { padding: 10px; margin: 0px }
 #ipsbanner { position: absolute; top: 1px; right: 5% }
 #logostrip { background-color: #78B1F3; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_back.gif) }
-#submenu { border: 1px solid #BCD0ED; background-color: #DFE6EF; font-size: 10px; margin: 3px 0px 3px 0px; color: #3A4F6C; font-weight: bold }
-#submenu a:link, #submenu  a:visited, #submenu a:active { font-weight: bold; font-size: 10px; text-decoration: none; color: #3A4F6C }
+#top-menu { border: 1px solid #BCD0ED; background-color: #DFE6EF; font-size: 10px; margin: 3px 0px 3px 0px; color: #3A4F6C; font-weight: bold }
+#top-menu a:link, #top-menu  a:visited, #top-menu a:active { font-weight: bold; font-size: 10px; text-decoration: none; color: #3A4F6C }
 #userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
-#navstrip { font-weight: bold; padding: 6px 0px 6px 0px }
+.b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #BCD0ED; padding: 6px }
 .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
@@ -98,13 +99,13 @@ option.sub { font-weight: bold; color: #555 }
 .maintitle a, .maintitle a:link, .maintitle a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
 .maintitle a:hover { text-decoration: underline }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
-.tableborder { border: 1px solid #345487; background-color: #FFF; padding: 0; margin: 0 }
+.tableborder { border: 1px solid #345487; background-color: #FFF; }
 .tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }
 .tablepad { background-color: #F5F9FD; padding: 6px }
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
 .wrapmini { float: left; line-height: 1.5em; width: 25% }
 .pagelinks { float: left; line-height: 1.2em; width: 35% }
-.desc { font-size: 10px; color: #434951 }
+.topic-row .topic-column-last_post, .desc { font-size: 10px; color: #434951 }
 .edit { font-size: 9px }
 .searchlite { font-weight: bold; color: #F00; background-color: #FF0 }
 .quote { white-space: normal; font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
@@ -209,4 +210,18 @@ div.rules-wrapper {
 .topic-hidden .topic-column-title {
     background-color: #D1DCEB;
     color: #3A4F6C
+}
+
+td.b-menu-item {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+.b-menu-item img {
+    padding-bottom: 2px;
+}
+
+.friends-online {
+    border-bottom: 1px solid gray;
+    padding-bottom: 5px;
 }

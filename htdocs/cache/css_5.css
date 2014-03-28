@@ -1,3 +1,4 @@
+/* new year */
 @import "/html/jqcd/skins/light-blue/skin.css";
 
 form { display: inline }
@@ -76,10 +77,10 @@ option.sub { font-weight: bold; color: #555 }
 .logo { color: #FFFFFF }
 .logo a:link, .logo a:visited, .logo a:active { text-decoration: none; color: #85AFFF }
 .logo a:hover { text-decoration: none; color: #FFFFFF }
-#submenu { font-size: 10px; margin: 3px 0px 3px 0px; font-weight: bold; color: #3A4F6C; background-color: #DFE6EF; border: 1px solid #BCD0ED }
-#submenu a:link, #submenu  a:visited, #submenu a:active { font-weight: bold; font-size: 10px; text-decoration: none; color: #3A4F6C }
+#top-menu { font-size: 10px; margin: 3px 0px 3px 0px; font-weight: bold; color: #3A4F6C; background-color: #DFE6EF; border: 1px solid #BCD0ED }
+#top-menu a:link, #top-menu  a:visited, #top-menu a:active { font-weight: bold; font-size: 10px; text-decoration: none; color: #3A4F6C }
 #userlinks { background-color: #f6f6f6; border: 1px solid #C2CFDF }
-#navstrip { font-weight: bold; padding: 6px 0px 6px 0px }
+.b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { padding: 4px; background-color: #BCD0ED }
 .pformstrip { font-variant: small-caps; font-weight: bold; padding: 2px; margin-top: 1px; color: #f9f9f9; background-color: #f9f9f9; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/tile_sub.gif) }
 .pformstrip a:link, .pformstrip a: active, .pformstrip a:visited { color: #f9f9f9 }
@@ -228,4 +229,32 @@ span.attach_preview p img {
 .topic-hidden .topic-column-title {
     color: #333333;
     background-color: #f9f9f9
+}
+.topic-row .topic-column-last_post,
+.topic-row .topic-column-last_post a:link,
+.topic-row .topic-column-last_post a:active,
+.topic-row .topic-column-last_post a:visited,
+.topic-row .topic-column-last_post a:hover
+{
+    font-size: 10px;
+    color: #4969AA;
+}
+
+td.b-menu-item {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+.b-menu-item img {
+    padding-bottom: 2px;
+    vertical-align: middle;
+}
+
+.b-user-action-buttons img {
+    vertical-align: middle;
+}
+
+.friends-online {
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 5px;
 }

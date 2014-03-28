@@ -683,7 +683,7 @@ class Boards {
 		$this->output .= $this->html->bottom_links();
 
 
-// vot	$this->output .= '<% BOTTOM BANNER %>';
+// vot	$this->output .= '<% BOTTOM BANNER %%>';
 		//---------------------------------------
 		// Check for news forum.
 		//---------------------------------------
@@ -1248,6 +1248,7 @@ class Boards {
 						$newest['img_new_post'] = $this->html->subforum_img_with_link($newest['img_new_post'], $forum_data['id']);
 					}
 
+					$newest['last_post_std'] = date('c', $newest['last_post']);
 					$newest['last_post'] = $std->get_date($newest['last_post']);
 					$newest['posts'] = $std->do_number_format($newest['posts']);
 					$newest['topics'] = $std->do_number_format($newest['topics']);
@@ -1431,6 +1432,7 @@ class Boards {
 				$forum_data['img_new_post'] = $this->html->subforum_img_with_link($forum_data['img_new_post'], $forum_data['id']);
 			}
 
+			$forum_data['last_post_std'] = date('c', $forum_data['last_post']);
 			$forum_data['last_post'] = $std->get_date($forum_data['last_post']);
 
 			$forum_data['last_topic'] = $ibforums->lang['f_none'];

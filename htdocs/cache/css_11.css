@@ -1,3 +1,4 @@
+/* mastilior */
 @import "/html/jqcd/skins/main/skin.css";
 
 html { overflow-x: auto }
@@ -65,10 +66,10 @@ option.sub { color: #555; font-weight: bold }
 #ucpcontent P { margin: 0px; padding: 10px }
 #ipsbanner { position: absolute; RIGHT: 5%; TOP: 1px }
 #logostrip { background-color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif'); padding: 0px; margin: 0px }
-#submenu { background-color: #9a8612; border: solid 1px #c0c000; color: #ffffc0; font-size: 10px; font-weight: bold; margin-bottom: 5px; margin-top: 5px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif') }
-#submenu A:link { color: #ffffc0; font-size: 10px; font-weight: bold; text-decoration: none }
-#submenu A:visited { color: #ffffc0 }
-#submenu A:hover { text-decoration: underline }
+#top-menu { background-color: #9a8612; border: solid 1px #c0c000; color: #ffffc0; font-size: 10px; font-weight: bold; margin-bottom: 5px; margin-top: 5px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif') }
+#top-menu A:link { color: #ffffc0; font-size: 10px; font-weight: bold; text-decoration: none }
+#top-menu A:visited { color: #ffffc0 }
+#top-menu A:hover { text-decoration: underline }
 #userlinks { background-color: #c0c000; color: #754c24; border: solid 1px #c0c000; background-image: url('http://forum.sources.ru/style_images/Sources_-383/gback.gif') }
 #userlinks A:link { color: #754c24; text-decoration: none }
 #userlinks A:visited { color: #7a5229; text-decoration: none }
@@ -88,7 +89,7 @@ option.sub { color: #555; font-weight: bold }
 .chead4, .chead6 { border-bottom: solid 1px #754c24 }
 .chead6 { border-left: solid 1px #c0c000; border-right: solid 1px #c0c000 }
 .tdab { background-color: #8c6239; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif'); padding: 7px }
-#navstrip { FONT-WEIGHT: bold; PADDING-BOTTOM: 6px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 6px }
+.b-navigation-wrapper { FONT-WEIGHT: bold; PADDING-BOTTOM: 6px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 6px }
 .activeuserstrip { background-color: #9b8612; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); padding: 6px; border: solid 1px #c0c000 }
 .activeuserstrip A:visited { color: #ffffc0 }
 .pformstrip, .pformstrip2 { background-color: #9b8612; color: #ffffc0; font-weight: bold; margin-top: 0px; padding: 7px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); border: solid 1px #c0c000; border-top: none }
@@ -132,7 +133,7 @@ option.sub { color: #555; font-weight: bold }
 .maintitle A:active { color: #ffffc0 }
 .maintitle2 { border-left: none; border-top: none; border-right: none }
 .plainborder { background-color: #9b8612; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); border: solid 1px #c0c000 }
-.tableborder { background-color: #8c6239; margin: 0px; padding: 0px }
+.tableborder { background-color: #8c6239; }
 .tablefill { background-color: #8c6239; padding: 6px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif'); border: solid 1px #c0c000 }
 .tablepad { background-color: #8c6239; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif'); padding: 6px; border-left: solid 1px #c0c000; border-right: solid 1px #c0c000; border-bottom: solid 1px #c0c000 }
 .tablebasic, .tablebasic2 { border: 0px; margin: 0px; padding: 0px; width: 100% }
@@ -267,4 +268,22 @@ div.rules-border {
     padding: 6px;
     border: solid 1px #c0c000;
     border-top: none
+}
+.topic-row .topic-column-last_post {
+    font-size: 10px;
+    color: #cfcf90;
+}
+
+td.b-menu-item {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+.b-menu-item img {
+    padding-bottom: 2px;
+}
+
+.friends-online {
+    border-bottom: 1px solid #808000;
+    padding-bottom: 5px;
 }

@@ -178,10 +178,6 @@ class display
 		}
 		// Song * Adjust the Favorites Icon
 
-		$image = ($ibforums->member['id'] && $this->is_new_fav_exists())
-			? "<{atb_favs_new}>"
-			: "<{atb_favs}>";
-
 		//---------------------------------------------
 		// Check for DEBUG Mode
 		//---------------------------------------------
@@ -262,7 +258,7 @@ class display
 
 			$timestamp = gmdate('j.m.y, H:i T');
 
-			$stats = "<br>\n<br>\n<div align='center'>[ Script Execution time: $ex_time ] &nbsp; [ $query_cnt queries used ] &nbsp; [ Generated: $timestamp ] &nbsp; $sload</div>\n<br>";
+			$stats = $skin_universal->RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload);
 
 		}
 		/********************************************************/
@@ -358,8 +354,7 @@ class display
 
 		/*		 * ***************************************************** */
 		// Build the board header
-
-		$this_header = $skin_universal->BoardHeader("", $image);
+		$this_header = $skin_universal->BoardHeader($ibforums->member['id'] && $this->is_new_fav_exists());
 
 		// Show rules link?
 

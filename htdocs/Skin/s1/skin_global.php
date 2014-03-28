@@ -61,9 +61,9 @@ return <<<EOF
 <tr>
   <td valign='middle'>
 	  <table align='center' cellpadding="4" class="tablefill">
-	  <tr> 
+	  <tr>
 		<td width="100%" align="center" nowrap="nowrap">
-		  {$ibforums->lang['thanks']}, 
+		  {$ibforums->lang['thanks']},
 		  $Text<br>
             <br>
             <img src="{$ibforums->vars['img_url']}/loading.gif"> <br>
@@ -117,25 +117,35 @@ return <<<EOF
 EOF;
 }
 
+function action_button_wrapper($html, $name) {
+	return (empty($html))
+		? $html
+		: "<span class='b-action-button'>{$html}</span>";
+}
+
 function Member_bar($msg, $ad_link, $mod_link, $val_link) {
 global $ibforums;
+$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
+
 return <<<EOF
 
-<table width="100%" id="userlinks" cellspacing="0">
-  <tr align='center'>
-    <td>
-<b>{$ibforums->lang['logged_in_as']} <a href='{$ibforums->base_url}showuser={$ibforums->member['id']}'>{$ibforums->member['name']}</a> !</b> [{$ibforums->input['IP_ADDRESS']}]
+<table width="100%" id="userlinks" class='b-user-links' cellspacing="0">
+  <tr>
+    <td class='b-welcome-message-wrapper'>
+<span class='b-welcome-message'><span class='e-welcome-prefix'>{$ibforums->lang['logged_in_as']} </span><a href='{$ibforums->base_url}showuser={$ibforums->member['id']}'>{$ibforums->member['name']}</a> !</span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
     </td>
-    <td>
+    <td class='b-user-action-buttons'>
       $ad_link
       $mod_link
       $val_link
-      <a href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a> &middot;
-      <a href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a> &middot;
-      <a href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a> 
-      <a href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a> &middot;
-      <a href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a> &middot;
-      <a href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a>
+      <span class='b-action-button b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
+      <span class='b-action-button b-user-pm-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a></span>
+      <span class='b-action-button b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
+      <span class='b-action-button b-user-new_posts-button no-middot'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
+      <span class='b-action-button b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
+      <span class='b-action-button b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
     </td>
   </tr>
 </table>
@@ -151,25 +161,25 @@ EOF;
 
 function Member_no_usepm_bar($ad_link, $mod_link, $val_link) {
 global $ibforums;
+	$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+	$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+	$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
 return <<<EOF
 
 <table width="100%" id="userlinks" cellspacing="0">
   <tr align='center'>
     <td align='left'>
-{$ibforums->lang['logged_in_as']} {$ibforums->member['name']} [{$ibforums->input['IP_ADDRESS']}]
+<span class='b-welcome-message'><span class='e-welcome-prefix'>{$ibforums->lang['logged_in_as']} </span>{$ibforums->member['name']} !</span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
     </td>
     <td align='center'>
       $ad_link
       $mod_link
       $val_link
-      <a href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a> &middot;
-<!--
-      <a href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg[TEXT]}</a> &middot;
--->
-  <a href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a>
-  <a href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a>  &middot;
-  <a href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a> &middot;
-  <a href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a>
+  <span class='b-action-button-wrapper b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
+  <span class='b-action-button-wrapper b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
+  <span class='b-action-button-wrapper b-user-new_posts-button no-middot'><a class='e-action-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
+  <span class='b-action-button-wrapper b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
+  <span class='b-action-button-wrapper b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
     </td>
   </tr>
 </table>
@@ -256,7 +266,7 @@ return <<<EOF
   <a onclick="this.parentNode.style.visibility='hidden'" style='position:absolute; right:5px; top:1px'><b>X</b></a>
   <div style="text-align:center; width:100%;">{$ibforums->lang['valid_warning']}</div>
 </div>
- 
+
 EOF;
 }
 
@@ -297,10 +307,10 @@ function pop_up_window($title, $css, $text) {
 global $ibforums;
 return <<<EOF
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"> 
- <head> 
-  <meta http-equiv="content-type" content="text/html;  charset=windows-1251"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="content-type" content="text/html;  charset=windows-1251">
   <title>$title</title>
   $css
  </head>
@@ -319,8 +329,7 @@ function forum_show_rules_full($rules) {
 global $ibforums;
 return <<<EOF
 
-    <div align='left' class='rules-wrapper'><div class='rules-title'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<span class='rules-title-text'><b>{$rules['title']}</b></span></div><br><div class='rules-text'>{$rules['body']}</div></div>
-	<br>
+    <div class='rules-wrapper'><div class='rules-title'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<span class='rules-title-text'><b>{$rules['title']}</b></span></div><div class='rules-text'>{$rules['body']}</div></div>
 
 EOF;
 }
@@ -339,7 +348,7 @@ EOF;
 function admin_link() {
 global $ibforums;
 return <<<EOF
-<a href='{$ibforums->vars['board_url']}/admin.{$ibforums->vars['php_ext']}' target='_blank'>{$ibforums->lang['admin_cp']}</a>&nbsp;&middot;
+<a class='e-action-button e-admin_cp-button' href='{$ibforums->vars['board_url']}/admin.{$ibforums->vars['php_ext']}' target='_blank'>{$ibforums->lang['admin_cp']}</a>
 EOF;
 }
 
@@ -347,7 +356,7 @@ EOF;
 function mod_link() {
 global $ibforums;
 return <<<EOF
-<a href='{$ibforums->base_url}act=modcp&amp;forum={$ibforums->input['f']}'>{$ibforums->lang['mod_cp']}</a>&nbsp;&middot;
+<a class='e-action-button e-mod_cp-button' href='{$ibforums->base_url}act=modcp&amp;forum={$ibforums->input['f']}'>{$ibforums->lang['mod_cp']}</a>&nbsp;&middot;
 EOF;
 }
 
@@ -409,8 +418,16 @@ return <<<EOF
 EOF;
 }
 
-function BoardHeader($time="", $image) {
+function BoardHeader($fav_active) {
 global $ibforums;
+	if ($fav_active) {
+		$image = '<{atb_favs_new}>';
+		$fav_class = 'has-new-favorites';
+	}else{
+		$image = '<{atb_favs}>';
+		$fav_class = '';
+	}
+
 return <<<EOF
 
 <script language='JavaScript' type='text/javascript'>
@@ -448,52 +465,52 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jqcd/jqcd.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 
-<table border='0' width='100%' cellspacing='0' cellpadding='1'>
+<table id='b-header' border='0' width='100%' cellspacing='0' cellpadding='1'>
 <tr id='logostrip'>
-<td width=210><a href='{$ibforums->vars['home_url']}' title='На главную'><img src='{$ibforums->vars['img_url']}/logo4.gif' alt='На главную' border='0'></a></td>
+<td class='b-logo-wrapper'><a class='e-logo-link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='e-logo-img' src='{$ibforums->vars['img_url']}/logo4.gif' alt='На главную' border='0'></a></td>
 
-<td align=center>
+<td align='center' class='b-slogan-wrapper'>
 <!-- SLOGAN -->
 </td>
 
-<td width=468 align=right>
+<td class='b-header-banner-wrapper'>
 <!-- HEADER_BANNER -->
 </td>
 </tr>
 
-<tr style='height:24px;'>
-<td align=right>
+<tr class='b-neighbor-links-wrapper'>
+<td class='b-neighbor-links-title'>
 Наши проекты:
 </td>
-<td colspan=2>
-&middot; 
-<a href="http://magazine.sources.ru/"><b>Журнал</b></a>
-&middot; 
-<a href="http://alglib.sources.ru/"><b>Алгоритмы</b></a>
-&middot; 
-<a href="http://e-science.sources.ru/"><b>Естественные Науки</b></a>
+<td class='b-neighbor-links' colspan=2>
 &middot;
-<a href="http://wiki.sources.ru/"><b>Wiki</b></a>
+<a class='e-neighbor-link e-neighbor-link-magazine' href="http://magazine.sources.ru/"><b>Журнал</b></a>
 &middot;
-<a href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
+<a class='e-neighbor-link e-neighbor-link-alglib' href="http://alglib.sources.ru/"><b>Алгоритмы</b></a>
 &middot;
-<a href="http://forum.sources.ru/donate.php"><b>Помощь&nbsp;проекту</b></a>
+<a class='e-neighbor-link e-neighbor-link-e_science' href="http://e-science.sources.ru/"><b>Естественные Науки</b></a>
+&middot;
+<a class='e-neighbor-link e-neighbor-link-wiki' href="http://wiki.sources.ru/"><b>Wiki</b></a>
+&middot;
+<a class='e-neighbor-link e-neighbor-link-drkb' href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
+&middot;
+<a class='e-neighbor-link e-neighbor-link-donate' href="http://forum.sources.ru/donate.php"><b>Помощь&nbsp;проекту</b></a>
 </td>
 </tr>
 </table>
 
 
-<table  width='100%' cellspacing='0' id='submenu'>
+<table  width='100%' cellspacing='0' id='top-menu' class='b-hor_menu b-menu'>
 <tr align='center'>
- <td><!--IBF.RULES--></td>
- <td><a href='{$ibforums->base_url}showtopic=50223'><{atb_faq}> {$ibforums->lang['tb_faq']}</a></td>
- <td><a href='{$ibforums->base_url}act=Help'><{atb_help}> {$ibforums->lang['tb_help']}</a></td>
- <td><a href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'><{atb_search}> {$ibforums->lang['tb_search']}</a></td>
- <td><a href='{$ibforums->base_url}act=Members'><{atb_members}> {$ibforums->lang['tb_mlist']}</a></td>
- <td><a href='{$ibforums->base_url}act=calendar'><{atb_calendar}> {$ibforums->lang['tb_calendar']}</a></td>
- <td><a href='{$ibforums->base_url}act=fav&show=1'>$image Избранное</a></td>
- <td><a href='{$ibforums->base_url}act=store'><{atb_store}> {$ibforums->lang['ibstore']}</a></td>
- <td><{RSS}></td>
+ <td class='b-menu-item b-menu-item-rules'><!--IBF.RULES--></td>
+ <td class='b-menu-item b-menu-item-faq'><a class='e-menu-item-faq' href='{$ibforums->base_url}showtopic=50223'><span class='b-menu-item-prefix b-menu-item-faq-prefix'><{atb_faq}></span>{$ibforums->lang['tb_faq']}</a></td>
+ <td class='b-menu-item b-menu-item-help'><a class='e-menu-item-help' href='{$ibforums->base_url}act=Help'><span class='b-menu-item-prefix b-menu-item-help-prefix'><{atb_help}></span>{$ibforums->lang['tb_help']}</a></td>
+ <td class='b-menu-item b-menu-item-search'><a class='e-menu-item-search' href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'><span class='b-menu-item-prefix b-menu-item-search-prefix'><{atb_search}></span>{$ibforums->lang['tb_search']}</a></td>
+ <td class='b-menu-item b-menu-item-members'><a class='e-menu-item-members' href='{$ibforums->base_url}act=Members'><span class='b-menu-item-prefix b-menu-item-members-prefix'><{atb_members}></span>{$ibforums->lang['tb_mlist']}</a></td>
+ <td class='b-menu-item b-menu-item-calendar'><a class='e-menu-item-calendar' href='{$ibforums->base_url}act=calendar'><span class='b-menu-item-prefix b-menu-item-calendar-prefix'><{atb_calendar}></span>{$ibforums->lang['tb_calendar']}</a></td>
+ <td class='b-menu-item b-menu-item-favorites {$fav_class}'><a class='e-menu-item-favorites {$fav_class}' href='{$ibforums->base_url}act=fav&show=1'><span class='b-menu-item-prefix b-menu-item-favorites-prefix'>$image</span>Избранное</a></td>
+ <td class='b-menu-item b-menu-item-store'><a class='e-menu-item-store' href='{$ibforums->base_url}act=store'><span class='b-menu-item-prefix b-menu-item-store-prefix'><{atb_store}></span>{$ibforums->lang['ibstore']}</a></td>
+ <td class='b-menu-item b-menu-item-rss'><{RSS}></td>
 </tr>
 </table>
 
@@ -505,9 +522,9 @@ EOF;
 function start_nav($NEW="") {
 global $ibforums;
 return <<<EOF
-<table border=0 width="100%" cellspacing=0 cellpadding=0>
+<table id='top-navigation' class='b-top-navigation' border=0 width="100%" cellspacing=0 cellpadding=0>
 <tr>
-<td id='navstrip' align='left'>
+<td class='b-navigation-wrapper'>
 <!--div id='navstrip' align='left'--><{F_NAV}>&nbsp;
 
 EOF;
@@ -519,17 +536,17 @@ return <<<EOF
 
 <!--/div-->
 </td>
-<td align="right" valign="middle" width=468>
+<td class='b-top-nav-banner-wrapper'>
 <!-- TOP NAV BANNER -->
-<br>
+
 <% TOP NAV BANNER %>
 </td>
 <!-- DONATE 5rub FORM -->
-<td align="right" valign="middle" width="200">
+<td class='b-donate-wrapper'>
 	<form action="https://money.yandex.ru/donate.xml" method="post">
 		<input type="hidden" name="to" value="41001151000887"/>
 		<input type="hidden" name="s5" value="5rub"/>
-		
+
 		<table class="donate">
 		<col align="right"><col width="50">
 		<tr>
@@ -547,8 +564,6 @@ return <<<EOF
 </tr>
 </table>
 
-<br>
-
 EOF;
 }
 
@@ -556,7 +571,7 @@ function mod_buttons_label() {
 global $ibforums;
 return <<<EOF
 
-<div style="height:3px"><!-- --></div><b>Модераторские</b>: 
+<div style="height:3px"><!-- --></div><b>Модераторские</b>:
 
 EOF;
 }
@@ -644,10 +659,9 @@ function forum_filter($data) {
 global $ibforums;
 return <<<EOF
 
-<div class='tableborder'><div class='maintitle'>
-{$ibforums->lang['filter_text']}&nbsp;
-{$data}
-</div></div><br>
+<div class='b-forum-filter-wrapper tableborder'><div class='maintitle b-forum-filter'>
+{$ibforums->lang['filter_text']}&nbsp;{$data}
+</div></div>
 
 EOF;
 }
@@ -678,4 +692,9 @@ EOF;
 }
 }
 
+function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
+return <<<EOF
+  <div class="e-script-execution-stats">[ Script Execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
+EOF;
+}
 }
