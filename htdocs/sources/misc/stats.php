@@ -251,33 +251,35 @@ class stats
 		// Do we have any moderators?.
 		//--------------------------------------------
 
-		$data = array();
+		$data = [];
 
-		$stmt = $ibforums->db->query("SELECT id,read_perms FROM ibf_forums");
+		$stmt = Ibf::app()->db->prepare("SELECT id,read_perms FROM ibf_forums")->execute();
 		while ($row = $stmt->fetch())
 		{
-			if ($std->check_perms($row['read_perms']) == TRUE)
+			if ($std->check_perms($row['read_perms']))
 			{
-
-				$stmt = $ibforums->db->query("SELECT
+				$new_data = Ibf::app()->db->prepare("
+					SELECT
 						f.id as forum_id,
 						f.name as forum_name,
-					        m.id,
+						m.id,
 						m.name,
 						m.location
-					     FROM
-					        ibf_members m,
+					FROM
+						ibf_members m,
 						ibf_moderators md,
 						ibf_forums f
-				      	     WHERE
-					        m.id=md.member_id and
-						md.forum_id='" . $row['id'] . "' and
-						f.id='" . $row['id'] . "'
-					     ORDER BY md.mid");
-				while ($i = $stmt->fetch())
-				{
-					$data[] = $i;
-				}
+					WHERE
+						m.id=md.member_id
+					AND
+						md.forum_id=:id1
+					AND
+						f.id=:id2
+					ORDER BY
+						md.mid")
+					->execute([':id1' => $row['id'], ':id2' => $row['id']])
+					->fetchAll();
+				$data = array_merge($data, $new_data);
 			}
 		}
 
