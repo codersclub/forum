@@ -468,6 +468,7 @@ A.warn_gr	{
 	BACKGROUND-COLOR: #AAAAAA
 }
 
+.e-posts-separator,
 .darkrow1 {
 	COLOR: #4c77b6; BACKGROUND-COLOR: #222222
 }
@@ -476,7 +477,7 @@ A.warn_gr	{
 	FONT-SIZE: 10px;
 }
 
-.postdetails a {
+.b-post-author-info a {
     color: #000;
 }
 
@@ -537,16 +538,13 @@ A.warn_gr	{
     FONT-SIZE: 10px;
     COLOR: #777
 }
-.desc A:link, .topic-row .topic-column-last_post a:link {
-    COLOR: #777; TEXT-DECORATION: underline
+.desc A:link, .b-topics-list-row .b-topics-list-column-last_post a:link {
+    TEXT-DECORATION: underline
 }
-.topic-row .topic-column-last_post a:visited, .desc A:visited {
+.b-topics-list-row .b-topics-list-column-last_post a:active, .desc A:active {
     COLOR: #777;
 }
-.topic-row .topic-column-last_post a:active, .desc A:active {
-    COLOR: #777;
-}
-.topic-row .topic-column-last_post a:hover, .desc A:hover {
+.b-topics-list-row .b-topics-list-column-last_post a:hover, .desc A:hover {
     COLOR: #fff;
 }
 
@@ -565,6 +563,14 @@ A.warn_gr	{
 .pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 {
     BACKGROUND-COLOR: #777777;
     COLOR: #333333;
+}
+
+.b-post-pinned {
+    BACKGROUND-COLOR: #777777;
+}
+
+.b-post-pinned .b-post-body {
+    color: #000000;
 }
 
 .pinned_topic .desc, .pinned_topic .desc a:link, .topic-pinned .desc, .topic-pinned .desc a:link {
@@ -772,7 +778,7 @@ LABEL {
 #ipsbanner {
 	RIGHT: 5%; POSITION: absolute; TOP: 1px
 }
-.signature {
+.e-signature {
 	FONT-SIZE: 10px; COLOR: #339; LINE-HEIGHT: 150%
 }
 .postcolor {
@@ -886,7 +892,7 @@ LABEL {
 .voteprefix {
 	COLOR: green
 }
-.movedprefix {
+.e-new_warning_notice, .movedprefix {
 	COLOR: red
 }
 .mirrorprefix {
@@ -903,14 +909,11 @@ LABEL {
 }
 .spoiler {
   border: 1px solid black;
-  padding: 2px 0px;
   margin-top: 5px
 }
 
 .spoiler_header {
-  padding-left: 16px;
-  height: 18px;
-  vertical-align: abs-middle;
+  padding: 2px 0 2px 16px;
   font-size: 80%;
 }
 
@@ -953,7 +956,7 @@ div.rules-wrapper {
 	MARGIN-LEFT: auto; WIDTH: 95%; MARGIN-RIGHT: auto; TEXT-ALIGN: left
 }
 
-.topic-favorite .topic-column-title{
+.topic-favorite .b-topics-list-column-title{
     MARGIN: 0px 0px;
     PADDING: 4px 4px 4px 4px;
     BORDER-LEFT: #555555 1px solid;
@@ -973,7 +976,7 @@ div.rules-wrapper {
     COLOR: #999999 !important;
     BACKGROUND-COLOR: #303030 !important;
 }
-.topic-hidden .topic-column-title {
+.topic-hidden .b-topics-list-column-title {
     MARGIN: 0px 0px;
     BORDER-LEFT: #555555 1px solid;
     BORDER-TOP: #555555 1px solid;
@@ -987,9 +990,35 @@ div.rules-wrapper {
     BACKGROUND-COLOR: #383838
 }
 
-.topic-row .topic-column-last_post {
+.e-author-online-text {
+    margin-left: 3px;
+    color:green;
+}
+
+.e-author-online-text:before {
+    content: '(';
+    COLOR: #999999;
+}
+.e-author-online-text:after {
+    content: ')';
+    COLOR: #999999;
+}
+.b-post-actions {
+    MARGIN: 0px 0px;
+    BORDER-LEFT: #505050 1px solid;
+    BORDER-TOP: #505050 1px solid;
+    BORDER-RIGHT: #383838 1px solid;
+    BORDER-BOTTOM: #383838 1px solid;
+    PADDING-LEFT: 4px;
+    PADDING-RIGHT: 4px;
+    PADDING-BOTTOM: 4px;
+    PADDING-TOP: 4px;
+    COLOR: #999999;
+    BACKGROUND-COLOR: #484848
+}
+
+.b-topics-list-row .b-topics-list-column-last_post {
     FONT-SIZE: 10px;
-    COLOR: #777
 }
 
 td.b-menu-item {
@@ -999,6 +1028,44 @@ td.b-menu-item {
 
 .b-menu-item img {
     padding-bottom: 2px;
+}
+.b-queued_topic-approve-button a:link,
+.b-queued_topic-reject-button a:link,
+.b-queued_topic-approve-button a:hover,
+.b-queued_topic-reject-button a:hover,
+.b-queued_topic-approve-button a:visited,
+.b-queued_topic-reject-button a:visited {
+    color: red;
+}
+
+.e-queued-topic-actions-title {
+    color: red;
+    font-weight: bold;
+}
+
+.b-posts-need-approve-button a:active,
+.b-posts-need-approve-button a:link,
+.b-posts-need-approve-button a:hover,
+.b-posts-need-approve-button a:visited {
+    font-weight: bold;
+    color: red;
+}
+ul.b-breadcrumbs-top li {
+    list-style: none;
+    background-image:  url('/style_images/BlackLabel/open.gif');
+    background-repeat: no-repeat;
+}
+ul.b-breadcrumbs-top li:first-child{
+    list-style: none;
+    background-image: url('/style_images/BlackLabel/nav.gif');
+    background-repeat: no-repeat;
+}
+
+.b-breadcrumbs-bottom li:first-child {
+    background-image: url('/style_images/BlackLabel/nav.gif');
+    background-repeat: no-repeat;
+    background-position: left;
+    padding: 3px 0 4px 20px;
 }
 
 .friends-online {
@@ -1010,4 +1077,19 @@ td.b-menu-item {
 .friends-title
 {
     color: #999999;
+}
+
+#GlobalMessage {
+    background-size: contain;
+    padding-bottom: 30px;
+    padding-top: 15px;
+}
+
+.e-error-message {
+    color: black;
+}
+
+.rules-text .spoiler,
+.rules-text .spoiler .body {
+    border-color: #999999;
 }

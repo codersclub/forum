@@ -73,7 +73,7 @@ class PostParser
 	var $cache_posts = array();
 	var $absent_highlight = array();
 	var $code_count = 0;
-	
+
 	/**
 	 * @var int
 	 */
@@ -860,9 +860,7 @@ class PostParser
 
 			!trim($text) && $text = $ibforums->lang['attached_file'];
 
-			$text = "<strong><span class='edit'>{$text}:</strong>&nbsp;{$attach->getLink()}";
-			$text .= " ({$attach->sizeAsString()}, {$ibforums->lang['attach_hits']}: {$attach->hits()})";
-			$text .= "</span>";
+			$text = Ibf::app()->functions->load_template('skin_forum')->attach($text, $attach);
 		}
 		return $text;
 	}
@@ -870,8 +868,14 @@ class PostParser
 	private function renderPreview(AttachImage $attach, $text)
 	{
 		global $ibforums, $std;
-		$alt = htmlspecialchars("{$ibforums->lang['pic_attach_thumb']} {$ibforums->lang['pic_zoom_thumb']}", 0, 'CP1251');
-		$show_reduced = $ibforums->vars['siu_width'] AND $ibforums->vars['siu_height'];
+		$alt = htmlspecialchars(
+			"{$ibforums->lang['pic_attach_thumb']}",
+			0,
+			'UTF-8'
+		);
+		$size = $attach->getRealSize();
+		$show_reduced = ((bool)$ibforums->vars['siu_width'] && $ibforums->vars['siu_width'] < $size['width'])
+			|| ((bool)$ibforums->vars['siu_height'] && $ibforums->vars['siu_height'] < $size['height']);
 
 		if (!trim($text))
 		{
@@ -880,19 +884,31 @@ class PostParser
 				: $ibforums->lang['pic_attach'];
 		}
 
-		if($attach->hasOption('img'))
-		{   //image as itself
-			$text = "<img src='" . $attach->getHref() . "' border='0' alt='{$text}' title='{$text}'>";
+		if ($attach->hasOption('img'))
+		{ //image as itself
+			$text = Ibf::app()->functions->load_template('skin_forum')->attachImageFull(
+				$text,
+				$alt,
+				$attach->getHref()
+			);
 		} elseif ($show_reduced)
 		{
 			//image as reduced preview
-			$img_size = $attach->getPreviewSizes();
-			$text     = "<span class='attach_preview'><p>{$text}:</p><br><a href='{$attach->getHref()}' title='{$alt}' target='_blank'><img src='{$attach->getPeviewLink()}' width='{$img_size['img_width']}' height='{$img_size['img_height']}' class='attach' alt='{$alt}'></a></span>";
-
+			$text = Ibf::app()->functions->load_template('skin_forum')
+				->attachImagePreviewReduced(
+				$text,
+				$alt,
+				$attach
+			);
 		} else
 		{
 			//image as preview
-			$text = "<span class='attach_preview'><p>{$text}:</p><img src='{$ibforums->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}' class='attach' alt='{$alt}'></span>";
+			$text = Ibf::app()->functions->load_template('skin_forum')
+				->attachImagePreview(
+				$text,
+				$alt,
+				$attach
+			);
 		}
 		return $text;
 	}
@@ -1075,7 +1091,7 @@ class PostParser
 			: array();
 
 		$this->topic_id = isset($in['TID']) ? intval($in['TID']) : 0;
-		
+
 		$this->in_sig = $in['SIGNATURE'];
 		$txt          = $in['TEXT'];
 
@@ -1133,9 +1149,9 @@ class PostParser
 		// Align Hack by Farch (Convert)
 		//--------------------------------------
 
-		$txt = preg_replace("#\[r\](.+?)\[/r\]#is", "<div align=right>\\1</div>", $txt);
-		$txt = preg_replace("#\[l](.+?)\[/l\]#is", "<div align=left>\\1</div>", $txt);
-		$txt = preg_replace("#\[c\](.+?)\[/c\]#is", "<div align=center>\\1</div>", $txt);
+		$txt = preg_replace("#\[r\](.+?)\[/r\]#is", '<div class="b-tag-align-right">\\1</div>', $txt);
+		$txt = preg_replace("#\[l](.+?)\[/l\]#is", '<div class="b-tag-align-left">\\1</div>', $txt);
+		$txt = preg_replace("#\[c\](.+?)\[/c\]#is", '<div class="b-tag-align-center">\\1</div>', $txt);
 		$txt = preg_replace("#\[hr\]#is", "<hr>", $txt);
 
 		if ($in['CODE'] == 1)
@@ -1152,13 +1168,12 @@ class PostParser
 			$this->quote_closed = 0;
 
 			$txt = preg_replace_callback('#\[quote(?:[^\]]*)\].*\[/quote\]#is', [$this, 'regex_parse_quotes'], $txt );
-				
+
 			//---------------------------------
 			// Do [CODE] tag
 			//---------------------------------
 			$txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->regex_code_syntax('\\3', '\\2', '{$in['HID']}')", $txt);
 
-			$txt = $this->parse_attach_tags($txt);
 			if ($in['SIGNATURE'] != 1)
 			{
 
@@ -1282,6 +1297,8 @@ class PostParser
 		{
 			$txt = nl2br($txt, false);
 		}
+		//tags use template/skins and we don't need to additional br's there.
+		$txt = $this->parse_attach_tags($txt);
 
 		// Unicode?
 		if ($this->allow_unicode)
@@ -2459,9 +2476,9 @@ class PostParser
 
 		// Song * quote with post link, 26.11.04
 		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?),(\d+?)\]#i', [$this, 'regex_quote_tag'], $txt);
-		
+
 		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?)\]#i', [$this,'regex_quote_tag'], $txt);
-		
+
 		$txt = preg_replace_callback('#\[/quote\]#i', [$this, 'regex_close_quote'], $txt);
 
 		if ($this->quote_open == $this->quote_closed and !$this->quote_error)
@@ -2526,11 +2543,11 @@ class PostParser
 	function regex_quote_tag($matches)
 	{
 		global $ibforums, $std;
-			
+
 		$name = $matches[1];
 		$date = $matches[2];
 		$pid  = intval($matches[3]);
-		
+
 		$tid = $this->topic_id;
 
 		$name = str_replace("+", "&#043;", $name);

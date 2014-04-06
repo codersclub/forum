@@ -99,7 +99,7 @@ option.sub { color: #555; font-weight: bold }
 .pformleft { background-color: #754c24; margin-top: 1px; padding: 6px; width: 10%; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif') }
 .pformleftw { background-color: #754c24; margin-top: 1px; padding: 6px; width: 40%; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif') }
 .pformright { background-color: #8c6239; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif'); margin-top: 1px; padding: 6px }
-.signature { color: #ffffc0; font-size: 10px; line-height: 150% }
+.e-signature { color: #ffffc0; font-size: 10px; line-height: 150% }
 .postdetails { font-size: 10px }
 .postcolor { font-size: 12px; line-height: 160% }
 .normalname { color: #fff; font-size: 12px; font-weight: bold }
@@ -117,7 +117,7 @@ option.sub { color: #555; font-weight: bold }
 .row2, .errtd { background-color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif'); color: #ffffc0 }
 .row3 { background-color: #9b8612; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif'); color: #ffffc0 }
 .row4 { background-color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dlback.gif'); color: #ffffc0; padding-top: 3px; padding-bottom: 2px }
-.darkrow1 { background-color: #8c6239; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif') }
+.e-posts-separator, .darkrow1 { background-color: #8c6239; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif') }
 .darkrow2, .pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 {
     background-color: #8d6b28;
     color: #ffffc0;
@@ -161,7 +161,7 @@ option.sub { color: #555; font-weight: bold }
 .orange { color: #f90 }
 .puple, .red, .green, .blue, .orange { font-weight: bold }
 .voteprefix {color:#59EF4F}
-.movedprefix {color:#FFC042}
+.e-new_warning_notice, .movedprefix {color:#FFC042}
 .mirrorprefix {
 	color:green;
 }
@@ -173,14 +173,11 @@ option.sub { color: #555; font-weight: bold }
 
 .spoiler {
   border: 1px solid black;
-  padding: 2px 0px;
   margin-top: 5px
 }
 
 .spoiler_header {
-  padding-left: 16px;
-  height: 18px;
-  vertical-align: abs-middle;
+  padding: 2px 0 2px 16px;
   font-size: 80%;
 }
 
@@ -251,7 +248,7 @@ div.rules-border {
     border-color: #FF4500;
 }
 
-.topic-favorite .topic-column-title {
+.topic-favorite .b-topics-list-column-title {
     background-color: #8d6b28;
     color: #ffffc0;
     background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback2.gif');
@@ -261,7 +258,7 @@ div.rules-border {
     color: #ffffc0 !important;
     background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback2.gif') !important;
 }
-.topic-hidden .topic-column-title {
+.topic-hidden .b-topics-list-column-title {
     background-color: #9b8612;
     color: #ffffc0;
     background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif');
@@ -269,7 +266,27 @@ div.rules-border {
     border: solid 1px #c0c000;
     border-top: none
 }
-.topic-row .topic-column-last_post {
+.e-author-online-text {
+    margin-left: 3px;
+    color: lightgreen;
+}
+
+.e-author-online-text:before {
+    content: '(';
+    color: #ffffc0;
+}
+.e-author-online-text:after {
+    content: ')';
+    color: #ffffc0;
+}
+.b-post-actions {
+    background-color: #754c24;
+    background-image: url('http://forum.sources.ru/style_images/Sources_-383/dlback.gif');
+    color: #ffffc0;
+    padding-top: 3px;
+    padding-bottom: 2px
+}
+.b-topics-list-row .b-topics-list-column-last_post {
     font-size: 10px;
     color: #cfcf90;
 }
@@ -281,6 +298,45 @@ td.b-menu-item {
 
 .b-menu-item img {
     padding-bottom: 2px;
+}
+.b-queued_topic-approve-button a:link,
+.b-queued_topic-reject-button a:link,
+.b-queued_topic-approve-button a:hover,
+.b-queued_topic-reject-button a:hover,
+.b-queued_topic-approve-button a:visited,
+.b-queued_topic-reject-button a:visited {
+    color: red;
+}
+
+.e-queued-topic-actions-title {
+    color: red;
+    font-weight: bold;
+}
+
+.b-posts-need-approve-button a:active,
+.b-posts-need-approve-button a:link,
+.b-posts-need-approve-button a:hover,
+.b-posts-need-approve-button a:visited {
+    font-weight: bold;
+    color: red;
+}
+
+ul.b-breadcrumbs-top li {
+    list-style: none;
+    background-image:  url('/style_images/Sources_-383/open.gif');
+    background-repeat: no-repeat;
+}
+ul.b-breadcrumbs-top li:first-child{
+    list-style: none;
+    background-image: url('/style_images/Sources_-383/nav.gif');
+    background-repeat: no-repeat;
+}
+
+.b-breadcrumbs-bottom li:first-child {
+    background-image: url('/style_images/Sources_-383/nav.gif');
+    background-repeat: no-repeat;
+    background-position: left;
+    padding: 2px 0 4px 20px;
 }
 
 .friends-online {

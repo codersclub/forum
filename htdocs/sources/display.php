@@ -40,61 +40,42 @@ class display
 		return true;
 	}
 
-	function nav($output_array)
-	{
-		global $skin_universal, $ibforums, $std;
-
-		$nav = $skin_universal->start_nav("_NEW");
-
-		$nav .= "<a href='{$ibforums->base_url}'>{$ibforums->vars['board_name']}</a>";
+	private function makeBreadcrumbs($output_array){
+		$ibf = Ibf::app();
+		$items = [ "<a href='{$ibf->base_url}'>{$ibf->vars['board_name']}</a>" ];
 
 		if (empty($output_array['OVERRIDE']))
 		{
 			if (is_array($output_array['NAV']))
 			{
-				$mysep = "";
-				foreach ($output_array['NAV'] as $n)
-				{
-					if ($n)
-					{
-						$mysep .= "&nbsp;&nbsp;";
-						$nav .= "<br>&nbsp;&nbsp;&nbsp;" . $mysep . "<{F_NAV_SEP}>" . $n;
-					}
-				}
+				$items = array_merge($items, $output_array['NAV']);
+				//<{F_NAV}>
+				//<{F_NAV_SEP}>
 			}
 		}
+		return $items;
+	}
 
+	function topNav($output_array)
+	{
+		global $skin_universal, $ibforums, $std;
+
+		$nav = $skin_universal->start_nav("_NEW");
+		$nav .= $skin_universal->topBreadcrumbs($this->makeBreadcrumbs($output_array));
 		$nav .= $skin_universal->end_nav();
 
 		return $nav;
 	}
 
-	function nav_at_line($output_array)
+	/**
+	 * Botton (one-line) breadcrumbs
+	 * @param array $output_array
+	 * @return string
+	 */
+	function bottomNav($output_array)
 	{
-
-		global $skin_universal, $ibforums, $std;
-
-		$nav = "<{F_NAV}> <a href='{$ibforums->base_url}'>{$ibforums->vars['board_name']}</a>";
-
-		if (empty($output_array['OVERRIDE']))
-		{
-			$level = 0;
-
-			if (is_array($output_array['NAV']))
-			{
-				foreach ($output_array['NAV'] as $n)
-				{
-					if ($n and $level != 0)
-					{
-						$nav .= " · " . $n;
-					}
-
-					$level++;
-				}
-			}
-		}
-
-		return $nav;
+		global $skin_universal;
+		return $skin_universal->bottomBreadcrumbs($this->makeBreadcrumbs($output_array));
 	}
 
 	//-------------------------------------------
@@ -265,7 +246,7 @@ class display
 		// NAVIGATION
 		/********************************************************/
 
-		$nav = $this->nav($output_array);
+		$nav = $this->topNav($output_array);
 
 		//---------------------------------------------------------
 		// CSS
@@ -515,10 +496,11 @@ class display
 		// Song * secondary navigation
 
 		$replace[] = "<!--IBF.NAVIGATION-->";
-		$change[]  = $this->nav_at_line($output_array);
+		$change[]  = $this->bottomNav($output_array);
 
 		$replace[] = "<% MEMBER BAR %>";
 
+		//todo разрулить условие нафик
 		if (empty($output_array['OVERRIDE']) or TRUE /* MEMBER BAR WILL DISPLAY ON ERROR PAGES */)
 		{
 			$change[] = $output_array['MEMBER_BAR'] . $valid_warning;
