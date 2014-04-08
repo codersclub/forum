@@ -790,3 +790,18 @@ span.b-post-links-post:before {
 .b-topic-moderators-list {
     margin-bottom: 3px;
 }
+
+.inbox-pm-list {
+    border-spacing: 1px;
+    width: 100%;
+}
+
+.inbox-pm-list td {
+    padding: 4px;
+}
+
+.inbox-pm-list a:link,
+.inbox-pm-list a:visited {
+    color: black;
+}
+

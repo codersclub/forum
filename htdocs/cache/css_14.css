@@ -1126,8 +1126,8 @@ ul.b-breadcrumbs-top li:first-child{
 
 .inbox-pm-list {
     border-spacing: 0;
-    width: 100%;
 }
+
 .inbox-pm-list th {
     padding: 4px;
     background-color: transparent;
@@ -1135,7 +1135,6 @@ ul.b-breadcrumbs-top li:first-child{
 }
 
 .inbox-pm-list td {
-    padding: 4px;
     background-color: transparent;
     border-bottom: 1px solid white;
     border-right: 1px solid lightgray;

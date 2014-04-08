@@ -182,7 +182,7 @@ function inbox_row($data) {
 global $ibforums;
 return <<<EOF
 
-  <tr class="b-pm-row">
+  <tr class="inbox-pm-list-row">
 	<td class="inbox-pm-list-column-icon" align="center" valign='middle'>{$data['msg']['icon']}</td>
 	<td class="inbox-pm-column-title" ><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
 	<td class="inbox-pm-column-sender"><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>

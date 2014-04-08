@@ -325,3 +325,7 @@ ul.b-breadcrumbs-top li:first-child:before {
     border-bottom: 1px solid lightgray;
     padding-bottom: 5px;
 }
+
+.inbox-pm-list-row { background-color: #ffffff }
+.inbox-pm-list-header-row { font-size: 10px; font-weight: bold; padding: 2px; margin: 0px; color: #f9f9f9; background-color: #6688CC }
+.inbox-pm-list-header-row  a:link, .inbox-pm-list-header-row  a:visited, .inbox-pm-list-header-row  a:active { text-decoration: underline; color: #f9f9f9 }
