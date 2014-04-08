@@ -146,9 +146,9 @@ pre	{
       position:absolute;
 }
 
-div.rules-border,
-div.warning-message,
-div.bordered-red {
+.rules-border,
+.warning-message,
+.bordered-red {
 	border: 2px solid red;
 	/* must depend on skin */
 	background-color: white;

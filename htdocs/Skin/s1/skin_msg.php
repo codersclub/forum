@@ -57,16 +57,16 @@ var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',l
   <tr>
       <td valign='middle' class='row4'><span class='normalname'><a href="{$ibforums->base_url}showuser={$data['member']['id']}">{$data['member']['name']}</a></span> {$data['online']}</td>
         <td class='row4' valign='top'>
-        
+
         <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>
         {$data[POST]['post_icon']}<span class='postdetails'>{$data['msg']['msg_date']}</span>
         </div>
-        
+
         <div align='right'>
           <a href='{$ibforums->base_url}CODE=05&amp;act=Msg&amp;MSID={$data['msg']['msg_id']}&amp;VID={$data['member']['VID']}'><{P_DELETE}></a>
           &nbsp;<a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MID={$data['member']['id']}&amp;MSID={$data['msg']['msg_id']}'><{P_QUOTE}></a>
         </div>
-      
+
       </td>
     </tr>
     <tr>
@@ -80,18 +80,18 @@ var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',l
         <br>{$data['member']['member_joined']}
         <br>
         </span>
-        <img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='160' height='1'><br> 
+        <img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='160' height='1'><br>
       </td>
       <td width='100%' valign='top' class='post1'><span class='postcolor'>{$data['msg']['message']}</span><span class="signature">{$data['member']['signature']}</span></td>
     </tr>
     <tr>
       <td class='darkrow3' align='left'>[ <a href='{$ibforums->base_url}CODE=02&amp;act=Msg&amp;MID={$data['member']['id']}'>{$ibforums->lang['add_to_book']}</a> ]</td>
       <td class='darkrow3' nowrap="nowrap" align='left'>
-      
+
         <div align='left' class='darkrow3' style='float:left;'>
         {$data['member']['addresscard']}{$data['member']['message_icon']}{$data['member']['email_icon']}{$data['member']['website_icon']}{$data['member']['integ_icon']}{$data['member']['icq_icon']}{$data['member']['aol_icon']}{$data['member']['yahoo_icon']}{$data['member']['msn_icon']}
       </div>
-         
+
         <div align='right'><a href='javascript:scroll(0,0);'><img src='{$ibforums->vars['img_url']}/p_up.gif' alt='Top' border='0'></a></div>
       </td>
     </tr>
@@ -117,7 +117,7 @@ function mass_pm_box($names="") {
 global $ibforums;
 return <<<EOF
 
-     
+
 <tr>
 <td colspan='3' class='pformstrip'>{$ibforums->lang['carbon_copy_title']}</td>
 </tr>
@@ -142,7 +142,7 @@ return <<<EOF
 function find_users()
 {
   url = "index.{$ibforums->vars['php_ext']}?act=legends&CODE=finduser_one&s={$ibforums->session_id}&entry=textarea&name=carbon_copy&sep=line";
-  window.open(url,'FindUsers','width=400,height=250,resizable=yes,scrollbars=yes'); 
+  window.open(url,'FindUsers','width=400,height=250,resizable=yes,scrollbars=yes');
 }
 //-->
 </script>
@@ -160,7 +160,7 @@ function find_users()
 <tr>
   <td class='pformleft'>{$ibforums->lang['address_list']}</td>
   <td class='pformright' colspan='2'>{$data[CONTACTS]}&nbsp;</td>
-</tr>  
+</tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['enter_name']}</td>
   <td class='pformright' colspan='2'><input type='text' name='entered_name' size='50' value='{$data[N_ENTER]}' tabindex="1" class='forminput'></td>
@@ -182,12 +182,12 @@ function inbox_row($data) {
 global $ibforums;
 return <<<EOF
 
-  <tr class="dlight">
-	<td align="center" valign='middle'>{$data['msg']['icon']}</td>
-	<td><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
-	<td><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>
-	<td>{$data['msg']['date']}</td>
-	<td align="center"><input type='hidden' name='{$data['msg']['msg_id']}' value='{$data['msg']['read_state']}'><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput' onclick="cca(this);"></td>
+  <tr class="b-pm-row">
+	<td class="inbox-pm-list-column-icon" align="center" valign='middle'>{$data['msg']['icon']}</td>
+	<td class="inbox-pm-column-title" ><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
+	<td class="inbox-pm-column-sender"><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>
+	<td class="inbox-pm-column-date">{$data['msg']['date']}</td>
+	<td class="inbox-pm-column-checkbox" align="center"><input type='hidden' name='{$data['msg']['msg_id']}' value='{$data['msg']['read_state']}'><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput' onclick="cca(this);"></td>
   </tr>
 
 EOF;
@@ -251,7 +251,7 @@ return <<<EOF
 </table>
 </div>
 </form>
-                  
+
 
 EOF;
 }
@@ -310,7 +310,7 @@ function cca(cb) {
 	   dl(cb);
    }
 }
-	   
+
 function CheckAll(cb) {
 	var fmobj = document.mutliact;
 	for (var i=0;i<fmobj.elements.length;i++) {
@@ -328,7 +328,7 @@ function CheckAll(cb) {
 		}
 	}
 }
-function CheckCheckAll(cb) {	
+function CheckCheckAll(cb) {
 	var fmobj = document.mutliact;
 	var TotalBoxes = 0;
 	var TotalOn = 0;
@@ -344,7 +344,7 @@ function CheckCheckAll(cb) {
 	if (TotalBoxes==TotalOn) {fmobj.allbox.checked=true;}
 	else {fmobj.allbox.checked=false;}
 }
-function select_read() {	
+function select_read() {
 	var fmobj = document.mutliact;
 	for (var i=0;i<fmobj.elements.length;i++) {
 		var e = fmobj.elements[i];
@@ -355,7 +355,7 @@ function select_read() {
 		}
 	}
 }
-function unselect_all() {	
+function unselect_all() {
 	var fmobj = document.mutliact;
 	for (var i=0;i<fmobj.elements.length;i++) {
 		var e = fmobj.elements[i];
@@ -394,16 +394,18 @@ function unselect_all() {
  </td>
 </tr>
 </table>
-<form action="{$ibforums->base_url}CODE=06&amp;act=Msg" name='mutliact' method="post">
-<div class="tableborder">
-  <table cellpadding='4' cellspacing='1' width="100%">
-  <tr>
-	<th width='5%'  class='titlemedium'>&nbsp;</th>
-	<th width='35%' class='titlemedium'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_title']}</b></a></th>
-	<th width='30%' class='titlemedium'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_from']}</b></a></th>
-	<th width='25%' class='titlemedium'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_date']}</b></a></th>
-	<th width='5%'  class='titlemedium'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
+<form action="{$ibforums->base_url}CODE=06&amp;act=Msg" name='mutliact' method="post" class="inbox-pm-list-form">
+<div class="tableborder inbox-pm-list-wrapper">
+  <table class="inbox-pm-list">
+  <thead>
+  <tr class="inbox-pm-list-header-row">
+	<th width='5%'  class='inbox-pm-list-column-icon'>&nbsp;</th>
+	<th width='35%' class='inbox-pm-list-column-title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_title']}</b></a></th>
+	<th width='30%' class='inbox-pm-list-column-sender'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_from']}</b></a></th>
+	<th width='25%' class='inbox-pm-list-column-date'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_date']}</b></a></th>
+	<th width='5%'  class='inbox-pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
   </tr>
+  </thead>
 
 EOF;
 }
@@ -436,7 +438,7 @@ return <<<EOF
 </table>
 </div>
 </form>
-                  
+
 
 EOF;
 }
@@ -457,7 +459,7 @@ function CheckAll(cb) {
 		}
 	}
 }
-function CheckCheckAll(cb) {	
+function CheckCheckAll(cb) {
 	var fmobj = document.mutliact;
 	var TotalBoxes = 0;
 	var TotalOn = 0;
@@ -576,7 +578,7 @@ function CheckAll(fmobj) {
 		}
 	}
 }
-function CheckCheckAll(fmobj) {	
+function CheckCheckAll(fmobj) {
 	var TotalBoxes = 0;
 	var TotalOn = 0;
 	for (var i=0;i<fmobj.elements.length;i++) {
@@ -718,7 +720,7 @@ global $ibforums;
 return <<<EOF
 
       <tr>
-      <td class='row1' colspan='5' align='center'><b>{$ibforums->lang['inbox_no_msg']}</b></td>                
+      <td class='row1' colspan='5' align='center'><b>{$ibforums->lang['inbox_no_msg']}</b></td>
       </tr>
 
 EOF;
@@ -824,17 +826,17 @@ return <<<EOF
  	opener.document.location.href = '{$ibforums->base_url}act=Msg&amp;CODE=01';
  	window.close();
  }
- 
+
  function goto_this_inbox() {
  	window.resizeTo('700','500');
  	document.location.href = '{$ibforums->base_url}&act=Msg&CODE=01';
  }
- 
+
  function go_read_msg() {
  	window.resizeTo('700','500');
  	document.location.href = '{$ibforums->base_url}&act=Msg&CODE=03&VID=in&MSID=$mid';
  }
- 
+
 //-->
 </script>
 <table cellspacing='1' cellpadding='10' width='100%' height='100%' align='center' class='row1'>
@@ -873,40 +875,40 @@ return <<<EOF
 			background-color:#FFF;
 			text-align:center
 		   }
-		   
+
 	#ipbwrapper { text-align:left; width:95%; margin-left:auto;margin-right:auto }
-	
-	html { overflow-x: auto; } 
-	
+
+	html { overflow-x: auto; }
+
 	a:link, a:visited, a:active { text-decoration: underline; color: #000 }
 	a:hover { color: #465584; text-decoration:underline }
 	img        { vertical-align:middle; border:0px }
-	
+
 	.post1 { background-color: #F5F9FD }
 	.post2 { background-color: #EEF2F7 }
-	
+
 	/* Common elements */
 	.row1 { background-color: #F5F9FD }
 	.row2 { background-color: #DFE6EF }
 	.row3 { background-color: #EEF2F7 }
 	.row4 { background-color: #E4EAF2 }
-	
+
 	/* tableborders gives the white column / row lines effect */
 	.plainborder { border:1px solid #345487;background-color:#F5F9FD }
 	.tableborder { border:1px solid #345487;background-color:#FFF; padding:0; margin:0 }
 	.tablefill   { border:1px solid #345487;background-color:#F5F9FD;padding:6px;  }
 	.tablepad    { background-color:#F5F9FD;padding:6px }
 	.tablebasic  { width:100%; padding:0px 0px 0px 0px; margin:0px; border:0px }
-	
+
 	.pformstrip { background-color: #D1DCEB; color:#3A4F6C;font-weight:bold;padding:7px;margin-top:1px }
 	.quote { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
 	.code  { font-family: Courier, Courier New, Verdana, Arial;  font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
-	
+
 	/* Main table top (dark blue gradient by default) */
 	.maintitle { vertical-align:middle;font-weight:bold; color:#FFF; background-color:D1DCEB;padding:8px 0px 8px 5px; background-image: url({$ibforums->vars['board_url']}/style_images/<#IMG_DIR#>/tile_back.gif) }
 	.maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
 	.maintitle a:hover { text-decoration: underline }
-    
+
     /* Topic View elements */
 	.signature   { font-size: 10px; color: #339; line-height:150% }
 	.postdetails { font-size: 10px }
