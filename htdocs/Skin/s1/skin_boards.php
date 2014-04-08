@@ -30,7 +30,10 @@ function CatHeader_Collapsed($info,$plus = "") {
 global $ibforums;
 return <<<EOF
 
-<div class="tableborder b-category b-category-{$info['id']} b-category-collapsed" data-category-id="{$info['id']}"> <div class="maintitle b-category-title">{$plus}<a class="e-title-link e-category-title-link" href="{$ibforums->base_url}c={$info['id']}">{$info['name']}</a></div></div>
+<div class="tableborder b-category b-category-{$info['id']} b-category-collapsed" data-category-id="{$info['id']}">
+	<div class="maintitle b-category-title">{$plus}<a class="e-title-link e-category-title-link" href="{$ibforums->base_url}c={$info['id']}">{$info['name']}</a></div>
+	<div class="b-category-footer"></div>
+</div>
 
 EOF;
 }
@@ -350,13 +353,14 @@ EOF;
 function end_this_cat() {
 global $ibforums;
 return <<<EOF
-
-  <TR class="category-footer-row">
-    <TD class="tablefooter" colspan=6><!-- -->
-    </td>
-  </TR>
-
-      </table>
+	  <tfoot>
+		  <TR class="b-forum-list-footer">
+		    <TD class="tablefooter" colspan=6><!-- -->
+		    </td>
+		  </TR>
+	  </tfoot>
+  </table>
+	<div class="b-category-footer"></div>
     </div>
 
 EOF;
