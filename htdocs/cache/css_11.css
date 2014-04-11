@@ -344,4 +344,5 @@ ul.b-breadcrumbs-top li:first-child{
     padding-bottom: 5px;
 }
 
-.inbox-pm-list-row { background-color: #754c24; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif') }
+.pm-list-row { background-color: #754c24; background-image: url('/style_images/Sources_-383/dback.gif') }
+.pm-list-row.selected { background-color: #8c6239; background-image: url('http://forum.sources.ru/style_images/Sources_-383/back.gif') }

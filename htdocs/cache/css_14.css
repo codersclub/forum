@@ -669,16 +669,6 @@ A.warn_gr	{
 	line-height: 120%;
 }
 
-
-
-
-
-
-
-
-
-
-
 IMG.attach {
 	PADDING-LEFT: 2px;
 	PADDING-TOP: 2px;
@@ -901,6 +891,7 @@ LABEL {
 .e-new_warning_notice, .movedprefix {
 	COLOR: goldenrod;
 }
+
 .mirrorprefix {
 	color:green;
 }
@@ -1124,57 +1115,92 @@ ul.b-breadcrumbs-top li:first-child{
     max-width: 100%;
 }
 
-.inbox-pm-list {
+.pm-list {
     border-spacing: 0;
 }
 
-.inbox-pm-list th {
+.pm-list th {
     padding: 4px;
     background-color: transparent;
     border-right: 1px solid lightgray;
 }
 
-.inbox-pm-list td {
+.pm-list-row td {
     background-color: transparent;
     border-bottom: 1px solid white;
     border-right: 1px solid lightgray;
+    border-top: #555555 1px solid;
     color: black;
 }
 
-.inbox-pm-list a:link,
-.inbox-pm-list a:visited {
+.pm-list a:link,
+.pm-list a:visited {
     color: black;
 }
 
-.inbox-pm-list tr:hover {
-    background-color: gray;
+.pm-list tr:hover {
+    background-color: slategray;
 }
 
-.inbox-pm-list-header-row {
+.pm-list-header-row,
+.pm-list-footer-row {
     MARGIN: 1px 0;
     BORDER-LEFT: #444444 1px solid;
     BORDER-RIGHT: #0c0c0c 1px solid;
     FONT-WEIGHT: bold;
     BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif');
-    COLOR: #666666;
+    COLOR: #97B543;
     PADDING-LEFT: 7px;
     PADDING-RIGHT: 7px;
     /*PADDING-BOTTOM: 7px;*/
     /*PADDING-TOP: 7px*/
 }
 
-.inbox-pm-list-header-row A:link,
-.inbox-pm-list-header-row A:visited,
-.inbox-pm-list-header-row a:active
+.pm-list-header-row A:link,
+.pm-list-header-row A:visited,
+.pm-list-header-row a:active
 {
     COLOR: #97B543;
     TEXT-DECORATION: none
 }
-.inbox-pm-list-header-row A:hover {
+.pm-list-header-row A:hover {
     COLOR: #D4FF5E;
     TEXT-DECORATION: none
 }
 
-.inbox-pm-list-column-checkbox {
+.pm-list-column-checkbox {
     text-align: center;
 }
+.pm-list-footer-column {
+    color: inherit;
+}
+
+.pm-list-footer-column input[type="submit"] {
+    background-color: transparent;
+    border: 1px solid gray;
+    color: #D4FF5E;
+    padding-top: 0;
+    font-weight: bold;
+}
+.pm-list-row.selected {
+    BACKGROUND-COLOR: gray;
+}
+.pm-list-row.selected:hover td,
+.pm-list-row.selected:hover td a:link{
+    background-color: gray;
+    color: lightgray;
+}
+
+/* color fixes */
+.tag-color-named[data-value="red"] {
+    color: gold !important;
+}
+
+.tag-color-named[data-value="gray"] {
+    color: #e0e0e0 !important;
+}
+/* color "mergepost" doesn't exists so we define it */
+.tag-color-named[data-value="mergepost"] {
+    color: #e0e0e0;
+}
+

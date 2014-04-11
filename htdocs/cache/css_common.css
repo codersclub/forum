@@ -791,17 +791,34 @@ span.b-post-links-post:before {
     margin-bottom: 3px;
 }
 
-.inbox-pm-list {
+.pm-list {
     border-spacing: 1px;
     width: 100%;
 }
 
-.inbox-pm-list td {
+.pm-list td {
     padding: 4px;
 }
 
-.inbox-pm-list a:link,
-.inbox-pm-list a:visited {
+.pm-list a:link,
+.pm-list a:visited {
     color: black;
 }
 
+
+.pm-list-column-icon,
+.pm-list-column-checkbox {
+    text-align: center;
+}
+
+.pm-list-footer-column {
+    text-align: right;
+}
+
+.pm-unsent-list .pm-list-footer-column {
+    text-align: center;
+}
+
+.tag-color-named[data-value="mergepost"] {
+    color: gray;
+}

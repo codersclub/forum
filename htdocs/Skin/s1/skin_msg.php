@@ -182,12 +182,12 @@ function inbox_row($data) {
 global $ibforums;
 return <<<EOF
 
-  <tr class="inbox-pm-list-row">
-	<td class="inbox-pm-list-column-icon" align="center" valign='middle'>{$data['msg']['icon']}</td>
-	<td class="inbox-pm-column-title" ><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
-	<td class="inbox-pm-column-sender"><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>
-	<td class="inbox-pm-column-date">{$data['msg']['date']}</td>
-	<td class="inbox-pm-column-checkbox" align="center"><input type='hidden' name='{$data['msg']['msg_id']}' value='{$data['msg']['read_state']}'><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput' onclick="cca(this);"></td>
+  <tr class="pm-list-row" data-msg-id="{{$data['msg']['msg_id']}}" data-read="{$data['msg']['read_state']}" >
+	<td class="pm-list-column-icon">{$data['msg']['icon']}</td>
+	<td class="pm-list-column-title" ><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
+	<td class="pm-list-column-sender"><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>
+	<td class="pm-list-column-date">{$data['msg']['date']}</td>
+	<td class="pm-list-column-checkbox"><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
   </tr>
 
 EOF;
@@ -197,12 +197,13 @@ EOF;
 function end_inbox($vdi_html, $amount_info="", $pages="") {
 global $ibforums;
 return <<<EOF
-
-  <tr>
-   <td align='right' class='titlemedium' colspan='5'>
-	 <input type='submit' name='move' value='{$ibforums->lang['move_button']}' class='forminput'> $vdi_html {$ibforums->lang['move_or_delete']} <input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}
-  </td>
-</tr>
+<tfoot>
+	<tr class="pm-list-footer-row">
+		<td class='pm-list-footer-column' colspan='5'>
+			<input type='submit' name='move' value='{$ibforums->lang['move_button']}' class='forminput'> $vdi_html {$ibforums->lang['move_or_delete']} <input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}
+		</td>
+	</tr>
+</tfoot>
 </table>
 </div>
 </form>
@@ -244,10 +245,11 @@ EOF;
 function unsent_end() {
 global $ibforums;
 return <<<EOF
-
-<tr>
- <td align='center' nowrap class='titlemedium' colspan='6'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
-</tr>
+	<tfoot>
+		<tr class="pm-list-footer-row">
+			<td class="pm-list-footer-column" colspan='6'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> <span class="pm-list-footer-suffix">{$ibforums->lang['selected_msg']}</span></td>
+		</tr>
+	</tfoot>
 </table>
 </div>
 </form>
@@ -300,33 +302,10 @@ function dl(cb) {
    }
    cb.className = 'dlight';
 }
-function cca(cb) {
-   if (cb.checked)
-   {
-	   hl(cb);
-   }
-   else
-   {
-	   dl(cb);
-   }
-}
 
-function CheckAll(cb) {
-	var fmobj = document.mutliact;
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if ((e.name != 'allbox') && (e.type=='checkbox') && (!e.disabled)) {
-			e.checked = fmobj.allbox.checked;
-			if (fmobj.allbox.checked)
-			{
-			   hl(e);
-			}
-			else
-			{
-			   dl(e);
-			}
-		}
-	}
+function CheckAll() {
+	$('.pm-list-row .pm-list-column-checkbox input:checkbox').prop('checked', $('.pm-list-header-row .pm-list-column-checkbox input:checkbox').prop('checked'));
+	$('.pm-list-row .pm-list-column-checkbox input:checkbox').trigger('change');
 }
 function CheckCheckAll(cb) {
 	var fmobj = document.mutliact;
@@ -345,26 +324,25 @@ function CheckCheckAll(cb) {
 	else {fmobj.allbox.checked=false;}
 }
 function select_read() {
-	var fmobj = document.mutliact;
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if ((e.type=='hidden') && (e.value == 1) && (! isNaN(e.name) ))
-		{
-			eval("fmobj.msgid_" + e.name + ".checked=true;");
-			hl(e);
-		}
-	}
+	$('.pm-list-row[data-read="1"] .pm-list-column-checkbox input:checkbox').prop('checked', true);
+	$('.pm-list-row[data-read="1"] .pm-list-column-checkbox input:checkbox').trigger('change');
 }
 function unselect_all() {
-	var fmobj = document.mutliact;
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if (e.type=='checkbox') {
-			e.checked=false;
-			dl(e);
-		}
-	}
+	$('.pm-list .pm-list-column-checkbox input:checkbox').prop('checked', false);
+	$('.pm-list-row .pm-list-column-checkbox input:checkbox').trigger('change');
 }
+
+$(document).ready(function(){
+	$('.pm-list-row .pm-list-column-checkbox input:checkbox').change(function(){
+		if ($(this).is(':checked'))
+		{
+			$(this).closest('tr').addClass('selected');
+		}else
+		{
+			$(this).closest('tr').removeClass('selected');
+		}
+	});
+});
 //-->
 </script>
 <div class="pformstrip">$dirname</div>
@@ -394,16 +372,16 @@ function unselect_all() {
  </td>
 </tr>
 </table>
-<form action="{$ibforums->base_url}CODE=06&amp;act=Msg" name='mutliact' method="post" class="inbox-pm-list-form">
-<div class="tableborder inbox-pm-list-wrapper">
-  <table class="inbox-pm-list">
+<form action="{$ibforums->base_url}CODE=06&amp;act=Msg" name='mutliact' method="post" class="pm-list-form">
+<div class="tableborder pm-list-wrapper">
+  <table class="pm-list">
   <thead>
-  <tr class="inbox-pm-list-header-row">
-	<th width='5%'  class='inbox-pm-list-column-icon'>&nbsp;</th>
-	<th width='35%' class='inbox-pm-list-column-title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_title']}</b></a></th>
-	<th width='30%' class='inbox-pm-list-column-sender'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_from']}</b></a></th>
-	<th width='25%' class='inbox-pm-list-column-date'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_date']}</b></a></th>
-	<th width='5%'  class='inbox-pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
+  <tr class="pm-list-header-row">
+	<th width='5%'  class='pm-list-column-icon'>&nbsp;</th>
+	<th width='35%' class='pm-list-column-title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_title']}</b></a></th>
+	<th width='30%' class='pm-list-column-sender'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_from']}</b></a></th>
+	<th width='25%' class='pm-list-column-date'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_date']}</b></a></th>
+	<th width='5%'  class='pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
   </tr>
   </thead>
 
@@ -415,13 +393,13 @@ function unsent_row($data) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class='row2' align='left' valign='middle'>{$data['msg']['icon']}</td>
-  <td class='row2' align='left'><a href='{$ibforums->base_url}act=Msg&amp;CODE=21&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
-  <td class='row2' align='left'><a href='{$ibforums->base_url}showuser={$data['msg']['recipient_id']}'>{$data['msg']['to_name']}</a></td>
-  <td class='row2' align='left'>{$data['msg']['date']}</td>
-  <td class='row2' align='center'>{$data['msg']['cc_users']}</td>
-  <td class='row2' align='left'><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
+<tr class="pm-list-row pm-unsent-list-row">
+  <td class='row2 pm-list-column-icon'>{$data['msg']['icon']}</td>
+  <td class='row2 pm-list-column-title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=21&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
+  <td class='row2 pm-list-column-sender'><a href='{$ibforums->base_url}showuser={$data['msg']['recipient_id']}'>{$data['msg']['to_name']}</a></td>
+  <td class='row2 pm-list-column-date'>{$data['msg']['date']}</td>
+  <td class='row2 pm-list-column-cc'>{$data['msg']['cc_users']}</td>
+  <td class='row2 pm-list-column-checkbox'><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
 </tr>
 
 EOF;
@@ -479,17 +457,18 @@ function CheckCheckAll(cb) {
 </script>
 <form action="{$ibforums->base_url}CODE=06&amp;act=Msg&amp;saved=1" name='mutliact' method="post">
 <div class="pformstrip">{$ibforums->lang['pms_saved_title']}</div>
-<br>
-<div class="tableborder">
-<table cellpadding='4' cellspacing='1' align='center' width='100%'>
-<tr>
-  <th align='left' width='5%' class='titlemedium'>&nbsp;</td>
-  <th align='left' width='30%' class='titlemedium'><b>{$ibforums->lang['message_title']}</b></th>
-  <th align='left' width='30%' class='titlemedium'><b>{$ibforums->lang['pms_message_to']}</b></th>
-  <th align='left' width='20%' class='titlemedium'><b>{$ibforums->lang['pms_saved_date']}</b></th>
-  <th align='left' width='10%' class='titlemedium'><b>{$ibforums->lang['pms_cc_users']}</b></th>
-  <th align='left' width='5%' class='titlemedium'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
+<div class="tableborder pm-list-wrapper pm-unsent-list-wrapper">
+<table class="pm-unsent-list pm-list">
+<thead>
+<tr class="pm-list-header-row pm-unset-list-header-row">
+  <th align='left' width='5%' class='pm-list-column-icon'>&nbsp;</td>
+  <th align='left' width='30%' class='pm-list-column-title'><b>{$ibforums->lang['message_title']}</b></th>
+  <th align='left' width='30%' class='pm-list-column-sender'><b>{$ibforums->lang['pms_message_to']}</b></th>
+  <th align='left' width='20%' class='pm-list-column-date'><b>{$ibforums->lang['pms_saved_date']}</b></th>
+  <th align='left' width='10%' class='pm-list-column-cc'><b>{$ibforums->lang['pms_cc_users']}</b></th>
+  <th align='left' width='5%' class='pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
 </tr>
+</thead>
 
 EOF;
 }
