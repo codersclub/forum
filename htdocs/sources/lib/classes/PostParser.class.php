@@ -2112,16 +2112,16 @@ class PostParser
 		//-----------------------------
 
 		$possible_use = array(
-			'CODE'  => array('CODE', ''),
-			'QUOTE' => array('QUOTE', 'Цитата'),
-			'SQL'   => array('CODE', 'SQL'),
-			'HTML'  => array('CODE', 'HTML'),
-			'PHP'   => array('CODE', 'PHP')
+			'CODE'  => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => ''],
+			'QUOTE' => ['class' => 'QUOTE', 'wrapper_class' => 'tag-quote', 'title' => 'Цитата'],
+			'SQL'   => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => 'SQL'],
+			'HTML'  => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => 'HTML'],
+			'PHP'   => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => 'PHP']
 
 		);
-		if ($possible_use[$in['STYLE']][1])
+		if ($possible_use[$in['STYLE']]['title'])
 		{
-			$label = "<b>{$possible_use[ $in['STYLE'] ][1]}</b>";
+			$label = "<span class='tag-quote-prefix'>{$possible_use[ $in['STYLE'] ]['title']}</span>";
 
 			// Song * quote with post link, 26.11.04
 
@@ -2130,7 +2130,7 @@ class PostParser
 			                   !$this->cache_posts[$in['PID']]
 			)
 			{
-				$label = "<a href='{$ibforums->base_url}showtopic={$in['TID']}&view=findpost&p={$in['PID']}'>{$label}</a>";
+				$label = "<a class='tag-quote-link' href='{$ibforums->base_url}showtopic={$in['TID']}&view=findpost&p={$in['PID']}'>{$label}</a>";
 			}
 
 			$label = "{$label} {$in['EXTRA']}";
@@ -2235,7 +2235,7 @@ class PostParser
 		}
 
 		return array(
-			'START' => "<div class='{$pre_div_class}'>{$label}<div class='" . mb_strtolower($possible_use[$in['STYLE']][0]) . " $class'{$extra}>",
+			'START' => "<div class='{$possible_use[$in['STYLE']]['wrapper_class']}'>{$label}<div class='" . mb_strtolower($possible_use[$in['STYLE']]['class']) . " $class'{$extra}>",
 			'END'   => "</div></div>"
 		);
 	}
@@ -2539,7 +2539,7 @@ class PostParser
 
 	function regex_quote_tag($matches)
 	{
-		global $ibforums, $std;
+		global $ibforums, $std, $skin_universal;
 
 		$name = $matches[1];
 		$date = $matches[2];
@@ -2556,7 +2556,7 @@ class PostParser
 		{
 			$html = $this->wrap_style(array(
 			                               'STYLE' => "QUOTE",
-			                               'EXTRA' => "($name)",
+			                               'EXTRA' => "<span class='tag-quote__quote-info'>$name</span>",
 			                               'PID'   => $pid,
 			                               'TID'   => $tid
 			                          ));
@@ -2570,12 +2570,12 @@ class PostParser
 			{
 				$date = ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
 					? $std->old_get_date($date)
-					: $std->get_date($date, -1);
+					: $skin_universal->renderTime($date, 'tag-quote__quoted-time');
 			}
 
 			$html = $this->wrap_style(array(
 			                               'STYLE' => "QUOTE",
-			                               'EXTRA' => "($name &#064; $date)",
+			                               'EXTRA' => "<span class='tag-quote__quote-info'>$name &#064; $date</span>",
 			                               'PID'   => $pid,
 			                               'TID'   => $tid
 			                          ));

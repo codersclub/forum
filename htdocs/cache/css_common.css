@@ -811,3 +811,7 @@ span.b-post-links-post:before {
 .tag-color-named[data-value="mergepost"] {
     color: gray;
 }
+
+.post-edited-message {
+    margin-top: 1.5em;
+}

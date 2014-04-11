@@ -82,3 +82,15 @@
 .tag-size {
     line-height: 100%;
 }
+
+.tag-quote__quote-info:before {
+    content: '(';
+}
+
+.tag-quote__quote-info:after {
+    content: ')';
+}
+
+.tag-quote-prefix {
+    font-weight: bold;
+}
