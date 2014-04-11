@@ -1,4 +1,5 @@
 @import "/html/jqcd/jqcd.css";
+@import "/cache/tags.css";
 
 img.icon_off{
 	opacity: 0.5;
@@ -146,9 +147,9 @@ pre	{
       position:absolute;
 }
 
-div.rules-border,
-div.warning-message,
-div.bordered-red {
+.rules-border,
+.warning-message,
+.bordered-red {
 	border: 2px solid red;
 	/* must depend on skin */
 	background-color: white;
@@ -741,18 +742,6 @@ ul.b-breadcrumbs-top li:nth-child(7) {
 	display: inline-block;
 }
 
-.b-tag-align-right {
-    text-align: right;
-}
-
-.b-tag-align-left {
-    text-align: left;
-}
-
-.b-tag-align-center {
-    text-align: center;
-}
-
 .b-found-posts-post-wrapper {
     padding-bottom: 0.5em;
 }
@@ -789,4 +778,40 @@ span.b-post-links-post:before {
 
 .b-topic-moderators-list {
     margin-bottom: 3px;
+}
+
+.pm-list {
+    border-spacing: 1px;
+    width: 100%;
+}
+
+.pm-list td {
+    padding: 4px;
+}
+
+.pm-list a:link,
+.pm-list a:visited {
+    color: black;
+}
+
+
+.pm-list-column-icon,
+.pm-list-column-checkbox {
+    text-align: center;
+}
+
+.pm-list-footer-column {
+    text-align: right;
+}
+
+.pm-unsent-list .pm-list-footer-column {
+    text-align: center;
+}
+
+.tag-color-named[data-value="mergepost"] {
+    color: gray;
+}
+
+.post-edited-message {
+    margin-top: 1.5em;
 }

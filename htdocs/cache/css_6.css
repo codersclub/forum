@@ -2,16 +2,18 @@
 @import "/html/jqcd/skins/light-blue/skin.css";
 
 html { overflow-x: auto }
+.tag-mm-header,
 .mstop {
 	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: #e4eaf2; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px
 }
+.tag-mm-body,
 .msmain {
 	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-LEFT: 4px; BACKGROUND: #fafcfe; PADDING-BOTTOM: 4px; MARGIN: 0px auto 8px; BORDER-LEFT: #8394b2 4px solid; COLOR: #465584; PADDING-TOP: 4px; BORDER-BOTTOM: #000 1px dotted
 }
-.gmstop {
+.tag-gm-header {
 	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: #faa298; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px
 }
-.gmsmain {
+.tag-gm-body {
 	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-LEFT: 4px; BACKGROUND: #fafcfe; PADDING-BOTTOM: 4px; MARGIN: 0px auto 8px; BORDER-LEFT: #8394b2 4px solid; COLOR: #465584; PADDING-TOP: 4px; BORDER-BOTTOM: #000 1px dotted
 }
 
@@ -279,3 +281,8 @@ ul.b-breadcrumbs-top li:first-child{
     border-bottom: 1px solid gray;
     padding-bottom: 5px;
 }
+
+.pm-list-row { background-color: #EEF2F7 }
+.pm-list-header-row, .pm-list-footer-row { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-color: #ABBFE1; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif) }
+.pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #3A4F6C }
+.pm-list-row.selected { background-color: #DFE6EF }

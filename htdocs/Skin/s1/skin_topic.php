@@ -670,4 +670,11 @@ function approvePostLink($fid, $tid, $pid){
 	$ibforums = Ibf::app();
 	return "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodposts&amp;f={$fid}&amp;tid={$tid}&amp;PID_{$pid}=approve&amp;alter={$pid}'>{$ibforums->lang['modcp_accept']}</a>";
 }
+
+function renderEditedPostMessage($message){
+return <<<EOF
+	<div class="post-edited-message edit">{$message}</div>
+EOF;
+}
+
 }

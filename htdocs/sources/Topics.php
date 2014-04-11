@@ -443,9 +443,9 @@ class Topics
 
 		if ($row['append_edit'] == 1 and $row['edit_time'] != "" and $row['edit_name'] != "" and !$row['use_sig'])
 		{
-			$e_time = $std->get_date($row['edit_time']);
+			$e_time = $skin_universal->renderTime($row['edit_time'], 'post-edit-time');
 
-			$row['post'] .= "<br><br><span class='edit'>" . sprintf($ibforums->lang['edited_by'], $row['edit_name'], $e_time) . "</span>";
+			$row['post'] .= $this->html->renderEditedPostMessage(sprintf($ibforums->lang['edited_by'], $row['edit_name'], $e_time));
 		}
 
 		if ($row['delete_after'] && !$row['use_sig'] && mb_strlen(rtrim($row['post'])) > 0)
