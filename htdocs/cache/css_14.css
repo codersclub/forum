@@ -610,6 +610,7 @@ A.warn_gr	{
     BACKGROUND-COLOR: #383838
 }
 
+.tag-mm-header,
 .mstop {
     background: #666666;
     border: 1px dotted #333333;
@@ -621,7 +622,28 @@ A.warn_gr	{
     padding: 3px
 }
 
+.tag-mm-body,
 .msmain {
+    background: #999999;
+    border: 1px dotted #333333;
+    border-top: 0;
+    color: #000000;
+    padding: 4px;
+    margin: 0 auto 8px auto
+}
+
+.tag-gm-header {
+    background: #400000;
+    border: 1px dotted #333333;
+    border-bottom: 0;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 10px;
+    margin: 8px auto 0 auto;
+    padding: 3px
+}
+
+.tag-gm-body {
     background: #999999;
     border: 1px dotted #333333;
     border-top: 0;

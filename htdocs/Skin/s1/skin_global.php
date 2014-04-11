@@ -756,4 +756,66 @@ EOF;
 
 }
 
+function renderTagMM($text){
+	$title = Ibf::app()->lang['mod_mes'];
+	return <<<EOF
+		<div class="tag-mm"><div class="tag-mm-header">{$title}</div><div class="tag-mm-body">{$text}</div></div>
+EOF;
+}
+
+function renderTagGM($text) {
+	$title = Ibf::app()->lang['glob_mod_mes'];
+	return <<<EOF
+		<div class="tag-gm"><div class='tag-gm-header'>{$title}</div><div class='tag-gm-body'>{$text}</div></div>
+EOF;
+
+}
+
+function renderTagListUnordered($text){
+	return <<<EOF
+	<ul class="tag-list">{$text}</ul>
+EOF;
+}
+
+function renderTagListOrdered($text, $type){
+return <<<EOF
+	<ol class="tag-list" type="{$type}">{$text}</ol>
+EOF;
+}
+
+function renderTagMod($text) {
+	return <<<EOF
+<div class="tag-mod">{$text}</div>
+EOF;
+}
+
+function renderTagEx($text) {
+	return <<<EOF
+<div class="tag-ex">{$text}</div>
+EOF;
+}
+
+function renderTagSize($value, $text) {
+	return <<<EOF
+<span class='tag-size' data-value='{$value}' style='font-size:{$value}pt;'>{$text}</span>
+EOF;
+}
+
+function renderTagColor($value, $text) {
+	return <<<EOF
+	<span class="tag-color" data-value="{$value}" style="color: #{$value}">{$text}</span>
+EOF;
+}
+
+function renderTagColorNamed($value, $text) {
+	return <<<EOF
+	<span class="tag-color tag-color-named" data-value="{$value}" style="color: {$value}">{$text}</span>
+EOF;
+}
+
+function renderTagFont($value, $text) {
+	return <<<EOF
+    <span class="tag-font" data-value="{$value}" style="font-family:{$value}">{$text}</span>
+EOF;
+}
 }

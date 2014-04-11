@@ -1,0 +1,84 @@
+.tag-align-right {
+    text-align: right;
+}
+
+.tag-align-left {
+    text-align: left;
+}
+
+.tag-align-center {
+    text-align: center;
+}
+
+
+.tag-u {
+    /*text-decoration: underline;*/
+    border-bottom: 1px solid;
+}
+
+.tag-o {
+    /*text-decoration: overline;*/
+    border-top: 1px;
+}
+
+.tag-list {
+    margin-top:0;
+    margin-bottom:0;
+}
+
+.tag-mod {
+    text-align: left;
+    border: 2px solid blue;
+    background-color: white;
+    margin-top: 0.5em;
+    padding: 2px;
+    line-height: normal;
+    text-decoration: none;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.tag-mod:before {
+    display: inline-block;
+    content: "M";
+    background-color: #6060ff;
+    color: white;
+    font-size: 4em;
+    font-family: Times;
+    font-weight: bold;
+    padding: 0px 2px;
+    margin-right: 10px;
+    vertical-align: top;
+    font-style: normal;
+}
+
+.tag-ex {
+    text-align: left;
+    border: 2px solid red;
+    margin-top: 0.5em;
+    padding: 2px;
+    line-height: normal;
+    text-decoration: none;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 11px;
+    background-color: white;
+}
+
+.tag-ex:before {
+    display: inline-block;
+    content: "!";
+    background-color: #ff6060;
+    color: white;
+    font-size: 4em;
+    font-family: Times;
+    font-weight: bold;
+    padding: 0px 14px;
+    margin-right: 14px;
+    vertical-align: top;
+    font-style: normal;
+}
+
+.tag-size {
+    line-height: 100%;
+}

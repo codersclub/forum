@@ -1,4 +1,5 @@
 @import "/html/jqcd/jqcd.css";
+@import "/cache/tags.css";
 
 img.icon_off{
 	opacity: 0.5;
@@ -739,18 +740,6 @@ ul.b-breadcrumbs-top li:nth-child(7) {
 
 .b-flash-player-wrapper {
 	display: inline-block;
-}
-
-.b-tag-align-right {
-    text-align: right;
-}
-
-.b-tag-align-left {
-    text-align: left;
-}
-
-.b-tag-align-center {
-    text-align: center;
 }
 
 .b-found-posts-post-wrapper {

@@ -1,6 +1,7 @@
 @import "/html/jqcd/skins/light-blue/skin.css";
 
 html { overflow-x: auto }
+.tag-mm-header,
 .mstop {
     BORDER-RIGHT: #000 1px dotted;
     PADDING-RIGHT: 3px;
@@ -16,6 +17,7 @@ html { overflow-x: auto }
     PADDING-TOP: 3px;
     BORDER-BOTTOM: 0px;
 }
+.tag-mm-body,
 .msmain {
     BORDER-RIGHT: #000 1px dotted;
     PADDING-RIGHT: 4px;
@@ -29,7 +31,7 @@ html { overflow-x: auto }
     PADDING-TOP: 4px;
     BORDER-BOTTOM: #000 1px dotted;
 }
-.gmstop {
+.tag-gm-header {
     BORDER-RIGHT: #000 1px dotted;
     PADDING-RIGHT: 3px;
     BORDER-TOP: #000 1px dotted;
@@ -44,7 +46,7 @@ html { overflow-x: auto }
     PADDING-TOP: 3px;
     BORDER-BOTTOM: 0px;
 }
-.gmsmain {
+.tag-gm-body {
     BORDER-RIGHT: #000 1px dotted;
     PADDING-RIGHT: 4px;
     BORDER-TOP: 0px;

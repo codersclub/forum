@@ -1000,7 +1000,7 @@ class PostParser
 	// Song * message for moderator only, 03.11.2004
 	function regex_moderator_message($message)
 	{
-		global $ibforums;
+		global $ibforums, $skin_universal;
 
 		if (!$message or !$ibforums->member['id'])
 		{
@@ -1011,13 +1011,13 @@ class PostParser
 			return "";
 		}
 
-		return "<div class='mstop'>{$ibforums->lang['mod_mes']}</div><div class='msmain'>{$message}</div>";
+		return $skin_universal->renderTagMM($message);
 
 	}
 
 	function regex_global_moderator_message($message, $mid = 0)
 	{
-		global $ibforums;
+		global $ibforums, $skin_universal;
 
 		if (!$ibforums->member['id'] or !$message)
 		{
@@ -1037,7 +1037,7 @@ class PostParser
 			}
 		}
 
-		return "<div class='gmstop'>{$ibforums->lang['glob_mod_mes']}</div><div class='gmsmain'>{$message}</div>";
+		return $skin_universal->renderTagGM($message);
 
 	}
 
@@ -1059,7 +1059,7 @@ class PostParser
 	))
 	{
 
-		global $ibforums, $std;
+		global $ibforums, $skin_universal;
 
 		if (!isset($in['CODE']))
 		{
@@ -1149,9 +1149,9 @@ class PostParser
 		// Align Hack by Farch (Convert)
 		//--------------------------------------
 
-		$txt = preg_replace("#\[r\](.+?)\[/r\]#is", '<div class="b-tag-align-right">\\1</div>', $txt);
-		$txt = preg_replace("#\[l](.+?)\[/l\]#is", '<div class="b-tag-align-left">\\1</div>', $txt);
-		$txt = preg_replace("#\[c\](.+?)\[/c\]#is", '<div class="b-tag-align-center">\\1</div>', $txt);
+		$txt = preg_replace("#\[r\](.+?)\[/r\]#is", "<div class='tag-align-right'>\\1</div>", $txt);
+		$txt = preg_replace("#\[l](.+?)\[/l\]#is", "<div class='tag-align-left'>\\1</div>", $txt);
+		$txt = preg_replace("#\[c\](.+?)\[/c\]#is", "<div class='tag-align-center'>\\1</div>", $txt);
 		$txt = preg_replace("#\[hr\]#is", "<hr>", $txt);
 
 		if ($in['CODE'] == 1)
@@ -1220,16 +1220,15 @@ class PostParser
 			}
 
 			// Start off with the easy stuff
-			$txt = preg_replace("#\[b\](.*?)\[/b\]#is", "<b>\\1</b>", $txt);
-			$txt = preg_replace("#\[i\](.*?)\[/i\]#is", "<i>\\1</i>", $txt);
-			$txt = preg_replace("#\[u\](.*?)\[/u\]#is", "<u>\\1</u>", $txt);
-			$txt = preg_replace("#\[s\](.*?)\[/s\]#is", "<s>\\1</s>", $txt);
-			// barazuk: [o]
-			$txt = preg_replace("#\[o\](.*?)\[/o\]#is", "<SPAN style='text-decoration: overline;'>\\1</SPAN>", $txt);
+			$txt = preg_replace("#\[b\](.*?)\[/b\]#is", "<strong class='tag-b'>\\1</strong>", $txt);
+			$txt = preg_replace("#\[i\](.*?)\[/i\]#is", "<em class='tag-i'>\\1</em>", $txt);
+			$txt = preg_replace("#\[u\](.*?)\[/u\]#is", "<span class='tag-u'>\\1</span>", $txt);
+			$txt = preg_replace("#\[s\](.*?)\[/s\]#is", "<s class='tag-s'>\\1</s>", $txt);
+			$txt = preg_replace("#\[o\](.*?)\[/o\]#is", "<span class='tag-o'>\\1</span>", $txt);
 
 			// vot: SUBscript & SUPERscript
-			$txt = preg_replace("#\[sub\](.*?)\[/sub\]#is", "<sub>\\1</sub>", $txt);
-			$txt = preg_replace("#\[sup\](.*?)\[/sup\]#is", "<sup>\\1</sup>", $txt);
+			$txt = preg_replace("#\[sub\](.*?)\[/sub\]#is", "<sub class='tag-sub'>\\1</sub>", $txt);
+			$txt = preg_replace("#\[sup\](.*?)\[/sup\]#is", "<sup class='tag-sup'>\\1</sup>", $txt);
 
 			// (c) (r) and (tm)
 			$txt = preg_replace("#\(c\)#i", "&copy;", $txt);
@@ -1262,9 +1261,9 @@ class PostParser
 				$txt = preg_replace("#\[size=([^\]]+)\](.+?)\[/size\]#ies", "\$this->regex_font_attr(array('s'=>'size','1'=>'\\1','2'=>'\\2'))", $txt);
 			}
 
-			while (preg_match("#\[font=([^;<>\*\(\)\]\"']*)\](.*?)\[/font\]#ies", $txt))
+			while (preg_match("#\[font=([^;<>\*\(\)\]\"']*?)\](.*?)\[/font\]#ies", $txt))
 			{
-				$txt = preg_replace("#\[font=([^;<>\*\(\)\"']*)\](.*?)\[/font\]#ies", "\$this->regex_font_attr(array('s'=>'font','1'=>'\\1','2'=>'\\2'))", $txt);
+				$txt = preg_replace("#\[font=([^;<>\*\(\)\"\]']*?)\](.*?)\[/font\]#ies", "\$this->regex_font_attr(array('s'=>'font','1'=>'\\1','2'=>'\\2'))", $txt);
 			}
 
 			while (preg_match("#\[color=([a-zA-Z0-9]*)\](.*?)\[/color\]#ies", $txt))
@@ -1344,7 +1343,7 @@ class PostParser
 
 		$txt = preg_replace("#\[mergetime\](\d+)\[/mergetime\]#ies", ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
 			? "\$std->old_get_date( '\\1' )"
-			: "\$std->get_date(     '\\1' )", $txt);
+			: "\$skin_universal->renderTime('\\1', 'tag-mergetime')", $txt);
 
 		//--------------------------------------
 		// Auto parse URLs
@@ -1380,7 +1379,7 @@ class PostParser
 		$txt = preg_replace("#\[tr\](.+?)\[/tr\]#is", "<tr>\\1</tr>", $txt);
 		$txt = preg_replace("#\[td\](.*?)\[/td\]#is", "<td>\\1</td>", $txt);
 		$txt = preg_replace("#\[th\](.*?)\[/th\]#is", "<th>\\1</th>", $txt);
-		return "<table class='post_table'>" . $txt . "</table>";
+		return "<table class='post_table tag-table'>" . $txt . "</table>";
 	}
 
 	//---------------------------------------------------
@@ -1409,6 +1408,7 @@ class PostParser
 	}
 
 	// Song * moderator messages check, 03.11.2004
+	//todo придумать что с этим делать, ибо простое удаление тега - не вариант
 	function mod_messages_check($message)
 	{
 		global $ibforums;
@@ -1885,7 +1885,7 @@ class PostParser
 	/**************************************************/
 	// unconvert:
 	/**************************************************/
-
+	//todo Проверить, используется-ли эта функция: хранить всё в html мы уже давно перестали
 	function unconvert($txt = "", $code = 1, $html = 0)
 	{
 
@@ -2247,6 +2247,8 @@ class PostParser
 
 	function regex_list($txt = "", $type = "")
 	{
+		global $skin_universal;
+
 		if ($txt == "")
 		{
 			return;
@@ -2254,15 +2256,9 @@ class PostParser
 
 		//$txt = str_replace( "\n", "", str_replace( "\r\n", "\n", $txt ) );
 
-		if ($type == "")
-		{
-			// Unordered list.
-
-			return "<ul style='margin-top:0; margin-bottom:0'>" . $this->regex_list_item($txt) . "</ul>";
-		} else
-		{
-			return "<ol type='$type'>" . $this->regex_list_item($txt) . "</ol>";
-		}
+		return $type == ""
+			? $skin_universal->renderTagListUnordered($this->regex_list_item($txt))
+			: $skin_universal->renderTagListOrdered($this->regex_list_item($txt), $type);
 	}
 
 	function regex_list_item($txt)
@@ -2279,6 +2275,7 @@ class PostParser
 	//
 	/**************************************************/
 
+	//deprecated
 	function regex_html_tag($html = "")
 	{
 
@@ -2329,7 +2326,7 @@ class PostParser
 	// regex_sql_tag: SQL syntax highlighting
 	//
 	/**************************************************/
-
+	//deprecated
 	function regex_sql_tag($sql = "")
 	{
 
@@ -2379,7 +2376,7 @@ class PostParser
 
 	function regex_mod_tag($txt = "")
 	{
-		global $ibforums;
+		global $ibforums, $skin_universal;
 
 		if (!$txt)
 		{
@@ -2402,8 +2399,8 @@ class PostParser
 		// Ensure that spacing is preserved
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
+		$html = $skin_universal->renderTagMod($txt);
 
-		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid blue;'><TD align=middle bgColor=#6060ff valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em' ><B>М</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
 
 		return $html;
 	}
@@ -2415,7 +2412,7 @@ class PostParser
 
 	function regex_exclaime_tag($txt = "")
 	{
-		global $ibforums;
+		global $ibforums, $skin_universal;
 
 		if (!$txt)
 		{
@@ -2439,7 +2436,7 @@ class PostParser
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
 
-		$html = "</div><BR><TABLE {$ibforums->skin['white_background']} style='border:2px solid red;'><TD align=middle bgColor=#ff6060 valign=center width=1%><span style='color:#ffffff; font-family: Times; font-size:4em'><B>&nbsp;!&nbsp;</B></span></TD><TD width=3><BR></TD><TD valign=top>{$txt}</TD></TABLE><div class='postcolor'>";
+		$html = $skin_universal->renderTagEx($txt);
 
 		return $html;
 	}
@@ -2716,7 +2713,7 @@ class PostParser
 			$alt   = $std->remove_tags($alt);
 			$title = " title='$alt'";
 		}
-		return "<img src='$url' border='0' alt='$alt'$title>";
+		return "<img class='tag-img' src='$url' border='0' alt='$alt'$title>";
 
 	}
 
@@ -2727,6 +2724,7 @@ class PostParser
 
 	function regex_font_attr($IN)
 	{
+		global $skin_universal;
 
 		if (!is_array($IN))
 		{
@@ -2754,32 +2752,21 @@ class PostParser
 				$IN['1'] = 30;
 			}
 
-			return "<span style='font-size:" . $IN['1'] . "pt;line-height:100%'>" . $IN['2'] . "</span>";
+			return $skin_universal->renderTagSize($IN['1'], $IN['2']);
 
 		} elseif ($IN['s'] == 'col')
 		{
-			$IN[1] = preg_replace("/[^\d\w\#\s]/s", "", $IN[1]);
+			$IN[1] = strtolower(preg_replace("/[^\d\w\#\s]/s", "", $IN[1]));
 
-			// Song * Mastilior skin patch for red color, 30.04.05
-
-			if ($IN['1'] == "red" or $IN['1'] == "RED")
-			{
-				return "<span class='movedprefix'>{$IN['2']}</span>";
-			} elseif (preg_match('!^([0-9a-f]{6}|[0-9a-f]{3})$!i', $IN['1']))
-			{
-				return "<span style='color:#{$IN['1']}'>{$IN['2']}</span>";
-			} else
-			{
-				return "<span style='color:{$IN['1']}'>{$IN['2']}</span>";
-			}
-
-			// Song * Mastilior skin patch for red color, 30.04.05
+			return preg_match('!^([0-9a-f]{6}|[0-9a-f]{3})$!i', $IN['1'])
+				? $skin_universal->renderTagColor($IN['1'], $IN['2'])
+				: $skin_universal->renderTagColorNamed($IN['1'], $IN['2']);
 
 		} elseif ($IN['s'] == 'font')
 		{
 			$IN['1'] = preg_replace("/[^\d\w\#\-\_\s]/s", "", $IN['1']);
 
-			return "<span style='font-family:" . $IN['1'] . "'>" . $IN['2'] . "</span>";
+			return $skin_universal->renderTagFont($IN['1'], $IN['2']);
 		}
 	}
 
@@ -2877,7 +2864,7 @@ class PostParser
 			$show = $uri_type . '://' . mb_substr($stripped, 0, 35) . '...' . mb_substr($stripped, -15);
 		}
 
-		return $url['st'] . "<a href='" . $url['html'] . "' target='_blank'>&shy;" . $show . "</a>" . $url['end'];
+		return $url['st'] . "<a class='tag-url' href='" . $url['html'] . "' target='_blank'>&shy;" . $show . "</a>" . $url['end'];
 
 	}
 
