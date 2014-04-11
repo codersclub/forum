@@ -1226,3 +1226,6 @@ ul.b-breadcrumbs-top li:first-child{
     color: #e0e0e0;
 }
 
+.post-edited-message {
+    color: lightgray;
+}
