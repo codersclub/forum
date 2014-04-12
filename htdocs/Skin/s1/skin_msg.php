@@ -197,6 +197,7 @@ EOF;
 function end_inbox($vdi_html, $amount_info="", $pages="") {
 global $ibforums;
 return <<<EOF
+</tbody>
 <tfoot>
 	<tr class="pm-list-footer-row">
 		<td class='pm-list-footer-column' colspan='5'>
@@ -245,6 +246,7 @@ EOF;
 function unsent_end() {
 global $ibforums;
 return <<<EOF
+	</tbody>
 	<tfoot>
 		<tr class="pm-list-footer-row">
 			<td class="pm-list-footer-column" colspan='6'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> <span class="pm-list-footer-suffix">{$ibforums->lang['selected_msg']}</span></td>
@@ -384,7 +386,7 @@ $(document).ready(function(){
 	<th width='5%'  class='pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
   </tr>
   </thead>
-
+  <tbody>
 EOF;
 }
 
@@ -469,7 +471,7 @@ function CheckCheckAll(cb) {
   <th align='left' width='5%' class='pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
 </tr>
 </thead>
-
+<tbody>
 EOF;
 }
 
