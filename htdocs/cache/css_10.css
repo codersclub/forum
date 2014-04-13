@@ -62,10 +62,10 @@ option.sub { font-weight: bold; color: #555 }
 #photowrap { padding: 6px }
 #phototitle { font-size: 218%; border-bottom: 1px solid black }
 #photoimg { text-align: center; margin-top: 15px }
-#ucpmenu { line-height: 150%; width: 22%; border: 1px solid #345487; background-color: #F5F9FD }
-#ucpmenu p { padding: 2px 5px 6px 9px; margin: 0px }
-#ucpcontent { background-color: #F5F9FD; border: 1px solid #345487; line-height: 150%; width: auto }
-#ucpcontent p { padding: 10px; margin: 0px }
+.usercp-menu-wrapper { line-height: 150%; width: 22%; border: 1px solid #345487; background-color: #F5F9FD; vertical-align: top; }
+.usercp-menu-wrapper p { padding: 2px 5px 6px 9px; margin: 0px }
+.usercp-content { background-color: #F5F9FD; border: 1px solid #345487; line-height: 150%; width: auto; vertical-align: top; vertical-align: top; }
+.usercp-content p { padding: 10px; margin: 0px }
 #ipsbanner { position: absolute; top: 1px; right: 5% }
 #logostrip { border: 1px solid #345487; background-color: #6EA1E3; padding: 0px; margin: 0px }
 #top-menu { border: 1px solid #BCD0ED; background-color: #DFE6EF; font-size: 91%; margin: 3px 0px 3px 0px; color: #3A4F6C; font-weight: bold }
@@ -73,7 +73,7 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #BCD0ED; padding: 6px }
-.pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+.usercp-menu-group-title, .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftqr { background-color: #F5F9FD; width: 15%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftw { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
@@ -103,9 +103,10 @@ option.sub { font-weight: bold; color: #555 }
 .dlight { background-color: #EEF2F7 }
 .titlemedium { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-color: #9FBCE3 }
 .titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #3A4F6C }
-.maintitle { vertical-align: middle; font-weight: bold; color: #FFF; padding: 8px 0px 8px 5px; background-color: #6699CC }
+.usercp-content-title, .usercp-menu-title, .maintitle { vertical-align: middle; font-weight: bold; color: #FFF; padding: 8px 0px 8px 5px; background-color: #6699CC }
 .maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
 .maintitle a:hover { text-decoration: underline }
+.usercp-content-title, .usercp-menu-title { color: #000000; }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
 .tableborder { border: 1px solid #345487; background-color: #FFF; }
 .tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }
@@ -130,7 +131,7 @@ option.sub { font-weight: bold; color: #555 }
 .quotetop { background: #E4EAF2 url(violimages/css_img_quote.gif) no-repeat right; border: 1px dotted #000; border-bottom: 0; border-left: 4px solid #8394B2; color: #000; font-weight: bold; font-size: 10px; margin: 8px auto 0 auto; padding: 3px }
 .quotemain { background: #FAFCFE; border: 1px dotted #000; border-left: 4px solid #8394B2; border-top: 0; color: #465584; padding: 4px; margin: 0 auto 8px auto }
 .voteprefix {color:green}
-.e-new_warning_notice, .movedprefix {color:red}
+.delete_info__warning, .e-new_warning_notice, .movedprefix {color:red}
 .mirrorprefix {
 	color:green;
 }
@@ -318,4 +319,11 @@ ul.b-breadcrumbs-bottom li:first-child:before {
 .pm-list-row.selected { background-color: #DFE6EF }
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
+}
+
+.usercp-menu-item__new_message a,
+.usercp-menu-item__inbox a,
+.usercp-menu-item__sent a,
+.usercp-menu-item__cancel_delete_account a {
+    font-weight: bold;
 }

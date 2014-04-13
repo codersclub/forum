@@ -880,3 +880,36 @@ span.b-post-links-post:before {
 .members-groups-list li:not(:last-child):after {
     content: ',';
 }
+
+.usercp-menu,
+.usercp-menu-group-items,
+.usercp-menu-item__inbox-subfolders {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.usercp-menu-group-items {
+    margin-left: 1em;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.usercp-menu-group-items > li:before {
+    content: "\00b7";
+    padding-right: 0.5em;
+}
+
+.usercp-menu-item__delete_info-text {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.usercp {
+    margin-top: 5px;
+}
+
+.usercp-menu-item__inbox-subfolders {
+    list-style-image: url('/style_images/1/open.gif');
+    margin-left: 4em;
+}

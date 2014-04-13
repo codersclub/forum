@@ -258,30 +258,30 @@ return <<<EOF
 
      <div class='pformstrip'>{$ibforums->lang['stats_header']}</div>
 	  <table width='100%' border="0" cellspacing="0" cellpadding="4">
-		<tr> 
+		<tr>
 		  <td width="40%">{$ibforums->lang['email_address']}</td>
 		  <td width="60%">{$member[MEMBER_EMAIL]}</td>
 		</tr>
-		<tr> 
+		<tr>
 		  <td width="40%">{$ibforums->lang['number_posts']}</td>
 		  <td width="60%">{$member[MEMBER_POSTS]}</td>
 		</tr>
-		<tr> 
+		<tr>
 		  <td width="40%">{$ibforums->lang['registered']}</td>
 		  <td width="60%">{$member[DATE_REGISTERED]}</td>
 		</tr>
-		<tr> 
+		<tr>
 		  <td width="40%">{$ibforums->lang['daily_average']}</td>
 		  <td width="60%">{$member[DAILY_AVERAGE]}</td>
 		</tr>
 	  </table>
 	  <div class='pformstrip'>{$ibforums->lang['messenger_summary']}</div>
 	  <table width="100%" border="0" cellspacing="0" cellpadding="4">
-		<tr> 
+		<tr>
 		  <td width="40%">{$ibforums->lang['total_messages']}</td>
 		  <td width="60%">{$member['total_messages']} {$member['full_percent']}</td>
 		</tr>
-		<tr> 
+		<tr>
 		  <td width="40%">{$ibforums->lang['messages_left']}</td>
 		  <td width="60%">{$member['space_free']} {$member['full_messenger']}</td>
 		</tr>
@@ -300,7 +300,7 @@ return <<<EOF
         </form>
       </p>
      </div>
-     
+
 
 EOF;
 }
@@ -310,14 +310,14 @@ function personal_panel_username($name="")
   global $ibforums;
   $ret = "<tr>
     <td class='pformleft' width='40%'><b>{$ibforums->lang['name']}</b></td>
-    <td class='pformright' width='60%'>$name</td> 
+    <td class='pformright' width='60%'>$name</td>
   </tr>\n";
 
   if($ibforums->vars['allow_user_rename'])
   {
     $ret .= "<tr>
     <td class='pformleft' width='40%'>{$ibforums->lang['m_title']}</td>
-    <td class='pformright' width='60%'><input type='text' size='40' maxlength='20' name='MemberName' value='' class='forminput'></td> 
+    <td class='pformright' width='60%'><input type='text' size='40' maxlength='20' name='MemberName' value='' class='forminput'></td>
   </tr>\n";
   }
   return $ret;
@@ -341,7 +341,7 @@ return <<<EOF
 <tr>
   <td class='pformleft'>{$ibforums->lang['website']}</td>
   <td class='pformright'><input type='text' size='40' maxlength='1200' name='WebSite' value='{$Profile['website']}' class='forminput'></td>
-</tr>  
+</tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['icq']}</td>
   <td class='pformright'><input type='text' size='40' maxlength='20' name='ICQNumber' value='{$Profile['icq_number']}' class='forminput'></td>
@@ -366,7 +366,7 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['location']}<br>(<a href='javascript:CheckLength("location");'>{$ibforums->lang['check_length']}</a>)</td>
   <td class='pformright'><input type='text' size='40' name='Location' value='{$Profile['location']}' class='forminput'></td>
 </tr>
-<tr>                                                                                        
+<tr>
   <td class='pformleft' valign='top'>{$ibforums->lang['interests']}<br>(<a href='javascript:CheckLength("interest");'>{$ibforums->lang['check_length']}</a>)</td>
   <td class='pformright'><textarea cols='60' rows='10' wrap='soft' name='Interests' class='forminput'>{$Profile['interests']}</textarea></td>
 </tr>
@@ -527,8 +527,8 @@ return <<<EOF
   <tr>
   <td class='pformleft'><b>{$ibforums->lang['birthday']}</b></td>
   <td class='pformright'>
-  <select name='day' class='forminput'>{$day}</select> 
-  <select name='month' class='forminput'>{$month}</select> 
+  <select name='day' class='forminput'>{$day}</select>
+  <select name='month' class='forminput'>{$month}</select>
   <select name='year' class='forminput'>{$year}</select>
   </td>
   </tr>
@@ -590,9 +590,7 @@ EOF;
 function delete_account() {
 global $ibforums;
 return <<<EOF
-
-&middot; <a href='{$ibforums->base_url}act=UserCP&amp;CODE=31'>{$ibforums->lang['m_delete_account']}</a>
-
+<li class="usercp-menu-item__delete_account"><a href='{$ibforums->base_url}act=UserCP&amp;CODE=31'>{$ibforums->lang['m_delete_account']}</a></li>
 EOF;
 }
 
@@ -600,8 +598,9 @@ function delete_cancel($days = 0) {
 global $ibforums;
 return <<<EOF
 
-&middot; {$ibforums->lang['m_delete_account_days']}<br>&nbsp; {$ibforums->lang['subs_left']}: <b>{$days}</b><br>
-&nbsp; <a href='{$ibforums->base_url}act=UserCP&amp;CODE=33'>{$ibforums->lang['m_delete_cancel_account']}</a>
+<li class="usercp-menu-item__delete_info" data-num-days="{$days}"><div class="usercp-menu-item__delete_info-text"><div class="delete_info__warning">{$ibforums->lang['m_delete_account_days']}</div>
+<span class="delete_info__description">{$ibforums->lang['subs_left']}: <span class="delete_info__num_days">{$days}</span></span></div></li>
+<li class="usercp-menu-item__cancel_delete_account"><a href='{$ibforums->base_url}act=UserCP&amp;CODE=33'>{$ibforums->lang['m_delete_cancel_account']}</a></li>
 
 EOF;
 }
@@ -633,50 +632,61 @@ var js_current		= "{$ibforums->lang['js_current']}";
 var js_base_url		= "{$ibforums->js_base_url}";
 </script>
 <script type='text/javascript' src='html/usercp.js?{$ibforums->vars['client_script_version']}'></script>
-<table cellspacing='0' cellpadding='0' width='100%'>
+<table class="usercp" cellspacing='0' cellpadding='0' width='100%'>
 <tr>
- <td id='ucpmenu' valign='top'>
-    <div class='maintitle'><span style='color:black'>{$ibforums->lang['tt_menu']}</span></div>
-	 <div class='pformstrip'>{$ibforums->lang['m_messenger']}</div>
-	 <p>
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=04'><strong>{$ibforums->lang['mess_new']}</strong></a><br>
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=01'><strong>{$ibforums->lang['mess_inbox']}</strong></a><br>
-	 <!--IBF.FOLDER_LINKS-->
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=01&VID=sent'><strong>{$ibforums->lang['mess_sent']}</strong></a><br>
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=delete'>{$ibforums->lang['mi_prune_msg']}</a><br>
-	  &middot; <a href='{$base_url}act=Msg&amp;CODE=07'>{$ibforums->lang['mess_folders']}</a><br>
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=02'>{$ibforums->lang['mess_contact']}</a><br>
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=14'>{$ibforums->lang['mess_archive']}</a><br>
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=20'>{$ibforums->lang['mess_saved']}</a><br>
-	 &middot; <a href='{$base_url}act=Msg&amp;CODE=30'>{$ibforums->lang['mess_tracker']}</a><br>
-	 </p>
-	 <div class='pformstrip'>{$ibforums->lang['m_tracker']}</div>
-	 <p>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=26'>{$ibforums->lang['m_view_subs']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=50'>{$ibforums->lang['m_view_forum']}</a><br>
-	 </p>
-	 <div class='pformstrip'>{$ibforums->lang['m_personal']}</div>
-	 <p>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=01'>{$ibforums->lang['m_contact_info']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=22'>{$ibforums->lang['m_sig_info']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=24'>{$ibforums->lang['m_avatar_info']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=photo'>{$ibforums->lang['m_change_photo']}</a><br>
-	 </p>
-	 <div class='pformstrip'>{$ibforums->lang['m_options']}</div>
-	 <p>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=02'>{$ibforums->lang['m_email_opt']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=04'>{$ibforums->lang['m_board_opt']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=06'>{$ibforums->lang['m_skin_lang']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=08'>{$ibforums->lang['m_email_change']}</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=52'>Open ID</a><br>
-	 &middot; <a href='{$base_url}act=UserCP&amp;CODE=28'>{$ibforums->lang['m_passy_opt']}</a><br>
-         &middot; <a href='{$base_url}act=UserCP&amp;CODE=15'>{$ibforums->lang['m_board_lay']}</a> <br>
-         {$delete}
-	 </p>
+ <td id='ucpmenu' class="usercp-menu-wrapper">
+    <div class='usercp-menu-title maintitle'>{$ibforums->lang['tt_menu']}</div>
+    <ul class="usercp-menu">
+		<li class='usercp-menu-group usercp-menu-group__messenger'>
+			<div class="usercp-menu-group-title pformstrip">{$ibforums->lang['m_messenger']}</div>
+			<ul class="usercp-menu-group-items">
+				<li class="usercp-menu-item__new_message"><a href='{$base_url}act=Msg&amp;CODE=04'>{$ibforums->lang['mess_new']}</a></li>
+				<li class="usercp-menu-item__inbox"><a href='{$base_url}act=Msg&amp;CODE=01'>{$ibforums->lang['mess_inbox']}</a>
+				<!--IBF.FOLDER_LINKS-->
+				</li>
+				<li class="usercp-menu-item__sent"><a href='{$base_url}act=Msg&amp;CODE=01&VID=sent'>{$ibforums->lang['mess_sent']}</a></li>
+				<li class="usercp-menu-item__prune_messages"><a href='{$base_url}act=Msg&amp;CODE=delete'>{$ibforums->lang['mi_prune_msg']}</a></li>
+				<li class="usercp-menu-item__folders"><a href='{$base_url}act=Msg&amp;CODE=07'>{$ibforums->lang['mess_folders']}</a></li>
+				<li class="usercp-menu-item__contacts"><a href='{$base_url}act=Msg&amp;CODE=02'>{$ibforums->lang['mess_contact']}</a></li>
+				<li class="usercp-menu-item__archive"><a href='{$base_url}act=Msg&amp;CODE=14'>{$ibforums->lang['mess_archive']}</a></li>
+				<li class="usercp-menu-item__drafts"><a href='{$base_url}act=Msg&amp;CODE=20'>{$ibforums->lang['mess_saved']}</a></li>
+				<li class="usercp-menu-item__message_tracker"><a href='{$base_url}act=Msg&amp;CODE=30'>{$ibforums->lang['mess_tracker']}</a></li>
+			 </ul>
+		</li>
+		<li class="usercp-menu-group usercp-menu-group__tracker">
+			<div class="usercp-menu-group-title pformstrip">{$ibforums->lang['m_tracker']}</div>
+			<ul class="usercp-menu-group-items">
+				<li class="usercp-menu-item__topic_subscription"><a href='{$base_url}act=UserCP&amp;CODE=26'>{$ibforums->lang['m_view_subs']}</a></li>
+				<li class="usercp-menu-item__forum_subscription"><a href='{$base_url}act=UserCP&amp;CODE=50'>{$ibforums->lang['m_view_forum']}</a></li>
+			</ul>
+		</li>
+		<li class="usercp-menu-group usercp-menu-group__profile">
+			<div class='usercp-menu-group-title pformstrip'>{$ibforums->lang['m_personal']}</div>
+			<ul class="usercp-menu-group-items">
+				<li class="usercp-menu-item__profile"><a href='{$base_url}act=UserCP&amp;CODE=01'>{$ibforums->lang['m_contact_info']}</a></li>
+				<li class="usercp-menu-item__signature"><a href='{$base_url}act=UserCP&amp;CODE=22'>{$ibforums->lang['m_sig_info']}</a></li>
+				<li class="usercp-menu-item__avatar"><a href='{$base_url}act=UserCP&amp;CODE=24'>{$ibforums->lang['m_avatar_info']}</a></li>
+				<li class="usercp-menu-item__photo"><a href='{$base_url}act=UserCP&amp;CODE=photo'>{$ibforums->lang['m_change_photo']}</a></li>
+			</ul>
+		</li>
+		<li class="usercp-menu-group usercp-menu-group__options">
+			<div class='usercp-menu-group-title pformstrip'>{$ibforums->lang['m_options']}</div>
+			<ul class="usercp-menu-group-items">
+				<li class="usercp-menu-item__email"><a href='{$base_url}act=UserCP&amp;CODE=02'>{$ibforums->lang['m_email_opt']}</a></li>
+				<li class="usercp-menu-item__board_options"><a href='{$base_url}act=UserCP&amp;CODE=04'>{$ibforums->lang['m_board_opt']}</a></li>
+				<li><a href='{$base_url}act=UserCP&amp;CODE=06'>{$ibforums->lang['m_skin_lang']}</a></li>
+				<li><a href='{$base_url}act=UserCP&amp;CODE=08'>{$ibforums->lang['m_email_change']}</a></li>
+				<li><a href='{$base_url}act=UserCP&amp;CODE=52'>Open ID</a></li>
+				<li><a href='{$base_url}act=UserCP&amp;CODE=28'>{$ibforums->lang['m_passy_opt']}</a></li>
+				<li><a href='{$base_url}act=UserCP&amp;CODE=15'>{$ibforums->lang['m_board_lay']}</a></li>
+				{$delete}
+			</ul>
+		</li>
+	</ul>
  </td>
  <td style='padding:2px'><!-- --></td>
- <td id="ucpcontent" valign="top">
-  <div class='maintitle'><span style='color:black'>{$ibforums->lang['welcome']}</span></div>
+ <td id="ucpcontent" class="usercp-content">
+  <div class='maintitle usercp-content-title'>{$ibforums->lang['welcome']}</div>
 
 EOF;
 }
@@ -708,7 +718,7 @@ return <<<EOF
 <div class='signature' style="width:75%;margin-right:auto;margin-left:auto;padding:6px">$sig</div>
 <div class='pformstrip'>{$ibforums->lang['cp_edit_sig']}</div>
 <table width="100%">
-<tr> 
+<tr>
   <td class="pformright" valign="top" align="center">
         <script type='text/javascript' src='html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
 	   <input type='button' accesskey='b' value=' B ' onclick='simpletag("B")' class='codebuttons' name='B' title='Bold' style="font-weight:bold">
@@ -768,7 +778,7 @@ function settings_skin($skin) {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['settings_skin']}</div>                
+<div class="pformstrip">{$ibforums->lang['settings_skin']}</div>
 <table width="100%"
 <tr>
   <td width="50%">{$ibforums->lang['settings_skin_txt']}</td>
@@ -895,9 +905,7 @@ EOF;
 function menu_bar_msg_folder_link($id, $real) {
 global $ibforums;
 return <<<EOF
-
-&nbsp;&nbsp;&nbsp;<img src='http://forum.sources.ru/style_images/1/open.gif' border='0'  alt=''> <a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID=$id'>$real</a><br>
-
+<li><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID=$id'>$real</a></li>
 EOF;
 }
 
@@ -1077,7 +1085,7 @@ return <<<EOF
 <tr>
   <td align='right' valign='top'><input type='checkbox' name='hide_email' value='1' {$Profile['hide_email']}></td>
   <td align='left' width='100%'>{$ibforums->lang['hide_email']}</td>
-</tr>  
+</tr>
 <tr>
   <td align='right' valign='top'><input type='checkbox' name='admin_send' value='1' {$Profile['allow_admin_mails']}></td>
   <td align='left'  width='100%'>{$ibforums->lang['admin_send']}</td>
@@ -1115,14 +1123,14 @@ return <<<EOF
 <form action="{$ibforums->base_url}auth_key=$key" method="post" name='prefs'>
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='07'>
-<div class="pformstrip">{$ibforums->lang['settings_title']}</div>                
+<div class="pformstrip">{$ibforums->lang['settings_title']}</div>
 <table width="100%">
 <tr>
   <td width="50%">{$ibforums->lang['settings_lang_txt']}</td>
   <td align='left'>$lang_select</td>
 </tr>
 </table>
-<div class="pformstrip">{$ibforums->lang['settings_smile']}</div>                
+<div class="pformstrip">{$ibforums->lang['settings_smile']}</div>
 <table width="100%">
 <tr>
   <td width="50%">{$ibforums->lang['settings_smile_txt']}</td>
@@ -1245,7 +1253,7 @@ global $ibforums;
 return <<<EOF
 
 <script language='Javascript' type="text/javascript">
-  do_msg('{$msg}');  
+  do_msg('{$msg}');
 </script>
 <form action='{$ibforums->base_url}' method='post' name='form1'>
 <input type='hidden' name='act' value='UserCP'>
@@ -1277,7 +1285,7 @@ global $ibforums;
 return <<<EOF
 
 <script language='Javascript' type="text/javascript">
-  do_msg('{$msg}');  
+  do_msg('{$msg}');
 </script>
 <form action='{$ibforums->base_url}' method='post' name='form1'>
 <input type='hidden' name='act' value='UserCP'>
@@ -1303,13 +1311,11 @@ EOF;
 
 
 function CP_end() {
-global $ibforums;
 return <<<EOF
 
  </td>
 </tr>
 </table>
-<br clear="all">
 
 EOF;
 }
@@ -1357,5 +1363,10 @@ return <<<EOF
 EOF;
 }
 
+function renderInboxFolderLinks($links_html) {
+	return <<<EOF
+	<ul class="usercp-menu-item__inbox-subfolders">{$links_html}</ul>
+EOF;
 
+}
 }

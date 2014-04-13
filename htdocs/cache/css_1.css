@@ -104,10 +104,10 @@ option.sub { font-weight: bold; color: #555 }
 #photowrap { padding: 6px }
 #phototitle { font-size: 24px; border-bottom: 1px solid black }
 #photoimg { text-align: center; margin-top: 15px }
-#ucpmenu { line-height: 150%; width: 22%; border: 1px solid #345487; background-color: #F5F9FD }
-#ucpmenu p { padding: 2px 5px 6px 9px; margin: 0px }
-#ucpcontent { background-color: #F5F9FD; border: 1px solid #345487; line-height: 150%; width: auto }
-#ucpcontent p { padding: 10px; margin: 0px }
+.usercp-menu-wrapper { line-height: 150%; width: 22%; border: 1px solid #345487; background-color: #F5F9FD; vertical-align: top; }
+.usercp-menu-wrapper p{ padding: 2px 5px 6px 9px; margin: 0px }
+.usercp-content { background-color: #F5F9FD; border: 1px solid #345487; line-height: 150%; width: auto; vertical-align: top }
+.usercp-content p { padding: 10px; margin: 0px }
 #ipsbanner { position: absolute; top: 1px; right: 5% }
 #logostrip { border: 1px solid #345487; background-color: #6EA1E3; padding: 0px; margin: 0px }
 .logo { color: #FFFFFF }
@@ -118,7 +118,7 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #BCD0ED; padding: 6px }
-.pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+.usercp-menu-group-title, .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftw { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformright { background-color: #F5F9FD; padding: 6px; margin-top: 1px; border-top: 1px solid #C2CFDF }
@@ -137,7 +137,8 @@ option.sub { font-weight: bold; color: #555 }
 .dlight { background-color: #EEF2F7 }
 .titlemedium { font-weight: bold; color: #3A4F6C; background-color: #D1DCEB; padding: 7px; margin: 0px }
 .titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #3A4F6C }
-.maintitle { color: #FFFFFF; background-color: #6EA1E3; vertical-align: middle; font-weight: bold; letter-spacing: 1px; font-size: 12px; padding-top: 8px; padding-bottom: 8px; padding-left: 6px }
+.usercp-content-title, .usercp-menu-title, .maintitle { color: #FFFFFF; background-color: #6EA1E3; vertical-align: middle; font-weight: bold; letter-spacing: 1px; font-size: 12px; padding-top: 8px; padding-bottom: 8px; padding-left: 6px }
+.usercp-content-title, .usercp-menu-title { color: #000000; }
 .maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFFFFF }
 .maintitle a:hover { text-decoration: underline }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
@@ -193,7 +194,7 @@ TABLE.post_table TH{
 .blue { color: blue; font-weight: bold }
 .orange { color: #F90; font-weight: bold }
 .voteprefix {color:green}
-.e-new_warning_notice, .movedprefix {color:red;}
+.delete_info__warning, .e-new_warning_notice, .movedprefix {color:red;}
 .mirrorprefix {
 	color:green;
 }
@@ -364,4 +365,11 @@ ul.b-breadcrumbs-top li:first-child{
 
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
+}
+
+.usercp-menu-item__new_message a,
+.usercp-menu-item__inbox a,
+.usercp-menu-item__sent a,
+.usercp-menu-item__cancel_delete_account a {
+    font-weight: bold;
 }

@@ -420,7 +420,7 @@ msn					=>	"<b>Your MSN Messenger identity</b>",
 'boardlay_catfor'	=> "Category/Forum",
 'boardlay_sh'		=> "Show/Hide",
 
-'m_delete_self' 		=> "All data from your account will be deleted if you perform this action. Including all of your posts. Any accidental deletions are your fault, and yours only. No blame will be put on board staff or Invision Power Board for deletion of your account.", 
+'m_delete_self' 		=> "All data from your account will be deleted if you perform this action. Including all of your posts. Any accidental deletions are your fault, and yours only. No blame will be put on board staff or Invision Power Board for deletion of your account.",
 'm_deleted' 			=> "Your account will be removed through 60 days. If during this days you will decide to cancel deleting, please click \"Cancel deleting\".",
 'm_delete_account' 		=> "Kill yourself",
 'm_delete_submit' 		=> "Submit",
@@ -446,7 +446,7 @@ msn					=>	"<b>Your MSN Messenger identity</b>",
 'syntax_use_line_colouring' => "Use highlighting of even/odd lines",
 'm_title'	  		=> "<b>Login (Nick)</b> (enter here <b>new</b> login, only if you wish to change it)",
 'show_new' 			=> "Show only new topics in forums?",
-'m_delete_account_days'		=> "<span class=\'movedprefix\'>Deleting of profile is ordered</span>",
+'m_delete_account_days'		=> "Deleting of profile is ordered",
 'm_delete_cancel_account'	=> "<b>Cancel deleting</b>",
 
 );

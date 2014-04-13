@@ -192,6 +192,7 @@ class UserCP
 
 			if ($folder_links != "")
 			{
+				$folder_links = $this->html->renderInboxFolderLinks($folder_links);
 				$menu_html = str_replace("<!--IBF.FOLDER_LINKS-->", $folder_links, $menu_html);
 			}
 		}

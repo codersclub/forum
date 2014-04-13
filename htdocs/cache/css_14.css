@@ -81,7 +81,7 @@ UL#help {
 	COLOR: #FFFFFF;
 	text-align: center;
 	vertical-align: middle;
-	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/logo_bg_02.gif')  #000000;
+	BACKGROUND: url('/style_images/BlackLabel/logo_bg_02.gif')  #000000;
 }
 #logostrip A {
 	FONT-SIZE: 10px;
@@ -113,7 +113,7 @@ UL#help {
 	HEIGHT: 12px;
 	BORDER-LEFT: #777777 1px solid;
 	BORDER-RIGHT: #333333 1px solid;
-	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/barf.gif') #666666
+	BACKGROUND: url('/style_images/BlackLabel/barf.gif') #666666
 }
 
 .menubar {
@@ -131,7 +131,7 @@ UL#help {
 	text-align: center;
 	vertical-align: middle;
 	BACKGROUND-COLOR: #000000;
-	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif') #0c0c0c
+	BACKGROUND: url('/style_images/BlackLabel/tile_sub.gif') #0c0c0c
 }
 
 #top-menu TD {
@@ -180,7 +180,7 @@ UL#help {
 	HEIGHT: 18px;
 	text-align: center;
 	vertical-align: middle;
-	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/teaser_bg_2.gif') #0c0c0c
+	BACKGROUND: url('/style_images/BlackLabel/teaser_bg_2.gif') #0c0c0c
 }
 #userlinks A {
 	FONT-SIZE: 10px;
@@ -319,7 +319,7 @@ UL#help {
 	BORDER-LEFT: #444444 1px solid;
 	BORDER-RIGHT: #0c0c0c 1px solid;
 	FONT-WEIGHT: bold;
-	BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif');
+	BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif');
 	COLOR: #666666;
 	PADDING-LEFT: 7px;
 	PADDING-RIGHT: 7px;
@@ -349,32 +349,34 @@ UL#help {
 	MARGIN: 0px 0px;
 	BORDER-LEFT: #666666 1px solid;
 	BORDER-RIGHT: #333333 1px solid;
-	BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/bottom.gif') #666666
+	BACKGROUND: url('/style_images/BlackLabel/bottom.gif') #666666
 }
 
+.usercp-menu-title,
+.usercp-content-title,
 .maintitle {
-    PADDING-LEFT: 6px;
-    PADDING-TOP: 8px;
-    PADDING-RIGHT: 6px;
-    PADDING-BOTTOM: 8px;
-    BORDER-LEFT: #444444 1px solid;
-    BORDER-RIGHT: #0c0c0c 1px solid;
-    FONT-WEIGHT: bold;
-    BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_back.gif');
-    VERTICAL-ALIGN: middle;
-    COLOR: #ff9900;
+    padding-left: 6px;
+    padding-top: 8px;
+    padding-right: 6px;
+    padding-bottom: 8px;
+    border-left: #444444 1px solid;
+    border-right: #0c0c0c 1px solid;
+    font-weight: bold;
+    background-image: url('/style_images/BlackLabel/tile_back.gif');
+    vertical-align: middle;
+    color: #ff9900;
 }
-.maintitle A:link {
-    COLOR: #ff9900; TEXT-DECORATION: none
+.maintitle a:link {
+    color: #ff9900; text-decoration: none
 }
-.maintitle A:visited {
-    COLOR: #ff9900; TEXT-DECORATION: none
+.maintitle a:visited {
+    color: #ff9900; text-decoration: none
 }
-.maintitle A:active {
-    COLOR: #ff9900; TEXT-DECORATION: none
+.maintitle a:active {
+    color: #ff9900; text-decoration: none
 }
-.maintitle A:hover {
-    COLOR: #ffffff; TEXT-DECORATION: underline
+.maintitle a:hover {
+    color: #ffffff; text-decoration: underline
 }
 
 /*	BORDER-LEFT: #666666 1px solid;
@@ -499,6 +501,7 @@ A.warn_gr	{
     color: #ff9900
 }
 
+.usercp-menu-group-title,
 .pformstrip {
     PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px;
     FONT-WEIGHT: bold; PADDING-BOTTOM: 7px; COLOR: #dddddd;
@@ -583,25 +586,28 @@ A.warn_gr	{
 	color: #222;
 }
 
-#ucpmenu {
-    BORDER-RIGHT: #444444 1px solid;
-    BORDER-TOP: #444444 1px solid;
-    BORDER-LEFT: #444444 1px solid;
-    WIDTH: 22%;
-    LINE-HEIGHT: 150%;
-    BORDER-BOTTOM: #444444 1px solid;
-    BACKGROUND-COLOR: #585858
+.usercp-menu-wrapper {
+    border-right: #444444 1px solid;
+    border-top: #444444 1px solid;
+    border-left: #444444 1px solid;
+    width: 22%;
+    line-height: 150%;
+    border-bottom: #444444 1px solid;
+    background-color: #585858;
+    vertical-align: top;
 }
 
-#ucpcontent {
-    BORDER-RIGHT: #444444 1px solid;
-    BORDER-TOP: #444444 1px solid;
-    BORDER-LEFT: #444444 1px solid;
-    WIDTH: auto;
-    LINE-HEIGHT: 150%;
-    BORDER-BOTTOM: #444444 1px solid;
-    BACKGROUND-COLOR: #aaaaaa
+.usercp-content {
+    border-right: #444444 1px solid;
+    border-top: #444444 1px solid;
+    border-left: #444444 1px solid;
+    width: auto;
+    line-height: 150%;
+    border-bottom: #444444 1px solid;
+    background-color: #aaaaaa;
+    vertical-align: top;
 }
+
 .tablepad {
     PADDING-RIGHT: 6px;
     PADDING-LEFT: 6px;
@@ -787,11 +793,11 @@ LABEL {
 	MARGIN-TOP: 15px; TEXT-ALIGN: center
 }
 
-#ucpmenu P {
-	PADDING-RIGHT: 5px; PADDING-LEFT: 9px; PADDING-BOTTOM: 6px; MARGIN: 0px; PADDING-TOP: 2px
+.usercp-menu-wrapper P {
+	padding-right: 5px; padding-left: 9px; padding-bottom: 6px; margin: 0px; padding-top: 2px
 }
-#ucpcontent P {
-	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; MARGIN: 0px; PADDING-TOP: 10px
+.usercp-content P {
+	padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 0px; padding-top: 10px
 }
 #ipsbanner {
 	RIGHT: 5%; POSITION: absolute; TOP: 1px
@@ -818,7 +824,7 @@ LABEL {
 	FONT-WEIGHT: bold; FONT-SIZE: 11px; color: orangered;
 }
 .topic-links {
-	PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; FONT-SIZE: 10px; BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif'); PADDING-BOTTOM: 7px; PADDING-TOP: 7px; BACKGROUND-COLOR: #d1dceb; text-align: right; font-weight: bold;
+	PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px; FONT-SIZE: 10px; BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif'); PADDING-BOTTOM: 7px; PADDING-TOP: 7px; BACKGROUND-COLOR: #d1dceb; text-align: right; font-weight: bold;
 }
 
 .darkrow3 {
@@ -902,7 +908,7 @@ LABEL {
 	FONT-SIZE: 10px; COLOR: #000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; BACKGROUND-COLOR: #f5f9fd
 }
 .quotetop {
-	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: url('http://forum.sources.ru/style_images/BlackLabel/css_img_quote.gif') #e4eaf2 no-repeat right 50%; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px
+	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 3px; BORDER-TOP: #000 1px dotted; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: url('/style_images/BlackLabel/css_img_quote.gif') #e4eaf2 no-repeat right 50%; PADDING-BOTTOM: 3px; MARGIN: 8px auto 0px; BORDER-LEFT: #8394b2 4px solid; COLOR: #000; PADDING-TOP: 3px; BORDER-BOTTOM: 0px
 }
 .quotemain {
 	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-LEFT: 4px; BACKGROUND: #fafcfe; PADDING-BOTTOM: 4px; MARGIN: 0px auto 8px; BORDER-LEFT: #8394b2 4px solid; COLOR: #465584; PADDING-TOP: 4px; BORDER-BOTTOM: #000 1px dotted
@@ -911,7 +917,7 @@ LABEL {
 .voteprefix {
 	COLOR: #20b2aa;
 }
-.e-new_warning_notice, .movedprefix {
+.delete_info__warning, .e-new_warning_notice, .movedprefix {
 	COLOR: goldenrod;
 }
 
@@ -943,11 +949,11 @@ LABEL {
 }
 
 .open .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/BlackLabel/minus.png') 4px center no-repeat;
+  background: url('/style_images/BlackLabel/minus.png') 4px center no-repeat;
 }
 
 .closed .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/BlackLabel/plus.png') 4px center no-repeat;
+  background: url('/style_images/BlackLabel/plus.png') 4px center no-repeat;
 }
 span.attach_preview{
 	display:inline-block;
@@ -1112,7 +1118,7 @@ ul.b-breadcrumbs-top li:first-child{
     COLOR: #cccccc;
     text-align: center;
     vertical-align: middle;
-    BACKGROUND-image: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif');
+    BACKGROUND-image: url('/style_images/BlackLabel/tile_sub.gif');
     background-color: #0c0c0c;
 }
 
@@ -1171,7 +1177,7 @@ ul.b-breadcrumbs-top li:first-child{
     BORDER-LEFT: #444444 1px solid;
     BORDER-RIGHT: #0c0c0c 1px solid;
     FONT-WEIGHT: bold;
-    BACKGROUND-IMAGE: url('http://forum.sources.ru/style_images/BlackLabel/tile_sub.gif');
+    BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif');
     COLOR: #97B543;
     PADDING-LEFT: 7px;
     PADDING-RIGHT: 7px;
@@ -1256,4 +1262,25 @@ color: lightgray;
 
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
+}
+
+.usercp-menu-item__new_message a,
+.usercp-menu-item__inbox a,
+.usercp-menu-item__sent a,
+.usercp-menu-item__cancel_delete_account a {
+    font-weight: bold;
+}
+
+.delete_info__description {
+    color: lightgray;
+}
+
+.usercp-menu-item__inbox-subfolders {
+    list-style: none;
+    margin-left: 2em;
+}
+
+.usercp-menu-item__inbox-subfolders li:before {
+    content: "\00b7";
+    padding-right: 1em;
 }
