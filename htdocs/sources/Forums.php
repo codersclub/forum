@@ -1581,18 +1581,18 @@ class Forums
 		if ($q or (!$topic['approved'] and $topic['app']))
 		{
 			$topic['queued_link'] = "";
-			$topic_link           = "<br>" . $ibforums->lang['waiting_topics'];
-			$topic_link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$topic['tid']}=approve'>{$ibforums->lang['modcp_accept']}</a> &middot; ";
-			$topic_link .= "<a href='{$ibforums->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$this->forum['id']}&amp;TID_{$topic['tid']}=remove'>{$ibforums->lang['modcp_reject']}</a>";
+			$topic_link           = $this->html->queuedTopicButtons($this->forum['id'], $topic['tid']);
 
 			if (!$topic['approved'])
 			{
 				$topic['queued_link'] = $topic_link;
+				$topic['queued'] = TRUE;
 			} else
 			{
 				if ($q)
 				{
-					$topic['queued_link'] = "<br><a href='{$this->base_url}showtopic={$topic['tid']}&amp;view=findpost&amp;p={$this->queued[$topic['tid']]}'>" . $ibforums->lang['waiting_messages'] . "</a>";
+					$topic['queued_link'] = $this->html->needModApproveButton($topic['tid'], $this->queued[$topic['tid']]);
+					$topic['has_queued_posts'] = TRUE;
 				}
 			}
 		}

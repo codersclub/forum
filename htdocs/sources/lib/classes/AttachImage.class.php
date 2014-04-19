@@ -78,13 +78,13 @@ class AttachImage extends Attachment
 			);
 		} else
 		{
-			$img_size = @GetImageSize($ibforums->vars['upload_dir'] . "/" . $this->realFilename());
+			$img_size = $this->getRealSize();
 
 			$im = $std->scale_image(array(
 			                             'max_width'  => $ibforums->vars['siu_width'],
 			                             'max_height' => $ibforums->vars['siu_height'],
-			                             'cur_width'  => $img_size[0],
-			                             'cur_height' => $img_size[1]
+			                             'cur_width'  => $img_size['width'],
+			                             'cur_height' => $img_size['height']
 			                        ));
 
 			return array(
@@ -104,9 +104,9 @@ class AttachImage extends Attachment
 		{
 			case 'jpg':
 			case 'jpeg':
-				return @imagecreatefromjpeg($filename);
+				return imagecreatefromjpeg($filename);
 			case 'png':
-				return @imagecreatefrompng($filename);
+				return imagecreatefrompng($filename);
 			case 'gif':
 				//return @imagecreatefromgif($filename);
 		}
@@ -147,5 +147,13 @@ class AttachImage extends Attachment
 	private function realImageUrl()
 	{
 		return $this->getHref();
+	}
+
+	public function getRealSize(){
+		$img_size = @GetImageSize(Ibf::app()->vars['upload_dir'] . "/" . $this->realFilename());
+		return [
+			'width' => $img_size[0],
+		    'height' => $img_size[1]
+		];
 	}
 }

@@ -17,3 +17,24 @@ PRE	{
 .code pre{
 	border: 0px;
 }
+.b-queued_topic-approve-button a:link,
+.b-queued_topic-reject-button a:link,
+.b-queued_topic-approve-button a:hover,
+.b-queued_topic-reject-button a:hover,
+.b-queued_topic-approve-button a:visited,
+.b-queued_topic-reject-button a:visited {
+    color: red;
+}
+
+.e-queued-topic-actions-title {
+    color: red;
+    font-weight: bold;
+}
+
+.b-posts-need-approve-button a:active,
+.b-posts-need-approve-button a:link,
+.b-posts-need-approve-button a:hover,
+.b-posts-need-approve-button a:visited {
+    font-weight: bold;
+    color: red;
+}

@@ -343,7 +343,7 @@ class post_functions extends Post
 
 						//Jureth
 						$lang               = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
-						$this->post['post'] = $lastpost['post'] . " \n\n[color=gray][size=0]" . $lang['added_post'] . " [mergetime]" . time() . "[/mergetime][/size][/color]\n" . $this->post['post'];
+						$this->post['post'] = $lastpost['post'] . " \n\n[color=mergepost][size=0]" . $lang['added_post'] . " [mergetime]" . time() . "[/mergetime][/size][/color]\n" . $this->post['post'];
 						unset($lang);
 
 						PostEditHistory::addItem($lastpost['pid'], $lastpost['post']);

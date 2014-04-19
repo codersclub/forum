@@ -13,11 +13,8 @@ EOF;
 }
 
 function signature_separator($sig="") {
-global $ibforums;
 return <<<EOF
-
-<div class='signatore-separator'>___________</div><div class='signature'>$sig</div>
-
+<div class='e-signature'>$sig</div>
 EOF;
 }
 
@@ -27,7 +24,7 @@ return <<<EOF
 <div class="tableborder">
  <div class="maintitle"><img src='{$ibforums->vars['img_url']}/nav_m.gif' alt='' width='8' height='8'>&nbsp;{$ibforums->lang['error_title']}</div>
 </div>
-<div class="tablefill">
+<div class="tablefill e-error-message">
   {$ibforums->lang['exp_text']}<br><br>
   <b>{$ibforums->lang['msg_head']}</b>
   <br><br>
@@ -120,7 +117,7 @@ EOF;
 function action_button_wrapper($html, $name) {
 	return (empty($html))
 		? $html
-		: "<span class='b-action-button'>{$html}</span>";
+		: "<li class=\"b-action-button {$name}\">{$html}</li>";
 }
 
 function Member_bar($msg, $ad_link, $mod_link, $val_link) {
@@ -134,18 +131,20 @@ return <<<EOF
 <table width="100%" id="userlinks" class='b-user-links' cellspacing="0">
   <tr>
     <td class='b-welcome-message-wrapper'>
-<span class='b-welcome-message'><span class='e-welcome-prefix'>{$ibforums->lang['logged_in_as']} </span><a href='{$ibforums->base_url}showuser={$ibforums->member['id']}'>{$ibforums->member['name']}</a> !</span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
+<span class='b-welcome-message'><span class='e-welcome-prefix'>{$ibforums->lang['hello']} </span><a href='{$ibforums->base_url}showuser={$ibforums->member['id']}'>{$ibforums->member['name']}</a><span class="e-welcome-suffix"> !</span></span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
     </td>
-    <td class='b-user-action-buttons'>
+    <td class='b-user-action-buttons-wrapper'>
+    <ul class="b-action-buttons b-action-buttons b-user-action-buttons">
       $ad_link
       $mod_link
       $val_link
-      <span class='b-action-button b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
-      <span class='b-action-button b-user-pm-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a></span>
-      <span class='b-action-button b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
-      <span class='b-action-button b-user-new_posts-button no-middot'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
-      <span class='b-action-button b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
-      <span class='b-action-button b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
+  <li class='b-action-button b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></li>
+  <li class='b-action-button b-user-pm-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Msg&amp;CODE=01'>{$msg['TEXT']}</a></li>
+  <li class='b-action-button b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></li>
+  <li class='b-action-button b-user-new_posts-button no-middot'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></li>
+  <li class='b-action-button b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></li>
+  <li class='b-action-button b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></li>
+      </ul>
     </td>
   </tr>
 </table>
@@ -166,20 +165,22 @@ global $ibforums;
 	$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
 return <<<EOF
 
-<table width="100%" id="userlinks" cellspacing="0">
-  <tr align='center'>
-    <td align='left'>
-<span class='b-welcome-message'><span class='e-welcome-prefix'>{$ibforums->lang['logged_in_as']} </span>{$ibforums->member['name']} !</span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
+<table id="userlinks" class="b-user-links">
+  <tr>
+    <td>
+		<span class='b-welcome-message'><span class='e-welcome-prefix'>{$ibforums->lang['hello']} </span>{$ibforums->member['name']}<span class="e-welcome-suffix"> !</span></span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
     </td>
-    <td align='center'>
+    <td>
+    <ul class="b-action-buttons b-user-action-buttons">
       $ad_link
       $mod_link
       $val_link
-  <span class='b-action-button-wrapper b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></span>
-  <span class='b-action-button-wrapper b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></span>
-  <span class='b-action-button-wrapper b-user-new_posts-button no-middot'><a class='e-action-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></span>
-  <span class='b-action-button-wrapper b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></span>
-  <span class='b-action-button-wrapper b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></span>
+	  <li class='b-action-button-wrapper b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></li>
+	  <li class='b-action-button-wrapper b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></li>
+	  <li class='b-action-button-wrapper b-user-new_posts-button no-middot'><a class='e-action-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></li>
+	  <li class='b-action-button-wrapper b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></li>
+	  <li class='b-action-button-wrapper b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></li>
+    </ul>
     </td>
   </tr>
 </table>
@@ -210,15 +211,18 @@ function Guest_bar() {
 global $ibforums;
 return <<<EOF
 
-<table width="100%" id="userlinks" cellspacing="6">
-  <tr align='center'>
-    <td align='left'>{$ibforums->lang['guest_stuff']} [{$ibforums->input['IP_ADDRESS']}]
-    </td>
+<table id="userlinks" class="b-user-links">
+  <tr>
     <td>
-      <a href='{$ibforums->base_url}act=Login&amp;CODE=00'>{$ibforums->lang['log_in']}</a> &middot;
-      <a href='{$ibforums->base_url}act=Reg&amp;CODE=00'>{$ibforums->lang['register']}</a> &middot;
-      <a href='{$ibforums->base_url}act=Reg&amp;CODE=reval'>{$ibforums->lang['ml_revalidate']}</a> &middot;
-      <a href="{$ibforums->base_url}showtopic=50223">{$ibforums->lang['why_register']}</a>
+        <span class='b-welcome-message'><span class='e-welcome-prefix'>{$ibforums->lang['hello']} </span>Гость<span class="e-welcome-suffix"> !</span></span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
+    </td>
+    <td class='b-user-action-buttons-wrapper'>
+    <ul class="b-action-buttons b-user-action-buttons">
+      <li class="b-action-button b-login-button"><a class="e-action-button-link e-login-link" href='{$ibforums->base_url}act=Login&amp;CODE=00'>{$ibforums->lang['log_in']}</a></li>
+      <li class="b-action-button b-register-button"><a class="e-action-button-link e-register-link" href='{$ibforums->base_url}act=Reg&amp;CODE=00'>{$ibforums->lang['register']}</a></li>
+      <li class="b-action-button b-revalidate-button"><a class="e-action-button-link e-revalidate-link" href='{$ibforums->base_url}act=Reg&amp;CODE=reval'>{$ibforums->lang['ml_revalidate']}</a></li>
+      <li class="b-action-button b-why_register-button"><a class="e-action-button-link e-why_register-link" href="{$ibforums->base_url}showtopic=50223">{$ibforums->lang['why_register']}</a></li>
+    </ul>
     </td>
   </tr>
 </table>
@@ -519,22 +523,34 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 EOF;
 }
 
+function bottomBreadcrumbs($items){
+	$output = '<ul class="b-breadcrumbs b-breadcrumbs-bottom    ">';
+	foreach($items as $item)
+		$output .= '<li class="b-breadcrumbs-element">' . $item . '</li>';
+	$output .= '</ul>';
+	return $output;
+}
+
+function topBreadcrumbs($items){
+	$output = '<ul class="b-breadcrumbs b-breadcrumbs-top">';
+	foreach($items as $item)
+		$output .= '<li class="b-breadcrumbs-element">' . $item . '</li>';
+	$output .= '</ul>';
+	return $output;
+}
+
 function start_nav($NEW="") {
 global $ibforums;
 return <<<EOF
-<table id='top-navigation' class='b-top-navigation' border=0 width="100%" cellspacing=0 cellpadding=0>
+<table id='top-navigation' class='b-top-navigation-row' border=0 width="100%" cellspacing=0 cellpadding=0>
 <tr>
 <td class='b-navigation-wrapper'>
-<!--div id='navstrip' align='left'--><{F_NAV}>&nbsp;
-
 EOF;
 }
 
 function end_nav() {
 global $ibforums, $std;
 return <<<EOF
-
-<!--/div-->
 </td>
 <td class='b-top-nav-banner-wrapper'>
 <!-- TOP NAV BANNER -->
@@ -695,6 +711,111 @@ EOF;
 function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
 return <<<EOF
   <div class="e-script-execution-stats">[ Script Execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
+EOF;
+}
+
+function renderActionButtons($actions, $list_classes = "", $item_classes = ""){
+	$output = '<ul class="b-action-buttons ' . $list_classes . '">';
+	foreach($actions as $class => $action)
+		if(!empty($action))
+			$output .= '<li class="b-action-button ' . (is_string($class) ? $class . ' ' : '' ) . $item_classes . '">' . $action . '</li>';
+	$output .= "</ul>";
+	return $output;
+}
+
+function renderTime($unixtime, $class = '') {
+	return '<time class="' . $class . '" datetime="' . date('c', $unixtime) . '">' . Ibf::app()->functions->get_date($unixtime) . '</time>';
+}
+
+function topicsListLegend(){
+	$ibforums = Ibf::app();
+	return <<<EOF
+<div class="b-legend">
+<div class="b-legend-block-wrapper">
+	<ul class="b-legend-block">
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_NEW}></span><span class="e-legend-description">{$ibforums->lang["pm_open_new"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_NORM}></span><span class="e-legend-description">{$ibforums->lang["pm_open_no"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_HOT}></span><span class="e-legend-description">{$ibforums->lang["pm_hot_new"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_HOT_NN}></span><span class="e-legend-description">{$ibforums->lang["pm_hot_no"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_PIN}></span><span class="e-legend-description">{$ibforums->lang["pm_pin"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_MIRRORED}></span><span class="e-legend-description">{$ibforums->lang["pm_mirror"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_MIRRORED_NO}></span><span class="e-legend-description">{$ibforums->lang["pm_mirror_no"]}</span></li>
+  </ul>
+</div>
+<div class="b-legend-block-wrapper">
+	<ul class="b-legend-block">
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_POLL}></span><span class="e-legend-description">{$ibforums->lang["pm_poll"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_POLL_NN}></span><span class="e-legend-description">{$ibforums->lang["pm_poll_no"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_DECIDED}></span><span class="e-legend-description">{$ibforums->lang["pm_open_decided"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_LOCKED}></span><span class="e-legend-description">{$ibforums->lang["pm_locked"]}</span></li>
+	  <li class="b-legend-item"><span class="e-legend-item"><{B_MOVED}></span><span class="e-legend-description">{$ibforums->lang["pm_moved"]}</span></li>
+    </ul>
+</div>
+</div>
+EOF;
+
+}
+
+function renderTagMM($text){
+	$title = Ibf::app()->lang['mod_mes'];
+	return <<<EOF
+		<div class="tag-mm"><div class="tag-mm-header">{$title}</div><div class="tag-mm-body">{$text}</div></div>
+EOF;
+}
+
+function renderTagGM($text) {
+	$title = Ibf::app()->lang['glob_mod_mes'];
+	return <<<EOF
+		<div class="tag-gm"><div class='tag-gm-header'>{$title}</div><div class='tag-gm-body'>{$text}</div></div>
+EOF;
+
+}
+
+function renderTagListUnordered($text){
+	return <<<EOF
+	<ul class="tag-list">{$text}</ul>
+EOF;
+}
+
+function renderTagListOrdered($text, $type){
+return <<<EOF
+	<ol class="tag-list" type="{$type}">{$text}</ol>
+EOF;
+}
+
+function renderTagMod($text) {
+	return <<<EOF
+<div class="tag-mod">{$text}</div>
+EOF;
+}
+
+function renderTagEx($text) {
+	return <<<EOF
+<div class="tag-ex">{$text}</div>
+EOF;
+}
+
+function renderTagSize($value, $text) {
+	return <<<EOF
+<span class='tag-size' data-value='{$value}' style='font-size:{$value}pt;'>{$text}</span>
+EOF;
+}
+
+function renderTagColor($value, $text) {
+	return <<<EOF
+	<span class="tag-color" data-value="{$value}" style="color: #{$value}">{$text}</span>
+EOF;
+}
+
+function renderTagColorNamed($value, $text) {
+	return <<<EOF
+	<span class="tag-color tag-color-named" data-value="{$value}" style="color: {$value}">{$text}</span>
+EOF;
+}
+
+function renderTagFont($value, $text) {
+	return <<<EOF
+    <span class="tag-font" data-value="{$value}" style="font-family:{$value}">{$text}</span>
 EOF;
 }
 }

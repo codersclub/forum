@@ -776,6 +776,7 @@ class Search
 				}
 
 				$row['keywords']  = $url_words;
+				$row['std_post_date'] = date('c', $row['post_date']);
 				$row['post_date'] = $std->get_date($row['post_date']);
 
 				if ($ibforums->vars['post_wordwrap'] > 0)
@@ -1557,6 +1558,7 @@ class Search
 				}
 
 				$row['keywords']  = $url_words;
+				$row['std_post_date'] = date('c', $row['post_date']);
 				$row['post_date'] = $ibforums->functions->get_date($row['post_date']);
 
 				//--------------------------------------------------------------
@@ -1951,7 +1953,7 @@ class Search
 		$topic['last_text'] = $ibforums->lang['last_post_by'];
 
 		$topic['last_poster'] = ($topic['last_poster_id'] != 0)
-			? "<b><a href='{$this->base_url}showuser={$topic['last_poster_id']}'>{$topic['last_poster_name']}</a></b>"
+			? "<a href='{$this->base_url}showuser={$topic['last_poster_id']}'>{$topic['last_poster_name']}</b>"
 			: "-" . $topic['last_poster_name'] . "-";
 
 		$topic['starter'] = ($topic['starter_id'] != 0)
@@ -2083,12 +2085,12 @@ class Search
 		// Song * NEW
 		if ($last_time && ($topic['last_post'] > $last_time))
 		{
-			$topic['go_last_page'] = "<a href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'><{GO_LAST_ON}></a>";
-			$topic['go_new_post']  = "<a href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getnewpost'><{NEW_POST}></a>";
+			$topic['go_last_page'] = "<a class='e-view_last_post-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'><{GO_LAST_ON}></a>";
+			$topic['go_new_post']  = "<a class='e-go_new_post-link' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getnewpost'><{NEW_POST}></a>";
 
 		} else
 		{
-			$topic['go_last_page'] = "<a href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'><{GO_LAST_OFF}></a>";
+			$topic['go_last_page'] = "<a class='e-view_last_post-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'><{GO_LAST_OFF}></a>";
 			$topic['go_new_post']  = "";
 		}
 
@@ -2099,6 +2101,7 @@ class Search
 			$maxpages = 0;
 		}
 
+		$topic['last_post_std'] = date('c', $topic['last_post']);
 		$topic['last_post'] = $std->get_date($topic['last_post']);
 
 		if ($topic['state'] == 'link')
@@ -2129,7 +2132,7 @@ class Search
 
 			if ($topic['author_id'])
 			{
-				$topic['author_name'] = "<b><a href='{$this->base_url}showuser={$topic['author_id']}'>{$topic['author_name']}</a></b>";
+				$topic['author_name'] = "<a href='{$this->base_url}showuser={$topic['author_id']}'>{$topic['author_name']}</a>";
 			}
 
 			// Highlighting?
