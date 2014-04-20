@@ -65,4 +65,4 @@ $lang['users_online_today']  = "Visits today: <b>#ALL#</b> (<b>#USERS#</b> users
 $lang['users_online_yesterday']  = "Visits yesterday: <b>#ALL#</b> (<b>#USERS#</b> users, <b>#GUESTS#</b> guests and <b>#BOTS#</b> bots)";
 $lang['online_record']  = "Most visits for a week: <b>#ALL#</b> (<b>#USERS#</b> users, <b>#GUESTS#</b> guests and <b>#BOTS#</b> bots) was <b>#DATE#</b>";
 $lang['your_friends']  = "<b>Friends of mine</b>:";
-
+$lang['group_offenders'] = "Offenders";

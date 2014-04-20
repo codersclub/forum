@@ -815,3 +815,68 @@ span.b-post-links-post:before {
 .post-edited-message {
     margin-top: 1.5em;
 }
+
+.group-super_admins,
+.group-admins {
+    color: red;
+}
+
+.group-banned {
+    color: gray;
+}
+
+.group-moderators {
+    color: blue;
+}
+
+.group-project_coordinators {
+    color: green;
+}
+
+.group-global_moderators {
+    color: orange;
+}
+
+.group-comoderators {
+    color: blue;
+}
+
+.group-veterans {
+    color: purple;
+}
+
+.group-offenders {
+    color: gray;
+}
+
+.group-search_bots {
+    font-style: italic;
+}
+
+.group-club_members {
+    color: navy;
+}
+
+.members-groups-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.members-groups-list:before {
+    content: '[';
+}
+
+.members-groups-list:after {
+    content: ']';
+}
+
+.members-groups-list li {
+    display: inline;
+    padding: 0;
+    margin-right: 0.3em;
+}
+
+.members-groups-list li:not(:last-child):after {
+    content: ',';
+}

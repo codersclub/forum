@@ -65,4 +65,4 @@ $lang['users_online_yesterday']  = "Посещений вчера: <b>#ALL#</b> 
 $lang['online_record']  = "Общий рекорд посещений за сутки: <b>#ALL#</b> (<b>#USERS#</b> участников, <b>#GUESTS#</b> гостей и <b>#BOTS#</b> поисковых машин) зафиксирован <b>#DATE#</b>";
 $lang['category_record']  = "Рекорд посещений за сутки по категориям: <b>#USERS#</b> участников, <b>#GUESTS#</b> гостей и <b>#BOTS#</b> поисковых машин";
 $lang['your_friends']  = "<b>Мои друзья</b>:";
-
+$lang['group_offenders'] = 'наказанные';

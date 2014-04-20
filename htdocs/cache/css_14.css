@@ -907,6 +907,7 @@ LABEL {
 .quotemain {
 	BORDER-RIGHT: #000 1px dotted; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-LEFT: 4px; BACKGROUND: #fafcfe; PADDING-BOTTOM: 4px; MARGIN: 0px auto 8px; BORDER-LEFT: #8394b2 4px solid; COLOR: #465584; PADDING-TOP: 4px; BORDER-BOTTOM: #000 1px dotted
 }
+.group-project_coordinators,
 .voteprefix {
 	COLOR: #20b2aa;
 }
@@ -1095,7 +1096,7 @@ ul.b-breadcrumbs-top li:first-child{
     padding-bottom: 5px;
 }
 .online-stats-record,
-.members-categories,
+.members-groups-list,
 .friends-title
 {
     color: #999999;
@@ -1228,4 +1229,24 @@ ul.b-breadcrumbs-top li:first-child{
 
 .post-edited-message {
     color: lightgray;
+}
+
+.group-admins {
+    color: goldenrod;
+}
+
+.group-moderators {
+    color: #00bfff;
+}
+
+.group-club_members {
+    color: #87ceeb;
+}
+
+.group-veterans {
+    color: #dda0dd;
+}
+
+.group-search_bots {
+color: lightgray;
 }
