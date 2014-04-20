@@ -73,7 +73,7 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #BCD0ED; padding: 6px }
-.usercp-menu-group-title, .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+h3, .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftqr { background-color: #F5F9FD; width: 15%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftw { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
@@ -103,10 +103,10 @@ option.sub { font-weight: bold; color: #555 }
 .dlight { background-color: #EEF2F7 }
 .titlemedium { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-color: #9FBCE3 }
 .titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #3A4F6C }
-.usercp-content-title, .usercp-menu-title, .maintitle { vertical-align: middle; font-weight: bold; color: #FFF; padding: 8px 0px 8px 5px; background-color: #6699CC }
-.maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
-.maintitle a:hover { text-decoration: underline }
-.usercp-content-title, .usercp-menu-title { color: #000000; }
+h2, .maintitle { vertical-align: middle; font-weight: bold; color: #FFF; padding: 8px 0px 8px 5px; background-color: #6699CC }
+h2 a, h2 a:link, h2 a:visited, h2  a:active, .maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
+h2 a:hover, .maintitle a:hover { text-decoration: underline }
+h2 { color: #000000; }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
 .tableborder { border: 1px solid #345487; background-color: #FFF; }
 .tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }

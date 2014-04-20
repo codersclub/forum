@@ -71,7 +71,7 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { border: 1px solid #C2CFDF; background-color: #AAB7C8 }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #AAB7C8; padding: 6px }
-.usercp-menu-group-title, .pformstrip { background-color: #E2DFD8; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+h2, .pformstrip { background-color: #E2DFD8; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformstrip2 { background-color: #D2D0CB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #E9E7E2; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftw { background-color: #E9E7E2; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
@@ -93,10 +93,10 @@ http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif); text-align
 .dlight { background-color: #E9E7E2 }
 .titlemedium { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-image: url(http://forum.sources.ru/style_images/Xpressio-296/tile_sub.gif) }
 .titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #3A4F6C }
-.usercp-content-title, .usercp-menu-title, .maintitle { vertical-align: middle; font-weight: bold; color: #FFF; letter-spacing: 1px; padding: 8px 0px 8px 6px; background-image: url(http://forum.sources.ru/style_images/Xpressio-296/tile_back.gif) }
-.maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
-.maintitle a:hover { text-decoration: underline }
-.usercp-content-title, .usercp-menu-title { color: #000000; }
+h2, .maintitle { vertical-align: middle; font-weight: bold; color: #FFF; letter-spacing: 1px; padding: 8px 0px 8px 6px; background-image: url(http://forum.sources.ru/style_images/Xpressio-296/tile_back.gif) }
+h2 a, h2 a:link, h2 a:visited, h2  a:active, .maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
+h2 a:hover, .maintitle a:hover { text-decoration: underline }
+h2 { color: #000000; }
 .plainborder { border: 1px solid #345487; background-color: #D2D0CB }
 .tableborder { border: 1px solid #345487; background-color: #D2D0CB; }
 .tableborder2 { border: 1px solid #345487; background-color: #E9E7E2; padding: 0; margin: 0 }

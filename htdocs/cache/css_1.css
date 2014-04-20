@@ -118,7 +118,7 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #BCD0ED; padding: 6px }
-.usercp-menu-group-title, .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+h3, .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftw { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformright { background-color: #F5F9FD; padding: 6px; margin-top: 1px; border-top: 1px solid #C2CFDF }
@@ -137,8 +137,8 @@ option.sub { font-weight: bold; color: #555 }
 .dlight { background-color: #EEF2F7 }
 .titlemedium { font-weight: bold; color: #3A4F6C; background-color: #D1DCEB; padding: 7px; margin: 0px }
 .titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #3A4F6C }
-.usercp-content-title, .usercp-menu-title, .maintitle { color: #FFFFFF; background-color: #6EA1E3; vertical-align: middle; font-weight: bold; letter-spacing: 1px; font-size: 12px; padding-top: 8px; padding-bottom: 8px; padding-left: 6px }
-.usercp-content-title, .usercp-menu-title { color: #000000; }
+h2, .maintitle { color: #FFFFFF; background-color: #6EA1E3; vertical-align: middle; font-weight: bold; letter-spacing: 1px; font-size: 12px; padding-top: 8px; padding-bottom: 8px; padding-left: 6px }
+h2 { color: #000000; }
 .maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFFFFF }
 .maintitle a:hover { text-decoration: underline }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }

@@ -18,7 +18,7 @@ BODY {
 }
 TABLE {
 	FONT-SIZE: 11px;
-	COLOR: #000;
+	/*COLOR: #000;*/
 	FONT-FAMILY: Verdana, Tahoma, Arial, sans-serif;
 	TEXT-ALIGN: left
 }
@@ -27,7 +27,7 @@ TR {
 TD {
     FONT-FAMILY: Verdana, Tahoma, Arial, sans-serif;
     FONT-SIZE: 11px;
-    COLOR: #777777;
+    /*COLOR: black;*/
 }
 
 TABLE.post_table {
@@ -43,6 +43,26 @@ TABLE.post_table TH{
   padding: 3px 3px 3px 3px;
 }
 
+input,
+textarea
+{
+    border: 1px dotted black;
+    background-color: #dddddd;
+}
+select {
+    background-color: #dddddd;
+}
+
+input[type="submit"],
+input[type="button"] {
+    border: 1px outset #777777;
+
+}
+
+input[type="image"] {
+    border: none;
+    background-color: transparent;
+}
 
 #ipbwrapper {
 	MARGIN-LEFT: auto; WIDTH: 95%; MARGIN-RIGHT: auto; TEXT-ALIGN: left
@@ -352,8 +372,7 @@ UL#help {
 	BACKGROUND: url('/style_images/BlackLabel/bottom.gif') #666666
 }
 
-.usercp-menu-title,
-.usercp-content-title,
+h2,
 .maintitle {
     padding-left: 6px;
     padding-top: 8px;
@@ -366,15 +385,19 @@ UL#help {
     vertical-align: middle;
     color: #ff9900;
 }
+h2 a:hover,
 .maintitle a:link {
     color: #ff9900; text-decoration: none
 }
+h2 a:hover,
 .maintitle a:visited {
     color: #ff9900; text-decoration: none
 }
+h2  a:hover,
 .maintitle a:active {
     color: #ff9900; text-decoration: none
 }
+h2  a:hover,
 .maintitle a:hover {
     color: #ffffff; text-decoration: underline
 }
@@ -422,7 +445,6 @@ A.warn_gr	{
 	FONT-STYLE: italic
 }
 .forminput {
-	BACKGROUND-COLOR: #999999;
 	COLOR: black;
 	FONT-SIZE: 11px;
 	VERTICAL-ALIGN: middle;
@@ -476,6 +498,14 @@ A.warn_gr	{
 	BACKGROUND-COLOR: #AAAAAA
 }
 
+.post2 a,
+.post2 a:link,
+.post2 a:hover,
+.post2 a:visited,
+.post2 a:active {
+    color: black;
+}
+
 .e-posts-separator,
 .darkrow1 {
 	COLOR: #4c77b6; BACKGROUND-COLOR: #222222
@@ -494,53 +524,85 @@ A.warn_gr	{
 }
 
 .postcolor a{
-    color: #333333;
+    color: black;
 }
 
 .postcolor a:hover{
-    color: #ff9900
+    color: #ffbb00
 }
 
-.usercp-menu-group-title,
+h3,
 .pformstrip {
-    PADDING-RIGHT: 7px; MARGIN-TOP: 1px; PADDING-LEFT: 7px;
-    FONT-WEIGHT: bold; PADDING-BOTTOM: 7px; COLOR: #dddddd;
-    PADDING-TOP: 7px; BACKGROUND-COLOR: #383838
+    padding-right: 7px;
+    padding-left: 7px;
+    margin-top: 1px;
+    font-weight: bold;
+    padding-bottom: 7px;
+    color: #dddddd;
+    padding-top: 7px;
+    background-color: #383838
 }
 
 .pformright {
-    PADDING-RIGHT: 6px; BORDER-TOP: #222222 1px solid;
-    MARGIN-TOP: 1px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px;
-    PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
+    padding-right: 6px;
+    border-top: #222222 1px solid;
+    margin-top: 1px;
+    padding-left: 6px;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    background-color: #aaaaaa;
+    color: black;
 }
 
-.pformright a{
-    color: #383838
+.pformleft a:link, .pformright a:link,
+.pformleft a:active, .pformright a:active,
+.pformleft a:hover, .pformright a:hover,
+.pformleft a:visited, .pformright a:visited {
+    color: black;
 }
 
 .pformleft {
-    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px;
-    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px;
-    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 15%;
-    PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
+    border-right: none;
+    padding-right: 6px;
+    border-top: #383838 1px solid;
+    margin-top: 1px;
+    padding-left: 6px;
+    padding-bottom: 6px;
+    width: 15%;
+    padding-top: 6px;
+    background-color: #aaaaaa;
+    color: black;
 }
 
 .pformleftw {
-    BORDER-RIGHT: #383838 1px solid; PADDING-RIGHT: 6px;
-    BORDER-TOP: #383838 1px solid; MARGIN-TOP: 1px;
-    PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; WIDTH: 40%;
-    PADDING-TOP: 6px; BACKGROUND-COLOR: #aaaaaa
+    border-right: #383838 1px solid;
+    padding-right: 6px;
+    border-top: #383838 1px solid;
+    margin-top: 1px;
+    padding-left: 6px;
+    padding-bottom: 6px;
+    width: 40%;
+    padding-top: 6px;
+    background-color: #aaaaaa;
+    color: black;
 }
 
 .tablefill {
-    BORDER-RIGHT: #222222 1px solid; PADDING-RIGHT: 6px;
-    BORDER-TOP: #222222 1px solid; PADDING-LEFT: 6px;
-    PADDING-BOTTOM: 6px; BORDER-LEFT: #222222 1px solid;
-    PADDING-TOP: 6px; BORDER-BOTTOM: #222222 1px solid;
-    BACKGROUND-COLOR: #aaaaaa;
+    border-right: #222222 1px solid;
+    padding-right: 6px;
+    border-top: #222222 1px solid;
+    padding-left: 6px;
+    padding-bottom: 6px;
+    border-left: #222222 1px solid;
+    padding-top: 6px;
+    border-bottom: #222222 1px solid;
+    background-color: #aaaaaa;
+    color: black;
 }
+
+.pformleftw a,
 .tablefill a {
-    color: #383838
+    color: black;
 }
 
 .desc {
@@ -566,7 +628,7 @@ A.warn_gr	{
 }
 
 .activeuserstrip a:hover{
-    color: #FF9900
+    color: #FFbb00
 }
 
 .pinned_topic, .topic-pinned .row1, .topic-pinned .row2, .topic-pinned .row3, .topic-pinned .row4 {
@@ -605,7 +667,18 @@ A.warn_gr	{
     line-height: 150%;
     border-bottom: #444444 1px solid;
     background-color: #aaaaaa;
+    color: black;
     vertical-align: top;
+}
+
+.usercp-content a,
+.usercp-content a:link,
+.usercp-content a:visited,
+.usercp-content a:active {
+    color: black;
+}
+.usercp-content a:hover {
+    color: #ffbb00;
 }
 
 .tablepad {
@@ -613,7 +686,8 @@ A.warn_gr	{
     PADDING-LEFT: 6px;
     PADDING-BOTTOM: 6px;
     PADDING-TOP: 6px;
-    BACKGROUND-COLOR: #383838
+    BACKGROUND-COLOR: #383838;
+    color: #cccccc;
 }
 
 .tag-mm-header,
@@ -1163,6 +1237,8 @@ ul.b-breadcrumbs-top li:first-child{
 }
 
 .pm-list a:link,
+.pm-list a:active,
+.pm-list a:hover,
 .pm-list a:visited {
     color: black;
 }
@@ -1283,4 +1359,21 @@ color: lightgray;
 .usercp-menu-item__inbox-subfolders li:before {
     content: "\00b7";
     padding-right: 1em;
+}
+
+.b-welcome-message-wrapper {
+    color: #BB7700;
+}
+.usercp-menu,
+.usercp-menu a,
+.usercp-menu a:link,
+.usercp-menu a:visited,
+.usercp-menu a:active,
+.news-wrapper,
+.poll-wrapper {
+    color: #cccccc;
+}
+
+.pager {
+    color: #999999;
 }

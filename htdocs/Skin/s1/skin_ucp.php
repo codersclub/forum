@@ -49,7 +49,7 @@ EOF;
 function settings_end($data) {
 global $ibforums;
 return <<<EOF
-<div class='pformstrip'>{$ibforums->lang['user_settings_display']}</div>
+<h3>{$ibforums->lang['user_settings_display']}</h3>
 <table width="100%" cellpadding="4">
 <tr>
   <td width='70%'>{$ibforums->lang['show_status']}</td>
@@ -80,7 +80,7 @@ return <<<EOF
   <td align='left'>{$data[AVA]}</td>
 </tr>
 </table>
-<div class='pformstrip'>{$ibforums->lang['settings_display']}</div>
+<h3>{$ibforums->lang['settings_display']}</h3>
 <table width="100%" cellpadding="4">
 <tr>
   <td>{$ibforums->lang['show_filter']}</td>
@@ -139,7 +139,7 @@ return <<<EOF
   <td align='left'><select name='topicpage' class='forminput'>{$data['TPS']}</select></td>
 </tr>
 </table>
-<div class='pformstrip'>{$ibforums->lang['syntax_code_highlight_settings']}</div>
+<h3>{$ibforums->lang['syntax_code_highlight_settings']}</h3>
 <table width="100%" cellpadding="4">
 <tr>
   <td>{$ibforums->lang['use_highlight']}<br></td>
@@ -167,7 +167,7 @@ return <<<EOF
 </tr>
 </table>
 
-<div class="pformstrip" align='center'><input type='submit' name='submit' value='{$ibforums->lang['settings_submit']}' class='forminput'></div>
+<h3 align='center'><input type='submit' name='submit' value='{$ibforums->lang['settings_submit']}' class='forminput'></h3>
 </form>
 
 EOF;
@@ -227,13 +227,13 @@ var url_input = "{$url_photo}";
 <form action="{$ibforums->base_url}auth_key=$key" enctype='multipart/form-data' method="post" name="bob" onsubmit="return checkform();">
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='dophoto'>
-<div class="pformstrip">{$ibforums->lang['pph_title']}</div>
+<h3>{$ibforums->lang['pph_title']}</h3>
 <p>{$ibforums->lang['pph_desc']}<br>{$ibforums->lang['pph_max']}</p>
-<div class="pformstrip">{$ibforums->lang['pph_current']}</div>
+<h3">{$ibforums->lang['pph_current']}</h3>
 <div align="center">
  <p>$cur_photo<br>$cur_type $show_size</p>
 </div>
-<div class="pformstrip">{$ibforums->lang['pph_change']}</div>
+<h3>{$ibforums->lang['pph_change']}</h3>
 <table class='tablebasic' cellpadding='4'>
 <tr>
  <td class='pformleft'>{$ibforums->lang['pph_url']}</td>
@@ -242,10 +242,10 @@ var url_input = "{$url_photo}";
 <!--IPB.UPLOAD-->
 <!--IPB.SIZE-->
 </table>
-<div align="center" class="pformstrip">
+<h3 align="center">
   <input type="submit" name='submit' value="{$ibforums->lang['pph_submit']}" class='forminput'>
   &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" onclick="remove_pressed=1;" name='remove' value="{$ibforums->lang['pph_remove']}" class='forminput'>
-</div>
+</h3>
 </form>
 
 EOF;
@@ -256,7 +256,7 @@ function splash($member) {
 global $ibforums;
 return <<<EOF
 
-     <div class='pformstrip'>{$ibforums->lang['stats_header']}</div>
+     <h3>{$ibforums->lang['stats_header']}</h3>
 	  <table width='100%' border="0" cellspacing="0" cellpadding="4">
 		<tr>
 		  <td width="40%">{$ibforums->lang['email_address']}</td>
@@ -275,7 +275,7 @@ return <<<EOF
 		  <td width="60%">{$member[DAILY_AVERAGE]}</td>
 		</tr>
 	  </table>
-	  <div class='pformstrip'>{$ibforums->lang['messenger_summary']}</div>
+	  <h3>{$ibforums->lang['messenger_summary']}</h3>
 	  <table width="100%" border="0" cellspacing="0" cellpadding="4">
 		<tr>
 		  <td width="40%">{$ibforums->lang['total_messages']}</td>
@@ -286,7 +286,7 @@ return <<<EOF
 		  <td width="60%">{$member['space_free']} {$member['full_messenger']}</td>
 		</tr>
 	  </table>
-	  <div class='pformstrip'>{$ibforums->lang['note_pad']}</div>
+	  <h3>{$ibforums->lang['note_pad']}</h3>
 	  <div align='center'>
 	  <p>
 		<form name='notepad' action="{$ibforums->base_url}" method="post">
@@ -333,7 +333,7 @@ return <<<EOF
 <input type='hidden' name='CODE' value='21'>
 
 <!--{REQUIRED.FIELDS}-->
-<div class='pformstrip'>{$ibforums->lang['profile_title']}</div>
+<h3>{$ibforums->lang['profile_title']}</h3>
 <table width='100%'>
 <!--{MEMBERTITLE}-->
 <!--{GENDER}-->
@@ -395,7 +395,7 @@ function required_title() {
 global $ibforums;
 return <<<EOF
 
- <div class='pformstrip'>{$ibforums->lang['cf_required']}</div>
+ <h3>{$ibforums->lang['cf_required']}</h3>
  <table width='100%'>
 
 EOF;
@@ -432,9 +432,9 @@ return <<<EOF
 var url_input2 = "{$data['current_url_avatar']}";
 </script>
 <!--IBF.LIMITS_AVATAR-->
-<div class="pformstrip">{$ibforums->lang['av_current']}</div>
+<h3>{$ibforums->lang['av_current']}</h3>
 <div class="tablepad" align="center">{$data['current_avatar_image']}<br>{$data['current_avatar_type']} {$data['current_avatar_dims']}</div>
-<div class="pformstrip">{$ibforums->lang['avatar_pre_title']}</div>
+<h3>{$ibforums->lang['avatar_pre_title']}</h3>
 <form action='{$ibforums->base_url}act=UserCP&amp;CODE=getgallery' method='post'>
 <table class='tablebasic' cellpadding='4'>
 <tr>
@@ -451,10 +451,10 @@ $hidden_field
 <!--IBF.URL_AVATAR-->
 <!--IBF.UPLOAD_AVATAR-->
 <!--IPB.SIZE-->
-<div align="center" class="pformstrip">
+<h3 align="center">
   <input type="submit" name="submit" value="{$ibforums->lang['av_update']}" class='forminput'>
   &nbsp;&nbsp;&nbsp;<input type="submit" name="remove" onclick="remove_pressed=1;" value="{$ibforums->lang['av_remove']}" class='forminput'>
-</div>
+</h3>
 </form>
 
 EOF;
@@ -635,10 +635,10 @@ var js_base_url		= "{$ibforums->js_base_url}";
 <table class="usercp" cellspacing='0' cellpadding='0' width='100%'>
 <tr>
  <td id='ucpmenu' class="usercp-menu-wrapper">
-    <div class='usercp-menu-title maintitle'>{$ibforums->lang['tt_menu']}</div>
+    <h2 class='usercp-menu-title maintitle'>{$ibforums->lang['tt_menu']}</h2>
     <ul class="usercp-menu">
 		<li class='usercp-menu-group usercp-menu-group__messenger'>
-			<div class="usercp-menu-group-title pformstrip">{$ibforums->lang['m_messenger']}</div>
+			<h3 class="usercp-menu-group-title">{$ibforums->lang['m_messenger']}</h3>
 			<ul class="usercp-menu-group-items">
 				<li class="usercp-menu-item__new_message"><a href='{$base_url}act=Msg&amp;CODE=04'>{$ibforums->lang['mess_new']}</a></li>
 				<li class="usercp-menu-item__inbox"><a href='{$base_url}act=Msg&amp;CODE=01'>{$ibforums->lang['mess_inbox']}</a>
@@ -654,14 +654,14 @@ var js_base_url		= "{$ibforums->js_base_url}";
 			 </ul>
 		</li>
 		<li class="usercp-menu-group usercp-menu-group__tracker">
-			<div class="usercp-menu-group-title pformstrip">{$ibforums->lang['m_tracker']}</div>
+			<h3 class="usercp-menu-group-title">{$ibforums->lang['m_tracker']}</h3>
 			<ul class="usercp-menu-group-items">
 				<li class="usercp-menu-item__topic_subscription"><a href='{$base_url}act=UserCP&amp;CODE=26'>{$ibforums->lang['m_view_subs']}</a></li>
 				<li class="usercp-menu-item__forum_subscription"><a href='{$base_url}act=UserCP&amp;CODE=50'>{$ibforums->lang['m_view_forum']}</a></li>
 			</ul>
 		</li>
 		<li class="usercp-menu-group usercp-menu-group__profile">
-			<div class='usercp-menu-group-title pformstrip'>{$ibforums->lang['m_personal']}</div>
+			<h3 class='usercp-menu-group-title'>{$ibforums->lang['m_personal']}</h3>
 			<ul class="usercp-menu-group-items">
 				<li class="usercp-menu-item__profile"><a href='{$base_url}act=UserCP&amp;CODE=01'>{$ibforums->lang['m_contact_info']}</a></li>
 				<li class="usercp-menu-item__signature"><a href='{$base_url}act=UserCP&amp;CODE=22'>{$ibforums->lang['m_sig_info']}</a></li>
@@ -670,7 +670,7 @@ var js_base_url		= "{$ibforums->js_base_url}";
 			</ul>
 		</li>
 		<li class="usercp-menu-group usercp-menu-group__options">
-			<div class='usercp-menu-group-title pformstrip'>{$ibforums->lang['m_options']}</div>
+			<h3 class='usercp-menu-group-title'>{$ibforums->lang['m_options']}</h3>
 			<ul class="usercp-menu-group-items">
 				<li class="usercp-menu-item__email"><a href='{$base_url}act=UserCP&amp;CODE=02'>{$ibforums->lang['m_email_opt']}</a></li>
 				<li class="usercp-menu-item__board_options"><a href='{$base_url}act=UserCP&amp;CODE=04'>{$ibforums->lang['m_board_opt']}</a></li>
@@ -686,7 +686,7 @@ var js_base_url		= "{$ibforums->js_base_url}";
  </td>
  <td style='padding:2px'><!-- --></td>
  <td id="ucpcontent" class="usercp-content">
-  <div class='maintitle usercp-content-title'>{$ibforums->lang['welcome']}</div>
+  <h2 class='maintitle usercp-content-title'>{$ibforums->lang['welcome']}</h2>
 
 EOF;
 }
@@ -714,9 +714,9 @@ return <<<EOF
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='23'>
 <input type='hidden' name='key' value='$key'>
-<div class='pformstrip'>{$ibforums->lang['cp_current_sig']}</div>
+<h3>{$ibforums->lang['cp_current_sig']}</h3>
 <div class='signature' style="width:75%;margin-right:auto;margin-left:auto;padding:6px">$sig</div>
-<div class='pformstrip'>{$ibforums->lang['cp_edit_sig']}</div>
+<h3>{$ibforums->lang['cp_edit_sig']}</h3>
 <table width="100%">
 <tr>
   <td class="pformright" valign="top" align="center">
@@ -767,7 +767,7 @@ return <<<EOF
         onKeyPress='if (event.keyCode==10 || ((event.metaKey || event.ctrlKey) && event.keyCode==13))
 	this.form.go.click()'>$t_sig</textarea><br>(<a href='javascript:CheckLength2()'>
 {$ibforums->lang['check_length']}</a>)</p></div>
-<div class='pformstrip' align="center"><input type='submit' name=go value='{$ibforums->lang['cp_submit_sig']}' class='forminput'></div>
+<h3 align="center"><input type='submit' name=go value='{$ibforums->lang['cp_submit_sig']}' class='forminput'></h3>
 </form>
 
 EOF;
@@ -778,7 +778,7 @@ function settings_skin($skin) {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['settings_skin']}</div>
+<h3>{$ibforums->lang['settings_skin']}</h3>
 <table width="100%"
 <tr>
   <td width="50%">{$ibforums->lang['settings_skin_txt']}</td>
@@ -807,7 +807,7 @@ function email_change_gd($regid="") {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['ras_title']}</div>
+<h3>{$ibforums->lang['ras_title']}</h3>
 <table width="100%" style="padding:6px">
 <tr>
   <td width='40%'>{$ibforums->lang['ras_numbers']}</td>
@@ -830,7 +830,7 @@ function email_change_img($regid="") {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['ras_title']}</div>
+<h3>{$ibforums->lang['ras_title']}</h3>
 <table width="100%" style="padding:6px">
 <tr>
   <td width='40%'>{$ibforums->lang['ras_numbers']}</td>
@@ -861,7 +861,7 @@ function boardlay_start() {
 global $ibforums;
 return <<<EOF
 
-	<div class='pformstrip'>{$ibforums->lang['boardlay_title']}</div><br>
+	<h3>{$ibforums->lang['boardlay_title']}</h3><br>
 	{$ibforums->lang['layout_descr']}<br>
 	<div align="center" class="tableborder">
 	<form action="{$ibforums->base_url}" name='mutliact' method="post">
@@ -927,7 +927,7 @@ function avatar_external_title() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['avatar_url_title']}</div>
+<h3>{$ibforums->lang['avatar_url_title']}</h3>
 
 EOF;
 }
@@ -937,7 +937,7 @@ function skin_lang_end() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip" align="center"><input type='submit' name='submit' value='{$ibforums->lang['settings_submit']}' class='forminput'></div>
+<h3 align="center"><input type='submit' name='submit' value='{$ibforums->lang['settings_submit']}' class='forminput'></h3>
 </form>
 
 EOF;
@@ -949,10 +949,10 @@ global $ibforums;
 return <<<EOF
 
 </table>
-<div align="center" class="pformstrip">
+<h3 align="center">
   <input type="submit" name="submit" value="{$ibforums->lang['av_gall_submit']}" class='forminput'>
   &nbsp;&nbsp;&nbsp;<input type="button" name="remove" onclick="self.location='{$ibforums->base_url}act=UserCP&amp;CODE=24';" value="{$ibforums->lang['av_gall_cancel']}" class='forminput'>
-</div>
+</h3>
 </form>
 
 EOF;
@@ -963,7 +963,7 @@ function avatar_limits() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['av_settings']}</div>
+<h3>{$ibforums->lang['av_settings']}</h3>
 <p>{$ibforums->lang['av_text_url']} {$ibforums->lang['av_text_upload']}<br>{$ibforums->lang['av_allowed_files']}</p>
 
 EOF;
@@ -1008,7 +1008,7 @@ return <<<EOF
 <input type='hidden' name='auth_key' value='$key'>
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='05'>
-<div class="pformstrip">{$ibforums->lang['settings_time']}</div>
+<h3>{$ibforums->lang['settings_time']}</h3>
 <p>
 {$ibforums->lang['settings_time_txt']}&nbsp;$time
 <br>
@@ -1025,7 +1025,7 @@ function dead_section() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['dead_section_title']}</div>
+<h3>{$ibforums->lang['dead_section_title']}</h3>
 <p>
 {$ibforums->lang['dead_section_text']}
 </p>
@@ -1038,7 +1038,7 @@ function avatar_gallery_start_table($title="", $av_gals="", $current_folder, $ke
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['av_gallery_title']} $title</div>
+<h3>{$ibforums->lang['av_gallery_title']} $title</h3>
 <form action='{$ibforums->base_url}act=UserCP&amp;CODE=getgallery' method='post'>
 <div id="padandcenter"><strong>{$ibforums->lang['av_gall_jump']}</strong>&nbsp;$av_gals&nbsp;&nbsp;<input type="submit" value="{$ibforums->lang['av_go_go']}" name="submit" class="forminput"></div>
 </form>
@@ -1056,7 +1056,7 @@ function forum_subs_header() {
 global $ibforums;
 return <<<EOF
 
-<div class='pformstrip'>{$ibforums->lang['forum_subs_header']}</div>
+<h3>{$ibforums->lang['forum_subs_header']}</h3>
 <br>
 <div class='tableborder'>
   <table cellpadding='4' cellspacing='1' align='center' width='100%'>
@@ -1079,7 +1079,7 @@ return <<<EOF
 <form action="{$ibforums->base_url}auth_key={$Profile['key']}" method="post">
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='03'>
-<div class="pformstrip">{$ibforums->lang['privacy_settings']}</div>
+<h3>{$ibforums->lang['privacy_settings']}</h3>
 <br>
 <table width="100%">
 <tr>
@@ -1092,7 +1092,7 @@ return <<<EOF
 </tr>
 </table>
 <br>
-<div class="pformstrip">{$ibforums->lang['board_prefs']}</div>
+<h3>{$ibforums->lang['board_prefs']}</h3>
 <br>
 <table width="100%">
 <tr>
@@ -1109,7 +1109,7 @@ return <<<EOF
 </tr>
 </table>
 <br>
-<div class="pformstrip" align="center"><input type="submit" value="{$ibforums->lang['submit_email']}" class='forminput'></div>
+<h3 align="center"><input type="submit" value="{$ibforums->lang['submit_email']}" class='forminput'></h3>
 </form>
 
 EOF;
@@ -1123,14 +1123,14 @@ return <<<EOF
 <form action="{$ibforums->base_url}auth_key=$key" method="post" name='prefs'>
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='07'>
-<div class="pformstrip">{$ibforums->lang['settings_title']}</div>
+<h3>{$ibforums->lang['settings_title']}</h3>
 <table width="100%">
 <tr>
   <td width="50%">{$ibforums->lang['settings_lang_txt']}</td>
   <td align='left'>$lang_select</td>
 </tr>
 </table>
-<div class="pformstrip">{$ibforums->lang['settings_smile']}</div>
+<h3>{$ibforums->lang['settings_smile']}</h3>
 <table width="100%">
 <tr>
   <td width="50%">{$ibforums->lang['settings_smile_txt']}</td>
@@ -1160,7 +1160,7 @@ function subs_header() {
 global $ibforums;
 return <<<EOF
 
-<div class='pformstrip'>{$ibforums->lang['subs_header']}</div>
+<h3>{$ibforums->lang['subs_header']}</h3>
 <form action="{$ibforums->base_url}" name='mutliact' method="post">
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='27'>
@@ -1209,7 +1209,7 @@ function delete_self() {
 global $ibforums;
 return <<<EOF
 
-<div class='pformstrip'>{$ibforums->lang['m_delete_finished']}</div>
+<h3>{$ibforums->lang['m_delete_finished']}</h3>
 {$ibforums->lang['m_deleted']}
 
 EOF;
@@ -1218,9 +1218,10 @@ EOF;
 
 function delete_self_check( $check = "") {
 global $ibforums;
+	//todo end of h3?
 return <<<EOF
 
-<div class='pformstrip'>{$ibforums->lang['m_delete_warning']}</div>{$ibforums->lang['m_delete_self']}
+<h3>{$ibforums->lang['m_delete_warning']}</h3>{$ibforums->lang['m_delete_self']}
 <br> <br> <br>
 <table border='1' border='black' cellpadding='1' cellspacing='1' align='center'  width='10%'>
 <tr>
@@ -1258,7 +1259,7 @@ return <<<EOF
 <form action='{$ibforums->base_url}' method='post' name='form1'>
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='09'>
-<div class="pformstrip">{$ibforums->lang['change_email_title']}</div>
+<h3>{$ibforums->lang['change_email_title']}</h3>
 <p>$txt</p>
 <table width="100%" style="padding:6px">
 <tr>
@@ -1275,7 +1276,7 @@ return <<<EOF
 </tr>
 </table>
 <!--ANTIBOT-->
-<div align="center" class="pformstrip"><input type="submit" name='change_email' value="{$ibforums->lang['account_email_submit']}" class='forminput'></div>
+<h3 align="center"><input type="submit" name='change_email' value="{$ibforums->lang['account_email_submit']}" class='forminput'></h3>
 </form>
 
 EOF;
@@ -1290,7 +1291,7 @@ return <<<EOF
 <form action='{$ibforums->base_url}' method='post' name='form1'>
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='53'>
-<div class="pformstrip">{$ibforums->lang['change_openid_title']}</div>
+<h3>{$ibforums->lang['change_openid_title']}</h3>
 <p>$txt</p>
 <table width="100%" style="padding:6px">
 <tr>
@@ -1303,7 +1304,7 @@ return <<<EOF
 </tr>
 </table>
 <!--ANTIBOT-->
-<div align="center" class="pformstrip"><input type="submit" name='change_email' value="{$ibforums->lang['account_email_submit']}" class='forminput'></div>
+<h3 align="center"><input type="submit" name='change_email' value="{$ibforums->lang['account_email_submit']}" class='forminput'></h3>
 </form>
 
 EOF;
@@ -1328,7 +1329,7 @@ return <<<EOF
 <form action="{$ibforums->base_url}" method="post" name='form1'>
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='29'>
-<div class="pformstrip">{$ibforums->lang['account_pass_title']}</div>
+<h3>{$ibforums->lang['account_pass_title']}</h3>
 <p>{$ibforums->lang['pass_change_text']}</p>
 <table width="100%" style="padding:6px">
 <tr>
@@ -1344,7 +1345,7 @@ return <<<EOF
   <td><input type='password' name='new_pass_2' value='' class='forminput'></td>
 </tr>
 </table>
-<div align="center" class="pformstrip"><input type="submit" name='s_pass' value="{$ibforums->lang['account_pass_submit']}" class='forminput'></div>
+<h3 align="center"><input type="submit" name='s_pass' value="{$ibforums->lang['account_pass_submit']}" class='forminput'></h3>
 </form>
 
 EOF;

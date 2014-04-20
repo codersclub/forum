@@ -94,9 +94,9 @@ option.sub { color: #555; font-weight: bold }
 .b-navigation-wrapper { FONT-WEIGHT: bold; PADDING-BOTTOM: 6px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 6px }
 .activeuserstrip { background-color: #9b8612; color: #ffffc0; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); padding: 6px; border: solid 1px #c0c000 }
 .activeuserstrip A:visited { color: #ffffc0 }
-.usercp-menu-group-title, .pformstrip, .pformstrip2 { background-color: #9b8612; color: #ffffc0; font-weight: bold; margin-top: 0px; padding: 7px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); border: solid 1px #c0c000; border-top: none }
+h3, .pformstrip, .pformstrip2 { background-color: #9b8612; color: #ffffc0; font-weight: bold; margin-top: 0px; padding: 7px; background-image: url('http://forum.sources.ru/style_images/Sources_-383/mback.gif'); border: solid 1px #c0c000; border-top: none }
 .pformstrip A:link, .pformstrip2 A:link { color: #ffffc0 }
-.usercp-menu-group-title A:link { color: #ffffc0 }
+h3 A:link { color: #ffffc0 }
 .pformstrip A:visited, .pformstrip2 A:visited { color: #ffffc0 }
 .pformstrip2 { border-left: none; border-bottom: none; border-right: none }
 .pformleft { background-color: #754c24; margin-top: 1px; padding: 6px; width: 10%; background-image: url('http://forum.sources.ru/style_images/Sources_-383/dback.gif') }

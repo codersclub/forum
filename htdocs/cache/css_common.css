@@ -1,6 +1,11 @@
 @import "../html/jqcd/jqcd.css";
 @import "./tags.css";
 
+table {
+    width: 100%;
+    border-spacing: 0;
+}
+
 img.icon_off{
 	opacity: 0.5;
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
@@ -912,4 +917,62 @@ span.b-post-links-post:before {
 .usercp-menu-item__inbox-subfolders {
     list-style-image: url('/style_images/1/open.gif');
     margin-left: 4em;
+}
+
+h3 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+h2 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+.quick_reply_form-container table,
+.usercp table {
+    width: 100%;
+}
+
+.b-buttons-wrapper {
+    text-align: center;
+}
+
+.b-bbc_codes__i-help-link {
+    font-weight: bold;
+}
+
+.b-bbc_codes__help:before,
+.b-bbc_codes__help:after {
+    content: "\00B7";
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    font-weight: bold;
+}
+
+.b-pm-list__content-top {
+    width: 100%;
+    padding:6px;
+}
+
+.b-pm-list__pages-top-wrapper {
+    margin-bottom: 1em;
+}
+
+.b-pm-list__amount-info-wrapper {
+    font-style: italic;
+}
+
+#b-header {
+    border: none;
+    width: 100%;
+    border-spacing: 0;
+}
+
+#b-header td {
+    padding: 0;
 }
