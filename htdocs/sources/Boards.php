@@ -373,7 +373,7 @@ class Boards {
 				$friends = ( $active['FRIENDS'] )
 					? $this->html->ActiveFriends($active)
 					: "";
-
+				$active['groups_list_html'] = $this->renderMemberGroups();
 				$stats_html .= $this->html->ActiveUsers($active, $friends);
 
 
@@ -1532,6 +1532,26 @@ class Boards {
 		}
 
 		return $forum_data;
+	}
+
+	protected function renderMemberGroups() {
+
+		$listed_groups_ids = (array)explode(',', Ibf::app()->vars['listed_groups_ids']);
+		$visible_groups = array_fill_keys($listed_groups_ids, '');
+
+		$stmt = Ibf::app()->db
+			->prepare('SELECT g_id, g_title, prefix, suffix FROM ibf_groups WHERE g_id IN(' . IBPDO::placeholders($listed_groups_ids) . ')')
+			->execute($listed_groups_ids);
+
+		if ($stmt->rowCount() == 0) {
+			return '';
+		}
+
+		while ($row = $stmt->fetch()) {
+			$visible_groups[$row['g_id']] = $row;
+		}
+		return $this->html->renderMemberGroupsList($visible_groups);
+
 	}
 	/* End */
 }

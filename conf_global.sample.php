@@ -430,3 +430,4 @@ $INFO['database_error_page'] = "<html><head><title>Invision Power Board Database
 $INFO['errors_text'] = 'An %TYPE% has been caught in %FILE% on line %LINE% with message
 %MESSAGE%
 ';
+$INFO['listed_groups_ids'] = '4,7,26,9,25,3';
