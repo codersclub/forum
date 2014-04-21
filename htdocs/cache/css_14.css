@@ -1209,7 +1209,10 @@ ul.b-breadcrumbs-top li:first-child{
     BACKGROUND-COLOR: gray;
 }
 .pm-list-row.selected:hover td,
-.pm-list-row.selected:hover td a:link{
+.pm-list-row.selected:hover td a:link,
+.pm-list-row.selected:hover td a:active,
+.pm-list-row.selected:hover td a:visited,
+.pm-list-row.selected:hover td a:hover {
     background-color: gray;
     color: lightgray;
 }
