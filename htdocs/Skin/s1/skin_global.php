@@ -175,11 +175,11 @@ return <<<EOF
       $ad_link
       $mod_link
       $val_link
-	  <li class='b-action-button-wrapper b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></li>
-	  <li class='b-action-button-wrapper b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></li>
-	  <li class='b-action-button-wrapper b-user-new_posts-button no-middot'><a class='e-action-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></li>
-	  <li class='b-action-button-wrapper b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></li>
-	  <li class='b-action-button-wrapper b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></li>
+	  <li class='b-action-button b-user-cp-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=UserCP&amp;CODE=00' title='{$ibforums->lang['cp_tool_tip']}' target='_blank'>{$ibforums->lang['your_cp']}</a></li>
+	  <li class='b-action-button b-user-my_new_posts-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Select&amp;CODE=mygetnew'>{$ibforums->lang['my_view_new_posts']}</a></li>
+	  <li class='b-action-button b-user-new_posts-button no-middot'><a class='e-action-button' href='{$ibforums->base_url}act=Select&amp;CODE=getnew'>{$ibforums->lang['view_new_posts']}</a></li>
+	  <li class='b-action-button b-user-buddy-button'><a class='e-action-button-link' href='javascript:buddy_pop();' title='{$ibforums->lang['bb_tool_tip']}'>{$ibforums->lang['l_qb']}</a></li>
+	  <li class='b-action-button b-user-logout-button'><a class='e-action-button-link' href='{$ibforums->base_url}act=Login&amp;CODE=03'>{$ibforums->lang['log_out']}</a></li>
     </ul>
     </td>
   </tr>
