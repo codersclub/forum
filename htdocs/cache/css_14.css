@@ -1253,3 +1253,7 @@ ul.b-breadcrumbs-top li:first-child{
 .group-search_bots {
 color: lightgray;
 }
+
+.tag-quote {
+    font-family: verdana, tahoma, arial, sans-serif;
+}

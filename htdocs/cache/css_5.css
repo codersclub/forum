@@ -331,3 +331,6 @@ ul.b-breadcrumbs-top li:first-child:before {
 .pm-list-header-row, .pm-list-footer-row { font-size: 10px; font-weight: bold; padding: 2px; margin: 0px; color: #f9f9f9; background-color: #6688CC }
 .pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #f9f9f9 }
 .pm-list-row.selected { background-color: #eaeaea }
+.tag-quote {
+    font-family: verdana, tahoma, arial, sans-serif;
+}
