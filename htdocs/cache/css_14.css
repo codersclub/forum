@@ -203,12 +203,10 @@ UL#help {
 	BACKGROUND: url('/style_images/BlackLabel/teaser_bg_2.gif') #0c0c0c
 }
 #userlinks A {
-	FONT-SIZE: 10px;
 	COLOR: #BB7700;
 	TEXT-DECORATION: none
 }
 #userlinks A:link {
-	FONT-SIZE: 10px;
 	COLOR: #BB7700;
 	TEXT-DECORATION: none
 }
@@ -335,12 +333,12 @@ UL#help {
 	BACKGROUND-COLOR: #585858
 }
 .titlemedium {
-	MARGIN: 1px 0 px;
+	MARGIN: 1px 0px;
 	BORDER-LEFT: #444444 1px solid;
 	BORDER-RIGHT: #0c0c0c 1px solid;
 	FONT-WEIGHT: bold;
 	BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif');
-	COLOR: #666666;
+	COLOR: #bb7700;
 	PADDING-LEFT: 7px;
 	PADDING-RIGHT: 7px;
 	PADDING-BOTTOM: 7px;
@@ -528,7 +526,8 @@ A.warn_gr	{
 }
 
 .postcolor a:hover{
-    color: #ffbb00
+    color: white;
+    /*color: #D4FF5E;*/
 }
 
 h3,
@@ -1184,7 +1183,7 @@ ul.b-breadcrumbs-top li:first-child{
 
 #GlobalMessage {
     background-size: contain;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
     padding-top: 15px;
     MARGIN: 0px 0px;
     FONT-SIZE: 10px;
@@ -1192,8 +1191,11 @@ ul.b-breadcrumbs-top li:first-child{
     COLOR: #cccccc;
     text-align: center;
     vertical-align: middle;
-    BACKGROUND-image: url('/style_images/BlackLabel/tile_sub.gif');
-    background-color: #0c0c0c;
+    border-width: 2px;
+    border-color: #444444;
+    border-style: outset;
+    background: linear-gradient(to bottom, #222222, #333333, #222222);
+    background-color: #222222;
 }
 
 .e-error-message {
@@ -1254,7 +1256,7 @@ ul.b-breadcrumbs-top li:first-child{
     BORDER-RIGHT: #0c0c0c 1px solid;
     FONT-WEIGHT: bold;
     BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif');
-    COLOR: #97B543;
+    COLOR: #bb7700;
     PADDING-LEFT: 7px;
     PADDING-RIGHT: 7px;
     /*PADDING-BOTTOM: 7px;*/
@@ -1265,11 +1267,12 @@ ul.b-breadcrumbs-top li:first-child{
 .pm-list-header-row A:visited,
 .pm-list-header-row a:active
 {
-    COLOR: #97B543;
+    COLOR: #bb7700;
     TEXT-DECORATION: none
 }
 .pm-list-header-row A:hover {
-    COLOR: #D4FF5E;
+    /*COLOR: #D4FF5E;*/
+    COLOR: #97B543;
     TEXT-DECORATION: none
 }
 
@@ -1283,7 +1286,7 @@ ul.b-breadcrumbs-top li:first-child{
 .pm-list-footer-column input[type="submit"] {
     background-color: transparent;
     border: 1px solid gray;
-    color: #D4FF5E;
+    color: #bb7700;
     padding-top: 0;
     font-weight: bold;
 }
@@ -1362,8 +1365,9 @@ color: lightgray;
 }
 
 .b-welcome-message-wrapper {
-    color: #BB7700;
+    color: #cccccc;
 }
+
 .usercp-menu,
 .usercp-menu a,
 .usercp-menu a:link,
@@ -1376,4 +1380,8 @@ color: lightgray;
 
 .pager {
     color: #999999;
+}
+
+.b-user-action-buttons a {
+    font-size: 10px;
 }
