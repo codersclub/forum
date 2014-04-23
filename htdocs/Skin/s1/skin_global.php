@@ -785,13 +785,13 @@ EOF;
 
 function renderTagMod($text) {
 	return <<<EOF
-<div class="tag-mod">{$text}</div>
+<div class="tag-mod"><div class="tag-mod__prefix">M</div><div class="tag-mod__body">{$text}</div></div>
 EOF;
 }
 
 function renderTagEx($text) {
 	return <<<EOF
-<div class="tag-ex">{$text}</div>
+<div class="tag-ex"><div class="tag-ex__prefix">!</div><div class="tag-ex__body">{$text}</div></div>
 EOF;
 }
 
