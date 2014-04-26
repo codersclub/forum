@@ -154,21 +154,41 @@ EOF;
 
 function ActiveUsers($active, $friends = "") {
 global $ibforums;
-//todo явно прописанные группы пользователей
+
 return <<<EOF
 	<tr class="online-summary-row">
-		<td class="pformstrip online-summary" colspan="2">$active[TOTAL] {$ibforums->lang['active_users']}</td>
+		<td class="pformstrip online-summary" colspan="2">{$active['TOTAL']} {$ibforums->lang['active_users']}</td>
   </tr>
   <tr class="online-detailed-row">
 		<td width="5%" class="row2 block-image"><{F_ACTIVE}></td>
 		<td class="row4 online-detailed" width="95%">
       <span class="guests-online-total"><b>{$active['GUESTS']}</b> {$ibforums->lang['guests']}</span>, <span class="members-online-total"><b>{$active['MEMBERS']}</b> {$ibforums->lang['public_members']} <b>{$active['ANON']}</b> {$ibforums->lang['anon_members']}</span>
       <div class="thin">{$friends}<div class="members-online">{$active['NAMES']}</div>
-      <div class="members-categories">[<a href="{$ibforums->base_url}act=Members&max_results=30&filter=4&sort_order=asc&sort_key=name&st=0"><span class="movedprefix">администраторы</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=7&sort_order=asc&sort_key=name&st=0"><span style="color:blue">модераторы</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=26&sort_order=asc&sort_key=name&st=0"><span style="color:purple">ветераны</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=9&sort_order=asc&sort_key=name&st=0"><span class="voteprefix">координаторы проектов</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0"><span style="color:navy">участники клуба</span></a>,&nbsp;<a href="{$ibforums->base_url}act=Members&max_results=30&filter=3&sort_order=asc&sort_key=name&st=0">участники</a>,&nbsp;<span style="color:gray">наказанные</span>]</div></div>
+      <div class="members-groups-list-wrapper">{$active['groups_list_html']}</div></div>
       {$active['links']}
     </td>
   </tr>
+EOF;
+}
 
+function renderMemberGroupsList($groups, $add_offenders = TRUE) {
+	$output = '<ul class="members-groups-list">';
+	foreach($groups as $group) {
+		$output .= '<li>' . $this->renderMemberGroup($group) . '</li>';
+	}
+	if($add_offenders)
+		{
+			$output .= '<li><span class="group-offenders">' . Ibf::app()->lang['group_offenders'] . '</span></li>';
+		}
+	$output .= '</ul>';
+	return $output;
+EOF;
+}
+
+function renderMemberGroup($group) {
+	$ibforums = Ibf::app();
+	return <<<EOF
+	<a href="{$ibforums->base_url}act=Members&max_results=30&filter={$group['g_id']}&sort_order=asc&sort_key=name&st=0">{$group['prefix']}{$group['g_title']}{$group['suffix']}</a>
 EOF;
 }
 
