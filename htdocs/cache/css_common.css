@@ -977,3 +977,55 @@ h2 {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.b-folder-clear__folders-list {
+    width: 100%;
+    border-spacing: 1px;
+}
+
+.b-folder-clear__folders-list td {
+    padding: 4px;
+}
+
+.b-folder-clear__row .b-folder-clear__column_name {
+    font-weight: bold;
+}
+
+.b-folder-clear__column_messages,
+.b-folder-clear__column_checkbox {
+    text-align: center;
+}
+
+.b-folder-clear__options,
+.b-folder-clear__buttons {
+    text-align: center;
+}
+
+.b-folder-rename__buttons {
+    text-align: center;
+}
+
+.b-new-address__fields-wrapper {
+    padding-top: 6px;
+    /*vertical-align: middle;*/
+}
+.b-new-address__buttons {
+    text-align: center;
+}
+
+.b-address-list__none {
+    text-align: center;
+}
+
+.b-address-list {
+    width: 100%;
+    border-spacing: 1px;
+}
+
+.b-address-list td {
+    padding: 4px;
+}
+
+.b-address-list__wrapper {
+    margin: 0.5em 0;
+}

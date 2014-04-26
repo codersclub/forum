@@ -8,19 +8,19 @@ function address_add($mem_to_add) {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form class="b-new-address" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='09'>
-<h3>{$ibforums->lang['member_add']}</h3>
-<table style="padding:6px">
+<h3 class="b-new-address__title">{$ibforums->lang['member_add']}</h3>
+<table class="b-new-address__fields-wrapper">
 <tr>
- <td valign='middle'>{$ibforums->lang['enter_a_name']}<br><input type='text' name='mem_name' size='20' maxlength='40' value='$mem_to_add' class='forminput'></td>
- <td valign='middle'>{$ibforums->lang['enter_desc']}<br><input type='text' name='mem_desc' size='30' maxlength='60' value='' class='forminput'></td>
- <td valign='middle'>{$ibforums->lang['show_online']}<br><select name='show_online' class='forminput'><option value='yes'>{$ibforums->lang['yes']}<option value='no' selected="selected">{$ibforums->lang['no']}</select></td>
- <td valign='middle'>{$ibforums->lang['allow_msg']}<br><select name='allow_msg' class='forminput'><option value='yes' selected="selected">{$ibforums->lang['yes']}<option value='no'>{$ibforums->lang['no']}</select></td>
+ <td class="b-new-address__form-item b-new-address__form-item_name">{$ibforums->lang['enter_a_name']}<br><input type='text' name='mem_name' size='20' maxlength='40' value='$mem_to_add' class='forminput'></td>
+ <td class="b-new-address__form-item b-new-address__form-item_description">{$ibforums->lang['enter_desc']}<br><input type='text' name='mem_desc' size='30' maxlength='60' value='' class='forminput'></td>
+ <td class="b-new-address__form-item b-new-address__form-item_show-online">{$ibforums->lang['show_online']}<br><select name='show_online' class='forminput'><option value='yes'>{$ibforums->lang['yes']}<option value='no' selected="selected">{$ibforums->lang['no']}</select></td>
+ <td class="b-new-address__form-item b-new-address__form-item_allow-messages">{$ibforums->lang['allow_msg']}<br><select name='allow_msg' class='forminput'><option value='yes' selected="selected">{$ibforums->lang['yes']}<option value='no'>{$ibforums->lang['no']}</select></td>
 </tr>
 </table>
-<h3 align="center"><input type="submit" value="{$ibforums->lang['submit_address']}" class='forminput'></h3>
+<div class="b-new-address__buttons pformstrip"><input type="submit" value="{$ibforums->lang['submit_address']}" class='forminput'></div>
 </form>
 
 EOF;
@@ -590,9 +590,7 @@ EOF;
 function Address_none() {
 global $ibforums;
 return <<<EOF
-
-<p style="text-align:center">{$ibforums->lang['address_none']}</p>
-
+<p class="b-address-list__none">{$ibforums->lang['address_none']}</p>
 EOF;
 }
 
@@ -603,7 +601,6 @@ return <<<EOF
 
 </table>
 </div>
-<br>
 
 EOF;
 }
@@ -647,13 +644,14 @@ function Address_table_header() {
 global $ibforums;
 return <<<EOF
 
-<br>
-<div class="tableborder">
-<table cellpadding='4' cellspacing='1' width="100%">
-<tr>
-  <td class="titlemedium"><b>{$ibforums->lang['member_name']}</b></td>
-  <td width="70%" class="titlemedium"><b>{$ibforums->lang['enter_block']}</b></td>
+<div class="b-address-list__wrapper tableborder">
+<table class="b-address-list">
+<thead>
+<tr class="b-address-list__header-row">
+  <th class="b-address-list__column b-address-list__column_name titlemedium"><b>{$ibforums->lang['member_name']}</b></th>
+  <th width="70%" class="b-address-list__column b-address-list__column_options titlemedium"><b>{$ibforums->lang['enter_block']}</b></th>
 </tr>
+</thead>
 
 EOF;
 }
@@ -680,9 +678,8 @@ EOF;
 function empty_folder_footer() {
 global $ibforums;
 return <<<EOF
-
 </table>
-<div class="pformstrip" align="center"><input type='submit' value='{$ibforums->lang['fd_continue']}' class='forminput'></div>
+<div class="b-folder-clear__buttons pformstrip" ><input type='submit' value='{$ibforums->lang['fd_continue']}' class='forminput'></div>
 </div>
 </form>
 
@@ -706,19 +703,20 @@ function empty_folder_header() {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form action="{$ibforums->base_url}" method="post" class="b-folder-clear">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='dofolderdelete'>
-<h3>{$ibforums->lang['mi_prune_msg']}</h3>
-<p>{$ibforums->lang['fd_text']}</p>
-<div class="tableborder">
-<table cellpadding='4' cellspacing='1' width="100%">
-<tr>
-  <th class="titlemedium">{$ibforums->lang['fd_name']}</th>
-  <th class="titlemedium">{$ibforums->lang['fd_count']}</th>
-  <th class="titlemedium">{$ibforums->lang['fd_empty']}</th>
+<h3 class="b-folder-clear__title">{$ibforums->lang['mi_prune_msg']}</h3>
+<p class="b-folder-clear__description">{$ibforums->lang['fd_text']}</p>
+<div class="b-folder-clear__folders-list-wrapper tableborder">
+<table class="b-folder-clear__folders-list">
+<thead class="b-folder-clear__header">
+<tr class="b-folder-clear__header-row">
+  <th class="b-folder-clear__column b-folder-clear__column_name titlemedium">{$ibforums->lang['fd_name']}</th>
+  <th class="b-folder-clear__column b-folder-clear__column_messages titlemedium">{$ibforums->lang['fd_count']}</th>
+  <th class="b-folder-clear__column b-folder-clear__column_checkbox titlemedium">{$ibforums->lang['fd_empty']}</th>
 </tr>
-
+</thead>
 EOF;
 }
 
@@ -727,7 +725,7 @@ function prefs_footer() {
 global $ibforums;
 return <<<EOF
 
-<h3 align="center"><input type='submit' value='{$ibforums->lang['prefs_submit']}' class='forminput'></h3>
+<div class="b-folder-rename__buttons pformstrip"><input type='submit' value='{$ibforums->lang['prefs_submit']}' class='forminput'></div>
 </form>
 
 EOF;
@@ -738,7 +736,7 @@ function prefs_row($data) {
 global $ibforums;
 return <<<EOF
 
-<p><input type='text' name='{$data[ID]}' value='{$data[REAL]}' class='forminput'>{$data[EXTRA]}</p>
+<p class="b-folder-rename__row"><input type='text' name='{$data[ID]}' value='{$data[REAL]}' class='forminput'>{$data[EXTRA]}</p>
 
 EOF;
 }
@@ -748,8 +746,8 @@ function prefs_add_dirs() {
 global $ibforums;
 return <<<EOF
 
-<h3>{$ibforums->lang['prefs_new']}</h3>
-<p>{$ibforums->lang['prefs_text_b']}</p>
+<h3 class="b-folder-rename__title_added">{$ibforums->lang['prefs_new']}</h3>
+<p class="b-folder-rename__description_added">{$ibforums->lang['prefs_text_b']}</p>
 
 EOF;
 }
@@ -759,11 +757,11 @@ function prefs_header() {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form class="b-folder-rename" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='08'>
-<h3>{$ibforums->lang['prefs_current']}</h3>
-<p>{$ibforums->lang['prefs_text_a']}</p>
+<h3 class="b-folder-rename__title">{$ibforums->lang['prefs_current']}</h3>
+<p class="b-folder-rename__description">{$ibforums->lang['prefs_text_a']}</p>
 
 EOF;
 }
@@ -929,10 +927,11 @@ EOF;
 function empty_folder_save_unread() {
 global $ibforums;
 return <<<EOF
-
-<tr>
-  <td class="row2" colspan='3' align='center'><input type="checkbox" class="checkbox" name="save_unread" value="1" checked="checked"> <strong>{$ibforums->lang['fd_save_unread']}</strong></td>
+<tfoot>
+<tr class="b-folder-clear__footer-row">
+  <td class="b-folder-clear__options row2" colspan='3'><input type="checkbox" class="checkbox" name="save_unread" value="1" checked="checked"> <strong>{$ibforums->lang['fd_save_unread']}</strong></td>
 </tr>
+</tfoot>
 
 EOF;
 }
@@ -942,10 +941,10 @@ function empty_folder_row($real, $id, $cnt) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class="row1"><strong>$real</strong></td>
-  <td class="row1" align="center">$cnt</td>
-  <td class="row1" align="center"><input type="checkbox" class="checkbox" name="its_$id" value="1"></td>
+<tr class="b-folder-clear__row">
+  <td class="b-folder-clear__column b-folder-clear__column_name row1">$real</td>
+  <td class="b-folder-clear__column b-folder-clear__column_messages row1">$cnt</td>
+  <td class="b-folder-clear__column b-folder-clear__column_checkbox row1"><input type="checkbox" class="checkbox" name="its_$id" value="1"></td>
 </tr>
 
 EOF;

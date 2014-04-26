@@ -206,7 +206,7 @@ EOF;
 function quote_box($data) {
 global $ibforums;
 return <<<EOF
-
+<table>
 <tr>
   <td colspan='2' class='pformstrip'>{$ibforums->lang['post_to_quote']}</td>
 </tr>
@@ -214,7 +214,7 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['post_to_quote_txt']}</td>
   <td class='pformright'><textarea cols='60' rows='12' wrap='soft' name='QPost' class='textinput'>{$data['post']}</textarea><input type='hidden' name='QAuthor' value='{$data['author_id']}'><input type='hidden' name='QAuthorN' value='{$data['author_name']}'><input type='hidden' name='QDate'   value='{$data['post_date']}'></td>
 </tr>
-
+</table>
 EOF;
 }
 
@@ -699,7 +699,9 @@ return <<<EOF
    </td>
 </tr>
 </table>
+<table>
 {$topic_decided}
+</table>
 <h3>{$ibforums->lang['post']}</h3>
 <table>
 <tr>

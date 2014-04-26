@@ -1191,9 +1191,9 @@ ul.b-breadcrumbs-top li:first-child{
     COLOR: #cccccc;
     text-align: center;
     vertical-align: middle;
-    border-width: 2px;
-    border-color: #444444;
-    border-style: outset;
+    border-width: 1px;
+    border-color: #666666;
+    border-style: solid;
     background: linear-gradient(to bottom, #222222, #333333, #222222);
     background-color: #222222;
 }
@@ -1219,17 +1219,19 @@ ul.b-breadcrumbs-top li:first-child{
 .b-post-body img{
     max-width: 100%;
 }
-
+.b-folder-clear__folders-list,
 .pm-list {
     border-spacing: 0;
 }
 
 .pm-list th {
+    /* 6px if there is no cb */
     padding: 4px;
     background-color: transparent;
     border-right: 1px solid lightgray;
 }
 
+.b-folder-clear__row td,
 .pm-list-row td {
     background-color: transparent;
     border-bottom: 1px solid white;
@@ -1249,6 +1251,7 @@ ul.b-breadcrumbs-top li:first-child{
     background-color: slategray;
 }
 
+.b-folder-clear__header-row,
 .pm-list-header-row,
 .pm-list-footer-row {
     MARGIN: 1px 0;
@@ -1257,10 +1260,9 @@ ul.b-breadcrumbs-top li:first-child{
     FONT-WEIGHT: bold;
     BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif');
     COLOR: #bb7700;
-    PADDING-LEFT: 7px;
-    PADDING-RIGHT: 7px;
-    /*PADDING-BOTTOM: 7px;*/
-    /*PADDING-TOP: 7px*/
+    /* commented because of checkbox in one column */
+    PADDING-LEFT: 6px;
+    PADDING-RIGHT: 6px;
 }
 
 .pm-list-header-row A:link,
@@ -1300,6 +1302,11 @@ ul.b-breadcrumbs-top li:first-child{
 .pm-list-row.selected:hover td a:hover {
     background-color: gray;
     color: lightgray;
+}
+.b-folder-clear__folders-list th {
+    padding: 6px;
+    background-color: transparent;
+    border-right: 1px solid lightgray;
 }
 
 /* color fixes */
