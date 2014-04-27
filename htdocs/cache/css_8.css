@@ -289,3 +289,6 @@ ul.b-breadcrumbs-top li:first-child{
 .pm-list-header-row, .pm-list-footer-row { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-image: url('http://forum.sources.ru/style_images/Xpressio-296/tile_sub.gif') }
 .pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #3A4F6C }
 .pm-list-row.selected { background-color: #DFE6EF }
+.tag-quote {
+    font-family: verdana, tahoma, arial, sans-serif;
+}

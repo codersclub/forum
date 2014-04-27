@@ -361,3 +361,7 @@ ul.b-breadcrumbs-top li:first-child{
 .pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #3A4F6C }
 .pm-list-row { background-color: #EEF2F7 }
 .pm-list-row.selected { background-color: #DFE6EF }
+
+.tag-quote {
+    font-family: verdana, tahoma, arial, sans-serif;
+}
