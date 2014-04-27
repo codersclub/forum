@@ -880,3 +880,14 @@ span.b-post-links-post:before {
 .members-groups-list li:not(:last-child):after {
     content: ',';
 }
+
+/* prevent changing quote style by tags */
+.tag-quote {
+    color: black;
+    border: none;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+    font-size: 11px;
+}

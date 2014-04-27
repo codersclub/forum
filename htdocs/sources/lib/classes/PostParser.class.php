@@ -341,7 +341,7 @@ class PostParser
 
 		$this->code_count++;
 
-		if (preg_match("/\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\]/i", $txt))
+		if (preg_match("/\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\]/i", $txt))
 		{
 			return "\[code\]$code\[/code\]";
 		}
@@ -619,10 +619,7 @@ class PostParser
 		$this->quote_open  = 0;
 		$this->quote_error = 0;
 
-		$txt = preg_replace_callback("#(\[spoiler(=([^\]]*?))?\])|(\[/spoiler\])#is", array(
-		                                                                                   &$this,
-		                                                                                   'convert_spoiler'
-		                                                                              ), $txt);
+		$txt = preg_replace_callback("#(\[spoiler(=([^\]]*?))?\])|(\[/spoiler\])#is", [&$this, 'convert_spoiler'], $txt);
 
 		if ($this->quote_open || $this->quote_error)
 		{
@@ -751,17 +748,45 @@ class PostParser
 		// if you want to parse more tags for polls, simply cut n' paste from the "convert" routine
 		// anywhere here.
 
-		$txt = preg_replace("#\[img\s*=\s*\&quot\;\s*(.*?)\s*\&quot\;\s*\](.*?)\[\/img\]#ie", "\$this->regex_check_image('\\2','\\1')", $txt);
-		$txt = preg_replace("#\[img\s*=\s*(.*?)\s*\](.*?)\[\/img\]#ie", "\$this->regex_check_image('\\2','\\1')", $txt);
-		$txt = preg_replace("#\[img\](.+?)\[/img\]#ie", "\$this->regex_check_image('\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[img\s*=\s*\&quot\;\s*(.*?)\s*\&quot\;\s*\](.*?)\[\/img\]#i",
+			function($m) { return $this->regex_check_image($m[2], $m[1]); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[img\s*=\s*(.*?)\s*\](.*?)\[\/img\]#i",
+			function($m) { return $this->regex_check_image($m[2],$m[1]);},
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[img\](.+?)\[/img\]#i",
+			function($m) { return $this->regex_check_image($m[1]); },
+			$txt
+		);
 
-		$txt = preg_replace("#\[url\](\S+?)\[/url\]#ie", "\$this->regex_build_url(array('html' => '\\1', 'show' => '\\1'))", $txt);
-		$txt = preg_replace("#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#ie", "\$this->regex_build_url(array('html' => '\\1', 'show' => '\\2'))", $txt);
-		$txt = preg_replace("#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#ie", "\$this->regex_build_url(array('html' => '\\1', 'show' => '\\2'))", $txt);
+		$txt = preg_replace_callback(
+			"#\[url\](\S+?)\[/url\]#i",
+			function($m) {return $this->regex_build_url(['html' => $m[1], 'show' => $m[1]]); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#i",
+			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#i",
+			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
+			$txt
+		);
 
-		while (preg_match("#\[color=([a-zA-Z0-9]*)\](.+?)\[/color\]#ies", $txt))
+		while (FALSE !== preg_match("#\[color=([a-zA-Z0-9]*)\](.+?)\[/color\]#is", $txt))
 		{
-			$txt = preg_replace("#\[color=([a-zA-Z0-9]*)\](.+?)\[/color\]#ies", "\$this->regex_font_attr(array('s'=>'col' ,'1'=>'\\1','2'=>'\\2'))", $txt);
+			$txt = preg_replace_callback(
+				"#\[color=([a-zA-Z0-9]*)\](.+?)\[/color\]#is",
+				function($m) { return $this->regex_font_attr(['s'=>'col' ,'1'=>$m[1],'2'=>$m[2]]); },
+				$txt
+			);
 		}
 
 		return $txt;
@@ -1111,9 +1136,9 @@ class PostParser
 
 			//there can't be letters or digits before protocol descriptions,
 			//also we check for _ for historical reasons
-			$txt = preg_replace(
-				"#([^a-z0-9_]?)((http|https|news|ftp)://\w+[^\s\[\]<$]+)#ie",
-				"\$this->regex_build_url(array('html' => '\\2', 'show' => '', 'st' => '\\1'))",
+			$txt = preg_replace_callback(
+				"#([^a-z0-9_]?)((http|https|news|ftp)://\w+[^\s\[\]<$]+)#i",
+				function($m) { return $this->regex_build_url(['html' => $m[2], 'show' => '', 'st' => $m[1]]);},
 				$txt
 			);
 
@@ -1143,7 +1168,11 @@ class PostParser
 		// Tables by vot (Convert)
 		//--------------------------------------
 
-		$txt = preg_replace("#\[table\](.*?)\[/table\]#ies", "\$this->regex_table('\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[table\](.*?)\[/table\]#is",
+			function($m) { return $this->regex_table($m[1]); },
+			$txt
+		);
 
 		//--------------------------------------
 		// Align Hack by Farch (Convert)
@@ -1172,30 +1201,33 @@ class PostParser
 			//---------------------------------
 			// Do [CODE] tag
 			//---------------------------------
-			$txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->regex_code_syntax('\\3', '\\2', '{$in['HID']}')", $txt);
+			$txt = preg_replace_callback(
+				"#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#is",
+				function($m) use($in) { return $this->regex_code_syntax($m[3], $m[2], $in['HID']); },
+				$txt
+			);
 
 			if ($in['SIGNATURE'] != 1)
 			{
-
-				// ******************************************** COMMENTED BY SONG **********************************************
-
-				//			$txt = preg_replace( "#\[sql\](.+?)\[/sql\]#ies"    , "\$this->regex_sql_tag('\\1')"    , $txt );
-				//			$txt = preg_replace( "#\[html\](.+?)\[/html\]#ies"  , "\$this->regex_html_tag('\\1')"   , $txt );
-
-				// ******************************************** COMMENTED BY SONG **********************************************
-
 				//-------------------------
 				// [LIST]    [*]    [/LIST]
 				//-------------------------
-
-				while (preg_match("#\n?\[list\](.+?)\[/list\]\n?#ies", $txt))
+				while (preg_match("#\n?\[list\](.+?)\[/list\]\n?#is", $txt))
 				{
-					$txt = preg_replace("#\n?\[list\](.+?)\[/list\]\n?#ies", "\$this->regex_list('\\1')", $txt);
+					$txt = preg_replace_callback(
+						"#\n?\[list\](.+?)\[/list\]\n?#is",
+						function($m) { return $this->regex_list($m[1]); },
+						$txt
+					);
 				}
 
-				while (preg_match("#\n?\[list=(a|A|i|I|1)\](.+?)\[/list\]\n?#ies", $txt))
+				while (preg_match("#\n?\[list=(a|A|i|I|1)\](.+?)\[/list\]\n?#is", $txt))
 				{
-					$txt = preg_replace("#\n?\[list=(a|A|i|I|1)\](.+?)\[/list\]\n?#ies", "\$this->regex_list('\\2','\\1')", $txt);
+					$txt = preg_replace_callback(
+						"#\n?\[list=(a|A|i|I|1)\](.+?)\[/list\]\n?#is",
+						function($m) { return $this->regex_list($m[2],$m[1]); },
+						$txt
+					);
 				}
 			}
 
@@ -1205,18 +1237,33 @@ class PostParser
 
 			// Find the first, and last quote tag (greedy match)...
 
-			$txt = preg_replace("#(\[spoiler(=.+?)?].*\[/spoiler\])#ies", "\$this->regex_parse_spoiler('\\1')", $txt);
+			$txt = preg_replace_callback(
+				"#(\[spoiler(=.+?)?].*\[/spoiler\])#is",
+				function($m) { return $this->regex_parse_spoiler($m[1]); },
+				$txt
+			);
 
 			//---------------------------------
-			// Do [IMG] [FLASH] tags
+			// Do [IMG] tags
 			//---------------------------------
 
 			if ($ibforums->vars['allow_images'])
 			{
-				$txt = preg_replace("#\[img\s*=\s*\&quot\;\s*(.*?)\s*\&quot\;\s*\](.*?)\[\/img\]#ie", "\$this->regex_check_image('\\2','\\1')", $txt);
-				$txt = preg_replace("#\[img\s*=\s*(.*?)\s*\](.*?)\[\/img\]#ie", "\$this->regex_check_image('\\2','\\1')", $txt);
-				$txt = preg_replace("#\[img\](.+?)\[/img\]#ie", "\$this->regex_check_image('\\1')", $txt);
-				$txt = preg_replace("#(\[flash=)(\S+?)(\,)(\S+?)(\])(\S+?)(\[\/flash\])#ie", "\$this->regex_check_flash('\\2','\\4','\\6')", $txt);
+				$txt = preg_replace_callback(
+					"#\[img\s*=\s*\&quot\;\s*(.*?)\s*\&quot\;\s*\](.*?)\[\/img\]#i",
+					function($m) { return $this->regex_check_image($m[2], $m[1]); },
+					$txt
+				);
+				$txt = preg_replace_callback(
+					"#\[img\s*=\s*(.*?)\s*\](.*?)\[\/img\]#i",
+					function($m) { return $this->regex_check_image($m[2], $m[1]); },
+					$txt
+				);
+				$txt = preg_replace_callback(
+					"#\[img\](.+?)\[/img\]#i",
+					function($m) { return $this->regex_check_image($m[1]); },
+					$txt
+				);
 			}
 
 			// Start off with the easy stuff
@@ -1249,26 +1296,50 @@ class PostParser
 			// url tags
 			// [url]http://www.index.com[/url]   [url=http://www.index.com]ibforums![/url]
 
-			$txt = preg_replace("#\[url\](\S+?)\[/url\]#ie", "\$this->regex_build_url(array('html' => '\\1', 'show' => '\\1'))", $txt);
-			$txt = preg_replace("#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#ie", "\$this->regex_build_url(array('html' => '\\1', 'show' => '\\2'))", $txt);
-			$txt = preg_replace("#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#ie", "\$this->regex_build_url(array('html' => '\\1', 'show' => '\\2'))", $txt);
+			$txt = preg_replace_callback(
+				"#\[url\](\S+?)\[/url\]#i",
+				function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[1]]); },
+				$txt
+			);
+			$txt = preg_replace_callback(
+				"#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#i",
+				function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
+				$txt
+			);
+			$txt = preg_replace_callback(
+				"#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#i",
+				function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
+				$txt
+			);
 
 			// font size, colour and font style
 			// [font=courier]Text here[/font]  [size=6]Text here[/size]  [color=red]Text here[/color]
 
-			while (preg_match("#\[size=([^\]]+)\](.+?)\[/size\]#ies", $txt))
+			while (preg_match("#\[size=([^\]]+)\](.+?)\[/size\]#is", $txt))
 			{
-				$txt = preg_replace("#\[size=([^\]]+)\](.+?)\[/size\]#ies", "\$this->regex_font_attr(array('s'=>'size','1'=>'\\1','2'=>'\\2'))", $txt);
+				$txt = preg_replace_callback(
+					"#\[size=([^\]]+)\](.+?)\[/size\]#is",
+					function($m) { return $this->regex_font_attr(['s'=>'size','1'=>$m[1],'2'=>$m[2]]); },
+					$txt
+				);
 			}
 
-			while (preg_match("#\[font=([^;<>\*\(\)\]\"']*?)\](.*?)\[/font\]#ies", $txt))
+			while (preg_match("#\[font=([^;<>\*\(\)\]\"']*?)\](.*?)\[/font\]#is", $txt))
 			{
-				$txt = preg_replace("#\[font=([^;<>\*\(\)\"\]']*?)\](.*?)\[/font\]#ies", "\$this->regex_font_attr(array('s'=>'font','1'=>'\\1','2'=>'\\2'))", $txt);
+				$txt = preg_replace_callback(
+					"#\[font=([^;<>\*\(\)\"\]']*?)\](.*?)\[/font\]#is",
+					function($m) { return $this->regex_font_attr(['s'=>'font','1'=>$m[1],'2'=>$m[2]]);},
+					$txt
+				);
 			}
 
-			while (preg_match("#\[color=([a-zA-Z0-9]*)\](.*?)\[/color\]#ies", $txt))
+			while (preg_match("#\[color=([a-zA-Z0-9]*)\](.*?)\[/color\]#is", $txt))
 			{
-				$txt = preg_replace("#\[color=([a-zA-Z0-9]*)\](.*?)\[/color\]#ies", "\$this->regex_font_attr(array('s'=>'col' ,'1'=>'\\1','2'=>'\\2'))", $txt);
+				$txt = preg_replace_callback(
+					"#\[color=([a-zA-Z0-9]*)\](.*?)\[/color\]#is",
+					function($m) { return $this->regex_font_attr(['s'=>'col' ,'1'=>$m[1],'2'=>$m[2]]);},
+					$txt
+				);
 			}
 
 		}
@@ -1324,26 +1395,47 @@ class PostParser
 
 		// **************************** moderators tags *************************************************************
 
-		$txt = preg_replace("#\[gm\](.+?)\[/gm\]#ies", "\$this->regex_global_moderator_message('\\1',{$in['MID']})", $txt);
+		$txt = preg_replace_callback(
+			"#\[gm\](.+?)\[/gm\]#is",
+			function($m) use($in) { return $this->regex_global_moderator_message($m[1],$in['MID']);},
+			$txt
+		);
 
-		$txt = preg_replace("#\[mm\](.+?)\[/mm\]#ies", "\$this->regex_moderator_message('\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[mm\](.+?)\[/mm\]#is",
+			function($m) { return $this->regex_moderator_message($m[1]); },
+			$txt
+		);
 
-		$txt = preg_replace_callback("#\[mod\](.+?)\[/mod\]#is", array(
-		                                                              $this,
-		                                                              'regex_mod_tag'
-		                                                         ) /* "\$this->regex_mod_tag('\\1')"*/, $txt);
+		$txt = preg_replace_callback("#\[mod\](.+?)\[/mod\]#is", [$this, 'regex_mod_tag'], $txt);
 
-		$txt = preg_replace("#\[ex\](.+?)\[/ex\]#ies", "\$this->regex_exclaime_tag('\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[ex\](.+?)\[/ex\]#is",
+			function($m) { return $this->regex_exclaime_tag($m[1]); },
+			$txt
+		);
 
-		$txt = preg_replace("#\[pre\](.+?)\[/pre\]#ies", "\$this->regex_pre_tag('\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[pre\](.+?)\[/pre\]#is",
+			function($m) { return $this->regex_pre_tag($m[1]);},
+			$txt
+		);
 
 		// **************************** moderators tags *************************************************************
 
 		// Song * time tag
 
-		$txt = preg_replace("#\[mergetime\](\d+)\[/mergetime\]#ies", ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
-			? "\$std->old_get_date( '\\1' )"
-			: "\$skin_universal->renderTime('\\1', 'tag-mergetime')", $txt);
+		$txt = preg_replace_callback(
+			"#\[mergetime\](\d+)\[/mergetime\]#is",
+			function($m) {
+				global $skin_universal;
+				$ibf = Ibf::app();
+
+				return ($ibf->vars['plg_offline_client'] || $ibf->member['rss']) //todo !!!!??!!!!
+					? $ibf->functions->old_get_date($m[1])
+					: $skin_universal->renderTime($m[1], 'tag-mergetime');
+				},
+			$txt);
 
 		//--------------------------------------
 		// Auto parse URLs
@@ -1353,11 +1445,11 @@ class PostParser
 		//so first we skip urls after href= and src=
 		//second, we need to avoid situations like <a href="url">url</a> can be added by [url] tag
 		//so we add &shy; symbol to links created by [url] and check for it here
-		$txt = preg_replace(
+		$txt = preg_replace_callback(
 			//better, but [:alnum:] don't understand cyr characters sometimes.
 			//'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/([[:alpha:]][[:alnum:]-]*[[:alnum:]]\.?)+(:\d+)?([[:alnum:]_\.\-:\/\?\#\[\]@\!\$\&\'\(\)\*\+\,\;\=]|%[A-Z0-9]{2})*)#ie',
-			'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/[^\s\[\]\<\>\"]+)#ie',
-			"\$this->regex_build_url(array('html' => '\\1', 'show' => '', 'st' => ''))",
+			'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/[^\s\[\]\<\>\"]+)#i',
+			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => '', 'st' => '']); },
 			$txt
 		);
 		// Leprecon * return &shy; back to ''
@@ -1462,7 +1554,11 @@ class PostParser
 		//--------------------------------------
 		// Remove session id's from any post
 
-		$txt = preg_replace("#(\?|&amp;|;|&)s=([0-9a-zA-Z]){32}(&amp;|;|&|$)?#e", "\$this->regex_bash_session('\\1', '\\3')", $txt);
+		$txt = preg_replace_callback(
+			"#(\?|&amp;|;|&)s=([0-9a-zA-Z]){32}(&amp;|;|&|$)?#",
+			function($m){ return $this->regex_bash_session($m[1], $m[3]); },
+			$txt
+		);
 
 		//--------------------------------------
 		// convert <br> to \n
@@ -1488,29 +1584,35 @@ class PostParser
 		$this->code_counter = 0;
 
 		// cut code tag text from a post to an array
-		$txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->cut_code_tag_text('\\3', '\\2')", $txt);
+		$txt = preg_replace_callback(
+			"#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#is",
+			function($m) { return $this->cut_code_tag_text($m[3], $m[2]);},
+			$txt
+		);
 
 		// **************************** moderators tags *************************************************************
 
-		$txt = preg_replace("#\[mm\](.+?)\[/mm\]#ies", "\$this->mod_messages_check('\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[mm\](.+?)\[/mm\]#is",
+			function($m) { return $this->mod_messages_check($m[1]);},
+			$txt
+		);
 
-		$txt = preg_replace("#\[gm\](.+?)\[/gm\]#ies", "\$this->global_mod_messages_check('\\1')", $txt);
-		/*
-        if ( $in['MOD_FLAG'] != TRUE )
-	{
-	    while(preg_match( "#\[(mod|ex|mm|gm)\](.+?)\[/(mod|ex|mm|gm)\]#is", $txt))
-		$txt = preg_replace( "#\[(mod|ex|mm|gm)\](.+?)\[/(mod|ex|mm|gm)\]#is", '\\2', $txt);
+		$txt = preg_replace_callback(
+			"#\[gm\](.+?)\[/gm\]#is",
+			function($m) { return $this->global_mod_messages_check($m[1]);},
+			$txt
+		);
 
-	} else
-	{
-		$txt = preg_replace( "#\[(mod|ex)\](.+?)\[/(mod|ex)\]#ies", "\$this->regex_mod_tag_convert('\\1','\\2')", $txt);
-	}
-*/
 		if (in_array($ibforums->member['mgroup'], $ibforums->vars['mm_groups'])
 		    or $in['MOD_FLAG']
 		)
 		{
-			$txt = preg_replace("#\[(mod|ex)\](.+?)\[/(mod|ex)\]#ies", "\$this->regex_mod_tag_convert('\\1','\\2')", $txt);
+			$txt = preg_replace_callback(
+				"#\[(mod|ex)\](.+?)\[/(mod|ex)\]#is",
+				function($m) { return $this->regex_mod_tag_convert($m[1], $m[2]); },
+				$txt
+			);
 		} else
 		{
 			while (preg_match("#\[(mod|ex|mm|gm)\](.+?)\[/(mod|ex|mm|gm)\]#is", $txt))
@@ -1577,27 +1679,79 @@ class PostParser
 		                                                                                 ), $txt);
 
 		// change url tags
-		$txt = preg_replace("#\[url\](\S+?)\[/url\]#ie", "\$this->regex_build_url_auto_parser(array('html' => '\\1','show' => '\\1'))", $txt);
+		$txt = preg_replace_callback(
+			"#\[url\](\S+?)\[/url\]#i",
+			function($m) { return $this->regex_build_url_auto_parser(['html' => $m[1],'show' => $m[1]]); },
+			$txt
+		);
 
-		$txt = preg_replace("#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#ie", "\$this->regex_build_url_auto_parser(array('html' => '\\1','show' => '\\2'))", $txt);
+		$txt = preg_replace_callback(
+			"#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#i",
+			function($m) { return $this->regex_build_url_auto_parser(['html' => $m[2],'show' => $m[2]]);},
+			$txt
+		);
 
-		$txt = preg_replace("#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#ie", "\$this->regex_build_url_auto_parser( array('html' => '\\1', 'show' => '\\2'))", $txt);
+		$txt = preg_replace_callback(
+			"#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#i",
+			function($m) { return $this->regex_build_url_auto_parser(['html' => $m[1], 'show' => $m[2]]);},
+			$txt
+		);
 
 		// tags of forum search
-		$txt = preg_replace("#\[sf\](.+?)\[/sf\]#ies", "\$this->regex_word_search('\\1','sf','word',$fid)", $txt);
-		$txt = preg_replace("#\[sall\](.+?)\[/sall\]#ies", "\$this->regex_word_search('\\1','all','word')", $txt);
-		$txt = preg_replace("#\[st\](.+?)\[/st\]#ies", "\$this->regex_word_search('\\1','sf','title',$fid)", $txt);
-		$txt = preg_replace("#\[stall\](.+?)\[/stall\]#ies", "\$this->regex_word_search('\\1','all','title')", $txt);
-		$txt = preg_replace("#\[sf\s*=\s*(\S+?)\s*\](.*?)\[\/sf\]#ie", "\$this->regex_word_search('\\2','sf','word','\\1')", $txt);
-		$txt = preg_replace("#\[st\s*=\s*(\S+?)\s*\](.*?)\[\/st\]#ie", "\$this->regex_word_search('\\2','sf','title','\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[sf\](.+?)\[/sf\]#is",
+			function($m) use($fid) { return $this->regex_word_search($m[1],'sf','word', $fid);},
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[sall\](.+?)\[/sall\]#is",
+			function($m) { return $this->regex_word_search($m[1],'all','word'); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[st\](.+?)\[/st\]#is",
+			function($m) use($fid) { return $this->regex_word_search($m[1],'sf','title',$fid); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[stall\](.+?)\[/stall\]#is",
+			function($m) { return $this->regex_word_search($m[1],'all','title'); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[sf\s*=\s*(\S+?)\s*\](.*?)\[\/sf\]#i",
+			function($m) { return $this->regex_word_search($m[2],'sf','word',$m[1]);},
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[st\s*=\s*(\S+?)\s*\](.*?)\[\/st\]#i",
+			function($m) { return $this->regex_word_search($m[2],'sf','title',$m[1]); },
+			$txt
+		);
 
 		// tags for moderators
-		$txt = preg_replace("/\.правила?(, п\.\d+)*/uie", "\$this->wordreplacer('\\0','boardrules')", $txt);
-		$txt = preg_replace("/\.поиск[а-я]{0,}/uie", "\$this->wordreplacer('\\0','Search')", $txt);
-		$txt = preg_replace("/\.FAQ(?![a-z,0-9])/ei", "\$this->wordreplacer('\\0','faq',$fid)", $txt);
+		$txt = preg_replace_callback(
+			"/\.правила?(, п\.\d+)*/ui",
+			function($m) { return $this->wordreplacer($m[0],'boardrules');},
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"/\.поиск[а-я]{0,}/ui",
+			function($m) { return $this->wordreplacer($m[0],'Search'); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"/\.FAQ(?![a-z,0-9])/i",
+			function($m) use($fid) { return $this->wordreplacer($m[0],'faq',$fid);},
+			$txt
+		);
 
 		// user tag
-		$txt = preg_replace("#\[user\](.+?)\[/user\]#ies", "\$this->user_link('\\1')", $txt);
+		$txt = preg_replace_callback(
+			"#\[user\](.+?)\[/user\]#is",
+			function($m) { return $this->user_link($m[1]); },
+			$txt
+		);
 
 		return $txt;
 
@@ -1718,10 +1872,18 @@ class PostParser
 
 		if ($use_html)
 		{
-			$t = preg_replace("#\[dohtml\](.+?)\[/dohtml\]#ies", "\$this->parse_html('\\1')", $t);
+			$t = preg_replace_callback(
+				"#\[dohtml\](.+?)\[/dohtml\]#is",
+				function($m) { return $this->parse_html($m[1]);},
+				$t
+			);
 		} else
 		{
-			$t = preg_replace("#(\[dohtml\])(.+?)(\[/dohtml\])#ies", "\$this->my_strip_tags('\\2')", $t);
+			$t = preg_replace_callback(
+				"#(\[dohtml\])(.+?)(\[/dohtml\])#is",
+				function($m) { return $this->my_strip_tags($m[2]);},
+				$t
+			);
 		}
 
 		return $t;
@@ -2114,9 +2276,6 @@ class PostParser
 		$possible_use = array(
 			'CODE'  => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => ''],
 			'QUOTE' => ['class' => 'QUOTE', 'wrapper_class' => 'tag-quote', 'title' => 'Цитата'],
-			'SQL'   => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => 'SQL'],
-			'HTML'  => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => 'HTML'],
-			'PHP'   => ['class' => 'CODE', 'wrapper_class' => 'tag-code', 'title' => 'PHP']
 
 		);
 		if ($possible_use[$in['STYLE']]['title'])
@@ -2271,105 +2430,6 @@ class PostParser
 	}
 
 	/**************************************************/
-	// regex_html_tag: HTML syntax highlighting
-	//
-	/**************************************************/
-
-	//deprecated
-	function regex_html_tag($html = "")
-	{
-
-		if ($html == "")
-		{
-			return;
-		}
-
-		// Ensure that spacing is preserved
-
-		// Too many embedded code/quote/html/sql tags can crash Opera and Moz
-
-		if (preg_match("/\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\]/i", $html))
-		{
-			return $default;
-		}
-
-		//$html = preg_replace( "#\s{2}#", " &nbsp;", $html );
-
-		// Knock off any preceeding newlines (which have
-		// since been converted into <br>)
-
-		//$html = nl2br($html);
-
-		// Take a stab at removing most of the common
-		// smilie characters.
-
-		$html = preg_replace("#:#", "&#58;", $html);
-		$html = preg_replace("#\[#", "&#91;", $html);
-		$html = preg_replace("#\]#", "&#93;", $html);
-		$html = preg_replace("#\)#", "&#41;", $html);
-		$html = preg_replace("#\(#", "&#40;", $html);
-
-		$html = preg_replace("/^<br>/", "", $html);
-
-		$html = preg_replace("#&lt;([^&<>]+)&gt;#", "&lt;<span style='color:blue'>\\1</span>&gt;", $html); //Matches <tag>
-		$html = preg_replace("#&lt;([^&<>]+)=#", "&lt;<span style='color:blue'>\\1</span>=", $html); //Matches <tag
-		$html = preg_replace("#&lt;/([^&]+)&gt;#", "&lt;/<span style='color:blue'>\\1</span>&gt;", $html); //Matches </tag>
-		$html = preg_replace("!=(&quot;|&#39;)(.+?)?(&quot;|&#39;)(\s|&gt;)!", "=\\1<span style='color:orange'>\\2</span>\\3\\4", $html); //Matches ='this'
-		$html = preg_replace("!&#60;&#33;--(.+?)--&#62;!", "&lt;&#33;<span style='color:red'>--\\1--</span>&gt;", $html);
-
-		$wrap = $this->wrap_style(array('STYLE' => 'HTML'));
-
-		return $wrap['START'] . $html . $wrap['END'];
-	}
-
-	/**************************************************/
-	// regex_sql_tag: SQL syntax highlighting
-	//
-	/**************************************************/
-	//deprecated
-	function regex_sql_tag($sql = "")
-	{
-
-		if ($sql == "")
-		{
-			return;
-		}
-
-		// Too many embedded code/quote/html/sql tags can crash Opera and Moz
-
-		if (preg_match("/\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\].+?\[(quote|code|html|sql)\]/i", $sql))
-		{
-			return $default;
-		}
-
-		// Knock off any preceeding newlines (which have
-		// since been converted into <br>)
-
-		$sql = preg_replace("/^<br>/", "", $sql);
-		$sql = preg_replace("/^\s+/", "", $sql);
-
-		// Make certain regex work..
-
-		if (!preg_match("/\s+$/", $sql))
-		{
-			$sql = $sql . ' ';
-		}
-
-		$sql = preg_replace("#(=|\+|\-|&gt;|&lt;|~|==|\!=|LIKE|NOT LIKE|REGEXP)#i", "<span style='color:orange'>\\1</span>", $sql);
-		$sql = preg_replace("#(MAX|AVG|SUM|COUNT|MIN)\(#i", "<span style='color:blue'>\\1</span>(", $sql);
-		$sql = preg_replace("!(&quot;|&#39;|&#039;)(.+?)(&quot;|&#39;|&#039;)!i", "<span style='color:red'>\\1\\2\\3</span>", $sql);
-		$sql = preg_replace("#\s{1,}(AND|OR)\s{1,}#i", " <span style='color:blue'>\\1</span> ", $sql);
-		$sql = preg_replace("#(LEFT|JOIN|WHERE|MODIFY|CHANGE|AS|DISTINCT|IN|ASC|DESC|ORDER BY)\s{1,}#i", "<span style='color:green'>\\1</span> ", $sql);
-		$sql = preg_replace("#LIMIT\s*(\d+)\s*,\s*(\d+)#i", "<span style='color:green'>LIMIT</span> <span style='color:orange'>\\1, \\2</span>", $sql);
-		$sql = preg_replace("#(FROM|INTO)\s{1,}(\S+?)\s{1,}#i", "<span style='color:green'>\\1</span> <span style='color:orange'>\\2</span> ", $sql);
-		$sql = preg_replace("#(SELECT|INSERT|UPDATE|DELETE|ALTER TABLE|DROP)#i", "<span style='color:blue;font-weight:bold'>\\1</span>", $sql);
-
-		$html = $this->wrap_style(array('STYLE' => 'SQL'));
-
-		return $html['START'] . $sql . $html['END'];
-	}
-
-	/**************************************************/
 	// regex_mod_tag: Builds this code tag HTML
 	//
 	/**************************************************/
@@ -2457,7 +2517,7 @@ class PostParser
 
 		$txt = $the_txt;
 
-		// Too many embedded code/quote/html/sql tags can crash Opera and Moz
+		// Too many embedded code/quote tags can crash Opera and Moz
 
 		$this->quote_html = $this->wrap_style(array('STYLE' => 'QUOTE'));
 
@@ -2480,7 +2540,11 @@ class PostParser
 
 		if ($this->quote_open == $this->quote_closed and !$this->quote_error)
 		{
-			$txt = preg_replace("#(<!--QuoteEBegin-->.+?<!--QuoteEnd-->)#es", "\$this->regex_preserve_spacing('\\1')", trim($txt));
+			$txt = preg_replace_callback(
+				"#(<!--QuoteEBegin-->.+?<!--QuoteEnd-->)#s",
+				function($m) { return $this->regex_preserve_spacing($m[1]); },
+				trim($txt)
+			);
 
 			return $txt;
 		}
@@ -2583,43 +2647,6 @@ class PostParser
 
 		return $html['START'];
 
-	}
-
-	/****************************************************************************************************/
-	// regex_check_flash: Checks, and builds the <object>
-	// html.
-	/**************************************************/
-
-	function regex_check_flash($width = "", $height = "", $url = "")
-	{
-		global $ibforums;
-
-		$default = "\[flash=$width,$height\]$url\[/flash\]";
-
-		if (!$ibforums->vars['allow_flash'])
-		{
-			return $default;
-		}
-
-		if ($width > $ibforums->vars['max_w_flash'])
-		{
-			$this->error = 'flash_too_big';
-			return $default;
-		}
-
-		if ($height > $ibforums->vars['max_h_flash'])
-		{
-			$this->error = 'flash_too_big';
-			return $default;
-		}
-
-		if (!preg_match("/^http:\/\/(\S+)\.swf$/i", $url))
-		{
-			$this->error = 'flash_url';
-			return $default;
-		}
-
-		return "<OBJECT CLASSID='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' WIDTH=$width HEIGHT=$height><PARAM NAME=MOVIE VALUE=$url><PARAM NAME=PLAY VALUE=TRUE><PARAM NAME=LOOP VALUE=TRUE><PARAM NAME=QUALITY VALUE=HIGH><EMBED SRC=$url WIDTH=$width HEIGHT=$height PLAY=TRUE LOOP=TRUE QUALITY=HIGH></EMBED></OBJECT>";
 	}
 
 	/**************************************************/
@@ -2777,7 +2804,7 @@ class PostParser
 
 	function regex_build_url($url = array())
 	{
-		$url['html'] = str_replace("/TEST/", "/", $url['html']);
+		$url['html'] = str_replace("/TEST/", "/", $url['html']); //todo ????
 
 		//add 'end' key
 		if(!isset($url['end']))
@@ -2810,9 +2837,9 @@ class PostParser
 			$url['show'] = preg_replace("/([\.,\?]|&#33;)$/", "", $url['show']);
 		}
 
-		// Make sure it's not being used in a closing code/quote/html or sql block
+		// Make sure it's not being used in a closing code/quote block
 
-		if (preg_match("/\[\/(html|quote|code|sql)/i", $url['html']))
+		if (preg_match("/\[\/(code|quote)/i", $url['html']))
 		{
 			return $url['html'];
 		}
@@ -2926,9 +2953,9 @@ class PostParser
 			$url['show'] = preg_replace("/([\.,\?]|&#33;)$/", "", $url['show']);
 		}
 
-		// Make sure it's not being used in a closing code/quote/html or sql block
+		// Make sure it's not being used in a closing code/quote block
 
-		if (preg_match("/\[\/(html|quote|code|sql)/i", $url['html']))
+		if (preg_match("/\[\/(quote|code)/i", $url['html']))
 		{
 			return $url['html'];
 		}
@@ -3037,9 +3064,9 @@ class PostParser
 			$url['show'] = preg_replace("/([\.,\?]|&#33;)$/", "", $url['show']);
 		}
 
-		// Make sure it's not being used in a closing code/quote/html or sql block
+		// Make sure it's not being used in a closing code/quote block
 
-		if (preg_match("/\[\/(html|quote|code|sql)/i", $url['html']))
+		if (preg_match("/\[\/(quote|code)/i", $url['html']))
 		{
 			return $url['html'];
 		}

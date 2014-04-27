@@ -30,53 +30,72 @@
     text-align: left;
     border: 2px solid blue;
     background-color: white;
+    color: black;
     margin-top: 0.5em;
-    padding: 2px;
     line-height: normal;
     text-decoration: none;
     font-weight: normal;
     font-style: normal;
+    display: table;
+    width: 100%;
+    border-spacing: 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* мозилла такая мозилла */
 }
 
-.tag-mod:before {
-    display: inline-block;
-    content: "M";
+.tag-mod__prefix {
+    display: table-cell;
     background-color: #6060ff;
     color: white;
     font-size: 4em;
-    font-family: Times;
+    font-family: serif;
     font-weight: bold;
     padding: 0px 2px;
-    margin-right: 10px;
-    vertical-align: top;
+    vertical-align: middle;
     font-style: normal;
+    height: 100%;
+    width: 1px;
+}
+
+.tag-mod__body {
+    margin-left: 4px;
 }
 
 .tag-ex {
     text-align: left;
     border: 2px solid red;
     margin-top: 0.5em;
-    padding: 2px;
     line-height: normal;
     text-decoration: none;
     font-weight: normal;
     font-style: normal;
     font-size: 11px;
     background-color: white;
+    color: #000000;
+    display: table;
+    width: 100%;
+    border-spacing: 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* мозилла такая мозилла */
 }
 
-.tag-ex:before {
-    display: inline-block;
-    content: "!";
+.tag-ex__prefix {
+    display: table-cell;
     background-color: #ff6060;
     color: white;
     font-size: 4em;
-    font-family: Times;
+    font-family: serif;
     font-weight: bold;
     padding: 0px 14px;
     margin-right: 14px;
-    vertical-align: top;
+    vertical-align: middle;
     font-style: normal;
+    height: 100%;
+    width: 1px;
+}
+
+.tag-ex__body {
+    margin-left: 4px;
 }
 
 .tag-size {
