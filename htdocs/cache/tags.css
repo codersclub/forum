@@ -113,3 +113,7 @@
 .tag-quote-prefix {
     font-weight: bold;
 }
+.tag-code {
+    font-weight: normal;
+    font-style: normal;
+}

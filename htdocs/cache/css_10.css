@@ -179,6 +179,10 @@ span.attach_preview img {
 	padding: 0 0 0 0;
 	display:inline;
 }
+.pre_code {
+    color: black;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+}
 .pre_code span span {
 	margin-right: 0.2em;
 	margin-bottom: 3px;

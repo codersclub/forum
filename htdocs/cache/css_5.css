@@ -334,3 +334,7 @@ ul.b-breadcrumbs-top li:first-child:before {
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
 }
+.pre_code {
+    color: black;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+}
