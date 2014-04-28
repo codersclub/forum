@@ -18,7 +18,7 @@
 
 .tag-o {
     /*text-decoration: overline;*/
-    border-top: 1px;
+    border-top: 1px solid;
 }
 
 .tag-list {
