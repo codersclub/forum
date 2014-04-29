@@ -1,4 +1,4 @@
-@import "/html/jqcd/skins/light-blue/skin.css";
+@import "../html/jqcd/skins/light-blue/skin.css";
 
 html { overflow-x: auto }
 BODY { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 70%; color: #000; margin: 0px; padding: 0px; background-color: #FFF; text-align: center }
