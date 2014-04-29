@@ -1,5 +1,5 @@
-@import "/html/jqcd/jqcd.css";
-@import "/cache/tags.css";
+@import "../html/jqcd/jqcd.css";
+@import "./tags.css";
 
 img.icon_off{
 	opacity: 0.5;

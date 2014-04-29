@@ -1,5 +1,5 @@
 /* winter graph */
-@import "/html/jqcd/skins/light-blue/skin.css";
+@import "../html/jqcd/skins/light-blue/skin.css";
 
 html { overflow-x: auto }
 .tag-mm-header,
@@ -288,4 +288,8 @@ ul.b-breadcrumbs-top li:first-child{
 .pm-list-row.selected { background-color: #DFE6EF }
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
+}
+.pre_code {
+    color: black;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
 }

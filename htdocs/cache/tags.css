@@ -18,7 +18,7 @@
 
 .tag-o {
     /*text-decoration: overline;*/
-    border-top: 1px;
+    border-top: 1px solid;
 }
 
 .tag-list {
@@ -112,4 +112,8 @@
 
 .tag-quote-prefix {
     font-weight: bold;
+}
+.tag-code {
+    font-weight: normal;
+    font-style: normal;
 }

@@ -1,5 +1,5 @@
 /* mastilior */
-@import "/html/jqcd/skins/main/skin.css";
+@import "../html/jqcd/skins/main/skin.css";
 
 html { overflow-x: auto }
 .tag-mm-header,
