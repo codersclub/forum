@@ -1,5 +1,5 @@
 /* black label */
-@import "/html/jqcd/skins/blacklabel/skin.css";
+@import "../html/jqcd/skins/blacklabel/skin.css";
 
 HTML {
 	OVERFLOW-X: auto
