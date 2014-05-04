@@ -36,6 +36,7 @@
     text-decoration: none;
     font-weight: normal;
     font-style: normal;
+    font-size: 11px;
     display: table;
     width: 100%;
     border-spacing: 2px;
@@ -102,6 +103,22 @@
     line-height: 100%;
 }
 
+
+/* prevent changing quote style by tags */
+.tag-quote {
+    color: black;
+    border: none;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+    font-size: 12px;
+}
+
+.qoute {
+  font-size: 11px;
+}
+
 .tag-quote__quote-info:before {
     content: '(';
 }
@@ -117,3 +134,5 @@
     font-weight: normal;
     font-style: normal;
 }
+
+
