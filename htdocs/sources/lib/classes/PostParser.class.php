@@ -780,7 +780,7 @@ class PostParser
 			$txt
 		);
 
-		while (FALSE !== preg_match("#\[color=([a-zA-Z0-9]*)\](.+?)\[/color\]#is", $txt))
+		while (preg_match("#\[color=([a-zA-Z0-9]*)\](.+?)\[/color\]#is", $txt))
 		{
 			$txt = preg_replace_callback(
 				"#\[color=([a-zA-Z0-9]*)\](.+?)\[/color\]#is",
