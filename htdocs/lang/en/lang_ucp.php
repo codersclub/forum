@@ -13,7 +13,6 @@ $lang = array (
 'show_status'		=> "Show members status",
 'show_img'		=> "Show members icons (belonging to group, member sex)",
 'show_ratting'		=> "Show members ratings <br><span class=\'desc\'>If you choose \"No\", your rating will be unavailable for other members</span>",
-'css_method'		=> "CSS style of forum<br><span class=\'desc\'>External CSS keep your traffic, because located in separate file and can be cached by your browser.</span>",
 'forum_icon'		=> "Show assigned forum icon",
 'inline'		=> "Inline",
 'external'		=> "External",

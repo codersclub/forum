@@ -479,7 +479,6 @@ class ad_settings
 			'tmpl_id'          => $IN['wrapper'],
 			'img_dir'          => $IN['img_dir'],
 			'css_id'           => $IN['css'],
-			'css_method'       => $IN['css_method'],
 			'hidden'           => $IN['hidden'],
 			'default_set'      => $IN['default_set'],
 			'macro_id'         => $IN['macro_id'],
@@ -618,19 +617,6 @@ class ad_settings
 			}
 		}
 		closedir($dh);
-
-		//+-------------------------------
-
-		if (file_exists(ROOT_PATH . "cache"))
-		{
-			if (is_writeable(ROOT_PATH . "cache"))
-			{
-				$cssextra = $SKIN->form_dropdown('css_method', array(
-				                                                    0 => array('inline', 'Inline'),
-				                                                    1 => array('external', 'External')
-				                                               ), $row['css_method']);
-			}
-		}
 
 		//+-------------------------------
 
