@@ -91,20 +91,6 @@ return <<<EOF
 EOF;
 }
 
-function css_inline($css="",$load_from_file = false) {
-global $ibforums;
-if ($load_from_file) {
-	$css = file_get_contents($ibforums->vars['base_dir']."/cache/css_{$css}.css");
-}
-return <<<EOF
-
-<style type='text/css'>
-{$css}
-</style>
-
-EOF;
-}
-
 function css_external($css, $img) {
 global $ibforums;
 return <<<EOF

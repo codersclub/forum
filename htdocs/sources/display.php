@@ -253,19 +253,8 @@ class display
 		//---------------------------------------------------------
 		// Song * CSS based on User CP + common CSS, 29.12.04
 
-		if ($ibforums->member['id'] and
-		    $ibforums->member['css_method'] == 'external'
-		)
-		{
-			$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']);
-
-			$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
-		} else
-		{
-			$css = $skin_universal->css_inline('common', true);
-
-			$css .= $skin_universal->css_inline($ibforums->skin['css_id'], true);
-		}
+		$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']);
+		$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
 
 		//---------------------------------------------------------
 
@@ -759,17 +748,8 @@ class display
 		//---------------------------------------------------------
 		// CSS based on User CP + common CSS, Song * 29.12.04
 
-		if ($ibforums->member['id'] and $ibforums->member['css_method'] == 'external')
-		{
-			$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']) . "\n";
-
-			$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
-		} else
-		{
-			$css = $skin_universal->css_inline('common', true);
-
-			$css .= $skin_universal->css_inline($ibforums->skin['css_id'], true);
-		}
+		$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']) . "\n";
+		$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
 
 		// Song + Mixxx * included js, client highlight, 23.12.04
 

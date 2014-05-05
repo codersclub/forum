@@ -87,10 +87,6 @@ return <<<EOF
   <td align='left'>{$data[FILTER]}</td>
 </tr>
 <tr>
-  <td>{$ibforums->lang['css_method']}</td>
-  <td align='left'>{$data[CSS]}</td>
-</tr>
-<tr>
   <td>{$ibforums->lang['hotclocks']}</td>
   <td align='left'>{$data[HOTCLOCKS]}</td>
 </tr>
