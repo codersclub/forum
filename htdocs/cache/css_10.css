@@ -108,7 +108,7 @@ h2 a, h2 a:link, h2 a:visited, h2  a:active, .maintitle a:link, .maintitle  a:vi
 h2 a:hover, .maintitle a:hover { text-decoration: underline }
 h2 { color: #000000; }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
-.tableborder { border: 1px solid #345487; background-color: #FFF; }
+.b-pm-list__stats, .tableborder { border: 1px solid #345487; background-color: #FFF; }
 .tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }
 .tablepad { background-color: #F5F9FD; padding: 6px }
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
@@ -313,10 +313,25 @@ ul.b-breadcrumbs-bottom li:first-child:before {
     max-width: 100%;
 }
 
-.pm-list-row { background-color: #EEF2F7 }
-.pm-list-header-row, .pm-list-footer-row { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-color: #9FBCE3 }
-.pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #3A4F6C }
-.pm-list-row.selected { background-color: #DFE6EF }
+/* copied form titlemedium */
+.b-tracking-list_read tbody tr { background-color: #EEF2F7 }
+.b-tracking-list_read thead tr, .b-tracking-list_read tfoot tr { font-weight: bold; color: #3A4F6C; background-color: #9FBCE3 }
+.b-tracking-list_read th, .b-tracking-list_read tfoot td { padding: 7px; margin: 0px; }
+.b-tracking-list_read thead tr a:link, .b-tracking-list_read thead tr  a:visited, .b-tracking-list_read thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-tracking-list_read tbody tr.selected { background-color: #DFE6EF }
+
+.b-tracking-list_unread tbody tr { background-color: #EEF2F7 }
+.b-tracking-list_unread thead tr, .b-tracking-list_unread tfoot tr { font-weight: bold; color: #3A4F6C; background-color: #9FBCE3 }
+.b-tracking-list_unread th, .b-tracking-list_unread tfoot td { padding: 7px; margin: 0px; }
+.b-tracking-list_unread thead tr a:link, .b-tracking-list_unread thead tr  a:visited, .b-tracking-list_unread thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-tracking-list_unread tbody tr.selected { background-color: #DFE6EF }
+
+.b-pm-list tbody tr { background-color: #EEF2F7 }
+.b-pm-list thead tr, .b-pm-list tfoot tr { font-weight: bold; color: #3A4F6C; background-color: #9FBCE3 }
+.b-pm-list th, .b-pm-list tfoot td { padding: 7px; margin: 0px; }
+.b-pm-list thead tr a:link, .b-pm-list thead tr  a:visited, .b-pm-list thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-pm-list tbody tr.selected { background-color: #DFE6EF }
+
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
 }

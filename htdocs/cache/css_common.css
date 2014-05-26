@@ -785,31 +785,44 @@ span.b-post-links-post:before {
     margin-bottom: 3px;
 }
 
-.pm-list {
+.b-pm-list {
     border-spacing: 1px;
     width: 100%;
 }
 
-.pm-list td {
+.b-pm-list td {
     padding: 4px;
 }
 
-.pm-list a:link,
-.pm-list a:visited {
+.b-pm-list a:link,
+.b-pm-list a:visited {
     color: black;
 }
 
 
-.pm-list-column-icon,
-.pm-list-column-checkbox {
+.b-column_icon,
+.b-column_checkbox {
     text-align: center;
 }
 
-.pm-list-footer-column {
+.b-column_title {
+    text-align: left;
+}
+
+.b-column_sender,
+.b-column_receiver,
+.b-column_messages,
+.b-column_date {
+    text-align: center;
+}
+
+.b-tracking-list_unread tfoot td,
+.b-tracking-list_read tfoot td,
+.b-pm-list tfoot td {
     text-align: right;
 }
 
-.pm-unsent-list .pm-list-footer-column {
+.pm-unsent-list .b-pm-list-footer-column {
     text-align: center;
 }
 
@@ -892,6 +905,10 @@ span.b-post-links-post:before {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+.usercp-menu-wrapper {
+    vertical-align: top;
 }
 
 .usercp-menu-group-items {
@@ -1005,12 +1022,9 @@ h2 {
     text-align: center;
 }
 
-.b-new-address__fields-wrapper {
+.b-address-add-form__fields-wrapper {
     padding-top: 6px;
     /*vertical-align: middle;*/
-}
-.b-new-address__buttons {
-    text-align: center;
 }
 
 .b-address-list__none {
@@ -1028,4 +1042,79 @@ h2 {
 
 .b-address-list__wrapper {
     margin: 0.5em 0;
+}
+
+.b-address-list__column_options {
+    width: 70%;
+}
+
+.b-address-list__row .b-address-list__column {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.b-address-list .b-profile-link {
+    font-weight: bold;
+}
+
+.b-address-list .b-address-description {
+    margin-left: 2em;
+}
+
+.b-address-list .b-address-description:before {
+    content: '[';
+    margin-right: 0.5em;
+}
+
+.b-address-list .b-address-description:after {
+    content: ']';
+    margin-left: 0.5em;
+}
+
+.b-address-list__options {
+    margin-left: 1em;
+}
+
+.b-address-edit-form table {
+    width: 100%;
+}
+
+.b-address-edit-form .b-form-element-wrapper {
+    vertical-align: middle;
+    text-align: left;
+}
+
+.b-address-edit-form .b-form-element__contact-name {
+    font-weight: bold;
+}
+
+.b-address-edit-form label,
+.b-address-edit-form label {
+    display: block;
+}
+
+.b-archive-form__options {
+    width: 100%;
+    padding: 6px;
+}
+
+.b-archive-form .b-option__label {
+    font-weight: bold;
+}
+
+.b-archive-form .b-option__value {
+    vertical-align: middle;
+}
+
+.b-tracking-list_read,
+.b-tracking-list_unread {
+    width: 100%;
+    text-align: center;
+    border-spacing: 1px;
+}
+
+.b-tracking-list_read td,
+.b-tracking-list_unread td
+{
+    padding: 4px;
 }

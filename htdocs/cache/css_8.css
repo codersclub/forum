@@ -71,7 +71,7 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { border: 1px solid #C2CFDF; background-color: #AAB7C8 }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #AAB7C8; padding: 6px }
-h2, .pformstrip { background-color: #E2DFD8; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+h3, .pformstrip { background-color: #E2DFD8; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformstrip2 { background-color: #D2D0CB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #E9E7E2; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftw { background-color: #E9E7E2; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
@@ -98,7 +98,7 @@ h2 a, h2 a:link, h2 a:visited, h2  a:active, .maintitle a:link, .maintitle  a:vi
 h2 a:hover, .maintitle a:hover { text-decoration: underline }
 h2 { color: #000000; }
 .plainborder { border: 1px solid #345487; background-color: #D2D0CB }
-.tableborder { border: 1px solid #345487; background-color: #D2D0CB; }
+.b-pm-list__stats, .tableborder { border: 1px solid #345487; background-color: #D2D0CB; }
 .tableborder2 { border: 1px solid #345487; background-color: #E9E7E2; padding: 0; margin: 0 }
 .tablefill { border: 1px solid #345487; background-color: #E2DFD8; padding: 6px }
 .tablepad { background-color: #E9E7E2; padding: 6px }
@@ -286,10 +286,25 @@ ul.b-breadcrumbs-top li:first-child{
     padding-bottom: 5px;
 }
 
-.pm-list-row { background-color: #E9E7E2 }
-.pm-list-header-row, .pm-list-footer-row { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-image: url('http://forum.sources.ru/style_images/Xpressio-296/tile_sub.gif') }
-.pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #3A4F6C }
-.pm-list-row.selected { background-color: #DFE6EF }
+/* copied form titlemedium */
+.b-tracking-list_read tr { background-color: #E9E7E2 }
+.b-tracking-list_read thead tr, .b-tracking-list_read tfoot tr { font-weight: bold; color: #3A4F6C; background-image: url('http://forum.sources.ru/style_images/Xpressio-296/tile_sub.gif') }
+.b-tracking-list_read th, .b-tracking-list_read tfoot td { padding: 7px; margin: 0px; }
+.b-tracking-list_read thead tr  a:link, .b-tracking-list_read thead tr  a:visited, .b-tracking-list_read thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-tracking-list_read tr.selected { background-color: #DFE6EF }
+
+.b-tracking-list_unread tr { background-color: #E9E7E2 }
+.b-tracking-list_unread thead tr, .b-tracking-list_unread tfoot tr { font-weight: bold; color: #3A4F6C; background-image: url('http://forum.sources.ru/style_images/Xpressio-296/tile_sub.gif') }
+.b-tracking-list_unread th, .b-tracking-list_unread tfoot td { padding: 7px; margin: 0px; }
+.b-tracking-list_unread thead tr  a:link, .b-tracking-list_unread thead tr  a:visited, .b-tracking-list_unread thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-tracking-list_unread tr.selected { background-color: #DFE6EF }
+
+.b-pm-list tr { background-color: #E9E7E2 }
+.b-pm-list thead tr, .b-pm-list tfoot tr { font-weight: bold; color: #3A4F6C; background-image: url('http://forum.sources.ru/style_images/Xpressio-296/tile_sub.gif') }
+.b-pm-list th, .b-pm-list tfoot td { padding: 7px; margin: 0px; }
+.b-pm-list thead tr  a:link, .b-pm-list thead tr  a:visited, .b-pm-list thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-pm-list tr.selected { background-color: #DFE6EF }
+
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
 }

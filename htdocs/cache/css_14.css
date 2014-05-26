@@ -1220,19 +1220,23 @@ ul.b-breadcrumbs-top li:first-child{
     max-width: 100%;
 }
 .b-folder-clear__folders-list,
-.pm-list {
+.b-pm-list {
     border-spacing: 0;
 }
 
-.pm-list th {
+.b-tracking-list_read th,
+.b-tracking-list_unread th,
+.b-pm-list th {
     /* 6px if there is no cb */
     padding: 4px;
     background-color: transparent;
     border-right: 1px solid lightgray;
 }
 
+.b-tracking-list_unread tbody td,
+.b-tracking-list_read tbody td,
 .b-folder-clear__row td,
-.pm-list-row td {
+.b-pm-list tbody td {
     background-color: transparent;
     border-bottom: 1px solid white;
     border-right: 1px solid lightgray;
@@ -1240,66 +1244,85 @@ ul.b-breadcrumbs-top li:first-child{
     color: black;
 }
 
-.pm-list a:link,
-.pm-list a:active,
-.pm-list a:hover,
-.pm-list a:visited {
+.b-tracking-list_read a:link,
+.b-tracking-list_read a:active,
+.b-tracking-list_read a:hover,
+.b-tracking-list_read a:visited,
+.b-tracking-list_unread a:link,
+.b-tracking-list_unread a:active,
+.b-tracking-list_unread a:hover,
+.b-tracking-list_unread a:visited,
+.b-pm-list a:link,
+.b-pm-list a:active,
+.b-pm-list a:hover,
+.b-pm-list a:visited {
     color: black;
 }
 
-.pm-list tr:hover {
+.b-tracking-list_read tbody tr:hover,
+.b-tracking-list_unread tbody tr:hover,
+.b-pm-list tbody tr:hover {
     background-color: slategray;
 }
 
-.b-folder-clear__header-row,
-.pm-list-header-row,
-.pm-list-footer-row {
+.b-header-row,
+.b-pm-list tfoot tr {
     MARGIN: 1px 0;
     BORDER-LEFT: #444444 1px solid;
     BORDER-RIGHT: #0c0c0c 1px solid;
     FONT-WEIGHT: bold;
-    BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif');
+    BACKGROUND-IMAGE: url('../style_images/BlackLabel/tile_sub.gif');
     COLOR: #bb7700;
     /* commented because of checkbox in one column */
     PADDING-LEFT: 6px;
     PADDING-RIGHT: 6px;
 }
 
-.pm-list-header-row A:link,
-.pm-list-header-row A:visited,
-.pm-list-header-row a:active
+.b-header-row A:link,
+.b-header-row A:visited,
+.b-header-row a:active
 {
     COLOR: #bb7700;
     TEXT-DECORATION: none
 }
-.pm-list-header-row A:hover {
+.b-header-row A:hover {
     /*COLOR: #D4FF5E;*/
     COLOR: #97B543;
     TEXT-DECORATION: none
 }
 
-.pm-list-column-checkbox {
-    text-align: center;
-}
-.pm-list-footer-column {
+.b-pm-list tfoot td {
     color: inherit;
 }
 
-.pm-list-footer-column input[type="submit"] {
+tfoot td input[type="submit"] {
     background-color: transparent;
     border: 1px solid gray;
     color: #bb7700;
     padding-top: 0;
     font-weight: bold;
 }
-.pm-list-row.selected {
+.b-tracking-list_read tbody tr.selected,
+.b-tracking-list_unread tbody tr.selected,
+.b-pm-list tbody tr.selected {
     BACKGROUND-COLOR: gray;
 }
-.pm-list-row.selected:hover td,
-.pm-list-row.selected:hover td a:link,
-.pm-list-row.selected:hover td a:active,
-.pm-list-row.selected:hover td a:visited,
-.pm-list-row.selected:hover td a:hover {
+
+.b-tracking-list_read tbody tr.selected:hover td,
+.b-tracking-list_read tbody tr.selected:hover td a:link,
+.b-tracking-list_read tbody tr.selected:hover td a:active,
+.b-tracking-list_read tbody tr.selected:hover td a:visited,
+.b-tracking-list_read tbody tr.selected:hover td a:hover,
+.b-tracking-list_unread tbody tr.selected:hover td,
+.b-tracking-list_unread tbody tr.selected:hover td a:link,
+.b-tracking-list_unread tbody tr.selected:hover td a:active,
+.b-tracking-list_unread tbody tr.selected:hover td a:visited,
+.b-tracking-list_unread tbody tr.selected:hover td a:hover,
+.b-pm-list tbody tr.selected:hover td,
+.b-pm-list tbody tr.selected:hover td a:link,
+.b-pm-list tbody tr.selected:hover td a:active,
+.b-pm-list tbody tr.selected:hover td a:visited,
+.b-pm-list tbody tr.selected:hover td a:hover {
     background-color: gray;
     color: lightgray;
 }

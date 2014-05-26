@@ -115,7 +115,7 @@ h2 a:hover, .maintitle a:hover { text-decoration: underline }
 h2 { color: #000000; }
 .plainborder { background-color: #ffffff; border: 1px solid #e6e6e6 }
 .footer, .footer a:link, .footer a:visited, .footer a:active { height: 14; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/mainfoot.gif); background-repeat: repeat-x; color: #ffffff; font-size: 9px; vertical-align: top }
-.tableborder { background-color: #e8e8ff; border: 1px solid #cccccc }
+.b-pm-list__stats, .tableborder { background-color: #e8e8ff; border: 1px solid #cccccc }
 .tablefill { padding: 6px; background-color: #Ffffff }
 .tablepad { padding: 6px; background-color: #Ffffff }
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
@@ -329,10 +329,25 @@ ul.b-breadcrumbs-top li:first-child:before {
     padding-bottom: 5px;
 }
 
-.pm-list-row { background-color: #ffffff }
-.pm-list-header-row, .pm-list-footer-row { font-size: 10px; font-weight: bold; padding: 2px; margin: 0px; color: #f9f9f9; background-color: #6688CC }
-.pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #f9f9f9 }
-.pm-list-row.selected { background-color: #eaeaea }
+/* copied form titlemedium */
+.b-tracking-list_read tr { background-color: #ffffff }
+.b-tracking-list_read thead tr, .b-tracking-list_read tfoot tr { font-size: 10px; font-weight: bold; color: #f9f9f9; background-color: #6688CC }
+.b-tracking-list_read th, .b-tracking-list_read tfoot td { padding: 2px; margin: 0px;}
+.b-tracking-list_read thead tr  a:link, .b-tracking-list_read thead tr  a:visited, .b-tracking-list_read thead tr  a:active { text-decoration: underline; color: #f9f9f9 }
+.b-tracking-list_read tr.selected { background-color: #eaeaea }
+
+.b-tracking-list_unread tr { background-color: #ffffff }
+.b-tracking-list_unread thead tr, .b-tracking-list_unread tfoot tr { font-size: 10px; font-weight: bold; color: #f9f9f9; background-color: #6688CC }
+.b-tracking-list_unread th, .b-tracking-list_unread tfoot td { padding: 2px; margin: 0px;}
+.b-tracking-list_unread thead tr  a:link, .b-tracking-list_unread thead tr  a:visited, .b-tracking-list_unread thead tr  a:active { text-decoration: underline; color: #f9f9f9 }
+.b-tracking-list_unread tr.selected { background-color: #eaeaea }
+
+.b-pm-list tr { background-color: #ffffff }
+.b-pm-list thead tr, .b-pm-list tfoot tr { font-size: 10px; font-weight: bold; color: #f9f9f9; background-color: #6688CC }
+.b-pm-list th, .b-pm-list tfoot td { padding: 2px; margin: 0px;}
+.b-pm-list thead tr  a:link, .b-pm-list thead tr  a:visited, .b-pm-list thead tr  a:active { text-decoration: underline; color: #f9f9f9 }
+.b-pm-list tr.selected { background-color: #eaeaea }
+
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
 }
