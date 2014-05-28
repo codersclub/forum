@@ -627,7 +627,6 @@ class usercp_functions
 		                                            'close_category'            => $ibforums->input['CATEGORY'],
 		                                            'quick_search'              => $ibforums->input['QUICK_SEARCH'],
 		                                            'highlight_topic'           => $ibforums->input['HIGHLIGHT'],
-		                                            'css_method'                => $ibforums->input['CSS'],
 		                                            'hotclocks'                 => $ibforums->input['HOTCLOCKS'],
 		                                            'forum_icon'                => $ibforums->input['FORUM_ICON'],
 		                                            'show_history'              => $ibforums->input['HISTORY'],
