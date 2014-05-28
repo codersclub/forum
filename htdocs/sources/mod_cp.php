@@ -3193,32 +3193,6 @@ class Moderate
 			return;
 		}
 
-		$description = $ibforums->db->quote($_POST['description']);
-		$reg_exp     = $ibforums->db->quote($_POST['reg_exp']);
-		//		$reg_exp		= $std->str_to_sql ($reg_exp);
-
-		$tag_0 = $ibforums->db->quote($ibforums->input['tag_0']);
-		$tag_1 = $ibforums->db->quote($ibforums->input['tag_1']);
-		$tag_2 = $ibforums->db->quote($ibforums->input['tag_2']);
-		$tag_3 = $ibforums->db->quote($ibforums->input['tag_3']);
-		$tag_4 = $ibforums->db->quote($ibforums->input['tag_4']);
-		$tag_5 = $ibforums->db->quote($ibforums->input['tag_5']);
-		$tag_6 = $ibforums->db->quote($ibforums->input['tag_6']);
-		$tag_7 = $ibforums->db->quote($ibforums->input['tag_7']);
-		$tag_8 = $ibforums->db->quote($ibforums->input['tag_8']);
-		$tag_9 = $ibforums->db->quote($ibforums->input['tag_9']);
-
-		$action_0 = $ibforums->db->quote($ibforums->input['action_0']);
-		$action_1 = $ibforums->db->quote($ibforums->input['action_1']);
-		$action_2 = $ibforums->db->quote($ibforums->input['action_2']);
-		$action_3 = $ibforums->db->quote($ibforums->input['action_3']);
-		$action_4 = $ibforums->db->quote($ibforums->input['action_4']);
-		$action_5 = $ibforums->db->quote($ibforums->input['action_5']);
-		$action_6 = $ibforums->db->quote($ibforums->input['action_6']);
-		$action_7 = $ibforums->db->quote($ibforums->input['action_7']);
-		$action_8 = $ibforums->db->quote($ibforums->input['action_8']);
-		$action_9 = $ibforums->db->quote($ibforums->input['action_9']);
-
 		if ($rule == 'new')
 		{
 			$stmt = $ibforums->db->query("select max(record) as max_record from ibf_syntax_rules where syntax_id = '" . $syntax_id . "'");
@@ -3230,7 +3204,7 @@ class Moderate
 				$rule = 1;
 			}
 
-			$ibforums->db->exec("INSERT INTO ibf_syntax_rules
+			$ibforums->db->prepare("INSERT INTO ibf_syntax_rules
 					(
 					syntax_id,
 					record,
@@ -3238,62 +3212,95 @@ class Moderate
 					reg_exp,
 					tag_0, tag_1, tag_2, tag_3, tag_4, tag_5, tag_6, tag_7, tag_8, tag_9,
 					action_0, action_1, action_2, action_3, action_4, action_5, action_6, action_7, action_8, action_9
-				) values (
-					'" . $syntax_id . "',
-					" . $rule . ",
-					'" . $description . "',
-					'" . $reg_exp . "',
-					'" . $tag_0 . "',
-					'" . $tag_1 . "',
-					'" . $tag_2 . "',
-					'" . $tag_3 . "',
-					'" . $tag_4 . "',
-					'" . $tag_5 . "',
-					'" . $tag_6 . "',
-					'" . $tag_7 . "',
-					'" . $tag_8 . "',
-					'" . $tag_9 . "',
-					'" . $action_0 . "',
-					'" . $action_1 . "',
-					'" . $action_2 . "',
-					'" . $action_3 . "',
-					'" . $action_4 . "',
-					'" . $action_5 . "',
-					'" . $action_6 . "',
-					'" . $action_7 . "',
-					'" . $action_8 . "',
-					'" . $action_9 . "')");
+				) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
+				->execute(
+					[
+						$syntax_id,
+						$rule,
+						$_POST['description'],
+						$_POST['reg_exp'],
+						$ibforums->input['tag_0'],
+						$ibforums->input['tag_1'],
+						$ibforums->input['tag_2'],
+						$ibforums->input['tag_3'],
+						$ibforums->input['tag_4'],
+						$ibforums->input['tag_5'],
+						$ibforums->input['tag_6'],
+						$ibforums->input['tag_7'],
+						$ibforums->input['tag_8'],
+						$ibforums->input['tag_9'],
+						$ibforums->input['action_0'],
+						$ibforums->input['action_1'],
+						$ibforums->input['action_2'],
+						$ibforums->input['action_3'],
+						$ibforums->input['action_4'],
+						$ibforums->input['action_5'],
+						$ibforums->input['action_6'],
+						$ibforums->input['action_7'],
+						$ibforums->input['action_8'],
+						$ibforums->input['action_9'],
+					]
+				);
 
 			$this->output .= $this->html->highlight_start_form($syntax_id, $rule);
 		} else
 		{
-			$ibforums->db->exec("UPDATE ibf_syntax_rules
+			$ibforums->db->prepare("UPDATE ibf_syntax_rules
 				SET
-					description = '" . $description . "',
-					reg_exp = '" . $reg_exp . "',
-					tag_0 = '" . $tag_0 . "',
-					tag_1 = '" . $tag_1 . "',
-					tag_2 = '" . $tag_2 . "',
-					tag_3 = '" . $tag_3 . "',
-					tag_4 = '" . $tag_4 . "',
-					tag_5 = '" . $tag_5 . "',
-					tag_6 = '" . $tag_6 . "',
-					tag_7 = '" . $tag_7 . "',
-					tag_8 = '" . $tag_8 . "',
-					tag_9 = '" . $tag_9 . "',
-					action_0 = '" . $action_0 . "',
-					action_1 = '" . $action_1 . "',
-					action_2 = '" . $action_2 . "',
-					action_3 = '" . $action_3 . "',
-					action_4 = '" . $action_4 . "',
-					action_5 = '" . $action_5 . "',
-					action_6 = '" . $action_6 . "',
-					action_7 = '" . $action_7 . "',
-					action_8 = '" . $action_8 . "',
-					action_9 = '" . $action_9 . "'
+					description = ?,
+					reg_exp = ?,
+					tag_0 = ?,
+					tag_1 = ?,
+					tag_2 = ?,
+					tag_3 = ?,
+					tag_4 = ?,
+					tag_5 = ?,
+					tag_6 = ?,
+					tag_7 = ?,
+					tag_8 = ?,
+					tag_9 = ?,
+					action_0 = ?,
+					action_1 = ?,
+					action_2 = ?,
+					action_3 = ?,
+					action_4 = ?,
+					action_5 = ?,
+					action_6 = ?,
+					action_7 = ?,
+					action_8 = ?,
+					action_9 = ?
 				WHERE
-					syntax_id = '" . $syntax_id . "' AND
-					record = " . $rule);
+					syntax_id = ?
+				AND
+					record = ?")
+				->execute(
+					[
+						$_POST['description'],
+						$_POST['reg_exp'],
+						$ibforums->input['tag_0'],
+						$ibforums->input['tag_1'],
+						$ibforums->input['tag_2'],
+						$ibforums->input['tag_3'],
+						$ibforums->input['tag_4'],
+						$ibforums->input['tag_5'],
+						$ibforums->input['tag_6'],
+						$ibforums->input['tag_7'],
+						$ibforums->input['tag_8'],
+						$ibforums->input['tag_9'],
+						$ibforums->input['action_0'],
+						$ibforums->input['action_1'],
+						$ibforums->input['action_2'],
+						$ibforums->input['action_3'],
+						$ibforums->input['action_4'],
+						$ibforums->input['action_5'],
+						$ibforums->input['action_6'],
+						$ibforums->input['action_7'],
+						$ibforums->input['action_8'],
+						$ibforums->input['action_9'],
+						$syntax_id,
+						$rule,
+					]
+				);
 
 			$this->output .= $this->html->highlight_start_form($syntax_id, $rule);
 		}
