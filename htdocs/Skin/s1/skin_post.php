@@ -174,9 +174,8 @@ function poll_box($data, $extra="") {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td colspan='2' class='pformstrip'>{$ibforums->lang['tt_poll_settings']}</td>
-</tr>
+<h3>{$ibforums->lang['tt_poll_settings']}</h3>
+<table>
 <tr>
   <td class='pformleft'><strong>{$ibforums->lang['poll_question']}</strong></td>
   <td class='pformright'><input type='text' size='40' maxlength='250' name='pollq' value='{$ibforums->input['pollq']}' class='textinput'></td>
@@ -185,6 +184,7 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['poll_choices']}<br><br>$extra</td>
   <td class='pformright'><textarea cols='60' rows='12' name='PollAnswers' class='textinput'>$data</textarea><!--IBF.POLL_OPTIONS--></td>
 </tr>
+</table>
 
 EOF;
 }
@@ -301,9 +301,8 @@ function topictitle_fields($data) {
 global $ibforums;
 return <<<EOF
 
-<tr>
- <td colspan="2" class='pformstrip'>{$ibforums->lang['tt_topic_settings']}</td>
-</tr>
+<h3>{$ibforums->lang['tt_topic_settings']}</h3>
+<table>
 <tr>
   <td class='pformleft'>{$ibforums->lang['topic_title']}</td>
   <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicTitle' value='{$data[TITLE]}' tabindex='1' class='forminput'></td>
@@ -312,6 +311,7 @@ return <<<EOF
    <td class='pformleft'>{$ibforums->lang['topic_desc']}</td>
    <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicDesc' value='{$data[DESC]}' tabindex='2' class='forminput'></td>
 </tr>
+</table>
 
 EOF;
 }

@@ -1851,6 +1851,8 @@ class Moderate
 		$this->output .= $this->html->poll_select_form_additions_multi($poll_data['multi_poll_min'], $poll_data['multi_poll_max'], $poll_data['is_multi_poll']);
 		$this->output .= $this->html->poll_select_form_additions_weighted($poll_data['weighted_poll_places'], $poll_data['is_weighted_poll']);
 
+		$this->output .= $this->html->poll_edit_bottom();
+
 		$this->output .= $this->html->end_form($ibforums->lang['pe_submit']);
 
 		$this->page_title = $ibforums->lang['pe_top'] . $this->topic['title'];
