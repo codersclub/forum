@@ -1130,17 +1130,6 @@ class PostParser
 
 		if (mb_strpos($txt, "[") === FALSE)
 		{
-			//--------------------------------------
-			// Auto parse URLs
-			//--------------------------------------
-
-			//there can't be letters or digits before protocol descriptions,
-			//also we check for _ for historical reasons
-			$txt = preg_replace_callback(
-				"#([^a-z0-9_]?)((http|https|news|ftp)://\w+[^\s\[\]<$]+)#i",
-				function($m) { return $this->regex_build_url(['html' => $m[2], 'show' => '', 'st' => $m[1]]);},
-				$txt
-			);
 
 			// Swop \n back to <br>
 			$txt = preg_replace("/\n/", "<br>", $txt);
@@ -1437,21 +1426,6 @@ class PostParser
 				},
 			$txt);
 
-		//--------------------------------------
-		// Auto parse URLs
-		//--------------------------------------
-		//It must to be after all text conversions to prevent interference with tags
-		//However there are additional problems with already created <a> and <img> tags,
-		//so first we skip urls after href= and src=
-		//second, we need to avoid situations like <a href="url">url</a> can be added by [url] tag
-		//so we add &shy; symbol to links created by [url] and check for it here
-		$txt = preg_replace_callback(
-			//better, but [:alnum:] don't understand cyr characters sometimes.
-			//'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/([[:alpha:]][[:alnum:]-]*[[:alnum:]]\.?)+(:\d+)?([[:alnum:]_\.\-:\/\?\#\[\]@\!\$\&\'\(\)\*\+\,\;\=]|%[A-Z0-9]{2})*)#ie',
-			'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/[^\s\[\]\<\>\"]+)#i',
-			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => '', 'st' => '']); },
-			$txt
-		);
 		// Leprecon * return &shy; back to ''
 
 		$txt = preg_replace("#&shy;#", "", $txt);
@@ -1673,7 +1647,7 @@ class PostParser
 	{
 
 		// keep http text as is, except if it's internal forum link
-		$txt = preg_replace_callback('#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#i', array(
+		$txt = preg_replace_callback('#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#iu', array(
 		                                                                                      $this,
 		                                                                                      'regex_build_url_auto_parser_cut'
 		                                                                                 ), $txt);
@@ -3052,7 +3026,6 @@ class PostParser
 		global $ibforums;
 		// "\$this->regex_build_url_auto_parser_cut( array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))"
 		$url     = array('html' => $url[2], 'show' => $url[2], 'st' => $url[1]);
-		$skip_it = 0;
 
 		// Make sure the last character isn't punctuation.. if it is, remove it and add it to the
 		// end array
@@ -3077,36 +3050,12 @@ class PostParser
 		// Make sure we don't have a JS link
 		$url['html'] = preg_replace("/javascript:/i", "java script&#58; ", $url['html']);
 
-		// Do we have http:// at the front?
-
-		if (!preg_match("#^(http|news|https|ftp|aim)://#", $url['html']))
-		{
-			$url['html'] = 'http://' . $url['html'];
-		}
-
 		//-------------------------
 		// Tidy up the viewable URL
 		//-------------------------
 
-		if (preg_match("/^<img src/i", $url['show']))
-		{
-			$skip_it = 1;
-		}
-
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
-
-		if ((mb_strlen($url['show']) - 58) < 3)
-		{
-			$skip_it = 1;
-		}
-
-		// Make sure it's a "proper" url
-
-		if (!preg_match("/^(http|ftp|https|news):\/\//i", $url['show']))
-		{
-			$skip_it = 1;
-		}
 
 		$show = $url['show'];
 
@@ -3151,7 +3100,42 @@ class PostParser
 
 		} else
 		{
-			return $url['st'] . $url['html'] . $url['end'];
+			//search for the page title
+			$matches = [];
+			$tags_to_check = array_filter(explode(',', Ibf::app()->vars['url_parser_search_title_metatags']));
+			$tags = !empty($tags_to_check)
+				? @get_meta_tags($url['html'])
+				: [];
+			foreach ($tags_to_check as $_)
+			{
+				if (isset($tags[$_]))
+				{
+					$title = $tags[$_]; //grabbing the first one
+					break;
+				}
+			}
+			if (isset($title))
+			{
+				//nothing to do actually, just prevent executing the next row
+			} elseif (Ibf::app()->vars['url_parser_search_page_title'] && preg_match(
+					'/<title>(.+)<\/title>/ui',
+					@file_get_contents(
+						$url['html'],
+						null,
+						null,
+						null,
+						intval(Ibf::app()->vars['url_parser_search_page_title_till'])
+					),
+					$matches
+				) && isset($matches[1])
+			)
+			{
+				$title = $matches[1];
+			} else
+			{
+				$title = $url['html'];
+			}
+			return sprintf('%s[URL=%s]%s[/URL]%s', $url['st'], $url['html'], $title, $url['end']);
 		}
 
 	}
