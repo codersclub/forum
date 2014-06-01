@@ -632,8 +632,6 @@ class PostParser
 		$this->quote_open  = 0;
 		$this->quote_error = 0;
 
-		$txt = preg_replace("/\n/", "<br>", $txt);
-
 		return $txt;
 
 	}
