@@ -580,20 +580,23 @@ class PostParser
 	//за исключением тех, которые находятся дальше последнего [/spoiler], ибо они сюда даже не попадут
 	private function convert_spoiler($matches)
 	{
-		global $ibforums;
+		global $ibforums, $skin_universal;
 		//Проверка matches[4] здесь - выяснение, сработало вхождение [spoiler] или [/spoiler].
 		if (!$matches[4])
 		{
-			// Starting Tag
+			//Starting Tag
 			$this->quote_open++;
-			return '<div class=\'spoiler closed\'><div class=\'spoiler_header\' onclick=\'openCloseParent(this)\'>' . (trim($matches[3])
-				? $matches[3]
-				: $ibforums->lang["spoiler"]) . '</div><div class=\'body\'>';
+			$matches[3] = trim($matches[3]);
+			return $skin_universal->renderTagSpoilerTop(
+				$matches[3]
+					? $matches[3]
+					: $ibforums->lang["spoiler"]
+			);
 		} elseif ($this->quote_open > 0)
 		{
 			// Ending Tag
 			$this->quote_open--;
-			return "</div></div>";
+			return $skin_universal->renderTagSpoilerBottom();
 		} else
 		{
 			// Leave As Is
