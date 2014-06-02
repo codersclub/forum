@@ -2211,11 +2211,16 @@ class Messenger
 		if ($this->vid == 'sent')
 		{
 			$ibforums->lang['message_from'] = $ibforums->lang['message_to'];
-			$stmt                           = $ibforums->db->query("SELECT m.*, IFNULL(mp.name,'Unknown member') as from_name
-			            FROM ibf_messages m
-				    LEFT JOIN ibf_members mp ON (mp.id=m.recipient_id)
-				    WHERE m.member_id='" . $this->member['id'] . "' AND m.vid='" . $this->vid . "'
-				    ORDER BY $sort_key LIMIT $start, $p_end");
+			$stmt = $ibforums->db->query(
+				"SELECT
+					m.*,
+					IFNULL(mp.name,'Unknown member') as from_name,
+					IF(mp.id, 0, 1) as member_deleted
+				FROM ibf_messages m
+				LEFT JOIN ibf_members mp ON (mp.id=m.recipient_id)
+				WHERE m.member_id='" . $this->member['id'] . "' AND m.vid='" . $this->vid . "'
+				ORDER BY $sort_key LIMIT $start, $p_end"
+			);
 		} else
 		{
 			$stmt = $ibforums->db->query("SELECT m.*, IFNULL(mp.name,'Unknown member') as from_name
@@ -2247,10 +2252,7 @@ class Messenger
 
 				$row['date'] = $std->get_date($row['msg_date']);
 
-				if ($this->vid != 'sent')
-				{
-					$row['add_to_contacts'] = "[ <a href='{$ibforums->base_url}act=Msg&amp;CODE=02&amp;MID={$row['from_id']}'>{$ibforums->lang['add_to_book']}</a> ]";
-				} else
+				if ($this->vid == 'sent')
 				{
 					$row['from_id'] = $row['recipient_id'];
 				}
