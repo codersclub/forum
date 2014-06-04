@@ -22,21 +22,21 @@
 
 class syntax_cfg
 {
-    var $id;
-    var $syntax;
-    var $back_color;
-    var $fore_color;
-    var $tab_length;
-    var $version = 0;
+    public $id;
+    public $syntax;
+    public $back_color;
+    public $fore_color;
+    public $tab_length;
+    public $version = 0;
 
-    var $rules = array();
+    public $rules = array();
 }
 
 class syntax_rule
 {
-    var $reg_exp = '';
-    var $tags = array();
-    var $actions = array();
+    public $reg_exp = '';
+    public $tags = array();
+    public $actions = array();
 
     function syntax_rule($db_row)
     {
@@ -52,26 +52,26 @@ class syntax_rule
 class PostParser
 {
 
-    var $error = "";
-    var $image_count = 0;
-    var $emoticon_count = 0;
-    var $quote_html = array();
-    var $quote_open = 0;
-    var $quote_closed = 0;
-    var $quote_error = 0;
-    var $emoticons = "";
-    var $badwords = "";
-    var $strip_quotes = "";
-    var $in_sig = "";
-    var $allow_unicode = 1;
-    var $file = array();
-    var $cfg = array();
-    var $syntax = array();
-    var $code_text = array();
-    var $code_counter = 0;
-    var $cache_posts = array();
-    var $absent_highlight = array();
-    var $code_count = 0;
+    public $error = "";
+    public $image_count = 0;
+    public $emoticon_count = 0;
+    public $quote_html = array();
+    public $quote_open = 0;
+    public $quote_closed = 0;
+    public $quote_error = 0;
+    public $emoticons = "";
+    public $badwords = "";
+    public $strip_quotes = "";
+    public $in_sig = "";
+    public $allow_unicode = 1;
+    public $file = array();
+    public $cfg = array();
+    public $syntax = array();
+    public $code_text = array();
+    public $code_counter = 0;
+    public $cache_posts = array();
+    public $absent_highlight = array();
+    public $code_count = 0;
 
     /**
      * @var int
@@ -96,15 +96,8 @@ class PostParser
 
         if (!isset($this->absent_highlight[$syntax])) {
             $stmt = $ibforums->db->query(
-                "SELECT
-                                id,
-                                syntax,
-                                back_color,
-                                fore_color,
-                                version,
-                                tab_length
-                                FROM ibf_syntax_list
-                                WHERE syntax='" . addslashes($syntax) . "'"
+                "SELECT id, syntax, back_color, fore_color, version, tab_length FROM ibf_syntax_list " .
+                    "WHERE syntax='" . addslashes($syntax) . "'"
             );
 
             if ($row = $stmt->fetch()) {
@@ -122,10 +115,7 @@ class PostParser
                     $n = 0;
 
                     $stmt = $ibforums->db->query(
-                        "SELECT *
-                                                FROM ibf_syntax_rules
-                                                WHERE syntax_id='" . $cfg->id . "'
-					    ORDER BY record"
+                        "SELECT * FROM ibf_syntax_rules WHERE syntax_id='" . $cfg->id . "' ORDER BY record"
                     );
 
                     while ($db_row = $stmt->fetch()) {
@@ -149,15 +139,8 @@ class PostParser
         global $ibforums;
 
         $stmt = $ibforums->db->query(
-            "SELECT
-                        id,
-                        syntax,
-                        back_color,
-                        fore_color,
-                        version,
-                        tab_length
-                        FROM ibf_syntax_list
-                        WHERE id='" . $id . "'"
+            "SELECT id, syntax, back_color, fore_color, version, tab_length" .
+                "FROM ibf_syntax_list WHERE id='" . $id . "'"
         );
 
         if ($row = $stmt->fetch()) {
@@ -174,10 +157,8 @@ class PostParser
             if ($method == 'server') {
                 $n = 0;
                 $stmt = $ibforums->db->query(
-                    "SELECT *
-                                        FROM ibf_syntax_rules
-                                        WHERE syntax_id='" . $cfg->id . "'
-				    ORDER BY record"
+                    "SELECT * FROM ibf_syntax_rules WHERE syntax_id='" .
+                        $cfg->id . "' ORDER BY record"
                 );
 
                 while ($db_row = $stmt->fetch()) {
@@ -325,6 +306,10 @@ class PostParser
 
         $this->code_count++;
 
+        /**
+         * @TODO Govnovariable detected
+         * Узнать нахрнеа переменная $txt, которая не существует
+         */
         if (preg_match(
             "/\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\].+?\[(quote|code)\]/i",
             $txt
@@ -492,14 +477,12 @@ class PostParser
         if (!$use_line_numbering) {
             $view = str_replace(array('<li>', '</li>'), array('<div class="code_line">', '</div>'), $view);
         }
-        $html = $this->wrap_style(
-            array(
-                'STYLE' => 'CODE',
-                'BCOLOR' => $cfg->back_color,
-                'FCOLOR' => $cfg->fore_color,
-                'CODE_ID' => $this->code_count
-            )
-        );
+        $html = $this->wrap_style(array(
+            'STYLE' => 'CODE',
+            'BCOLOR' => $cfg->back_color,
+            'FCOLOR' => $cfg->fore_color,
+            'CODE_ID' => $this->code_count
+        ));
 
         // vot	15/03/06
         $view = "{$html['START']}<div>$view</div>{$html['END']}";
@@ -687,12 +670,7 @@ class PostParser
                 $id = 1;
             }
             $stmt = $ibforums->db->query(
-                "SELECT
-                                    typed,
-                                    image,
-                                    clickable
-                                    FROM ibf_emoticons
-                                    WHERE skid='" . $id . "'"
+                "SELECT typed, image, clickable FROM ibf_emoticons WHERE skid='" . $id . "'"
             );
 
             if ($stmt->rowCount()) {
@@ -826,15 +804,8 @@ class PostParser
                 ? : Attachment::getById($id);
         } elseif ($p == 'p') {
             $stmt = $ibforums->db->query(
-                "SELECT
-                                    pid,
-                                    attach_id,
-                                    attach_type,
-                                    attach_file,
-                                    attach_size,
-                                    attach_hits
-                                    FROM ibf_posts
-                                    WHERE pid='" . $id . "'"
+                "SELECT pid, attach_id, attach_type, attach_file, attach_size, attach_hits" .
+                    "FROM ibf_posts WHERE pid='" . $id . "'"
             );
 
             $row = $stmt->fetch();
@@ -936,12 +907,8 @@ class PostParser
                 $id = 1;
             }
             $stmt = $ibforums->db->query(
-                "SELECT
-                                typed,
-                                image,
-                                clickable
-                                FROM ibf_emoticons
-                                WHERE skid='" . $id . "'"
+                "SELECT typed, image, clickable FROM ibf_emoticons" .
+                    "WHERE skid='" . $id . "'"
             );
 
             // /Song * smile skin
@@ -1262,9 +1229,9 @@ class PostParser
 
             // ******************************************** COMMENTED BY SONG **********************************************
 
-            //		$txt = preg_replace( "#\[email\](\S+?)\[/email\]#i"                                                                , "<a href='mailto:\\1'>\\1</a>", $txt );
-            //		$txt = preg_replace( "#\[email\s*=\s*\&quot\;([\.\w\-]+\@[\.\w\-]+\.[\.\w\-]+)\s*\&quot\;\s*\](.*?)\[\/email\]#i"  , "<a href='mailto:\\1'>\\2</a>", $txt );
-            //		$txt = preg_replace( "#\[email\s*=\s*([\.\w\-]+\@[\.\w\-]+\.[\w\-]+)\s*\](.*?)\[\/email\]#i"                       , "<a href='mailto:\\1'>\\2</a>", $txt );
+            // $txt = preg_replace( "#\[email\](\S+?)\[/email\]#i"                                                                , "<a href='mailto:\\1'>\\1</a>", $txt );
+            // $txt = preg_replace( "#\[email\s*=\s*\&quot\;([\.\w\-]+\@[\.\w\-]+\.[\.\w\-]+)\s*\&quot\;\s*\](.*?)\[\/email\]#i"  , "<a href='mailto:\\1'>\\2</a>", $txt );
+            // $txt = preg_replace( "#\[email\s*=\s*([\.\w\-]+\@[\.\w\-]+\.[\w\-]+)\s*\](.*?)\[\/email\]#i"                       , "<a href='mailto:\\1'>\\2</a>", $txt );
 
             // ******************************************** COMMENTED BY SONG **********************************************
 
@@ -1329,15 +1296,16 @@ class PostParser
         }
 
         // Swop \n back to <br>
-        //negram	$txt = preg_replace( "/\n/", "<br>", $txt );
-        /*
-     * очистить от переносов строки внутри структуры таблиц
-     * чтоб не получилось такого:
-     * <table><br>
-     * <tr><br><td></td>
-     * </tr>
-     * </table>
-     */
+        // negram $txt = preg_replace( "/\n/", "<br>", $txt );
+        /**
+         * @TODO
+         *  очистить от переносов строки внутри структуры таблиц
+         *  чтоб не получилось такого:
+         *  <table><br>
+         *  <tr><br><td></td>
+         *  </tr>
+         *  </table>
+         */
         $txt = preg_replace('!<(table|tr)>\s*<(td|th|tr)>!', '<$1><$2>', $txt);
         $txt = preg_replace('!</(th|td)>\s*</(tr)>!', '</$1></$2>', $txt);
         $txt = preg_replace('!</(th|td|tr)>\s*<(\1)>!', '</$1><$2>', $txt);
@@ -1426,14 +1394,14 @@ class PostParser
             $txt
         );
 
-        //--------------------------------------
-        // Auto parse URLs
-        //--------------------------------------
-        //It must to be after all text conversions to prevent interference with tags
-        //However there are additional problems with already created <a> and <img> tags,
-        //so first we skip urls after href= and src=
-        //second, we need to avoid situations like <a href="url">url</a> can be added by [url] tag
-        //so we add &shy; symbol to links created by [url] and check for it here
+        //  --------------------------------------
+        //   Auto parse URLs
+        //  --------------------------------------
+        //  It must to be after all text conversions to prevent interference with tags
+        //  However there are additional problems with already created <a> and <img> tags,
+        //  so first we skip urls after href= and src=
+        //  second, we need to avoid situations like <a href="url">url</a> can be added by [url] tag
+        //  so we add &shy; symbol to links created by [url] and check for it here
         $txt = preg_replace_callback(
         //better, but [:alnum:] don't understand cyr characters sometimes.
         //'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/([[:alpha:]][[:alnum:]-]*[[:alnum:]]\.?)+(:\d+)?([[:alnum:]_\.\-:\/\?\#\[\]@\!\$\&\'\(\)\*\+\,\;\=]|%[A-Z0-9]{2})*)#ie',
@@ -2044,7 +2012,7 @@ class PostParser
     /**************************************************/
     // unconvert:
     /**************************************************/
-    //todo Проверить, используется-ли эта функция: хранить всё в html мы уже давно перестали
+    //  todo Проверить, используется-ли эта функция: хранить всё в html мы уже давно перестали
     function unconvert($txt = "", $code = 1, $html = 0)
     {
 
@@ -2320,6 +2288,10 @@ class PostParser
             // vot: BAD MESSAGE. Require language file
 
             if (!$ibforums->member['id']) {
+                /**
+                 * @TODO Govnovariable detected
+                 * Переменной $extra не существует, надо бы что-то с этим поделать
+                 */
                 $extra .= " title='Подсветка синтаксиса доступна зарегистрированным участникам Форума.'";
                 $class = " code_collapsed ";
             } else {
