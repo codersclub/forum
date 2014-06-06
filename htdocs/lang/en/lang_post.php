@@ -222,3 +222,4 @@ $lang['rrr_options']  = "Enable view the topic";
 $lang['rrr_club_options']  = "only for the <a href=\"http://forum.sources.ru/index.php?c=9\">Club</a> <a href=\"http://forum.sources.ru/index.php?act=Members&max_results=30&filter=25&sort_order=asc&sort_key=name&st=0\">members</a>";
 $lang['post_history_empty']  = "History is empty";
 $lang['upload_errors']  = 'Errors occurred while processing uploads:';
+$lang['mod_posts_warning']  = "<div class='warning-message'><strong class='red-word'>Attention!</strong> Pre-moderation is enabled for this forum or personally for your profile / IP address. It means that your message will be visible for other members <b>only after reviewing it by a moderator</ b>. Please, do not resend the message again because in that case it can be will be classified as spam and removed at all. If you have questions, ask them directly to moderators or admininstrators via PM.</div>";
