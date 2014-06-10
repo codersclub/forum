@@ -171,7 +171,7 @@ return <<<EOF
   }
   //-->
   </script>
-          
+
 
 EOF;
 }
@@ -204,7 +204,7 @@ return <<<EOF
 				<td class='row1'><b>{$ibforums->lang['pe_option']} $id</b> <em>( {$ibforums->lang['pe_unused']} )</em></td>
                 <td class='row1'><input type='text' size='60' maxlength='250' name='POLL_$id' value=''></td>
                 </tr>
-                
+
 
 EOF;
 }
@@ -274,7 +274,7 @@ return <<<EOF
    </tr>
    </table>
 </div>
-           
+
 
 EOF;
 }
@@ -285,7 +285,7 @@ global $ibforums;
 return <<<EOF
 
 <div class='tableborder'>
- <div class='maintitle'>$posting_title</div>
+ <h2>$posting_title</h2>
 
 EOF;
 }
@@ -411,6 +411,11 @@ return <<<EOF
 EOF;
 }
 
+function poll_edit_bottom() {
+	return <<<EOF
+</table>
+EOF;
+}
 
 function poll_entry($id, $entry) {
 global $ibforums;
@@ -430,11 +435,11 @@ global $ibforums;
 return <<<EOF
 
   <table width='100%' cellspacing='1'>
-  <tr>	
+  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['data_name']}</strong></td>
   <td class='pformright'><input type='input' name='name' class='forminput' size='65'></td>
   </tr>
-  <tr>	
+  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['data_link']}</strong></td>
   <td class='pformright'><input type='input' name='link' class='forminput' size='65'></td>
   </tr>
@@ -514,7 +519,7 @@ return <<<EOF
     <option value="7">7 дней</option>
     <option value="14">14 дней</option>
     <option value="30">30 дней</option>
-        
+
     </optgroup></select>
    </td>
    <td class='pformright'><!-- --></td>
@@ -608,7 +613,7 @@ global $ibforums;
 return <<<EOF
   <script language='JavaScript' type='text/javascript'>
   <!--
-	function doInsert(value,txt) 
+	function doInsert(value,txt)
 	{
 		if ( value == -1 ) return;
 		var reason = document.WARN.reason;
@@ -706,7 +711,7 @@ return <<<EOF
   </ul>
  </div>
 </div>
- 	
+
 
 EOF;
 }
