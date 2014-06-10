@@ -41,7 +41,7 @@
     width: 100%;
     border-spacing: 2px;
     box-sizing: border-box;
-    -moz-box-sizing: border-box; /* мозилла такая мозилла */
+    -moz-box-sizing: border-box; /* РјРѕР·РёР»Р»Р° С‚Р°РєР°СЏ РјРѕР·РёР»Р»Р° */
 }
 
 .tag-mod__prefix {
@@ -77,7 +77,7 @@
     width: 100%;
     border-spacing: 2px;
     box-sizing: border-box;
-    -moz-box-sizing: border-box; /* мозилла такая мозилла */
+    -moz-box-sizing: border-box; /* РјРѕР·РёР»Р»Р° С‚Р°РєР°СЏ РјРѕР·РёР»Р»Р° */
 }
 
 .tag-ex__prefix {
