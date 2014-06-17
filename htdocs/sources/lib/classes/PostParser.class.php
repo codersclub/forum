@@ -1266,11 +1266,6 @@ class PostParser
 			$txt = preg_replace("#\[sub\](.*?)\[/sub\]#is", "<sub class='tag-sub'>\\1</sub>", $txt);
 			$txt = preg_replace("#\[sup\](.*?)\[/sup\]#is", "<sup class='tag-sup'>\\1</sup>", $txt);
 
-			// (c) (r) and (tm)
-			$txt = preg_replace("#\(c\)#i", "&copy;", $txt);
-			$txt = preg_replace("#\(tm\)#i", "&#153;", $txt);
-			$txt = preg_replace("#\(r\)#i", "&reg;", $txt);
-
 			// email tags
 			// [email]matt@index.com[/email]   [email=matt@index.com]Email me[/email]
 
