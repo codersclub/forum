@@ -22,7 +22,7 @@ function Error($message, $ad_email_one="", $ad_email_two="") {
 global $ibforums;
 return <<<EOF
 <div class="tableborder">
- <div class="maintitle"><img src='{$ibforums->vars['img_url']}/nav_m.gif' alt='' width='8' height='8'>&nbsp;{$ibforums->lang['error_title']}</div>
+ <div class="maintitle"><img src='{$ibforums->vars['img_url']}/nav_m.gif' alt=''>&nbsp;{$ibforums->lang['error_title']}</div>
 </div>
 <div class="tablefill e-error-message">
   {$ibforums->lang['exp_text']}<br><br>
@@ -455,7 +455,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jqcd/jqcd.js'></script>
 <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 
-<table id='b-header' border='0' width='100%' cellspacing='0' cellpadding='1'>
+<table id='b-header'>
 <tr id='logostrip'>
 <td class='b-logo-wrapper'><a class='e-logo-link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='e-logo-img' src='{$ibforums->vars['img_url']}/logo4.gif' alt='На главную' border='0'></a></td>
 

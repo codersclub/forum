@@ -1,6 +1,11 @@
 @import "../html/jqcd/jqcd.css";
 @import "./tags.css";
 
+table {
+    width: 100%;
+    border-spacing: 0;
+}
+
 img.icon_off{
 	opacity: 0.5;
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
@@ -780,31 +785,44 @@ span.b-post-links-post:before {
     margin-bottom: 3px;
 }
 
-.pm-list {
+.b-pm-list {
     border-spacing: 1px;
     width: 100%;
 }
 
-.pm-list td {
+.b-pm-list td {
     padding: 4px;
 }
 
-.pm-list a:link,
-.pm-list a:visited {
+.b-pm-list a:link,
+.b-pm-list a:visited {
     color: black;
 }
 
 
-.pm-list-column-icon,
-.pm-list-column-checkbox {
+.b-column_icon,
+.b-column_checkbox {
     text-align: center;
 }
 
-.pm-list-footer-column {
+.b-column_title {
+    text-align: left;
+}
+
+.b-column_sender,
+.b-column_receiver,
+.b-column_messages,
+.b-column_date {
+    text-align: center;
+}
+
+.b-tracking-list_unread tfoot td,
+.b-tracking-list_read tfoot td,
+.b-pm-list tfoot td {
     text-align: right;
 }
 
-.pm-unsent-list .pm-list-footer-column {
+.pm-unsent-list .b-pm-list-footer-column {
     text-align: center;
 }
 
@@ -879,4 +897,224 @@ span.b-post-links-post:before {
 
 .members-groups-list li:not(:last-child):after {
     content: ',';
+}
+
+.usercp-menu,
+.usercp-menu-group-items,
+.usercp-menu-item__inbox-subfolders {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.usercp-menu-wrapper {
+    vertical-align: top;
+}
+
+.usercp-menu-group-items {
+    margin-left: 1em;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.usercp-menu-group-items > li:before {
+    content: "\00b7";
+    padding-right: 0.5em;
+}
+
+.usercp-menu-item__delete_info-text {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.usercp-menu-item__inbox-subfolders {
+    list-style-image: url('/style_images/1/open.gif');
+    margin-left: 4em;
+}
+
+h3 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+h2 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+.quick_reply_form-container table,
+.usercp table {
+    width: 100%;
+}
+
+.b-buttons-wrapper {
+    text-align: center;
+}
+
+.b-bbc_codes__i-help-link {
+    font-weight: bold;
+}
+
+.b-bbc_codes__help:before,
+.b-bbc_codes__help:after {
+    content: "\00B7";
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    font-weight: bold;
+}
+
+.b-pm-list__content-top {
+    width: 100%;
+    padding:6px;
+}
+
+.b-pm-list__pages-top-wrapper {
+    margin-bottom: 1em;
+}
+
+.b-pm-list__amount-info-wrapper {
+    font-style: italic;
+}
+
+#b-header {
+    border: none;
+    width: 100%;
+    border-spacing: 0;
+}
+
+#b-header td {
+    padding: 0;
+}
+
+.b-top-navigation-row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.b-folder-clear__folders-list {
+    width: 100%;
+    border-spacing: 1px;
+}
+
+.b-folder-clear__folders-list td {
+    padding: 4px;
+}
+
+.b-folder-clear__row .b-folder-clear__column_name {
+    font-weight: bold;
+}
+
+.b-folder-clear__column_messages,
+.b-folder-clear__column_checkbox {
+    text-align: center;
+}
+
+.b-folder-clear__options,
+.b-folder-clear__buttons {
+    text-align: center;
+}
+
+.b-folder-rename__buttons {
+    text-align: center;
+}
+
+.b-address-add-form__fields-wrapper {
+    padding-top: 6px;
+    /*vertical-align: middle;*/
+}
+
+.b-address-list__none {
+    text-align: center;
+}
+
+.b-address-list {
+    width: 100%;
+    border-spacing: 1px;
+}
+
+.b-address-list td {
+    padding: 4px;
+}
+
+.b-address-list__wrapper {
+    margin: 0.5em 0;
+}
+
+.b-address-list__column_options {
+    width: 70%;
+}
+
+.b-address-list__row .b-address-list__column {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.b-address-list .b-profile-link {
+    font-weight: bold;
+}
+
+.b-address-list .b-address-description {
+    margin-left: 2em;
+}
+
+.b-address-list .b-address-description:before {
+    content: '[';
+    margin-right: 0.5em;
+}
+
+.b-address-list .b-address-description:after {
+    content: ']';
+    margin-left: 0.5em;
+}
+
+.b-address-list__options {
+    margin-left: 1em;
+}
+
+.b-address-edit-form table {
+    width: 100%;
+}
+
+.b-address-edit-form .b-form-element-wrapper {
+    vertical-align: middle;
+    text-align: left;
+}
+
+.b-address-edit-form .b-form-element__contact-name {
+    font-weight: bold;
+}
+
+.b-address-edit-form label,
+.b-address-edit-form label {
+    display: block;
+}
+
+.b-archive-form__options {
+    width: 100%;
+    padding: 6px;
+}
+
+.b-archive-form .b-option__label {
+    font-weight: bold;
+}
+
+.b-archive-form .b-option__value {
+    vertical-align: middle;
+}
+
+.b-tracking-list_read,
+.b-tracking-list_unread {
+    width: 100%;
+    text-align: center;
+    border-spacing: 1px;
+}
+
+.b-tracking-list_read td,
+.b-tracking-list_unread td
+{
+    padding: 4px;
 }

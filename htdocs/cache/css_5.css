@@ -68,11 +68,11 @@ option.sub { font-weight: bold; color: #555 }
 #photowrap { padding: 6px }
 #phototitle { font-size: 24px; border-bottom: 1px solid black }
 #photoimg { text-align: center; margin-top: 15px }
-#ucpmenu { line-height: 150%; width: 22%; background-color: #ffffff; border: 1px solid #cccccc }
-#ucpmenu p { padding: 2px 5px 6px 9px; margin: 0px }
-#ucpcontent { line-height: 150%; width: auto; background-color: #FFF }
+.usercp-menu-wrapper { line-height: 150%; width: 22%; background-color: #ffffff; border: 1px solid #cccccc }
+.usercp-menu-wrapper p { padding: 2px 5px 6px 9px; margin: 0px }
+.usercp-content { line-height: 150%; width: auto; background-color: #FFF; vertical-align: top; }
 .modsub { padding: 4px 4px 4px 4px; border-left-width: 0px; border-bottom-width: 1px; border-right-width: 0px; border-top-width: 0px; border-left-color: #cccccc; border-bottom-color: #d6d6d6; border-right-color: #e9e9e9; border-top-color: #e9e9e9; border-style: dashed; background-color: #f6f6f6 }
-#ucpcontent p { padding: 10px; margin: 0px }
+.usercp-content p { padding: 10px; margin: 0px }
 #ipsbanner { position: absolute; top: 1px; right: 5% }
 #logostrip { color: white; background-color: #3366a8; padding: 0px; margin: 0px; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/logostrip.gif); vertical-align: top }
 .logo { color: #FFFFFF }
@@ -83,8 +83,9 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { background-color: #f6f6f6; border: 1px solid #C2CFDF }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { padding: 4px; background-color: #BCD0ED }
-.pformstrip { font-variant: small-caps; font-weight: bold; padding: 2px; margin-top: 1px; color: #f9f9f9; background-color: #f9f9f9; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/tile_sub.gif) }
+h3, .pformstrip { font-variant: small-caps; font-weight: bold; padding: 2px; margin-top: 1px; color: #f9f9f9; background-color: #f9f9f9; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/tile_sub.gif) }
 .pformstrip a:link, .pformstrip a:active, .pformstrip a:visited { color: #f9f9f9 }
+h3 a:link, h3 a:active, h3 a:visited { color: #f9f9f9 }
 .pformleft { padding: 4px 4px 4px 4px; border-left-width: 0px; border-bottom-width: 1px; border-right-width: 1px; border-top-width: 0px; border-left-color: #c0c0c8; border-bottom-color: #c0c0c8; border-right-color: #c0c0c8; border-top-color: #e9e9e9; border-style: dashed; background-color: #fbfbfb; width: 10% }
 .pformleftw { padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF; background-color: #F5F9FD }
 .pformright { padding: 4px; border-left-width: 0px; border-bottom-width: 1px; border-right-width: 0px; border-top-width: 0px; border-left-color: #e9e9e9; border-bottom-color: #e6e6e6; border-right-color: #e9e9e9; border-top-color: #e9e9e9; border-style: dashed; background-color: #fbfbfb }
@@ -108,12 +109,13 @@ option.sub { font-weight: bold; color: #555 }
 .dlight { background-color: #ffffff }
 .titlemedium { font-size: 10px; font-weight: bold; padding: 2px; margin: 0px; color: #f9f9f9; background-color: #6688CC }
 .titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #f9f9f9 }
-.maintitle { color: #FFFFFF; background-color: #3366CC; vertical-align: middle; font-weight: bold; letter-spacing: 1px; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/tile_sub.gif); font-size: 12px; padding-top: 8px; padding-bottom: 8px; padding-left: 6px }
-.maintitle a, .maintitle a:link, .maintitle a:visited, .maintitle a:active { text-decoration: none; color: #FFFFFF }
-.maintitle a:hover { text-decoration: underline }
+h2, .maintitle { color: #FFFFFF; background-color: #3366CC; vertical-align: middle; font-weight: bold; letter-spacing: 1px; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/tile_sub.gif); font-size: 12px; padding-top: 8px; padding-bottom: 8px; padding-left: 6px }
+h2 a, h2 a:link, h2 a:visited, h2 a:active, .maintitle a, .maintitle a:link, .maintitle a:visited, .maintitle a:active { text-decoration: none; color: #FFFFFF }
+h2 a:hover, .maintitle a:hover { text-decoration: underline }
+h2 { color: #000000; }
 .plainborder { background-color: #ffffff; border: 1px solid #e6e6e6 }
 .footer, .footer a:link, .footer a:visited, .footer a:active { height: 14; background-image: url(http://forum.sources.ru/style_images/NBS-Snow-262/mainfoot.gif); background-repeat: repeat-x; color: #ffffff; font-size: 9px; vertical-align: top }
-.tableborder { background-color: #e8e8ff; border: 1px solid #cccccc }
+.b-pm-list__stats, .tableborder { background-color: #e8e8ff; border: 1px solid #cccccc }
 .tablefill { padding: 6px; background-color: #Ffffff }
 .tablepad { padding: 6px; background-color: #Ffffff }
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
@@ -148,7 +150,7 @@ option.sub { font-weight: bold; color: #555 }
 .googlepagelinks { font-size: 1.1em; letter-spacing: 1px }
 .googlesmall, .googlesmall a:link, .googlesmall a:active, .googlesmall a:visited { font-size: 10px; color: #666666 }
 .voteprefix {color:green}
-.e-new_warning_notice, .movedprefix {color:red}
+.delete_info__warning, .e-new_warning_notice, .movedprefix {color:red}
 .mirrorprefix {
 	color:green;
 }
@@ -327,14 +329,36 @@ ul.b-breadcrumbs-top li:first-child:before {
     padding-bottom: 5px;
 }
 
-.pm-list-row { background-color: #ffffff }
-.pm-list-header-row, .pm-list-footer-row { font-size: 10px; font-weight: bold; padding: 2px; margin: 0px; color: #f9f9f9; background-color: #6688CC }
-.pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #f9f9f9 }
-.pm-list-row.selected { background-color: #eaeaea }
+/* copied form titlemedium */
+.b-tracking-list_read tr { background-color: #ffffff }
+.b-tracking-list_read thead tr, .b-tracking-list_read tfoot tr { font-size: 10px; font-weight: bold; color: #f9f9f9; background-color: #6688CC }
+.b-tracking-list_read th, .b-tracking-list_read tfoot td { padding: 2px; margin: 0px;}
+.b-tracking-list_read thead tr  a:link, .b-tracking-list_read thead tr  a:visited, .b-tracking-list_read thead tr  a:active { text-decoration: underline; color: #f9f9f9 }
+.b-tracking-list_read tr.selected { background-color: #eaeaea }
+
+.b-tracking-list_unread tr { background-color: #ffffff }
+.b-tracking-list_unread thead tr, .b-tracking-list_unread tfoot tr { font-size: 10px; font-weight: bold; color: #f9f9f9; background-color: #6688CC }
+.b-tracking-list_unread th, .b-tracking-list_unread tfoot td { padding: 2px; margin: 0px;}
+.b-tracking-list_unread thead tr  a:link, .b-tracking-list_unread thead tr  a:visited, .b-tracking-list_unread thead tr  a:active { text-decoration: underline; color: #f9f9f9 }
+.b-tracking-list_unread tr.selected { background-color: #eaeaea }
+
+.b-pm-list tr { background-color: #ffffff }
+.b-pm-list thead tr, .b-pm-list tfoot tr { font-size: 10px; font-weight: bold; color: #f9f9f9; background-color: #6688CC }
+.b-pm-list th, .b-pm-list tfoot td { padding: 2px; margin: 0px;}
+.b-pm-list thead tr  a:link, .b-pm-list thead tr  a:visited, .b-pm-list thead tr  a:active { text-decoration: underline; color: #f9f9f9 }
+.b-pm-list tr.selected { background-color: #eaeaea }
+
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
 }
 .pre_code {
     color: black;
     font-family: Verdana, Tahoma, Arial, sans-serif;
+}
+
+.usercp-menu-item__new_message a,
+.usercp-menu-item__inbox a,
+.usercp-menu-item__sent a,
+.usercp-menu-item__cancel_delete_account a {
+    font-weight: bold;
 }

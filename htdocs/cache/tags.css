@@ -130,9 +130,12 @@
 .tag-quote-prefix {
     font-weight: bold;
 }
+
 .tag-code {
     font-weight: normal;
     font-style: normal;
 }
 
-
+.tag-table {
+    width: auto;
+}

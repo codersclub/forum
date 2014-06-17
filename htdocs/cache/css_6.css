@@ -61,10 +61,10 @@ option.sub { font-weight: bold; color: #555 }
 #photowrap { padding: 6px }
 #phototitle { font-size: 24px; border-bottom: 1px solid black }
 #photoimg { text-align: center; margin-top: 15px }
-#ucpmenu { line-height: 150%; width: 22%; border: 1px solid #345487; background-color: #F5F9FD }
-#ucpmenu p { padding: 2px 5px 6px 9px; margin: 0px }
-#ucpcontent { background-color: #F5F9FD; border: 1px solid #345487; line-height: 150%; width: auto }
-#ucpcontent p { padding: 10px; margin: 0px }
+.usercp-menu-wrapper { line-height: 150%; width: 22%; border: 1px solid #345487; background-color: #F5F9FD }
+.usercp-menu-wrapper p { padding: 2px 5px 6px 9px; margin: 0px }
+.usercp-content { background-color: #F5F9FD; border: 1px solid #345487; line-height: 150%; width: auto; vertical-align: top; }
+.usercp-content p { padding: 10px; margin: 0px }
 #ipsbanner { position: absolute; top: 1px; right: 5% }
 #logostrip { background-color: #78B1F3; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_back.gif) }
 #top-menu { border: 1px solid #BCD0ED; background-color: #DFE6EF; font-size: 10px; margin: 3px 0px 3px 0px; color: #3A4F6C; font-weight: bold }
@@ -72,7 +72,7 @@ option.sub { font-weight: bold; color: #555 }
 #userlinks { border: 1px solid #C2CFDF; background-color: #F0F5FA }
 .b-navigation-wrapper { font-weight: bold; padding: 6px 0px 6px 0px }
 .activeuserstrip { background-color: #BCD0ED; padding: 6px }
-.pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
+h3, .pformstrip { background-color: #D1DCEB; color: #3A4F6C; font-weight: bold; padding: 7px; margin-top: 1px }
 .pformleft { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 10%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformleftw { background-color: #F5F9FD; padding: 6px; margin-top: 1px; width: 40%; border-top: 1px solid #C2CFDF; border-right: 1px solid #C2CFDF }
 .pformright { background-color: #F5F9FD; padding: 6px; margin-top: 1px; border-top: 1px solid #C2CFDF }
@@ -97,11 +97,13 @@ option.sub { font-weight: bold; color: #555 }
 .dlight { background-color: #EEF2F7 }
 .titlemedium { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-color: #ABBFE1; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif) }
 .titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline; color: #3A4F6C }
-.maintitle { vertical-align: middle; font-weight: bold; color: #FFF; padding: 8px 0px 8px 6px;background-color: #779FD8; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_back.gif)}
-.maintitle a, .maintitle a:link, .maintitle a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
-.maintitle a:hover { text-decoration: underline }
+h2, .maintitle { vertical-align: middle; font-weight: bold; color: #FFF; padding: 8px 0px 8px 6px;background-color: #779FD8; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_back.gif)}
+h2 a, h2 a:link, h2 a:visited, h2  a:active, .maintitle a, .maintitle a:link, .maintitle a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
+h2 a:hover, .maintitle a:hover { text-decoration: underline }
+
+h2 { color: #000000; }
 .plainborder { border: 1px solid #345487; background-color: #F5F9FD }
-.tableborder { border: 1px solid #345487; background-color: #FFF; }
+.b-pm-list__stats, .tableborder { border: 1px solid #345487; background-color: #FFF; }
 .tablefill { border: 1px solid #345487; background-color: #F5F9FD; padding: 6px }
 .tablepad { background-color: #F5F9FD; padding: 6px }
 .tablebasic { width: 100%; padding: 0px 0px 0px 0px; margin: 0px; border: 0px }
@@ -123,7 +125,7 @@ option.sub { font-weight: bold; color: #555 }
 .blue { color: blue; font-weight: bold }
 .orange { color: #F90; font-weight: bold }
 .voteprefix {color:green}
-.e-new_warning_notice, .movedprefix {color:red}
+.delete_info__warning, .e-new_warning_notice, .movedprefix {color:red}
 .mirrorprefix {
 	color:green;
 }
@@ -282,14 +284,36 @@ ul.b-breadcrumbs-top li:first-child{
     padding-bottom: 5px;
 }
 
-.pm-list-row { background-color: #EEF2F7 }
-.pm-list-header-row, .pm-list-footer-row { font-weight: bold; color: #3A4F6C; padding: 7px; margin: 0px; background-color: #ABBFE1; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif) }
-.pm-list-header-row  a:link, .pm-list-header-row  a:visited, .pm-list-header-row  a:active { text-decoration: underline; color: #3A4F6C }
-.pm-list-row.selected { background-color: #DFE6EF }
+/* copied form titlemedium */
+.b-tracking-list_read tr { background-color: #EEF2F7 }
+.b-tracking-list_read thead tr, .b-tracking-list_read tfoot tr { font-weight: bold; color: #3A4F6C; background-color: #ABBFE1; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif) }
+.b-tracking-list_read th, .b-tracking-list_read tfoot td { padding: 7px; margin: 0px; }
+.b-tracking-list_read thead tr  a:link, .b-tracking-list_read thead tr  a:visited, .b-tracking-list_read thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-tracking-list_read tr.selected { background-color: #DFE6EF }
+
+.b-tracking-list_unread tr { background-color: #EEF2F7 }
+.b-tracking-list_unread thead tr, .b-tracking-list_unread tfoot tr { font-weight: bold; color: #3A4F6C; background-color: #ABBFE1; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif) }
+.b-tracking-list_unread th, .b-tracking-list_unread tfoot td { padding: 7px; margin: 0px; }
+.b-tracking-list_unread thead tr  a:link, .b-tracking-list_unread thead tr  a:visited, .b-tracking-list_unread thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-tracking-list_unread tr.selected { background-color: #DFE6EF }
+
+.b-pm-list tr { background-color: #EEF2F7 }
+.b-pm-list thead tr, .b-pm-list tfoot tr { font-weight: bold; color: #3A4F6C; background-color: #ABBFE1; background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif) }
+.b-pm-list th, .b-pm-list tfoot td { padding: 7px; margin: 0px; }
+.b-pm-list thead tr  a:link, .b-pm-list thead tr  a:visited, .b-pm-list thead tr  a:active { text-decoration: underline; color: #3A4F6C }
+.b-pm-list tr.selected { background-color: #DFE6EF }
+
 .tag-quote {
     font-family: verdana, tahoma, arial, sans-serif;
 }
 .pre_code {
     color: black;
     font-family: Verdana, Tahoma, Arial, sans-serif;
+}
+
+.usercp-menu-item__new_message a,
+.usercp-menu-item__inbox a,
+.usercp-menu-item__sent a,
+.usercp-menu-item__cancel_delete_account a {
+    font-weight: bold;
 }

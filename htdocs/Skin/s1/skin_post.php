@@ -13,10 +13,10 @@ $output = <<<EOF
 function chk_multi() {
 document.REPLIER.multi_poll.checked = true
 document.REPLIER.weighted_poll.checked = false;
-} 
+}
 function off_weighted() {
 document.REPLIER.weighted_poll.checked = false;
-} 
+}
 </script>
 
 <tr>
@@ -30,7 +30,7 @@ document.REPLIER.weighted_poll.checked = false;
  {$ibforums->lang['pe_min']}: <select name='multi_poll_min' class='forminput' onChange='javscript:chk_multi()'>
 EOF;
 for ($i=1; $i<$ibforums->vars['max_poll_choices']; $i++) {
- if ($_POST['multi_poll_min'] == $i) 
+ if ($_POST['multi_poll_min'] == $i)
  	  $output .= "<option value='$i' selected>$i</option>";
  else $output .= "<option value='$i'>$i</option>";
 }
@@ -39,7 +39,7 @@ $output .= <<<EOF
  {$ibforums->lang['pe_max']}: <select name='multi_poll_max' class='forminput' onChange='javscript:chk_multi()'>
 EOF;
 for ($i=1; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
- if ($_POST['multi_poll_max'] == $i) 
+ if ($_POST['multi_poll_max'] == $i)
  	  $output .= "<option value='$i' selected>$i</option>";
  else $output .= "<option value='$i'>$i</option>";
 }
@@ -52,10 +52,10 @@ $output .= <<<EOF
 function chk_weighted() {
 document.REPLIER.weighted_poll.checked = true;
 document.REPLIER.multi_poll.checked = false;
-} 
+}
 function off_multi() {
 document.REPLIER.multi_poll.checked = false;
-} 
+}
 </script>
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['pe_make_weighted']}</b></td>
@@ -64,7 +64,7 @@ document.REPLIER.multi_poll.checked = false;
 {$ibforums->lang['pe_places']}: <select name='weighted_poll_places' class='forminput' onChange='javscript:chk_weighted()'>
 EOF;
 for ($i=2; $i<($ibforums->vars['max_poll_choices']+1); $i++) {
- if ($_POST['weighted_poll_places'] == $i) 
+ if ($_POST['weighted_poll_places'] == $i)
  	  $output .= "<option value='$i' selected>$i</option>";
  else $output .= "<option value='$i'>$i</option>";
 }
@@ -102,7 +102,7 @@ EOF;
 function rights_options($checked) {
 global $ibforums;
 return <<<EOF
-
+<table>
 <tr>
    <td class='pformstrip' colspan='2'>{$ibforums->lang['rr_options']}</td>
   </tr>
@@ -110,17 +110,13 @@ return <<<EOF
     <td class='pformleft'>{$ibforums->lang['rrr_options']}</td>
     <td class='pformright'><input type='checkbox' name='club_only' value=1 $checked class='forminput'>&nbsp;{$ibforums->lang['rrr_club_options']}</td>
   </tr>
-
+</table>
 EOF;
 }
 
 
 function nameField_reg() {
-global $ibforums;
 return <<<EOF
-
-
-
 EOF;
 }
 
@@ -128,7 +124,7 @@ EOF;
 function mod_options($jump) {
 global $ibforums;
 return <<<EOF
-
+<table>
 <tr>
    <td class='pformstrip' colspan='2'>{$ibforums->lang['tt_options']}</td>
   </tr>
@@ -136,7 +132,7 @@ return <<<EOF
     <td class='pformleft'>{$ibforums->lang['mod_options']}</td>
     <td class='pformright'>$jump</select></td>
   </tr>
-
+</table>
 EOF;
 }
 
@@ -178,9 +174,8 @@ function poll_box($data, $extra="") {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td colspan='2' class='pformstrip'>{$ibforums->lang['tt_poll_settings']}</td>
-</tr>
+<h3>{$ibforums->lang['tt_poll_settings']}</h3>
+<table>
 <tr>
   <td class='pformleft'><strong>{$ibforums->lang['poll_question']}</strong></td>
   <td class='pformright'><input type='text' size='40' maxlength='250' name='pollq' value='{$ibforums->input['pollq']}' class='textinput'></td>
@@ -189,6 +184,7 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['poll_choices']}<br><br>$extra</td>
   <td class='pformright'><textarea cols='60' rows='12' name='PollAnswers' class='textinput'>$data</textarea><!--IBF.POLL_OPTIONS--></td>
 </tr>
+</table>
 
 EOF;
 }
@@ -210,7 +206,7 @@ EOF;
 function quote_box($data) {
 global $ibforums;
 return <<<EOF
-
+<table>
 <tr>
   <td colspan='2' class='pformstrip'>{$ibforums->lang['post_to_quote']}</td>
 </tr>
@@ -218,7 +214,7 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['post_to_quote_txt']}</td>
   <td class='pformright'><textarea cols='60' rows='12' wrap='soft' name='QPost' class='textinput'>{$data['post']}</textarea><input type='hidden' name='QAuthor' value='{$data['author_id']}'><input type='hidden' name='QAuthorN' value='{$data['author_name']}'><input type='hidden' name='QDate'   value='{$data['post_date']}'></td>
 </tr>
-
+</table>
 EOF;
 }
 
@@ -226,7 +222,7 @@ EOF;
 function preview($data, $upload_erros = '') {
 global $ibforums;
 $upload_erros = $this->upload_errors($upload_erros);
-// 
+//
 return <<<EOF
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['post_preview']}</div>
@@ -239,15 +235,15 @@ EOF;
 }
 
 /**
- * 
- * 
+ *
+ *
  * @param array $data
  * 0 => array(
  * 	 'time'    => 'Today 12:15',
  *   'member'  => 'ivan',
  *   'old_text'=> 'Hello',
  *   'new_text'=> 'Hello!'
- *  ) 
+ *  )
  */
 function edit_history(array $data, $forum_id, $topic_id, $post_id) {
 global $ibforums;
@@ -256,7 +252,7 @@ $classes = array('post1', 'post2');
 $i = 0;
 if (count($data)){
 foreach ($data as $history_item) {
-  $class = $classes[++$i % 2]; 
+  $class = $classes[++$i % 2];
   $res .= <<<EOF
   <table width="100%" border="0" cellspacing="1" cellpadding="3">
   <tr>
@@ -283,7 +279,7 @@ EOF;
 	<div class="darkrow1" style="height:5px">
 </div>
 EOF;
-	
+
 }
 $res .= '</div>';
 return $res;
@@ -305,9 +301,8 @@ function topictitle_fields($data) {
 global $ibforums;
 return <<<EOF
 
-<tr>
- <td colspan="2" class='pformstrip'>{$ibforums->lang['tt_topic_settings']}</td>
-</tr>
+<h3>{$ibforums->lang['tt_topic_settings']}</h3>
+<table>
 <tr>
   <td class='pformleft'>{$ibforums->lang['topic_title']}</td>
   <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicTitle' value='{$data[TITLE]}' tabindex='1' class='forminput'></td>
@@ -316,6 +311,7 @@ return <<<EOF
    <td class='pformleft'>{$ibforums->lang['topic_desc']}</td>
    <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicDesc' value='{$data[DESC]}' tabindex='2' class='forminput'></td>
 </tr>
+</table>
 
 EOF;
 }
@@ -411,11 +407,9 @@ EOF;
 function edit_upload_field($data, $files) {
 global $ibforums;
 $res = <<<EOF
-
-<tr> 
-          <td class="pformstrip" colspan='2'>{$ibforums->lang['upload_title']}</td>
-        </tr>
-        <tr> 
+<h3>{$ibforums->lang['upload_title']}</h3>
+<table>
+        <tr>
           <td class='pformleft'>{$ibforums->lang['upload_text']} $data</td>
           <td class='pformright'>
 		<table cellpadding='4' cellspacing='0' width='100%' border='0'>
@@ -441,7 +435,7 @@ $res .= <<<EOF
 		    <button onclick="addUpload()" type="button">{$ibforums->lang['upload_add_one_file']}</button>
 			</td>
         </tr>
-
+</table>
 EOF;
 return $res;
 }
@@ -519,10 +513,7 @@ EOF;
 function table_top($data) {
 global $ibforums;
 return <<<EOF
-
-<table class='tableborder' cellpadding="0" cellspacing="0" width="100%">
-<tr><td class='maintitle' colspan='2'>&nbsp;&nbsp;$data</td></tr>
-
+<H2>$data</H2>
 EOF;
 }
 
@@ -530,7 +521,7 @@ EOF;
 function nameField_unreg($data) {
 global $ibforums;
 return <<<EOF
-
+<table>
 <tr>
  <td colspan='2' class='pformstrip'>{$ibforums->lang['unreg_namestuff']}</td>
 </tr>
@@ -538,7 +529,7 @@ return <<<EOF
   <td class='pformleft'>{$ibforums->lang['guest_name']}</td>
   <td class='pformright'><input type='text' size='40' maxlength='40' name='UserName' value='$data' class='textinput'></td>
 </tr>
-
+</table>
 EOF;
 }
 
@@ -547,7 +538,7 @@ EOF;
 function PostIcons() {
 global $ibforums;
 return <<<EOF
-
+<table>
 <tr>
   <td class='pformleft'>{$ibforums->lang['post_icon']}</td>
   <td class='pformright'>
@@ -556,7 +547,7 @@ return <<<EOF
     <input type="radio" class="radiobutton" name="iconid" value="0" checked="checked">&nbsp;&nbsp;[ Use None ]
   </td>
  </tr>
-
+</table>
 EOF;
 }
 
@@ -565,15 +556,11 @@ function EndForm($data) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class='pformstrip' align='center' style='text-align:center' colspan='2'>
+<div class="b-buttons-wrapper pformstrip">
 	<input type="submit" name="submit" value="$data" tabindex='4' class='forminput' accesskey='s'>&nbsp;
 	<input type="submit" name="preview" value="{$ibforums->lang['button_preview']}" tabindex='5' class='forminput'>
-  </td>
-</tr>
-</table>
+</div>
 </form>
-<br>
 <br clear="all">
 
 EOF;
@@ -583,10 +570,8 @@ EOF;
 function Upload_field($data) {
 global $ibforums;
 return <<<EOF
-
-<tr>
-    <td colspan='2' class='pformstrip'>{$ibforums->lang['upload_title']}</td>
-  </tr>
+<h3>{$ibforums->lang['upload_title']}</h3>
+<table>
   <tr>
     <td class='pformleft'>{$ibforums->lang['upload_text']} $data</td>
     <td class='pformright'>
@@ -598,7 +583,7 @@ return <<<EOF
     <button onclick="addUpload()" type="button">{$ibforums->lang['upload_add_one_file']}</button>
     </td>
   </tr>
-
+</table>
 EOF;
 }
 
@@ -631,10 +616,11 @@ global $ibforums;
 $ipicture = $ibforums->vars['use_ipicture_button']
 	? "<input type='button' value=' iPicture ' class='codebuttons' name='ipicture' title='{$ibforums->lang['ipicture_title']}' onclick='PopUp(\"http://ipicture.ru/\", \"iPicture\", 640,480,1,1,1)'>"
 	: "";
-		
+
 return <<<EOF
 
-<tr><td class='pformstrip' colspan='2'>{$ibforums->lang['ib_code_buttons']}</td></tr>
+<h3>{$ibforums->lang['ib_code_buttons']}</h3>
+<table>
 <tr>
    <td class='pformright' align='center' colspan='2'>
      <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
@@ -687,11 +673,9 @@ return <<<EOF
 	 <input value='tr' onclick='simpletag("tr")' class='codebuttons' name='tr' title='Ряд' type='button'>
 	 <input value='td' onclick='simpletag("td")' class='codebuttons' name='td' title='Ячейка' type='button'>
 	 <input value='th' onclick='simpletag("th")' class='codebuttons' name='th' title='Шапка' type='button'>
-			 
-	   <!-- barazuk: [HR] -->
 	   <input type='button' value='hr' onclick='doInsert("[HR]", true)' class='codebuttons' name='hr' title='Horizontal Line'>&nbsp;
 
-			 
+
 
 	   {$syntax_select}
 
@@ -705,7 +689,7 @@ return <<<EOF
 
            <!-- iPicture.ru Button -->
            {$ipicture}
-	   
+
            <input type='button' accesskey='y' value='TRANSLIT' onClick='rusLang()'class='codebuttons' name="TRANSLIT">
            <input type='button' accesskey='r' value='Русская клавиатура' onclick='javascript:keyb_pop()' class='codebuttons'>
 
@@ -714,15 +698,16 @@ return <<<EOF
 	   {$mod_buttons}
    </td>
 </tr>
+</table>
+<table>
 {$topic_decided}
-<tr>
-   <td class='pformstrip' colspan='2'>{$ibforums->lang['post']}</td>
-</tr>
+</table>
+<h3>{$ibforums->lang['post']}</h3>
+<table>
 <tr>
    <td class='pformleft' align='center' width='10%'>
 	   <!--SMILIE TABLE-->
-	   <br>
-           <div class='desc'><strong>&middot; <a href='javascript:bbc_pop()'>{$ibforums->lang['bbc_help']}</a> &middot;</strong></div>
+           <div class="b-bbc_codes__help"><a class="b-bbc_codes__i-help-link" href='javascript:bbc_pop()'>{$ibforums->lang['bbc_help']}</a></div>
    </td>
    <td class="pformright" valign='top'>
     <textarea name='Post' rows='24'
@@ -743,6 +728,7 @@ return <<<EOF
 	 <!--IBF.MERGE_POST_LABEL-->
 	 </td>
 </tr>
+</table>
 
 EOF;
 }

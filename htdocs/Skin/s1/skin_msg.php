@@ -8,19 +8,19 @@ function address_add($mem_to_add) {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form class="b-address-add-form" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='09'>
-<div class="pformstrip">{$ibforums->lang['member_add']}</div>
-<table style="padding:6px">
+<h3 class="b-title">{$ibforums->lang['member_add']}</h3>
+<table class="b-address-add-form__fields-wrapper">
 <tr>
- <td valign='middle'>{$ibforums->lang['enter_a_name']}<br><input type='text' name='mem_name' size='20' maxlength='40' value='$mem_to_add' class='forminput'></td>
- <td valign='middle'>{$ibforums->lang['enter_desc']}<br><input type='text' name='mem_desc' size='30' maxlength='60' value='' class='forminput'></td>
- <td valign='middle'>{$ibforums->lang['show_online']}<br><select name='show_online' class='forminput'><option value='yes'>{$ibforums->lang['yes']}<option value='no' selected="selected">{$ibforums->lang['no']}</select></td>
- <td valign='middle'>{$ibforums->lang['allow_msg']}<br><select name='allow_msg' class='forminput'><option value='yes' selected="selected">{$ibforums->lang['yes']}<option value='no'>{$ibforums->lang['no']}</select></td>
+ <td class="b-form-element b-form-element_name"><label>{$ibforums->lang['enter_a_name']}</label><input type='text' name='mem_name' size='20' maxlength='40' value='$mem_to_add' class='forminput'></td>
+ <td class="b-form-element b-form-element_description"><label>{$ibforums->lang['enter_desc']}</label><input type='text' name='mem_desc' size='30' maxlength='60' value='' class='forminput'></td>
+ <td class="b-form-element b-form-element_show-online"><label>{$ibforums->lang['show_online']}</label><select name='show_online' class='forminput'><option value='yes'>{$ibforums->lang['yes']}<option value='no' selected="selected">{$ibforums->lang['no']}</select></td>
+ <td class="b-form-element b-form-element_allow-messages"><label>{$ibforums->lang['allow_msg']}</label><select name='allow_msg' class='forminput'><option value='yes' selected="selected">{$ibforums->lang['yes']}<option value='no'>{$ibforums->lang['no']}</select></td>
 </tr>
 </table>
-<div class="pformstrip" align="center"><input type="submit" value="{$ibforums->lang['submit_address']}" class='forminput'></div>
+<div class="b-buttons-wrapper pformstrip"><input type="submit" value="{$ibforums->lang['submit_address']}" class='forminput'></div>
 </form>
 
 EOF;
@@ -47,7 +47,7 @@ var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',l
 }
 //-->
 </script>
-<div class="pformstrip">{$data['msg']['title']}</div>
+<h3>{$data['msg']['title']}</h3>
 <div align="right" style="padding:6px;font-weight:bold">
   [ <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MSID={$data['msg']['msg_id']}&amp;MID={$data['member']['id']}&amp;fwd=1'>{$ibforums->lang['vm_forward_pm']}</a> | <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MID={$data['member']['id']}&amp;MSID={$data['msg']['msg_id']}'>{$ibforums->lang['pm_reply_link']}</a> ]
 </div>
@@ -117,17 +117,16 @@ function mass_pm_box($names="") {
 global $ibforums;
 return <<<EOF
 
-
-<tr>
-<td colspan='3' class='pformstrip'>{$ibforums->lang['carbon_copy_title']}</td>
-</tr>
+<h3 class="b-send_pm__cc-title">{$ibforums->lang['carbon_copy_title']}</h3>
+<table class="b-send_pm__cc">
 <tr>
 <td class='pformleft'>{$ibforums->lang['carbon_copy_desc']}</td>
-<td class='pformright' colspan='2'>
- <textarea name='carbon_copy' rows='5' cols='40'>$names</textarea><br>
- <input type='button' class='forminput' name='findusers' onclick='find_users()' value='{$ibforums->lang['find_user_names']}'>
+<td class='pformright'>
+ <div class="b-send_pm__cc-names-wrapper"><textarea class="b-send_pm__cc-names" name='carbon_copy' rows='5' cols='40'>$names</textarea></div>
+ <input type='button' class='forminput b-send_pm__cc-names-submit' name='findusers' onclick='find_users()' value='{$ibforums->lang['find_user_names']}'>
 </td>
 </tr>
+</table>
 
 EOF;
 }
@@ -146,34 +145,33 @@ function find_users()
 }
 //-->
 </script>
-<form name='REPLIER' action="{$ibforums->base_url}" method="post" onsubmit='return ValidateForm(1)'>
+<form class="b-send-pm-form" name='REPLIER' action="{$ibforums->base_url}" method="post" onsubmit='return ValidateForm(1)'>
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='04'>
 <input type='hidden' name='MODE' value='01'>
 <input type='hidden' name='OID'  value='{$data['OID']}'>
 
-<div class='tableborder'>
-<table width="100%" cellspacing="0">
+<div class='b-send-pm-wrapper tableborder'>
+<h3 class="b-receiver__header">{$ibforums->lang['to_whom']}</h3>
+<table class="b-receiver">
 <tr>
-  <td colspan='3' class='pformstrip'>{$ibforums->lang['to_whom']}</td>
+  <td class='b-receiver__select-user__title pformleft'><label>{$ibforums->lang['address_list']}</label></td>
+  <td class='b-receiver__select-user pformright'>{$data[CONTACTS]}</td>
 </tr>
 <tr>
-  <td class='pformleft'>{$ibforums->lang['address_list']}</td>
-  <td class='pformright' colspan='2'>{$data[CONTACTS]}&nbsp;</td>
+  <td class='pformleft b-receiver__username__title'><label>{$ibforums->lang['enter_name']}</label></td>
+  <td class='pformright b-receiver__username'><input type='text' name='entered_name' size='50' value='{$data[N_ENTER]}' tabindex="1" class='forminput'></td>
 </tr>
-<tr>
-  <td class='pformleft'>{$ibforums->lang['enter_name']}</td>
-  <td class='pformright' colspan='2'><input type='text' name='entered_name' size='50' value='{$data[N_ENTER]}' tabindex="1" class='forminput'></td>
-</tr>
+</table>
 <!--IBF.MASS_PM_BOX-->
-<tr>
-  <td colspan='3' class='pformstrip'>{$ibforums->lang['enter_message']}</td>
-</tr>
-<tr>
-  <td class='pformleft'>{$ibforums->lang['msg_title']}</td>
-  <td class='pformright' colspan='2'><input type='text' name='msg_title' size='90' tabindex="2" maxlength='128' value='{$data[O_TITLE]}' class='forminput'></td>
-</tr>
 
+<h3 class="b-message-title__header">{$ibforums->lang['enter_message']}</h3>
+<table class="b-message-title">
+<tr>
+  <td class='pformleft b-message-title__title'><label>{$ibforums->lang['msg_title']}</label></td>
+  <td class='pformright b-message-title'><input type='text' name='msg_title' size='90' tabindex="2" maxlength='128' value='{$data[O_TITLE]}' class='forminput'></td>
+</tr>
+</table>
 EOF;
 }
 
@@ -182,12 +180,12 @@ function inbox_row($data) {
 global $ibforums;
 return <<<EOF
 
-  <tr class="pm-list-row" data-msg-id="{{$data['msg']['msg_id']}}" data-read="{$data['msg']['read_state']}" >
-	<td class="pm-list-column-icon">{$data['msg']['icon']}</td>
-	<td class="pm-list-column-title" ><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
-	<td class="pm-list-column-sender"><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>
-	<td class="pm-list-column-date">{$data['msg']['date']}</td>
-	<td class="pm-list-column-checkbox"><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
+  <tr class="b-row" data-msg-id="{{$data['msg']['msg_id']}}" data-read="{$data['msg']['read_state']}" >
+	<td class="b-column_icon">{$data['msg']['icon']}</td>
+	<td class="b-column_title" ><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
+	<td class="b-column_sender"><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>
+	<td class="b-column_date">{$data['msg']['date']}</td>
+	<td class="b-column_checkbox"><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
   </tr>
 
 EOF;
@@ -197,9 +195,10 @@ EOF;
 function end_inbox($vdi_html, $amount_info="", $pages="") {
 global $ibforums;
 return <<<EOF
+</tbody>
 <tfoot>
-	<tr class="pm-list-footer-row">
-		<td class='pm-list-footer-column' colspan='5'>
+	<tr class="b-row">
+		<td class='b-column' colspan='5'>
 			<input type='submit' name='move' value='{$ibforums->lang['move_button']}' class='forminput'> $vdi_html {$ibforums->lang['move_or_delete']} <input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}
 		</td>
 	</tr>
@@ -207,8 +206,8 @@ return <<<EOF
 </table>
 </div>
 </form>
-<div class="wrapmini" style="padding:6px"><{M_READ}>&nbsp;{$ibforums->lang['icon_read']}<br><{M_UNREAD}>&nbsp;{$ibforums->lang['icon_unread']}</div>
-<div align="right" style="padding:6px">$pages<br><i>$amount_info</i></div>
+<div class="wrapmini b-pm-list__legend" style="padding:6px"><{M_READ}>&nbsp;{$ibforums->lang['icon_read']}<br><{M_UNREAD}>&nbsp;{$ibforums->lang['icon_unread']}</div>
+<div align="right" style="padding:6px"><div class="b-pm-list__pages-bottom-wrapper">$pages</div><br><div class="b-pm-list__amount-info-wrapper">$amount_info</div></div>
 
 EOF;
 }
@@ -217,24 +216,21 @@ EOF;
 function send_form_footer() {
 global $ibforums;
 return <<<EOF
-<tr>
- <td colspan='3' class='pformstrip'>{$ibforums->lang['msg_options']}</td>
-</tr>
+<h3>{$ibforums->lang['msg_options']}</h3>
+<table>
 <tr>
  <td class='pformleft'>&nbsp;</td>
- <td class='pformright' colspan='2'>
-	<input type='checkbox' name='add_sent' value='yes' CHECKED>&nbsp;<b>{$ibforums->lang['auto_sent_add']}</b>
-	<br><input type='checkbox' name='add_tracking' value='1'>&nbsp;<b>{$ibforums->lang['vm_track_msg']}</b>
- </td>
-</tr>
-<tr>
- <td class='pformstrip' align='center' colspan='3'>
-  <input type="submit" value="{$ibforums->lang['submit_send']}" tabindex="4" accesskey="s" class='forminput' name='submit'>
-  <input type="submit" value="{$ibforums->lang['pm_pre_button']}" tabindex="5" class='forminput' name='preview'>
-  <input type="submit" value="{$ibforums->lang['pms_send_later']}" tabindex="6" class='forminput' name='save'>
+ <td class='pformright'>
+	<div class="b-send_pm__options-add_sent-wrapper"><input type='checkbox' name='add_sent' value='yes' CHECKED>&nbsp;<b>{$ibforums->lang['auto_sent_add']}</b></div>
+	<div class="b-send_pm__options-track-wrapper"><input type='checkbox' name='add_tracking' value='1'>&nbsp;<b>{$ibforums->lang['vm_track_msg']}</b></div>
  </td>
 </tr>
 </table>
+<div class="pformstrip b-buttons-wrapper">
+  <input type="submit" value="{$ibforums->lang['submit_send']}" tabindex="4" accesskey="s" class='forminput' name='submit'>
+  <input type="submit" value="{$ibforums->lang['pm_pre_button']}" tabindex="5" class='forminput' name='preview'>
+  <input type="submit" value="{$ibforums->lang['pms_send_later']}" tabindex="6" class='forminput' name='save'>
+</div>
 </form>
 </div>
 
@@ -245,9 +241,10 @@ EOF;
 function unsent_end() {
 global $ibforums;
 return <<<EOF
+	</tbody>
 	<tfoot>
-		<tr class="pm-list-footer-row">
-			<td class="pm-list-footer-column" colspan='6'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> <span class="pm-list-footer-suffix">{$ibforums->lang['selected_msg']}</span></td>
+		<tr class="b-footer-row">
+			<td class="b-column" colspan='6'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> <span class="b-pm-list-footer-suffix">{$ibforums->lang['selected_msg']}</span></td>
 		</tr>
 	</tfoot>
 </table>
@@ -265,75 +262,18 @@ return <<<EOF
 
 <script language='JavaScript' type="text/javascript">
 <!--
-var ie  = document.all  ? 1 : 0;
-//var ns4 = document.layers ? 1 : 0;
-function hl(cb)
-{
-   if (ie)
-   {
-	   while (cb.tagName != "TR")
-	   {
-		   cb = cb.parentElement;
-	   }
-   }
-   else
-   {
-	   while (cb.tagName != "TR")
-	   {
-		   cb = cb.parentNode;
-	   }
-   }
-   cb.className = 'hlight';
-}
-function dl(cb) {
-   if (ie)
-   {
-	   while (cb.tagName != "TR")
-	   {
-		   cb = cb.parentElement;
-	   }
-   }
-   else
-   {
-	   while (cb.tagName != "TR")
-	   {
-		   cb = cb.parentNode;
-	   }
-   }
-   cb.className = 'dlight';
-}
 
-function CheckAll() {
-	$('.pm-list-row .pm-list-column-checkbox input:checkbox').prop('checked', $('.pm-list-header-row .pm-list-column-checkbox input:checkbox').prop('checked'));
-	$('.pm-list-row .pm-list-column-checkbox input:checkbox').trigger('change');
+function select_read(context) {
+	$('.b-row[data-read="1"] .b-column_checkbox input:checkbox', context).prop('checked', true);
+	$('.b-row[data-read="1"] .b-column_checkbox input:checkbox', context).trigger('change');
 }
-function CheckCheckAll(cb) {
-	var fmobj = document.mutliact;
-	var TotalBoxes = 0;
-	var TotalOn = 0;
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if ((e.name != 'allbox') && (e.type=='checkbox')) {
-			TotalBoxes++;
-			if (e.checked) {
-				TotalOn++;
-			}
-		}
-	}
-	if (TotalBoxes==TotalOn) {fmobj.allbox.checked=true;}
-	else {fmobj.allbox.checked=false;}
-}
-function select_read() {
-	$('.pm-list-row[data-read="1"] .pm-list-column-checkbox input:checkbox').prop('checked', true);
-	$('.pm-list-row[data-read="1"] .pm-list-column-checkbox input:checkbox').trigger('change');
-}
-function unselect_all() {
-	$('.pm-list .pm-list-column-checkbox input:checkbox').prop('checked', false);
-	$('.pm-list-row .pm-list-column-checkbox input:checkbox').trigger('change');
+function unselect_all(context) {
+	$('.b-row .b-column_checkbox input:checkbox', context).prop('checked', false);
+	$('.b-row .b-column_checkbox input:checkbox', context).trigger('change');
 }
 
 $(document).ready(function(){
-	$('.pm-list-row .pm-list-column-checkbox input:checkbox').change(function(){
+	$('.b-row .b-column_checkbox input:checkbox').change(function(){
 		if ($(this).is(':checked'))
 		{
 			$(this).closest('tr').addClass('selected');
@@ -341,15 +281,26 @@ $(document).ready(function(){
 		{
 			$(this).closest('tr').removeClass('selected');
 		}
+		//find unchecked
+		if ( $(this).closest('tbody').find('.b-column_checkbox input:checkbox:not(:checked)').length > 0) {
+			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', false);
+		}else {
+			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', true);
+		}
+	});
+
+	$('.b-header-row .b-column_checkbox input:checkbox').click(function(){
+		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').prop('checked', $(this).prop('checked'));
+		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').trigger('change');
 	});
 });
 //-->
 </script>
-<div class="pformstrip">$dirname</div>
-<table width="100%" style="padding:6px">
+<h3>$dirname</h3>
+<table class="b-pm-list__content-top" >
 <tr>
- <td valign="middle">
-  <table style="width:250px" cellspacing="1" class="tableborder">
+ <td valign="middle" class="b-pm-list__stats-wrapper">
+  <table class="b-pm-list__stats" style="width:250px" cellspacing="1" class="tableborder">
    <tr>
 	<td class='row1' align='left' colspan='3'>{$info['full_messenger']}</td>
    </tr>
@@ -363,28 +314,27 @@ $(document).ready(function(){
    </tr>
   </table>
  </td>
- <td align="right" valign="bottom" style="line-height:100%;">
-  $pages<br><br>
-  <a href='javascript:select_read()'>{$ibforums->lang['pmpc_mark_read']}</a> :: <a href='javascript:unselect_all()'>{$ibforums->lang['pmpc_unmark_all']}</a><br><br>
-  <form action="{$ibforums->base_url}CODE=01&amp;act=Msg" name='jump' method="post">
-  <b>{$ibforums->lang['goto_folder']}: </b>&nbsp; $vdi_html <input type='submit' name='submit' value='{$ibforums->lang['goto_submit']}' class='forminput'>
-  </form>
+ <td class="b-pm-list__control_buttons-wrapper" align="right" valign="bottom" style="line-height:100%;">
+  <div class="b-pm-list__pages-top-wrapper">$pages</div>
+  <div class="b-pm-list__selection_control_buttons">
+  <a href="javascript:select_read('.b-pm-list');">{$ibforums->lang['pmpc_mark_read']}</a> :: <a href="javascript:unselect_all('.b-pm-list')">{$ibforums->lang['pmpc_unmark_all']}</a>
+  </div>
  </td>
 </tr>
 </table>
-<form action="{$ibforums->base_url}CODE=06&amp;act=Msg" name='mutliact' method="post" class="pm-list-form">
-<div class="tableborder pm-list-wrapper">
-  <table class="pm-list">
+<form action="{$ibforums->base_url}CODE=06&amp;act=Msg" name='mutliact' method="post" class="b-pm-list-form">
+<div class="tableborder b-pm-list-wrapper">
+  <table class="b-pm-list">
   <thead>
-  <tr class="pm-list-header-row">
-	<th width='5%'  class='pm-list-column-icon'>&nbsp;</th>
-	<th width='35%' class='pm-list-column-title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_title']}</b></a></th>
-	<th width='30%' class='pm-list-column-sender'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_from']}</b></a></th>
-	<th width='25%' class='pm-list-column-date'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_date']}</b></a></th>
-	<th width='5%'  class='pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
+  <tr class="b-header-row">
+	<th width='5%'  class='b-column_icon'>&nbsp;</th>
+	<th width='35%' class='b-column_title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_title']}</b></a></th>
+	<th width='30%' class='b-column_sender'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_from']}</b></a></th>
+	<th width='25%' class='b-column_date'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_date']}</b></a></th>
+	<th width='5%'  class='b-column_checkbox'><input name="allbox" type="checkbox" value="Check All"></th>
   </tr>
   </thead>
-
+  <tbody>
 EOF;
 }
 
@@ -393,13 +343,13 @@ function unsent_row($data) {
 global $ibforums;
 return <<<EOF
 
-<tr class="pm-list-row pm-unsent-list-row">
-  <td class='row2 pm-list-column-icon'>{$data['msg']['icon']}</td>
-  <td class='row2 pm-list-column-title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=21&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
-  <td class='row2 pm-list-column-sender'><a href='{$ibforums->base_url}showuser={$data['msg']['recipient_id']}'>{$data['msg']['to_name']}</a></td>
-  <td class='row2 pm-list-column-date'>{$data['msg']['date']}</td>
-  <td class='row2 pm-list-column-cc'>{$data['msg']['cc_users']}</td>
-  <td class='row2 pm-list-column-checkbox'><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
+<tr class="b-row pm-unsent-list-row">
+  <td class='row2 b-column_icon'>{$data['msg']['icon']}</td>
+  <td class='row2 b-column_title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=21&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
+  <td class='row2 b-column_sender'><a href='{$ibforums->base_url}showuser={$data['msg']['recipient_id']}'>{$data['msg']['to_name']}</a></td>
+  <td class='row2 b-column_date'>{$data['msg']['date']}</td>
+  <td class='row2 b-column_cc'>{$data['msg']['cc_users']}</td>
+  <td class='row2 b-column_checkbox'><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
 </tr>
 
 EOF;
@@ -409,10 +359,12 @@ EOF;
 function trackUNread_end() {
 global $ibforums;
 return <<<EOF
-
-<tr>
- <td align='right' class='titlemedium' colspan='5'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
+</tbody>
+<tfoot>
+<tr class="b-footer-row">
+ <td class='b-column titlemedium' colspan='5'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
 </tr>
+</tfoot>
 </table>
 </div>
 </form>
@@ -428,48 +380,45 @@ return <<<EOF
 
 <script language='JavaScript' type="text/javascript">
 <!--
-function CheckAll(cb) {
-	var fmobj = document.mutliact;
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if ((e.name != 'allbox') && (e.type=='checkbox') && (!e.disabled)) {
-			e.checked = fmobj.allbox.checked;
+$(document).ready(function(){
+	$('.b-row .b-column_checkbox input:checkbox').change(function(){
+		if ($(this).is(':checked'))
+		{
+			$(this).closest('tr').addClass('selected');
+		}else
+		{
+			$(this).closest('tr').removeClass('selected');
 		}
-	}
-}
-function CheckCheckAll(cb) {
-	var fmobj = document.mutliact;
-	var TotalBoxes = 0;
-	var TotalOn = 0;
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if ((e.name != 'allbox') && (e.type=='checkbox')) {
-			TotalBoxes++;
-			if (e.checked) {
-				TotalOn++;
-			}
+		//find unchecked
+		if ( $(this).closest('tbody').find('.b-column_checkbox input:checkbox:not(:checked)').length > 0) {
+			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', false);
+		}else {
+			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', true);
 		}
-	}
-	if (TotalBoxes==TotalOn) {fmobj.allbox.checked=true;}
-	else {fmobj.allbox.checked=false;}
-}
+	});
+
+	$('.b-header-row .b-column_checkbox input:checkbox').click(function(){
+		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').prop('checked', $(this).prop('checked'));
+		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').trigger('change');
+	});
+});
 //-->
 </script>
 <form action="{$ibforums->base_url}CODE=06&amp;act=Msg&amp;saved=1" name='mutliact' method="post">
-<div class="pformstrip">{$ibforums->lang['pms_saved_title']}</div>
-<div class="tableborder pm-list-wrapper pm-unsent-list-wrapper">
-<table class="pm-unsent-list pm-list">
+<h3>{$ibforums->lang['pms_saved_title']}</h3>
+<div class="tableborder b-pm-list-wrapper pm-unsent-list-wrapper">
+<table class="pm-unsent-list b-pm-list">
 <thead>
-<tr class="pm-list-header-row pm-unset-list-header-row">
-  <th align='left' width='5%' class='pm-list-column-icon'>&nbsp;</td>
-  <th align='left' width='30%' class='pm-list-column-title'><b>{$ibforums->lang['message_title']}</b></th>
-  <th align='left' width='30%' class='pm-list-column-sender'><b>{$ibforums->lang['pms_message_to']}</b></th>
-  <th align='left' width='20%' class='pm-list-column-date'><b>{$ibforums->lang['pms_saved_date']}</b></th>
-  <th align='left' width='10%' class='pm-list-column-cc'><b>{$ibforums->lang['pms_cc_users']}</b></th>
-  <th align='left' width='5%' class='pm-list-column-checkbox'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll();"></th>
+<tr class="b-header-row">
+  <th width='5%' class='b-column_icon'>&nbsp;</td>
+  <th width='30%' class='b-column_title'><b>{$ibforums->lang['message_title']}</b></th>
+  <th width='30%' class='b-column_sender'><b>{$ibforums->lang['pms_message_to']}</b></th>
+  <th width='20%' class='b-column_date'><b>{$ibforums->lang['pms_saved_date']}</b></th>
+  <th width='10%' class='b-column_cc'><b>{$ibforums->lang['pms_cc_users']}</b></th>
+  <th width='5%' class='b-column_checkbox'><input name="allbox" type="checkbox" value="Check All"></th>
 </tr>
 </thead>
-
+<tbody>
 EOF;
 }
 
@@ -477,10 +426,12 @@ EOF;
 function trackread_end() {
 global $ibforums;
 return <<<EOF
-
+</tbody>
+<tfoot>
 <tr>
- <td align='right' class='titlemedium' colspan='5'><input type='submit' name='endtrack' value='{$ibforums->lang['tk_untrack_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
+ <td class='b-column titlemedium' colspan='5'><input type='submit' name='endtrack' value='{$ibforums->lang['tk_untrack_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
 </tr>
+</tfoot>
 </table>
 </div>
 </form>
@@ -494,19 +445,21 @@ function trackUNread_table_header() {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}CODE=32&amp;act=Msg" name='trackunread' method="post">
-<div class='pformstrip'>{$ibforums->lang['tk_unread_messages']}</div>
-<p>{$ibforums->lang['tk_unread_desc']}</p>
-<div class="tableborder">
-<table cellpadding='4' cellspacing='1' align='center' width='100%'>
-<tr>
-  <th align='left' width='5%' class='titlemedium'>&nbsp;</td>
-  <th align='left' width='30%' class='titlemedium'><b>{$ibforums->lang['message_title']}</b></th>
-  <th align='left' width='30%' class='titlemedium'><b>{$ibforums->lang['pms_message_to']}</b></th>
-  <th align='left' width='20%' class='titlemedium'><b>{$ibforums->lang['tk_unread_date']}</b></th>
-  <th align='left' width='5%' class='titlemedium'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll(document.trackunread);"></th>
+<form class="b-tracking-form b-tracking-form_unread" action="{$ibforums->base_url}CODE=32&amp;act=Msg" name='trackunread' method="post">
+<h3>{$ibforums->lang['tk_unread_messages']}</h3>
+<p class="b-description">{$ibforums->lang['tk_unread_desc']}</p>
+<div class="tableborder b-tracking-list_unread__wrapper">
+<table class="b-tracking-list_unread">
+<thead>
+<tr class="b-header-row">
+  <th width='5%' class='b-column b-column_icon'>&nbsp;</td>
+  <th width='30%' class='b-column b-column_title'><b>{$ibforums->lang['message_title']}</b></th>
+  <th width='30%' class='b-column b-column_receiver'><b>{$ibforums->lang['pms_message_to']}</b></th>
+  <th width='20%' class='b-column b-column_date'><b>{$ibforums->lang['tk_unread_date']}</b></th>
+  <th width='5%' class='b-column b-column_checkbox'><input name="allbox" type="checkbox" value="Check All"></th>
 </tr>
-
+</thead>
+<tbody>
 EOF;
 }
 
@@ -515,12 +468,12 @@ function trackUNread_row($data) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class='row2' align='left' valign='middle'>{$data['icon']}</td>
-  <td class='row2' align='left'>{$data['title']}</td>
-  <td class='row2' align='left'><a href='{$ibforums->base_url}showuser={$data['memid']}'>{$data['to_name']}</a></td>
-  <td class='row2' align='left'>{$data['date']}</td>
-  <td class='row2' align='left'><input type='checkbox' name='msgid_{$data['msg_id']}' value='yes' class='forminput' onclick="CheckCheckAll(document.trackunread);"></td>
+<tr class="b-row">
+  <td class='b-column b-column_icon'>{$data['icon']}</td>
+  <td class='b-column b-column_title'>{$data['title']}</td>
+  <td class='b-column b-column_receiver'><a href='{$ibforums->base_url}showuser={$data['memid']}'>{$data['to_name']}</a></td>
+  <td class='b-column b-column_date'>{$data['date']}</td>
+  <td class='b-column b-column_checkbox'><input type='checkbox' name='msgid_{$data['msg_id']}' value='yes' class='forminput'></td>
 </tr>
 
 EOF;
@@ -531,12 +484,12 @@ function trackread_row($data) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class='row2' align='left' valign='middle'>{$data['icon']}</td>
-  <td class='row2' align='left'>{$data['title']}</td>
-  <td class='row2' align='left'><a href='{$ibforums->base_url}showuser={$data['memid']}'>{$data['to_name']}</a></td>
-  <td class='row2' align='left'>{$data['date']}</td>
-  <td class='row2' align='left'><input type='checkbox' name='msgid_{$data['msg_id']}' value='yes' class='forminput' onclick="CheckCheckAll(document.trackread);"></td>
+<tr class="b-row">
+  <td class='b-column b-column_icon'>{$data['icon']}</td>
+  <td class='b-column b-column_title'>{$data['title']}</td>
+  <td class='b-column b-column_receiver'><a href='{$ibforums->base_url}showuser={$data['memid']}'>{$data['to_name']}</a></td>
+  <td class='b-column b-column_date'>{$data['date']}</td>
+  <td class='b-column b-column_checkbox'><input type='checkbox' name='msgid_{$data['msg_id']}' value='yes' class='forminput'></td>
 </tr>
 
 EOF;
@@ -549,44 +502,46 @@ return <<<EOF
 
 <script language='JavaScript' type="text/javascript">
 <!--
-function CheckAll(fmobj) {
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if ((e.name != 'allbox') && (e.type=='checkbox') && (!e.disabled)) {
-			e.checked = fmobj.allbox.checked;
+
+$(document).ready(function(){
+	$('.b-row .b-column_checkbox input:checkbox').change(function(){
+		if ($(this).is(':checked'))
+		{
+			$(this).closest('tr').addClass('selected');
+		}else
+		{
+			$(this).closest('tr').removeClass('selected');
 		}
-	}
-}
-function CheckCheckAll(fmobj) {
-	var TotalBoxes = 0;
-	var TotalOn = 0;
-	for (var i=0;i<fmobj.elements.length;i++) {
-		var e = fmobj.elements[i];
-		if ((e.name != 'allbox') && (e.type=='checkbox')) {
-			TotalBoxes++;
-			if (e.checked) {
-				TotalOn++;
-			}
+		//find unchecked
+		if ( $(this).closest('tbody').find('.b-column_checkbox input:checkbox:not(:checked)').length > 0) {
+			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', false);
+		}else {
+			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', true);
 		}
-	}
-	if (TotalBoxes==TotalOn) {fmobj.allbox.checked=true;}
-	else {fmobj.allbox.checked=false;}
-}
+	});
+
+	$('.b-header-row .b-column_checkbox input:checkbox').click(function(){
+		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').prop('checked', $(this).prop('checked'));
+		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').trigger('change');
+	});
+});
 //-->
 </script>
-<form action="{$ibforums->base_url}CODE=31&amp;act=Msg" name='trackread' method="post">
-<div class='pformstrip'>{$ibforums->lang['tk_read_messages']}</div>
-<p>{$ibforums->lang['tk_read_desc']}</p>
-<div class="tableborder">
-<table cellpadding='4' cellspacing='1' align='center' width='100%'>
-<tr>
-  <th align='left' width='5%' class='titlemedium'>&nbsp;</th>
-  <th align='left' width='30%' class='titlemedium'><b>{$ibforums->lang['message_title']}</b></th>
-  <th align='left' width='30%' class='titlemedium'><b>{$ibforums->lang['pms_message_to']}</b></th>
-  <th align='left' width='20%' class='titlemedium'><b>{$ibforums->lang['tk_read_date']}</b></th>
-  <th align='left' width='5%' class='titlemedium'><input name="allbox" type="checkbox" value="Check All" onclick="CheckAll(document.trackread);"></th>
+<form class="b-tracking-form" action="{$ibforums->base_url}CODE=31&amp;act=Msg" name='trackread' method="post">
+<h3>{$ibforums->lang['tk_read_messages']}</h3>
+<p class="b-description">{$ibforums->lang['tk_read_desc']}</p>
+<div class="tableborder b-tracking-list_read__wrapper">
+<table class="b-tracking-list_read">
+<thead>
+<tr class="b-header-row">
+  <th class="b-column b-column_icon" width='5%'>&nbsp;</th>
+  <th class="b-column b-column_title" width='30%'><b>{$ibforums->lang['message_title']}</b></th>
+  <th class="b-column b-column_receiver" width='30%'><b>{$ibforums->lang['pms_message_to']}</b></th>
+  <th class="b-column b-column_date" width='20%'><b>{$ibforums->lang['tk_read_date']}</b></th>
+  <th class="b-column b-column_checkbox" width='5%'><input name="allbox" type="checkbox" value="Check All"></th>
 </tr>
-
+</thead>
+<tbody>
 EOF;
 }
 
@@ -594,20 +549,16 @@ EOF;
 function Address_none() {
 global $ibforums;
 return <<<EOF
-
-<p style="text-align:center">{$ibforums->lang['address_none']}</p>
-
+<p class="b-address-list__none">{$ibforums->lang['address_none']}</p>
 EOF;
 }
 
 
 function end_address_table() {
-global $ibforums;
 return <<<EOF
 
 </table>
 </div>
-<br>
 
 EOF;
 }
@@ -617,20 +568,20 @@ function address_edit($data) {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form action="{$ibforums->base_url}" method="post" class="b-address-edit-form">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='12'>
 <input type='hidden' name='MID' value='{$data[MEMBER]['contact_id']}'>
-<div class="pformstrip">{$ibforums->lang['member_edit']}</div>
-<table width="100%">
+<h3>{$ibforums->lang['member_edit']}</h3>
+<table>
 <tr>
- <td valign='middle' align='left'><b>{$data[MEMBER]['contact_name']}</b></td>
- <td valign='middle' align='left'>{$ibforums->lang['enter_desc']}<br><input type='text' name='mem_desc' size='30' maxlength='60' value='{$data[MEMBER]['contact_desc']}' class='forminput'></td>
- <td valign='middle' align='left'>{$ibforums->lang['show_online']}<br>{$data[SHOW_ONLINE]}</td>
- <td valign='middle' align='left'>{$ibforums->lang['allow_msg']}<br>{$data[SELECT]}</td>
+ <td class="b-form-element b-form-element__contact-name">{$data[MEMBER]['contact_name']}</td>
+ <td class="b-form-element b-form-element__desc"><label>{$ibforums->lang['enter_desc']}</label><input type='text' name='mem_desc' size='30' maxlength='60' value='{$data[MEMBER]['contact_desc']}' class='forminput'></td>
+ <td class="b-form-element b-form-element__show-online"><label>{$ibforums->lang['show_online']}</label>{$data[SHOW_ONLINE]}</td>
+ <td class="b-form-element b-form-element__allow-msg"><label>{$ibforums->lang['allow_msg']}</label>{$data[SELECT]}</td>
 </tr>
 </table>
-<div class="pformstrip" align="center"><input type="submit" value="{$ibforums->lang['submit_address_edit']}" class='forminput'></div>
+<div class="b-buttons-wrapper pformstrip"><input type="submit" value="{$ibforums->lang['submit_address_edit']}" class='forminput'></div>
 </form>
 
 EOF;
@@ -641,7 +592,7 @@ function Address_header() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['address_current']}</div>
+<h3>{$ibforums->lang['address_current']}</h3>
 
 EOF;
 }
@@ -651,13 +602,14 @@ function Address_table_header() {
 global $ibforums;
 return <<<EOF
 
-<br>
-<div class="tableborder">
-<table cellpadding='4' cellspacing='1' width="100%">
-<tr>
-  <td class="titlemedium"><b>{$ibforums->lang['member_name']}</b></td>
-  <td width="70%" class="titlemedium"><b>{$ibforums->lang['enter_block']}</b></td>
+<div class="b-address-list__wrapper tableborder">
+<table class="b-address-list">
+<thead>
+<tr class="b-header-row">
+  <th class="b-address-list__column b-address-list__column_name titlemedium"><b>{$ibforums->lang['member_name']}</b></th>
+  <th class="b-address-list__column b-address-list__column_options titlemedium"><b>{$ibforums->lang['enter_block']}</b></th>
 </tr>
+</thead>
 
 EOF;
 }
@@ -667,13 +619,14 @@ function render_address_row($entry) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class='row1 align='left' valign='middle'><a href='{$ibforums->base_url}act=Profile&amp;CODE=03&amp;MID={$entry['contact_id']}'><b>{$entry['contact_name']}</b></a> &nbsp; &nbsp;[ {$entry['contact_desc']} ]</td>
-  <td class='row1 align='left' valign='middle'>
-	[ <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$entry['contact_id']}'>PM</a> ] ::
-	[ <a href='{$ibforums->base_url}act=Msg&amp;CODE=11&amp;MID={$entry['contact_id']}'>{$ibforums->lang['edit']}</a> ] ::
-	[ <a href='{$ibforums->base_url}act=Msg&amp;CODE=10&amp;MID={$entry['contact_id']}'>{$ibforums->lang['delete']}</a> ]
-	&nbsp;&nbsp;( {$entry['text']} )
+<tr class="b-address-list__row">
+  <td class='b-address-list__column b-address-list__column_name row1'>
+    <a class="b-profile-link" href='{$ibforums->base_url}act=Profile&amp;CODE=03&amp;MID={$entry['contact_id']}'>{$entry['contact_name']}</a><span class="b-address-description">{$entry['contact_desc']}</span></td>
+  <td class='b-address-list__column b-address-list__column_options row1'>
+	[ <a class="b-address-list__action b-address-list__action_pm" href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$entry['contact_id']}'>PM</a> ] ::
+	[ <a class="b-address-list__action b-address-list__action_edit" href='{$ibforums->base_url}act=Msg&amp;CODE=11&amp;MID={$entry['contact_id']}'>{$ibforums->lang['edit']}</a> ] ::
+	[ <a class="b-address-list__action b-address-list__action_delete" href='{$ibforums->base_url}act=Msg&amp;CODE=10&amp;MID={$entry['contact_id']}'>{$ibforums->lang['delete']}</a> ]
+	<span class="b-address-list__options">( {$entry['text']} )</span>
   </td>
 </tr>
 
@@ -684,9 +637,9 @@ EOF;
 function empty_folder_footer() {
 global $ibforums;
 return <<<EOF
-
+</tbody>
 </table>
-<div class="pformstrip" align="center"><input type='submit' value='{$ibforums->lang['fd_continue']}' class='forminput'></div>
+<div class="b-folder-clear__buttons pformstrip" ><input type='submit' value='{$ibforums->lang['fd_continue']}' class='forminput'></div>
 </div>
 </form>
 
@@ -710,19 +663,21 @@ function empty_folder_header() {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form action="{$ibforums->base_url}" method="post" class="b-folder-clear">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='dofolderdelete'>
-<div class="pformstrip">{$ibforums->lang['mi_prune_msg']}</div>
-<p>{$ibforums->lang['fd_text']}</p>
-<div class="tableborder">
-<table cellpadding='4' cellspacing='1' width="100%">
-<tr>
-  <th class="titlemedium">{$ibforums->lang['fd_name']}</th>
-  <th class="titlemedium">{$ibforums->lang['fd_count']}</th>
-  <th class="titlemedium">{$ibforums->lang['fd_empty']}</th>
+<h3>{$ibforums->lang['mi_prune_msg']}</h3>
+<p class="b-description">{$ibforums->lang['fd_text']}</p>
+<div class="b-folder-clear__folders-list-wrapper tableborder">
+<table class="b-folder-clear__folders-list">
+<thead>
+<tr class="b-header-row">
+  <th class="b-column b-column_title titlemedium">{$ibforums->lang['fd_name']}</th>
+  <th class="b-column b-column_messages titlemedium">{$ibforums->lang['fd_count']}</th>
+  <th class="b-column b-column_checkbox titlemedium">{$ibforums->lang['fd_empty']}</th>
 </tr>
-
+</thead>
+<tbody>
 EOF;
 }
 
@@ -731,7 +686,7 @@ function prefs_footer() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip" align="center"><input type='submit' value='{$ibforums->lang['prefs_submit']}' class='forminput'></div>
+<div class="b-folder-rename__buttons pformstrip"><input type='submit' value='{$ibforums->lang['prefs_submit']}' class='forminput'></div>
 </form>
 
 EOF;
@@ -742,7 +697,7 @@ function prefs_row($data) {
 global $ibforums;
 return <<<EOF
 
-<p><input type='text' name='{$data[ID]}' value='{$data[REAL]}' class='forminput'>{$data[EXTRA]}</p>
+<p class="b-folder-rename__row"><input type='text' name='{$data[ID]}' value='{$data[REAL]}' class='forminput'>{$data[EXTRA]}</p>
 
 EOF;
 }
@@ -752,8 +707,8 @@ function prefs_add_dirs() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['prefs_new']}</div>
-<p>{$ibforums->lang['prefs_text_b']}</p>
+<h3 class="b-folder-rename__title_added">{$ibforums->lang['prefs_new']}</h3>
+<p class="b-folder-rename__description_added">{$ibforums->lang['prefs_text_b']}</p>
 
 EOF;
 }
@@ -763,11 +718,11 @@ function prefs_header() {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form class="b-folder-rename" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='08'>
-<div class="pformstrip">{$ibforums->lang['prefs_current']}</div>
-<p>{$ibforums->lang['prefs_text_a']}</p>
+<h3 class="b-folder-rename__title">{$ibforums->lang['prefs_current']}</h3>
+<p class="b-folder-rename__description">{$ibforums->lang['prefs_text_a']}</p>
 
 EOF;
 }
@@ -777,7 +732,7 @@ function preview($data) {
 global $ibforums;
 return <<<EOF
 <div class='tableborder'>
-<div class="pformstrip">{$ibforums->lang['pm_preview']}</div>
+<h3>{$ibforums->lang['pm_preview']}</h3>
 <p>$data</p>
 </div>
 EOF;
@@ -788,7 +743,7 @@ function pm_errors($data) {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['err_errors']}</div>
+<h3>{$ibforums->lang['err_errors']}</h3>
 <span class='postcolor'><p>$data<br><br>{$ibforums->lang['pme_none_sent']}</p></span>
 
 EOF;
@@ -879,7 +834,7 @@ return <<<EOF
 	.tablepad    { background-color:#F5F9FD;padding:6px }
 	.tablebasic  { width:100%; padding:0px 0px 0px 0px; margin:0px; border:0px }
 
-	.pformstrip { background-color: #D1DCEB; color:#3A4F6C;font-weight:bold;padding:7px;margin-top:1px }
+	h3, .pformstrip { background-color: #D1DCEB; color:#3A4F6C;font-weight:bold;padding:7px;margin-top:1px }
 	.quote { font-family: Verdana, Arial; font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
 	.code  { font-family: Courier, Courier New, Verdana, Arial;  font-size: 11px; color: #465584; background-color: #FAFCFE; border: 1px solid #000; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px }
 
@@ -933,10 +888,12 @@ EOF;
 function empty_folder_save_unread() {
 global $ibforums;
 return <<<EOF
-
-<tr>
-  <td class="row2" colspan='3' align='center'><input type="checkbox" class="checkbox" name="save_unread" value="1" checked="checked"> <strong>{$ibforums->lang['fd_save_unread']}</strong></td>
+</tbody>
+<tfoot>
+<tr class="b-row">
+  <td class="b-column b-folder-clear__options row2" colspan='3'><input type="checkbox" class="checkbox" name="save_unread" value="1" checked="checked"> <strong>{$ibforums->lang['fd_save_unread']}</strong></td>
 </tr>
+</tfoot>
 
 EOF;
 }
@@ -946,10 +903,10 @@ function empty_folder_row($real, $id, $cnt) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td class="row1"><strong>$real</strong></td>
-  <td class="row1" align="center">$cnt</td>
-  <td class="row1" align="center"><input type="checkbox" class="checkbox" name="its_$id" value="1"></td>
+<tr class="b-row">
+  <td class="b-column b-column_title row1">$real</td>
+  <td class="b-column b-column_messages row1">$cnt</td>
+  <td class="b-column b-column_checkbox row1"><input type="checkbox" class="checkbox" name="its_$id" value="1"></td>
 </tr>
 
 EOF;
@@ -972,7 +929,7 @@ function archive_complete() {
 global $ibforums;
 return <<<EOF
 
-<div class="pformstrip">{$ibforums->lang['arc_comp_title']}</div>
+<h3>{$ibforums->lang['arc_comp_title']}</h3>
 <p>{$ibforums->lang['arc_complete']}</p>
 
 EOF;
@@ -983,19 +940,19 @@ function archive_form($jump_html="") {
 global $ibforums;
 return <<<EOF
 
-<form action="{$ibforums->base_url}" method="post">
+<form class="b-archive-form" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='15'>
-<div class="pformstrip">{$ibforums->lang['archive_title']}</div>
-<p>{$ibforums->lang['archive_text']}</p>
-<table width="100%" style="padding:6px">
-<tr>
-   <td><b>{$ibforums->lang['arc_folders']}</b></td>
-   <td>$jump_html</td>
+<h3>{$ibforums->lang['archive_title']}</h3>
+<p class="b-description">{$ibforums->lang['archive_text']}</p>
+<table class="b-archive-form__options">
+<tr class="b-option b-option__arc-folders">
+   <td class="b-option__label">{$ibforums->lang['arc_folders']}</td>
+   <td class="b-option__value">$jump_html</td>
 </tr>
-<tr>
-   <td><b>{$ibforums->lang['arc_dateline']}</b></td>
-   <td valign='middle'><select name='dateline' class='forminput'>
+<tr class="b-option b-option__dateline">
+   <td class="b-option__label">{$ibforums->lang['arc_dateline']}</td>
+   <td class="b-option__value"><select name='dateline' class='forminput'>
 	 <option value='1'>1</option>
 	 <option value='7'>7</option>
 	 <option value='30' selected='selected'>30</option>
@@ -1009,20 +966,20 @@ return <<<EOF
 	 </select>
    </td>
 </tr>
-<tr>
-   <td><b>{$ibforums->lang['arc_max']}</b></td>
-   <td valign='middle'><select name='number' class='forminput'><option value='5'>5</option><option value='10'>10</option><option value='20' selected>20</option><option value='30'>30</option><option value='40'>40</option><option value='50'>50</option></select></td>
+<tr class="b-option b-option__max_messages">
+   <td class="b-option__label">{$ibforums->lang['arc_max']}</td>
+   <td class="b-option__value"><select name='number' class='forminput'><option value='5'>5</option><option value='10'>10</option><option value='20' selected>20</option><option value='30'>30</option><option value='40'>40</option><option value='50'>50</option></select></td>
 </tr>
-<tr>
-   <td><b>{$ibforums->lang['arc_delete']}</b></td>
-   <td valign='middle'><select name='delete' class='forminput'><option value='yes'>{$ibforums->lang['arc_yes']}</option><option value='no' selected='selected'>{$ibforums->lang['arc_no']}</option></select></td>
+<tr class="b-option b-option__delete">
+   <td class="b-option__label">{$ibforums->lang['arc_delete']}</td>
+   <td class="b-option__value"><select name='delete' class='forminput'><option value='yes'>{$ibforums->lang['arc_yes']}</option><option value='no' selected='selected'>{$ibforums->lang['arc_no']}</option></select></td>
 </tr>
-<tr>
-   <td><b>{$ibforums->lang['arc_type']}</b></td>
-   <td valign='middle'><select name='type' class='forminput'><option value='xls' selected>{$ibforums->lang['arc_xls']}</option><option value='html'>{$ibforums->lang['arc_html']}</option></select></td>
+<tr class="b-option b-option__export-type">
+   <td class="b-option__label">{$ibforums->lang['arc_type']}</td>
+   <td class="b-option__value"><select name='type' class='forminput'><option value='xls' selected>{$ibforums->lang['arc_xls']}</option><option value='html'>{$ibforums->lang['arc_html']}</option></select></td>
 </tr>
 </table>
-<div class="pformstrip" align="center"><input type="submit" value="{$ibforums->lang['arc_submit']}" class='forminput'></div>
+<div class="b-buttons-wrapper pformstrip"><input type="submit" value="{$ibforums->lang['arc_submit']}" class='forminput'></div>
 </form>
 
 EOF;
