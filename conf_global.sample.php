@@ -431,3 +431,7 @@ $INFO['errors_text'] = 'An %TYPE% has been caught in %FILE% on line %LINE% with 
 %MESSAGE%
 ';
 $INFO['listed_groups_ids'] = '4,7,26,9,25,3';
+
+$INFO['url_parser_search_title_metatags'] = '';//meta tag names split by ','
+$INFO['url_parser_search_page_title'] = '';//boolean
+$INFO['url_parser_search_page_title_till'] = 4096;//bytes to read from url. Prevents loading large (and useless) amount of data, however some pages have js in their headers before the title tag
