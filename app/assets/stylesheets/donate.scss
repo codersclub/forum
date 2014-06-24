@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+@import "layout/reset";
+@import "layout/mixins";
+
+body {
+  color: #000;
+  margin: 30px 100px 60px 40px;
+  background-color: #fff;
+  text-align: left;
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 12px;
+}
+
+h1 {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 12px;
+  margin-left: 25px;
+  color: #666;
+}
+
+td {
+  color: #000;
+  text-align: left;
+  font-size: 12px;
+}
+
+

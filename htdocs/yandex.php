@@ -26,27 +26,15 @@
 // USER CONFIGURABLE ELEMENTS
 //-----------------------------------------------
 
-// Root path
-
-define( 'ROOT_PATH', "./" );
 
 //-----------------------------------------------
 // NO USER EDITABLE SECTIONS BELOW
 //-----------------------------------------------
 
-error_reporting  (E_ERROR | E_WARNING | E_PARSE);
-//set_magic_quotes_runtime(0);
 
-require_once './autoload.php';
-require ROOT_PATH."sources/functions.php";
-require ROOT_PATH."sources/display.php";
-require ROOT_PATH."sources/session.php";
 
-//--------------------------------
-// Import $INFO, now!
-//--------------------------------
+require __DIR__ . '/../app/bootstrap.php';
 
-require ROOT_PATH."../conf_global.php";
 
 
 //--------------------------------

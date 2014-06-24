@@ -26,9 +26,6 @@
 //-----------------------------------------------
 // USER CONFIGURABLE ELEMENTS
 //-----------------------------------------------
-// Root path
-
-define('ROOT_PATH', "./");
 
 // Enable module usage?
 // (Vital for some mods and IPB enhancements)
@@ -39,19 +36,13 @@ define('USE_MODULES', 1);
 // NO USER EDITABLE SECTIONS BELOW
 //-----------------------------------------------
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-//error_reporting  (E_ALL);
+require __DIR__ . '/../app/bootstrap.php';
 
-require './autoload.php';
-require ROOT_PATH . "sources/session.php";
-require ROOT_PATH . "sources/functions.php";
-require ROOT_PATH . "sources/display.php";
 
 //--------------------------------
 // Import $INFO, now!
 //--------------------------------
 
-require ROOT_PATH . "../conf_global.php";
 
 setlocale(LC_ALL, 'ru_RU.UTF-8');
 

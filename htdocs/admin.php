@@ -29,9 +29,6 @@
 
 $is_on_tripod = 0;
 
-// Root path
-
-define( 'ROOT_PATH', './' );
 
 // Check IP address to see if they match?
 // this may cause problems for users on proxies
@@ -53,8 +50,6 @@ if(!defined("IN_ACP")) define("IN_ACP",1);
 /*-----------------------------------------------
   NO USER EDITABLE SECTIONS BELOW
  ------------------------------------------------*/
-
-error_reporting  (E_ERROR | E_WARNING | E_PARSE);
 
 if ( $is_on_tripod != 1 )
 {
@@ -79,16 +74,14 @@ if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0)
   @set_time_limit(0);
 }
 
-require_once ROOT_PATH . "autoload.php";
-require ROOT_PATH . "sources/functions.php";
-require ROOT_PATH . "sources/display.php";
+require __DIR__ . '/../app/bootstrap.php';
+
 
 /*-----------------------------------------------
   Import $INFO
  ------------------------------------------------*/
 
 
-require ROOT_PATH."../conf_global.php";
 
 $INFO['mm_groups'] = array(
 	$INFO['admin_group'],
