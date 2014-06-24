@@ -21,8 +21,6 @@
 +--------------------------------------------------------------------------
 */
 
-require_once ROOT_PATH . '/sources/lib/classes/topic.class.php';
-
 $idx = new Moderate;
 
 class Moderate
