@@ -18,6 +18,8 @@ require __DIR__ . '/helpers/helpers.php';
  * Exception handler
  */
 new Exceptions\ExceptionHandler(true, E_ERROR);
+//Logs and error handler. Must be after all other exception and error handlers
+Logs\Logger::initialize();
 
 /**
  * Root path
