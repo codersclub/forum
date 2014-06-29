@@ -1,5 +1,6 @@
 <?php
 
+use Logs\Logger;
 /**
  * @method bool beginTransaction ()
  * @method bool commit ()
@@ -36,6 +37,10 @@ class PDOWrapper
 	public function __construct($dsn, $username, $passwd, $options)
 	{
 		$this->_pdo = new PDO($dsn, $username, $passwd, $options);
+
+        Logger::registerChannel('PDO');
+        Logger::PDO()->addDebug(sprintf('Database initialized with DSN "%s"', $dsn));
+
 	}
 
 	/**
@@ -67,7 +72,7 @@ class PDOWrapper
 	 */
 	public function prepare($statement, array $driver_options = null)
 	{
-
+        Logger::PDO()->addDebug(sprintf("Prepare sql"), array("sql" => $statement, 'trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)));
 		//wtf? We can set null as default value of array arg, but we can't pass it
 		$stmt = $driver_options === null
 			? $this->_pdo->prepare($statement)
@@ -93,6 +98,7 @@ class PDOWrapper
 	 */
 	public function query($statement)
 	{
+        Logger::PDO()->addNotice('Raw query used', ['sql' => $statement, 'trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)]);
 		$stmt = $this->_pdo->query($statement);
 		if ($stmt instanceof PDOStatement)
 		{
