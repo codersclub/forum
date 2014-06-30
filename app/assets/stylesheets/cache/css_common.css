@@ -1,5 +1,5 @@
 @import "../html/jqcd/jqcd.css";
-@import "tags.css";
+// = require tags.css
 
 table {
     width: 100%;
