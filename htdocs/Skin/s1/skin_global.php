@@ -92,8 +92,7 @@ EOF;
 }
 
 function css_external($css, $img) {
-global $ibforums;
-    return Assets::make('assets/stylesheets/cache/css_' . $css . '.css')->toLink();
+    return Assets::make('assets/stylesheets/skins/css_' . $css . '.scss')->toLink();
 }
 
 function action_button_wrapper($html, $name) {

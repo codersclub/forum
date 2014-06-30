@@ -161,7 +161,7 @@ class ad_settings
 			$like  = "id='{$name}'";
 			$first = '#';
 		}
-		$text = file_get_contents(app_path("/assets/stylesheets/cache/css_{$IN['id']}.css"));
+		$text = file_get_contents(app_path("/assets/stylesheets/skins/css_{$IN['id']}.scss"));
 		preg_match("/($first" . "$name)\s{0,}\{(.+?)\}/s", $text, $match);
 
 		$defs = explode(";", str_replace("\n\n", "\n", str_replace("\r\n", "\n", trim($match[2]))));
@@ -513,7 +513,7 @@ class ad_settings
 		$stmt = $ibforums->db->query("SELECT css_id, img_dir FROM ibf_skins WHERE set_id='" . $template['set_id'] . "'");
 		$r    = $stmt->fetch();
 
-		$css_text = $text = file_get_contents(app_path("/assets/stylesheets/cache/css_{$r['css_id']}.css"));
+		$css_text = $text = file_get_contents(app_path("/assets/stylesheets/skins/css_{$r['css_id']}.scss"));
 		$css_text = "\n<style>\n<!--\n" . str_replace("<#IMG_DIR#>", "style_images/" . $r['img_dir'], $css_text) . "\n//-->\n</style>";
 
 		print "<html><head>
@@ -805,7 +805,7 @@ class ad_settings
 					$stmt = $ibforums->db->query("SELECT css_id, img_dir FROM ibf_skins WHERE set_id='" . $template['set_id'] . "'");
 					$r    = $stmt->fetch();
 
-					$css_text = file_get_contents(app_path("/assets/stylesheets/cache/css_{$r['css_id']}.css"));
+					$css_text = file_get_contents(app_path("/assets/stylesheets/skins/css_{$r['css_id']}.scss"));
 					$css_text = "\n<style>\n<!--\n" . str_replace("<#IMG_DIR#>", "style_images/" . $r['img_dir'], $css_text) . "\n//-->\n</style>";
 
 					@header("Content-type: text/html");

@@ -300,7 +300,7 @@ class ad_langs
 
 			$css = preg_replace("/\r/", "\n", stripslashes($css));
 
-			file_put_contents(app_path("/assets/stylesheets/cache/css_{$next_id['css']}.css"), $css);
+			file_put_contents(app_path("/assets/stylesheets/skins/css_{$next_id['css']}.scss"), $css);
 
 		} else
 		{

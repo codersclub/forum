@@ -206,7 +206,7 @@ class ad_settings
 		//+-------------------------------
 		// Make the css file...
 		//+-------------------------------
-		$css_text = file_get_contents(app_path("/assets/stylesheets/cache/css_{$row['css_id']}.css"));
+		$css_text = file_get_contents(app_path("/assets/stylesheets/skins/css_{$row['css_id']}.scss"));
 
 		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $css_name, 'w');
 		fwrite($FH, $css_text);
@@ -562,10 +562,10 @@ class ad_settings
 
 		//+-------------------------------
 
-		foreach (scandir(app_path('/assets/stylesheets/cache/')) as $item)
+		foreach (scandir(app_path('/assets/stylesheets/skins/')) as $item)
 		{
 			$matches = [];
-			if (preg_match('/^css_(\d+)\.css$/', $item, $matches))
+			if (preg_match('/^css_(\d+)\.scss$/', $item, $matches))
 			{
 				$css[] = [$matches[1], $matches[1]];
 			}
