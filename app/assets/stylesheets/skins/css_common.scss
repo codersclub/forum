@@ -1,8 +1,10 @@
 @import "../html/jqcd/jqcd.css";
-// = require tags.css
+
+@import "tags.scss";
 
 table {
     width: 100%;
+    border-spacing: 0;
 }
 
 img.icon_off{
@@ -1116,9 +1118,4 @@ h2 {
 .b-tracking-list_unread td
 {
     padding: 4px;
-}
-
-.b-poll {
-    text-align: center;
-    width: auto;
 }
