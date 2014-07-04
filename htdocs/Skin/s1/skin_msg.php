@@ -175,15 +175,34 @@ function find_users()
 EOF;
 }
 
+	function renderAddToContactsBtn($id){
+		$ibforums = Ibf::app();
+		return <<<EOF
+[ <a class="b-button_add-to-contacts" href='{$ibforums->base_url}act=Msg&amp;CODE=02&amp;MID={$id}'>{$ibforums->lang['add_to_book']}</a> ]
+EOF;
+	}
 
-function inbox_row($data) {
-global $ibforums;
+	function renderSenderLink($id, $name){
+		$ibf = Ibf::app();
+		return <<<EOF
+<a href='{$ibf->base_url}showuser={$id}'>$name</a>
+EOF;
+
+	}
+
+	function inbox_row($data) {
+		global $ibforums;
+		if ($data['msg']['member_deleted']){
+			$sender = $data['msg']['from_name'];
+		}else{
+			$sender = $this->renderSenderLink($data['msg']['from_id'], $data['msg']['from_name']) . ' ' . $this->renderAddToContactsBtn($data['msg']['from_id']);
+		}
 return <<<EOF
 
   <tr class="b-row" data-msg-id="{{$data['msg']['msg_id']}}" data-read="{$data['msg']['read_state']}" >
 	<td class="b-column_icon">{$data['msg']['icon']}</td>
 	<td class="b-column_title" ><a href='{$ibforums->base_url}act=Msg&amp;CODE=03&amp;VID={$data['stat']['current_id']}&amp;MSID={$data['msg']['msg_id']}'>{$data['msg']['title']}</a></td>
-	<td class="b-column_sender"><a href='{$ibforums->base_url}showuser={$data['msg']['from_id']}'>{$data['msg']['from_name']}</a> {$data['msg']['add_to_contacts']}</td>
+	<td class="b-column_sender">{$sender}</td>
 	<td class="b-column_date">{$data['msg']['date']}</td>
 	<td class="b-column_checkbox"><input type='checkbox' name='msgid_{$data['msg']['msg_id']}' value='yes' class='forminput'></td>
   </tr>

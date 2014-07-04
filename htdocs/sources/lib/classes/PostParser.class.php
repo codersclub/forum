@@ -50,6 +50,47 @@ class syntax_rule
 	}
 }
 
+class ReplacementsStrorage
+{
+	protected $data = [];
+	protected $last_id = 0;
+	protected $prefix;
+
+	public function __construct()
+	{
+		$this->prefix = '#macro#' . time() . '#';
+	}
+
+	public function add($string)
+	{
+		$this->last_id++;
+		$this->data[$this->prefix . $this->last_id] = $string;
+		return $this->prefix . $this->last_id;
+	}
+
+	public function getKeys()
+	{
+		return array_keys($this->data);
+	}
+
+	public function getValues()
+	{
+		return $this->data;
+	}
+
+	public function restore($text)
+	{
+		$text = str_replace($this->getKeys(), $this->getValues(), $text);
+		$this->clear();
+		return $text;
+	}
+
+	public function clear()
+	{
+		$this->data = [];
+	}
+}
+
 class PostParser
 {
 
@@ -73,6 +114,10 @@ class PostParser
 	var $cache_posts = array();
 	var $absent_highlight = array();
 	var $code_count = 0;
+	/**
+	 * @var ReplacementsStrorage
+	 */
+	private $protected_replacements;
 
 	/**
 	 * @var int
@@ -85,6 +130,7 @@ class PostParser
 
 	public $post_attachments = array();
 	public $siu_thumb = false;
+
 
 	// ******************************************************************************
 	// ***  Highlight Functions (c) by Leprecon
@@ -580,20 +626,23 @@ class PostParser
 	//за исключением тех, которые находятся дальше последнего [/spoiler], ибо они сюда даже не попадут
 	private function convert_spoiler($matches)
 	{
-		global $ibforums;
+		global $ibforums, $skin_universal;
 		//Проверка matches[4] здесь - выяснение, сработало вхождение [spoiler] или [/spoiler].
 		if (!$matches[4])
 		{
-			// Starting Tag
+			//Starting Tag
 			$this->quote_open++;
-			return '<div class=\'spoiler closed\'><div class=\'spoiler_header\' onclick=\'openCloseParent(this)\'>' . (trim($matches[3])
-				? $matches[3]
-				: $ibforums->lang["spoiler"]) . '</div><div class=\'body\'>';
+			$matches[3] = trim($matches[3]);
+			return $skin_universal->renderTagSpoilerTop(
+				$matches[3]
+					? $matches[3]
+					: $ibforums->lang["spoiler"]
+			);
 		} elseif ($this->quote_open > 0)
 		{
 			// Ending Tag
 			$this->quote_open--;
-			return "</div></div>";
+			return $skin_universal->renderTagSpoilerBottom();
 		} else
 		{
 			// Leave As Is
@@ -631,8 +680,6 @@ class PostParser
 
 		$this->quote_open  = 0;
 		$this->quote_error = 0;
-
-		$txt = preg_replace("/\n/", "<br>", $txt);
 
 		return $txt;
 
@@ -673,6 +720,8 @@ class PostParser
 		global $ibforums;
 
 		$this->strip_quotes = $ibforums->vars['strip_quotes'];
+
+		$this->protected_replacements = new ReplacementsStrorage();
 
 		if ($load)
 		{
@@ -1130,17 +1179,6 @@ class PostParser
 
 		if (mb_strpos($txt, "[") === FALSE)
 		{
-			//--------------------------------------
-			// Auto parse URLs
-			//--------------------------------------
-
-			//there can't be letters or digits before protocol descriptions,
-			//also we check for _ for historical reasons
-			$txt = preg_replace_callback(
-				"#([^a-z0-9_]?)((http|https|news|ftp)://\w+[^\s\[\]<$]+)#i",
-				function($m) { return $this->regex_build_url(['html' => $m[2], 'show' => '', 'st' => $m[1]]);},
-				$txt
-			);
 
 			// Swop \n back to <br>
 			$txt = preg_replace("/\n/", "<br>", $txt);
@@ -1165,16 +1203,6 @@ class PostParser
 		}
 
 		//--------------------------------------
-		// Tables by vot (Convert)
-		//--------------------------------------
-
-		$txt = preg_replace_callback(
-			"#\[table\](.*?)\[/table\]#is",
-			function($m) { return $this->regex_table($m[1]); },
-			$txt
-		);
-
-		//--------------------------------------
 		// Align Hack by Farch (Convert)
 		//--------------------------------------
 
@@ -1182,6 +1210,39 @@ class PostParser
 		$txt = preg_replace("#\[l](.+?)\[/l\]#is", "<div class='tag-align-left'>\\1</div>", $txt);
 		$txt = preg_replace("#\[c\](.+?)\[/c\]#is", "<div class='tag-align-center'>\\1</div>", $txt);
 		$txt = preg_replace("#\[hr\]#is", "<hr>", $txt);
+
+
+		// Song * time tag
+		$txt = preg_replace_callback(
+			"#\[mergetime\](\d+)\[/mergetime\]#is",
+			function($m) {
+				global $skin_universal;
+				$ibf = Ibf::app();
+
+				return ($ibf->vars['plg_offline_client'] || $ibf->member['rss']) //todo !!!!??!!!!
+					? $ibf->functions->old_get_date($m[1])
+					: $skin_universal->renderTime($m[1], 'tag-mergetime');
+			},
+			$txt);
+
+		// url tags
+		// [url]http://www.index.com[/url]   [url=http://www.index.com]ibforums![/url]
+
+		$txt = preg_replace_callback(
+			"#\[url\](\S+?)\[/url\]#i",
+			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[1]]); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#i",
+			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
+			$txt
+		);
+		$txt = preg_replace_callback(
+			"#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#i",
+			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
+			$txt
+		);
 
 		if ($in['CODE'] == 1)
 		{
@@ -1293,25 +1354,6 @@ class PostParser
 
 			// ******************************************** COMMENTED BY SONG **********************************************
 
-			// url tags
-			// [url]http://www.index.com[/url]   [url=http://www.index.com]ibforums![/url]
-
-			$txt = preg_replace_callback(
-				"#\[url\](\S+?)\[/url\]#i",
-				function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[1]]); },
-				$txt
-			);
-			$txt = preg_replace_callback(
-				"#\[url\s*=\s*\&quot\;\s*(\S+?)\s*\&quot\;\s*\](.*?)\[\/url\]#i",
-				function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
-				$txt
-			);
-			$txt = preg_replace_callback(
-				"#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#i",
-				function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => $m[2]]); },
-				$txt
-			);
-
 			// font size, colour and font style
 			// [font=courier]Text here[/font]  [size=6]Text here[/size]  [color=red]Text here[/color]
 
@@ -1354,6 +1396,17 @@ class PostParser
 	 * </tr>
 	 * </table>
 	 */
+
+		//--------------------------------------
+		// Tables by vot (Convert)
+		//--------------------------------------
+
+		$txt = preg_replace_callback(
+			"#\[table\](.*?)\[/table\]#is",
+			function($m) { return $this->regex_table($m[1]); },
+			$txt
+		);
+
 		$txt = preg_replace('!<(table|tr)>\s*<(td|th|tr)>!', '<$1><$2>', $txt);
 		$txt = preg_replace('!</(th|td)>\s*</(tr)>!', '</$1></$2>', $txt);
 		$txt = preg_replace('!</(th|td|tr)>\s*<(\1)>!', '</$1><$2>', $txt);
@@ -1421,37 +1474,6 @@ class PostParser
 			$txt
 		);
 
-		// **************************** moderators tags *************************************************************
-
-		// Song * time tag
-
-		$txt = preg_replace_callback(
-			"#\[mergetime\](\d+)\[/mergetime\]#is",
-			function($m) {
-				global $skin_universal;
-				$ibf = Ibf::app();
-
-				return ($ibf->vars['plg_offline_client'] || $ibf->member['rss']) //todo !!!!??!!!!
-					? $ibf->functions->old_get_date($m[1])
-					: $skin_universal->renderTime($m[1], 'tag-mergetime');
-				},
-			$txt);
-
-		//--------------------------------------
-		// Auto parse URLs
-		//--------------------------------------
-		//It must to be after all text conversions to prevent interference with tags
-		//However there are additional problems with already created <a> and <img> tags,
-		//so first we skip urls after href= and src=
-		//second, we need to avoid situations like <a href="url">url</a> can be added by [url] tag
-		//so we add &shy; symbol to links created by [url] and check for it here
-		$txt = preg_replace_callback(
-			//better, but [:alnum:] don't understand cyr characters sometimes.
-			//'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/([[:alpha:]][[:alnum:]-]*[[:alnum:]]\.?)+(:\d+)?([[:alnum:]_\.\-:\/\?\#\[\]@\!\$\&\'\(\)\*\+\,\;\=]|%[A-Z0-9]{2})*)#ie',
-			'#(?<!\w|&shy;|href=.|src=.)((https?|news|s?ftp):\/\/[^\s\[\]\<\>\"]+)#i',
-			function($m) { return $this->regex_build_url(['html' => $m[1], 'show' => '', 'st' => '']); },
-			$txt
-		);
 		// Leprecon * return &shy; back to ''
 
 		$txt = preg_replace("#&shy;#", "", $txt);
@@ -1672,12 +1694,6 @@ class PostParser
 	function macro($txt, $fid = "0")
 	{
 
-		// keep http text as is, except if it's internal forum link
-		$txt = preg_replace_callback('#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#i', array(
-		                                                                                      $this,
-		                                                                                      'regex_build_url_auto_parser_cut'
-		                                                                                 ), $txt);
-
 		// change url tags
 		$txt = preg_replace_callback(
 			"#\[url\](\S+?)\[/url\]#i",
@@ -1694,6 +1710,16 @@ class PostParser
 		$txt = preg_replace_callback(
 			"#\[url\s*=\s*(\S+?)\s*\](.*?)\[\/url\]#i",
 			function($m) { return $this->regex_build_url_auto_parser(['html' => $m[1], 'show' => $m[2]]);},
+			$txt
+		);
+
+		//try to process links without tags
+		$txt = preg_replace_callback(
+			'#(?<![_a-z]|\[URL=|\[img\])((http|https|news|ftp)://\w+[^\s\[\]]+)#iu',
+			[
+				$this,
+				'regex_build_url_auto_parser_cut'
+			],
 			$txt
 		);
 
@@ -1752,6 +1778,8 @@ class PostParser
 			function($m) { return $this->user_link($m[1]); },
 			$txt
 		);
+
+		$txt = $this->protected_replacements->restore($txt);
 
 		return $txt;
 
@@ -2891,7 +2919,7 @@ class PostParser
 			$show = $uri_type . '://' . mb_substr($stripped, 0, 35) . '...' . mb_substr($stripped, -15);
 		}
 
-		return $url['st'] . "<a class='tag-url' href='" . $url['html'] . "' target='_blank'>&shy;" . $show . "</a>" . $url['end'];
+		return "<a class='tag-url' href='" . $url['html'] . "' target='_blank'>&shy;" . $show . "</a>" . $url['end'];
 
 	}
 
@@ -3043,16 +3071,14 @@ class PostParser
 			}
 		}
 
-		return $url['st'] . "[URL=" . $url['html'] . "]" . $show . "[/URL]" . $url['end'];
+		return $this->protected_replacements->add("[URL=" . $url['html'] . "]" . $show . "[/URL]" . $url['end']);
 
 	}
 
 	function regex_build_url_auto_parser_cut(array $url)
 	{
 		global $ibforums;
-		// "\$this->regex_build_url_auto_parser_cut( array('html' => '\\2', 'show' => '\\2', 'st' => '\\1'))"
-		$url     = array('html' => $url[2], 'show' => $url[2], 'st' => $url[1]);
-		$skip_it = 0;
+		$url     = array('html' => $url[1], 'show' => $url[1]);
 
 		// Make sure the last character isn't punctuation.. if it is, remove it and add it to the
 		// end array
@@ -3077,36 +3103,12 @@ class PostParser
 		// Make sure we don't have a JS link
 		$url['html'] = preg_replace("/javascript:/i", "java script&#58; ", $url['html']);
 
-		// Do we have http:// at the front?
-
-		if (!preg_match("#^(http|news|https|ftp|aim)://#", $url['html']))
-		{
-			$url['html'] = 'http://' . $url['html'];
-		}
-
 		//-------------------------
 		// Tidy up the viewable URL
 		//-------------------------
 
-		if (preg_match("/^<img src/i", $url['show']))
-		{
-			$skip_it = 1;
-		}
-
 		$url['show'] = preg_replace("/&amp;/", "&", $url['show']);
 		$url['show'] = preg_replace("/javascript:/i", "javascript&#58; ", $url['show']);
-
-		if ((mb_strlen($url['show']) - 58) < 3)
-		{
-			$skip_it = 1;
-		}
-
-		// Make sure it's a "proper" url
-
-		if (!preg_match("/^(http|ftp|https|news):\/\//i", $url['show']))
-		{
-			$skip_it = 1;
-		}
 
 		$show = $url['show'];
 
@@ -3147,11 +3149,46 @@ class PostParser
 				}
 			}
 
-			return $url['st'] . "[URL=" . $url['html'] . "]" . $show . "[/URL]" . $url['end'];
+			return $this->protected_replacements->add("[URL=" . $url['html'] . "]" . $show . "[/URL]" . $url['end']);
 
 		} else
 		{
-			return $url['st'] . $url['html'] . $url['end'];
+			//search for the page title
+			$matches = [];
+			$tags_to_check = array_filter(explode(',', Ibf::app()->vars['url_parser_search_title_metatags']));
+			$tags = !empty($tags_to_check)
+				? @get_meta_tags($url['html'])
+				: [];
+			foreach ($tags_to_check as $_)
+			{
+				if (isset($tags[$_]))
+				{
+					$title = $tags[$_]; //grabbing the first one
+					break;
+				}
+			}
+			if (isset($title))
+			{
+				//nothing to do actually, just prevent executing the next row
+			} elseif (Ibf::app()->vars['url_parser_search_page_title'] && preg_match(
+					'/<title>(.+)<\/title>/ui',
+					@file_get_contents(
+						$url['html'],
+						null,
+						null,
+						null,
+						intval(Ibf::app()->vars['url_parser_search_page_title_till'])
+					),
+					$matches
+				) && isset($matches[1])
+			)
+			{
+				$title = $matches[1];
+			} else
+			{
+				$title = $url['html'];
+			}
+			return $this->protected_replacements->add(sprintf('[URL=%s]%s[/URL]%s', $url['html'], $title, $url['end']));
 		}
 
 	}

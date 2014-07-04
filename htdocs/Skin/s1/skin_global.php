@@ -804,4 +804,17 @@ function renderTagFont($value, $text) {
 <span class="tag-font" data-value="{$value}" style="font-family:{$value}">{$text}</span>
 EOF;
 }
+
+function renderTagSpoilerTop($header) {
+	return <<<EOF
+<div class="tag-spoiler spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">{$header}</div><div class="body">
+EOF;
+}
+
+function renderTagSpoilerBottom(){
+	return <<<EOF
+</div></div>
+EOF;
+}
+
 }

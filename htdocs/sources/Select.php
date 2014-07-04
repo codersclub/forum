@@ -1271,16 +1271,27 @@ class Search
 
 		if (!$this->unique_id)
 		{
-			$ibforums->functions->Error(array(
-			                 'LEVEL' => 1,
-			                 'MSG'   => 'no_search_results'
-			            ));
+			$ibforums->functions->Error(
+				[
+					'LEVEL' => 1,
+					'MSG'   => 'no_search_results'
+				]
+			);
 		}
 
 		$stmt = $ibforums->db
 			->prepare("SELECT * FROM ibf_search_results WHERE id=:id")
 			->bindParam(':id', $this->unique_id)
 			->execute();
+		if($stmt->rowCount() === 0)
+		{
+			$ibforums->functions->Error(
+				[
+					'LEVEL' => 1,
+					'MSG'   => 'no_search_results'
+				]
+			);
+		}
 		$sr   = $stmt->fetch();
 
 		$this->sort_order = $sr['sort_order'];
