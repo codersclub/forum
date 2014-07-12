@@ -3090,6 +3090,12 @@ class PostParser
 			$url['show'] = preg_replace("/([\.,\?]|&#33;)$/", "", $url['show']);
 		}
 
+		//Let's think there are not so many links with ')' but without '(' in the internet
+		if(substr($url['html'], -1) == ')' && strpos($url['html'], '(') === false ) {
+			$url['end'] = ')' . $url['end'];
+			$url['html'] = substr($url['html'], 0, -1);
+		}
+
 		// Make sure it's not being used in a closing code/quote block
 
 		if (preg_match("/\[\/(quote|code)/i", $url['html']))
