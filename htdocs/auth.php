@@ -4,7 +4,7 @@ require __DIR__ . '/../app/bootstrap.php';
 $std   = new functions;
 $sess  = new session();
 
-$DB = new IBPDO($INFO);
+$DB = new IBPDO();
 try {
 	$ibforums->input = $std->parse_incoming();
 	$ibforums->member = $sess->authorise();

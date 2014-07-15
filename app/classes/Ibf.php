@@ -20,6 +20,13 @@ class Ibf
 		Debug::instance()->onAfterRegisterApplication($app);
 	}
 
+    /**
+     * Removes the application
+     */
+    public static function dropApplication(){
+        self::$application = null;
+    }
+
 	/**
 	 * Check if application is registered
 	 * @return bool

@@ -50,6 +50,7 @@ class CoreApplication
 	public function init()
 	{
 		$this->input  = $this->loadInputData();
+		\Logs\Logger::Ibf()->debug('Input data loaded', ['data' => $this->input]);
 		$this->member = $this->loadMember();
 		$this->lang   = $this->loadLanguage();
 		$this->skin   = $this->loadSkin();
@@ -108,7 +109,7 @@ class CoreApplication
 	{
 		try
 		{
-			$this->db = new IBPDO($this->vars);
+			$this->db = new IBPDO();
 		} catch (PDOException $e)
 		{
 			//todo do something

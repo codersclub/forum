@@ -9,8 +9,19 @@
  */
 use Config\Registry;
 
+/**
+ * Class Config
+ * @see \Config\Registry
+ * @method static mixed get($path)
+ * @method static void set($path, $value)
+ * @method static string getEnvironment()
+ * @method static void setEnvironment($name)
+ */
 class Config
 {
+    /**
+     * @var Registry
+     */
     protected static $instance = null;
 
     /**
@@ -20,6 +31,7 @@ class Config
     {
         if (!self::$instance) {
             self::$instance =  new Registry(__DIR__ . '/../config');
+            self::$instance->setEnvironment(self::$instance->get('app.environment'));
         }
         return self::$instance;
     }
