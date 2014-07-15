@@ -9,6 +9,10 @@
         "natxet/CssMin": "dev-master",
         "monolog/monolog": "1.10.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*",
+        "phpunit/dbunit": ">=1.2"
+    },
     "autoload": {
         "classmap": [
             "app/classes",

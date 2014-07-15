@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<dataset>
+    <ibf_variables name="one" data='a:2:{s:4:"key1";a:2:{s:7:"subkey1";s:4:"key1";s:7:"subkey2";s:4:"key2";}s:4:"key2";s:8:"some key";}'/>
+    <ibf_variables name="two" data='a:1:{s:4:"key1";s:4:"key1";}'/>
+    <ibf_variables name="empty" data='a:0:{}'/>
+    <ibf_variables name="corrupted" data="hello kitty"/>
+</dataset>
