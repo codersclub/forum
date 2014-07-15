@@ -3207,7 +3207,7 @@ In shell type:
 <br />
 <pre>mysql -u{your_sql_user_name} -p{your_sql_password}</pre>
 <br />
-Your MySQL username and password can be found in your conf_global.php file
+Your MySQL username and password can be found in database.php file in your config directory
 <br />
 <br />
 <strong>Step 2: Select your database</strong>

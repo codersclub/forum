@@ -7,20 +7,22 @@ class IBPDO extends PDOWrapper
 {
 	use MixinTrait;
 
-	function __construct($INFO)
+	function __construct()
 	{
 		$options                               = [];
 		$options[PDO::ATTR_DEFAULT_FETCH_MODE] = PDO::FETCH_ASSOC; //return always assoc arrays
 		$options[PDO::ATTR_ERRMODE]            = PDO::ERRMODE_EXCEPTION; //throw exceptions instead returning false
-		if ($INFO['sql_charset'])
+
+		$config = Config::get('database');
+		if (!empty($config['charset']))
 		{
-			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = sprintf('SET NAMES "%s"', $INFO['sql_charset']);
+			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = sprintf('SET NAMES "%s"', $config['charset']);
 		}
-		if ($INFO['sql_persistent'])
+		if ($config['persistent'])
 		{
-			$options[PDO::ATTR_PERSISTENT] = (bool)$INFO['sql_persistent'];
+			$options[PDO::ATTR_PERSISTENT] = (bool)$config['persistent'];
 		}
-		parent::__construct($INFO['sql_dsn'], $INFO['sql_user'], $INFO['sql_pass'], $options);
+		parent::__construct($config['dsn'], $config['user'], $config['password'], $options);
 	}
 
 	/**
