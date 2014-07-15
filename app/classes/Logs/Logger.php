@@ -2,21 +2,46 @@
 
 namespace Logs;
 
+use Config\ConfigNotFoundException;
+use Logs\Handler\IPFilterHandler;
+use Monolog\Handler\BufferHandler;
 use Monolog\Registry;
 use Monolog\Handler\FilterHandler;
 
+/**
+ * Класс инициализации и работы с логами.
+ * @package Logs
+ *
+ * Channels
+ * @method static \Monolog\Logger Debug() Developers channel
+ * @method static \Monolog\Logger Ibf() Common messages channel
+ * @method static \Monolog\Logger PDO() Low level PDO queries channel
+ * @method static \Monolog\Logger PHP() PHP errors channel
+ * @method static \Monolog\Logger Stats() Statistics channel
+ */
 class Logger extends Registry
 {
+    /**
+     * Загруженные обработчики
+     * @var array|\Monolog\Handler\HandlerInterface
+     */
     private static $handlers;
 
+    /**
+     * Инициализирует Monolog.
+     * Парсит конфиг logs.* и создаёт на его основе обработчики и перехватчики ошибок/исключений.
+     * Также инициализирует каналы Ibf и Debug
+     */
     public static function initialize()
     {
         self::$handlers        = [];
         $load_time_execeptions = [];
 
+        self::clear();
+
         try {
             $handler_configs = \Config::get('logs.handlers');
-        } catch (\Exception $e) {
+        } catch (ConfigNotFoundException $e) {
             $handler_configs = [];
         }
 
@@ -35,47 +60,63 @@ class Logger extends Registry
                     $handler_info['exclude_channels'] = array_fill_keys($config['exclude_channels'], true);
                 }
 
-                $construct_args = [];
-                $ref_class      = new \ReflectionClass($config['class']);
-                $ref_method     = $ref_class->getConstructor();
-                if ($ref_method !== null) {
-                    $construct_args = self::filterArgumentsfromOptions($ref_method, $config['options']);
-                }
-                $handler_info['instance'] = $ref_class->newInstanceArgs($construct_args);
-                unset($ref_method, $ref_class, $construct_args);
+                $handler_info['instance'] = self::createClassFromConfig($config);
                 //non-constructor options
-                if (isset($config['options'])) {
+                if (isset($config['options']) && is_array($config['options'])) {
                     foreach ($config['options'] as $option => $value) {
                         $method = 'set' . $option;
                         if (property_exists($handler_info['instance'], $option)) {
                             $handler_info['instance']->option = $value;
+
                         } elseif (method_exists($handler_info['instance'], $method)) {
-                            $value      = (array)$value;
                             $ref_method = new \ReflectionMethod($handler_info['instance'], $method);
-                            $args       = self::filterArgumentsfromOptions($ref_method, $value);
-                            $ref_method->invokeArgs($handler_info['instance'], $args);
+                            self::invokeMethodWithOptions($handler_info['instance'], $ref_method, $value);
                         }
                     }
                 }
+                //Обрабатываем опцию форматтера
+                if (isset($config['formatter'])) {
+                    $handler_info['instance']->setFormatter(self::createClassFromConfig($config['formatter']));
+                }
 
+                // Добавляем буферизацию сообщений. Для этого заменяем наш обработчик специальномым BufferHandler,
+                //которому передаём уже наш в качестве параметра
+                if (isset($config['buffer_records']) && $config['buffer_records'] === true) {
+                    $buffer_limit             = isset($config['buffer_limit'])
+                        ? $config['buffer_limit']
+                        : 0;
+                    $handler_info['instance'] = new BufferHandler($handler_info['instance'], $buffer_limit);
+                }
+
+                //Фильтр по уровням.
                 if (isset($config['levels'])) {
                     $handler_info['instance'] = new FilterHandler($handler_info['instance'], $config['levels']);
                 }
+
+                //Фильтр по IP
+                if (isset($config['ip'])) {
+                    $handler_info['instance'] = new IPFilterHandler($handler_info['instance'], $config['ip']);
+                }
+
                 self::$handlers[] = $handler_info;
-            } catch (\Exception $e) {
+            } catch (ConfigNotFoundException $e) {
                 $load_time_execeptions[] = $e;
             }
         }
 
         //Register global channel
         self::registerChannel('Ibf');
+        //Register Development channel
+        self::registerChannel('Debug');
+        //Register statistics channel
+        self::registerChannel('Stats');
 
         try {
             //register error_handler
             $error_handler_config = \Config::get('logs.error_handler');
-        }catch(\Exception $e){
+        } catch (ConfigNotFoundException $e) {
             $load_time_execeptions[] = $e;
-            $error_handler_config = false;
+            $error_handler_config    = false;
         }
 
         if ($error_handler_config) {
@@ -87,14 +128,52 @@ class Logger extends Registry
         }
 
         if (!empty($load_time_execeptions)) {
-            self::Ibf()->addAlert(
-                'Exceptions raised during registering the handlers',
-                ['exceptions' => $load_time_execeptions]
-            );
+            self::Ibf()
+                ->addAlert(
+                    'Exceptions raised during registering the handlers',
+                    ['exceptions' => $load_time_execeptions]
+                );
         }
     }
 
-    private static function filterArgumentsfromOptions(\ReflectionMethod $method, &$options)
+    /**
+     * Ищет параметры для выполнения метода и исполняет его.
+     * @param object $classInstance Экземпляр класса, которому принадлежит метод.
+     * Детали в описании ReflectionMethod::invokeArgs()
+     * @param \ReflectionMethod $method Метод для исполнения
+     * @param array|mixed $options Массив аргументов метода в виде 'имя аргумента - значение'.
+     * Для исполнения методов с одним обязательным параметром может принять вид самого параметра вместо массива
+     * @return mixed Результат выполнения метода
+     * @throws \InvalidArgumentException
+     */
+    private static function invokeMethodWithOptions(&$classInstance, \ReflectionMethod $method, &$options)
+    {
+        if (is_array($options)) {
+            $args = self::filterArgumentsfromOptions($method, $options);
+        } else {
+            if ($method->getNumberOfRequiredParameters() === 1) {
+                $args    = [$options];
+                $options = null;
+            } else {
+                throw new \InvalidArgumentException(sprintf(
+                    'Wrong number of parameters passed to %s:%s ',
+                    $method->getName(),
+                    get_class($classInstance)
+                ));
+            }
+        }
+        return $method->invokeArgs($classInstance, $args);
+    }
+
+    /**
+     * Фильтрует список аргументов метода из указанного массива. Найденные элементы из массива удаляёются.
+     * @param \ReflectionMethod $method Метод, чьи аргументы надо найти
+     * @param array $options Массив для поиска в виде 'имя аргумента' => 'значение'.
+     * @return array Упорядоченный для использования функций вроде call_user_func_array() или
+     * \ReflectionMethod::InvokeArgs(), массив значений.
+     * @throws \InvalidArgumentException
+     */
+    private static function filterArgumentsfromOptions(\ReflectionMethod $method, array &$options)
     {
         $args = [];
         foreach ($method->getParameters() as $ref_param) {
@@ -121,6 +200,57 @@ class Logger extends Registry
         return $args;
     }
 
+    /**
+     * Создаёт класс на основе имени и аргументов для конструктора
+     * @param string $classname имя класса
+     * @param array|mixed $options Аргументы для запуска в виде 'имя аргумента' => 'значение'. Вместо массива может быть
+     * значение произвольного типа если конструктор требует только один аргумент.
+     * @return object Созданный объект
+     * @throws \InvalidArgumentException
+     */
+    private static function createClassFromNameAndOptions($classname, $options = [])
+    {
+        $class  = new \ReflectionClass($classname);
+        $method = $class->getConstructor();
+
+        if ($method !== null) {
+            if (is_array($options)) {
+                $args = self::filterArgumentsfromOptions($method, $options);
+            } else {
+                if ($method->getNumberOfRequiredParameters() === 1) {
+                    $args = [$options];
+                } else {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Wrong number of parameters passed to constuctor of class %s ',
+                        $classname
+                    ));
+                }
+            }
+        } else {
+            $args = [];
+        }
+        return $class->newInstanceArgs($args);
+
+    }
+
+    /**
+     * Создаёт класс из куска конфига. Никакой особой магии.
+     * @param array $options Часть конгфига для отдельного элемента(e.g. обработчика)
+     * @return object
+     */
+    private static function createClassFromConfig($options)
+    {
+        if (!isset($options['options'])) {
+            $options['options'] = [];
+        }
+        return self::createClassFromNameAndOptions($options['class'], $options['options']);
+    }
+
+    /**
+     * Регистрирует канал и добавляет в него все обработчики в соответствии с настройками
+     * @param string $name Наименование канала
+     * @return \Monolog\Logger
+     */
     public static function registerChannel($name)
     {
         static $processors_cache = [];
@@ -138,12 +268,12 @@ class Logger extends Registry
             if (!$config) {
                 $config = \Config::get('logs.channels.*');
             }
-        } catch (\Exception $e) {
+        } catch (ConfigNotFoundException $e) {
             $config = false;
         }
 
         if ($config) { //Всё ещё сомневаемся
-            if (isset($config['processors'])) {
+            if (isset($config['processors']) && is_array($config['processors'])) {
                 foreach ($config['processors'] as $p) {
                     if (!isset($processors_cache[$p])) {
                         $processors_cache[$p] = new $p();

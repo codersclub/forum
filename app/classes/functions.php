@@ -1018,28 +1018,35 @@ class functions
 
 	/**
 	 * Sends Private message and mail notify
+	 * @param int $sendto Recipient member id.
+	 * @param string $message Message text
+	 * @param string $title Message title
+	 * @param int $sender_id Sender's member id. Default is current
+	 * @param int $popup Force to show popup notification for receiver
+	 * @param int $do_send Force to send email copy of the PM
+	 * @param int $fatal If not set. mute the database errors. todo Why is it needed here?
+	 * @return int Message id.
 	 */
-	function sendpm($sendto, $message, $title, $sender_id = "", $popup = 0, $do_send = 0, $fatal = 1)
+	function sendpm($sendto, $message, $title, $sender_id = 0, $popup = 0, $do_send = 0, $fatal = 1)
 	{
-		$ibforums = Ibf::app();
 
-		$sendto = intval($sendto);
+		settype($sendto, 'int');
+		settype($sender_id, 'int');
 
-		$sender_id = intval($sender_id);
 		if (!$sender_id)
 		{
-			$sender_id = $ibforums->member['id'];
+			$sender_id = Ibf::app()->member['id'];
 		}
 
-		if (!$sendto or !$sender_id)
+		if (!$sendto || !$sender_id)
 		{
 			return 0;
 		}
 
 		if (!$fatal)
 		{
-			$old_err = $ibforums->db->getAttribute(PDO::ATTR_ERRMODE);
-			$ibforums->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+			$old_err = Ibf::app()->db->getAttribute(PDO::ATTR_ERRMODE);
+			Ibf::app()->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 		}
 		$data = [
 			'member_id'    => $sendto,
@@ -1053,44 +1060,36 @@ class functions
 			'tracking'     => 0,
 		];
 
-		$ibforums->db->insertRow('ibf_messages', $data);
-		$message_id = $ibforums->db->lastInsertId();
+		Ibf::app()->db->insertRow('ibf_messages', $data);
+		$message_id = Ibf::app()->db->lastInsertId();
 		unset($data);
 
+		$extra = '';
 		if ($popup)
 		{
 			$extra = ",show_popup=1";
 		}
 
-		$ibforums->db->exec("UPDATE ibf_members
-		    SET
-			msg_total = msg_total + 1,
-			new_msg = new_msg + 1,
-			msg_from_id='" . $sender_id . "',
-			msg_msg_id='" . $message_id . "'
+		Ibf::app()->db->prepare(
+			"UPDATE ibf_members
+			SET msg_total = msg_total + 1, new_msg = new_msg + 1, msg_from_id = ?, msg_msg_id = ?
 			{$extra}
-	            WHERE id='" . $sendto . "'
-		    LIMIT 1");
+			WHERE id = ? LIMIT 1"
+		)
+			->execute([$sender_id, $message_id, $sendto]);
 
-		$to_member = array();
+		$stmt = Ibf::app()->db->prepare(
+			"SELECT name, email_pm, language, email, disable_mail, mgroup FROM ibf_members WHERE id=?"
+		)
+			->execute([$sendto]);
 
-		$stmt = $ibforums->db->query("SELECT
-			name,
-			email_pm,
-			language,
-			email,
-			disable_mail,
-			mgroup
-		    FROM ibf_members
-		    WHERE id='" . $sendto . "'");
-
-		if ($to_member = $stmt->fetch() and
-		    $to_member['mgroup'] != $ibforums->vars['auth_group'] and
-		    !$to_member['disable_mail'] and
-		    ($to_member['email_pm'] or $do_send)
+		if ($to_member = $stmt->fetch()
+			 && $to_member['mgroup'] != Ibf::app()->vars['auth_group']
+			 && !$to_member['disable_mail']
+			 && ($to_member['email_pm'] || $do_send)
 		)
 		{
-			require_once $ibforums->vars['base_dir'] . "sources/lib/emailer.php";
+			require_once Ibf::app()->vars['base_dir'] . "sources/lib/emailer.php";
 			$email = new emailer();
 
 			$to_member['language'] = $to_member['language'] == ""
@@ -1099,11 +1098,10 @@ class functions
 
 			$email->get_template("pm_notify", $to_member['language']);
 
-			if ($sender_id != $ibforums->member['id'])
+			if ($sender_id != Ibf::app()->member['id'])
 			{
-				$stmt = $ibforums->db->query("SELECT name
-				    FROM ibf_members
-				    WHERE id='" . $sender_id . "'");
+				$stmt = Ibf::app()->db->prepare("SELECT name FROM ibf_members WHERE id=?")
+					->execute([$sender_id]);
 
 				if (FALSE != $member = $stmt->fetch())
 				{
@@ -1114,27 +1112,31 @@ class functions
 				}
 			} else
 			{
-				$name = $ibforums->member['name'];
+				$name = Ibf::app()->member['name'];
 			}
 
-			$email->build_message(array(
-			                           'NAME'     => $to_member['name'],
-			                           'POSTER'   => $name,
-			                           'TITLE'    => $title,
-			                           'LINK'     => "?act=Msg&amp;CODE=03&amp;VID=in&amp;MSID=$message_id",
-			                           'MSG_BODY' => $this->remove_tags($message)
-			                      ));
+			$email->build_message(
+				[
+					'NAME'     => $to_member['name'],
+					'POSTER'   => $name,
+					'TITLE'    => $title,
+					'LINK'     => "?act=Msg&amp;CODE=03&amp;VID=in&amp;MSID=$message_id",
+					'MSG_BODY' => $this->remove_tags($message)
+				]
+			);
 
-			$email->build_subject(array(
-			                           'TEMPLATE' => "pm_email_subject",
-			                           'POSTER'   => $name,
-			                      ));
+			$email->build_subject(
+				[
+					'TEMPLATE' => "pm_email_subject",
+					'POSTER'   => $name,
+				]
+			);
 
 			$email->to = $to_member['email'];
 			$email->send_mail();
 			if (!$fatal)
 			{
-				$ibforums->db->setAttribute(PDO::ATTR_ERRMODE, $old_err);
+				Ibf::app()->db->setAttribute(PDO::ATTR_ERRMODE, $old_err);
 			}
 		}
 
