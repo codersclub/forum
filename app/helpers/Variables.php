@@ -7,6 +7,7 @@ use Config\DBRegistry;
  * @see \Config\DBRegistry
  * @method static mixed get($path)
  * @method static void set($path, $value)
+ * @method static void commitChanges($name = null)
  */
 class Variables
 {
