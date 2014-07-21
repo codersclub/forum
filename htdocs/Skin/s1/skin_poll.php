@@ -103,7 +103,7 @@ return <<<EOF
 <div align='right' class='pformstrip'>$edit &nbsp; $delete &nbsp; $close</div>
 {$expired}
 <div class='tablepad' align='center'>
-<table cellpadding='5' align='center'>
+<table class="b-poll" cellpadding='5'>
 <tr>
  <td colspan='3' align='center'><b>$poll_q</b> $min_max</td>
 </tr>
@@ -117,7 +117,7 @@ return <<<EOF
 </div>
 <div align="center" class="pformstrip"><!--IBF.VOTE-->&nbsp;<!--IBF.SHOW--></div>
 </form>
-                
+
 EOF;
 }
 
