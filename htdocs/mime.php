@@ -6,14 +6,13 @@
 
 
 <?php
+require __DIR__ . '/../app/bootstrap.php';
 
 $enable_log=false;
 
 require "./sources/mimecrutch.php";
 //<- Added by Barazuk 21/07/07
 require "./conf_mime_types.php";
-//-> Added by Barazuk 21/07/07
-require "../conf_global.php";
 
 
 if(count($_FILES)){

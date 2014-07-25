@@ -13,7 +13,7 @@ if (!defined("ROOT_PATH"))
 
 require ROOT_PATH . "conf_global.php";
 
-$DB = new IBPDO($INFO);
+$DB = new IBPDO();
 
 function file_check($file_name, $find, $exact = 1)
 {

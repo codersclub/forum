@@ -1,14 +1,10 @@
 <?php
+require __DIR__ . '/../app/bootstrap.php';
 
-// Root path
-define( 'ROOT_PATH', "./" );
-
-require ROOT_PATH."conf_global.php";
-require ROOT_PATH."sources/functions.php";
 $std   = new functions;
 $sess  = new session();
 
-$DB = new IBPDO($INFO);
+$DB = new IBPDO();
 try {
 	$ibforums->input = $std->parse_incoming();
 	$ibforums->member = $sess->authorise();
