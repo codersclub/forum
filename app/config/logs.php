@@ -77,6 +77,7 @@ return [
                 'FilenameFormat' => ['filenameFormat' => '{filename}_{date}.log', 'dateFormat' => 'Ymd',],
                 //этот аргумент конструктора у некоторых обработчиков может быть использован вместо levels
                 'level'          => Logger::WARNING,
+                'filePermission' => 0664,
             ],
         ],
         //Запись всех сообщенеий с канала PDO в файл storage/logs/database_%Y%m%d.log с ежедневной ротацией
@@ -87,6 +88,7 @@ return [
                 'filename'       => \Config::get('path.storage') . '/logs/database',
                 'maxFiles'       => 7,
                 'FilenameFormat' => ['filenameFormat' => '{filename}_{date}.log', 'dateFormat' => 'Ymd',],
+                'filePermission' => 0664,
             ],
         ],
         //Отправка сообщений уровня ERROR и выше на почту, с html-форматированием и буферизацией сообщений

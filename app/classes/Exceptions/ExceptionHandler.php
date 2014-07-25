@@ -18,23 +18,14 @@ class ExceptionHandler
     /**
      * Create exception handler
      */
-    public function __construct($debug = true, $reporting = E_ALL)
+    public function __construct($reporting = E_ALL)
     {
         error_reporting($reporting);
 
-        if ($debug) {
-            $whoops = new Run;
+        $whoops = new Run;
+        $handler = new PrettyPageHandler;
 
-            #$handler = ($this->isCli())
-            #   ? new JsonResponseHandler
-            #    : new PrettyPageHandler;
-            $handler = new PrettyPageHandler;
-
-            $whoops->pushHandler($handler);
-            $whoops->register();
-        } else {
-            die('Something went wrong =( ' .
-                'Please try again later.');
-        }
+        $whoops->pushHandler($handler);
+        $whoops->register();
     }
 }

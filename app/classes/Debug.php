@@ -7,6 +7,14 @@ class Debug
      */
     protected $starttime = 0;
     /**
+     * @var int error Levels to report. Values are similar to values of the errors_reporting option
+     */
+    protected $errorLevels;
+    /**
+     * @var int log level
+     */
+    public $level;
+    /**
      * @var stdClass Various statistics. May be refactored in future
      */
     public $stats;
@@ -28,6 +36,10 @@ class Debug
 
     public function __construct()
     {
+        global $INFO;
+
+        $this->level = $INFO['debug_level'];
+        //
         $this->stats = new stdClass();
     }
 
