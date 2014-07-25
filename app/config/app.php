@@ -3,5 +3,6 @@
  * @file
  */
 return [
-    'environment' => 'local',
+//    'environment' => 'local',
+    'debug' => true,
 ];

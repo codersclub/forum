@@ -4,6 +4,6 @@
  */
 return [
     'dsn' => 'mysql:dbname=testing;host=localhost',
-    'user' => 'root',
-    'password' => '63723',
+    'user' => '',
+    'password' => '',
 ];

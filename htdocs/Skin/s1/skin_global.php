@@ -689,6 +689,12 @@ EOF;
 }
 }
 
+function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
+return <<<EOF
+  <div class="e-script-execution-stats">[ Script Execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
+EOF;
+}
+
 function renderActionButtons($actions, $list_classes = "", $item_classes = ""){
 	$output = '<ul class="b-action-buttons ' . $list_classes . '">';
 	foreach($actions as $class => $action)

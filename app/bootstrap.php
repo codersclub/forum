@@ -17,7 +17,9 @@ require __DIR__ . '/helpers/helpers.php';
 /**
  * Exception handler
  */
-new Exceptions\ExceptionHandler(true, E_ERROR);
+if (Config::get('app.debug', false) === true){
+    new Exceptions\ExceptionHandler(E_ERROR);
+}
 //Logs and error handler. Must be after all other exception and error handlers
 Logs\Logger::initialize();
 
