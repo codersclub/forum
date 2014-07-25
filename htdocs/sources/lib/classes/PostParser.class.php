@@ -55,6 +55,7 @@ class ReplacementsStrorage
 	protected $data = [];
 	protected $last_id = 0;
 	protected $prefix;
+	protected $suffix = '#';
 
 	public function __construct()
 	{
@@ -64,8 +65,9 @@ class ReplacementsStrorage
 	public function add($string)
 	{
 		$this->last_id++;
-		$this->data[$this->prefix . $this->last_id] = $string;
-		return $this->prefix . $this->last_id;
+		$key = sprintf('%s%05d%s', $this->prefix, $this->last_id, $this->suffix);
+		$this->data[ $key ] = $string;
+		return $key;
 	}
 
 	public function getKeys()
