@@ -6,7 +6,6 @@ ip_table.php
 /htdocs/download/
 /htdocs/uploads/
 /htdocs/sources/lib/TNX-something-long-random-string-324sd54ywey/*.txt
-/app/storage/
 /vendor
 /composer.lock
 /*.iml
