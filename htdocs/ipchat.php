@@ -26,7 +26,7 @@ $root_path = './';
 // END OF USER EDITABLE COMPONENTS
 //---------------------------------------------
 
-require $root_path."conf_global.php";
+require __DIR__ . '/../app/bootstrap.php';
 
 define( 'DENIED', 0 );
 define( 'ACCESS', 1 );

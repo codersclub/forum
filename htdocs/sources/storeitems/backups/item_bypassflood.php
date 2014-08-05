@@ -32,7 +32,7 @@ class item
 		{
 			$stmt = $ibforums->db->query("ALTER TABLE `ibf_members` ADD `flood_control` INT( 3 ) DEFAULT '0' NOT NULL");
 		}
-		$istheir    = file_check("sources/functions.php", "m.flood_control");
+		$istheir    = file_check("../app/classes/sources/functions.php", "m.flood_control");
 		$flood_edit = file_check("sources/Post.php", "if ( time() - $ibforums->member['last_post'] < $ibforums->vars['flood_control'] - $ibforums->member['flood_control'] )");
 		if (!$istheir || $flood_edit)
 		{

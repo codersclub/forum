@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="app/tests/bootstrap.php" colors="true" verbose="true">
+    <testsuites>
+        <testsuite name="Global Test Suite">
+            <directory>app/tests/src</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">app/classes/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
