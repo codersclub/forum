@@ -189,4 +189,10 @@ class LoggerTest extends TestCase
                 ->getHandlers()
         );
     }
+
+    public function testIsRegistered(){
+        Logger::registerChannel('TestingChannel');
+        $this->assertTrue(Logger::isChannelRegistered('TestingChannel'));
+        $this->assertFalse(Logger::isChannelRegistered('SecondTestingChannel'));
+    }
 }

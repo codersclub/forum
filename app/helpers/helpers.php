@@ -43,6 +43,3 @@ if (!function_exists('storage_path')) {
         return $path;
     }
 }
-
-
-
