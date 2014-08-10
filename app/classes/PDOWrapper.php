@@ -1,6 +1,7 @@
 <?php
 
 use Logs\Logger;
+
 /**
  * @method bool beginTransaction ()
  * @method bool commit ()
@@ -38,8 +39,10 @@ class PDOWrapper
 	{
 		$this->_pdo = new PDO($dsn, $username, $passwd, $options);
 
-		Logger::registerChannel('PDO');
-		Logger::PDO()->addDebug(sprintf('Database initialized with DSN "%s"', $dsn));
+		if (!Logger::isChannelRegistered('PDO')) {
+			Logger::registerChannel('PDO');
+		}
+		Logs::debug('PDO', sprintf('Database initialized with DSN "%s"', $dsn));
 
 	}
 
@@ -72,7 +75,7 @@ class PDOWrapper
 	 */
 	public function prepare($statement, array $driver_options = null)
 	{
-		Logger::PDO()->addDebug(preg_replace('{(\n|\s)+}', ' ', $statement));
+		Logs::debug('PDO', preg_replace('{(\n|\s)+}', ' ', $statement));
 		//wtf? We can set null as default value of array arg, but we can't pass it
 		$stmt = $driver_options === null
 			? $this->_pdo->prepare($statement)
@@ -98,7 +101,7 @@ class PDOWrapper
 	 */
 	public function query($statement)
 	{
-		Logger::PDO()->addNotice(preg_replace('{(\n|\s)+}', ' ', $statement));
+		Logs::notice('PDO', preg_replace('{(\n|\s)+}', ' ', $statement));
 		$stmt = $this->_pdo->query($statement);
 		if ($stmt instanceof PDOStatement)
 		{
@@ -148,6 +151,7 @@ class PDOWrapper
 	 */
 	public function exec($statement)
 	{
+		Logs::notice('PDO', preg_replace('{(\n|\s)+}', ' ', $statement));
 		return $this->_pdo->exec($statement);
 	}
 }

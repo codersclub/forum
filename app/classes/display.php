@@ -519,11 +519,8 @@ class display
 
 		print $ibforums->skin['template'];
 
-        try {
-            \Logs\Logger::Stats()->info('Queries used: ' . Debug::instance()->stats->queriesCount);
-            \Logs\Logger::Stats()->info('Script Execution Time: ' . sprintf('%.4f', Debug::instance()->executionTime()));
-        }catch (\Exception $e){
-        }
+		\Logs::info('Stats', 'Queries used: ' . Debug::instance()->stats->queriesCount);
+		\Logs::info('Stats', 'Script Execution Time: ' . sprintf('%.4f', Debug::instance()->executionTime()));
 
 		exit;
 	}

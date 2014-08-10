@@ -50,7 +50,7 @@ class CoreApplication
 	public function init()
 	{
 		$this->input  = $this->loadInputData();
-		\Logs\Logger::Ibf()->debug('Input data loaded', ['data' => $this->input]);
+		\Logs::debug('Ibf', 'Input data loaded', ['data' => $this->input]);
 		$this->member = $this->loadMember();
 		$this->lang   = $this->loadLanguage();
 		$this->skin   = $this->loadSkin();

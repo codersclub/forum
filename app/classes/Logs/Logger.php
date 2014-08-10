@@ -155,11 +155,13 @@ class Logger extends Registry
                 $args    = [$options];
                 $options = null;
             } else {
-                throw new \InvalidArgumentException(sprintf(
-                    'Wrong number of parameters passed to %s:%s ',
-                    $method->getName(),
-                    get_class($classInstance)
-                ));
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Wrong number of parameters passed to %s:%s ',
+                        $method->getName(),
+                        get_class($classInstance)
+                    )
+                );
             }
         }
         return $method->invokeArgs($classInstance, $args);
@@ -181,12 +183,14 @@ class Logger extends Registry
 
             if (!$ref_param->isOptional()) {
                 if (!isset($options[$param_name])) {
-                    throw new \InvalidArgumentException(sprintf(
-                        'Missing required option "%s" for class %s',
-                        $param_name,
-                        $method->getDeclaringClass()
-                            ->getName()
-                    ));
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            'Missing required option "%s" for class %s',
+                            $param_name,
+                            $method->getDeclaringClass()
+                                ->getName()
+                        )
+                    );
                 }
                 $args[] = $options[$param_name];
             } else {
@@ -220,10 +224,12 @@ class Logger extends Registry
                 if ($method->getNumberOfRequiredParameters() === 1) {
                     $args = [$options];
                 } else {
-                    throw new \InvalidArgumentException(sprintf(
-                        'Wrong number of parameters passed to constuctor of class %s ',
-                        $classname
-                    ));
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            'Wrong number of parameters passed to constuctor of class %s ',
+                            $classname
+                        )
+                    );
                 }
             }
         } else {
@@ -251,7 +257,7 @@ class Logger extends Registry
      * @param string $name Наименование канала
      * @return \Monolog\Logger
      */
-    public static function registerChannel($name)
+    public static function registerChannel($name, $overwrite = false)
     {
         static $processors_cache = [];
 
@@ -283,9 +289,44 @@ class Logger extends Registry
             }
         }
 
-        self::addLogger($channel);
+        self::addLogger($channel, null, $overwrite);
         self::Ibf()
             ->debug(sprintf('Channel %s added', $name));
         return $channel;
+    }
+
+    /**
+     * Проверка существования канала
+     * @param string $name
+     * @return bool
+     */
+    public static function isChannelRegistered($name)
+    {
+        //Других способов нет. Честно.
+        try {
+            //На самом деле эта часть всегда истинна, но пусть будет так.
+            return self::getInstance($name) instanceof \Monolog\Logger;
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Потуга сделать откат до запасного журнала.
+     * @param string $name
+     * @param array $arguments
+     * @return \Monolog\Logger
+     * @throws \InvalidArgumentException
+     */
+    public static function __callStatic($name, $arguments)
+    {
+        try {
+            return parent::__callStatic($name, $arguments);
+        } catch (\InvalidArgumentException $e) {
+            if (!self::isChannelRegistered('fallback')) {
+                self::registerChannel('fallback');
+            }
+            return parent::__callStatic('fallback', $arguments);
+        }
     }
 }
