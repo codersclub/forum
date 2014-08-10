@@ -1,9 +1,9 @@
 <?php
 /**
- * @file Test database configuration
+ * @file Database configuration for unit tests
  */
 return [
     'dsn' => 'mysql:dbname=testing;host=localhost',
-    'user' => '',
+    'user' => 'root',
     'password' => '',
 ];

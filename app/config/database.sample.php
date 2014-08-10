@@ -4,7 +4,7 @@
  */
 return [
     'dsn' => 'mysql:dbname=invision;host=localhost',
-    'user' => '',
+    'user' => 'root',
     'password' => '',
 //    'persistent' => TRUE,
 //    'charset' => '',

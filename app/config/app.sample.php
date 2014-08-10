@@ -4,5 +4,5 @@
  */
 return [
 //    'environment' => 'local',
-    'debug' => true,
+    'debug' => false,
 ];
