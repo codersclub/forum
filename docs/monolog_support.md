@@ -27,7 +27,20 @@ return [
     'channels'      => [
         '*'   => [
             'processors' => [ //Перечень процессоров для подключения к каналу
-                              '\Monolog\Processor\IntrospectionProcessor',
+                //Используется либо полное наименование класса
+                '\Logs\Processor\MemberProcessor',
+                //либо массив из имени класса и его параметров.
+                 [
+                    'class' => '\Monolog\Processor\IntrospectionProcessor',
+                    //Формат и содержимое options аналогичен одноименному значению из обработчиков (см. ниже)
+                    'options' => [
+                        'skipClassesPartials' => [
+                            'Monolog\\',
+                            'Logs',
+                            'PDO',
+                        ]
+                    ]
+                 ]
             ],
         ],
         'PHP' => [

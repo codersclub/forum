@@ -13,7 +13,16 @@ return [
     'channels'      => [
         '*'   => [
             'processors' => [
-                '\Monolog\Processor\IntrospectionProcessor',
+                [
+                    'class'   => '\Monolog\Processor\IntrospectionProcessor',
+                    'options' => [
+                        'skipClassesPartials' => [
+                            'Monolog\\',
+                            'Logs',
+                            'PDO',
+                        ]
+                    ],
+                ],
             ],
         ],
         'PHP' => [

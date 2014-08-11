@@ -255,6 +255,7 @@ class Logger extends Registry
     /**
      * Регистрирует канал и добавляет в него все обработчики в соответствии с настройками
      * @param string $name Наименование канала
+     * @param bool $overwrite Пересоздать канал, если такой уже существует
      * @return \Monolog\Logger
      */
     public static function registerChannel($name, $overwrite = false)
@@ -281,10 +282,18 @@ class Logger extends Registry
         if ($config) { //Всё ещё сомневаемся
             if (isset($config['processors']) && is_array($config['processors'])) {
                 foreach ($config['processors'] as $p) {
-                    if (!isset($processors_cache[$p])) {
-                        $processors_cache[$p] = new $p();
+                    if (is_array($p) && isset($p['class'])) {
+                        /** @var Callable $processor */
+                        $processor = self::createClassFromConfig($p);
+                    } elseif (is_string($p)) {
+                        if (!isset($processors_cache[$p])) {
+                            $processors_cache[$p] = new $p();
+                        }
+                        $processor = $processors_cache[$p];
+                    } else {
+                        throw new \InvalidArgumentException('Wrong processor configuration');
                     }
-                    $channel->pushProcessor($processors_cache[$p]);
+                    $channel->pushProcessor($processor);
                 }
             }
         }
