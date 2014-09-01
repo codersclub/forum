@@ -502,12 +502,20 @@ class  warn
 				// Target user side.
 				//--------------------------------------
 
+				//todo Перенести отправку ЛС, а может и всю систему добавления/удаления наказаний в модель участника
 				$data = [
 					'member_id'    => $this->warn_member['id'],
 					'msg_date'     => time(),
 					'read_state'   => '0',
 					'title'        => $ibforums->input['subject'],
-					'message'      => $std->remove_tags($ibforums->input['contact']),
+					'message' => $this->parser->convert(
+						[
+							'TEXT'    => $std->remove_tags($ibforums->input['contact']),
+							'SMILIES' => 1,
+							'CODE'    => 0,
+							'HTML'    => 0,
+						]
+					),
 					'from_id'      => $ibforums->member['id'],
 					'vid'          => 'in',
 					'recipient_id' => $this->warn_member['id'],
