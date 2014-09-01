@@ -64,6 +64,7 @@ class ReplacementsStrorage
 
 	public function add($string)
 	{
+		Logs::debug('Parser', 'Replacement added to storage: ' . $string);
 		$this->last_id++;
 		$key = sprintf('%s%05d%s', $this->prefix, $this->last_id, $this->suffix);
 		$this->data[ $key ] = $string;
@@ -721,6 +722,10 @@ class PostParser
 	{
 		global $ibforums;
 
+		if (!\Logs\Logger::isChannelRegistered('Parser')) {
+			\Logs\Logger::registerChannel('Parser');
+		}
+
 		$this->strip_quotes = $ibforums->vars['strip_quotes'];
 
 		$this->protected_replacements = new ReplacementsStrorage();
@@ -1136,6 +1141,8 @@ class PostParser
 	{
 
 		global $ibforums, $skin_universal;
+
+		Logs::debug('Parser', 'PostParser::prepare called', ['in' => $in]);
 
 		if (!isset($in['CODE']))
 		{
@@ -1570,6 +1577,8 @@ class PostParser
 	), $fid = "0")
 	{
 		global $ibforums, $std;
+
+		Logs::debug('Parser', 'PostParser::convert called.', ['in' => $in]);
 
 		$txt = $in['TEXT'];
 
@@ -2996,6 +3005,14 @@ class PostParser
 		// Make sure we don't have a JS link
 		$url['html'] = preg_replace("/javascript:/i", "java script&#58; ", $url['html']);
 
+		//Ну и костыль напоследок: заменяем всякие &#..; удобно предоставленные нам предыдущими парсерами
+		$url['html'] = preg_replace_callback(
+			'/&#(\d+);/',
+			function ($data) {
+				return '%' . dechex($data[1]);
+			},
+			$url['html']
+		);
 		// Do we have http:// at the front?
 
 		if (!preg_match("#^(http|news|https|ftp|aim)://#", $url['html']))
