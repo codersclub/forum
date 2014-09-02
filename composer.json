@@ -2,12 +2,9 @@
     "require": {
         "openid/php-openid": "dev-master",
         "filp/whoops": "1.1.*@stable",
-        "serafim/asset": "3.2.*@dev",
-        "coffeescript/coffeescript": "1.3.1",
-        "leafo/scssphp": "0.0.10",
-        "linkorb/jsmin-php": "1.0.0",
-        "natxet/CssMin": "dev-master",
-        "monolog/monolog": "1.10.0"
+        "serafim/asset": "0.*",
+        "monolog/monolog": "1.10.0",
+        "leafo/scssphp": "0.0.12"
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*",
@@ -20,5 +17,5 @@
             "app/helpers"
         ]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
