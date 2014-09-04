@@ -202,5 +202,6 @@ M_12			=>	"December",
 'hours_ago' => "hour%s ago",
 'hours_ending1' => "s",
 'hours_ending2' => "s",
-
+'topic_not_decided' => 'Topic is not decided',
+'topic_decided' => 'Topic is decided',
 );

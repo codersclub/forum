@@ -346,7 +346,6 @@ class Reputation
 
 				$info['memid'] = $memid;
 
-				require "./Skin/" . $ibforums->skin_id . "/skin_rep.php";
 				$rep_html = new skin_rep();
 
 				$info['action'] = $ibforums->lang['raise'];
@@ -408,7 +407,6 @@ class Reputation
 
 				$info['memid'] = $memid;
 
-				require "./Skin/" . $ibforums->skin_id . "/skin_rep.php";
 				$rep_html = new skin_rep();
 
 				$info['action'] = $ibforums->lang['lower'];
@@ -435,7 +433,6 @@ class Reputation
 
 			case '03': //Showing stats
 
-				require "./Skin/" . $ibforums->skin_id . "/skin_rep.php";
 				$rep_html = new skin_rep();
 
 				$ratting_type = ($ibforums->input['type'] == "t")
@@ -606,8 +603,6 @@ class Reputation
 				break;
 
 			case '04': //Showing stats of this member CHANGING rep
-
-				require "./Skin/" . $ibforums->skin_id . "/skin_rep.php";
 
 				$rep_html = new skin_rep();
 
@@ -805,8 +800,6 @@ class Reputation
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 
 				// Song * disable feature
-				require "./Skin/" . $ibforums->skin_id . "/skin_rep.php";
-
 				$rep_html = new skin_rep();
 
 				if ($ibforums->member['g_mem_info'] != 1)

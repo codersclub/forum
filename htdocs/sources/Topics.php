@@ -467,8 +467,8 @@ class Topics
 		)
 		{
 			$row['add_to_faq'] = "<a href='{$this->base_url}act=Mod&amp;CODE=35&amp;auth_key=" . $this->md5_check . "&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}'>" . (($row['added_to_faq'])
-				? "<{P_FAQ_EXISTS}>"
-				: "<{P_FAQ_ADD}>") . "</a>";
+				? '<span class="b-added-to-faq__message">' . $ibforums->lang['added_to_FAQ']. '</span>'
+				: $ibforums->lang['to_FAQ']) . "</a>";
 		}
 
 		// Song * delete post button
@@ -543,7 +543,7 @@ class Topics
 		$row['post_date'] = $std->get_date($row['post_date']);
 
 		$row['post_icon'] = ($row['icon_id'] and $ibforums->member['view_img'])
-			? "<img src='" . $ibforums->vars['img_url'] . "/icon{$row['icon_id']}.gif' alt='' />&nbsp;&nbsp;"
+			? "<img src='" . $ibforums->skin['ImagesPath'] . "/icon{$row['icon_id']}.gif' alt='' />&nbsp;&nbsp;"
 			: "";
 
 		$row['ip_address'] = $this->view_ip($row, $poster);
@@ -3054,12 +3054,12 @@ class Topics
 
 		if ($this->topic['decided'])
 		{
-			$caption = "<{C_DECIDED}>";
+			$caption = $ibforums->lang['topic_not_decided'];
 
 			$code = 34;
 		} else
 		{
-			$caption = "<{A_DECIDED}>";
+			$caption = '<span class="b-topic-decided-btn">' . $ibforums->lang['topic_decided'] . '</span>';
 
 			$code = 33;
 		}
@@ -3372,9 +3372,9 @@ class Topics
 
 					if ($votes > 0)
 					{
-						$bar = "<img src='{$ibforums->vars['img_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''>";
-						$bar .= "<img src='{$ibforums->vars['img_url']}/bar.gif' border='0' width='$width' height='11' align='middle' alt=''>";
-						$bar .= "<img src='{$ibforums->vars['img_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>&nbsp;[{$percent}%]</td>";
+						$bar = "<img src='{$ibforums->skin['ImagesPath']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''>";
+						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar.gif' border='0' width='$width' height='11' align='middle' alt=''>";
+						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>&nbsp;[{$percent}%]</td>";
 					}
 
 					$html .= $this->poll_html->Render_row_results($votes, $id, $choice, $bar);

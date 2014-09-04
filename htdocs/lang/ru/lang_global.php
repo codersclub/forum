@@ -171,3 +171,5 @@ $lang['month09'] = "сентября";
 $lang['month10'] = "октября";
 $lang['month11'] = "ноября";
 $lang['month12'] = "декабря";
+$lang['topic_not_decided'] = "Вопрос не решен";
+$lang['topic_decided'] = "Вопрос решен";

@@ -489,7 +489,7 @@ class legends
 			15    => array(
 				'[img]',
 				'[/img]',
-				$ibforums->vars['board_url'] . '/' . $ibforums->vars['img_url'] . '/icon11.gif'
+				$ibforums->skin->getImagesPath() . '/icon11.gif'
 			),
 			16    => array('', '', '[list][*]List Item [*]List Item[/list]'),
 			17    => array('', '', '[list=1][*]List Item [*]List Item[/list]'),

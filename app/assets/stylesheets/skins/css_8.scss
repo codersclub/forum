@@ -1,4 +1,5 @@
 /* expression final */
+@import "css_common.scss";
 @import "../html/jqcd/skins/main/skin.css";
 
 html { overflow-x: auto }
@@ -314,4 +315,8 @@ ul.b-breadcrumbs-top li:first-child{
 .usercp-menu-item__sent a,
 .usercp-menu-item__cancel_delete_account a {
     font-weight: bold;
+}
+
+.warning-message {
+  background-color: #f4f4f4;
 }

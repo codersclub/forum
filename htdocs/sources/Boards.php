@@ -1519,8 +1519,8 @@ class Boards {
 	function forum_icon($forum_data)
 	{
 		global $ibforums;
-
-		if (mb_strlen($forum_data['icon']) > 4 && intval($ibforums->skin['uid']) != 13 && intval($ibforums->member['forum_icon']) == 1)
+        //todo Шта????
+		if (mb_strlen($forum_data['icon']) > 4 && $ibforums->skin->getId() != 9 && intval($ibforums->member['forum_icon']) == 1)
 		{
 			// класс для изображения
 			$class = preg_match("~_OFF~is", $forum_data['img_new_post'])
