@@ -23,8 +23,6 @@ class Statistics
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_statistics', $ibforums->lang_id);
 
-		require "./Skin/" . $ibforums->skin_id . "/skin_Statistics.php";
-
 		$this->html     = new skin_Statistics();
 		$this->base_url = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
 		$ibforums->input['act'];

@@ -177,9 +177,7 @@ class ad_forums
 
 		$form_array[] = array('n', '-- NONE --');
 
-		$stmt = $ibforums->db->query("SELECT sid, sname FROM ibf_skins");
-
-		while ($r = $stmt->fetch())
+		foreach(\Models\Skins::findAll() as $r)
 		{
 			$form_array[] = array($r['sid'], $r['sname']);
 		}

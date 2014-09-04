@@ -48,10 +48,6 @@ class ad_settings
 
 		switch ($IN['code'])
 		{
-			case 'wrapper':
-				$this->list_wrappers();
-				break;
-
 			case 'add':
 				$this->do_form('add');
 				break;
@@ -77,260 +73,10 @@ class ad_settings
 				$this->mem_skins();
 				break;
 
-			case 'export':
-				$this->export();
-				break;
-
 			default:
 				$this->list_sets();
 				break;
 		}
-
-	}
-
-	//----------------------------------------------------
-
-	function export()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
-
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing skin set ID, go back and try again");
-		}
-
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("SELECT * from ibf_skins WHERE uid='" . $IN['id'] . "'");
-
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
-
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("SELECT * from ibf_macro_name WHERE set_id='" . $row['macro_id'] . "'");
-
-		if (!$macro_name = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
-
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("SELECT * from ibf_tmpl_names WHERE skid='" . $row['set_id'] . "'");
-
-		if (!$tmpl = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
-
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("SELECT * from ibf_templates WHERE tmid='" . $row['tmpl_id'] . "'");
-
-		if (!$wrap = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
-
-		//+-------------------------------
-
-		if ($INFO['base_dir'] == './')
-		{
-			$INFO['base_dir'] = str_replace('\\', '/', getcwd()) . '/';
-		}
-
-		$archive_dir = $INFO['base_dir'] . "archive_out";
-		$images_dir  = $INFO['base_dir'] . "style_images/" . $row['img_dir'];
-
-		require ROOT_PATH . "sources/lib/tar.php";
-
-		if (!is_dir($archive_dir))
-		{
-			$ADMIN->error("Could not locate $archive_dir, is the directory there?");
-		}
-
-		if (!is_writeable($archive_dir))
-		{
-			$ADMIN->error("Cannot write in $archive_dir, CHMOD via FTP to 0755 or 0777 to enable this script to write into it. IBF cannot do this for you");
-		}
-
-		if (!is_dir($images_dir))
-		{
-			$ADMIN->error("Could not locate $images_dir, is the directory there?");
-		}
-
-		//+-------------------------------
-		// Set up the dir structure
-		//+-------------------------------
-
-		$css_name      = "stylesheet.css";
-		$wrap_name     = "wrapper.html";
-		$macro_name    = "macro.txt";
-		$template_name = "templates.html";
-
-		$img_dir = 'images';
-
-		$pack_name = preg_replace("/\s{1,}/", "_", $row['sname']);
-
-		$new_dir = "set-" . $pack_name;
-
-		//+-------------------------------
-
-		if (!mkdir($archive_dir . "/" . $new_dir, 0777))
-		{
-			$ADMIN->error("Directory creation failed, cannot export skin set. Please check the permission in 'archive_out'");
-		}
-
-		//+-------------------------------
-
-		if (!mkdir($archive_dir . "/" . $new_dir . "/" . $img_dir, 0777))
-		{
-			$ADMIN->error("Directory creation failed, cannot export skin set. Please check the permission in 'archive_out'");
-		}
-
-		//+-------------------------------
-		// Make the wrapper file...
-		//+-------------------------------
-
-		$wrap['template'] = preg_replace("/\r/", "\n", $wrap['template']);
-
-		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $wrap_name, 'w');
-		fwrite($FH, $wrap['template']);
-		fclose($FH);
-
-		@chmod($archive_dir . "/" . $new_dir . "/" . $wrap_name, 0777);
-
-		//+-------------------------------
-		// Make the css file...
-		//+-------------------------------
-		$css_text = file_get_contents(app_path("/assets/stylesheets/skins/css_{$row['css_id']}.scss"));
-
-		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $css_name, 'w');
-		fwrite($FH, $css_text);
-		fclose($FH);
-
-		@chmod($archive_dir . "/" . $new_dir . "/" . $css_name, 0777);
-
-		//+-------------------------------
-		// Copy over the images...
-		//+-------------------------------
-
-		if (!$ADMIN->copy_dir($images_dir, $archive_dir . "/" . $new_dir . "/" . $img_dir))
-		{
-			$ADMIN->error($ADMIN->errors);
-		}
-
-		//+-------------------------------
-		// Make the macro file...
-		//+-------------------------------
-
-		$file_content = "";
-
-		$stmt = $ibforums->db->query("SELECT macro_replace, macro_value FROM ibf_macro WHERE macro_set='" . $row['macro_id'] . "'");
-
-		while ($mrow = $stmt->fetch())
-		{
-			if ($mrow['macro_replace'] == "")
-			{
-				$mrow['macro_replace'] = "*UNASSIGNED*";
-			}
-			$file_content .= $mrow['macro_value'] . "~=~" . $mrow['macro_replace'] . "\n";
-		}
-
-		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $macro_name, 'w');
-		fwrite($FH, $file_content);
-		fclose($FH);
-
-		@chmod($archive_dir . "/" . $new_dir . "/" . $macro_name, 0777);
-
-		//+----------------------------------------------------------------------------
-		// Generate template HTML file
-		//+----------------------------------------------------------------------------
-
-		$output = "";
-
-		$stmt = $ibforums->db->query("SELECT DISTINCT(group_name) FROM ibf_skin_templates WHERE set_id='" . $row['set_id'] . "'");
-
-		if (!$stmt->rowCount())
-		{
-			$ADMIN->rm_dir($archive_dir);
-			$ADMIN->error("Export Failed at template set creation: Can't query the information from the database");
-		}
-
-		$output .= "<!--TEMPLATE_SET|internal,internal,internal,internal-->\n\n";
-
-		while ($trow = $stmt->fetch())
-		{
-
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_skin_templates WHERE set_id='" . $row['set_id'] . "' AND group_name='" . $trow['group_name'] . "'");
-
-			if (!$stmt->rowCount())
-			{
-				$ADMIN->rm_dir($archive_dir);
-				$ADMIN->error("Can't query the information from the database");
-			}
-
-			$output .= "<!-- PLEASE LEAVE ALL 'IBF' COMMENTS IN PLACE, DO NOT REMOVE THEM! -->\n<!--IBF_GROUP_START:{$trow['group_name']}-->\n\n";
-
-			while ($next_row = $stmt->fetch())
-			{
-				$text = $this->convert_tags($next_row['section_content']);
-				$text = str_replace("\r\n", "\n", $text);
-				$text = str_replace("\n\n", "\n", $text);
-
-				$output .= "<!--IBF_START_FUNC|{$next_row['func_name']}|{$next_row['func_data']}-->\n\n";
-				$output .= $text . "\n";
-				$output .= "<!--IBF_END_FUNC|{$next_row['func_name']}-->\n\n";
-			}
-
-			$output .= "\n<!--IBF_GROUP_END:{$trow['group_name']}-->\n";
-
-		}
-
-		$FH = fopen($archive_dir . "/" . $new_dir . "/" . $template_name, 'w');
-		fwrite($FH, $output);
-		fclose($FH);
-
-		@chmod($archive_dir . "/" . $new_dir . "/" . $template_name, 0777);
-
-		//+----------------------------------------------------------------------------
-		// Generate the config file..
-		//+----------------------------------------------------------------------------
-
-		$file_content = "<?php\n\n" . "\$config=array('author' => \"" . addslashes($tmpl['author']) . "\", " . "'email'=>\"" . addslashes($tmpl['email']) . "\", " . "'url'=>\"" . addslashes($tmpl['url']) . "\")\n\n?" . ">";
-
-		$FH = fopen($archive_dir . "/" . $new_dir . "/" . "templates_conf.inc", 'w');
-		fwrite($FH, $file_content);
-		fclose($FH);
-
-		@chmod($archive_dir . "/" . $new_dir . "/" . "templates_conf.inc", 0777);
-
-		//+-------------------------------
-		// Add files and write tarball
-		//+-------------------------------
-
-		$tar = new tar();
-
-		$tar->new_tar($archive_dir, $new_dir . ".tar");
-		$tar->add_directory($archive_dir . "/" . $new_dir);
-		$tar->write_tar();
-
-		// Check for errors.
-
-		if ($tar->error != "")
-		{
-			$ADMIN->rm_dir($archive_dir);
-			$ADMIN->error($tar->error);
-		}
-
-		// remove original unarchived directory
-
-		$ADMIN->rm_dir($archive_dir . "/" . $new_dir);
-
-		$ADMIN->done_screen("Skin Pack Export Created<br><br>You can download the tar-chive <a href='archive_out/{$new_dir}.tar' target='_blank'>here</a>", "Manage Skin Sets", "act=sets");
 
 	}
 
@@ -398,16 +144,14 @@ class ad_settings
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_skins WHERE uid='" . $IN['id'] . "'");
-
-		if (!$skin = $stmt->fetch())
+		if (FALSE === $skin = \Models\Skins::find(['uid' => $IN['id']]))
 		{
 			$ADMIN->error("Could not query that skin set information from the DB");
 		}
 
 		//+-------------------------------
 
-		if ($skin['default_set'] == 1)
+		if ($skin['sid'] == Config::get('app.default_skin'))
 		{
 			$ADMIN->error("You can not remove this skin set as it is set as the default. Set another skin as default and try again");
 		}
@@ -475,14 +219,12 @@ class ad_settings
 
 		$barney = array(
 			'sname'            => $std->txt_stripslashes($_POST['sname']),
-			'set_id'           => $IN['template'],
-			'tmpl_id'          => $IN['wrapper'],
+            //лечим идиотию с заменой символов для всех входящих данных
+			'template_class'   => html_entity_decode($IN['template_class']),
 			'img_dir'          => $IN['img_dir'],
 			'css_id'           => $IN['css'],
 			'hidden'           => $IN['hidden'],
-			'default_set'      => $IN['default_set'],
 			'macro_id'         => $IN['macro_id'],
-			'white_background' => $IN['white_background'],
 		);
 
 		if ($type == 'add')
@@ -494,12 +236,7 @@ class ad_settings
 
 			$barney['sid'] = $row['new_id'] + 1;
 
-			$ibforums->db->insertRow("ibf_skins", $barney);
-
-			if ($IN['default_set'] == 1)
-			{
-				$ibforums->db->exec("UPDATE ibf_skins SET default_set=0 WHERE sid <> '" . $barney['sid'] . "'");
-			}
+			\Models\Skins::add($barney);
 
 			$std->boink_it($SKIN->base_url . "&act=sets");
 
@@ -509,11 +246,6 @@ class ad_settings
 		{
 			$db_string = array_map([$ibforums->db, 'quote'], $barney);
 			$ibforums->db->updateRow("ibf_skins", $db_string, "uid='" . $IN['id'] . "'");
-
-			if ($IN['default_set'] == 1)
-			{
-				$ibforums->db->exec("UPDATE ibf_skins SET default_set=0 WHERE uid <> '" . $IN['id'] . "'");
-			}
 
 			$ADMIN->done_screen("Skin Set Updated", "Manage Skin Sets", "act=sets");
 		}
@@ -531,8 +263,6 @@ class ad_settings
 		//+-------------------------------
 
 		$css       = array();
-		$wrappers  = array();
-		$templates = array();
 		$macros    = array();
 
 		//+-------------------------------
@@ -544,9 +274,7 @@ class ad_settings
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_skins WHERE uid='" . $IN['id'] . "'");
-
-		if (!$row = $stmt->fetch())
+		if (FALSE !== $row = \Models\Skins::find(['uid' => $IN['id']]))
 		{
 			$ADMIN->error("Could not query the information from the database");
 		}
@@ -565,28 +293,10 @@ class ad_settings
 		foreach (scandir(app_path('/assets/stylesheets/skins/')) as $item)
 		{
 			$matches = [];
-			if (preg_match('/^css_(\d+)\.scss$/', $item, $matches))
+			if (preg_match('/^[a-z0-9_]+\.scss$/i', $item, $matches))
 			{
-				$css[] = [$matches[1], $matches[1]];
+				$css[] = [$matches[0], $matches[0]];
 			}
-		}
-
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("SELECT tmid, name FROM ibf_templates");
-
-		while ($t = $stmt->fetch())
-		{
-			$wrappers[] = array($t['tmid'], $t['name']);
-		}
-
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("SELECT skid, skname FROM ibf_tmpl_names");
-
-		while ($s = $stmt->fetch())
-		{
-			$templates[] = array($s['skid'], $s['skname']);
 		}
 
 		//+-------------------------------
@@ -596,7 +306,6 @@ class ad_settings
 			$code               = 'doadd';
 			$button             = 'Create Skin Set';
 			$row['sname']       = $row['sname'] . ".2";
-			$row['default_set'] = 0;
 		} else
 		{
 			$code   = 'doedit';
@@ -648,8 +357,8 @@ class ad_settings
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Use Templates:</b>",
-		                                       $SKIN->form_dropdown('template', $templates, $row['set_id']),
+		                                       "<b>Skin template class name</b>",
+		                                       $SKIN->form_input('template_class', $row['template_class']),
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
@@ -664,27 +373,12 @@ class ad_settings
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Use Stylesheet:</b>",
-		                                       $SKIN->form_dropdown('css', $css, $row['css_id']) . '&nbsp;' . $cssextra,
-		                                  ));
-
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Use Wrapper:</b>",
-		                                       $SKIN->form_dropdown('wrapper', $wrappers, $row['tmpl_id']),
-		                                  ));
-
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>White background content</b>",
-		                                       $SKIN->form_input('white_background', $row['white_background']),
+		                                       $SKIN->form_dropdown('css', $css, $row['css_id']),
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Hide from Members?</b><br>Useful if you want to make a forum only skin",
 		                                       $SKIN->form_yes_no('hidden', $row['hidden']),
-		                                  ));
-
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Set as default skin set?</b><br>Used for unallocated forum and member skins",
-		                                       $SKIN->form_yes_no('default_set', $row['default_set']),
 		                                  ));
 
 		$ADMIN->html .= $SKIN->end_form($button);
@@ -729,11 +423,11 @@ class ad_settings
 			}
 		}
 
-		$stmt = $ibforums->db->query("select ibf_skins.*, count(ibf_members.id) as mcount
+		$stmt = $ibforums->db->prepare("select ibf_skins.*, count(ibf_members.id) as mcount
 			    from ibf_skins
 			    left join ibf_members on(ibf_members.skin=ibf_skins.sid)
-			    where (ibf_members.skin is not null or ibf_skins.default_set = 1) group by ibf_skins.sid
-			    order by ibf_skins.sname");
+			    where (ibf_members.skin is not null or ibf_skins.sid = :defsid) group by ibf_skins.sid
+			    order by ibf_skins.sname")->execute([':defsid' => Config::get('app.default_skin', 0)]);
 
 		$used_ids = array();
 
@@ -742,7 +436,6 @@ class ad_settings
 
 			$SKIN->td_header[] = array("Title", "40%");
 			$SKIN->td_header[] = array("No. Members", "20%");
-			$SKIN->td_header[] = array("Export", "10%");
 			$SKIN->td_header[] = array("Edit", "10%");
 			$SKIN->td_header[] = array("Remove", "10%");
 			$SKIN->td_header[] = array("Hidden", "5%");
@@ -772,19 +465,16 @@ class ad_settings
 					$hidden = "<span style='color:red;font-weight:bold'>X</span>";
 				}
 
-				if ($r['default_set'] == 1)
+				if ($r['sid'] == Config::get('app.default_skin'))
 				{
 					$default = "<span style='color:red;font-weight:bold'>X</span>";
 				}
 
-				$editlist = "<br /><b>Edit:</b> <a href='{$SKIN->base_url}&act=wrap&code=edit&id={$r['tmpl_id']}'>Wrapper</a>
-							&middot; <a href='{$SKIN->base_url}&act=templ&code=edit&id={$r['set_id']}'>HTML</a>
-							&middot; <a href='{$SKIN->base_url}&act=image&code=edit&id={$r['macro_id']}'>Macros</a>";
+				$editlist = "<br /><b>Edit:</b> <a href='{$SKIN->base_url}&act=image&code=edit&id={$r['macro_id']}'>Macros</a>";
 
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       "<b>" . $std->txt_stripslashes($r['sname']) . "</b>$extra" . $editlist,
 				                                       "<center>" . $r['mcount'] . "</center>",
-				                                       "<center><a href='" . $SKIN->base_url . "&act=sets&code=export&id={$r['uid']}'>Export</a></center>",
 				                                       "<center><a href='" . $SKIN->base_url . "&act=sets&code=edit&id={$r['uid']}'>Edit</a></center>",
 				                                       "<center><a href='" . $SKIN->base_url . "&act=sets&code=remove&id={$r['uid']}'>Remove</a></center>",
 				                                       "<center>$hidden</center>",
@@ -818,7 +508,6 @@ class ad_settings
 		if ($left_one > 0 or $left_two > 0)
 		{
 			$SKIN->td_header[] = array("Title", "60%");
-			$SKIN->td_header[] = array("Export", "10%");
 			$SKIN->td_header[] = array("Edit", "10%");
 			$SKIN->td_header[] = array("Remove", "10%");
 			$SKIN->td_header[] = array("Hidden", "5%");
@@ -847,20 +536,17 @@ class ad_settings
 					$hidden = "<span style='color:red;font-weight:bold'>X</span>";
 				}
 
-				if ($r['default_set'] == 1)
+				if ($r['sid'] == Config::get('app.default_skin'))
 				{
 					$default = "<span style='color:red;font-weight:bold'>X</span>";
 				}
 
-				$editlist = "<br /><b>Edit:</b> <a href='{$SKIN->base_url}&act=wrap&code=edit&id={$r['tmpl_id']}'>Wrapper</a>
-							&middot; <a href='{$SKIN->base_url}&act=templ&code=edit&id={$r['set_id']}'>HTML</a>
-							&middot; <a href='{$SKIN->base_url}&act=image&code=edit&id={$r['macro_id']}'>Macros</a>";
+				$editlist = "<br /><b>Edit:</b> <a href='{$SKIN->base_url}&act=image&code=edit&id={$r['macro_id']}'>Macros</a>";
 
 				$ADMIN->html .= $SKIN->js_checkdelete();
 
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       "<b>" . $std->txt_stripslashes($r['sname']) . "</b>$extra" . $editlist,
-				                                       "<center><a href='" . $SKIN->base_url . "&act=sets&code=export&id={$r['uid']}'>Export</a></center>",
 				                                       "<center><a href='" . $SKIN->base_url . "&act=sets&code=edit&id={$r['uid']}'>Edit</a></center>",
 				                                       "<center><a href='javascript:checkdelete(\"act=sets&code=remove&id={$r['uid']}\")'>Remove</a></center>",
 				                                       "<center>$hidden</center>",

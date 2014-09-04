@@ -61,7 +61,7 @@ EOF;
 function page_title($title) {
 global $ibforums;
 return <<<EOF
-    <table cellpadding='0' cellspacing='0' border='0' width='<{tbl_width}>' align='center'>
+    <table cellpadding='0' cellspacing='0' border='0' width='95%' align='center'>
       <tr>
          <td valign='middle' align='left'><span class='pagetitle'>{$title}</td>
       </tr>

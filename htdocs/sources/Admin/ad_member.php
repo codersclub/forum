@@ -1318,16 +1318,12 @@ class ad_forums
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT macro_id, img_dir
-			    FROM ibf_skins
-			    WHERE default_set=1");
+        $mid = \Models\Skins::find(['sid' => Config::get('app.default_skin')]);
 
-		$mid = $stmt->fetch();
-
-		$stmt = $ibforums->db->query("SELECT macro_replace AS A_STAR
+		$stmt = $ibforums->db->prepare("SELECT macro_replace AS A_STAR
 			    FROM ibf_macro
-			    WHERE macro_set={$mid['macro_id']}
-				AND macro_value='A_STAR'");
+			    WHERE macro_set=? AND macro_value=?")
+            ->execute([$mid['macro_id'], 'A_STAR']);
 
 		$row = $stmt->fetch();
 
@@ -2647,8 +2643,7 @@ class ad_forums
 
 		$lang_array = array();
 
-		$stmt = $ibforums->db->query("SELECT ldir, lname
-                            FROM ibf_languages");
+		$stmt = $ibforums->db->prepare("SELECT ldir, lname FROM ibf_languages")->execute();
 
 		while ($l = $stmt->fetch())
 		{
@@ -2657,34 +2652,21 @@ class ad_forums
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT uid, sid, sname, default_set, hidden
-                            FROM ibf_skins");
-
 		$skin_array = array();
 
-		$def_skin = "";
+		$def_skin = Config::get('app.default_skin');
 
-		if ($stmt->rowCount())
-		{
-			while ($s = $stmt->fetch())
-			{
-				if ($s['default_set'] == 1)
-				{
-					$def_skin = $s['sid'];
-				}
-
-				if ($s['hidden'] == 1)
-				{
-					$hidden = " *(Hidden)";
-				} else
-				{
-					$hidden = "";
-				}
-
-				$skin_array[] = array($s['sid'], $s['sname'] . $hidden);
-
-			}
-		}
+        $skin_array = array_map(
+            function ($item) {
+                return [
+                    $item['sid'],
+                    $item['sname'] . ($item['hidden'] == 1
+                        ? " *(Hidden)"
+                        : '')
+                ];
+            },
+            \Models\Skins::findAll()
+        );
 
 		//+-------------------------------
 

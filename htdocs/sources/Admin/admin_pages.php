@@ -86,8 +86,6 @@ $PAGES = array(
 	),
 	7  => array(
 		1 => array('<b>Manage Skin Sets</b>', 'act=sets'),
-		2 => array('&#0124;-- Board Wrappers', 'act=wrap'),
-		3 => array('&#0124;-- HTML Templates', 'act=templ'),
 		5 => array('&#039;-- Macros', 'act=image'),
 		6 => array('Import Skin files', 'act=import'),
 

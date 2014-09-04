@@ -11,7 +11,7 @@ return <<<EOF
   <td align="left" width="20%" style='height:100%'>
     <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
     <tr>
-      <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['links']}</td>
+      <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['links']}</td>
     </tr>
     </table>
 
@@ -35,7 +35,7 @@ return <<<EOF
 
     <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
     <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['stats']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['stats']}</td>
     </tr>
     </table>
     <table align='center' width='100%' class='tableborder' cellspacing='0'>
@@ -67,7 +67,7 @@ return <<<EOF
 
 	<table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   	<tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['random_pic_header']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['random_pic_header']}</td>
   	</tr>
 	</table>
    <table align='center' width='100%' class='tableborder' cellspacing='0'>
@@ -82,7 +82,7 @@ return <<<EOF
 	<br />
 	</td>
 	</tr>
-	</table><br />	
+	</table><br />
 
 EOF;
 }
@@ -108,7 +108,7 @@ return <<<EOF
 
 	<table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   	<tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['top_submitters_header']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['top_submitters_header']}</td>
   	</tr>
 	</table>
    <table align='center' width='100%' class='tableborder' cellspacing='0'>
@@ -118,8 +118,8 @@ return <<<EOF
 		{$most}<br />
 	</td>
 	</tr>
-	</table><br />	
-	
+	</table><br />
+
 EOF;
 }
 
@@ -132,7 +132,7 @@ return <<<EOF
 
 	<table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   	<tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['global_notes_header']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['global_notes_header']}</td>
   	</tr>
 	</table>
    <table align='center' width='100%' class='tableborder' cellspacing='0'>
@@ -143,8 +143,8 @@ return <<<EOF
 	<br />
 	</td>
 	</tr>
-	</table><br />	
-	
+	</table><br />
+
 EOF;
 }
 
@@ -155,7 +155,7 @@ return <<<EOF
 
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']}</td>
   </tr>
 </table>
 <table align="center" width="100%" class='tableborder' cellspacing="1" cellpadding="4">
@@ -199,7 +199,7 @@ return false;
 
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_files_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_files_title']}</td>
   </tr>
 </table>
 <table align="center" width="100%" class='tableborder' cellspacing="1" cellpadding="4">
@@ -225,7 +225,7 @@ return <<<EOF
 
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_downs_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_downs_title']}</td>
   </tr>
 </table>
 <table align="center" width="100%" class='tableborder' cellspacing="1" cellpadding="4">
@@ -261,7 +261,7 @@ return false;
 </script>
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_favs_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_favs_title']}</td>
   </tr>
 </table>
 <table align="center" width="100%" class='tableborder' cellspacing="1" cellpadding="4">
@@ -380,7 +380,7 @@ return <<<EOF
 
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']}</td>
   </tr>
 </table>
 <table align="center" width="100%" class='tableborder' cellspacing="1" cellpadding="4">
@@ -416,19 +416,19 @@ return <<<EOF
 
 <tr><td width='50%'>
 <table width="100%" class='tableborder' align='center' cellspacing="1" cellpadding="0">
-   <tr> 
-	<td colspan='2' class='maintitle'> 
-	
+   <tr>
+	<td colspan='2' class='maintitle'>
+
 	     &nbsp; {$ibforums->lang['bf_topdown']}
 
 </td>
 </tr>
 
-  <tr> 
+  <tr>
      <td class='titlemedium' align="center" width="50%" >{$ibforums->lang['bf_topdown_n']}</td>
      <td class='titlemedium' align="center" width="30%" >{$ibforums->lang['bf_topdown_a']}</td>
   </tr>
-  <tr> 
+  <tr>
 
 <td class="row4" width='50%'>{$data['downloads_down']}</td>
 
@@ -437,17 +437,17 @@ return <<<EOF
 </tr>
 </table></td><td width='50%'>
 <table width="100%" class='tableborder' align='center' cellspacing="1" cellpadding="0">
-  <tr> 
-    <td colspan='2' class='maintitle'> 
+  <tr>
+    <td colspan='2' class='maintitle'>
 
       	&nbsp; {$ibforums->lang['bf_topview']}
    </td>
 </tr>
-  <tr> 
+  <tr>
      <td class='titlemedium' align="center" width="50%">{$ibforums->lang['bf_topdown_n']}</td>
      <td class='titlemedium' align="center" width="30%">{$ibforums->lang['bf_topview_a']}</td>
   </tr>
-<tr> 
+<tr>
 
 <td class="row4" width='50%'>{$data['downloads_views']}</td>
 
@@ -457,36 +457,36 @@ return <<<EOF
 </td></tr>
 <tr><td width='50%'>
 <table width="100%" class='tableborder' align='center' cellspacing="1" cellpadding="0">
-<tr> 
-<td colspan='2' class='maintitle'> 
-	
+<tr>
+<td colspan='2' class='maintitle'>
+
 	     &nbsp; {$ibforums->lang['bf_topup']}
 
 </td>
 </tr>
-  <tr> 
+  <tr>
      <td class='titlemedium' align="center" width="50%" >{$ibforums->lang['bf_member']}</td>
      <td class='titlemedium' align="center" width="30%" >{$ibforums->lang['bf_sub']}</td>
        </tr>
-<tr> 
+<tr>
 <td class="row4" width='50%'>{$data['authors']}</td>
 
 <td class="row4" width="30%">{$data['scripts']}</td>
 </tr>
 </table></td><td width='50%'>
 <table width="100%" class='tableborder' align='center' cellspacing="1" cellpadding="0">
-<tr> 
-<td colspan='2' class='maintitle' > 
-	
+<tr>
+<td colspan='2' class='maintitle' >
+
 	     &nbsp; {$ibforums->lang['bf_topdown1']}
 
 </td>
 </tr>
-  <tr> 
+  <tr>
      <td class='titlemedium' align="center" width="50%" >{$ibforums->lang['bf_member']}</td>
      <td class='titlemedium' align="center" width="30%" >{$ibforums->lang['bf_topdown_a']}</td>
        </tr>
-<tr> 
+<tr>
 <td class="row4" width='50%'>{$data['downloaders']}</td>
 
 <td class="row4" width="30%">{$data['downloads']}</td>
@@ -598,15 +598,15 @@ if ( MessageMax < 0 )
 {
 	MessageMax = 0;
 }
-	
+
 function emo_pop()
 {
-  window.open('index.{$ibforums->vars['php_ext']}?act=legends&CODE=emoticons&s={$ibforums->session_id}','Legends','width=250,height=500,resizable=yes,scrollbars=yes'); 
+  window.open('index.{$ibforums->vars['php_ext']}?act=legends&CODE=emoticons&s={$ibforums->session_id}','Legends','width=250,height=500,resizable=yes,scrollbars=yes');
 }
 function bbc_pop()
 {
-  window.open('index.{$ibforums->vars['php_ext']}?act=legends&CODE=bbcode&s={$ibforums->session_id}','Legends','width=700,height=500,resizable=yes,scrollbars=yes'); 
-}	
+  window.open('index.{$ibforums->vars['php_ext']}?act=legends&CODE=bbcode&s={$ibforums->session_id}','Legends','width=700,height=500,resizable=yes,scrollbars=yes');
+}
 function CheckLength() {
 	MessageLength  = document.REPLIER.Post.value.length;
 	message  = "";
@@ -617,11 +617,11 @@ function CheckLength() {
 		}
 		alert(message + "      {$ibforums->lang['js_used']} " + MessageLength + " {$ibforums->lang['js_characters']}.");
 }
-	
+
 	function ValidateForm(isMsg) {
 		MessageLength  = document.REPLIER.Post.value.length;
 		errors = "";
-		
+
 		if (isMsg == 1)
 		{
 			if (document.REPLIER.msg_title.value.length < 2)
@@ -629,7 +629,7 @@ function CheckLength() {
 				errors = "{$ibforums->lang['msg_no_title']}";
 			}
 		}
-	
+
 		if (MessageLength < 2) {
 			 errors = "{$ibforums->lang['js_no_message']}";
 		}
@@ -646,7 +646,7 @@ function CheckLength() {
 			return true;
 		}
 	}
-	
+
 	// IBC Code stuff
 	var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}";
 	var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}";
@@ -676,20 +676,20 @@ function CheckLength() {
 	var help_code           = "{$ibforums->lang['hb_code']}";
 	var help_click_close    = "{$ibforums->lang['hb_click_close']}";
 	var list_prompt         = "{$ibforums->lang['js_tag_list']}";
-	
+
 	//-->
 </script>
 <form action="?act=Downloads&amp;do=edit" method="post" enctype="multipart/form-data" name='REPLIER'>
 <input type="hidden" name="id" value="{$info['id']}" />
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['title_edit']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['title_edit']}</td>
   </tr>
 </table>
 <table align="center" class='tableborder' cellspacing="1" cellpading="0" width="100%">
  <tr>
   <td colspan='2' align='center' width='100%' class='row4'><br />{$ibforums->lang['whats_required']}<br /><br /></td>
- </tr> 
+ </tr>
   <tr>
       <td width="30%" valign="top" class="row4">{$ibforums->lang['add_filename']} *</td>
     <td width="70%" valign="top" class="row4"><input type="text" name="sname" value="{$info['sname']}"></td>
@@ -708,7 +708,7 @@ function CheckLength() {
 	   <input type='button' accesskey='b' value=' B '       onclick='simpletag("B")' class='codebuttons' name='B' style="font-weight:bold" onmouseover="hstat('bold')" />
 	   <input type='button' accesskey='i' value=' I '       onclick='simpletag("I")' class='codebuttons' name='I' style="font-style:italic" onmouseover="hstat('italic')" />
 	   <input type='button' accesskey='u' value=' U '       onclick='simpletag("U")' class='codebuttons' name='U' style="text-decoration:underline" onmouseover="hstat('under')" />
-	   
+
 	   <select name='ffont' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'FONT')"  onmouseover="hstat('font')">
 	   <option value='0'>{$ibforums->lang['ct_font']}</option>
 	   <option value='Arial' style='font-family:Arial'>{$ibforums->lang['ct_arial']}</option>
@@ -797,13 +797,13 @@ global $ibforums;
 return <<<EOF
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']}</td>
   </tr>
 </table>
 <table align="center" class='tableborder' cellspacing="1" cellpading="0" width="100%">
  <tr>
   <td align='center' width='100%' class='tableborder'><div class='row4'><br />{$ibforums->lang['whats_available']}<br /><br /></div></td>
- </tr> 
+ </tr>
   <tr>
       <td width="100%" valign="top" align='left' class="row4">
 <br />
@@ -877,7 +877,7 @@ function cca(cb) {
 	   dl(cb);
    }
 }
-	   
+
 function CheckAll(cb) {
 	var fmobj = document.mutliact;
 	for (var i=0;i<fmobj.elements.length;i++) {
@@ -901,7 +901,7 @@ function CheckAll(cb) {
 
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_approve_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_approve_title']}</td>
   </tr>
 </table>
 <table align="center" class='tableborder' cellspacing="1" cellpading="0" width="100%">
@@ -942,7 +942,7 @@ return <<<EOF
 <form action="?act=FileCP&amp;do=manage&amp;type=listedit" method="post" enctype="multipart/form-data">
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_editsearch_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_editsearch_title']}</td>
   </tr>
 </table>
 <table align="center" class='tableborder' cellspacing="1" cellpading="0" width="100%">
@@ -976,7 +976,7 @@ global $ibforums;
 return <<<EOF
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_editsearch_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_editsearch_title']}</td>
   </tr>
 </table>
 <table align="center" class='tableborder' cellspacing="1" cellpading="0" width="100%">
@@ -1002,7 +1002,7 @@ global $ibforums;
 return <<<EOF
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_linkcheck_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_linkcheck_title']}</td>
   </tr>
 </table>
 <table align="center" class='tableborder' cellspacing="1" cellpading="0" width="100%">
@@ -1069,7 +1069,7 @@ function cca(cb) {
 	   dl(cb);
    }
 }
-	   
+
 function CheckAll(cb) {
 	var fmobj = document.mutliact;
 	for (var i=0;i<fmobj.elements.length;i++) {
@@ -1093,7 +1093,7 @@ function CheckAll(cb) {
 
 <table width="100%" align="center" class='tableborder' cellspacing="1" cellpadding="0">
   <tr>
-    <td class="maintitle"><img src="{$ibforums->vars['img_url']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_tcheck_title']}</td>
+    <td class="maintitle"><img src="{$ibforums->skin['ImagesPath']}/nav_m.gif"> {$ibforums->lang['bf_page_title']} -> {$ibforums->lang['bf_manage_title']} -> {$ibforums->lang['bf_tcheck_title']}</td>
   </tr>
 </table>
 <form action='index.php?act=FileCP&amp;do=tcreate' method='post' name='mutliact'>

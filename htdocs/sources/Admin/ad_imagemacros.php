@@ -663,9 +663,7 @@ class ad_settings
 
 		// Get img_dir this set is using...
 
-		$stmt = $ibforums->db->query("SELECT img_dir from ibf_skins WHERE macro_id='" . $IN['id'] . "'");
-
-		$skin = $stmt->fetch();
+		$skin = \Models\Skins::find(['macro_id' => $IN['id']]);
 
 		$stmt = $ibforums->db->query("SELECT * from ibf_macro WHERE macro_set='" . $IN['id'] . "' ORDER BY macro_id DESC");
 

@@ -8,10 +8,6 @@
  */
 class RssApplication extends CoreApplication
 {
-	var $skin_id = "0"; // Skin Dir name
-	var $skin_rid = ""; // Real skin id (numerical only)
-	var $skin = "";
-
 	var $input = array();
 	var $base_url = "";
 	var $vars = "";
@@ -53,14 +49,5 @@ class RssApplication extends CoreApplication
 		$data['rss'] = 1;
 
 	}
-
-	protected function loadSkin()
-	{
-		$data           = parent::loadSkin();
-		$this->skin_rid = $data['set_id'];
-		$this->skin_id  = 's' . $data['set_id'];
-		return $data;
-	}
-
 }
 

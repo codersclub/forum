@@ -478,8 +478,7 @@ class ad_cat
 
 		}
 
-		$stmt = $ibforums->db->query("SELECT uid, sname, sid FROM ibf_skins");
-		while ($s = $stmt->fetch())
+		foreach(\Models\Skins::findAll() as $s)
 		{
 			$this->skins[$s['sid']] = $s['sname'];
 		}

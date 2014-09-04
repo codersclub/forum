@@ -661,7 +661,6 @@ function do_admin_stuff() {
 			 'style'    => 'stylesheets',
 			 'image'    => 'imagemacros',
 			 'sets'     => 'stylesets',
-			 'templ'    => 'templates',
 			 'rtempl'   => 'remote_template',
 			 'lang'     => 'languages',
 			 'import'   => 'skin_import',

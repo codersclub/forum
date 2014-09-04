@@ -539,7 +539,7 @@ class Topics
 		$row['post_date'] = $std->get_date($row['post_date']);
 
 		$row['post_icon'] = ($row['icon_id'] and $ibforums->member['view_img'])
-			? "<img src='" . $ibforums->vars['img_url'] . "/icon{$row['icon_id']}.gif' alt='' />&nbsp;&nbsp;"
+			? "<img src='" . $ibforums->skin['ImagesPath'] . "/icon{$row['icon_id']}.gif' alt='' />&nbsp;&nbsp;"
 			: "";
 
 		$row['ip_address'] = $this->view_ip($row, $poster);
@@ -3368,9 +3368,9 @@ class Topics
 
 					if ($votes > 0)
 					{
-						$bar = "<img src='{$ibforums->vars['img_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''>";
-						$bar .= "<img src='{$ibforums->vars['img_url']}/bar.gif' border='0' width='$width' height='11' align='middle' alt=''>";
-						$bar .= "<img src='{$ibforums->vars['img_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>&nbsp;[{$percent}%]</td>";
+						$bar = "<img src='{$ibforums->skin['ImagesPath']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''>";
+						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar.gif' border='0' width='$width' height='11' align='middle' alt=''>";
+						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>&nbsp;[{$percent}%]</td>";
 					}
 
 					$html .= $this->poll_html->Render_row_results($votes, $id, $choice, $bar);

@@ -47,7 +47,7 @@ return <<<EOF
     <table class="b-forums-list">
         <thead>
 		<tr class="b-forums-list-header">
-	        <th colspan="2" align="center" width="2%" class="titlemedium b-forums-list-column-image"><img border="0" src="{$ibforums->vars['img_url']}/spacer.gif" alt="" width="28" height="1"></th>
+	        <th colspan="2" align="center" width="2%" class="titlemedium b-forums-list-column-image"><img border="0" src="{$ibforums->skin['ImagesPath']}/spacer.gif" alt="" width="28" height="1"></th>
 			<th width="59%" class="titlemedium b-forums-list-column-title">{$ibforums->lang['cat_name']}</th>
 		    <th width="7%" class="titlemedium b-forums-list-column-topics">{$ibforums->lang['topics']}</th>
 		    <th width="7%" class="titlemedium b-forums-list-column-replies">{$ibforums->lang['replies']}</th>

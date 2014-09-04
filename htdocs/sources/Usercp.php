@@ -1390,17 +1390,13 @@ class UserCP
 
 		if ($ibforums->vars['allow_skins'])
 		{
-
-			$stmt = $ibforums->db->query("SELECT uid, sid, sname
-				    FROM ibf_skins
-				    WHERE hidden <> 1");
-
-			if ($stmt->rowCount())
+            $skins = \Models\Skins::findAll(['hidden' => 0]);
+			if (count($skins) > 0)
 			{
 
 				$skin_select = "<select name='u_skin' class='forminput'>\n";
 
-				while ($s = $stmt->fetch())
+				foreach($skins as $s)
 				{
 					$skin_select .= $s['sid'] == $this->member['skin']
 						? "<option value='{$s['sid']}' selected>{$s['sname']}</option>"

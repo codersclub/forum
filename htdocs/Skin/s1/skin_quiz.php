@@ -22,26 +22,26 @@ return <<<EOF
 
   <input type='hidden' name='item_names' value='{$settings['item_name']}'>";
 
-    <tr class='darkrow2'> 
+    <tr class='darkrow2'>
       <th class="titlemedium" width="30%">{$ibforums->lang['quiz_setting']}</th>
       <th class="titlemedium" width="70%">{$ibforums->lang['quiz_value']}</th>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Quiz Name:</b><br>The Name for this Quiz.</td>
       <td class='row2'>
 	<input name="quiz_name" value="{$settings['quizname']}" size="80" class="textinput" type="text">
       </td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Quiz Short Description:</b><br>Description for this quiz.<br>BBCode and Emoticions are Enabled!</td>
       <td class='row2'>
 	<input name="quiz_desc" value="{$settings['quizdesc']}" size="80" class="textinput" type="text">
       </td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Quiz Description:</b><br>Description for this quiz.<br>BBCode and Emoticions are Enabled!</td>
       <td class='row2'>
       <textarea name="quiz_post" cols="60" rows="10" wrap="soft" class="multitext">{$settings['post']}</textarea>
@@ -49,7 +49,7 @@ return <<<EOF
     </tr>
 
 <!-- !!! CHECK FOR WHAT TO MAKE SELECTED {$settings['approved']} -->
-    <tr> 
+    <tr>
       <td class='row2'><b>Approve the Quiz?</b><br>If 'yes,' the Quiz will be visible to all member, else visible for admin and author only.</td>
       <td class='row2'>
       <input type='radio' name='approved' value='1' {$settings['quiz_approved_yes']}> Yes &nbsp;&nbsp;&nbsp;
@@ -57,7 +57,7 @@ return <<<EOF
       </td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Quiz Status:</b><br></td>
       <td class='row2'>
       <input type='radio' name='quiz_status' value='OPEN' {$settings['quiz_status_open']}> Open &nbsp;&nbsp;&nbsp;
@@ -65,7 +65,7 @@ return <<<EOF
       </td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Quiz Running Time:</b><br></td>
       <td class='row2'>
         <input name="q_run" value="{$settings['run_for']}" size="4" class="textinput" type="text">
@@ -73,7 +73,7 @@ return <<<EOF
       </td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Only let X amount of users play:</b><br>After X (X being what you set) users have played the quiz will automatically close. (Put 0 to disable)</td>
       <td class='row2'>
         <input name="let_play" value="{$settings['let_only']}" size="4" class="textinput" type="text">
@@ -81,7 +81,7 @@ return <<<EOF
       </td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Time Out:</b><br>The amount of minutes before a quiz auto submits it self. This is to stop people from being able to look up answers. (0 will disable it)</td>
       <td class='row2'>
         <input name="timeout" value="{$settings['timeout']}" size="4" class="textinput" type="text">
@@ -90,7 +90,7 @@ return <<<EOF
     </tr>
 
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Percent Needed:</b><br>Percent of correct answer s needed, to get the winnings.</td>
       <td class='row2'>
         <input name="perc_need" value="{$settings['percent_needed']}" size="4" class="textinput" type="text">
@@ -98,7 +98,7 @@ return <<<EOF
       </td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Winnings:</b><br>The amount of points a user gets if they get or go over the percent needed.</td>
       <td class='row2'>
         <input name="winnings" value="{$settings['amount_won']}" size="4" class="textinput" type="text">
@@ -107,12 +107,12 @@ return <<<EOF
     </tr>
 
 <!-- !!! CHECK FOR WHAT TO MAKE SELECTED -->
-    <tr> 
+    <tr>
       <td class='row2'><b>Enable BBCode?</b><br>If yes will parse all BBCodes in Quiz Questions.</td>
       <td class='row2'><input type='radio' name='bbcode' value='1'> Yes &nbsp;&nbsp;&nbsp;<input type='radio' name='bbcode_enabled' value='0'>No</td>
     </tr>
 
-    <tr> 
+    <tr>
       <td class='row2'><b>Item Prizes:</b><br>The Item(s) a user will win from the quiz if they get the needed percentage of correct answers.</td>
       <td class='row2'>
 <!--{$settings['quiz_items']}-->
@@ -121,7 +121,7 @@ return <<<EOF
     </tr>
 
 <!--
-    <tr> 
+    <tr>
       <td class='row2'><b></b><br></td>
       <td class='row2'>{$settings['']}</td>
     </tr>
@@ -141,7 +141,7 @@ return <<<EOF
    {$post['modform_open']}
 
   <table width='100%' border='0' cellspacing='1' cellpadding='4'>
-    <tr> 
+    <tr>
       <td valign='middle' class='row4' width='1%'>{$author['member_group_img']} <span class='postdata'>{$author['name']}</span>{$author['online']}</td>
       <td class='row4' valign='top' width="99%">
       <div style='width:20%;float:left'>{$post['status']}</div>
@@ -155,14 +155,14 @@ return <<<EOF
         <b>{$author['sex']}{$author['title']}</b>
         {$author['member_rank_img']}
         {$author['profile']}<br>
-        {$author['member_points']}	
+        {$author['member_points']}
         {$author['rep']}
         {$author['warn_text']}</span>
         <!--$ author[gender]-->
 
 <div align='left' class='post1' style='float:left;width:auto'>
 <b>{$author['ip_address']}</b></div>
-<img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='160' height='1'><br> 
+<img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='160' height='1'><br>
 
       </td>
       <td width='100%' valign='top' class='post1'>
@@ -316,7 +316,7 @@ function edit_question($nq=0,$quiz=array())
 */
   }
 
-  else if($quiz['type'] == 'opinion') 
+  else if($quiz['type'] == 'opinion')
   {
     $html .= "
   <tr class='row2' valign='middle'>
@@ -365,7 +365,7 @@ return <<<EOF
  </div>
 
   <table width='100%' border='0' cellspacing='1' cellpadding='4'>
-    <tr> 
+    <tr>
       <td valign='middle' class='row4' width='1%'>{$member['member_group_img']} <span class='postdata'>{$member['name']}</span>{$member['online']}</td>
       <td class='row4' valign='top' width="99%">
 <!-- date & others -->
@@ -379,14 +379,14 @@ return <<<EOF
         <b>{$author['sex']}{$member['title']}</b>
         {$member['member_rank_img']}
         {$member['profile']}<br>
-        {$member['member_points']}	
+        {$member['member_points']}
         {$member['rep']}
         {$member['warn_text']}</span>
         <!--$ author[gender]-->
 
 <div align='left' class='post1' style='float:left;width:auto'>
 <b>{$member['ip_address']}</b></div>
-<img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='160' height='1'><br> 
+<img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='160' height='1'><br>
       </td>
 
       <td width='100%' valign='top' class='post1'>
@@ -409,7 +409,7 @@ return <<<EOF
   <form action="{$ibforums->base_url}act=quiz&code=do_take_quiz&quiz_id={$ibforums->input['quiz_id']}" name="quiz" method="post">
   <input type="hidden" name="timeout" value="{$settings['timeout']}">
   <input type="hidden" name="starttime" value="{$settings['time']}">
-    <tr class='darkrow2'> 
+    <tr class='darkrow2'>
       <th class="titlemedium" width="50%">{$ibforums->lang['quiz_question']}</th>
       <th class="titlemedium" width="50%">{$ibforums->lang['quiz_answer']}</th>
     </tr>
@@ -489,15 +489,15 @@ function quiz_header($data=array())
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$data['name']}</div>
    {$data['modform_open']}
    <table width='100%' border='0' cellspacing='1' cellpadding='4'>
-    <tr class='darkrow2'> 
-     <td align='center' class='titlemedium'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
-     <td align='center' class='titlemedium'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
+    <tr class='darkrow2'>
+     <td align='center' class='titlemedium'><img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='20' height='1'></td>
+     <td align='center' class='titlemedium'><img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='20' height='1'></td>
      <th class="titlemedium" width="45%">{$ibforums->lang['quiz_name']}</th>
      <th class="titlemedium" width='14%'>{$ibforums->lang['quiz_starter']}</th>
      <!--Plays Left Header-->
      <th class="titlemedium" width="5%">{$ibforums->lang['quiz_winnings']}</th>
      <th class="titlemedium" width="5%">{$ibforums->lang['quiz_stats']}</th>
-     <th class="titlemedium" width="5%">{$ibforums->lang['quiz_status']}</th>	
+     <th class="titlemedium" width="5%">{$ibforums->lang['quiz_status']}</th>
      <th class="titlemedium" width="5%">{$ibforums->lang['quiz_play']}</th>
 <!--th class="pformstrip" width="5%">{$ibforums->lang['quiz_desc']}</th-->
   </tr>
@@ -511,14 +511,14 @@ function list_quiz($data) {
   global $ibforums;
   return <<<EOF
 
-    <tr> 
+    <tr>
       <td align='center' class='row4'>{$data['img']}</td>
       <td align='center' class='row2'>{$data['icon']}</td>
       <td class='row4'><a href='{$ibforums->base_url}act=quiz&code=show&quiz_id={$data['q_id']}'><b>{$data['quizname']}</b></a>
       <br><span class='desc'>{$data['quizdesc']}</span>{$data['queued_link']}</td>
       <td align='center' class='row2'><a href='{$ibforums->base_url}showuser={$data['starter_id']}'>{$data['starter_name']}</a></td>
 
-      <!--Plays Left Middle-->	
+      <!--Plays Left Middle-->
 
       <td align='center' class='row4'>{$data['amount_won']}</td>
       <td align='center' class='row2'>{$data['quiz_status']}</td>
@@ -540,7 +540,7 @@ return <<<EOF
 
   <table width='100%' border='0' cellspacing='1' cellpadding='4'>
 
-    <tr class='darkrow2'> 
+    <tr class='darkrow2'>
       <th class="titlemedium" width="5%">{$ibforums->lang['results_place']}</th>
       <th class="titlemedium" width="20%">{$ibforums->lang['results_name']}</th>
       <th class="titlemedium" width="20%">{$ibforums->lang['date']}</th>
@@ -623,7 +623,7 @@ function Dotimeout() {
   <form action="{$ibforums->base_url}act=quiz&code=do_take_quiz&quiz_id={$ibforums->input['quiz_id']}" name="quiz" method="post">
   <input type="hidden" name="timeout" value="{$settings['timeout']}">
   <input type="hidden" name="starttime" value="{$settings['time']}">
-    <tr class='darkrow2'> 
+    <tr class='darkrow2'>
       <th class="titlemedium" width="50%">{$ibforums->lang['quiz_question']}</th>
       <th class="titlemedium" width="50%">{$ibforums->lang['quiz_answer']}</th>
     </tr>
@@ -718,7 +718,7 @@ function form_multiselect($name,
   foreach ($list as $k => $v)
   {
     $selected = "";
-		
+
     if ( count($default) > 0 )
     {
       if ( in_array( $v[0], $default ) )
@@ -726,12 +726,12 @@ function form_multiselect($name,
 	$selected = ' selected="selected"';
       }
     }
-		
+
     $html .= "<option value='".$v[0]."'".$selected.">".$v[1]."</option>\n";
   }
-	
+
   $html .= "</select>\n\n";
-	
+
   return $html;
 
 }
@@ -747,21 +747,21 @@ function form_dropdown($name, $list=array(), $default_val="", $js="")
   }
 
   $html = "<select name='$name'".$js." class='dropdown'>\n";
-	
+
   foreach ($list as $k => $v)
   {
     $selected = "";
-		
+
     if ( ($default_val != "") and ($v[0] == $default_val) )
     {
       $selected = ' selected';
     }
-		
+
     $html .= "<option value='".$v[0]."'".$selected.">".$v[1]."</option>\n";
   }
-	
+
   $html .= "</select>\n\n";
-	
+
   return $html;
 
 }
@@ -828,7 +828,7 @@ function check_edit(message) {
  	<td class="pformleft" width="10%"><b>{$ibforums->lang['fine_reson']}</b></td>
 	<td class="pformleft" width="20%"><textarea name="user_reson" width="30" height="10" cols="40" rows="5"></textarea></td>
   </tr>
-  <tr> 
+  <tr>
 	<td class="pformleft" width="10%" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></center></td>
   </tr>
 </form>
@@ -841,7 +841,7 @@ function edit_inventory_submit() {
 global $ibforums;
 return <<<EOF
 
-  <tr> 
+  <tr>
 	<td class="pformleft" width="100%" colspan="6"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_inventory_submit']}"></center></td>
   </tr>
 </form>
@@ -867,7 +867,7 @@ return <<<EOF
   <tr>
 	<td class="pformleft" align="center" width="10%"><img src="{$ibforums->vars['board_url']}/html/store/icons/{$inventory['icon']}"></td>
 	<td class="pformleft" align="center" width="20%">{$inventory['item_name']}</td>
-	<td class="pformleft" align="center" width="20%">{$inventory['item_desc']}</td>	
+	<td class="pformleft" align="center" width="20%">{$inventory['item_desc']}</td>
 	<td class="pformleft" align="center" width="10%"><input type='text' name='price_{$inventory['i_id']}' value='{$inventory['price_payed']}'>
 												<input type='hidden' name='original_{$inventory['i_id']}' value='{$inventory['price_payed']}'></td>
 	<td class="pformleft" align="center" width="10%"><input type='checkbox' name='delete_{$inventory['i_id']}' value='1' unchecked></td>
@@ -934,7 +934,7 @@ return <<<EOF
 
   <tr>
         <td class="pformleft" align="center">{$charges['time']}</td>
-        <td class="pformleft" align="center">{$charges['sum']}</td>	
+        <td class="pformleft" align="center">{$charges['sum']}</td>
         <td class="pformleft">{$charges['message']}</td>
         <td class="pformleft">{$charges['reason']}</td>
         <td class="pformleft" align="center">{$charges['username']}</td>
@@ -1001,7 +1001,7 @@ return <<<EOF
 	<td class="pformleft" width="25%"><a href="{$ibforums->base_url}showuser={$member['id']}">{$member['name']}</a></td>
 	<td class="pformleft" width="25%">{$member['points']}</td>
 	<td class="pformleft" width="25%">{$member['deposited']}</td>
-	<td class="pformleft" width="25%">{$member['total_points']}</td>	
+	<td class="pformleft" width="25%">{$member['total_points']}</td>
 
   </tr>
 
@@ -1032,7 +1032,7 @@ function check_edit(message) {
   <tr>
  	<td class="pformleft" width="10%"><b>{$ibforums->lang['fine_reson']}</b></td>
 	<td class="pformleft" width="20%"><textarea name="reson" width="30" height="10" cols="40" rows="5"></textarea></td>
-  </tr> 
+  </tr>
   <tr>
 	<td class="pformleft" width="10%" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></center></td>
 	</tr>
@@ -1048,7 +1048,7 @@ return <<<EOF
 
   <tr>
 	<td class="pformleft" width="100%" colspan="4">&nbsp;</td>
-  </tr>	
+  </tr>
 
 EOF;
 }
@@ -1061,7 +1061,7 @@ return <<<EOF
   <tr>
 	<td class="pformleft" align="center" width="10%"><img src="{$ibforums->vars['board_url']}/html/store/icons/{$user_inventory['icon']}"></td>
 	<td class="pformleft" align="center" width="20%">{$user_inventory['item_name']}</td>
-	<td class="pformleft" align="center" width="20%">{$user_inventory['item_desc']}</td>	
+	<td class="pformleft" align="center" width="20%">{$user_inventory['item_desc']}</td>
 	<td class="pformleft" align="center" width="10%">{$user_inventory['stock']}</td>
 	<!--IBS.RESELL_AMOUNT-->
 	</td>
@@ -1080,7 +1080,7 @@ return <<<EOF
   </tr>
   <tr>
 	<td class="pformright" align="center" colspan="2"><b>{$info['welcome_desc']}</b></td>
-  </tr> 	
+  </tr>
 
 EOF;
 }
@@ -1150,7 +1150,7 @@ return <<<EOF
   </tr>
   <tr>
 	<td class="pformleft" width="100%" colspan="6">&nbsp;</td>
-  </tr>	
+  </tr>
 
 EOF;
 }
@@ -1165,7 +1165,7 @@ return <<<EOF
   </tr>
   <tr>
 	<td class="pformleft" width="100%" colspan="6">&nbsp;</td>
-  </tr>	
+  </tr>
 
 EOF;
 }
@@ -1178,11 +1178,11 @@ return <<<EOF
   <tr>
 	<td class="pformleft" align="center" width="10%"><img src="{$ibforums->vars['board_url']}/html/store/icons/{$user_inventory['icon']}"></td>
 	<td class="pformleft" align="center" width="20%">{$user_inventory['item_name']}</td>
-	<td class="pformleft" align="center" width="20%">{$user_inventory['item_desc']}</td>	
+	<td class="pformleft" align="center" width="20%">{$user_inventory['item_desc']}</td>
 	<td class="pformleft" align="center" width="10%">{$user_inventory['stock']}</td>
 	<!--IBS.RESELL_AMOUNT-->
 	<td class="pformleft" align="center" width="10%"><a href="{$ibforums->base_url}act=quiz&code=useitem&itemid={$user_inventory['i_id']}" onClick="return check('{$ibforums->lang['useitem_check']}')">{$ibforums->lang['use']}</a><br>
- 	<!--IBS.RESELL_ITEM-->	
+ 	<!--IBS.RESELL_ITEM-->
 	<!--IBS.DELETE_ITEM-->
 	</td>
   </tr>
@@ -1241,7 +1241,7 @@ return <<<EOF
   <tr>
 	<td class="pformleft" align="center" valign="top">{$item['item_name']}<br><br><img src="{$ibforums->vars['board_url']}/html/store/icons/{$item['icon']}"></td>
 	<td class="pformleft" align="justify" valign="top">{$item['item_desc']}</td>
-	<td class="pformleft" align="center">{$item['sell_price']}</td>	
+	<td class="pformleft" align="center">{$item['sell_price']}</td>
 	<td class="pformleft" align="center">{$item['stock']}</td>
 	<td class="pformleft" align="center">{$item['item_buyitem']}</td>
 	<!--Mass Buy Middle-->
@@ -1282,7 +1282,7 @@ function mass_buy_header() {
 global $ibforums;
 return <<<EOF
 
-	<td class="pformstrip" align="center" width="10%">{$ibforums->lang['mass_buy']}</td>	
+	<td class="pformstrip" align="center" width="10%">{$ibforums->lang['mass_buy']}</td>
 
 EOF;
 }
@@ -1320,7 +1320,7 @@ return <<<EOF
 
   <tr>
 	<td class="pformstrip" width="100%" colspan="4">{$ibforums->lang['welcome_bank']}</td>
-  </tr> 
+  </tr>
   <tr>
 	<td class="pformleft" width="50%" colspan="2">{$ibforums->lang['amount_in']}</td>
 	<td class="pformleft" width="50%" colspan="2">{$ibforums->lang['amount_onhand']}</td>
@@ -1348,7 +1348,7 @@ return <<<EOF
   </tr>
   <tr>
 	<td class="pformright" colspan="4">&nbsp;</td>
-  </tr>  
+  </tr>
 
 EOF;
 }
@@ -1386,10 +1386,10 @@ global $ibforums;
 return <<<EOF
 
   <tr>
-	<td class="pformleft" align="center" colspan="8"><b>{$ibforums->lang['cannot_find_items']}</b></td>	
+	<td class="pformleft" align="center" colspan="8"><b>{$ibforums->lang['cannot_find_items']}</b></td>
   </tr>
   <tr>
-	<td class="pformleft" align="center" colspan="8">&nbsp;</td>	
+	<td class="pformleft" align="center" colspan="8">&nbsp;</td>
   </tr>
 
 EOF;
@@ -1427,9 +1427,9 @@ return <<<EOF
   <div class='maintitle'><{CAT_IMG}>&nbsp;{$data['name']}</div>
    {$data['modform_open']}
    <table width='100%' border='0' cellspacing='1' cellpadding='4'>
-    <tr class='darkrow2'> 
-     <td align='center' class='titlemedium'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
-     <td align='center' class='titlemedium'><img src='{$ibforums->vars['img_url']}/spacer.gif' alt='' width='20' height='1'></td>
+    <tr class='darkrow2'>
+     <td align='center' class='titlemedium'><img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='20' height='1'></td>
+     <td align='center' class='titlemedium'><img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='20' height='1'></td>
      <th width='45%' align='left' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_topic_title']}</th>
      <th width='14%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_topic_starter']}</th>
      <th width='7%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_replies']}</th>
@@ -1590,7 +1590,7 @@ return <<<EOF
 	<td class="pformleft">Добавление нового смайла (для каждого скина)</td>
 	<td class="pformleft">1</td>
   </tr>
-  
+
   <tr>
 	<td class="pformleft">Проработка и графическое оформление нового набора смайлов</td>
 	<td class="pformleft">4 - 5</td>
@@ -1605,7 +1605,7 @@ return <<<EOF
 	<td class="pformleft">1</td>
   </tr>
 
-  
+
   <tr>
 	<td class="pformleft">Написание и оформление 1 вопроса/ответа в FAQ с исходником и подробными комментариями</td>
 	<td class="pformleft">2 - 10</td>
@@ -1666,10 +1666,10 @@ EOF;
 //vot	<td class="pformleft" width="25%">{$ibforums->lang['pointsper_poll']}</td>
 //vot	<td class="pformleft" width="25%">{$ibforums->vars['pointsper_poll']}</td>
 //vot  </tr>
-//vot  <tr>    
+//vot  <tr>
 //vot	<td class="pformleft" width="25%">{$ibforums->lang['what_else']}</td>
 //vot	<td><textarea cols='80' rows='15' readonly="readonly" name='Post' class='textinput'>{$ibforums->vars['what_else']}</textarea></td>
-//vot  </tr> 
+//vot  </tr>
 
 //vot: new html added:
 
@@ -1680,17 +1680,17 @@ return <<<EOF
 
 <form action="{$ibforums->base_url}act=quiz&code=doconvertpoint" method="post">
   <tr>
-	<td class="pformleft"><b>{$ibforums->lang['your_points']} {$member['points']}</b></td>	
-	<td class="pformleft"><b>{$ibforums->lang['your_money']} {$member['money']}</b></td>	
+	<td class="pformleft"><b>{$ibforums->lang['your_points']} {$member['points']}</b></td>
+	<td class="pformleft"><b>{$ibforums->lang['your_money']} {$member['money']}</b></td>
   </tr>
   <tr>
-	<td class="pformleft" colspan="2"><input type="text" name="convert_points" value=""> <input type="submit" name="convertpoints" value="{$ibforums->lang['ibstore_to_rpg']}"></td>	
+	<td class="pformleft" colspan="2"><input type="text" name="convert_points" value=""> <input type="submit" name="convertpoints" value="{$ibforums->lang['ibstore_to_rpg']}"></td>
   </tr>
   <tr>
-	<td class="pformleft" colspan="2"><input type="text" name="convert_money" value=""> <input type="submit" name="convertmoney" value="{$ibforums->lang['rpg_to_ibstore']}"></td>	
+	<td class="pformleft" colspan="2"><input type="text" name="convert_money" value=""> <input type="submit" name="convertmoney" value="{$ibforums->lang['rpg_to_ibstore']}"></td>
   </tr>
   <tr>
-	<td class="pformleft" align="center" colspan="8">&nbsp;</td>	
+	<td class="pformleft" align="center" colspan="8">&nbsp;</td>
   </tr>
 </form>
 
@@ -1732,7 +1732,7 @@ return <<<EOF
 EOF;
 }
 
-function ShowRow($i) { 
+function ShowRow($i) {
 global $ibforums;
 return <<<EOF
 		<tr>
@@ -1798,7 +1798,7 @@ function check()
 <!--
 function check(type) {
  <!--IBS.SAFTY_ON-->
- return true;			
+ return true;
 }
 //-->
 </script>
