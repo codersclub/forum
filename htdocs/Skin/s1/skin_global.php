@@ -92,12 +92,7 @@ EOF;
 }
 
 function css_external($css, $img) {
-global $ibforums;
-return <<<EOF
-
-<LINK REL=STYLESHEET TYPE="text/css" HREF="{$ibforums->vars['board_url']}/cache/css_{$css}.css?{$ibforums->vars['client_script_version']}">
-
-EOF;
+    return Assets::make('assets/stylesheets/skins/css_' . $css . '.scss')->toLink();
 }
 
 function action_button_wrapper($html, $name) {
@@ -300,7 +295,7 @@ return <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
  <head>
-  <meta http-equiv="content-type" content="text/html;  charset=windows-1251">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <title>$title</title>
   $css
  </head>

@@ -1,0 +1,140 @@
+@mixin clear()
+{
+  &:after {
+    display: table;
+    width: 100%;
+    content: '';
+    clear: both;
+  }
+}
+
+@mixin user-select($select: all)
+{
+  -webkit-user-select: $select;
+  -moz-user-select: $select;
+  -ms-user-select: $select;
+  -o-user-select: $select;
+  user-select: $select;
+}
+
+@mixin transition($args...)
+{
+  -webkit-transition: zip($args);
+  -moz-transition: zip($args);
+  transition: zip($args);
+}
+
+@mixin rotate($deg)
+{
+  @include transform(rotate($deg));
+}
+
+@mixin transform($args...)
+{
+  -webkit-transform: zip($args);
+  -moz-transform: zip($args);
+  -ms-transform: zip($args);
+  transform: zip($args);
+}
+
+@mixin linear-gradient($top, $bottom, $from: 0%, $to: 100%)
+{
+  background: $top;
+  background:     -moz-linear-gradient(top, $top $from, $bottom $to);
+  background:  -webkit-linear-gradient(top, $top $from, $bottom $to);
+  background:       -o-linear-gradient(top, $top $from, $bottom $to);
+  background:      -ms-linear-gradient(top, $top $from, $bottom $to);
+  background:    linear-gradient(to bottom, $top $from, $bottom $to);
+}
+
+@mixin horizontal-gradient($left, $right, $from: 0%, $to: 100%)
+{
+  background: $left;
+  background:     -moz-linear-gradient(left, $left $from, $right $to);
+  background:  -webkit-linear-gradient(left, $left $from, $right $to);
+  background:       -o-linear-gradient(left, $left $from, $right $to);
+  background:      -ms-linear-gradient(left, $left $from, $right $to);
+  background:      linear-gradient(to right, $left $from, $right $to);
+}
+
+@mixin placeholder
+{
+  &::-webkit-input-placeholder { @content; }
+  &:-moz-placeholder {           @content; }
+  &::-moz-placeholder {          @content; }
+  &:-ms-input-placeholder {      @content; }
+}
+
+@mixin background-clip($clip: border-box)
+{
+  -webkit-background-clip: $clip;
+  -moz-background-clip: $clip;
+  background-clip: $clip;
+}
+
+@mixin appearance($type)
+{
+  -webkit-appearance: $type;
+  -moz-appearance: $type;
+  appearance: $type;
+}
+
+@mixin selection
+{
+  &::selection{ @content; }
+  &::-moz-selection{ @content; }
+}
+
+@mixin centrize($width, $height)
+{
+  width: $width;
+  height: $height;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: (-$height/2) 0 0 (-$width/2);
+}
+
+@mixin box-sizing($box-model: content-box)
+{
+  -moz-box-sizing: $box-model;
+  box-sizing: $box-model;
+}
+
+@mixin keyframe ($name)
+{
+  @-webkit-keyframes #{$name} { @content; }
+  @-moz-keyframes #{$name} { @content; }
+  @-o-keyframes #{$name} { @content; }
+  @keyframes #{$name} { @content; }
+}
+
+@mixin animation ($animation, $duration: 3s, $transition: ease, $iteration: infinite, $delay: 0) {
+  -webkit-animation-name: $animation;
+  -webkit-animation-duration: $duration;
+  -webkit-animation-timing-function: $transition;
+  -webkit-animation-iteration-count: $iteration;
+  -webkit-animation-delay: $delay;
+  -webkit-animation-fill-mode: forwards;
+
+  -moz-animation-name: $animation;
+  -moz-animation-duration: $duration;
+  -moz-animation-timing-function: $transition;
+  -moz-animation-iteration-count: $iteration;
+  -moz-animation-delay: $delay;
+  -moz-animation-fill-mode: forwards;
+
+  -o-animation-name: $animation;
+  -o-animation-duration: $duration;
+  -o-animation-timing-function: $transition;
+  -o-animation-iteration-count: $iteration;
+  -o-animation-delay: $delay;
+  -o-animation-fill-mode: forwards;
+
+  animation-name: $animation;
+  animation-duration: $duration;
+  animation-timing-function: $transition;
+  animation-iteration-count: $iteration;
+  animation-delay: $delay;
+  animation-fill-mode: forwards;
+}
