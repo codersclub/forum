@@ -98,17 +98,16 @@ class AttachImage extends Attachment
 	{
 		global $ibforums, $std;
 		$filename = $ibforums->vars['upload_dir'] . "/" . $this->realFilename();
-		$ext      = pathinfo($filename, PATHINFO_EXTENSION);
+		$ext      = mime_content_type($filename);
 
 		switch ($ext)
 		{
-			case 'jpg':
-			case 'jpeg':
+			case 'image/jpeg':
 				return imagecreatefromjpeg($filename);
-			case 'png':
+			case 'image/png':
 				return imagecreatefrompng($filename);
-			case 'gif':
-				//return @imagecreatefromgif($filename);
+			case 'image/gif':
+				//return imagecreatefromgif($filename);
 		}
 
 		return NULL;
@@ -117,16 +116,15 @@ class AttachImage extends Attachment
 	private function saveImage($img)
 	{
 		$filename = $this->previewPath();
-		$ext      = pathinfo($filename, PATHINFO_EXTENSION);
+		$ext      = mime_content_type($filename);
 
 		switch ($ext)
 		{
-			case 'jpg':
-			case 'jpeg':
+			case 'image/jpeg':
 				return imagejpeg($img, $filename);
-			case 'png':
+			case 'image/png':
 				return imagepng($img, $filename);
-			case 'gif':
+			case 'image/gif':
 				// return imagegif($img, $filename);
 		}
 		return false;
