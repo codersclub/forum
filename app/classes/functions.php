@@ -1082,7 +1082,7 @@ class functions
 			"SELECT name, email_pm, language, email, disable_mail, mgroup FROM ibf_members WHERE id=?"
 		)
 			->execute([$sendto]);
-		if ((FALSE !== $to_member = $stmt->fetch())
+		if (( FALSE !== ($to_member = $stmt->fetch()) )
 			 && $to_member['mgroup'] != Ibf::app()->vars['auth_group']
 			 && !$to_member['disable_mail']
 			 && ($to_member['email_pm'] || $do_send)
