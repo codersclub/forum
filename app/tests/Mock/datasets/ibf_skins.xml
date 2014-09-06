@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<dataset>
+    <ibf_skins uid="1" sname="Testing" sid="0" macro_id="12" template_class="\Templates\Invision" css_id="css.scss" img_dir="images" hidden="1"/>
+    <ibf_skins uid="2" sname="Second" sid="1" macro_id="2" template_class="\Templates\Invision" css_id="css.scss" img_dir="images" hidden="0"/>
+</dataset>

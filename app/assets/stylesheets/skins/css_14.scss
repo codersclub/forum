@@ -1,4 +1,5 @@
 /* black label */
+@import "css_common.scss";
 @import "../html/jqcd/skins/blacklabel/skin.css";
 
 HTML {
@@ -1419,4 +1420,8 @@ color: lightgray;
 .b-post-queued .b-post-author-info,
 .b-post-queued .b-post-body {
     background-color: #997070;
+}
+
+.warning-message {
+  background-color: #202020;
 }

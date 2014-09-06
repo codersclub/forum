@@ -451,9 +451,7 @@ class usercp_functions
 		if ($ibforums->vars['allow_skins'])
 		{
 
-			$stmt = $ibforums->db->query("SELECT sid FROM ibf_skins WHERE hidden <> 1 AND sid='" . $ibforums->input['u_skin'] . "'");
-
-			if (!$stmt->rowCount())
+			if (0 == \Models\Skins::count(['hidden' => 1, 'sid' => $ibforums->input['u_skin']]))
 			{
 				$std->Error(array(
 				                 'LEVEL' => 1,

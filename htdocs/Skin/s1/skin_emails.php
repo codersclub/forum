@@ -20,7 +20,7 @@ EOF;
 function forum_jump($data) {
 global $ibforums;
 return <<<EOF
-      <table cellpadding='0' cellspacing='1' border='0' width='<{tbl_width}>' align='center'>
+      <table cellpadding='0' cellspacing='1' border='0' width='95%' align='center'>
         <tr>
             <td align='right'>$data</td>
         </tr>
@@ -34,7 +34,7 @@ function pager_header($data) {
 global $ibforums;
 return <<<EOF
 
-       <table cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='<{tbl_border}>' align='center'>
+       <table cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#999999' align='center'>
         <tr>
             <td>
               <table cellpadding='4' cellspacing='0' border='0' width='100%'>
@@ -113,7 +113,7 @@ return <<<EOF
 	codebase="http://client.invisionchat.com/current/"
 	code="Client.class" archive="scclient_$lang.zip"
 	width=$w height=$h
-	style='border: 1px solid <{tbl_border}>'>
+	style='border: 1px solid #999999'>
 	<param name="room" value="$acc_no">
 	<param name="cabbase" value="scclient_$lang.cab">
 	<param name="username" value="$user">
@@ -161,7 +161,7 @@ function msn_body($msnname) {
 global $ibforums;
 return <<<EOF
 
-				
+
 			  <object classid='clsid:F3A614DC-ABE0-11d2-A441-00C04F795683' codebase='#Version=2,0,0,83' codetype='application/x-oleobject' id='MsgrObj' name='MsgrApp' width='0' height='0'></object>
 			  <object classid='clsid:FB7199AB-79BF-11d2-8D94-0000F875C541' codetype='application/x-oleobject' id='MsgrApp' name='MsgrApp' width='0' height='0'></object>
               <tr>
@@ -174,7 +174,7 @@ return <<<EOF
               <tr>
                 <td class='row2' align='center' colspan='2'><a href="javascript:MsgrApp.LaunchAddContactUI('$msnname');">{$ibforums->lang['msn_add_contact']}</a></td>
               </tr>
-              
+
 
 EOF;
 }
@@ -184,7 +184,7 @@ function yahoo_body($yahoo) {
 global $ibforums;
 return <<<EOF
 
-				
+
 			  <tr>
                 <td class='row2' align='left'><b>{$ibforums->lang['yahoo_name']}</b></td>
                 <td class='row2' align='left'><input type='text' name='msnname' value='$yahoo' size='40' class='forminput' onMouseOver="this.focus()" onFocus="this.select()"></td>
@@ -199,7 +199,7 @@ return <<<EOF
               <tr>
                 <td class='row2' align='center' colspan='2'><a href="http://members.yahoo.com/interests?.oc=t&amp;.kw=$yahoo&amp;.sb=1">{$ibforums->lang['yahoo_view_profile']}</a></td>
               </tr>
-              
+
 
 EOF;
 }

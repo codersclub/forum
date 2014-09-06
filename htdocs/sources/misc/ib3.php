@@ -103,7 +103,7 @@ class Login
     //-->
     </script>
      <br>
-     <table cellpadding='3' cellspacing='1' border='0' align='center' width='{$ibforums->skin['tbl_width']}'>
+     <table cellpadding='3' cellspacing='1' border='0' align='center' width='95%'>
      <tr>
      <td align='left'>{$ibforums->lang['login_text']}</td>
      </tr>
@@ -116,7 +116,7 @@ class Login
      <input type='hidden' name='CODE' value='01'>
      <input type='hidden' name='s' value='{$ibforums->session_id}'>
      <input type='hidden' name='referer' value="">
-     <table cellpadding='0' cellspacing='0' border='0' width='{$ibforums->skin['tbl_width']}' bgcolor='{$ibforums->skin['tbl_border']}' align='center'>
+     <table cellpadding='0' cellspacing='0' border='0' width='95%' bgcolor='#999999' align='center'>
         <tr>
             <td>
                 <table cellpadding='3' cellspacing='1' border='0' width='100%'>
@@ -136,7 +136,7 @@ class Login
          </tr>
      </table>
      <br>
-     <table cellpadding='0' cellspacing='0' border='0' width='{$ibforums->skin['tbl_width']}' bgcolor='{$ibforums->skin['tbl_border']}' align='center'>
+     <table cellpadding='0' cellspacing='0' border='0' width='95%' bgcolor='999999' align='center'>
         <tr>
             <td>
                 <table cellpadding='3' cellspacing='1' border='0' width='100%'>

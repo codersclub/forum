@@ -6,5 +6,7 @@ return [
 
     'storage' => __DIR__ . '/../storage',
 
-    'app' => __DIR__ . '/..'
+    'app' => __DIR__ . '/..',
+
+    'skins' => __DIR__ . '/../../htdocs/Skin',
 ];

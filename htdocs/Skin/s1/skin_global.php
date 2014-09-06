@@ -22,7 +22,7 @@ function Error($message, $ad_email_one="", $ad_email_two="") {
 global $ibforums;
 return <<<EOF
 <div class="tableborder">
- <div class="maintitle"><img src='{$ibforums->vars['img_url']}/nav_m.gif' alt=''>&nbsp;{$ibforums->lang['error_title']}</div>
+ <div class="maintitle"><img src='{$ibforums->skin['ImagesPath']}/nav_m.gif' alt=''>&nbsp;{$ibforums->lang['error_title']}</div>
 </div>
 <div class="tablefill e-error-message">
   {$ibforums->lang['exp_text']}<br><br>
@@ -63,7 +63,7 @@ return <<<EOF
 		  {$ibforums->lang['thanks']},
 		  $Text<br>
             <br>
-            <img src="{$ibforums->vars['img_url']}/loading.gif"> <br>
+            <img src="{$ibforums->skin['ImagesPath']}/loading.gif"> <br>
             <br>
 		  {$ibforums->lang['transfer_you']}<br><br>
 	      (<a href='$Url'>{$ibforums->lang['dont_wait']}</a>)
@@ -81,18 +81,17 @@ EOF;
 
 
 function warn_window($message) {
-global $ibforums;
 return <<<EOF
 
-<div class='warning-message' style='background-color: {$ibforums->skin['white_background']}'>
+<div class='warning-message'>
 {$message}
 </div>
 
 EOF;
 }
 
-function css_external($css, $img) {
-    return Assets::make('assets/stylesheets/skins/css_' . $css . '.scss')->toLink();
+function css_external($css) {
+    return Assets::make($css)->toLink();
 }
 
 function action_button_wrapper($html, $name) {
@@ -324,7 +323,7 @@ function rules_link($url="", $title="") {
 global $ibforums;
 return <<<EOF
 
-<a href="$url" target="blank_" class='rules-link'><img src="{$ibforums->vars['img_url']}/atb_rules.gif" border="0" alt="">$title</a>
+<a href="$url" target="blank_" class='rules-link'><img src="{$ibforums->skin['ImagesPath']}/atb_rules.gif" border="0" alt="">$title</a>
 
 EOF;
 }
@@ -348,7 +347,7 @@ EOF;
 function show_chat_link_popup() {
 global $ibforums;
 return <<<EOF
-<a href="javascript:chat_pop({$ibforums->vars['chat_width']}, {$ibforums->vars['chat_height']});"><img src="{$ibforums->vars['img_url']}/atb_chat.gif" border="0" alt=""> {$ibforums->lang['live_chat']}</a>
+<a href="javascript:chat_pop({$ibforums->vars['chat_width']}, {$ibforums->vars['chat_height']});"><img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" border="0" alt=""> {$ibforums->lang['live_chat']}</a>
 EOF;
 }
 
@@ -398,7 +397,7 @@ function show_chat_link_inline() {
 global $ibforums;
 return <<<EOF
 
-&nbsp; &nbsp;&nbsp;<img src="{$ibforums->vars['img_url']}/atb_chat.gif" border="0" alt="">&nbsp;<a href='{$ibforums->base_url}act=chat'>{$ibforums->lang['live_chat']}</a>
+&nbsp; &nbsp;&nbsp;<img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" border="0" alt="">&nbsp;<a href='{$ibforums->base_url}act=chat'>{$ibforums->lang['live_chat']}</a>
 
 EOF;
 }
@@ -452,7 +451,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 
 <table id='b-header'>
 <tr id='logostrip'>
-<td class='b-logo-wrapper'><a class='e-logo-link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='e-logo-img' src='{$ibforums->vars['img_url']}/logo4.gif' alt='На главную' border='0'></a></td>
+<td class='b-logo-wrapper'><a class='e-logo-link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='e-logo-img' src='{$ibforums->skin['ImagesPath']}/logo4.gif' alt='На главную' border='0'></a></td>
 
 <td align='center' class='b-slogan-wrapper'>
 <!-- SLOGAN -->

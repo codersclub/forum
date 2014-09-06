@@ -120,7 +120,7 @@ class ad_langs
 
 		$this->tar_file = $IN['id'];
 
-		$this->name_translated = preg_replace("/^(css|image|set|wrap|tmpl)-(.+?)\.(\S+)$/", "\\2", $this->tar_file);
+		$this->name_translated = preg_replace("/^(css|image|set|tmpl)-(.+?)\.(\S+)$/", "\\2", $this->tar_file);
 		$this->name_translated = preg_replace("/_/", " ", $this->name_translated);
 
 		require ROOT_PATH . "sources/lib/tar.php";
@@ -131,10 +131,6 @@ class ad_langs
 		{
 			case 'css':
 				$this->css_import();
-				break;
-
-			case 'wrap':
-				$this->wrap_import();
 				break;
 
 			case 'image':
@@ -190,12 +186,6 @@ class ad_langs
 		}
 
 		//------------------------------------------------------
-
-		$stmt = $ibforums->db->query("SELECT COUNT(*) as count FROM ibf_tmpl_names");
-
-		$tmpl_count = $stmt->fetch();
-
-		//------------------------------------------------------
 		// Attempt to create a new work directory
 		//------------------------------------------------------
 
@@ -211,20 +201,6 @@ class ad_langs
 		@chmod($this->work_path . "/" . $new_dir, 0777);
 
 		$next_id = array('css' => 0, 'wrap' => 0, 'templates' => 0, 'macro' => 0);
-
-		//------------------------------------------------------
-		// Add a dummy entries into the DB to get the next insert ID
-		//------------------------------------------------------
-
-		$ibforums->db->exec("INSERT INTO ibf_tmpl_names SET skname=\"" . $this->name_translated . " (Set Import).{$tmpl_count['count']}\"");
-
-		$next_id['templates'] = $ibforums->db->lastInsertId();
-
-		//------------------------------------------------------
-
-		$ibforums->db->exec("INSERT INTO ibf_templates SET name=\"" . $this->name_translated . " (Set Import)\"");
-
-		$next_id['wrap'] = $ibforums->db->lastInsertId();
 
 		//------------------------------------------------------
 		// Get the new macro set_id
@@ -249,15 +225,6 @@ class ad_langs
 
 		@chmod($images_dir . "/" . $next_id['images'], 0777);
 
-		//-----------------------------------------------------
-
-		if (!mkdir($skins_dir . "/s" . $next_id['templates'], 0777))
-		{
-			$this->import_error("Could not create a new directory in Skin", $next_id);
-		}
-
-		@chmod($skins_dir . "/s" . $next_id['templates'], 0777);
-
 		//------------------------------------------------------
 
 		$this->tar->extract_files($this->work_path . "/" . $new_dir);
@@ -265,24 +232,6 @@ class ad_langs
 		if ($this->tar->error != "")
 		{
 			$this->import_error($this->tar->error, $next_id);
-		}
-
-		//------------------------------------------------------
-
-		if (file_exists($this->work_path . "/" . $new_dir . "/templates_conf.inc"))
-		{
-			require $this->work_path . "/" . $new_dir . "/templates_conf.inc";
-
-			$template_config = array(
-				'author' => stripslashes($config['author']),
-				'email'  => stripslashes($config['email']),
-				'url'    => stripslashes($config['url']),
-			);
-
-			$ibforums->db->updateRow("ibf_tmpl_names", array_map([
-			                                                     $ibforums->db,
-			                                                     'quote'
-			                                                     ], $template_config), "skid='{$next_id['templates']}'");
 		}
 
 		//------------------------------------------------------
@@ -305,33 +254,6 @@ class ad_langs
 		} else
 		{
 			$this->import_error("Could not read the uploaded CSS archive file, please check the permissions on that file and try again", $next_id);
-		}
-
-		//------------------------------------------------------
-		// Import the board wrapper
-		//------------------------------------------------------
-
-		if ($FH = fopen($this->work_path . "/" . $new_dir . "/wrapper.html", 'r'))
-		{
-			$text = fread($FH, filesize($this->work_path . "/" . $new_dir . "/wrapper.html"));
-			fclose($FH);
-
-			//-------------------------
-			// Swop Binary to Ascii
-			//-------------------------
-
-			$text = preg_replace("/\r/", "\n", stripslashes($text));
-
-			$data = [
-				'name'     => $ibforums->db->quote(stripslashes($this->name_translated) . " (Import)"),
-				'template' => $ibforums->db->quote($text),
-			];
-
-			$ibforums->db->updateRow("ibf_templates", $data, "tmid='{$next_id['wrap']}'");
-
-		} else
-		{
-			$this->import_error("Could not read the uploaded board wrapper archive file, please check the permissions on that file and try again", $next_id);
 		}
 
 		//------------------------------------------------------
@@ -398,41 +320,6 @@ class ad_langs
 			$this->import_error("Could not read the macro.txt file contained in the skin you're importing.", $next_id);
 		}
 
-		$ibforums->db->updateRow("ibf_tmpl_names", array_map([
-		                                                     $ibforums->db,
-		                                                     'quote'
-		                                                     ], $template_config), "skid='{$next_id['templates']}'");
-
-		//------------------------------------------------------
-		// Import the TEMPLATES - wohoo, this'll make the server burn
-		//------------------------------------------------------
-
-		if ($FH = fopen($this->work_path . "/" . $new_dir . "/templates.html", 'r'))
-		{
-			$data = fread($FH, filesize($this->work_path . "/" . $new_dir . "/templates.html"));
-			fclose($FH);
-
-			//-------------------------------------------------
-			// Divide the file up into different sections
-			//-------------------------------------------------
-
-			preg_match_all("/<!--IBF_GROUP_START:(\S+?)-->(.+?)<!--IBF_GROUP_END:\S+?-->/s", $data, $match);
-
-			for ($i = 0; $i < count($match[0]); $i++)
-			{
-				$match[1][$i] = trim($match[1][$i]);
-
-				$match[2][$i] = trim($match[2][$i]);
-
-				// Pass it on to our handler..
-
-				$this->process_template_group($match[2][$i], $next_id['templates'], $match[1][$i], 1);
-			}
-		} else
-		{
-			$this->import_error("Could not read the templates.html file contained in the skin you're importing.", $next_id);
-		}
-
 		//------------------------------------------------------
 		// Add a new row to the skins table.
 		//------------------------------------------------------
@@ -449,15 +336,13 @@ class ad_langs
 			'sname'       => $new_name,
 			'sid'         => $set['new_id'],
 			'set_id'      => $next_id['templates'],
-			'tmpl_id'     => $next_id['wrap'],
+			'template_class' => html_entity_decode($set['template_class']),
 			'img_dir'     => $next_id['images'],
-			'css_id'      => $next_id['css'],
 			'macro_id'    => $next_id['macro'],
 			'hidden'      => 0,
-			'default_set' => 0
 		];
 
-		$ibforums->db->insertRow("ibf_skins", $data);
+		\Models\Skins::add($data);
 
 		$ADMIN->rm_dir($this->work_path . "/" . $new_dir);
 
@@ -471,223 +356,8 @@ class ad_langs
 
 	function process_template_group($raw, $setid, $group, $isnew = 0)
 	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
-
-		$root_path = $INFO['base_dir'];
-
-		$skin_dir = $root_path . "Skin/s" . $setid;
-
-		//-------------------------------------------
-		// If we are not using safe mode skins, lets
-		// test to make sure we can write to that dir
-		//-------------------------------------------
-
-		if ($INFO['safe_mode_skins'] != 1)
-		{
-
-			if (SAFE_MODE_ON == 1)
-			{
-				if ($isnew == 1)
-				{
-					$ibforums->db->exec("DELETE FROM ibf_tmpl_names WHERE skid='$setid'");
-				}
-				$ADMIN->error("Safe mode detected, you will need to change the board configuration to switch 'Safe Mode Skins' on. To do this, click on the 'Board Settings' menu and choose 'Basic Config' when the sub menu appears.");
-			}
-
-			// Are we creating a new template set?
-			// if so, lets create the directory
-
-			if ($isnew == 1)
-			{
-				if (!is_writeable($root_path . 'Skin'))
-				{
-					$ibforums->db->exec("DELETE FROM ibf_tmpl_names WHERE skid='$setid'");
-					$ADMIN->error("The directory 'Skin' is not writeable by this script. Please check the permissions on that directory. CHMOD to 0777 if in doubt and try again");
-				}
-
-				/*if ( ! file_exists($skin_dir) )
-				{
-					// Directory does not exist, lets create it
-
-					if ( ! @mkdir($skin_dir, 0777) )
-					{
-						$ibforums->db->exec("DELETE FROM ibf_tmpl_names WHERE skid='$setid'");
-						$ADMIN->error("Could not create directory '$skin_dir' please check the CHMOD permissions and re-try");
-					}
-					else
-					{
-						@chmod($skin_dir, 0777);
-					}
-				}*/
-			} else
-			{
-				if (!is_writeable($skin_dir))
-				{
-					$ADMIN->error("Cannot write into '$skin_dir', please check the CHMOD value, and if needed, CHMOD to 0777 via FTP. IBF cannot do this for you.");
-				}
-			}
-
-		}
-
-		//--------------------------------
-		// Remove everything up until the
-		// first <!--START tag...
-		//--------------------------------
-
-		$raw = preg_replace("/^.*?(<!--IBF_START_FUNC)/s", "\\1", trim($raw));
-
-		$raw = str_replace("\r\n", "\n", $raw);
-
-		//+-------------------------------
-		// Convert the tags back to php native
-		//+-------------------------------
-
-		$raw = $this->unconvert_tags($raw);
-
-		//+-------------------------------
-		// Grab our vars and stuff
-		//+-------------------------------
-
-		$master = array();
-		$flag   = 0;
-
-		$eachline = explode("\n", $raw);
-
-		foreach ($eachline as $line)
-		{
-			if ($flag == 0)
-			{
-				// We're not gathering HTML, lets see if we have a new
-				// function start..
-
-				if (preg_match("/\s*<!--IBF_START_FUNC\|(\S+?)\|(.*?)-->\s*/", $line, $matches))
-				{
-					$func = trim($matches[1]);
-					$data = trim($matches[2]);
-
-					if ($func != "")
-					{
-
-						$flag = $func;
-
-						$master[$func] = array(
-							'func_name' => $func,
-							'func_data' => $data,
-							'content'   => ""
-						);
-					}
-					continue;
-
-				}
-
-			}
-
-			if (preg_match("/\s*?<!--IBF_END_FUNC\|$flag-->\s*?/", $line))
-			{
-				// We have found the end of the subbie..
-				// Reset the flag and feed the next line.
-
-				$flag = 0;
-				continue;
-			} else
-			{
-				// Carry on feeding the HTML...
-
-				if (isset($master[$flag]['content']))
-				{
-					$master[$flag]['content'] .= $line . "\n";
-					continue;
-				}
-			}
-
-		}
-
-		//+-------------------------------
-		// Start parsing the php skin file
-		//+-------------------------------
-
-		if ($INFO['safe_mode_skins'] != 1)
-		{
-
-			if (SAFE_MODE_ON == 1)
-			{
-				$ADMIN->error("Safe mode detected, you will need to change the board configuration to switch 'Safe Mode Skins' on. To do this, click on the 'Board Settings' menu and choose 'Basic Config' when the sub menu appears.");
-			}
-
-			$final = "<" . "?php\n\n" . "class $group {\n\n";
-
-			foreach ($master as $func_name => $data)
-			{
-
-				$final .= "\n\nfunction " . trim($data['func_name']) . "(" . trim($data['func_data']) . ") {\n" . "global \$ibforums;\n" . "return <<<EOF\n";
-
-				$final .= trim($data['content']);
-
-				$final .= "\nEOF;\n}\n";
-
-			}
-
-			$final .= "\n\n}\n?" . ">";
-
-			if ($fh = fopen($skin_dir . "/" . $group . ".php", 'w'))
-			{
-				fwrite($fh, $final);
-				fclose($fh);
-
-				@chmod($skin_dir . "/" . $group . ".php", 0777);
-			} else
-			{
-				if ($isnew == 1)
-				{
-					$ibforums->db->exec("DELETE FROM ibf_tmpl_names WHERE skid='$setid'");
-				}
-				$errors[] = "Could not save information to $phpskin, please ensure that the CHMOD permissions are correct.";
-			}
-
-		}
-
-		//+-------------------------------
-		// Update the DB
-		//+-------------------------------
-
-		foreach ($master as $func_name => $data)
-		{
-
-			if ($isnew == 0)
-			{
-				$data = [
-					'section_content' => $ibforums->db->quote(stripslashes(trim($data['content']))),
-					'func_data'       => $ibforums->db->quote(stripslashes(trim($data['func_data'])))
-				];
-
-				$ibforums->db->updateRow("ibf_skin_templates", $data, "set_id='$setid' AND group_name='$group' AND func_name='" . trim($data['func_name']) . "'");
-			} else
-			{
-				$data = [
-					'section_content' => stripslashes(trim($data['content'])),
-					'func_data'       => stripslashes(trim($data['func_data'])),
-					'set_id'          => $setid,
-					'group_name'      => $group,
-					'func_name'       => trim($data['func_name']),
-					'can_remove'      => 0,
-				];
-
-				$ibforums->db->insertRow("ibf_skin_templates", $data);
-			}
-		}
 
 		return TRUE;
-
-	}
-
-	//-------------------------------------------------------------------
-
-	//-------------------------------------------------------------------
-
-	function template_import()
-	{
-		// Depreciated
 
 	}
 
@@ -700,27 +370,6 @@ class ad_langs
 	}
 
 	//-------------------------------------------------------------------
-
-	//-------------------------------------------------------------------
-
-	function wrap_import()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
-
-		// Depreciated
-
-	}
-
-	//-------------------------------------------------------------------
-
-	function css_import()
-	{
-		// Depreciated
-
-	}
-
-	//----------------------------------------------------
 
 	function check_archive($files)
 	{
@@ -769,7 +418,7 @@ class ad_langs
 			{
 				if (($filename != ".") && ($filename != ".."))
 				{
-					if (preg_match("/^(css|image|set|wrap|tmpl).+?\.(tar|html|css)$/", $filename))
+					if (preg_match("/^(css|image|set|tmpl).+?\.(tar|html|css)$/", $filename))
 					{
 						$files[] = $filename;
 					}
@@ -799,13 +448,12 @@ class ad_langs
 					'css'   => 'Style Sheet',
 					'image' => 'Image & Macro set',
 					'set'   => 'Skin Set Collection',
-					'wrap'  => 'Board Wrapper',
 					'tmpl'  => 'Template set'
 				);
 
-				$rtype = preg_replace("/^(css|image|set|wrap|tmpl).+?\.(\S+)$/", "\\1", $file);
+				$rtype = preg_replace("/^(css|image|set|tmpl).+?\.(\S+)$/", "\\1", $file);
 
-				$rname = preg_replace("/^(css|image|set|wrap|tmpl)-(.+?)\.(\S+)$/", "\\2", $file);
+				$rname = preg_replace("/^(css|image|set|tmpl)-(.+?)\.(\S+)$/", "\\2", $file);
 
 				$rname = preg_replace("/_/", " ", $rname);
 
@@ -999,9 +647,6 @@ class ad_langs
 
 		$ibforums->db->exec("DELETE FROM ibf_macro_name WHERE set_id='{$next_id['macro']}'");
 		$ibforums->db->exec("DELETE FROM ibf_macro WHERE macro_id='{$next_id['macro']}'");
-		$ibforums->db->exec("DELETE FROM ibf_tmpl_names WHERE skid='{$next_id['templates']}'");
-		$ibforums->db->exec("DELETE FROM ibf_templates WHERE tmid='{$next_id['wrap']}'");
-		$ibforums->db->exec("DELETE FROM ibf_skin_templates WHERE set_id='{$next_id['templates']}'");
 
 		@rmdir($INFO['base_dir'] . "/style_images/" . $next_id['images']);
 		@rmdir($INFO['base_dir'] . "/Skin/s" . $next_id['templates']);

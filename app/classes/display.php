@@ -251,8 +251,7 @@ class display
 		//---------------------------------------------------------
 		// Song * CSS based on User CP + common CSS, 29.12.04
 
-		$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']);
-		$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
+		$css = $skin_universal->css_external($ibforums->skin->getCSSFile()) . "\n";
 
 		//---------------------------------------------------------
 
@@ -486,22 +485,31 @@ class display
 		$change[]  = $this->bottomNav($output_array);
 
 		$replace[] = "<% MEMBER BAR %>";
+		$change[] = $output_array['MEMBER_BAR'] . $valid_warning;
 
-		//todo разрулить условие нафик
-		if (empty($output_array['OVERRIDE']) or TRUE /* MEMBER BAR WILL DISPLAY ON ERROR PAGES */)
-		{
-			$change[] = $output_array['MEMBER_BAR'] . $valid_warning;
-		} else
-		{
-			$change[] = $skin_universal->member_bar_disabled() . $valid_warning;
-		}
+        //tags
+        $tags = [
+            'uid' => Ibf::app()->member['id'],
+        ];
+        if (isset(Ibf::app()->input['showforum'])) {
+            $tags['shown-forum-id'] = Ibf::app()->input['showforum'];
+        }elseif (isset(Ibf::app()->input['showtopic'])) {
+            $tags['shown-topic-id'] = Ibf::app()->input['showtopic'];
+        }elseif(isset(Ibf::app()->input['showuser'])){
+            $tags['shown-profile'] = Ibf::app()->input['showuser'];
+        }
+        array_walk($tags, function(&$item, $key){ $item = sprintf('data-%s="%s"', $key, $item); });
+
+		$replace[] = "<% BODY_DATA_TAGS %>";
+		$change[] = implode(' ', $tags);
+		//todo добавить data зависящие от контента
 
 		//---------------------------------------
 		// Do replace in template
 		//---------------------------------------
-
-		$ibforums->skin['template'] = str_replace($replace, $change, $ibforums->skin['template']);
-		$ibforums->skin['template'] = $this->prepare_output($ibforums->skin['template']);
+		$output = $ibforums->skin->getTemplate()->getWrapper();
+		$output = str_replace($replace, $change, $output);
+		$output = $this->prepare_output($output);
 
 		//---------------------------------------
 		// Start GZIP compression
@@ -517,7 +525,7 @@ class display
 
 		$this->do_headers();
 
-		print $ibforums->skin['template'];
+		print $output;
 
 		\Logs::info('Stats', 'Queries used: ' . Debug::instance()->stats->queriesCount);
 		\Logs::info('Stats', 'Script Execution Time: ' . sprintf('%.4f', Debug::instance()->executionTime()));
@@ -609,7 +617,7 @@ class display
 		}
 
 		$replace[] = "<#IMG_DIR#>";
-		$change[]  = $ibforums->vars['img_url']; // vot
+		$change[]  = $ibforums->skin->getImagesPath();
 
 		$replace[] = "<#BASE_URL#>"; // vot
 		$change[]  = $ibforums->base_url; // vot
@@ -718,7 +726,7 @@ class display
 					$html = str_replace("<{" . $row['macro_value'] . "}>", $row['macro_replace'], $html);
 				}
 			}
-			$html = str_replace("<#IMG_DIR#>", $ibforums->vars['img_url'], $html);
+			$html = str_replace("<#IMG_DIR#>", $ibforums->skin->getImagesPath(), $html);
 		}
 
 		if ($ibforums->vars['disable_gzip'] != 1)
@@ -749,8 +757,7 @@ class display
 		//---------------------------------------------------------
 		// CSS based on User CP + common CSS, Song * 29.12.04
 
-		$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']) . "\n";
-		$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
+		$css = $skin_universal->css_external($ibforums->skin['css_id']) . "\n";
 
 		// Song + Mixxx * included js, client highlight, 23.12.04
 
@@ -790,7 +797,7 @@ class display
 			}
 		}
 
-		$html = str_replace("<#IMG_DIR#>", $ibforums->vars['img_url'], $html);
+		$html = str_replace("<#IMG_DIR#>", $ibforums->skin->getImagesPath(), $html);
 
 		if ($ibforums->vars['disable_gzip'] != 1)
 		{
