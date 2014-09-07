@@ -1125,7 +1125,6 @@ class Forums
 
 			$this->get_read_topics($tids); // Song * NEW
 
-			var_dump( "SELECT pid,topic_id,forum_id,author_id,queued FROM ibf_posts WHERE topic_id IN ({$tids}) and (queued=1 or author_id={$ibforums->member['id']})" );
 			$stmt = $ibforums->db->query("SELECT pid,topic_id,forum_id,author_id,queued FROM ibf_posts WHERE topic_id IN ({$tids}) and (queued=1 or author_id={$ibforums->member['id']})");
 
 			while ($row = $stmt->fetch())
