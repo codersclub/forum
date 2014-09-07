@@ -1125,12 +1125,11 @@ class Forums
 
 			$this->get_read_topics($tids); // Song * NEW
 
-			$stmt = $ibforums->db->query("SELECT pid,topic_id,forum_id,author_id,queued FROM ibf_posts WHERE topic_id IN ({$tids})");
+			$stmt = $ibforums->db->query("SELECT pid,topic_id,forum_id,author_id,queued FROM ibf_posts WHERE topic_id IN ({$tids}) and (queued=1 or author_id={$ibforums->member['id']}");
 
 			while ($row = $stmt->fetch())
 			{
 				if ($ibforums->vars['show_user_posted'] and
-				    $ibforums->member['use_dot'] and
 				    $row['author_id'] == $ibforums->member['id'] and
 				    !$this->dots[$row['topic_id']]
 				)
