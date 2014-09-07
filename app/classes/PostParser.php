@@ -1064,8 +1064,8 @@ class PostParser
 				$image = $row['image'];
 
 				// Make safe for regex
-				$code = preg_quote($code, "/");
-				$txt  = preg_replace_callback("/(?<=[^\w&;])$code(?=.\W|\W.|\W$)/", function($a) use ($image) {
+				$code = preg_quote($code, "#");
+				$txt  = preg_replace_callback("#(?<=[^\w&;])$code(?=.\W|\W.|\W$)#u", function($a) use ($image) {
 							return $this->convert_emoticon($a[0], $image);
 						},
 						$txt
