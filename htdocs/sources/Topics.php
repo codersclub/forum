@@ -343,7 +343,11 @@ class Topics
 				$this->code_counter = 0;
 
 				// collect code tag text to array and remove it
-				$row['post'] = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->cut_code_tag_text('\\3', '\\2')", $row['post']);
+				$row['post'] = preg_replace_callback('/\[code\s*?(?:=\s*?(.*?)|)\s*\](.*?)\[/code\]/is',
+						function($a) {
+								return $this->cut_code_tag_text($a[1], $a[0]);
+						}
+						, $row['post']);
 
 				// if changing has been
 				if ($row['post'] != $old_old_post)
