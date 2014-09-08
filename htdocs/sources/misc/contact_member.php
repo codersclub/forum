@@ -332,6 +332,13 @@ class Contact
 		$report = str_replace("<!--", "", $report);
 		$report = str_replace("-->", "", $report);
 		$report = str_replace("<script", "", $report);
+		$report = (new PostParser(1))->convert([
+				'TEXT' => $report,
+				'SMILIES' => 1,
+				'CODE'      => 0,
+				'SIGNATURE' => 0,
+				'HTML'      => 0
+		]);
 
 		// Check for mods in this forum
 		$stmt = $ibforums->db->query("SELECT member_id as id, member_name as name FROM ibf_moderators WHERE forum_id='" . $fid . "'");
