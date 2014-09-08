@@ -1123,26 +1123,25 @@ class Forums
 		{
 			$tids = implode(",", $tids);
 
-			$this->get_read_topics($tids); // Song * NEW
+			$this->get_read_topics($tids);
 
-			$stmt = $ibforums->db->query("SELECT pid,topic_id,forum_id,author_id,queued FROM ibf_posts WHERE topic_id IN ({$tids})");
-
-			while ($row = $stmt->fetch())
+			if ( $ibforums->vars['show_user_posted'] )
 			{
-				if ($ibforums->vars['show_user_posted'] and
-				    $ibforums->member['use_dot'] and
-				    $row['author_id'] == $ibforums->member['id'] and
-				    !$this->dots[$row['topic_id']]
-				)
-				{
-					$this->dots[$row['topic_id']] = $row['pid'];
-				}
+				$stmt = $ibforums->db->query("SELECT distinct(topic_id) as topic_id FROM ibf_posts WHERE topic_id IN ({$tids}) and author_id={$ibforums->member['id']}");
 
-				if ($row['queued'] and !$this->queued[$row['topic_id']])
+				while ($row = $stmt->fetch())
 				{
-					$this->queued[$row['topic_id']] = $row['pid'];
+					$this->dots[$row['topic_id']] = $row['topic_id'];
 				}
 			}
+
+			if ( $this->is_moderator() ) {
+				$stmt = $ibforums->db->query("SELECT distinct(topic_id) as topic_id  FROM ibf_posts WHERE topic_id IN ({$tids}) and queued=1");
+				while ($row = $stmt->fetch()) {
+					$this->queued[$row['topic_id']] = $row['topic_id'];
+				}
+			}
+
 		}
 
 		$this->new_posts = 0;
