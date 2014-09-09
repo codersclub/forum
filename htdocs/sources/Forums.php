@@ -1128,20 +1128,16 @@ class Forums
 			if ( $ibforums->vars['show_user_posted'] )
 			{
 				$stmt = $ibforums->db->query("SELECT distinct(topic_id) as topic_id FROM ibf_posts WHERE topic_id IN ({$tids}) and author_id={$ibforums->member['id']}");
-
-				while ($row = $stmt->fetch())
-				{
-					$this->dots[$row['topic_id']] = $row['topic_id'];
-				}
+				$this->dots = array_fill_keys($stmt->fetchAll(\PDO::FETCH_COLUMN, 0), true);
 			}
 
-			if ( $this->is_moderator() ) {
-				$stmt = $ibforums->db->query("SELECT distinct(topic_id) as topic_id  FROM ibf_posts WHERE topic_id IN ({$tids}) and queued=1");
-				while ($row = $stmt->fetch()) {
-					$this->queued[$row['topic_id']] = $row['topic_id'];
+			if ($this->is_moderator()) {
+				$stmt = $ibforums->db->query("SELECT pid, topic_id FROM ibf_posts WHERE topic_id IN ({$tids}) and queued=1");
+				//todo с php 5.5 можно заменить на $this->queued = array_column($stmt->fetchAll(), 'topic_id', 'pid');
+				foreach($stmt as $row) {
+					$this->queued[$row['topic_id']] = $row['pid'];
 				}
 			}
-
 		}
 
 		$this->new_posts = 0;
