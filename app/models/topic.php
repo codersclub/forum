@@ -1,7 +1,5 @@
 <?php
 
-require_once ROOT_PATH . '/sources/lib/classes/forum.class.php';
-
 class topic
 {
 

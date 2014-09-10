@@ -666,8 +666,8 @@ return <<<EOF
 
 	   <input type='button' value=' L ' onclick='simpletag("L")' class='codebuttons' name='L' title='Left'">
 	   <input type='button' accesskey='с' value=' C ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
-	   <input type='button' accesskey='r' value=' R ' onclick='simpletag("R")' class='codebuttons' name='R' title='Rigth'">
-
+	   <input type='button' accesskey='r' value=' R ' onclick='simpletag("R")' class='codebuttons' name='R' title='Right'">
+	   
          <!-- e-moe: table buttons -->
          <input value='table' onclick='tag_table()' class='codebuttons' name='table' title='Таблица' type='button'>
 	 <input value='tr' onclick='simpletag("tr")' class='codebuttons' name='tr' title='Ряд' type='button'>

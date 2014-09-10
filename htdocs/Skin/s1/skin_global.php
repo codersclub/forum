@@ -473,7 +473,7 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 &middot;
 <a class='e-neighbor-link e-neighbor-link-alglib' href="http://alglib.sources.ru/"><b>Алгоритмы</b></a>
 &middot;
-<a class='e-neighbor-link e-neighbor-link-e_science' href="http://e-science.sources.ru/"><b>Естественные Науки</b></a>
+<a class='e-neighbor-link e-neighbor-link-e_science' href="http://e-science.sources.ru/"><b>Естественные науки</b></a>
 &middot;
 <a class='e-neighbor-link e-neighbor-link-wiki' href="http://wiki.sources.ru/"><b>Wiki</b></a>
 &middot;
