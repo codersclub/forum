@@ -2851,14 +2851,7 @@ class PostParser
 			$url['end'] = '';
 		}
 		$matches = null;
-		//look for ascii symbols and html version of forbidden ones (<>"{}~) and break url
-		//on the first of them.
-		if(preg_match('/&#\d+;|&quot;|&lt;|&gt;/', $url['html'], $matches, PREG_OFFSET_CAPTURE))
-		{
-			$pos = $matches[0][1];
-			$url['end'] = mb_substr($url['html'], $pos) . $url['end'];
-			$url['html'] = mb_substr($url['html'], 0, $pos);
-		}
+
 		if (!trim($url['show']))
 		{
 			$url['show'] = $url['html'];
@@ -3005,7 +2998,7 @@ class PostParser
 		// Make sure we don't have a JS link
 		$url['html'] = preg_replace("/javascript:/i", "java script&#58; ", $url['html']);
 
-		//Ну и костыль напоследок: заменяем всякие &#..; удобно предоставленные нам предыдущими парсерами
+		//заменяем всякие &#..; удобно предоставленные нам предыдущими парсерами на percent-encoding
 		$url['html'] = preg_replace_callback(
 			'/&#(\d+);/',
 			function ($data) {
@@ -3013,8 +3006,8 @@ class PostParser
 			},
 			$url['html']
 		);
-		// Do we have http:// at the front?
 
+		// Do we have http:// at the front?
 		if (!preg_match("#^(http|news|https|ftp|aim)://#", $url['html']))
 		{
 			$url['html'] = 'http://' . $url['html'];
@@ -3121,6 +3114,15 @@ class PostParser
 		{
 			return $url['html'];
 		}
+
+		//заменяем всякие &#..; удобно предоставленные нам предыдущими парсерами на percent-encoding
+		$url['html'] = preg_replace_callback(
+			'/&#(\d+);/',
+			function ($data) {
+				return '%' . dechex($data[1]);
+			},
+			$url['html']
+		);
 
 		// clean up the ampersands
 		$url['html'] = preg_replace("/&amp;/", "&", $url['html']);
