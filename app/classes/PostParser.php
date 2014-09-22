@@ -516,7 +516,7 @@ class PostParser
 						$code = mb_substr($code, $l);
 					} else
 					{
-						$view .= $this->syntax_code_to_view($code[0]);
+						$view .= $this->syntax_code_to_view(mb_substr($code, 0, 1));
 
 						$pos++;
 						$code = mb_substr($code, 1);
