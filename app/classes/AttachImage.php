@@ -1,5 +1,5 @@
 <?php
-use finfo;
+// use finfo;
 
 class AttachImage extends Attachment
 {
