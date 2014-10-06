@@ -621,11 +621,22 @@ ul.b-breadcrumbs-top li:nth-child(7) {
 }
 
 .e-attach-title {
-    font-weight: bold;
-    font-size: 9px;
+    font-size: 10px;
+    border-radius: 3px 3px 0 0;
+    color: #fff;
+    font-family: Tahoma;
+    margin-bottom: -19px;
+    height: 19px;
+    position: relative;
+    z-index: 2;
+    display: block;
+    background: rgba(0, 0, 0, .4);
 }
 .e-attach-title:after {
     content: ':';
+}
+.e-attach-image-preview {
+    border-radius: 4px;
 }
 
 .b-attach-image {
