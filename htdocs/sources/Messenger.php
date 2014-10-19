@@ -656,7 +656,7 @@ class Messenger
 				}
 			}
 
-			$output = str_replace("<#IMG_DIR#>", $ibforums->skin['img_dir'], $output);
+			$output = str_replace("<#IMG_DIR#>", $ibforums->skin->getImagesPath(), $output);
 
 			$this->email->get_template("pm_archive");
 

@@ -478,10 +478,9 @@ class ad_cat
 
 		}
 
-		$stmt = $ibforums->db->query("SELECT uid, sname, sid FROM ibf_skins");
-		while ($s = $stmt->fetch())
+		foreach(\Skins\Factory::getAllSkinsData() as $s)
 		{
-			$this->skins[$s['sid']] = $s['sname'];
+			$this->skins[$s['id']] = $s['name'];
 		}
 
 		$SKIN->td_header[] = array("{none}", "40%");

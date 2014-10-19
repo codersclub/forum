@@ -6,5 +6,9 @@ return [
 
     'storage' => __DIR__ . '/../storage',
 
-    'app' => __DIR__ . '/..'
+    'app' => __DIR__ . '/..',
+
+    'templates' => __DIR__ . '/../views',
+
+    'data' => __DIR__ . '/../data',
 ];

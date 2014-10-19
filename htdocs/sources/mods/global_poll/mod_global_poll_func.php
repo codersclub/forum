@@ -75,7 +75,7 @@ class global_poll
 		$poll_text = $stmt->fetch();
 
 		$emoticon                = $poll_text['icon_id']
-			? "<img src='" . $ibforums->vars['img_url'] . "/icon" . $poll_text['icon_id'] . ".gif' alt='' />&nbsp;"
+			? "<img src='" . $ibforums->skin->getImagesPath() . "/icon" . $poll_text['icon_id'] . ".gif' alt='' />&nbsp;"
 			: "";
 		$data                    = array(
 			'TEXT'      => $poll_text["post"],

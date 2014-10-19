@@ -803,13 +803,11 @@ class ad_settings
 			$mem_group[] = array($r['g_id'], $r['g_title']);
 		}
 
-		$stmt = $ibforums->db->query("SELECT sname, sid FROM ibf_skins ORDER BY sname");
-
 		$skin_sets = array(0 => array('', "Use default skin"));
 
-		while ($s = $stmt->fetch())
+		foreach(\Skins\Factory::getAllSkinsData() as $s)
 		{
-			$skin_sets[] = array($s['sid'], $s['sname']);
+			$skin_sets[] = array($s['id'], $s['name']);
 		}
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
