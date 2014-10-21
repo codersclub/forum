@@ -1,3 +1,5 @@
+$images_path: '../style_images/Text_Ski-187';
+
 @import "css_common.scss";
 @import "../html/jqcd/skins/light-blue/skin.css";
 
@@ -342,4 +344,39 @@ ul.b-breadcrumbs-bottom li:first-child:before {
 .usercp-menu-item__sent a,
 .usercp-menu-item__cancel_delete_account a {
     font-weight: bold;
+}
+
+.b-menu-item {
+  &-rules a {
+    background: none;
+    &:before {
+      content: '!';
+      color: #ff4500;
+      font-weight: bold;
+      font-size: 120%;
+      padding-right: 5px;
+    }
+  }
+  &-faq a,
+  &-help a,
+  &-search a,
+  &-members a,
+  &-calendar a,
+  &-store a,
+  &-favorites a,
+  &-rss a {
+    background: none;
+    &:before {
+      content: $middot;
+      padding-right: 5px;
+    }
+  }
+  &-favorites.has-new-favorites a {
+    background: none;
+    &:before {
+      content: '\2022';
+      color: #ff4500;
+      font-size: 120%;
+    }
+  }
 }

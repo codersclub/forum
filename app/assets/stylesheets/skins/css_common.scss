@@ -1,3 +1,6 @@
+$images_path: '../style_images/1' !default;
+$middot: "\00B7"; //задолбало вспоминать
+
 @import "../html/jqcd/jqcd.css";
 
 @import "../layout/mixins.scss";
@@ -1162,4 +1165,47 @@ h2 {
 
 .b-added-to-faq__message {
   color: gray;
+}
+
+@mixin top-menu-item($img, $height: 19px) {
+    background: url($images_path + '/' + $img) no-repeat left;
+    padding-left: 20px;
+    display: inline-block;
+    height: $height;
+    line-height: $height;
+}
+
+.b-menu-item {
+    &-rules a {
+        @include top-menu-item('atb_rules.gif');
+    }
+    &-faq a {
+        @include top-menu-item('atb_faq.gif');
+    }
+    &-help a {
+        @include top-menu-item('atb_help.gif');
+    }
+    &-search a {
+        @include top-menu-item('atb_search.gif');
+    }
+    &-members a {
+        @include top-menu-item('atb_members.gif');
+    }
+    &-calendar a {
+        @include top-menu-item('atb_calendar.gif');
+    }
+    &-favorites a {
+        //todo favs active!!!!
+        @include top-menu-item('atb_favs.gif');
+    }
+    &-favorites.has-new-favorites a {
+        background-image: url($images_path + '/' + 'atb_favs_new.gif');
+    }
+    &-store a {
+        //todo rotating coin
+        @include top-menu-item('atb_coin.gif');
+    }
+    &-rss a {
+        @include top-menu-item('rss.gif');
+    }
 }

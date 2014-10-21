@@ -323,7 +323,7 @@ function rules_link($url="", $title="") {
 global $ibforums;
 return <<<EOF
 
-<a href="$url" target="blank_" class='rules-link'><img src="{$ibforums->skin['ImagesPath']}/atb_rules.gif" border="0" alt="">$title</a>
+<a href="$url" target="blank_" class='rules-link'>$title</a>
 
 EOF;
 }
@@ -487,14 +487,14 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 <table  width='100%' cellspacing='0' id='top-menu' class='b-hor_menu b-menu'>
 <tr align='center'>
  <td class='b-menu-item b-menu-item-rules'><!--IBF.RULES--></td>
- <td class='b-menu-item b-menu-item-faq'><a class='e-menu-item-faq' href='{$ibforums->base_url}showtopic=50223'><span class='b-menu-item-prefix b-menu-item-faq-prefix'><{atb_faq}></span>{$ibforums->lang['tb_faq']}</a></td>
- <td class='b-menu-item b-menu-item-help'><a class='e-menu-item-help' href='{$ibforums->base_url}act=Help'><span class='b-menu-item-prefix b-menu-item-help-prefix'><{atb_help}></span>{$ibforums->lang['tb_help']}</a></td>
- <td class='b-menu-item b-menu-item-search'><a class='e-menu-item-search' href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'><span class='b-menu-item-prefix b-menu-item-search-prefix'><{atb_search}></span>{$ibforums->lang['tb_search']}</a></td>
- <td class='b-menu-item b-menu-item-members'><a class='e-menu-item-members' href='{$ibforums->base_url}act=Members'><span class='b-menu-item-prefix b-menu-item-members-prefix'><{atb_members}></span>{$ibforums->lang['tb_mlist']}</a></td>
- <td class='b-menu-item b-menu-item-calendar'><a class='e-menu-item-calendar' href='{$ibforums->base_url}act=calendar'><span class='b-menu-item-prefix b-menu-item-calendar-prefix'><{atb_calendar}></span>{$ibforums->lang['tb_calendar']}</a></td>
- <td class='b-menu-item b-menu-item-favorites {$fav_class}'><a class='e-menu-item-favorites {$fav_class}' href='{$ibforums->base_url}act=fav&show=1'><span class='b-menu-item-prefix b-menu-item-favorites-prefix'>$image</span>Избранное</a></td>
- <td class='b-menu-item b-menu-item-store'><a class='e-menu-item-store' href='{$ibforums->base_url}act=store'><span class='b-menu-item-prefix b-menu-item-store-prefix'><{atb_store}></span>{$ibforums->lang['ibstore']}</a></td>
- <td class='b-menu-item b-menu-item-rss'><{RSS}></td>
+ <td class='b-menu-item b-menu-item-faq'><a href='{$ibforums->base_url}showtopic=50223'>{$ibforums->lang['tb_faq']}</a></td>
+ <td class='b-menu-item b-menu-item-help'><a href='{$ibforums->base_url}act=Help'>{$ibforums->lang['tb_help']}</a></td>
+ <td class='b-menu-item b-menu-item-search'><a href='{$ibforums->base_url}act=Search&amp;f={$ibforums->input['f']}'>{$ibforums->lang['tb_search']}</a></td>
+ <td class='b-menu-item b-menu-item-members'><a href='{$ibforums->base_url}act=Members'>{$ibforums->lang['tb_mlist']}</a></td>
+ <td class='b-menu-item b-menu-item-calendar'><a href='{$ibforums->base_url}act=calendar'>{$ibforums->lang['tb_calendar']}</a></td>
+ <td class='b-menu-item b-menu-item-favorites {$fav_class}'><a href='{$ibforums->base_url}act=fav&show=1'>Избранное</a></td>
+ <td class='b-menu-item b-menu-item-store'><a href='{$ibforums->base_url}act=store'>{$ibforums->lang['ibstore']}</a></td>
+ <td class='b-menu-item b-menu-item-rss'><a href="index.php?showtopic=81342">RSS</a></td>
 </tr>
 </table>
 
