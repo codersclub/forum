@@ -1642,74 +1642,17 @@ class functions
 	/* ------------------------------------------------------------------------- */
 
 	/**
-	 * Загрузка шаблона.
+	 * Загрузка подкласса (skin_*) шаблона.
+     * @todo Вынести отсюда хоть куда-нибудь
 	 * @param string $name
-	 * @param string $id
 	 * @return stdClass
 	 */
-	function load_template($name, $id = '')
+	function load_template($name)
 	{
 		static $templates;
 		if (!isset($templates[$name]))
 		{
-			$ibforums = Ibf::app();
-
-			$tags = 1;
-
-			if (!$ibforums->vars['safe_mode_skins'])
-			{
-				// Simply require and return
-				// vot DEBUG:
-				//echo "load_template: ".$name." ".$id."<br>";
-				//echo "load_template: base_dir=".$ibforums->vars['base_dir']."<br>";
-				//echo "load_template: skin_id=".$ibforums->skin_id."<br>";
-				//echo "load_template: skin=".$ibforums->vars['base_dir']."Skin/".$ibforums->skin_id."/$name.php<br>";
-				$templates[$name] = new $name();
-
-			} else
-			{
-				// We're using safe mode skins, yippee
-				// Load the data from the DB
-
-				$stmt = $ibforums->db->query(
-					"SELECT
-										func_name,
-										func_data,
-										section_content
-										FROM ibf_skin_templates
-										WHERE
-										set_id='" . $ibforums->skin_rid . "' AND
-					group_name='$name'"
-				);
-
-				if (!$stmt->rowCount())
-				{
-					fatal_error(
-						"Could not fetch the templates from the database. Template $name, ID {$ibforums->skin_rid}"
-					);
-				} else
-				{
-					$new_class = "class $name {\n";
-
-					while ($row = $stmt->fetch())
-					{
-						if ($tags == 1)
-						{
-							$comment = "<!--TEMPLATE: $name, Template Part: " . $row['func_name'] . "-->\n";
-						}
-
-						$new_class .= 'function ' . $row['func_name'] . '(' . $row['func_data'] . ") {\n";
-						$new_class .= "global \$ibforums;\n";
-						$new_class .= 'return <<<EOF' . "\n" . $comment . $row['section_content'] . "\nEOF;\n}\n";
-					}
-
-					$new_class .= "}\n";
-
-					eval($new_class);
-
-					$templates[$name] = new $name();
-				}
-			}
+			$templates[$name] = new $name();
 		}
 		return $templates[$name];
 	}
@@ -2562,144 +2505,6 @@ class functions
 	}
 
 	/* ------------------------------------------------------------------------- */
-
-	// SKIN, sort out the skin stuff
-	/* ------------------------------------------------------------------------- */
-
-	function load_skin()
-	{
-		global $ibforums;
-
-		$id       = -1;
-		$skin_set = 0;
-
-		if (($ibforums->is_bot == 1) and ($ibforums->vars['spider_suit'] != ""))
-		{
-			$skin_set = 1;
-			$id       = $ibforums->vars['spider_suit'];
-		} else
-		{
-			//------------------------------------------------
-			// Do we have a skin for a particular forum?
-			//------------------------------------------------
-
-			if ($ibforums->input['f'] and $ibforums->input['act'] != 'UserCP')
-			{
-				if ($ibforums->vars['forum_skin_' . $ibforums->input['f']] != "")
-				{
-					$id = $ibforums->vars['forum_skin_' . $ibforums->input['f']];
-
-					$skin_set = 1;
-				}
-			}
-
-			//------------------------------------------------
-			// Are we allowing user chooseable skins?
-			//------------------------------------------------
-
-			$extra = "";
-
-			if ($skin_set != 1 and $ibforums->vars['allow_skins'] == 1)
-			{
-				if (isset($ibforums->input['skinid']))
-				{
-					$id       = intval($ibforums->input['skinid']);
-					$extra    = " AND s.hidden=0";
-					$skin_set = 1;
-				} elseif ($ibforums->member['skin'] != "" and intval($ibforums->member['skin']) >= 0)
-				{
-					$id = $ibforums->member['skin'];
-
-					if ($id == 'Default')
-					{
-						$id = -1;
-					}
-
-					$skin_set = 1;
-				}
-			}
-		}
-
-		//------------------------------------------------
-		// Load the info from the database.
-		//------------------------------------------------
-
-		if ($id >= 0 and $skin_set == 1)
-		{
-			$stmt = $ibforums->db->query("SELECT
-				s.*,
-				t.template
-    			    FROM (
-				ibf_skins s
-				)
-    			    LEFT JOIN ibf_templates t
-				ON (s.tmpl_id=t.tmid)
-    	           	    WHERE
-				s.sid=$id" . $extra);
-
-			// Didn't get a row?
-			if (!$stmt->rowCount())
-			{
-				// Update this members profile
-
-				if ($ibforums->member['id'])
-				{
-					$stmt = $ibforums->db->query("UPDATE ibf_members
-					    SET skin='-1'
-					    WHERE id='" . $ibforums->member['id'] . "'");
-				}
-
-				$stmt = $ibforums->db->query("SELECT
-					s.*,
-					t.template
-	 			    FROM (
-					ibf_skins s
-					)
-	    			    LEFT JOIN ibf_templates t
-					ON (s.tmpl_id = t.tmid)
-	    	           	    WHERE
-					s.default_set=1");
-			}
-		} else
-		{
-			$stmt = $ibforums->db->query("SELECT
-				s.*,
-				t.template
-    			   FROM (
-				ibf_skins s
-				)
-    			   LEFT JOIN ibf_templates t
-				ON (s.tmpl_id=t.tmid)
-    	           	   WHERE
-				s.default_set=1");
-		}
-
-		if (!$row = $stmt->fetch())
-		{
-			echo("Could not query the skin information!");
-			exit();
-		}
-
-		//-------------------------------------------
-		// Setting the skin?
-		//-------------------------------------------
-
-		if (($ibforums->input['setskin']) and ($ibforums->member['id']))
-		{
-			$stmt = $ibforums->db->query("UPDATE ibf_members
-			     SET skin='" . intval($row['sid']) . "'
-			     WHERE id='" . intval($ibforums->member['id']) . "'");
-
-			$ibforums->member['skin'] = $row['sid'];
-		}
-
-		$row['white_background'] = str_replace("&#39;", "'", $row['white_background']);
-
-		return $row;
-	}
-
-	/* ------------------------------------------------------------------------- */
-
 	// Require, parse and return an array containing the language stuff
 	/* ------------------------------------------------------------------------- */
 
@@ -3318,21 +3123,11 @@ class functions
 
 		if ($error['INIT'] == 1)
 		{
-			$stmt = $ibforums->db->query("SELECT
-				s.*,
-				t.template
-  			    FROM ibf_skins s
-  			    LEFT JOIN ibf_templates t
-				ON (t.tmid=s.tmpl_id)
-    	           	    WHERE s.default_set=1");
-
-			$ibforums->skin = $stmt->fetch();
+			$ibforums->skin = Skins\Factory::createDefaultSkin();
 
 			$ibforums->session_id = $this->my_getcookie('session_id');
 
 			$ibforums->base_url = $ibforums->vars['board_url'] . '/index.' . $ibforums->vars['php_ext'] . '?s=' . $ibforums->session_id;
-			$ibforums->skin_rid = $ibforums->skin['set_id'];
-			$ibforums->skin_id  = 's' . $ibforums->skin['set_id'];
 
 			if ($ibforums->vars['default_language'] == "")
 			{
@@ -3351,13 +3146,6 @@ class functions
 			}
 
 			$ibforums->lang = $this->load_words($ibforums->lang, "lang_global", $ibforums->lang_id);
-
-			//------------------------------------------
-			// Let's load the full path for the images, including the board url
-			// Date: 06/07/2005 16:17 (c) Anton
-			//-----------------------------------------
-			// vot $ibforums->vars['img_url'] = "/style_images/".$ibforums->skin['img_dir'];
-			$ibforums->vars['img_url'] = $ibforums->vars['board_url'] . '/style_images/' . $ibforums->skin['img_dir'];
 
 			$skin_universal = $this->load_template('skin_global');
 		}

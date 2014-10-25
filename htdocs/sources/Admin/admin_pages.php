@@ -84,14 +84,6 @@ $PAGES = array(
 		4 => array('Recount Statistics', 'act=op&code=count'),
 
 	),
-	7  => array(
-		1 => array('<b>Manage Skin Sets</b>', 'act=sets'),
-		2 => array('&#0124;-- Board Wrappers', 'act=wrap'),
-		3 => array('&#0124;-- HTML Templates', 'act=templ'),
-		5 => array('&#039;-- Macros', 'act=image'),
-		6 => array('Import Skin files', 'act=import'),
-
-	),
 	8  => array(
 		1 => array('Manage Languages', 'act=lang'),
 		2 => array('Import a Language', 'act=lang&code=import'),
@@ -150,7 +142,6 @@ $CATS = array(
 	4  => 'Forum Moderation',
 	5  => 'Users and Groups',
 	6  => 'Administration',
-	7  => 'Skins & Templates',
 	8  => 'Languages',
 	9  => 'Statistic Center',
 	10 => 'SQL Management',
@@ -167,7 +158,6 @@ $DESC = array(
 	4  => "Access the moderators CP and manage topic multi-moderation",
 	5  => "Edit, register, remove and ban members. Set up member titles and ranks. Manage User Groups and moderated registrations",
 	6  => "Manage Help Files, Bad Word Filters and Emoticons",
-	7  => "Manage templates, skins, colours and images.",
 	8  => "Manage language sets",
 	9  => "Get registration and posting statistics",
 	10 => "Manage your SQL database; repair, optimize and export data",

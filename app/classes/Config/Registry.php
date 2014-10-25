@@ -203,7 +203,7 @@ class Registry
                 $ptr[$key] = $value;
                 break;
             } else {
-                if (!is_array($ptr[$key])) { //nothing to or isn't an array
+                if (!isset($ptr[$key]) || !is_array($ptr[$key])) { //nothing to or isn't an array
                     $ptr[$key] = [];
                 }
                 $ptr = & $ptr[$key];

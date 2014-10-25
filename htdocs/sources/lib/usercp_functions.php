@@ -450,20 +450,19 @@ class usercp_functions
 
 		if ($ibforums->vars['allow_skins'])
 		{
-
-			$stmt = $ibforums->db->query("SELECT sid FROM ibf_skins WHERE hidden <> 1 AND sid='" . $ibforums->input['u_skin'] . "'");
-
-			if (!$stmt->rowCount())
-			{
-				$std->Error(array(
-				                 'LEVEL' => 1,
-				                 'MSG'   => 'skin_not_found'
-				            ));
+			try {
+				$skin = \Skins\Factory::create((int)$ibforums->input['u_skin']);
+			} catch (Exception $e) {
+				$std->Error(
+					[
+						'LEVEL' => 1,
+						'MSG'   => 'skin_not_found'
+					]
+				);
 			}
-
 			$data = [
 				'language' => $ibforums->input['u_language'],
-				'skin'     => $ibforums->input['u_skin'],
+				'skin'     => $skin->getId(),
 				'sskin_id' => $ibforums->input['u_sskin'],
 			];
 		} else

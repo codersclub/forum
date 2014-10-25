@@ -1318,21 +1318,9 @@ class ad_forums
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT macro_id, img_dir
-			    FROM ibf_skins
-			    WHERE default_set=1");
-
-		$mid = $stmt->fetch();
-
-		$stmt = $ibforums->db->query("SELECT macro_replace AS A_STAR
-			    FROM ibf_macro
-			    WHERE macro_set={$mid['macro_id']}
-				AND macro_value='A_STAR'");
-
-		$row = $stmt->fetch();
-
-		//vot    	$row['A_STAR'] = str_replace( "<#IMG_DIR#>", $mid['img_dir'], $row['A_STAR'] );
-		$row['A_STAR'] = str_replace("<#IMG_DIR#>", $SKIN->img_url, $row['A_STAR']); //vot
+        $star = \Skins\Factory::createDefaultSkin()->getMacroValues()['A_STAR'];
+		Logs::debug('Debug', $star);
+		$row['A_STAR'] = str_replace("<#IMG_DIR#>", $SKIN->img_url, $star); //vot
 
 		$ADMIN->html .= $SKIN->start_table("Member Titles/Ranks");
 
@@ -2647,8 +2635,7 @@ class ad_forums
 
 		$lang_array = array();
 
-		$stmt = $ibforums->db->query("SELECT ldir, lname
-                            FROM ibf_languages");
+		$stmt = $ibforums->db->prepare("SELECT ldir, lname FROM ibf_languages")->execute();
 
 		while ($l = $stmt->fetch())
 		{
@@ -2657,34 +2644,21 @@ class ad_forums
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT uid, sid, sname, default_set, hidden
-                            FROM ibf_skins");
-
 		$skin_array = array();
 
-		$def_skin = "";
+		$def_skin = Config::get('app.skins.default', 0);
 
-		if ($stmt->rowCount())
-		{
-			while ($s = $stmt->fetch())
-			{
-				if ($s['default_set'] == 1)
-				{
-					$def_skin = $s['sid'];
-				}
-
-				if ($s['hidden'] == 1)
-				{
-					$hidden = " *(Hidden)";
-				} else
-				{
-					$hidden = "";
-				}
-
-				$skin_array[] = array($s['sid'], $s['sname'] . $hidden);
-
-			}
-		}
+        $skin_array = array_map(
+            function ($item) {
+                return [
+                    $item['id'],
+                    $item['name'] . (in_array($item['id'], \Config::get('app.skins.hidden'))
+                        ? " *(Hidden)"
+                        : '')
+                ];
+            },
+            \Skins\Factory::getAllSkinsData()
+        );
 
 		//+-------------------------------
 

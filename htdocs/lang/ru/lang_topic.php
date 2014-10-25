@@ -137,3 +137,5 @@ $lang['show_preview_button']  = "Показать";
 $lang['hide_preview_button']  = "Скрыть";
 
 $lang['topic_draft']  = "Черновик";
+$lang['added_to_FAQ'] = "Добавлено в FAQ";
+$lang['to_FAQ'] = "в FAQ";
