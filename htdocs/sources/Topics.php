@@ -637,7 +637,7 @@ class Topics
 		}
 
 		// Song * quote
-		$poster['name'] = str_replace(array(" ", "&#39;", "'"), array("&nbsp;", "", ""), $poster['name']);
+		$poster['name'] = str_replace(array("&#39;", "'"), array("", ""), $poster['name']);
 		$name           = $poster['name'];
 
 		$poster['name'] = str_replace(array("[", "]"), array("&amp;#091;", "&amp;#093;"), $poster['name']);
