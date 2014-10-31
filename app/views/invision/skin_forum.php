@@ -19,7 +19,7 @@ function mod_checkbox($tid) {
 global $ibforums;
 return <<<EOF
 
-<td class="row4 b-topics-list-column-mod_checkbox" align="center"><input type="checkbox" name="TID_$tid" value="1" class="forminput"></td>
+<td class="row4 b-column b-column_checkbox" align="center"><input type="checkbox" name="TID_$tid" value="1" class="forminput"></td>
 
 EOF;
 }
@@ -38,14 +38,14 @@ if ($data["poll_state"]) $topic_classes .= " topic-is_poll";
 return <<<EOF
 
     <tr class="b-topics-list-row {$topic_classes}" data-topic-updated="{$data["last_post_std"]}">
-      <td class="row4 b-topics-list-column-status"><a href="{$ibforums->base_url}act=fav&topic={$data["tid"]}" style="text-decoration:none" class="topic-status-link">{$data["folder_img"]}</a></td>
-      <td class="row2 b-topics-list-column-icon">{$data["topic_icon"]}</td>
-      <td class="row4 b-topics-list-column-title">{$data["go_new_post"]}{$data["prefix"]} <a class="topic-link" href="{$ibforums->base_url}showtopic={$data["tid"]}"{$data["forum_title"]}>{$data["title"]}</a> {$data[PAGES]}
+      <td class="row4 b-column b-column_status"><a href="{$ibforums->base_url}act=fav&topic={$data["tid"]}" style="text-decoration:none" class="topic-status-link">{$data["folder_img"]}</a></td>
+      <td class="row2 b-column b-column_icon">{$data["topic_icon"]}</td>
+      <td class="row4 b-column b-column_title">{$data["go_new_post"]}{$data["prefix"]} <a class="topic-link" href="{$ibforums->base_url}showtopic={$data["tid"]}"{$data["forum_title"]}>{$data["title"]}</a> {$data[PAGES]}
       <div class="desc">{$data["description"]}</span>{$data["queued_link"]}</td>
-      <td class="row2 b-topics-list-column-author">{$data["starter"]}</td>
-      <td class="row4 b-topics-list-column-posts_num">{$data["posts"]}</td>
-      <td class="row2 b-topics-list-column-views_num">{$data["views"]}</td>
-      <td class="row2 b-topics-list-column-last_post"{$data["colspan"]}><div class="b-last_post_date-wrapper"><time datetime="{$data["last_post_std"]}" class="last-post-date">{$data["last_post"]}</time></div><span class="last-post-text"><a href="{$ibforums->base_url}showtopic={$data["tid"]}&view=getlastpost">{$data["last_text"]}</a></span> <span class="last-post-author">{$data["last_poster"]}</span></td>
+      <td class="row2 b-column b-column_author">{$data["starter"]}</td>
+      <td class="row4 b-column b-column_posts-num">{$data["posts"]}</td>
+      <td class="row2 b-column b-column_views-num">{$data["views"]}</td>
+      <td class="row2 b-column b-column_last-post"{$data["colspan"]}><div class="b-last_post_date-wrapper"><time datetime="{$data["last_post_std"]}" class="last-post-date">{$data["last_post"]}</time></div><span class="last-post-text"><a href="{$ibforums->base_url}showtopic={$data["tid"]}&view=getlastpost">{$data["last_text"]}</a></span> <span class="last-post-author">{$data["last_poster"]}</span></td>
       {$data["mod_checkbox"]}
     </tr>
 
@@ -216,8 +216,8 @@ function last_mod_column() {
 global $ibforums;
 return <<<EOF
 
-<th class="titlemedium b-topics-list-column-last_post">{$ibforums->lang["h_last_action"]}</th>
-<th width="4%" class="titlemedium b-topics-list-column-mod_checkbox">{$ibforums->lang["h_mod_checkbox"]}</th>
+<th class="b-column b-column_last-post">{$ibforums->lang["h_last_action"]}</th>
+<th width="4%" class="b-column b-column_checkbox">{$ibforums->lang["h_mod_checkbox"]}</th>
 
 EOF;
 }
@@ -226,7 +226,7 @@ function last_column() {
 global $ibforums;
 return <<<EOF
 
-<th class="titlemedium b-topics-list-column-last_post">{$ibforums->lang["h_last_action"]}</th>
+<th class="b-column b-column_last-post">{$ibforums->lang["h_last_action"]}</th>
 
 EOF;
 }
@@ -254,17 +254,17 @@ var js_base_url = "{$ibforums->js_base_url}";
 <div id="forum-subscribtion-buttons" class="b-forum-subscribtion-buttons">{$data["mark_read"]} <!--IBF.SUB_FORUM_LINK--></div>
 {$data["filter"]}
  <div class="tableborder b-topics-list-wrapper">
-  <div class="maintitle b-topics-list-title"><{CAT_IMG}><span class="e-topics-list-title-text">{$data["name"]}</span></div>
+  <h2 class="b-topics-list__title"><{CAT_IMG}><span class="b-topics-list__title__text">{$data["name"]}</span></h2>
    {$data["modform_open"]}
    <table width="100%" class="topics b-topics-list">
     <thead>
-    <tr class="darkrow2 topics-header">
-     <th class="titlemedium b-topics-list-column-status"><img src="{$ibforums->vars["img_url"]}/spacer.gif" alt="" width="20" height="1"></td>
-     <th class="titlemedium b-topics-list-column-icon"><img src="{$ibforums->vars["img_url"]}/spacer.gif" alt="" width="20" height="1"></td>
-     <th class="titlemedium b-topics-list-column-title">{$ibforums->lang["h_topic_title"]}</th>
-     <th width="14%" class="titlemedium b-topics-list-column-author">{$ibforums->lang["h_topic_starter"]}</th>
-     <th width="7%" class="titlemedium b-topics-list-column-posts_num">{$ibforums->lang["h_replies"]}</th>
-     <th width="7%" class="titlemedium b-topics-list-column-views_num">{$ibforums->lang["h_hits"]}</th>
+    <tr class="b-header-row">
+     <th class="b-column b-column_status"><img src="{$ibforums->vars["img_url"]}/spacer.gif" alt="" width="20" height="1"></td>
+     <th class="b-column b-column_icon"><img src="{$ibforums->vars["img_url"]}/spacer.gif" alt="" width="20" height="1"></td>
+     <th class="b-column b-column_title">{$ibforums->lang["h_topic_title"]}</th>
+     <th width="14%" class="b-column b-column_author">{$ibforums->lang["h_topic_starter"]}</th>
+     <th width="7%" class="b-column b-column_posts-num">{$ibforums->lang["h_replies"]}</th>
+     <th width="7%" class="b-column b-column_views-num">{$ibforums->lang["h_hits"]}</th>
      {$data["last_column"]}
     </tr>
 	</thead>
@@ -383,7 +383,7 @@ EOF;
 function renderGoNewPostLink($topic){
 	$ibf = Ibf::app();
 	return <<<EOF
-	<a class="e-go_new_post-link" href="{$ibf->base_url}showtopic={$topic["tid"]}&amp;view=getnewpost"><{NEW_POST}></a>
+	<a class="b-go-new-post__link" href="{$ibf->base_url}showtopic={$topic["tid"]}&amp;view=getnewpost"><{NEW_POST}></a>
 EOF;
 }
 
@@ -398,8 +398,8 @@ function renderClubTopicPrefix() {
 function renderMarkSubforumRead($id) {
 	$ibf = Ibf::app();
 	return <<<EOF
-	<div class="b-subforum-subscribtion-buttons">
-		<a class="e-mark_as_read-button" href="{$ibf->base_url}act=Login&amp;CODE=04&amp;f={$id}&amp;i=1">{$ibf->lang["mark_as_read"]}</a>
+	<div class="b-subforum__subscribtion-buttons">
+		<a class="b-mark-as-read__button" href="{$ibf->base_url}act=Login&amp;CODE=04&amp;f={$id}&amp;i=1">{$ibf->lang["mark_as_read"]}</a>
 	</div>
 EOF;
 }
@@ -408,7 +408,7 @@ function queuedTopicButtons($fid, $tid){
 	$ibf = Ibf::app();
 	return <<<EOF
 			<div class="b-queued-topic-actions">
-			<span class="e-queued-topic-actions-title">{$ibf->lang["waiting_topics"]}</span>
+			<span class="b-queued-topic-actions__title">{$ibf->lang["waiting_topics"]}</span>
 			<ul class="b-action-buttons b-queued_topic-actions">
 			<li class="b-action-button b-queued_topic-approve-button"><a href="{$ibf->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$fid}&amp;TID_{$tid}=approve">{$ibf->lang["modcp_accept"]}</a></li>
 			<li class="b-action-button b-queued_topic-reject-button"><a href="{$ibf->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$fid}&amp;TID_{$tid}=remove">{$ibf->lang["modcp_reject"]}</a></li>
@@ -429,10 +429,10 @@ EOF;
 function attachImagePreviewReduced($text, $alt, AttachImage $attach) {
 	$size = $attach->getPreviewSizes();
 	return <<<EOF
-	<span class="b-attach-image b-attach-image-preview" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
-		<div class="e-attach-title">{$text}</div>
-		<a class="e-attach-image-link" href="{$attach->getHref()}" title="{$alt}" target="_blank">
-			<img src="{$attach->getPeviewLink()}" width="{$size["img_width"]}" height="{$size["img_height"]}" class="e-attach-image-preview" alt="{$alt}">
+	<span class="b-attached-image-preview" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
+		<div class="b-attach__title">{$text}</div>
+		<a class="b-attached-image__link" href="{$attach->getHref()}" title="{$alt}" target="_blank">
+			<img src="{$attach->getPeviewLink()}" width="{$size["img_width"]}" height="{$size["img_height"]}" class="b-attached-image__image_reduced" alt="{$alt}">
 		</a>
 	</span>
 EOF;
@@ -441,16 +441,16 @@ EOF;
 function attachImagePreview($text, $alt, AttachImage $attach){
 	$ibf = Ibf::app();
 	return <<<EOF
-	<span class="b-attach-image" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
-		<div class="e-attach-title">{$text}</div>
-		<img class="e-attach-image" src="{$ibf->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}" alt="{$alt}">
+	<span class="b-attached-image" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
+		<div class="b-attach__title">{$text}</div>
+		<img class="b-attached-image__image" src="{$ibf->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}" alt="{$alt}">
 	</span>
 EOF;
 	}
 
 function attachImageFull($text, $alt, $url) {
 	return <<<EOF
-		<img class="e-attached-image e-embedded-image" src="{$url}" border="0" alt="{$alt}" title="{$text}">
+		<img class="b-attached-image b-embedded-image" src="{$url}" border="0" alt="{$alt}" title="{$text}">
 EOF;
 }
 
@@ -458,7 +458,7 @@ function attach($text, Attachment $attach){
 	$ibf = Ibf::app();
 	return <<<EOF
 		<span class="b-attach" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
-			<span class="e-attach-title">{$text}</span>{$attach->getLink()} ({$attach->sizeAsString()}, {$ibf->lang["attach_hits"]}: {$attach->hits()})
+			<span class="b-attach__title">{$text}</span>{$attach->getLink()} ({$attach->sizeAsString()}, {$ibf->lang["attach_hits"]}: {$attach->hits()})
 		</span>
 EOF;
 

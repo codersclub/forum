@@ -381,7 +381,7 @@ return <<<EOF
 </tbody>
 <tfoot>
 <tr class="b-footer-row">
- <td class='b-column titlemedium' colspan='5'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
+ <td class='b-column' colspan='5'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
 </tr>
 </tfoot>
 </table>
@@ -448,7 +448,7 @@ return <<<EOF
 </tbody>
 <tfoot>
 <tr>
- <td class='b-column titlemedium' colspan='5'><input type='submit' name='endtrack' value='{$ibforums->lang['tk_untrack_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
+ <td class='b-column' colspan='5'><input type='submit' name='endtrack' value='{$ibforums->lang['tk_untrack_button']}' class='forminput'> {$ibforums->lang['selected_msg']}</td>
 </tr>
 </tfoot>
 </table>

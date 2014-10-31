@@ -15,14 +15,14 @@ EOF;
 function CatPlus($id) {
 global $ibforums;
 return <<<EOF
-<a class="e-category-expand-button e-category-expand-button-{$id}" href={$ibforums->base_url}expcat={$id}><{C_PLUS}></a>
+<a class="category-expand-button" data-id="$id" href={$ibforums->base_url}expcat={$id}><{C_PLUS}></a>
 EOF;
 }
 
 function CatMinus($id) {
 global $ibforums;
 return <<<EOF
-<a class="e-category-collapse-button e-category-collapse-button-{$id}" href={$ibforums->base_url}colcat={$id}><{C_MINUS}></a>
+<a class="category-collapse-button" data-id="$id" href={$ibforums->base_url}colcat={$id}><{C_MINUS}></a>
 EOF;
 }
 
@@ -30,8 +30,8 @@ function CatHeader_Collapsed($info,$plus = "") {
 global $ibforums;
 return <<<EOF
 
-<div class="tableborder b-category b-category-{$info['id']} b-category-collapsed" data-category-id="{$info['id']}">
-	<div class="maintitle b-category-title">{$plus}<a class="e-title-link e-category-title-link" href="{$ibforums->base_url}c={$info['id']}">{$info['name']}</a></div>
+<div class="b-category" data-category-id="{$info['id']}" data-status="collapsed">
+	<h2>{$plus}<a class="b-category-title-link" href="{$ibforums->base_url}c={$info['id']}">{$info['name']}</a></h2>
 	<div class="b-category-footer"></div>
 </div>
 
@@ -43,15 +43,15 @@ global $ibforums;
 return <<<EOF
 
  <div class="tableborder b-category b-category-{$Data['id']} b-category-expanded" data-category-id="{$Data['id']}" >
-  <div class="maintitle b-category-title">{$minus}<a class="e-title-link e-category-title-link" href="{$ibforums->base_url}c={$Data['id']}">{$Data['name']}</a></div>
+  <h2>{$minus}<a class="b-category-title-link" href="{$ibforums->base_url}c={$Data['id']}">{$Data['name']}</a></h2>
     <table class="b-forums-list">
         <thead>
-		<tr class="b-forums-list-header">
-	        <th colspan="2" align="center" width="2%" class="titlemedium b-forums-list-column-image"><img border="0" src="{$ibforums->skin['ImagesPath']}/spacer.gif" alt="" width="28" height="1"></th>
-			<th width="59%" class="titlemedium b-forums-list-column-title">{$ibforums->lang['cat_name']}</th>
-		    <th width="7%" class="titlemedium b-forums-list-column-topics">{$ibforums->lang['topics']}</th>
-		    <th width="7%" class="titlemedium b-forums-list-column-replies">{$ibforums->lang['replies']}</th>
-		    <th width="25%" class="titlemedium b-forums-list-column-lastpost">{$ibforums->lang['last_post_info']}</th>
+		<tr class="b-header-row">
+	        <th colspan="2" align="center" width="2%" class="b-column-icon"><img border="0" src="{$ibforums->skin['ImagesPath']}/spacer.gif" alt="" width="28" height="1"></th>
+			<th width="59%" class="b-column b-column_title">{$ibforums->lang['cat_name']}</th>
+		    <th width="7%" class="b-column b-column_topics">{$ibforums->lang['topics']}</th>
+		    <th width="7%" class="b-column b-column_replies">{$ibforums->lang['replies']}</th>
+		    <th width="25%" class="b-column b-column_lastpost">{$ibforums->lang['last_post_info']}</th>
 	    </tr>
 	    </thead>
 
@@ -62,7 +62,7 @@ function ShowAllLink() {
 global $ibforums;
 return <<<EOF
 
-<a id="ShowAllLink" class="e-show-all-link" href="{$ibforums->base_url}&show=all">{$ibforums->lang['show_all_forums']}</a>
+<a id="ShowAllLink" class="b-show-all-link" href="{$ibforums->base_url}&show=all">{$ibforums->lang['show_all_forums']}</a>
 
 EOF;
 }
@@ -225,11 +225,11 @@ global $ibforums;
 return <<<EOF
 
        <tr class="b-forums-list-row forum-{$info['id']} forum-redirect" data-forum-id="{$info['id']}" data-category-id="{$info['category']}">
-         <td {$info[colspan]}class="row4 b-forums-list-column-image"><{BR_REDIRECT}></td>
-         <td class="row4 b-forums-list-column-title"><a class="e-forum-title-link" href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a><div class="desc">{$info['description']}</span></td>
-         <td class="row2 b-forums-list-column-topics">-</td>
-         <td class="row2 b-forums-list-column-replies">-</td>
-         <td class="row2 b-forums-list-column-lastpost">{$ibforums->lang['rd_hits']}: {$info['redirect_hits']}</td>
+         <td {$info[colspan]}class="row4 b-column b-column_icon"><{BR_REDIRECT}></td>
+         <td class="row4 b-column b-column_title"><a class="b-title-link" href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a><div class="desc">{$info['description']}</span></td>
+         <td class="row2 b-column b-column_topics">-</td>
+         <td class="row2 b-column b-column_replies">-</td>
+         <td class="row2 b-column b-column_lastpost">{$ibforums->lang['rd_hits']}: {$info['redirect_hits']}</td>
        </tr>
 
 EOF;
@@ -245,12 +245,12 @@ function ForumRow($info) {
 global $ibforums;
 return <<<EOF
 
-<tr class="b-forums-list-row forum-id-{$info['id']}" data-forum-id="{$info['id']}" data-category-id="{$info['category']}" data-allow-poll="{$info['allow_poll']}" data-allow-topics="{$info['sub_can_post']}">
+<tr class="b-forums-list-row" data-forum-id="{$info['id']}" data-category-id="{$info['category']}" data-allow-poll="{$info['allow_poll']}" data-allow-topics="{$info['sub_can_post']}">
  {$info['tree']}
- <td class="row2 b-forums-list-column-title"><a class="e-forum-title-link" href="{$ibforums->base_url}showforum={$info['id']}">{$info['name']}</a> <span class="desc">{$info['description']}</span></td>
- <td class="row4 b-forums-list-column-topics">{$info['topics']}</td>
- <td class="row4 b-forums-list-column-replies">{$info['posts']}</td>
- <td class="row2 b-forums-list-column-lastpost"><time class="block" datetime="{$info['last_post_std']}">{$info['last_post']}</time><div class="b-last-topic-row">{$ibforums->lang['in']}: {$info['last_topic']}</div><div class="b-poster-row">{$ibforums->lang['by']}: {$info['last_poster']}</div></td>
+ <td class="row2 b-column b-column_title"><a class="b-title-link" href="{$ibforums->base_url}showforum={$info['id']}">{$info['name']}</a> <span class="desc">{$info['description']}</span></td>
+ <td class="row4 b-column b-column_topics">{$info['topics']}</td>
+ <td class="row4 b-column b-column_replies">{$info['posts']}</td>
+ <td class="row2 b-column b-column_lastpost"><time class="block" datetime="{$info['last_post_std']}">{$info['last_post']}</time><div class="b-last-topic-row">{$ibforums->lang['in']}: {$info['last_topic']}</div><div class="b-poster-row">{$ibforums->lang['by']}: {$info['last_poster']}</div></td>
 </tr>
 
 EOF;
@@ -397,18 +397,19 @@ EOF;
 
 function subheader($fid) {
 global $ibforums;
+    //todo добавить название головного форума, если темы в нём запрещены и есть только подразделы
 return <<<EOF
 
 {$fid}
  <div class="tableborder b-subforums-list-wrapper">
    <table width="100%" border="0" cellspacing="1" cellpadding="4" class="b-subforums-list">
    <thead>
-   <tr class="b-forums-list-header">
-  <th colspan="2" class="titlemedium b-forums-list-column-image"><img border="0" src="{$ibforums->vars["img_url"]}/spacer.gif" alt="" width="28" height="1"></th>
-  <th width="59%" class="titlemedium b-forums-list-column-title">{$ibforums->lang["cat_name"]}</th>
-  <th width="7%" class="titlemedium b-forums-list-column-topics">{$ibforums->lang["topics"]}</th>
-  <th width="7%" class="titlemedium b-forums-list-column-replies">{$ibforums->lang["replies"]}</th>
-  <th width="27%" class="titlemedium b-forums-list-column-lastpost">{$ibforums->lang["last_post_info"]}</th>
+   <tr class="b-header-row">
+  <th colspan="2" class="b-column b-column_icon"><img border="0" src="{$ibforums->skin["ImagesPath"]}/spacer.gif" alt="" width="28" height="1"></th>
+  <th width="59%" class="b-column b-column_title">{$ibforums->lang["cat_name"]}</th>
+  <th width="7%" class="b-column b-column_topics">{$ibforums->lang["topics"]}</th>
+  <th width="7%" class="b-column b-column_replies">{$ibforums->lang["replies"]}</th>
+  <th width="27%" class="b-column b-column_last-post">{$ibforums->lang["last_post_info"]}</th>
    </tr>
    </thead>
 
