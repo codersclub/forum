@@ -653,11 +653,11 @@ TABLE.post_table TH {
 }
 
 .open .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/1/minus.png') 4px center no-repeat;
+  background: url($images_path + '/minus.png') 4px center no-repeat;
 }
 
 .closed .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/1/plus.png') 4px center no-repeat;
+  background: url($images_path + '/plus.png') 4px center no-repeat;
 }
 
 span.attach_preview {
@@ -784,18 +784,18 @@ td.b-menu-item {
 
 ul.b-breadcrumbs-top li {
   list-style: none;
-  background-image: url('/style_images/1/open.gif');
+  background-image: url($images_path + '/1/open.gif');
   background-repeat: no-repeat;
 }
 
 ul.b-breadcrumbs-top li:first-child {
   list-style: none;
-  background-image: url('../style_images/1/nav.gif');
+  background-image: url($images_path + '/1/nav.gif');
   background-repeat: no-repeat;
 }
 
 .b-breadcrumbs-bottom li:first-child {
-  background-image: url('../style_images/1/nav.gif');
+  background-image: url($images_path + '/nav.gif');
   background-repeat: no-repeat;
   background-position: left;
   padding: 3px 0 4px 20px;

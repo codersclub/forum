@@ -131,7 +131,7 @@ UL#help {
   COLOR: #FFFFFF;
   text-align: center;
   vertical-align: middle;
-  BACKGROUND: url('/style_images/BlackLabel/logo_bg_02.gif') #000000;
+  BACKGROUND: url($images_path + '/logo_bg_02.gif') #000000;
 }
 
 #logostrip A {
@@ -174,7 +174,7 @@ UL#help {
   HEIGHT: 12px;
   BORDER-LEFT: #777777 1px solid;
   BORDER-RIGHT: #333333 1px solid;
-  BACKGROUND: url('/style_images/BlackLabel/barf.gif') #666666
+  BACKGROUND: url($images_path + '/barf.gif') #666666
 }
 
 .menubar {
@@ -193,7 +193,7 @@ UL#help {
   text-align: center;
   vertical-align: middle;
   BACKGROUND-COLOR: #000000;
-  BACKGROUND: url('/style_images/BlackLabel/tile_sub.gif') #0c0c0c
+  BACKGROUND: url($images_path + '/tile_sub.gif') #0c0c0c
 }
 
 #top-menu TD {
@@ -246,7 +246,7 @@ UL#help {
   HEIGHT: 18px;
   text-align: center;
   vertical-align: middle;
-  BACKGROUND: url('/style_images/BlackLabel/teaser_bg_2.gif') #0c0c0c
+  BACKGROUND: url($images_path + '/teaser_bg_2.gif') #0c0c0c
 }
 
 #userlinks A {
@@ -403,7 +403,7 @@ UL#help {
   MARGIN: 0px 0px;
   BORDER-LEFT: #666666 1px solid;
   BORDER-RIGHT: #333333 1px solid;
-  BACKGROUND: url('/style_images/BlackLabel/bottom.gif') #666666
+  BACKGROUND: url($images_path + '/bottom.gif') #666666
 }
 
 .maintitle {
@@ -414,7 +414,7 @@ UL#help {
   border-left: #444444 1px solid;
   border-right: #0c0c0c 1px solid;
   font-weight: bold;
-  background-image: url('../style_images/BlackLabel/tile_back.gif');
+  background-image: url($images_path + '/tile_back.gif');
   vertical-align: middle;
   color: #ff9900;
   a {
@@ -1064,7 +1064,7 @@ LABEL {
   MARGIN-TOP: 1px;
   PADDING-LEFT: 7px;
   FONT-SIZE: 10px;
-  BACKGROUND-IMAGE: url('/style_images/BlackLabel/tile_sub.gif');
+  BACKGROUND-IMAGE: url($images_path + '/tile_sub.gif');
   PADDING-BOTTOM: 7px;
   PADDING-TOP: 7px;
   BACKGROUND-COLOR: #d1dceb;
@@ -1216,7 +1216,7 @@ LABEL {
   PADDING-LEFT: 3px;
   FONT-WEIGHT: bold;
   FONT-SIZE: 10px;
-  BACKGROUND: url('/style_images/BlackLabel/css_img_quote.gif') #e4eaf2 no-repeat right 50%;
+  BACKGROUND: url($images_path + '/css_img_quote.gif') #e4eaf2 no-repeat right 50%;
   PADDING-BOTTOM: 3px;
   MARGIN: 8px auto 0px;
   BORDER-LEFT: #8394b2 4px solid;
@@ -1280,11 +1280,11 @@ LABEL {
 }
 
 .open .spoiler_header {
-  background: url('/style_images/BlackLabel/minus.png') 4px center no-repeat;
+  background: url($images_path + '/minus.png') 4px center no-repeat;
 }
 
 .closed .spoiler_header {
-  background: url('/style_images/BlackLabel/plus.png') 4px center no-repeat;
+  background: url($images_path + '/plus.png') 4px center no-repeat;
 }
 
 span.attach_preview {
@@ -1425,20 +1425,20 @@ td.b-menu-item {
 
 ul.b-breadcrumbs-top li {
   list-style: none;
-  background-image: url('/style_images/BlackLabel/nav_sub.gif');
+  background-image: url($images_path + '/nav_sub.gif');
   background-repeat: no-repeat;
 }
 
 ul.b-breadcrumbs-top li:first-child {
   list-style: none;
-  background-image: url('/style_images/BlackLabel/nav.gif');
+  background-image: url($images_path + '/nav.gif');
   background-repeat: no-repeat;
   padding-top: 2px;
   padding-bottom: 6px;
 }
 
 .b-breadcrumbs-bottom li:first-child {
-  background-image: url('/style_images/BlackLabel/nav.gif');
+  background-image: url($images_path + '/nav.gif');
   background-repeat: no-repeat;
   background-position: left;
   padding: 3px 0 4px 20px;
@@ -1547,7 +1547,7 @@ ul.b-breadcrumbs-top li:first-child {
   BORDER-LEFT: #444444 1px solid;
   BORDER-RIGHT: #0c0c0c 1px solid;
   FONT-WEIGHT: bold;
-  BACKGROUND-IMAGE: url('../style_images/BlackLabel/tile_sub.gif');
+  BACKGROUND-IMAGE: url($images_path + '/tile_sub.gif');
   color: #bb7700;
   padding-left: 7px;
   padding-right: 7px;

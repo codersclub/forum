@@ -704,11 +704,11 @@ h3, .pformstrip {
 }
 
 .open .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/Text_Ski-187/minus.png') 4px center no-repeat;
+  background: url($images_path + '/minus.png') 4px center no-repeat;
 }
 
 .closed .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/Text_Ski-187/plus.png') 4px center no-repeat;
+  background: url($images_path + '/plus.png') 4px center no-repeat;
 }
 
 span.attach_preview {

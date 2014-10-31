@@ -273,7 +273,7 @@ option.sub {
 
 #logostrip {
   background-color: #78B1F3;
-  background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_back.gif)
+  background-image: url($images_path + /tile_back.gif)
 }
 
 #top-menu {
@@ -384,7 +384,7 @@ h3, .pformstrip {
   padding: 7px;
   margin-top: 1px;
   font-size: 10px;
-  background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif);
+  background-image: url($images_path + /tile_sub.gif);
   text-align: right;
   font-weight: bold;
 }
@@ -438,7 +438,7 @@ h3, .pformstrip {
   padding: 7px;
   margin: 0px;
   background-color: #ABBFE1;
-  background-image: url('../style_images/Invision-058/tile_sub.gif');
+  background-image: url($images_path + '/tile_sub.gif');
     a:link, a:visited, a:active {
       text-decoration: underline;
       color: #3A4F6C
@@ -460,7 +460,7 @@ h3, .pformstrip {
   color: #FFF;
   padding: 8px 0px 8px 6px;
   background-color: #779FD8;
-  background-image: url('../style_images/Invision-058/tile_back.gif');
+  background-image: url($images_path + '/tile_back.gif');
   a {
     &:link, &:visited, &:active {
       text-decoration: none;
@@ -654,11 +654,11 @@ h2 {
 }
 
 .open .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/Invision-058/minus.png') 4px center no-repeat;
+  background: url($images_path + '/minus.png') 4px center no-repeat;
 }
 
 .closed .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/Invision-058/plus.png') 4px center no-repeat;
+  background: url($images_path + '/plus.png') 4px center no-repeat;
 }
 
 span.attach_preview {
@@ -777,7 +777,7 @@ td.b-menu-item {
 
 ul.b-breadcrumbs-top li {
   list-style: none;
-  background-image: url('/style_images/Invision-058/open.gif');
+  background-image: url($images_path + '/open.gif');
   background-repeat: no-repeat;
 }
 
@@ -785,12 +785,12 @@ ul.b-breadcrumbs-top li:first-child {
   list-style: none;
   padding-bottom: 3px;
   padding-top: 3px;
-  background-image: url('/style_images/Invision-058/nav.gif');
+  background-image: url($images_path + '/nav.gif');
   background-repeat: no-repeat;
 }
 
 .b-breadcrumbs-bottom li:first-child {
-  background-image: url('/style_images/Invision-058/nav.gif');
+  background-image: url($images_path + '/nav.gif');
   background-repeat: no-repeat;
   background-position: left;
   padding: 3px 0 3px 20px;
@@ -833,7 +833,7 @@ ul.b-breadcrumbs-top li:first-child {
   font-weight: bold;
   color: #3A4F6C;
   background-color: #ABBFE1;
-  background-image: url(http://forum.sources.ru/style_images/Invision-058/tile_sub.gif)
+  background-image: url($images_path + /tile_sub.gif)
 }
 
 .b-pm-list th, .b-pm-list tfoot td {

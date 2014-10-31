@@ -265,7 +265,7 @@ option.sub {
 #logostrip {
   border: 1px solid #345487;
   background-color: #AAB7C8;
-  background-image: url(http://forum.sources.ru/style_images/Xpressio-296/tile_back2.gif);
+  background-image: url($images_path + /tile_back2.gif);
   padding: 0px;
   margin: 0px
 }
@@ -355,7 +355,7 @@ h3, .pformstrip {
   padding: 7px;
   margin-top: 1px;
   font-size: 10px;
-  background-image: url(http://forum.sources.ru/style_images/Xpressio-296/post_tile_sub.gif);
+  background-image: url($images_path + /post_tile_sub.gif);
   text-align: right;
   font-weight: bold;
 }
@@ -412,7 +412,7 @@ h3, .pformstrip {
   color: #3A4F6C;
   padding: 7px;
   margin: 0px;
-  background-image: url('../style_images/Xpressio-296/tile_sub.gif');
+  background-image: url($images_path + '/tile_sub.gif');
   a:link, a:visited, a:active {
     text-decoration: underline;
     color: #3A4F6C
@@ -434,7 +434,7 @@ h3, .pformstrip {
   color: #FFF;
   letter-spacing: 1px;
   padding: 8px 0px 8px 6px;
-  background-image: url('../style_images/Xpressio-296/tile_back.gif');
+  background-image: url($images_path + '/tile_back.gif');
   a {
     &:link, &:visited, &:active {
       text-decoration: none;
@@ -688,11 +688,11 @@ div.code {
 }
 
 .open .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/Xpressio-296/minus.png') 4px center no-repeat;
+  background: url($images_path + '/minus.png') 4px center no-repeat;
 }
 
 .closed .spoiler_header {
-  background: url('http://forum.sources.ru/style_images/Xpressio-296/plus.png') 4px center no-repeat;
+  background: url($images_path + '/plus.png') 4px center no-repeat;
 }
 
 span.attach_preview {
@@ -805,19 +805,19 @@ td.b-menu-item {
 
 ul.b-breadcrumbs-top li {
   list-style: none;
-  background-image: url('/style_images/Xpressio-296/open.gif');
+  background-image: url($images_path + '/open.gif');
   background-repeat: no-repeat;
 }
 
 ul.b-breadcrumbs-top li:first-child {
   padding-bottom: 3px;
   list-style: none;
-  background-image: url('/style_images/Xpressio-296/nav.gif');
+  background-image: url($images_path + '/nav.gif');
   background-repeat: no-repeat;
 }
 
 .b-breadcrumbs-bottom li:first-child {
-  background-image: url('/style_images/Xpressio-296/nav.gif');
+  background-image: url($images_path + '/nav.gif');
   background-repeat: no-repeat;
   background-position: left;
   padding: 3px 0 4px 20px;
@@ -859,7 +859,7 @@ ul.b-breadcrumbs-top li:first-child {
 .b-pm-list thead tr, .b-pm-list tfoot tr {
   font-weight: bold;
   color: #3A4F6C;
-  background-image: url('http://forum.sources.ru/style_images/Xpressio-296/tile_sub.gif')
+  background-image: url($images_path + '/tile_sub.gif')
 }
 
 .b-pm-list th, .b-pm-list tfoot td {
