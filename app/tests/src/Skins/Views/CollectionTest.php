@@ -30,7 +30,7 @@ class TestCollectionOwner extends BaseSkin
     {
     }
 
-    public function getTemplatesDirectory()
+    public function getViewsDirectory()
     {
         return \Config::get('path.app') . '/tests/Mock/SkinsTestFiles/template';
     }

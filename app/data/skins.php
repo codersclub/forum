@@ -6,6 +6,7 @@ return [
         'macro'  => 'default',
         'css'    => 'css_1.scss',
         'images' => '1',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'Xpression Final',
@@ -13,6 +14,7 @@ return [
         'macro'  => 'default',
         'css'    => 'css_8.scss',
         'images' => 'Xpressio-296',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'FAQ',
@@ -20,6 +22,7 @@ return [
         'macro'  => 'default',
         'css'    => 'css_1.scss',
         'images' => '1',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'New Year - graphics',
@@ -27,6 +30,7 @@ return [
         'macro'  => 'snow',
         'css'    => 'css_5.scss',
         'images' => 'NBS-Snow-262',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'New Year - text',
@@ -34,6 +38,7 @@ return [
         'macro'  => 'default',
         'css'    => 'css_5.scss',
         'images' => 'NBS-Snow-262',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'Sources Winter Graphic',
@@ -41,6 +46,7 @@ return [
         'macro'  => 'winter',
         'css'    => 'css_6.scss',
         'images' => 'Invision-058',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'Sources Winter Text',
@@ -48,6 +54,7 @@ return [
         'macro'  => 'default',
         'css'    => 'css_6.scss',
         'images' => 'Invision-058',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'Mastilior',
@@ -55,6 +62,7 @@ return [
         'macro'  => 'mastilior',
         'css'    => 'css_11.scss',
         'images' => 'Sources_-383',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'Text Skin',
@@ -62,6 +70,7 @@ return [
         'macro'  => 'text',
         'css'    => 'css_10.scss',
         'images' => 'Text_Ski-187',
+        'views'  => 'invision',
     ],
     [
         'name'   => 'Black Label',
@@ -69,5 +78,6 @@ return [
         'macro'  => 'default',
         'css'    => 'css_14.scss',
         'images' => 'BlackLabel',
+        'views'  => 'invision',
     ],
 ];

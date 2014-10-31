@@ -21,12 +21,14 @@ class DatasetSkinTest extends \PHPUnit_Framework_TestCase
                 'macro'  => 'x1',
                 'css'    => 'x1.scss',
                 'images' => 'x1',
+                'views' => 'invi',
             ]);
         $this->assertEquals('Test skin', $skin->getName());
         $this->assertEquals(1, $skin->getId());
         $this->assertEquals('x1', $skin->getMacroId());
         $this->assertStringEndsWith('x1.scss', $skin->getCSSFile());
         $this->assertStringEndsWith('x1', $skin->getImagesPath());
+        $this->assertStringEndsWith('invi', $skin->getViewsDirectory());
     }
 
     /**
