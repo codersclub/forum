@@ -20,6 +20,7 @@
   |	> Module Version Number: 1.0.0
   +--------------------------------------------------------------------------
  */
+use Skins\Views\View;
 
 class functions
 {
@@ -668,7 +669,7 @@ class functions
 
 	function forum_filter($forum = array(), $forums_id = array(), $mode = 0, $pid)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$k = count($forums_id);
 
@@ -704,7 +705,7 @@ class functions
 
 			$forums .= "</select>&nbsp;<input type='button' value='{$ibforums->lang['jmp_go']}' class='forminput' onClick='do_url({$pid});'></form>";
 
-			$forums = $skin_universal->forum_filter($forums);
+			$forums = View::Make("global.forum_filter", ['data' => $forums]);
 
 			return $forums;
 		}
@@ -1333,7 +1334,7 @@ class functions
 
 	function print_forum_rules($forum)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$ruleshtml = "";
 
@@ -1351,8 +1352,8 @@ class functions
 
 				$rules['fid'] = $forum['id'];
 				$ruleshtml    = $forum['show_rules'] == 2
-					? $skin_universal->forum_show_rules_full($rules)
-					: $skin_universal->forum_show_rules_link($rules);
+					? View::Make("global.forum_show_rules_full", ['rules' => $rules])
+					: View::Make("global.forum_show_rules_link", ['rules' => $rules]);
 			}
 		}
 
@@ -1633,31 +1634,6 @@ class functions
 
 		return $t;
 	}
-
-	/* ------------------------------------------------------------------------- */
-
-	//
-	// Load a template file from DB or from PHP file
-	//
-	/* ------------------------------------------------------------------------- */
-
-	/**
-	 * Загрузка подкласса (skin_*) шаблона.
-     * @todo Вынести отсюда хоть куда-нибудь
-	 * @param string $name
-	 * @return stdClass
-	 */
-	function load_template($name)
-	{
-		static $templates;
-		if (!isset($templates[$name]))
-		{
-			$templates[$name] = new $name();
-		}
-		return $templates[$name];
-	}
-
-	/* ------------------------------------------------------------------------- */
 
 	//
 	// Creates a profile link if member is a reg. member, else just show name
@@ -2033,7 +2009,7 @@ class functions
 
 	function build_pagelinks($data)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$work = array();
 
@@ -2059,7 +2035,7 @@ class functions
 
 		if ($work['pages'] > 1)
 		{
-			$work['first_page'] = $skin_universal->make_page_jump($data['TOTAL_POSS'], $data['PER_PAGE'], $data['BASE_URL']) . " (" . $work['pages'] . ")";
+			$work['first_page'] = View::Make("global.make_page_jump", ['tp' => $data['TOTAL_POSS'],'pp' => $data['PER_PAGE'],'ub' => $data['BASE_URL']]) . " (" . $work['pages'] . ")";
 
 			for ($i = 0; $i <= $work['pages'] - 1; ++$i)
 			{
@@ -3110,7 +3086,7 @@ class functions
 
 	function Error($error)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		//INIT is passed to the array if we've not yet loaded a skin and stuff
 
@@ -3146,8 +3122,6 @@ class functions
 			}
 
 			$ibforums->lang = $this->load_words($ibforums->lang, "lang_global", $ibforums->lang_id);
-
-			$skin_universal = $this->load_template('skin_global');
 		}
 
 		$ibforums->lang = $this->load_words($ibforums->lang, "lang_error", $ibforums->lang_id);
@@ -3183,7 +3157,7 @@ class functions
 			$ibforums->vars['plg_catch_err']->Error($msg);
 		}
 
-		$html = $skin_universal->Error($msg, $em_1, $em_2);
+		$html = View::Make("global.Error", ['message' => $msg,'ad_email_one' => $em_1,'ad_email_two' => $em_2]);
 
 		//-----------------------------------------
 		// If we're a guest, show the log in box..
@@ -3191,7 +3165,7 @@ class functions
 
 		if (!$ibforums->member['id'] and $error['MSG'] != 'server_too_busy' and $error['MSG'] != 'account_susp')
 		{
-			$html = str_replace("<!--IBF.LOG_IN_TABLE-->", $skin_universal->error_log_in($_SERVER['QUERY_STRING']), $html);
+			$html = str_replace("<!--IBF.LOG_IN_TABLE-->", View::Make("global.error_log_in", ['q_string' => $_SERVER['QUERY_STRING']]), $html);
 		}
 
 		//-----------------------------------------
@@ -3202,7 +3176,7 @@ class functions
 		{
 			if ($_POST['Post'])
 			{
-				$post_thing = $skin_universal->error_post_textarea($this->txt_htmlspecialchars($this->txt_stripslashes($_POST['Post'])));
+				$post_thing = View::Make("global.error_post_textarea", ['post' => $this->txt_htmlspecialchars($this->txt_stripslashes($_POST['Post']))]);
 
 				$html = str_replace("<!--IBF.POST_TEXTAREA-->", $post_thing, $html);
 			}
@@ -3376,13 +3350,13 @@ class functions
 
 	function board_offline()
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$ibforums->lang = $this->load_words($ibforums->lang, "lang_error", $ibforums->lang_id);
 
 		$msg = preg_replace("/\n/", "<br>", stripslashes($ibforums->vars['offline_msg']));
 
-		$html = $skin_universal->board_offline($msg);
+		$html = View::Make("global.board_offline", ['message' => $msg]);
 
 		$print = new display();
 

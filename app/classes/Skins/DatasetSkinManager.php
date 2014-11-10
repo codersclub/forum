@@ -2,7 +2,7 @@
 
 namespace Skins;
 
-class DatasetSkin extends BaseSkin
+class DatasetSkinManager extends BaseSkinManager
 {
     private $id;
     private $name;
@@ -80,8 +80,17 @@ class DatasetSkin extends BaseSkin
      * Возвращает путь к директории шаблона
      * @return string
      */
-    public function getViewsDirectory()
+    public function getTemplatesPath()
     {
         return \Config::get('path.templates') . DIRECTORY_SEPARATOR . $this->viewsDir;
+    }
+
+    /**
+     * Возвращает имя коллекции шаблонов
+     * @return string
+     */
+    public function getTemplatesName()
+    {
+        return $this->viewsDir;
     }
 }

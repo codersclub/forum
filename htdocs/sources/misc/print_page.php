@@ -20,6 +20,7 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Views\View;
 
 $idx = new Printable;
 
@@ -48,7 +49,7 @@ class Printable
 	function Printable()
 	{
 
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		$this->parser = new PostParser();
 
@@ -59,8 +60,6 @@ class Printable
 		/***********************************/
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_printpage', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_printpage');
 
 		/***********************************/
 		// Check the input
@@ -179,7 +178,7 @@ class Printable
 				"<a href='{$this->base_url}&act=ST&f={$this->forum['id']}&t={$this->topic['tid']}'>{$this->topic['title']}</a>"
 			);
 
-			$this->output = $this->html->choose_form($this->forum['id'], $this->topic['tid'], $this->topic['title']);
+			$this->output = View::Make("printpage.choose_form", ['fid' => $this->forum['id'],'tid' => $this->topic['tid'],'title' => $this->topic['title']]);
 
 			$print->add_output("$this->output");
 
@@ -234,7 +233,7 @@ class Printable
 		// Render the page top
 		/***********************************/
 
-		$posts_html = $this->html->pp_header($this->forum['name'], $this->topic['title'], $this->topic['starter_name'], $this->forum['id'], $this->topic['tid']);
+		$posts_html = View::Make("printpage.pp_header", ['forum_name' => $this->forum['name'],'topic_title' => $this->topic['title'],'topic_starter' => $this->topic['starter_name'],'fid' => $this->forum['id'],'tid' => $this->topic['tid']]);
 
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_posts WHERE topic_id='" . $this->topic['tid'] . "' and queued !='1' and use_sig=0 ORDER BY pid");
 
@@ -368,7 +367,7 @@ class Printable
 
 			if (trim($row['post']))
 			{
-				$posts_html .= $this->html->pp_postentry($poster, $row);
+				$posts_html .= View::Make("printpage.pp_postentry", ['poster' => $poster,'entry' => $row]);
 			}
 		}
 
@@ -376,7 +375,7 @@ class Printable
 		// Print the footer
 		/***********************************/
 
-		$posts_html .= $this->html->pp_end();
+		$posts_html .= View::Make("printpage.pp_end");
 
 		return $posts_html;
 	}

@@ -20,6 +20,7 @@
   |	> Module Version Number: 1.0.0
   +--------------------------------------------------------------------------
  */
+use Skins\Views\View;
 
 $idx = new Forums;
 
@@ -78,7 +79,7 @@ class Forums
 
 	function __construct()
 	{
-		global $print, $skin_universal;
+		global $print;
 		$ibforums = Ibf::app();
 
 		$this->parser = new PostParser();
@@ -110,8 +111,6 @@ class Forums
 		}
 
 		$ibforums->lang = $ibforums->functions->load_words($ibforums->lang, 'lang_forum', $ibforums->lang_id);
-
-		$this->html = $ibforums->functions->load_template('skin_forum');
 
 		//+------------------------------------------
 		// Get the forum info based on the forum ID,
@@ -295,7 +294,7 @@ class Forums
 
 		if ($ibforums->member['id'])
 		{
-			$this->output = str_replace("<!--IBF.SUB_FORUM_LINK-->", $this->html->show_sub_link($this->forum['id']), $this->output);
+			$this->output = str_replace("<!--IBF.SUB_FORUM_LINK-->", View::Make("forum.show_sub_link", ['fid' => $this->forum['id']]), $this->output);
 		}
 
 		$print->add_output($this->output);
@@ -311,7 +310,7 @@ class Forums
 			                       ? "rows_js.js?{$ibforums->vars['client_script_version']}"
 			                       : "",
 		                       'NAV'   => $this->nav_extra,
-		                       'RSS'   => $skin_universal->rss("?f={$this->forum['id']}{$sub}"),
+		                       'RSS'   => View::Make("global.rss", ['param' => "?f={$this->forum['id']}{$sub}"]),
 		                  ));
 	}
 
@@ -514,8 +513,6 @@ class Forums
 
 		$ibforums->lang = $ibforums->functions->load_words($ibforums->lang, 'lang_boards', $ibforums->lang_id);
 
-		$this->board_html = $ibforums->functions->load_template('skin_boards');
-
 		$temp_html = "";
 
 		if (count($this->children[$this->forum['id']]) > 0)
@@ -534,13 +531,13 @@ class Forums
 
 				if ($f_id)
 				{
-					$f_id = $this->html->renderMarkSubforumRead($f_id);
+					$f_id = View::Make("forum.renderMarkSubforumRead", ['id' => $f_id]);
 				}
 			}
 
-			$this->sub_output .= $this->board_html->subheader($f_id);
+			$this->sub_output .= View::Make("boards.subheader", ['fid' => $f_id]);
 			$this->sub_output .= $temp_html;
-			$this->sub_output .= $this->board_html->end_this_cat();
+			$this->sub_output .= View::Make("boards.end_this_cat");
 			$this->sub_output .= "<br>";
 		} else
 		{
@@ -549,7 +546,7 @@ class Forums
 
 		unset($temp_html);
 
-		$this->sub_output .= $this->board_html->end_all_cats();
+		$this->sub_output .= View::Make("boards.end_all_cats");
 	}
 
 	function process_forum($forum_id = "", $forum_data = array())
@@ -582,14 +579,14 @@ class Forums
 
 			$forum_data['colspan'] = 'colspan="2" ';
 
-			return $this->board_html->forum_redirect_row($forum_data);
+			return View::Make("boards.forum_redirect_row", ['info' => $forum_data]);
 		}
 
 		$forum_data['img_new_post'] = $ibforums->functions->forum_new_posts($forum_data, count($this->children[$forum_data['id']]) > 0, "", $this->mods);
 
 		if ($forum_data['img_new_post'] == '<{C_ON}>')
 		{
-			$forum_data['img_new_post'] = $this->board_html->forum_img_with_link($forum_data['img_new_post'], $forum_data['id']);
+			$forum_data['img_new_post'] = View::Make("boards.forum_img_with_link", ['img' => $forum_data['img_new_post'],'id' => $forum_data['id']]);
 		}
 
 		$forum_data['last_post_std'] = date('c', $forum_data['last_post']);
@@ -617,7 +614,7 @@ class Forums
 				$forum_data['last_topic'] = $ibforums->lang['f_protected'];
 			} else
 			{
-				$forum_data['last_unread'] = $this->board_html->forumrow_lastunread_link($forum_data['id'], $forum_data['last_id']);
+				$forum_data['last_unread'] = View::Make("boards.forumrow_lastunread_link", ['fid' => $forum_data['id'],'tid' => $forum_data['last_id']]);
 
 				$forum_data['last_topic'] = "<a href='{$ibforums->base_url}showtopic={$forum_data['last_id']}&amp;view=getlastpost' title='{$ibforums->lang['tt_gounread']}'>{$forum_data['last_title']}</a>";
 			}
@@ -638,7 +635,7 @@ class Forums
 
 		$forum_data['tree'] = '  <td colspan="2" class="row4" align="center">' . $forum_data['img_new_post'] . '</td>';
 
-		return $this->board_html->ForumRow($forum_data);
+		return View::Make("boards.ForumRow", ['info' => $forum_data]);
 	}
 
 	//+----------------------------------------------------------------
@@ -648,7 +645,7 @@ class Forums
 	//+----------------------------------------------------------------
 	function show_rules()
 	{
-		global $print, $skin_universal;
+		global $print;
 		$ibforums = Ibf::app();
 
 		//+--------------------------------------------
@@ -689,7 +686,7 @@ class Forums
 				$rules['body'] = "<div class='rules-border'>" . $rules['body'] . '</div>';
 			}
 
-			$this->output .= $this->html->show_rules($rules);
+			$this->output .= View::Make("forum.show_rules", ['rules' => $rules]);
 
 			$print->add_output($this->output);
 
@@ -697,7 +694,7 @@ class Forums
 			                       'TITLE' => $ibforums->vars['board_name'] . " -&gt; " . $this->forum['name'],
 			                       'JS'    => 0,
 			                       'NAV'   => $this->nav_extra,
-			                       'RSS'   => $skin_universal->rss("?f={$this->forum['id']}"),
+			                       'RSS'   => View::Make("global.rss", ['param' => "?f={$this->forum['id']}"]),
 			                  ));
 		} else
 		{
@@ -765,7 +762,7 @@ class Forums
 
 	function forum_login()
 	{
-		global $print, $skin_universal;
+		global $print;
 		$ibforums = Ibf::app();
 
 		if (empty($ibforums->member['id']))
@@ -773,7 +770,7 @@ class Forums
 			$ibforums->functions->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
 		}
 
-		$this->output = $this->html->Forum_log_in($this->forum['id']);
+		$this->output = View::Make("forum.Forum_log_in", ['data' => $this->forum['id']]);
 
 		$print->add_output("$this->output");
 
@@ -781,7 +778,7 @@ class Forums
 		                       'TITLE' => $ibforums->vars['board_name'] . " -> " . $this->forum['name'],
 		                       'JS'    => 0,
 		                       'NAV'   => $this->nav_extra,
-		                       'RSS'   => $skin_universal->rss("?f={$this->forum['id']}"),
+		                       'RSS'   => View::Make("global.rss", ['param' => "?f={$this->forum['id']}"]),
 		                  ));
 	}
 
@@ -1018,26 +1015,26 @@ class Forums
 
 			// Song * quick search
 			$this->forum['quick_search'] = ($ibforums->member['quick_search'])
-				? $this->html->quick_search($this->forum)
+				? View::Make("forum.quick_search", ['data' => $this->forum])
 				: "";
 
-			$this->forum['mark_read'] = $this->html->mark_forum_read($this->forum);
+			$this->forum['mark_read'] = View::Make("forum.mark_forum_read", ['data' => $this->forum]);
 		}
 
 		// Song * moderator checkbox, 09.04.2005
 
 		if ($this->mod)
 		{
-			$this->forum['last_column'] = $this->html->last_mod_column();
+			$this->forum['last_column'] = View::Make("forum.last_mod_column");
 
-			$this->forum['modform_open']  = $this->html->modform_open($this->forum);
-			$this->forum['modform_close'] = $this->html->modform_close();
+			$this->forum['modform_open']  = View::Make("forum.modform_open", ['data' => $this->forum]);
+			$this->forum['modform_close'] = View::Make("forum.modform_close");
 		} else
 		{
-			$this->forum['last_column'] = $this->html->last_column();
+			$this->forum['last_column'] = View::Make("forum.last_column");
 		}
 
-		$this->output .= $this->html->PageTop($this->forum);
+		$this->output .= View::Make("forum.PageTop", ['data' => $this->forum]);
 
 		//+----------------------------------------------------------------
 		// Do we have any topics to show?
@@ -1045,7 +1042,7 @@ class Forums
 
 		if ($total_possible['max'] < 1)
 		{
-			$this->output .= $this->html->show_no_matches();
+			$this->output .= View::Make("forum.show_no_matches");
 		}
 
 		$total_topics_printed = 0;
@@ -1186,7 +1183,7 @@ class Forums
 		$ibforums->lang['sort_text'] = preg_replace("!<#ORDER_HTML#>!", "$sort_by_html</select>", $ibforums->lang['sort_text']);
 		$ibforums->lang['sort_text'] = preg_replace("!<#PRUNE_HTML#>!", "$prune_day_html</select>", $ibforums->lang['sort_text']);
 
-		$this->output .= $this->html->TableEnd($this->forum);
+		$this->output .= View::Make("forum.TableEnd", ['data' => $this->forum]);
 
 		//+----------------------------------------------------------------
 		// If all the new topics have been read in this forum..
@@ -1280,7 +1277,7 @@ class Forums
 			$ibforums->lang['active_users_detail']  = sprintf($ibforums->lang['active_users_detail'], $active['guests'], $active['anon']);
 			$ibforums->lang['active_users_members'] = sprintf($ibforums->lang['active_users_members'], $active['members']);
 
-			$this->output = str_replace("<!--IBF.FORUM_ACTIVE-->", $this->html->forum_active_users($active), $this->output);
+			$this->output = str_replace("<!--IBF.FORUM_ACTIVE-->", View::Make("forum.forum_active_users", ['active' => $active]), $this->output);
 		}
 
 		return TRUE;
@@ -1506,7 +1503,7 @@ class Forums
 			// Song * NEW
 			if ($last_time && ($topic['last_post'] > $last_time))
 			{
-				$topic['go_new_post'] = $this->html->renderGoNewPostLink($topic);
+				$topic['go_new_post'] = View::Make("forum.renderGoNewPostLink", ['topic' => $topic]);
 				$topic['has_new'] = TRUE;
 
 				$this->new_posts++;
@@ -1532,7 +1529,7 @@ class Forums
 
 		if ($topic['state'] != 'link')
 		{
-			$topic['posts'] = $this->html->who_link($topic['tid'], $topic['posts']);
+			$topic['posts'] = View::Make("forum.who_link", ['tid' => $topic['tid'],'posts' => $topic['posts']]);
 		}
 
 		//+----------------------------------------------------------------
@@ -1558,7 +1555,7 @@ class Forums
 
 		if ($this->is_moderator($topic['old_forum_id']))
 		{
-			$topic['mod_checkbox'] = $this->html->mod_checkbox($topic['old_tid']);
+			$topic['mod_checkbox'] = View::Make("forum.mod_checkbox", ['tid' => $topic['old_tid']]);
 		} else
 		{
 			$topic['colspan'] = " colspan='2'";
@@ -1576,7 +1573,7 @@ class Forums
 		if ($q or (!$topic['approved'] and $topic['app']))
 		{
 			$topic['queued_link'] = "";
-			$topic_link           = $this->html->queuedTopicButtons($this->forum['id'], $topic['tid']);
+			$topic_link           = View::Make("forum.queuedTopicButtons", ['fid' => $this->forum['id'],'tid' => $topic['tid']]);
 
 			if (!$topic['approved'])
 			{
@@ -1586,7 +1583,7 @@ class Forums
 			{
 				if ($q)
 				{
-					$topic['queued_link'] = $this->html->needModApproveButton($topic['tid'], $this->queued[$topic['tid']]);
+					$topic['queued_link'] = View::Make("forum.needModApproveButton", ['tid' => $topic['tid'],'pid' => $this->queued[$topic['tid']]]);
 					$topic['has_queued_posts'] = TRUE;
 				}
 			}
@@ -1597,7 +1594,7 @@ class Forums
 
 		if ($topic['club'])
 		{
-			$topic['prefix'] = $this->html->renderClubTopicPrefix();
+			$topic['prefix'] = View::Make("forum.renderClubTopicPrefix");
 		}
 
 		// Song * club tool
@@ -1629,12 +1626,12 @@ class Forums
 		{
 			if (!$topic['prefix'])
 			{
-				$topic['prefix'] = $this->html->renderPinnedTopicPrefix();
+				$topic['prefix'] = View::Make("forum.renderPinnedTopicPrefix");
 			}
 
 			$topic['topic_icon'] = "<{B_PIN}>";
 		}
-		return $this->html->RenderRow($topic);
+		return View::Make("forum.RenderRow", ['data' => $topic]);
 	}
 
 	//+----------------------------------------------------------------

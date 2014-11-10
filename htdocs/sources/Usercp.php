@@ -20,6 +20,7 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Views\View;
 
 $idx = new UserCP;
 echo "UserCP started.";
@@ -93,8 +94,6 @@ class UserCP
 
 		require ROOT_PATH . "/sources/lib/usercp_functions.php";
 
-		$this->html = $std->load_template('skin_ucp');
-
 		$this->base_url        = $ibforums->base_url;
 		$this->base_url_nosess = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}";
 
@@ -148,15 +147,15 @@ class UserCP
 				}
 			}
 
-			$delete_profile_link = $this->html->delete_cancel($days_remained);
+			$delete_profile_link = View::Make("ucp.delete_cancel", ['days' => $days_remained]);
 		} else
 		{
-			$delete_profile_link = $this->html->delete_account();
+			$delete_profile_link = View::Make("ucp.delete_account");
 		}
 
 		// Song * delete profile link, 04.03.05
 
-		$menu_html = $this->html->Menu_bar($this->base_url, $delete_profile_link);
+		$menu_html = View::Make("ucp.Menu_bar", ['base_url' => $this->base_url,'delete' => $delete_profile_link]);
 
 		//--------------------------------------------
 		// If no messenger, remove the links!
@@ -187,12 +186,12 @@ class UserCP
 					continue;
 				}
 
-				$folder_links .= $this->html->menu_bar_msg_folder_link($id, $real);
+				$folder_links .= View::Make("ucp.menu_bar_msg_folder_link", ['id' => $id,'real' => $real]);
 			}
 
 			if ($folder_links != "")
 			{
-				$folder_links = $this->html->renderInboxFolderLinks($folder_links);
+				$folder_links = View::Make("ucp.renderInboxFolderLinks", ['links_html' => $folder_links]);
 				$menu_html = str_replace("<!--IBF.FOLDER_LINKS-->", $folder_links, $menu_html);
 			}
 		}
@@ -343,9 +342,9 @@ class UserCP
 		$fj = $std->build_forum_jump();
 		$fj = preg_replace("!#Forum Jump#!", $ibforums->lang['forum_jump'], $fj);
 
-		$this->output .= $this->html->CP_end();
+		$this->output .= View::Make("ucp.CP_end");
 
-		$this->output .= $this->html->forum_jump($fj, $links);
+		$this->output .= View::Make("ucp.forum_jump", ['data' => $fj,'menu_extra' => $links]);
 
 		$print->add_output("$this->output");
 		$print->do_output(array('TITLE' => $this->page_title, 'NAV' => $this->nav));
@@ -369,7 +368,7 @@ class UserCP
 		{
 			// Nothing set up yet...
 
-			$this->output .= $this->html->dead_section();
+			$this->output .= View::Make("ucp.dead_section");
 			return;
 		}
 
@@ -417,16 +416,16 @@ class UserCP
 		// SHOW THE FORM
 		//----------------------------------------------------------------
 
-		$this->output .= $this->html->photo_page($cur_photo, $cur_type, $url_photo, $show_size, $this->md5_check);
+		$this->output .= View::Make("ucp.photo_page", ['cur_photo' => $cur_photo,'cur_type' => $cur_type,'url_photo' => $url_photo,'show_size' => $show_size,'key' => $this->md5_check]);
 
 		if ($p_max)
 		{
-			$this->output = str_replace("<!--IPB.UPLOAD-->", $this->html->photo_page_upload($p_max * 1024), $this->output);
+			$this->output = str_replace("<!--IPB.UPLOAD-->", View::Make("ucp.photo_page_upload", ['max_filesize' => $p_max * 1024]), $this->output);
 		}
 
 		$size_html = $ibforums->vars['disable_ipbsize']
-			? $this->html->photo_page_mansize()
-			: $this->html->photo_page_autosize();
+			? View::Make("ucp.photo_page_mansize")
+			: View::Make("ucp.photo_page_autosize");
 
 		$this->output = str_replace("<!--IPB.SIZE-->", $size_html, $this->output);
 
@@ -462,16 +461,16 @@ class UserCP
 
 	function forum_tracker()
 	{
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		if ($ibforums->member['disable_mail'])
 		{
 			$ibforums->lang['no_mail'] = sprintf($ibforums->lang['no_mail'], $ibforums->member['disable_mail_reason']);
 
-			$this->output .= $skin_universal->warn_window($ibforums->lang['no_mail']);
+			$this->output .= View::Make("global.warn_window", ['message' => $ibforums->lang['no_mail']]);
 		}
 
-		$this->output .= $this->html->forum_subs_header();
+		$this->output .= View::Make("ucp.forum_subs_header");
 
 		//----------------------------------------------------------
 		// Query the DB for the subby toppy-ics - at the same time
@@ -500,7 +499,7 @@ class UserCP
 				{
 					$last_cat_id = $forum['cat_id'];
 
-					$this->output .= $this->html->subs_forum_row($forum['cat_id'], $forum['cat_name']);
+					$this->output .= View::Make("ucp.subs_forum_row", ['fid' => $forum['cat_id'],'fname' => $forum['cat_name']]);
 				}
 
 				$forum['folder_icon'] = $std->forum_new_posts($forum);
@@ -536,15 +535,15 @@ class UserCP
 					$forum['last_poster'] = $ibforums->lang['f_none'];
 				}
 
-				$this->output .= $this->html->forum_subs_row($forum);
+				$this->output .= View::Make("ucp.forum_subs_row", ['data' => $forum]);
 			}
 
 		} else
 		{
-			$this->output .= $this->html->forum_subs_none();
+			$this->output .= View::Make("ucp.forum_subs_none");
 		}
 
-		$this->output .= $this->html->forum_subs_end();
+		$this->output .= View::Make("ucp.forum_subs_end");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -559,16 +558,16 @@ class UserCP
 
 	function pass_change()
 	{
-		global $ibforums, $std, $skin_universal;
+		global $ibforums, $std;
 
 		if ($ibforums->member['disable_mail'])
 		{
 			$ibforums->lang['no_mail'] = sprintf($ibforums->lang['no_mail'], $ibforums->member['disable_mail_reason']);
 
-			$this->output .= $skin_universal->warn_window($ibforums->lang['no_mail']);
+			$this->output .= View::Make("global.warn_window", ['message' => $ibforums->lang['no_mail']]);
 		} else
 		{
-			$this->output .= $this->html->pass_change();
+			$this->output .= View::Make("ucp.pass_change");
 		}
 
 		$this->page_title = $ibforums->lang['t_welcome'];
@@ -702,17 +701,17 @@ class UserCP
 			$ibforums->db->insertRow("ibf_reg_antispam", $data);
 		}
 
-		$this->output .= $this->html->email_change($txt, $ibforums->lang[$msg]);
+		$this->output .= View::Make("ucp.email_change", ['txt' => $txt,'msg' => $ibforums->lang[$msg]]);
 
 		if ($ibforums->vars['bot_antispam'])
 		{
 
 			if ($ibforums->vars['bot_antispam'] == 'gd')
 			{
-				$this->output = str_replace("<!--ANTIBOT-->", $this->html->email_change_gd($regid), $this->output);
+				$this->output = str_replace("<!--ANTIBOT-->", View::Make("ucp.email_change_gd", ['regid' => $regid]), $this->output);
 			} else
 			{
-				$this->output = str_replace("<!--ANTIBOT-->", $this->html->email_change_img($regid), $this->output);
+				$this->output = str_replace("<!--ANTIBOT-->", View::Make("ucp.email_change_img", ['regid' => $regid]), $this->output);
 			}
 
 		}
@@ -953,17 +952,17 @@ class UserCP
 			$ibforums->db->insertRow("ibf_reg_antispam", $data);
 		}
 
-		$this->output .= $this->html->openid_change($txt, $ibforums->lang[$msg]);
+		$this->output .= View::Make("ucp.openid_change", ['txt' => $txt,'msg' => $ibforums->lang[$msg]]);
 
 		if ($ibforums->vars['bot_antispam'])
 		{
 
 			if ($ibforums->vars['bot_antispam'] == 'gd')
 			{
-				$this->output = str_replace("<!--ANTIBOT-->", $this->html->email_change_gd($regid), $this->output);
+				$this->output = str_replace("<!--ANTIBOT-->", View::Make("ucp.email_change_gd", ['regid' => $regid]), $this->output);
 			} else
 			{
-				$this->output = str_replace("<!--ANTIBOT-->", $this->html->email_change_img($regid), $this->output);
+				$this->output = str_replace("<!--ANTIBOT-->", View::Make("ucp.email_change_img", ['regid' => $regid]), $this->output);
 			}
 
 		}
@@ -1060,16 +1059,16 @@ class UserCP
 
 	function tracker()
 	{
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		if ($ibforums->member['disable_mail'])
 		{
 			$ibforums->lang['no_mail'] = sprintf($ibforums->lang['no_mail'], $ibforums->member['disable_mail_reason']);
 
-			$this->output .= $skin_universal->warn_window($ibforums->lang['no_mail']);
+			$this->output .= View::Make("global.warn_window", ['message' => $ibforums->lang['no_mail']]);
 		}
 
-		$this->output .= $this->html->subs_header();
+		$this->output .= View::Make("ucp.subs_header");
 
 		//----------------------------------------------------------
 		// Are we checking for auto-prune?
@@ -1150,7 +1149,7 @@ class UserCP
 				{
 					$last_forum_id = $topic['forum_id'];
 
-					$this->output .= $this->html->subs_forum_row($topic['forum_id'], $topic['forum_name']);
+					$this->output .= View::Make("ucp.subs_forum_row", ['fid' => $topic['forum_id'],'fname' => $topic['forum_name']]);
 				}
 
 				$topic['last_poster'] = ($topic['last_poster_id'] != 0)
@@ -1259,12 +1258,12 @@ class UserCP
 
 				$topic['last_post_date'] = $std->get_date($topic['last_post']);
 
-				$this->output .= $this->html->subs_row($topic);
+				$this->output .= View::Make("ucp.subs_row", ['data' => $topic]);
 			}
 
 		} else
 		{
-			$this->output .= $this->html->subs_none();
+			$this->output .= View::Make("ucp.subs_none");
 		}
 
 		// Build date box
@@ -1282,7 +1281,7 @@ class UserCP
 
 		$date_box .= "<option value='1000'>" . $ibforums->lang['subs_all'] . "</option>\n";
 
-		$this->output .= $this->html->subs_end($auto_explain, $date_box);
+		$this->output .= View::Make("ucp.subs_end", ['text' => $auto_explain,'days' => $date_box]);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -1384,7 +1383,7 @@ class UserCP
 
 		// SergeS * smile skin
 
-		$this->output .= $this->html->skin_lang_header($lang_select, $smile_select, $this->md5_check);
+		$this->output .= View::Make("ucp.skin_lang_header", ['lang_select' => $lang_select,'smile_select' => $smile_select,'key' => $this->md5_check]);
 
 		// SergeS * smile skin
 
@@ -1400,13 +1399,13 @@ class UserCP
 						$items[$cskin->getId()] = $cskin->getName();
 					}
 				}
-				$skin_select = $ibforums->skin->views['global']->renderSelect($items, $this->member['skin'], ['name' => 'u_skin', 'class' => 'forminput']);
+				$skin_select = View::Make('global.renderSelect', ['items' => $items, 'selected' => $this->member['skin'], 'attributes' => ['name' => 'u_skin', 'class' => 'forminput']]);
 			}
 
-			$this->output .= $this->html->settings_skin($skin_select);
+			$this->output .= View::Make("ucp.settings_skin", ['skin' => $skin_select]);
 		}
 
-		$this->output .= $this->html->skin_lang_end();
+		$this->output .= View::Make("ucp.skin_lang_end");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -1538,7 +1537,7 @@ class UserCP
 
 		//---------------------
 
-		$this->output .= $this->html->settings_header($this->member, $time_select, $time, $dst_check, $this->md5_check);
+		$this->output .= View::Make("ucp.settings_header", ['Profile' => $this->member,'time_select' => $time_select,'time' => $time,'dst_check' => $dst_check,'key' => $this->md5_check]);
 
 		$hide_sess = $std->my_getcookie('hide_sess');
 
@@ -1687,37 +1686,53 @@ class UserCP
 		// $syntax_use_line_numbering  = "<select name='SYNTAX_USE_LINE_NUMBERING' class='forminput'>";
 		// $syntax_use_line_colouring  = "<select name='SYNTAX_USE_LINE_NUMBERING' class='forminput'>";
 
-		$this->output .= $this->html->settings_end(array(
-
-		                                                'IMG'                       => $view_img . "</select>",
-		                                                'SIG'                       => $view_sig . "</select>",
-		                                                'AVA'                       => $view_ava . "</select>",
-		                                                'POP'                       => $view_pop . "</select>",
-		                                                'SESS'                      => $html_sess . "</select>",
-		                                                'QR'                        => $html_qr . "</select>",
-		                                                'WP'                        => $wp_link . "</select>",
-		                                                'CBFL'                      => $cb_forumlist . "</select>",
-		                                                'SEARCH'                    => $quick_search . "</select>",
-		                                                'HIGHLIGHT'                 => $highlight_topic . "</select>",
-		                                                'CATEGORY'                  => $close_category . "</select>",
-		                                                'HISTORY'                   => $show_history . "</select>",
-		                                                'STATUS'                    => $show_status . "</select>",
-		                                                'ICONS'                     => $show_img . "</select>",
-		                                                'RATTING'                   => $show_ratting . "</select>",
-		                                                'FILTER'                    => $show_filter . "</select>",
-		                                                'SYNTAX'                    => $syntax_method . "</select>",
-		                                                'SYNTAX_LINES_COUNT'        => $syntax_lines_count . '</select>',
-		                                                'SYNTAX_USE_WRAP'           => $this->yes_no_select($this->member['syntax_use_wrap'], 'SYNTAX_USE_WRAP', 0),
-		                                                'SYNTAX_USE_LINE_NUMBERING' => $this->yes_no_select($this->member['syntax_use_line_numbering'], 'SYNTAX_USE_LINE_NUMBERING', 0),
-		                                                'SYNTAX_USE_LINE_COLOURING' => $this->yes_no_select($this->member['syntax_use_line_colouring'], 'SYNTAX_USE_LINE_COLOURING', 1),
-		                                                'SYNTAX_SHOW_CONTROLS'      => $syntax_show_controls,
-		                                                'SHOW_NEW'                  => $show_new . "</select>",
-		                                                'HOTCLOCKS'                 => $hotclocks . "</select>",
-		                                                'FORUM_ICON'                => $forum_icon . "</select>",
-		                                                'TPS'                       => $topic_select,
-		                                                'PPS'                       => $post_select,
-		                                                'PSP'                       => "<input name='VIEW_POST_WRAP_SIZE' type='text' value='" . $ibforums->member['post_wrap_size'] . "' class='forminput'>",
-		                                           ));
+		$this->output .= View::Make(
+			"ucp.settings_end",
+			[
+				'data' => array(
+					'IMG'                       => $view_img . "</select>",
+					'SIG'                       => $view_sig . "</select>",
+					'AVA'                       => $view_ava . "</select>",
+					'POP'                       => $view_pop . "</select>",
+					'SESS'                      => $html_sess . "</select>",
+					'QR'                        => $html_qr . "</select>",
+					'WP'                        => $wp_link . "</select>",
+					'CBFL'                      => $cb_forumlist . "</select>",
+					'SEARCH'                    => $quick_search . "</select>",
+					'HIGHLIGHT'                 => $highlight_topic . "</select>",
+					'CATEGORY'                  => $close_category . "</select>",
+					'HISTORY'                   => $show_history . "</select>",
+					'STATUS'                    => $show_status . "</select>",
+					'ICONS'                     => $show_img . "</select>",
+					'RATTING'                   => $show_ratting . "</select>",
+					'FILTER'                    => $show_filter . "</select>",
+					'SYNTAX'                    => $syntax_method . "</select>",
+					'SYNTAX_LINES_COUNT'        => $syntax_lines_count . '</select>',
+					'SYNTAX_USE_WRAP'           => $this->yes_no_select(
+						$this->member['syntax_use_wrap'],
+						'SYNTAX_USE_WRAP',
+						0
+					),
+					'SYNTAX_USE_LINE_NUMBERING' => $this->yes_no_select(
+						$this->member['syntax_use_line_numbering'],
+						'SYNTAX_USE_LINE_NUMBERING',
+						0
+					),
+					'SYNTAX_USE_LINE_COLOURING' => $this->yes_no_select(
+						$this->member['syntax_use_line_colouring'],
+						'SYNTAX_USE_LINE_COLOURING',
+						1
+					),
+					'SYNTAX_SHOW_CONTROLS'      => $syntax_show_controls,
+					'SHOW_NEW'                  => $show_new . "</select>",
+					'HOTCLOCKS'                 => $hotclocks . "</select>",
+					'FORUM_ICON'                => $forum_icon . "</select>",
+					'TPS'                       => $topic_select,
+					'PPS'                       => $post_select,
+					'PSP'                       => "<input name='VIEW_POST_WRAP_SIZE' type='text' value='" . $ibforums->member['post_wrap_size'] . "' class='forminput'>",
+				)
+			]
+		);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 
@@ -1776,13 +1791,13 @@ class UserCP
 
 	function email_settings()
 	{
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		if ($ibforums->member['disable_mail'])
 		{
 			$ibforums->lang['no_mail'] = sprintf($ibforums->lang['no_mail'], $ibforums->member['disable_mail_reason']);
 
-			$this->output .= $skin_universal->warn_window($ibforums->lang['no_mail']);
+			$this->output .= View::Make("global.warn_window", ['message' => $ibforums->lang['no_mail']]);
 		} else
 		{
 
@@ -1801,7 +1816,7 @@ class UserCP
 
 			$info['key'] = $this->md5_check;
 
-			$this->output .= $this->html->email($info);
+			$this->output .= View::Make("ucp.email", ['Profile' => $info]);
 		}
 
 		$this->page_title = $ibforums->lang['t_welcome'];
@@ -1964,7 +1979,7 @@ class UserCP
 		// Produce the avatar gallery sheet
 		//------------------------------------------
 
-		$this->output .= $this->html->avatar_gallery_start_table($av_human_readable, $av_gals, urlencode($av_cat_selected), $this->md5_check);
+		$this->output .= View::Make("ucp.avatar_gallery_start_table", ['title' => $av_human_readable,'av_gals' => $av_gals,'current_folder' => urlencode($av_cat_selected),'key' => $this->md5_check]);
 
 		$c = 0;
 
@@ -1976,14 +1991,14 @@ class UserCP
 
 				if ($c == 1)
 				{
-					$this->output .= $this->html->avatar_gallery_start_row();
+					$this->output .= View::Make("ucp.avatar_gallery_start_row");
 				}
 
-				$this->output .= $this->html->avatar_gallery_cell_row($av_cat_real . "/" . $img, str_replace("_", " ", preg_replace("/^(.*)\.\w+$/", "\\1", $img)), urlencode($img));
+				$this->output .= View::Make("ucp.avatar_gallery_cell_row", ['img' => $av_cat_real . "/" . $img,'txt' => str_replace("_", " ", preg_replace("/^(.*)\.\w+$/", "\\1", $img)), 'form' => urlencode($img)]);
 
 				if ($c == $gal_cols)
 				{
-					$this->output .= $this->html->avatar_gallery_end_row();
+					$this->output .= View::Make("ucp.avatar_gallery_end_row");
 
 					$c = 0;
 				}
@@ -1995,13 +2010,13 @@ class UserCP
 		{
 			for ($i = $c; $i < $gal_cols; ++$i)
 			{
-				$this->output .= $this->html->avatar_gallery_blank_row();
+				$this->output .= View::Make("ucp.avatar_gallery_blank_row");
 			}
 
-			$this->output .= $this->html->avatar_gallery_end_row();
+			$this->output .= View::Make("ucp.avatar_gallery_end_row");
 		}
 
-		$this->output .= $this->html->avatar_gallery_end_table();
+		$this->output .= View::Make("ucp.avatar_gallery_end_table");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -2117,24 +2132,32 @@ class UserCP
 			$hidden_field = "<input type='hidden' name='MAX_FILE_SIZE' value='" . ($ibforums->vars['avup_size_max'] * 1024) . "' />";
 		}
 
-		$this->output .= $this->html->avatar_main(array(
-		                                               'MEMBER'               => $this->member,
-		                                               'avatar_galleries'     => $av_gals,
-		                                               'current_url_avatar'   => $url_avatar,
-		                                               'current_avatar_image' => $my_avatar,
-		                                               'current_avatar_type'  => $ibforums->lang['av_t_' . $avatar_type],
-		                                               'current_avatar_dims'  => $this->member['avatar_size'] == "x"
-			                                               ? ""
-			                                               : $this->member['avatar_size'],
-		                                          ), $formextra, $hidden_field, $this->md5_check);
+		$this->output .= View::Make(
+			"ucp.avatar_main",
+			[
+				'data'         => array(
+					'MEMBER'               => $this->member,
+					'avatar_galleries'     => $av_gals,
+					'current_url_avatar'   => $url_avatar,
+					'current_avatar_image' => $my_avatar,
+					'current_avatar_type'  => $ibforums->lang['av_t_' . $avatar_type],
+					'current_avatar_dims'  => $this->member['avatar_size'] == "x"
+						? ""
+						: $this->member['avatar_size'],
+				),
+				'formextra'    => $formextra,
+				'hidden_field' => $hidden_field,
+				'key'          => $this->md5_check
+			]
+		);
 
 		//------------------------------------------
 		// Autosizing or manual sizing?
 		//------------------------------------------
 
 		$size_html = $ibforums->vars['disable_ipbsize']
-			? $this->html->avatar_mansize()
-			: $this->html->avatar_autosize();
+			? View::Make("ucp.avatar_mansize")
+			: View::Make("ucp.avatar_autosize");
 
 		//------------------------------------------
 		// Can we use a URL avatar?
@@ -2142,8 +2165,8 @@ class UserCP
 
 		if ($ibforums->vars['avatar_url'])
 		{
-			$this->output                  = str_replace("<!--IBF.EXTERNAL_TITLE-->", $this->html->avatar_external_title(), $this->output);
-			$this->output                  = str_replace("<!--IBF.URL_AVATAR-->", $this->html->avatar_url_field($url_avatar), $this->output);
+			$this->output                  = str_replace("<!--IBF.EXTERNAL_TITLE-->", View::Make("ucp.avatar_external_title"), $this->output);
+			$this->output                  = str_replace("<!--IBF.URL_AVATAR-->", View::Make("ucp.avatar_url_field", ['avatar' => $url_avatar]), $this->output);
 			$this->output                  = str_replace("<!--IPB.SIZE-->", $size_html, $this->output);
 			$ibforums->lang['av_text_url'] = sprintf($ibforums->lang['av_text_url'], $ibforums->vars['av_width'], $ibforums->vars['av_height']);
 		} else
@@ -2157,8 +2180,8 @@ class UserCP
 
 		if ($ibforums->member['g_avatar_upload'] == 1)
 		{
-			$this->output                     = str_replace("<!--IBF.EXTERNAL_TITLE-->", $this->html->avatar_external_title(), $this->output);
-			$this->output                     = str_replace("<!--IBF.UPLOAD_AVATAR-->", $this->html->avatar_upload_field($text), $this->output);
+			$this->output                     = str_replace("<!--IBF.EXTERNAL_TITLE-->", View::Make("ucp.avatar_external_title"), $this->output);
+			$this->output                     = str_replace("<!--IBF.UPLOAD_AVATAR-->", View::Make("ucp.avatar_upload_field"), $this->output);
 			$this->output                     = str_replace("<!--IPB.SIZE-->", $size_html, $this->output);
 			$ibforums->lang['av_text_upload'] = sprintf($ibforums->lang['av_text_upload'], $ibforums->vars['avup_size_max']);
 		} else
@@ -2177,7 +2200,7 @@ class UserCP
 			$ibforums->lang['av_allowed_files'] = str_replace(".swf", "", $ibforums->lang['av_allowed_files']);
 		}
 
-		$this->output = str_replace("<!--IBF.LIMITS_AVATAR-->", $this->html->avatar_limits(), $this->output);
+		$this->output = str_replace("<!--IBF.LIMITS_AVATAR-->", View::Make("ucp.avatar_limits"), $this->output);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -2222,7 +2245,7 @@ class UserCP
 			$this->member['signature'] = $this->parser->parse_html($this->member['signature'], 0);
 		}
 
-		$this->output .= $this->html->signature($this->member['signature'], $t_sig, $std->return_md5_check(), $std->code_tag_button());
+		$this->output .= View::Make("ucp.signature", ['sig' => $this->member['signature'],'t_sig' => $t_sig,'key' => $std->return_md5_check(),'select_syntax' => $std->code_tag_button()]);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -2356,19 +2379,19 @@ class UserCP
 
 				if ($d_content != "")
 				{
-					$form_element = $this->html->field_dropdown('field_' . $row['fid'], $d_content);
+					$form_element = View::Make("ucp.field_dropdown", ['name' => 'field_' . $row['fid'],'options' => $d_content]);
 				}
 			} else {
 				if ($row['ftype'] == 'area')
 				{
-					$form_element = $this->html->field_textarea('field_' . $row['fid'], $field_data[$row['fid']]);
+					$form_element = View::Make("ucp.field_textarea", ['name' => 'field_' . $row['fid'],'value' => $field_data[$row['fid']]]);
 				} else
 				{
-					$form_element = $this->html->field_textinput('field_' . $row['fid'], $field_data[$row['fid']]);
+					$form_element = View::Make("ucp.field_textinput", ['name' => 'field_' . $row['fid'],'value' => $field_data[$row['fid']]]);
 				}
 			}
 
-			${$ftype} .= $this->html->field_entry($row['ftitle'], $row['fdesc'], $form_element);
+			${$ftype} .= View::Make("ucp.field_entry", ['title' => $row['ftitle'],'desc' => $row['fdesc'],'content' => $form_element]);
 		}
 
 		//-----------------------------------------------
@@ -2384,17 +2407,17 @@ class UserCP
 		// Suck up the HTML and swop some tags if need be
 		//-----------------------------------------------
 
-		$this->output .= $this->html->personal_panel($this->member);
+		$this->output .= View::Make("ucp.personal_panel", ['Profile' => $this->member]);
 
 		if (($ibforums->vars['post_titlechange'] and $this->member['posts'] > $ibforums->vars['post_titlechange']) or
 		    ($ibforums->vars['rep_titlechange']  and $this->member['rep'] >= $ibforums->vars['rep_titlechange'])
 		)
 		{
-			$t_html       = $this->html->member_title($this->member['title']);
+			$t_html       = View::Make("ucp.member_title", ['title' => $this->member['title']]);
 			$this->output = preg_replace("/<!--\{MEMBERTITLE\}-->/", $t_html, $this->output);
 		}
 
-		$t_html = $this->html->birthday($day, $mon, $year);
+		$t_html = View::Make("ucp.birthday", ['day' => $day,'month' => $mon,'year' => $year]);
 
 		$this->output = preg_replace("/<!--\{BIRTHDAY\}-->/", $t_html, $this->output);
 
@@ -2402,7 +2425,7 @@ class UserCP
 		// Format the Gender radio buttons..
 		//-----------------------------------------------
 
-		$t_html = $this->html->gender($this->member['gender']);
+		$t_html = View::Make("ucp.gender", ['gender' => $this->member['gender']]);
 
 		$this->output = preg_replace("/<!--\{GENDER\}-->/", $t_html, $this->output);
 
@@ -2414,7 +2437,7 @@ class UserCP
 
 		if ($required_output != "")
 		{
-			$this->output = str_replace("<!--{REQUIRED.FIELDS}-->", $this->html->required_title() . "\n" . $this->html->personal_panel_username($this->member['name']) . "\n" . $required_output . $this->html->required_end(), $this->output);
+			$this->output = str_replace("<!--{REQUIRED.FIELDS}-->", View::Make("ucp.required_title") . "\n" . View::Make("ucp.personal_panel_username", ['name' => $this->member['name']]) . "\n" . $required_output . View::Make("ucp.required_end"), $this->output);
 		}
 
 		if ($optional_output != "")
@@ -2542,7 +2565,7 @@ class UserCP
 
 		$info['NOTES'] = preg_replace("/<br>/", "\n", $info['NOTES']);
 
-		$this->output .= $this->html->splash($info);
+		$this->output .= View::Make("ucp.splash", ['member' => $info]);
 
 		// If no messenger, remove the links!
 
@@ -2664,7 +2687,7 @@ class UserCP
 					? "checked='checked'"
 					: "";
 
-				$checkbox = $this->html->checkbox($r);
+				$checkbox = View::Make("ucp.checkbox", ['data' => $r]);
 
 				$r['css'] = 'row1';
 
@@ -2677,7 +2700,7 @@ class UserCP
 
 				$r['name'] = "&nbsp;" . $prefix . " " . $r['name'];
 
-				$temp_html .= $this->html->boardlay_between($r, $checkbox);
+				$temp_html .= View::Make("ucp.boardlay_between", ['data' => $r,'checkbox' => $checkbox]);
 
 				$this->subforums_search_list($children, $r['id'], $level + 1, $temp_html, $fs);
 			}
@@ -2743,7 +2766,7 @@ class UserCP
 
 		$last_cat_id = -1;
 
-		$this->output .= $this->html->boardlay_start();
+		$this->output .= View::Make("ucp.boardlay_start");
 
 		foreach ($cats as $c)
 		{
@@ -2767,11 +2790,11 @@ class UserCP
 						? "checked='checked'"
 						: "";
 
-					$checkbox = $this->html->checkbox($r);
+					$checkbox = View::Make("ucp.checkbox", ['data' => $r]);
 
 					$r['css'] = 'row1';
 
-					$temp_html .= $this->html->boardlay_between($r, $checkbox);
+					$temp_html .= View::Make("ucp.boardlay_between", ['data' => $r,'checkbox' => $checkbox]);
 
 					$this->subforums_search_list($children, $r['id'], 1, $temp_html, $fs);
 				}
@@ -2784,16 +2807,16 @@ class UserCP
 					? "checked='checked'"
 					: "";
 
-				$checkbox = $this->html->checkbox($c);
+				$checkbox = View::Make("ucp.checkbox", ['data' => $c]);
 
-				$this->output .= $this->html->boardlay_between($c, $checkbox);
+				$this->output .= View::Make("ucp.boardlay_between", ['data' => $c,'checkbox' => $checkbox]);
 				$this->output .= $temp_html;
 
 				unset($temp_html);
 			}
 		}
 
-		$this->output .= $this->html->boardlay_end();
+		$this->output .= View::Make("ucp.boardlay_end");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 
@@ -2904,7 +2927,7 @@ class UserCP
 	{
 		global $ibforums;
 
-		$this->output .= $this->html->delete_self_check($this->md5_check);
+		$this->output .= View::Make("ucp.delete_self_check", ['check' => $this->md5_check]);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 
@@ -2934,7 +2957,7 @@ class UserCP
 	{
 		global $ibforums;
 
-		$this->output .= $this->html->delete_self();
+		$this->output .= View::Make("ucp.delete_self");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 

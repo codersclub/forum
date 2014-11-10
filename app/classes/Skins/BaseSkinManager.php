@@ -2,25 +2,18 @@
 
 namespace Skins;
 
-use Skins\Views\Collection;
 use \Config;
 
 /**
  * Базовый класс скина. По сути - хелпер с хранением содержимого из ibf_skins
  * @package Skins
  */
-abstract class BaseSkin implements \ArrayAccess
+abstract class BaseSkinManager implements \ArrayAccess
 {
     use \Getters;
 
-    /**
-     * @var Collection
-     */
-    private $views;
-
     public function __construct()
     {
-        $this->views = new Collection($this);
     }
 
     /**
@@ -52,7 +45,13 @@ abstract class BaseSkin implements \ArrayAccess
      * Возвращает путь к директории шаблона
      * @return string
      */
-    abstract public function getViewsDirectory();
+    abstract public function getTemplatesPath();
+
+    /**
+     * Возвращает имя коллекции шаблонов
+     * @return string
+     */
+    abstract public function getTemplatesName();
 
     /**
      * Возвращает содержимое враппера
@@ -61,17 +60,13 @@ abstract class BaseSkin implements \ArrayAccess
     public function getWrapper()
     {
         ob_start();
-        require $this->getViewsDirectory() . DIRECTORY_SEPARATOR . 'wrapper.tpl.php';
+        require $this->getTemplatesPath() . DIRECTORY_SEPARATOR . 'wrapper.tpl.php';
         return ob_get_clean();
     }
 
     public function isHidden()
     {
         return in_array($this->getId(), \Config::get('app.skins.hidden', []));
-    }
-
-    public function getViews(){
-        return $this->views;
     }
 
     public function getMacroValues(){

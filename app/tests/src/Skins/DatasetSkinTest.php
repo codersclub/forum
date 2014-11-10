@@ -15,7 +15,7 @@ class DatasetSkinTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testGlobal(){
-        $skin = new DatasetSkin([
+        $skin = new DatasetSkinManager([
                 'name'   => 'Test skin',
                 'id'     => 1,
                 'macro'  => 'x1',
@@ -28,19 +28,19 @@ class DatasetSkinTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('x1', $skin->getMacroId());
         $this->assertStringEndsWith('x1.scss', $skin->getCSSFile());
         $this->assertStringEndsWith('x1', $skin->getImagesPath());
-        $this->assertStringEndsWith('invi', $skin->getViewsDirectory());
+        $this->assertStringEndsWith('invi', $skin->getTemplatesPath());
     }
 
     /**
      * @expectedException  \Exception
      */
     public function testFailCreation(){
-        new DatasetSkin([]);
+        new DatasetSkinManager([]);
     }
 
     public function testGetSkinsData(){
         \Config::set('path.data', \Config::get('path.app') . '/tests/Mock/SkinsTestFiles/data');
-        $data = DatasetSkin::getAllSkinsData();
+        $data = DatasetSkinManager::getAllSkinsData();
         $this->assertInternalType('array', $data);
         $this->assertInternalType('array', reset($data));
     }

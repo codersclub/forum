@@ -20,6 +20,7 @@
   |	> Module Version Number: 1.1.0
   +--------------------------------------------------------------------------
  */
+use Skins\Views\View;
 
 $idx = new Topics;
 
@@ -251,13 +252,13 @@ class Topics
 			}
 
 			$this->output .= $this->process_one_post($row, $pinned, $post_count, $qr, $preview_one_post);
-			$this->output .= $this->html->RowSeparator();
+			$this->output .= View::Make("topic.RowSeparator");
 		} //while
 	}
 
 	function process_one_post($row, $pinned, &$post_count, $qr, $preview = false)
 	{
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 		// Song * quote with post link, 26.11.04
 		// remember posts that have been on the page
 		$this->parser->cache_posts[$row['pid']] = $row['pid'];
@@ -452,9 +453,9 @@ class Topics
 
 		if ($row['append_edit'] == 1 and $row['edit_time'] != "" and $row['edit_name'] != "" and !$row['use_sig'])
 		{
-			$e_time = $skin_universal->renderTime($row['edit_time'], 'post-edit-time');
+			$e_time = View::Make("global.renderTime", ['unixtime' => $row['edit_time'],'class' => 'post-edit-time']);
 
-			$row['post'] .= $this->html->renderEditedPostMessage(sprintf($ibforums->lang['edited_by'], $row['edit_name'], $e_time));
+			$row['post'] .= View::Make("topic.renderEditedPostMessage", ['message' => sprintf($ibforums->lang['edited_by'], $row['edit_name'], $e_time)]);
 		}
 
 		if ($row['delete_after'] && !$row['use_sig'] && mb_strlen(rtrim($row['post'])) > 0)
@@ -554,7 +555,7 @@ class Topics
 		$row['ip_address'] = $this->view_ip($row, $poster);
 
 		$row['report_link'] = ($ibforums->vars['disable_reportpost'] != 1 and $ibforums->member['id'])
-			? $this->html->report_link($row)
+			? View::Make("topic.report_link", ['data' => $row])
 			: "";
 
 		// Song * reputation
@@ -638,7 +639,7 @@ class Topics
 				$poster['signature'] = $this->parser->my_wordwrap($poster['signature'], $ibforums->vars['post_wordwrap']);
 			}
 
-			$row['signature'] = $skin_universal->signature_separator($poster['signature']);
+			$row['signature'] = View::Make("global.signature_separator", ['sig' => $poster['signature']]);
 		}
 
 		// Song * quote
@@ -712,8 +713,8 @@ class Topics
 		    !$this->topic['approved'] and !$post_count
 		)
 		{
-			$post_actions[] = $this->html->approveTopicLink($this->forum['id'], $this->topic['tid']);
-			$post_actions[] = $this->html->rejectTopicLink($this->forum['id'], $this->topic['tid']);
+			$post_actions[] = View::Make("topic.approveTopicLink", ['fid' => $this->forum['id'],'tid' => $this->topic['tid']]);
+			$post_actions[] = View::Make("topic.rejectTopicLink", ['fid' => $this->forum['id'],'tid' => $this->topic['tid']]);
 
 		}
 
@@ -724,7 +725,7 @@ class Topics
 		    $row['queued'] and $this->topic['approved']
 		)
 		{
-			$post_actions[] = $this->html->approvePostLink($this->forum['id'], $this->topic['tid'], $row['pid']);
+			$post_actions[] = View::Make("topic.approvePostLink", ['fid' => $this->forum['id'],'tid' => $this->topic['tid'],'pid' => $row['pid']]);
 		}
 
 		$row['queued'] = $row['queued'] || !$this->topic['approved'];
@@ -737,7 +738,7 @@ class Topics
 		// Song * online
 		if ($row['s_id'])
 		{
-			$poster['online'] = $this->html->renderElementOnline();
+			$poster['online'] = View::Make("topic.renderElementOnline");
 		} else
 		{
 			$poster['online'] = "";
@@ -773,7 +774,7 @@ class Topics
 				$row['quote'],
 				$row['delete_delayed']
 			);
-			$row['html_actions'] = $skin_universal->renderActionButtons($post_actions, 'b-post__actions', 'b-post-action-button');
+			$row['html_actions'] = View::Make("global.renderActionButtons", ['actions' => $post_actions,'list_classes' => 'b-post__actions','item_classes' => 'b-post-action-button']);
 
 			// Song * message has been deleted by moderator, 13.11.2004, or by author (negram, January 2011)
 
@@ -782,11 +783,11 @@ class Topics
 				if ($ibforums->input['ajax'])
 				{
 					header('Content-Type: text/html; charset=utf-8');
-					echo $print->prepare_output($this->html->RenderDeletedRow($row, $poster, $preview));
+					echo $print->prepare_output(View::Make("topic.RenderDeletedRow", ['post' => $row,'author' => $poster,'preview' => $preview]));
 					exit;
 				} else
 				{
-					return $this->html->RenderDeletedRow($row, $poster, $preview);
+					return View::Make("topic.RenderDeletedRow", ['post' => $row,'author' => $poster,'preview' => $preview]);
 				}
 			} else
 			{
@@ -796,7 +797,7 @@ class Topics
 					$row['post'] = '<div class="spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">Многа букав</div><div class="body">' . $row['post'] . '</div></div>';
 				}
 
-				return $this->html->RenderRow($row, $poster);
+				return View::Make("topic.RenderRow", ['post' => $row,'author' => $poster]);
 			}
 		}
 	}
@@ -813,7 +814,7 @@ class Topics
 
 	function Topics()
 	{
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		$this->md5_check = $std->return_md5_check();
 
@@ -827,8 +828,6 @@ class Topics
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_error', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_topic');
 
 		$this->parser = new PostParser();
 
@@ -1427,7 +1426,7 @@ class Topics
 
 		if ($ibforums->input['view'] != "showall" and ($this->topic['posts'] + 1) > $ibforums->vars['display_max_posts'])
 		{
-			$this->topic['go_new'] = $this->html->golastpost_link($this->forum['id'], $this->topic['tid']);
+			$this->topic['go_new'] = View::Make("topic.golastpost_link", ['fid' => $this->forum['id'],'tid' => $this->topic['tid']]);
 		}
 
 		//-------------------------------------
@@ -1456,7 +1455,7 @@ class Topics
 			$txt = in_array($this->topic['tid'], $favs)
 				? $ibforums->lang['fav_remove']
 				: $ibforums->lang['fav_add'];
-			$this->topic['fav_text'] = $this->html->favoriteButton($this->topic['tid'], $txt);
+			$this->topic['fav_text'] = View::Make("topic.favoriteButton", ['tid' => $this->topic['tid'],'text' => $txt]);
 			unset($txt);
 		}
 
@@ -1529,7 +1528,7 @@ class Topics
 			? "<a href='{$ibforums->base_url}act=UserCP&amp;CODE=27&amp;id-{$this->trid}=1'>{$ibforums->lang['untrack_topic']}</a>"
 			: "<a href='{$ibforums->base_url}act=Track&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}'>{$ibforums->lang['track_topic']}</a>";
 
-		$this->output .= $this->html->PageTop(array('TOPIC' => $this->topic, 'FORUM' => $this->forum,));
+		$this->output .= View::Make("topic.PageTop", ['data' => array('TOPIC' => $this->topic,'FORUM' => $this->forum)]);
 
 		//-------------------------------------
 		// Do we have a poll?
@@ -1548,7 +1547,7 @@ class Topics
 				    OR ($ibforums->member['g_is_supmod'] == 1)
 				)
 				{
-					$this->output = str_replace("<!--{IBF.START_NEW_POLL}-->", $this->html->start_poll_button($this->forum['id'], $this->topic['tid']), $this->output);
+					$this->output = str_replace("<!--{IBF.START_NEW_POLL}-->", View::Make("topic.start_poll_button", ['fid' => $this->forum['id'],'tid' => $this->topic['tid']]), $this->output);
 				}
 			}
 		}
@@ -1720,16 +1719,27 @@ class Topics
 		//-------------------------------------
 
 		$report_link = ($ibforums->member['id'])
-			? $this->html->new_report_link(array(
-			                                    'TOPIC' => $this->topic,
-			                                    'FORUM' => $this->forum,
-			                               ))
+			? View::Make(
+				"topic.new_report_link",
+				[
+					'data' => array(
+						'TOPIC' => $this->topic,
+						'FORUM' => $this->forum,
+					)
+				]
+			)
 			: "";
 
-		$this->output .= $this->html->TableFooter(array(
-		                                               'TOPIC' => $this->topic,
-		                                               'FORUM' => $this->forum
-		                                          ), $report_link);
+		$this->output .= View::Make(
+			"topic.TableFooter",
+			[
+				'data' => array(
+					'TOPIC' => $this->topic,
+					'FORUM' => $this->forum
+				),
+				'report_link' => $report_link
+			]
+		);
 
 		//+----------------------------------------------------------------
 		// Process users active in this forum
@@ -1829,7 +1839,7 @@ class Topics
 			$ibforums->lang['active_users_detail']  = sprintf($ibforums->lang['active_users_detail'], $active['guests'], $active['anon']);
 			$ibforums->lang['active_users_members'] = sprintf($ibforums->lang['active_users_members'], $active['members']);
 
-			$this->output = str_replace("<!--IBF.TOPIC_ACTIVE-->", $this->html->topic_active_users($active), $this->output);
+			$this->output = str_replace("<!--IBF.TOPIC_ACTIVE-->", View::Make("topic.topic_active_users", ['active' => $active]), $this->output);
 		}
 
 		//+----------------------------------------------------------------
@@ -1896,18 +1906,18 @@ class Topics
 			{
 				if ($this->moderator['mid'] or $ibforums->member['g_is_supmod'])
 				{
-					$mod_buttons .= $skin_universal->mod_buttons();
+					$mod_buttons .= View::Make("global.mod_buttons");
 				}
 
 				if ($ibforums->member['g_is_supmod'])
 				{
-					$mod_buttons .= $skin_universal->global_mod_buttons();
+					$mod_buttons .= View::Make("global.global_mod_buttons");
 				}
 
-				$mod_buttons .= $skin_universal->common_mod_buttons();
+				$mod_buttons .= View::Make("global.common_mod_buttons");
 
 				if ($mod_buttons)
-					$mod_buttons = $skin_universal->mod_buttons_label() . $mod_buttons;
+					$mod_buttons = View::Make("global.mod_buttons_label") . $mod_buttons;
 			}
 
 			// Post Warnings
@@ -1921,15 +1931,15 @@ class Topics
 			if ($this->topic['SOLVE_UPPER_BUTTON'] and !$this->topic['decided'])
 			{
 				$topic_decided = ($ibforums->member['id'] == $this->topic['starter_id'])
-					? $skin_universal->topic_decided()
+					? View::Make("global.topic_decided")
 					: "";
 			}
 
-			$this->output = str_replace("<!--IBF.QUICK_REPLY_OPEN-->", $this->html->quick_reply_box_open($this->topic['forum_id'], $this->topic['tid'], $show, $warning, $this->md5_check, $std->code_tag_button($this->highlight), $mod_buttons, $topic_decided), $this->output);
+			$this->output = str_replace("<!--IBF.QUICK_REPLY_OPEN-->", View::Make("topic.quick_reply_box_open", ['fid' => $this->topic['forum_id'],'tid' => $this->topic['tid'],'show' => $show,'warning' => $warning,'key' => $this->md5_check,'syntax_select' => $std->code_tag_button($this->highlight),'mod_buttons' => $mod_buttons,'topic_decided' => $topic_decided]), $this->output);
 
 			if (($std->check_perms($this->forum['upload_perms']) == TRUE) and ($ibforums->member['g_attach_max'] > 0))
 			{
-				$upload_field = $this->html->Upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024));
+				$upload_field = View::Make("topic.Upload_field", ['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]);
 				$this->output = str_replace('<!--UPLOAD FIELD-->', $upload_field, $this->output);
 			}
 
@@ -1975,15 +1985,15 @@ class Topics
 			$this->topic['POLL_BUTTON'],
 			$this->topic['SOLVE_UPPER_BUTTON'],
 		];
-		$this->output = str_replace("<!--IBF.TOPIC_HEADER_BUTTONS-->", $skin_universal->renderActionButtons($actions, 'b-topic-header-buttons', 'b-topic-header-button'), $this->output);
+		$this->output = str_replace("<!--IBF.TOPIC_HEADER_BUTTONS-->", View::Make("global.renderActionButtons", ['actions' => $actions,'list_classes' => 'b-topic-header-buttons','item_classes' => 'b-topic-header-button']), $this->output);
 		$actions = [
-			$show_quick_reply_box_closed ?  $this->html->quick_reply_box_closed() : '',
+			$show_quick_reply_box_closed ?  View::Make("topic.quick_reply_box_closed") : '',
 			$this->topic['REPLY_BUTTON'],
 			$this->topic['TOPIC_BUTTON'],
 			$this->topic['POLL_BUTTON'],
 			$this->topic['SOLVE_DOWN_BUTTON']
        ];
-		$this->output = str_replace("<!--IBF.TOPIC_BOTTOM_BUTTONS-->", $skin_universal->renderActionButtons($actions, 'b-topic-footer-buttons', 'b-topic-footer-button'), $this->output);
+		$this->output = str_replace("<!--IBF.TOPIC_BOTTOM_BUTTONS-->", View::Make("global.renderActionButtons", ['actions' => $actions,'list_classes' => 'b-topic-footer-buttons','item_classes' => 'b-topic-footer-button']), $this->output);
 		//+----------------------------------------------------------------
 		// Topic multi-moderation - yay!
 		//+----------------------------------------------------------------
@@ -2004,7 +2014,7 @@ class Topics
 		                                                 ), "{$this->topic['title']} -> " . $ibforums->vars['board_name']),
 		                       'JS'    => "",
 		                       'NAV'   => $this->nav_extra,
-		                       'RSS'   => $skin_universal->rss("?t={$this->topic['tid']}"),
+		                       'RSS'   => View::Make("global.rss", ['param' => "?t={$this->topic['tid']}"]),
 		                  ));
 	}
 
@@ -2015,8 +2025,8 @@ class Topics
 		global $ibforums;
 
 		return $ibforums->member['id']
-			? $this->html->nameField_reg()
-			: $this->html->nameField_unreg($ibforums->input['UserName']);
+			? View::Make("topic.nameField_reg")
+			: View::Make("topic.nameField_unreg", ['data' => $ibforums->input['UserName']]);
 	}
 
 	function html_checkboxes($tid = "")
@@ -2049,21 +2059,21 @@ class Topics
 			$default_checked['tra'] = 'checked="checked"';
 		}
 
-		$this->output = str_replace('<!--IBF.EMO-->', $this->html->get_box_enableemo($default_checked['emo']), $this->output);
+		$this->output = str_replace('<!--IBF.EMO-->', View::Make("topic.get_box_enableemo", ['checked' => $default_checked['emo']]), $this->output);
 
 		if ($this->trid)
 		{
-			$this->output = str_replace('<!--IBF.TRACK-->', $this->html->get_box_alreadytrack(), $this->output);
+			$this->output = str_replace('<!--IBF.TRACK-->', View::Make("topic.get_box_alreadytrack"), $this->output);
 		} else
 		{
-			$this->output = str_replace('<!--IBF.TRACK-->', $this->html->get_box_enabletrack($default_checked['tra']), $this->output);
+			$this->output = str_replace('<!--IBF.TRACK-->', View::Make("topic.get_box_enabletrack", ['checked' => $default_checked['tra']]), $this->output);
 		}
 
 		// Song * offtopic checkbox, 19.04.05
 
 		if ($this->forum['days_off'] and ($this->moderator['delete_post'] or $ibforums->member['g_is_supmod'] or $ibforums->member['g_delay_delete_posts']))
 		{
-			$this->output = str_replace('<!--IBF.OFFTOP-->', $this->html->get_box_enable_offtop($default_checked['offtop']), $this->output);
+			$this->output = str_replace('<!--IBF.OFFTOP-->', View::Make("topic.get_box_enable_offtop", ['checked' => $default_checked['offtop']]), $this->output);
 		}
 	}
 
@@ -2142,7 +2152,7 @@ class Topics
 			$smilies .= "</tr>";
 		}
 
-		$table = $this->html->smilie_table();
+		$table = View::Make("topic.smilie_table");
 
 		if ($show_table)
 		{
@@ -2268,7 +2278,7 @@ class Topics
 				$member['warn_img'] = " [ " . $member['warn_level'] . " ] ";
 
 				$member['warn_text'] = $ibforums->lang['tt_rating'];
-				$member['warn_text'] = $this->html->warn_title($member['id'], $member['warn_text']);
+				$member['warn_text'] = View::Make("topic.warn_title", ['id' => $member['id'],'title' => $member['warn_text']]);
 				$member['warn_text'] .= $member['warn_minus'] . $member['warn_img'] . $member['warn_add'];
 			}
 		}
@@ -2482,19 +2492,19 @@ class Topics
 					if ($member['warn_percent'] < 1)
 						$member['warn_percent'] = 0;
 
-					$member['warn_text'] = $this->html->warn_level_warn($member['id'], $member['warn_percent']);
+					$member['warn_text'] = View::Make("topic.warn_level_warn", ['id' => $member['id'],'percent' => $member['warn_percent']]);
 				} else
 				{
 					// Ratings mode..
 
 					$member['warn_text'] = $ibforums->lang['tt_rating'];
-					$member['warn_text'] = $this->html->warn_title($member['id'], $member['warn_text']);
+					$member['warn_text'] = View::Make("topic.warn_title", ['id' => $member['id'],'title' => $member['warn_text']]);
 					$member['warn_text'] .= $member['warn_level'];
 
 					// Song * new separated warning system
 					if ($ibforums->member['is_new_warn_exixts'])
 					{
-						$member['warn_text'] .= $this->html->renderNewWarnNotice();
+						$member['warn_text'] .= View::Make("topic.renderNewWarnNotice");
 					} elseif (!$member['warn_level'])
 					{
 						$member['warn_text'] = "";
@@ -2731,7 +2741,7 @@ class Topics
 				: "[ <a href='{$ibforums->base_url}act=modcp&amp;CODE=ip&amp;incoming={$row['ip_address']}&amp;f={$this->forum['id']}'>{$row['ip_address']}</a> ]";
 
 			return ($row['ip_address'])
-				? $this->html->ip_show($row['ip_address'])
+				? View::Make("topic.ip_show", ['data' => $row['ip_address']])
 				: "";
 		}
 	}
@@ -2753,7 +2763,7 @@ class Topics
 			{
 				$stuff = array('t' => $this->topic['tid'], 'f' => $this->forum['id'], 'mid' => $memid, 'p' => $pid);
 
-				return $this->html->rep_options_links($stuff);
+				return View::Make("topic.rep_options_links", ['stuff' => $stuff]);
 			}
 		}
 	}
@@ -2807,14 +2817,14 @@ class Topics
 
 		if ($stmt->rowCount())
 		{
-			$mm_html = $this->html->mm_start($this->topic['tid']);
+			$mm_html = View::Make("topic.mm_start", ['tid' => $this->topic['tid']]);
 
 			while ($r = $stmt->fetch())
 			{
-				$mm_html .= $this->html->mm_entry($r['mm_id'], $r['mm_title']);
+				$mm_html .= View::Make("topic.mm_entry", ['id' => $r['mm_id'],'name' => $r['mm_title']]);
 			}
 
-			$mm_html .= $this->html->mm_end();
+			$mm_html .= View::Make("topic.mm_end");
 		}
 
 		return $mm_html;
@@ -2969,7 +2979,7 @@ class Topics
 
 		if ($mod_links != "")
 		{
-			return $this->html->Mod_Panel($mod_links, $this->forum['id'], $this->topic['tid'], $this->md5_check);
+			return View::Make("topic.Mod_Panel", ['data' => $mod_links,'fid' => $this->forum['id'],'tid' => $this->topic['tid'],'key' => $this->md5_check]);
 		}
 	}
 
@@ -3026,7 +3036,7 @@ class Topics
 		}
 		++$this->colspan;
 
-		return $this->html->mod_wrapper($this->mod_action[$key], $ibforums->lang[$key]);
+		return View::Make("topic.mod_wrapper", ['id' => $this->mod_action[$key],'text' => $ibforums->lang[$key]]);
 	}
 
 	//----------------------------------------------------
@@ -3175,7 +3185,6 @@ class Topics
 		$poll_footer = "";
 
 		$ibforums->lang  = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
-		$this->poll_html = $std->load_template('skin_poll');
 
 		//----------------------------------
 		// Get the poll information...
@@ -3204,7 +3213,7 @@ class Topics
 
 			$ibforums->lang['poll_life_descr3'] = sprintf($ibforums->lang['poll_life_descr3'], $days_left);
 
-			$expired = $this->poll_html->poll_expired_row();
+			$expired = View::Make("poll.poll_expired_row");
 
 			if (time() > $poll_data['live_before'])
 			{
@@ -3250,24 +3259,24 @@ class Topics
 
 		if ($can_edit == 1)
 		{
-			$edit_link = $this->poll_html->edit_link($this->topic['tid'], $this->forum['id'], $this->md5_check);
+			$edit_link = View::Make("poll.edit_link", ['tid' => $this->topic['tid'],'fid' => $this->forum['id'],'key' => $this->md5_check]);
 		}
 
 		if ($can_delete == 1)
 		{
-			$delete_link = $this->poll_html->delete_link($this->topic['tid'], $this->forum['id'], $this->md5_check);
+			$delete_link = View::Make("poll.delete_link", ['tid' => $this->topic['tid'],'fid' => $this->forum['id'],'key' => $this->md5_check]);
 		}
 
 		if ($can_edit == 1)
 		{
-			$edit_link = $this->poll_html->edit_link($this->topic['tid'], $this->forum['id'], $this->md5_check);
+			$edit_link = View::Make("poll.edit_link", ['tid' => $this->topic['tid'],'fid' => $this->forum['id'],'key' => $this->md5_check]);
 		}
 
 		if ($can_close == 1)
 		{
 			$close_link = ($poll_data['state'] == 'open')
-				? $this->poll_html->close_link($this->topic['tid'], $this->forum['id'], $this->md5_check)
-				: $this->poll_html->restore_link($this->topic['tid'], $this->forum['id'], $this->md5_check);
+				? View::Make("poll.close_link", ['tid' => $this->topic['tid'],'fid' => $this->forum['id'],'key' => $this->md5_check])
+				: View::Make("poll.restore_link", ['tid' => $this->topic['tid'],'fid' => $this->forum['id'],'key' => $this->md5_check]);
 		}
 
 		//----------------------------------
@@ -3332,7 +3341,15 @@ class Topics
 			$all_votes   = 0;
 			$total_votes = 0;
 
-			$html = $this->poll_html->poll_header($this->topic['tid'], $poll_data['poll_question'], $edit_link, $delete_link, $close_link, "", $expired);
+			$html = View::Make("poll.poll_header", [
+					'tid' => $this->topic['tid'],
+					'poll_q' => $poll_data['poll_question'],
+					'edit' => $edit_link,
+					'delete' => $delete_link,
+					'close' => $close_link,
+					'min_max' => '',
+					'expired' => $expired
+				]);
 
 			$poll_answers = unserialize(stripslashes($poll_data['choices']));
 
@@ -3381,11 +3398,11 @@ class Topics
 						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>&nbsp;[{$percent}%]</td>";
 					}
 
-					$html .= $this->poll_html->Render_row_results($votes, $id, $choice, $bar);
+					$html .= View::Make("poll.Render_row_results", ['votes' => $votes,'id' => $id,'answer' => $choice,'procent_bar' => $bar]);
 					// /Song * multiple choices
 				}
 
-				$html .= $this->poll_html->show_total_votes($poll_data['votes'], $total_votes);
+				$html .= View::Make("poll.show_total_votes", ['votes' => $poll_data['votes'],'total_votes' => $total_votes]);
 			} else
 				$html .= "</table><b>" . $ibforums->lang['guests_no_view'] . "</b>";
 		} else
@@ -3412,14 +3429,14 @@ class Topics
 				}
 			}
 
-			$html = $this->poll_html->poll_header($this->topic['tid'], $poll_data['poll_question'], $edit_link, $delete_link, $close_link, $min_max, $expired);
+			$html = View::Make("poll.poll_header", ['tid' => $this->topic['tid'],'poll_q' => $poll_data['poll_question'],'edit' => $edit_link,'delete' => $delete_link,'close' => $close_link,'min_max' => $min_max,'expired' => $expired]);
 			$type = ($poll_data['is_multi_poll'])
 				? "checkbox"
 				: "radio";
 			$name = 'poll_vote';
 
 			if ($poll_data['is_weighted_poll'])
-				$html .= $this->poll_html->weighted_js($poll_count);
+				$html .= View::Make("poll.weighted_js", ['count' => $poll_count]);
 			if ($poll_data['is_weighted_poll'] || $poll_data['is_multi_poll'])
 				$i = 1;
 
@@ -3455,15 +3472,15 @@ class Topics
 					if ($poll_data['is_weighted_poll'])
 					{
 						$name = 'poll_vote[' . $i++ . ']';
-						$html .= $this->poll_html->Render_row_form_weighted($id, $choice, $name, $places, $poll_count);
+						$html .= View::Make("poll.Render_row_form_weighted", ['id' => $id,'choice' => $choice,'name' => $name,'places' => $places,'poll_count' => $poll_count]);
 					} else
-						$html .= $this->poll_html->Render_row_form($votes, $id, $choice, $type, $name);
+						$html .= View::Make("poll.Render_row_form", ['votes' => $votes,'id' => $id,'answer' => $choice,'type' => $type,'name' => $name]);
 				}
 			} else
 				$html .= "</table><b>" . $ibforums->lang['guests_no_view'] . "</b>";
 		}
 
-		$html .= $this->poll_html->ShowPoll_footer();
+		$html .= View::Make("poll.ShowPoll_footer");
 
 		if ($poll_footer != "")
 		{
@@ -3484,11 +3501,11 @@ class Topics
 				{
 					// We are looking at results..
 
-					$html = str_replace("<!--IBF.SHOW-->", $this->poll_html->button_show_voteable(), $html);
+					$html = str_replace("<!--IBF.SHOW-->", View::Make("poll.button_show_voteable"), $html);
 				} else
 				{
-					$html = str_replace("<!--IBF.SHOW-->", $this->poll_html->button_show_results(), $html);
-					$html = str_replace("<!--IBF.VOTE-->", $this->poll_html->button_vote(), $html);
+					$html = str_replace("<!--IBF.SHOW-->", View::Make("poll.button_show_results"), $html);
+					$html = str_replace("<!--IBF.VOTE-->", View::Make("poll.button_vote"), $html);
 				}
 			} else
 			{
@@ -3496,12 +3513,12 @@ class Topics
 				// Do not allow result viewing
 				//-----------------------------
 
-				$html = str_replace("<!--IBF.VOTE-->", $this->poll_html->button_vote(), $html);
-				$html = str_replace("<!--IBF.SHOW-->", $this->poll_html->button_null_vote(), $html);
+				$html = str_replace("<!--IBF.VOTE-->", View::Make("poll.button_vote"), $html);
+				$html = str_replace("<!--IBF.SHOW-->", View::Make("poll.button_null_vote"), $html);
 			}
 		}
 
-		$html = str_replace("<!--IBF.POLL_JS-->", $this->poll_html->poll_javascript($this->topic['tid'], $this->forum['id']), $html);
+		$html = str_replace("<!--IBF.POLL_JS-->", View::Make("poll.poll_javascript", ['tid' => $this->topic['tid'],'fid' => $this->forum['id']]), $html);
 
 		return $html;
 	}

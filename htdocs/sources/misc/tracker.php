@@ -45,7 +45,7 @@ class tracker
 		// up for us.
 		//------------------------------------------------------
 
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		if ($ibforums->member['disable_mail'])
 		{

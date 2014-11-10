@@ -20,6 +20,7 @@
 |	> Module Version Number: 1.0.0 (YABB EDITED VERSION)
 +--------------------------------------------------------------------------
 */
+use Skins\Views\View;
 
 $idx = new Login;
 
@@ -36,8 +37,6 @@ class Login
 		global $ibforums, $std, $print;
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_login', $ibforums->lang_id);
-
-		$this->login_html = $std->load_template('skin_login');
 
 		// Are we enforcing log ins?
 
@@ -264,10 +263,10 @@ class Login
 			$message = $ibforums->lang[$message];
 			$message = preg_replace("/<#NAME#>/", "<b>{$ibforums->input['UserName']}</b>", $message);
 
-			$this->output .= $this->login_html->errors($message);
+			$this->output .= View::Make("login.errors", ['data' => $message]);
 		}
 
-		$this->output .= $this->login_html->ShowForm($ibforums->lang['please_log_in'], $_SERVER['HTTP_REFERER']);
+		$this->output .= View::Make("login.ShowForm", ['message' => $ibforums->lang['please_log_in'],'referer' => $_SERVER['HTTP_REFERER']]);
 
 		$this->nav        = array($ibforums->lang['log_in']);
 		$this->page_title = $ibforums->lang['log_in'];

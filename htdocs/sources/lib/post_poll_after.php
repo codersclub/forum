@@ -19,6 +19,7 @@
 +--------------------------------------------------------------------------
 */
 
+use Skins\Views\View;
 class post_functions extends Post
 {
 
@@ -233,15 +234,15 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::Make("post.table_structure");
 
 		//---------------------------------------
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_poll']}: {$class->forum['name']} -> " . $this->topic['title']);
+		$start_table = View::Make("post.table_top", ['data' => "{$ibforums->lang['top_txt_poll']}: {$class->forum['name']} -> " . $this->topic['title']]);
 
-		$poll_box = $class->html->poll_box($poll, $extra);
+		$poll_box = View::Make("post.poll_box", ['data' => $poll,'extra' => $extra]);
 
-		$end_form = $class->html->poll_end_form($ibforums->lang['submit_poll']);
+		$end_form = View::Make("post.poll_end_form", ['data' => $ibforums->lang['submit_poll']]);
 
 		//---------------------------------------
 

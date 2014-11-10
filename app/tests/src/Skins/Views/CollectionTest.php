@@ -5,9 +5,9 @@
 
 namespace Skins\Views;
 
-use Skins\BaseSkin;
+use Skins\BaseSkinManager;
 
-class TestCollectionOwner extends BaseSkin
+class TestCollectionOwner extends BaseSkinManager
 {
 
     public function getName()
@@ -30,7 +30,7 @@ class TestCollectionOwner extends BaseSkin
     {
     }
 
-    public function getViewsDirectory()
+    public function getTemplatesPath()
     {
         return \Config::get('path.app') . '/tests/Mock/SkinsTestFiles/template';
     }

@@ -155,8 +155,7 @@ EOF;
 
 
 function end_as_post($Data) {
-global $skin_universal;
-$legend = $skin_universal->topicsListLegend();
+$legend = \Skins\Views\View::Make('global.topicsListLegend');
 return <<<EOF
 <div class="b-list-pages-wrapper b-found-posts-list-pages b-found-posts-pages-bottom">{$Data[SHOW_PAGES]}</div>
 <div class="b-legend-row-wrapper clearfix">
@@ -390,11 +389,10 @@ EOF;
 
 
 function end($Data) {
-global $skin_universal;
 if (!$Data["modform_close"]) {
 	$Data["modform_close"] = "</table>";
 }
-$legend = $skin_universal->topicsListLegend();
+$legend = \Skins\Views\View::Make('global.topicsListLegend');
 return <<<EOF
 
 {$Data["modform_close"]}

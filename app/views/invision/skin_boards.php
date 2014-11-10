@@ -235,7 +235,7 @@ return <<<EOF
 EOF;
 }
 
-function show_global_message($message) {
+function renderGlobalMessage($message) {
 return <<<EOF
 <div id="GlobalMessage">{$message}</div>
 EOF;

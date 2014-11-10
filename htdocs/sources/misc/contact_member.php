@@ -20,6 +20,7 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Views\View;
 
 $idx = new Contact;
 
@@ -48,7 +49,7 @@ class Contact
 	function Contact()
 	{
 
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		// What to do?
 
@@ -170,8 +171,6 @@ class Contact
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		$this->html = $std->load_template('skin_emails');
-
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_cache_store WHERE cs_key='boardrules'");
 
 		$row = $stmt->fetch();
@@ -182,7 +181,7 @@ class Contact
 
 		$this->page_title = $ibforums->vars['gl_title'];
 
-		$this->output .= $this->html->board_rules($ibforums->vars['gl_title'], $row['cs_value']);
+		$this->output .= View::Make("emails.board_rules", ['title' => $ibforums->vars['gl_title'],'body' => $row['cs_value']]);
 
 	}
 
@@ -196,8 +195,6 @@ class Contact
 		global $ibforums, $std, $print;
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_emails');
 
 		if (!$ibforums->vars['chat_account_no'])
 		{
@@ -226,14 +223,14 @@ class Contact
 
 		if ($ibforums->input['pop'])
 		{
-			$html = $this->html->chat_pop($ibforums->vars['chat_account_no'], $lang, $width, $height, $user, $pass);
+			$html = View::Make("emails.chat_pop", ['acc_no' => $ibforums->vars['chat_account_no'],'lang' => $lang,'w' => $width,'h' => $height,'user' => $user,'pass' => $pass]);
 
 			$print->pop_up_window("CHAT", $html);
 
 			exit();
 		} else
 		{
-			$this->output .= $this->html->chat_inline($ibforums->vars['chat_account_no'], $lang, $width, $height, $user, $pass);
+			$this->output .= View::Make("emails.chat_inline", ['acc_no' => $ibforums->vars['chat_account_no'],'lang' => $lang,'w' => $width,'h' => $height,'user' => $user,'pass' => $pass]);
 		}
 
 		$this->nav[] = $ibforums->lang['live_chat'];
@@ -253,8 +250,6 @@ class Contact
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		$this->html = $std->load_template('skin_emails');
-
 		$pid = intval($ibforums->input['p']);
 		$tid = intval($ibforums->input['t']);
 		$fid = intval($ibforums->input['f']);
@@ -269,7 +264,7 @@ class Contact
 
 		$this->check_access($fid, $tid);
 
-		$this->output .= $this->html->report_form($fid, $tid, $pid, $st, $this->forum['topic_title']);
+		$this->output .= View::Make("emails.report_form", ['fid' => $fid,'tid' => $tid,'pid' => $pid,'st' => $st,'topic_title' => $this->forum['topic_title']]);
 
 		$this->nav[] = "<a href='" . $ibforums->base_url . "act=SC&c={$this->forum['cat_id']}'>{$this->forum['cat_name']}</a>";
 		$this->nav[] = "<a href='" . $ibforums->base_url . "act=SF&f={$this->forum['id']}'>{$this->forum['name']}</a>";
@@ -283,8 +278,6 @@ class Contact
 		global $ibforums, $std, $print;
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_emails');
 
 		$fid = intval($ibforums->input['f']);
 		$tid = intval($ibforums->input['t']);
@@ -418,8 +411,6 @@ class Contact
 	{
 		global $ibforums, $std, $print;
 
-		$this->html = $std->load_template('skin_emails');
-
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
 		//----------------------------------
@@ -463,11 +454,11 @@ class Contact
 
 		//----------------------------------
 
-		$html = $this->html->pager_header(array('TITLE' => 'MSN'));
+		$html = View::Make("emails.pager_header", ['data' => array('TITLE' => 'MSN')]);
 
-		$html .= $this->html->msn_body($member['msnname']);
+		$html .= View::Make("emails.msn_body", ['msnname' => $member['msnname']]);
 
-		$html .= $this->html->end_table();
+		$html .= View::Make("emails.end_table");
 
 		$print->pop_up_window("MSN CONSOLE", $html);
 
@@ -481,8 +472,6 @@ class Contact
 	function show_yahoo()
 	{
 		global $ibforums, $std, $print;
-
-		$this->html = $std->load_template('skin_emails');
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
@@ -527,11 +516,11 @@ class Contact
 
 		//----------------------------------
 
-		$html = $this->html->pager_header(array('TITLE' => "Yahoo!"));
+		$html = View::Make("emails.pager_header", ['data' => array('TITLE' => "Yahoo!")]);
 
-		$html .= $this->html->yahoo_body($member['yahoo']);
+		$html .= View::Make("emails.yahoo_body", ['yahoo' => $member['yahoo']]);
 
-		$html .= $this->html->end_table();
+		$html .= View::Make("emails.end_table");
 
 		$print->pop_up_window("YAHOO! CONSOLE", $html);
 
@@ -547,8 +536,6 @@ class Contact
 		global $ibforums, $std, $print;
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_emails');
 
 		//----------------------------------
 
@@ -593,7 +580,7 @@ class Contact
 
 		//----------------------------------
 
-		$print->pop_up_window("AOL CONSOLE", $this->html->aol_body(array('AOLNAME' => $member['aim_name'])));
+		$print->pop_up_window("AOL CONSOLE", View::Make("emails.aol_body", ['data' => array('AOLNAME' => $member['aim_name'])]));
 
 	}
 
@@ -607,8 +594,6 @@ class Contact
 		global $ibforums, $std, $print;
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_emails');
 
 		//----------------------------------
 
@@ -651,11 +636,11 @@ class Contact
 
 		//----------------------------------
 
-		$html = $this->html->pager_header(array($ibforums->lang['icq_title']));
+		$html = View::Make("emails.pager_header", ['data' => array($ibforums->lang['icq_title'])]);
 
-		$html .= $this->html->icq_body(array('UIN' => $member['icq_number']));
+		$html .= View::Make("emails.icq_body", ['data' => array('UIN' => $member['icq_number'])]);
 
-		$html .= $this->html->end_table();
+		$html .= View::Make("emails.end_table");
 
 		$print->pop_up_window("ICQ CONSOLE", $html);
 
@@ -678,8 +663,6 @@ class Contact
 		//----------------------------------
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_emails');
 
 		//----------------------------------
 
@@ -756,22 +739,22 @@ class Contact
 				$msg = str_replace("<#EXTRA#>", $extra, $msg);
 			}
 
-			$this->output .= $this->html->errors($msg);
+			$this->output .= View::Make("emails.errors", ['data' => $msg]);
 		}
 
 		//----------------------------------
 
 		$this->output .= $ibforums->vars['use_mail_form']
-			? $this->html->send_form(array(
+			? View::Make('emails.send_form', [ 'data' => array(
 			                              'NAME'    => $member['name'],
 			                              'TO'      => $member['id'],
 			                              'subject' => $ibforums->input['subject'],
 			                              'content' => stripslashes(htmlentities($_POST['message'])),
-			                         ))
-			: $this->html->show_address(array(
+			                         )])
+			: View::Make('emails.show_address', ['data' => array(
 			                                 'NAME'    => $member['name'],
 			                                 'ADDRESS' => $member['email'],
-			                            ));
+			                            )]);
 
 		$this->page_title = $ibforums->lang['member_address_title'];
 		$this->nav        = array($ibforums->lang['member_address_title']);
@@ -890,9 +873,9 @@ class Contact
 
 		$forum_jump = $std->build_forum_jump();
 
-		$this->output = $this->html->sent_screen($member['name']);
+		$this->output = View::Make("emails.sent_screen", ['member_name' => $member['name']]);
 
-		$this->output .= $this->html->forum_jump($forum_jump);
+		$this->output .= View::Make("emails.forum_jump", ['data' => $forum_jump]);
 
 		$this->page_title = $ibforums->lang['email_sent'];
 		$this->nav        = array($ibforums->lang['email_sent']);

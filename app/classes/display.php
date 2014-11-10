@@ -1,5 +1,7 @@
 <?php
 
+use Skins\Views\View;
+
 /**
  * @class Display Class used for rendering process
  *
@@ -58,11 +60,10 @@ class display
 
 	function topNav($output_array)
 	{
-		global $skin_universal, $ibforums, $std;
 
-		$nav = $skin_universal->start_nav("_NEW");
-		$nav .= $skin_universal->topBreadcrumbs($this->makeBreadcrumbs($output_array));
-		$nav .= $skin_universal->end_nav();
+		$nav = View::Make("global.start_nav", ['NEW' => "_NEW"]);
+		$nav .= View::Make("global.topBreadcrumbs", ['items' => $this->makeBreadcrumbs($output_array)]);
+		$nav .= View::Make("global.end_nav");
 
 		return $nav;
 	}
@@ -74,8 +75,7 @@ class display
 	 */
 	function bottomNav($output_array)
 	{
-		global $skin_universal;
-		return $skin_universal->bottomBreadcrumbs($this->makeBreadcrumbs($output_array));
+		return View::Make("global.bottomBreadcrumbs", ['items' => $this->makeBreadcrumbs($output_array)]);
 	}
 
 	//-------------------------------------------
@@ -138,7 +138,7 @@ class display
 
 	function do_output($output_array)
 	{
-		global $Debug, $skin_universal, $ibforums, $std;
+		global $Debug, $ibforums, $std;
 
 		if ($ibforums->input['show_cp_order_number'] == 1)
 		{
@@ -237,7 +237,7 @@ class display
 
 			$timestamp = gmdate('j.m.y, H:i T');
 
-			$stats = $skin_universal->RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload);
+			$stats = View::Make("global.RenderScriptStatsRow", ['ex_time' => $ex_time,'query_cnt' => $query_cnt,'timestamp' => $timestamp,'sload' => $sload]);
 
 		}
 		/********************************************************/
@@ -251,7 +251,7 @@ class display
 		//---------------------------------------------------------
 		// Song * CSS based on User CP + common CSS, 29.12.04
 
-		$css = $skin_universal->css_external($ibforums->skin->getCSSFile()) . "\n";
+		$css = View::Make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
 
 		//---------------------------------------------------------
 
@@ -321,7 +321,7 @@ class display
 
 		/*		 * ***************************************************** */
 		// Build the board header
-		$this_header = $skin_universal->BoardHeader($ibforums->member['id'] && $this->is_new_fav_exists());
+		$this_header = View::Make("global.BoardHeader", ['fav_active' => $ibforums->member['id'] && $this->is_new_fav_exists()]);
 
 		// Show rules link?
 
@@ -334,7 +334,7 @@ class display
 
 			$this_header = str_replace(
 				"<!--IBF.RULES-->",
-				$skin_universal->rules_link($ibforums->vars['gl_link'], $ibforums->vars['gl_title']),
+				View::Make("global.rules_link", ['url' => $ibforums->vars['gl_link'],'title' => $ibforums->vars['gl_title']]),
 				$this_header
 			);
 		}
@@ -345,7 +345,7 @@ class display
 
 		if (!$ibforums->member['id'])
 		{
-			$output_array['MEMBER_BAR'] = $skin_universal->Guest_bar();
+			$output_array['MEMBER_BAR'] = View::Make("global.Guest_bar");
 		} else
 		{
 			$pm_js = "";
@@ -383,18 +383,18 @@ class display
 
 				if ($ibforums->input['act'] != 'Msg')
 				{
-					$pm_js = $skin_universal->PM_popup();
+					$pm_js = View::Make("global.PM_popup");
 				}
 			}
 
 			$mod_link = "";
 
 			$admin_link = $ibforums->member['g_access_cp']
-				? $skin_universal->admin_link()
+				? View::Make("global.admin_link")
 				: '';
 
 			$valid_link = $ibforums->member['mgroup'] == $ibforums->vars['auth_group']
-				? $skin_universal->validating_link()
+				? View::Make("global.validating_link")
 				: '';
 
 			if ($ibforums->member['mgroup'] == $ibforums->vars['auth_group'])
@@ -402,27 +402,27 @@ class display
 				$valid_warning = str_replace(
 					'*EMAIL*',
 					$ibforums->member['email'],
-					$skin_universal->member_valid_warning()
+					View::Make("global.member_valid_warning")
 				);
 			}
 
 			if (!$ibforums->member['g_use_pm'])
 			{
-				$output_array['MEMBER_BAR'] = $skin_universal->Member_no_usepm_bar($admin_link, $mod_link, $valid_link);
+				$output_array['MEMBER_BAR'] = View::Make("global.Member_no_usepm_bar", ['ad_link' => $admin_link,'mod_link' => $mod_link,'val_link' => $valid_link]);
 			} else
 			{
-				$output_array['MEMBER_BAR'] = $pm_js . $skin_universal->Member_bar(
-						$msg_data,
-						$admin_link,
-						$mod_link,
-						$valid_link
-					);
+				$output_array['MEMBER_BAR'] = $pm_js . View::Make('global.Member_bar', [
+						'msg' => $msg_data,
+						'ad_link' => $admin_link,
+						'mod_link' => $mod_link,
+						'val_link' => $valid_link
+					]);
 			}
 		}
 
 		// vot:
 		// Adjust the page title for russian search bots
-
+		//todo jrth: hmmm
 		$output_array['TITLE'] = str_replace(".RU", ".Ру", $output_array['TITLE']);
 
 		// Check for OFFLINE BOARD
@@ -451,7 +451,7 @@ class display
 
 		if (!$output_array['RSS'])
 		{
-			$output_array['RSS'] = $skin_universal->rss();
+			$output_array['RSS'] = View::Make("global.rss");
 		}
 
 		$change[] = $output_array['RSS'];
@@ -535,7 +535,7 @@ class display
 
 	function prepare_output($template)
 	{
-		global $Debug, $skin_universal, $std;
+		global $Debug, $std;
 		$ibforums = Ibf::app();
 
 		$replace = array();
@@ -585,7 +585,7 @@ class display
 		if ($ibforums->vars['ipshosting_credit'])
 		{
 			$replace[] = "<!--IBF.BANNER-->";
-			$change[]  = $skin_universal->ibf_banner();
+			$change[]  = View::Make("global.ibf_banner");
 		}
 
 		//+--------------------------------------------
@@ -598,8 +598,8 @@ class display
 			$ibforums->vars['chat_width'] += 50;
 
 			$chat_link = ($ibforums->vars['chat_display'] == 'self')
-				? $skin_universal->show_chat_link_inline()
-				: $skin_universal->show_chat_link_popup();
+				? View::Make("global.show_chat_link_inline")
+				: View::Make("global.show_chat_link_popup");
 
 			$replace[] = "<!--IBF.CHATLINK-->";
 			$change[]  = $chat_link;
@@ -693,7 +693,6 @@ class display
 	//-------------------------------------------
 	function text_only($text = "", $macro = false)
 	{
-		global $skin_universal;
 		$ibforums = Ibf::app();
 
 		$html = $text;
@@ -731,14 +730,14 @@ class display
 
 	function pop_up_window($title = 'Invision Power Board', $text = "")
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		//---------------------------------------------------------
 		// CSS
 		//---------------------------------------------------------
 		// CSS based on User CP + common CSS, Song * 29.12.04
 
-		$css = $skin_universal->css_external($ibforums->skin->getCSSFile()) . "\n";
+		$css = View::Make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
 
 		// Song + Mixxx * included js, client highlight, 23.12.04
 
@@ -758,7 +757,7 @@ class display
 			}
 		}
 
-		$html = $skin_universal->pop_up_window($title, $css, $text);
+		$html = View::Make("global.pop_up_window", ['title' => $title,'css' => $css,'text' => $text]);
 
 		foreach($ibforums->skin->getMacroValues() as $macro_value => $macro_replace)
 		{

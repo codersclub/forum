@@ -5,7 +5,7 @@
 
 namespace Skins;
 
-class TestBaseSkin extends BaseSkin {
+class TestBaseSkinManager extends BaseSkinManager {
 
     public function getName()
     {
@@ -29,7 +29,7 @@ class TestBaseSkin extends BaseSkin {
         return 'test';
     }
 
-    public function getViewsDirectory()
+    public function getTemplatesPath()
     {
         return \Config::get('path.app') . '/tests/Mock/SkinsTestFiles/template';
     }
@@ -47,7 +47,7 @@ class BaseSkinTest extends \PHPUnit_Framework_TestCase
     public function testGlobal()
     {
         //creation
-        $skin = new TestBaseSkin();
+        $skin = new TestBaseSkinManager();
         $this->assertInstanceOf('\Skins\BaseSkin', $skin);
         //views
         $this->assertInstanceOf('\Skins\Views\Collection', $skin->getViews());
@@ -66,7 +66,7 @@ class BaseSkinTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testOffsetGetAndExists(){
-        $skin = new TestBaseSkin();
+        $skin = new TestBaseSkinManager();
         $this->assertInstanceOf('\Skins\Views\Collection', $skin['views']);
         $this->assertNull($skin['non_existing_value']);
         $this->assertTrue(isset($skin['views']));
@@ -77,7 +77,7 @@ class BaseSkinTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Exception
      */
     public function testOffsetSet(){
-        $skin = new TestBaseSkin();
+        $skin = new TestBaseSkinManager();
         $skin['views'] = null;
     }
 
@@ -85,7 +85,7 @@ class BaseSkinTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Exception
      */
     public function testOffsetUnset(){
-        $skin = new TestBaseSkin();
+        $skin = new TestBaseSkinManager();
         unset($skin['views']);
     }
 

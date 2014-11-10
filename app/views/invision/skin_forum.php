@@ -328,8 +328,8 @@ EOF;
 
 
 function TableEnd($data) {
-global $ibforums, $skin_universal;
-$legend = $skin_universal->topicsListLegend();
+global $ibforums;
+$legend = \Skins\Views\View::Make('global.topicsListLegend');
 return <<<EOF
 <tfoot>
 {$data["modform_close"]}

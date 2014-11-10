@@ -19,6 +19,7 @@
 +--------------------------------------------------------------------------
 */
 
+use Skins\Views\View;
 class post_functions extends Post
 {
 
@@ -755,13 +756,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= $class->html->errors($ibforums->lang[$class->obj['post_errors']]);
+			$class->output .= View::Make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= $class->html->errors($error_message);
+				$class->output .= View::Make("post.errors", ['data' => $error_message]);
 			}
 		}
 
@@ -782,7 +783,7 @@ class post_functions extends Post
 					? 1
 					: 0);
 
-			$class->output .= $class->html->preview($this->post['post']);
+			$class->output .= View::Make("post.preview", ['data' => $this->post['post']]);
 		}
 
 		$class->check_upload_ability();
@@ -806,30 +807,30 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::Make("post.table_structure");
 
 		//---------------------------------------
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_reply']} {$this->topic['title']}");
+		$start_table = View::Make("post.table_top", ['data' => "{$ibforums->lang['top_txt_reply']} {$this->topic['title']}"]);
 
 		$name_fields = $class->html_name_field();
 
 		if (!$class->obj['preview_post'])
 		{
-			$quote_box = $class->html->quote_box($this->quoted_post);
+			$quote_box = View::Make("post.quote_box", ['data' => $this->quoted_post]);
 		}
 
 		$post_box = $class->html_post_body($raw_post, $this->topic);
 
 		$mod_options = $class->mod_options(1);
 
-		$end_form = $class->html->EndForm($ibforums->lang['submit_reply']);
+		$end_form = View::Make("post.EndForm", ['data' => $ibforums->lang['submit_reply']]);
 
 		$post_icons = $class->html_post_icons();
 
 		if ($class->obj['can_upload'])
 		{
-			$upload_field = $class->html->Upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024));
+			$upload_field = View::Make("post.Upload_field", ['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]);
 		}
 
 		//---------------------------------------

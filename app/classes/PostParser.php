@@ -19,6 +19,7 @@
 |
 +--------------------------------------------------------------------------
 */
+use Skins\Views\View;
 
 class syntax_cfg
 {
@@ -629,23 +630,23 @@ class PostParser
 	//за исключением тех, которые находятся дальше последнего [/spoiler], ибо они сюда даже не попадут
 	private function convert_spoiler($matches)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 		//Проверка matches[4] здесь - выяснение, сработало вхождение [spoiler] или [/spoiler].
 		if (!$matches[4])
 		{
 			//Starting Tag
 			$this->quote_open++;
 			$matches[3] = trim($matches[3]);
-			return $skin_universal->renderTagSpoilerTop(
-				$matches[3]
+			return View::Make('global.renderTagSpoilerTop', [
+				'header' => $matches[3]
 					? $matches[3]
 					: $ibforums->lang["spoiler"]
-			);
+			]);
 		} elseif ($this->quote_open > 0)
 		{
 			// Ending Tag
 			$this->quote_open--;
-			return $skin_universal->renderTagSpoilerBottom();
+			return View::Make("global.renderTagSpoilerBottom");
 		} else
 		{
 			// Leave As Is
@@ -941,7 +942,7 @@ class PostParser
 
 			!trim($text) && $text = $ibforums->lang['attached_file'];
 
-			$text = Ibf::app()->functions->load_template('skin_forum')->attach($text, $attach);
+			$text = \Skins\Views\View::Make('forum.attach',['text' => $text, 'attach' => $attach]);
 		}
 		return $text;
 	}
@@ -967,29 +968,27 @@ class PostParser
 
 		if ($attach->hasOption('img'))
 		{ //image as itself
-			$text = Ibf::app()->functions->load_template('skin_forum')->attachImageFull(
-				$text,
-				$alt,
-				$attach->getHref()
-			);
+			$text = \Skins\Views\View::Make('forum.attachImageFull', [
+				'text' => $text,
+				'alt' => $alt,
+				'url' => $attach->getHref()
+			]);
 		} elseif ($show_reduced)
 		{
 			//image as reduced preview
-			$text = Ibf::app()->functions->load_template('skin_forum')
-				->attachImagePreviewReduced(
-				$text,
-				$alt,
-				$attach
-			);
+			$text = Skins\Views\View::Make('skin_forum.attachImagePreviewReduced', [
+				'text' => $text,
+				'alt' => $alt,
+				'attach' => $attach
+			]);
 		} else
 		{
 			//image as preview
-			$text = Ibf::app()->functions->load_template('skin_forum')
-				->attachImagePreview(
-				$text,
-				$alt,
-				$attach
-			);
+			$text = \Skins\Views\View::Make('skin_forum.attachImagePreview', [
+				'text' => $text,
+				'alt' => $alt,
+				'attach' => $attach
+			]);
 		}
 		return $text;
 	}
@@ -1085,7 +1084,7 @@ class PostParser
 	// Song * message for moderator only, 03.11.2004
 	function regex_moderator_message($message)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$message or !$ibforums->member['id'])
 		{
@@ -1096,13 +1095,13 @@ class PostParser
 			return "";
 		}
 
-		return $skin_universal->renderTagMM($message);
+		return View::Make("global.renderTagMM", ['text' => $message]);
 
 	}
 
 	function regex_global_moderator_message($message, $mid = 0)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$ibforums->member['id'] or !$message)
 		{
@@ -1122,7 +1121,7 @@ class PostParser
 			}
 		}
 
-		return $skin_universal->renderTagGM($message);
+		return View::Make("global.renderTagGM", ['text' => $message]);
 
 	}
 
@@ -1144,7 +1143,7 @@ class PostParser
 	))
 	{
 
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		Logs::debug('Parser', 'PostParser::prepare called', ['in' => $in]);
 
@@ -1229,12 +1228,11 @@ class PostParser
 		$txt = preg_replace_callback(
 			"#\[mergetime\](\d+)\[/mergetime\]#is",
 			function($m) {
-				global $skin_universal;
 				$ibf = Ibf::app();
 
 				return ($ibf->vars['plg_offline_client'] || $ibf->member['rss']) //todo !!!!??!!!!
 					? $ibf->functions->old_get_date($m[1])
-					: $skin_universal->renderTime($m[1], 'tag-mergetime');
+					: View::Make("global.renderTime", ['unixtime' => $m[1],'class' => 'tag-mergetime']);
 			},
 			$txt);
 
@@ -2449,8 +2447,6 @@ class PostParser
 
 	function regex_list($txt = "", $type = "")
 	{
-		global $skin_universal;
-
 		if ($txt == "")
 		{
 			return;
@@ -2459,8 +2455,8 @@ class PostParser
 		//$txt = str_replace( "\n", "", str_replace( "\r\n", "\n", $txt ) );
 
 		return $type == ""
-			? $skin_universal->renderTagListUnordered($this->regex_list_item($txt))
-			: $skin_universal->renderTagListOrdered($this->regex_list_item($txt), $type);
+			? View::Make("global.renderTagListUnordered", ['text' => $this->regex_list_item($txt)])
+			: View::Make("global.renderTagListOrdered", ['text' => $this->regex_list_item($txt),'type' => $type]);
 	}
 
 	function regex_list_item($txt)
@@ -2479,7 +2475,7 @@ class PostParser
 
 	function regex_mod_tag($txt = "")
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$txt)
 		{
@@ -2502,7 +2498,7 @@ class PostParser
 		// Ensure that spacing is preserved
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
-		$html = $skin_universal->renderTagMod($txt);
+		$html = View::Make("global.renderTagMod", ['text' => $txt]);
 
 
 		return $html;
@@ -2515,7 +2511,7 @@ class PostParser
 
 	function regex_exclaime_tag($txt = "")
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$txt)
 		{
@@ -2539,7 +2535,7 @@ class PostParser
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
 
-		$html = $skin_universal->renderTagEx($txt);
+		$html = View::Make("global.renderTagEx", ['text' => $txt]);
 
 		return $html;
 	}
@@ -2646,7 +2642,7 @@ class PostParser
 
 	function regex_quote_tag($matches)
 	{
-		global $ibforums, $std, $skin_universal;
+		global $ibforums, $std;
 
 		$name = $matches[1];
 		$date = $matches[2];
@@ -2677,7 +2673,7 @@ class PostParser
 			{
 				$date = ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
 					? $std->old_get_date($date)
-					: $skin_universal->renderTime($date, 'tag-quote__quoted-time');
+					: View::Make("global.renderTime", ['unixtime' => $date,'class' => 'tag-quote__quoted-time']);
 			}
 
 			$html = $this->wrap_style(array(
@@ -2794,8 +2790,6 @@ class PostParser
 
 	function regex_font_attr($IN)
 	{
-		global $skin_universal;
-
 		if (!is_array($IN))
 		{
 			return "";
@@ -2822,21 +2816,21 @@ class PostParser
 				$IN['1'] = 30;
 			}
 
-			return $skin_universal->renderTagSize($IN['1'], $IN['2']);
+			return View::Make("global.renderTagSize", ['value' => $IN['1'],'text' => $IN['2']]);
 
 		} elseif ($IN['s'] == 'col')
 		{
 			$IN[1] = strtolower(preg_replace("/[^\d\w\#\s]/s", "", $IN[1]));
 
 			return preg_match('!^([0-9a-f]{6}|[0-9a-f]{3})$!i', $IN['1'])
-				? $skin_universal->renderTagColor($IN['1'], $IN['2'])
-				: $skin_universal->renderTagColorNamed($IN['1'], $IN['2']);
+				? View::Make("global.renderTagColor", ['value' => $IN['1'],'text' => $IN['2']])
+				: View::Make("global.renderTagColorNamed", ['value' => $IN['1'],'text' => $IN['2']]);
 
 		} elseif ($IN['s'] == 'font')
 		{
 			$IN['1'] = preg_replace("/[^\d\w\#\-\_\s]/s", "", $IN['1']);
 
-			return $skin_universal->renderTagFont($IN['1'], $IN['2']);
+			return View::Make("global.renderTagFont", ['value' => $IN['1'],'text' => $IN['2']]);
 		}
 	}
 

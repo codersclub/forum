@@ -20,6 +20,7 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Views\View;
 
 $idx = new warn;
 
@@ -57,8 +58,6 @@ class  warn
 		//-------------------------------------
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_mod', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_mod');
 
 		$this->parser = new PostParser(1);
 
@@ -270,11 +269,11 @@ class  warn
 		                                    'BASE_URL'   => $this->base_url . "act=warn&amp;CODE=view&amp;mid={$this->warn_member['id']}",
 		                               ));
 
-		$this->output .= $this->html->warn_view_header($this->warn_member['id'], $this->warn_member['name'], $links);
+		$this->output .= View::Make("mod.warn_view_header", ['id' => $this->warn_member['id'],'name' => $this->warn_member['name'],'links' => $links]);
 
 		if ($row['cnt'] < 1)
 		{
-			$this->output .= $this->html->warn_view_none();
+			$this->output .= View::Make("mod.warn_view_none");
 		} else
 		{
 			$stmt = $ibforums->db->query("SELECT l.*,  p.id as punisher_id, p.name as punisher_name
@@ -299,21 +298,21 @@ class  warn
 
 				if ($r['wlog_type'] == 'pos')
 				{
-					$this->output .= $this->html->warn_view_positive_row($date, $content, $puni_name);
+					$this->output .= View::Make("mod.warn_view_positive_row", ['date' => $date,'content' => $content,'puni_name' => $puni_name]);
 
 				} elseif ($r['wlog_type'] == 'null')
 				{
-					$this->output .= $this->html->warn_view_null_row($date, $content, $puni_name);
+					$this->output .= View::Make("mod.warn_view_null_row", ['date' => $date,'content' => $content,'puni_name' => $puni_name]);
 
 				} else
 				{
-					$this->output .= $this->html->warn_view_negative_row($date, $content, $puni_name);
+					$this->output .= View::Make("mod.warn_view_negative_row", ['date' => $date,'content' => $content,'puni_name' => $puni_name]);
 				}
 
 			}
 		}
 
-		$this->output .= $this->html->warn_view_footer();
+		$this->output .= View::Make("mod.warn_view_footer");
 
 		$print->pop_up_window("WARN", $this->output);
 
@@ -903,7 +902,7 @@ class  warn
 
 		$ibforums->lang['w_done_te'] = sprintf($ibforums->lang['w_done_te'], $this->warn_member['name']);
 
-		$this->output .= $this->html->warn_success();
+		$this->output .= View::Make("mod.warn_success");
 
 		// Did we have a topic? eh! eh!! EH!
 
@@ -915,7 +914,7 @@ class  warn
 
 			$topic = $stmt->fetch();
 
-			$this->output = str_replace("<!--IBF.FORUM_TOPIC-->", $this->html->warn_success_forum($topic['id'], $topic['name'], $topic['tid'], $pid, $topic['title']), $this->output);
+			$this->output = str_replace("<!--IBF.FORUM_TOPIC-->", View::Make("mod.warn_success_forum", ['fid' => $topic['id'],'fname' => $topic['name'],'tid' => $topic['tid'],'pid' => $pid,'tname' => $topic['title']]),$this->output);
 		}
 	}
 
@@ -936,7 +935,7 @@ class  warn
 
 		if ($errors)
 		{
-			$this->output .= $this->html->warn_errors($ibforums->lang[$errors]);
+			$this->output .= View::Make("mod.warn_errors", ['data' => $ibforums->lang[$errors]]);
 		}
 
 		$fid = intval($ibforums->input['f']);
@@ -980,7 +979,7 @@ class  warn
 			$type['add'] = 'checked="checked"';
 		}
 
-		$this->output .= $this->html->warn_header($this->warn_member['id'], $this->warn_member['name'], intval($this->warn_member['warn_level']), $ibforums->vars['warn_min'], $ibforums->vars['warn_max'], $key, $fid, intval($ibforums->input['t']), $pid, intval($ibforums->input['st']), $type);
+		$this->output .= View::Make("mod.warn_header", ['mid' => $this->warn_member['id'],'name' => $this->warn_member['name'],'cur' => intval($this->warn_member['warn_level']),'min' => $ibforums->vars['warn_min'],'max' => $ibforums->vars['warn_max'],'key' => $key,'fid' => $fid,'tid' => intval($ibforums->input['t']),'pid' => $pid,'st' => intval($ibforums->input['st']),'type' => $type]);
 
 		if ($ibforums->member['g_is_supmod'])
 		{
@@ -1020,14 +1019,14 @@ class  warn
 					$mod_arr['timespan'] = $hours;
 				}
 
-				$mod_extra = $this->html->warn_restricition_in_place();
+				$mod_extra = View::Make("mod.warn_restricition_in_place");
 			}
 
-			$this->output .= $this->html->warn_mod_posts($mod_tick, $mod_arr, $mod_extra);
+			$this->output .= View::Make("mod.warn_mod_posts", ['mod_tick' => $mod_tick,'mod_array' => $mod_arr,'mod_extra' => $mod_extra]);
 
 			if ($ibforums->member['g_is_supmod'])
 			{
-				$this->output .= $this->html->add_radio_buttons('RCanMod', $forum['name']);
+				$this->output .= View::Make("mod.add_radio_buttons", ['name' => 'RCanMod','forum' => $forum['name']]);
 			} else
 			{
 				$this->output .= "</tr>";
@@ -1059,14 +1058,14 @@ class  warn
 					$post_arr['timespan'] = $hours;
 				}
 
-				$post_extra = $this->html->warn_restricition_in_place();
+				$post_extra = View::Make("mod.warn_restricition_in_place");
 			}
 
-			$this->output .= $this->html->warn_rem_posts($post_tick, $post_arr, $post_extra);
+			$this->output .= View::Make("mod.warn_rem_posts", ['post_tick' => $post_tick,'post_array' => $post_arr,'post_extra' => $post_extra]);
 
 			if ($ibforums->member['g_is_supmod'])
 			{
-				$this->output .= $this->html->add_radio_buttons('RCanRemPost', $forum['name']);
+				$this->output .= View::Make("mod.add_radio_buttons", ['name' => 'RCanRemPost','forum' => $forum['name']]);
 			} else
 			{
 				$this->output .= "</tr>";
@@ -1098,14 +1097,14 @@ class  warn
 					$ban_arr['timespan'] = $hours;
 				}
 
-				$ban_extra = $this->html->warn_restricition_in_place();
+				$ban_extra = View::Make("mod.warn_restricition_in_place");
 			}
 
-			$this->output .= $this->html->warn_suspend($ban_tick, $ban_arr, $ban_extra);
+			$this->output .= View::Make("mod.warn_suspend", ['ban_tick' => $ban_tick,'susp_array' => $ban_arr,'susp_extra' => $ban_extra]);
 
 			if ($ibforums->member['g_is_supmod'])
 			{
-				$this->output .= $this->html->add_radio_buttons('RCanBan', $forum['name']);
+				$this->output .= View::Make("mod.add_radio_buttons", ['name' => 'RCanBan','forum' => $forum['name']]);
 			} else
 			{
 				$this->output .= "</tr>";
@@ -1120,19 +1119,19 @@ class  warn
 				? " checked='checked'"
 				: "";
 
-			$this->output .= $this->html->warn_ban_group($ban);
+			$this->output .= View::Make("mod.warn_ban_group", ['checked' => $ban]);
 		}
 
 		// Song * ban group, 09.03.05
 
 		if ($ibforums->input['type'] == "add")
 		{
-			$this->output .= $this->html->warn_time();
+			$this->output .= View::Make("mod.warn_time");
 		}
 
 		$ibforums->input['subject'] = "Вам вынесено предупреждение от модератора";
 
-		$this->output .= $this->html->warn_footer($this->html->lazy_combobox());
+		$this->output .= View::Make("mod.warn_footer", ['lazy' => View::Make('mod.lazy_combobox')]);
 
 	}
 

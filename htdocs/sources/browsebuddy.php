@@ -21,6 +21,7 @@
 +--------------------------------------------------------------------------
 */
 
+use Skins\Views\View;
 
 $idx = new buddy;
 
@@ -44,8 +45,6 @@ class buddy {
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_buddy', $ibforums->lang_id );
 
-    	$this->html = $std->load_template('skin_buddy');
-
     	//--------------------------------------------
     	// What to do?
     	//--------------------------------------------
@@ -59,9 +58,9 @@ class buddy {
 
     	// If we have any HTML to print, do so...
 
-    	$this->output = str_replace( "<!--CLOSE.LINK-->", $this->html->closelink(), $this->output );
+    	$this->output = str_replace( "<!--CLOSE.LINK-->", View::Make("buddy.closelink"), $this->output );
 
-    	$print->pop_up_window($ibforums->lang['page_title'], $this->html->buddy_js().$this->output);
+    	$print->pop_up_window($ibforums->lang['page_title'], View::Make("buddy.buddy_js").$this->output);
 
 
  	}
@@ -77,7 +76,7 @@ class buddy {
 
  		if ( ! $ibforums->member['id'] )
  		{
- 			$this->output = $this->html->login();
+ 			$this->output = View::Make("buddy.login");
  			return;
  		}
  		else
@@ -168,19 +167,19 @@ class buddy {
  				$ibforums->lang['new_posts']  = sprintf($ibforums->lang['new_posts'] , $posts_total  );
  				$ibforums->lang['my_replies'] = sprintf($ibforums->lang['my_replies'], $topics_total );
 
-// 				$ibforums->lang['new_posts'] .= $this->html->append_view("&act=Select&CODE=getnew");
- 				$ibforums->lang['new_posts'] .= $this->html->append_view("&act=Select&CODE=getnew");
+// 				$ibforums->lang['new_posts'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
+ 				$ibforums->lang['new_posts'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
 
  				if ($topic > 0)
  				{
- 					$ibforums->lang['my_replies'] .= $this->html->append_view("&act=Select&CODE=getreplied");
+ 					$ibforums->lang['my_replies'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getreplied']);
  				}
 
- 				$text = $this->html->build_away_msg();
+ 				$text = View::Make("buddy.build_away_msg");
  			}
 
 
- 			$this->output = $this->html->main($text);
+ 			$this->output = View::Make("buddy.main", ['away_text' => $text]);
  		}
 
 

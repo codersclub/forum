@@ -2,18 +2,6 @@
 
 class skin_topic {
 
-protected $post;
-/**
- * @return skin_post
- */
-protected function post()
-{
-	global $std;
-	!$this->post && !$this->post = $std->load_template("skin_post");
-	return $this->post;
-}
-
-
 function Show_attachments_img($post_id, $attach_id) {
 global $ibforums;
 return <<<EOF
@@ -164,15 +152,15 @@ EOF;
 }
 
 function RenderDeletedRow($post, $author, $preview) {
-global $ibforums, $skin_universal;
+global $ibforums;
 
 if ($post["use_sig"] == 1)
 {
-	$e_time = $skin_universal->renderTime($post['decline_time']);
+	$e_time = \Skins\Views\View::Make('global.renderTime', ['unixtime' => $post['decline_time']]);
 	$dtext = sprintf($ibforums->lang["permited_by"], $post["edit_name"], $e_time);
 } else
 {
-	$e_time = $skin_universal->renderTime($post["edit_time"]);
+	$e_time = \Skins\Views\View::Make('global.renderTime', ['unixtime' => $post["edit_time"]]);
 	$dtext = $ibforums->lang["del_by_user"]." - ".$e_time;
 }
 
@@ -334,9 +322,9 @@ $out = <<<EOF
 <table class="quick_reply" cellpadding="0" cellspacing="0" width="100%">
 <!--IBF.NAME_FIELD-->
 EOF;
-$out .= $this->post()->postbox_buttons("", $syntax_select, $mod_buttons, $topic_decided);
+$out .= \Skins\Views\View::Make('post.postbox_buttons', ['data' => "", 'syntax_select' => $syntax_select, 'mod_buttons' => $mod_buttons, 'topic_decided' => $topic_decided]);
 $out .= "<!--UPLOAD FIELD-->";
-$out .= $this->post()->EndForm($ibforums->lang["submit_reply"]);
+$out .= \Skins\Views\View::Make('post.EndForm', ['data' => $ibforums->lang["submit_reply"]]);
 $out .= <<<EOF
 </div>
 </table>
@@ -347,7 +335,7 @@ return $out;
 }
 
 function Upload_field($data) {
-	return $this->post()->Upload_field($data);
+	return \Skins\Views\View::Make('post.Upload_field', ['data' => $data]);
 }
 
 function mod_wrapper($id="", $text="") {

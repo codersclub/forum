@@ -23,7 +23,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        //uses DatasetSkin
+        //uses DatasetSkinManager
         $skin = Factory::create(0);
         $this->assertInstanceOf('\Skins\BaseSkin', $skin);
         $this->assertAttributeEquals('Default test skin', 'name', $skin);
