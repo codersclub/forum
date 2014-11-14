@@ -32,7 +32,6 @@ class module extends module_loader
 
 	var $class = "";
 	var $module = "";
-	var $html = "";
 
 	var $result = "";
 

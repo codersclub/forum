@@ -20,7 +20,8 @@
   |	> Module Version Number: 1.0.0
   +--------------------------------------------------------------------------
  */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new Messenger;
 
@@ -30,7 +31,6 @@ class Messenger
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	var $html = "";
 	var $email = "";
 	var $msg_stats = array();
 	var $prefs = "";
@@ -123,7 +123,7 @@ class Messenger
 			$real_label = $real;
 			if ($id != 'in' and $id != 'sent')
 			{
-				$folder_links .= View::Make("ucp.menu_bar_msg_folder_link", ['id' => $id,'real' => $real]);
+				$folder_links .= View::make("ucp.menu_bar_msg_folder_link", ['id' => $id, 'real' => $real]);
 			}
 
 			if ($this->vid == $id)
@@ -157,15 +157,15 @@ class Messenger
 				}
 			}
 
-			$delete_profile_link = View::Make("ucp.delete_cancel", ['days' => $days_remained]);
+			$delete_profile_link = View::make("ucp.delete_cancel", ['days' => $days_remained]);
 		} else
 		{
-			$delete_profile_link = View::Make("ucp.delete_account");
+			$delete_profile_link = View::make("ucp.delete_account");
 		}
 
 		// Song * delete profile link, 04.03.05
 
-		$menu_html = View::Make("ucp.Menu_bar", ['base_url' => $this->base_url,'delete' => $delete_profile_link]);
+		$menu_html = View::make("ucp.Menu_bar", ['base_url' => $this->base_url, 'delete' => $delete_profile_link]);
 
 		if ($folder_links)
 		{
@@ -265,9 +265,9 @@ class Messenger
 		$fj = $std->build_forum_jump();
 		$fj = preg_replace("!#Forum Jump#!", $ibforums->lang['forum_jump'], $fj);
 
-		$this->output .= View::Make("ucp.CP_end");
+		$this->output .= View::make("ucp.CP_end");
 
-		$this->output .= View::Make("ucp.forum_jump", ['data' => $fj]);
+		$this->output .= View::make("ucp.forum_jump", ['data' => $fj]);
 
 		$print->add_output("$this->output");
 		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
@@ -350,7 +350,7 @@ class Messenger
 		$text = preg_replace("/<#TITLE#>/", $row['title'], $text);
 		$text = preg_replace("/<#DATE#>/", $row['msg_date'], $text);
 
-		$html = View::Make("msg.pm_popup", ['text' => $text,'mid' => $this->msg_stats['msg_msg_id']]);
+		$html = View::make("msg.pm_popup", ['text' => $text, 'mid' => $this->msg_stats['msg_msg_id']]);
 
 		$print->pop_up_window("PM", $html);
 	}
@@ -391,7 +391,7 @@ class Messenger
 	{
 		global $ibforums, $std, $print;
 
-		$this->output .= View::Make("msg.empty_folder_header");
+		$this->output .= View::make("msg.empty_folder_header");
 
 		//--------------------------------------------------
 		// Get the PM count - 1 query?
@@ -422,11 +422,11 @@ class Messenger
 		foreach ($names as $vid => $name)
 		{
 			$name = $this->get_folder_name_by_vid($vid, $name);
-			$this->output .= View::Make("msg.empty_folder_row", ['real' => $name,'id' => $vid,'cnt' => $count[$vid]]);
+			$this->output .= View::make("msg.empty_folder_row", ['real' => $name, 'id' => $vid, 'cnt' => $count[$vid]]);
 		}
 
-		$this->output .= View::Make("msg.empty_folder_save_unread");
-		$this->output .= View::Make("msg.empty_folder_footer");
+		$this->output .= View::make("msg.empty_folder_save_unread");
+		$this->output .= View::make("msg.empty_folder_footer");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -499,7 +499,7 @@ class Messenger
 
 		$this->jump_html = preg_replace("/<!--EXTRA-->/", "<option value='all'>" . $ibforums->lang['all_folders'] . "</option>", $this->jump_html);
 
-		$this->output .= View::Make("msg.archive_form", ['jump_html' => $this->jump_html]);
+		$this->output .= View::make("msg.archive_form", ['jump_html' => $this->jump_html]);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -575,7 +575,7 @@ class Messenger
 
 		if ($type == 'html')
 		{
-			$output .= View::Make("msg.archive_html_header");
+			$output .= View::make("msg.archive_html_header");
 		}
 
 		$this->parser = new PostParser(1);
@@ -622,17 +622,17 @@ class Messenger
 					if ($r['vid'] == 'sent')
 					{
 						$info['msg_sender'] = $r['rec_name'];
-						$output .= View::Make("msg.archive_html_entry_sent", ['info' => $info]);
+						$output .= View::make("msg.archive_html_entry_sent", ['info' => $info]);
 					} else
 					{
-						$output .= View::Make("msg.archive_html_entry", ['info' => $info]);
+						$output .= View::make("msg.archive_html_entry", ['info' => $info]);
 					}
 				}
 			}
 
 			if ($type == 'html')
 			{
-				$output .= View::Make("msg.archive_html_footer");
+				$output .= View::make("msg.archive_html_footer");
 			}
 
 			$num_msg = count($msg_ids);
@@ -664,7 +664,7 @@ class Messenger
 
 			$ibforums->lang['arc_complete'] = preg_replace("/<#NUM#>/", "$num_msg", $ibforums->lang['arc_complete']);
 
-			$this->output .= View::Make("msg.archive_complete");
+			$this->output .= View::make("msg.archive_complete");
 
 			$this->page_title = $ibforums->lang['t_welcome'];
 			$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -691,7 +691,7 @@ class Messenger
 	{
 		global $ibforums, $std, $print;
 
-		$this->output .= View::Make("msg.prefs_header");
+		$this->output .= View::make("msg.prefs_header");
 
 		$max = 1;
 
@@ -704,7 +704,10 @@ class Messenger
 				$extra = "&nbsp;&nbsp;( " . $v['real'] . " - " . $ibforums->lang['cannot_remove'] . " )";
 			}
 
-			$this->output .= View::Make("msg.prefs_row", ['data' => ['ID' => $v['id'], 'REAL' => $v['real'], 'EXTRA' => $extra]]);
+			$this->output .= View::make(
+				"msg.prefs_row",
+				['data' => ['ID' => $v['id'], 'REAL' => $v['real'], 'EXTRA' => $extra]]
+			);
 
 			if (stristr($v['id'], 'dir_'))
 			{
@@ -714,14 +717,17 @@ class Messenger
 
 		$count = $max + 1;
 
-		$this->output .= View::Make("msg.prefs_add_dirs");
+		$this->output .= View::make("msg.prefs_add_dirs");
 
 		for ($i = $count; $i < $count + 3; $i++)
 		{
-			$this->output .= View::Make("msg.prefs_row", ['data' => array('ID' => 'dir_' . $i, 'REAL' => '', 'EXTRA' => '')]);
+			$this->output .= View::make(
+				"msg.prefs_row",
+				['data' => array('ID' => 'dir_' . $i, 'REAL' => '', 'EXTRA' => '')]
+			);
 		}
 
-		$this->output .= View::Make("msg.prefs_footer");
+		$this->output .= View::make("msg.prefs_footer");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -846,11 +852,16 @@ class Messenger
 
 		// Song * show friends online, 05.03.05
 
-		$this->output .= View::Make("msg.address_edit", ['data' => [
-				'SHOW_ONLINE' => $show_online,
-				'SELECT'      => $html,
-				'MEMBER'      => $memb
-		]]);
+		$this->output .= View::make(
+			"msg.address_edit",
+			[
+				'data' => [
+					'SHOW_ONLINE' => $show_online,
+					'SELECT'      => $html,
+					'MEMBER'      => $memb
+				]
+			]
+		);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 
@@ -922,13 +933,13 @@ class Messenger
 	{
 		global $ibforums;
 
-		$this->output .= View::Make("msg.Address_header");
+		$this->output .= View::make("msg.Address_header");
 
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' ORDER BY contact_name ASC");
 
 		if ($stmt->rowCount())
 		{
-			$this->output .= View::Make("msg.Address_table_header");
+			$this->output .= View::make("msg.Address_table_header");
 
 			while ($row = $stmt->fetch())
 			{
@@ -943,13 +954,13 @@ class Messenger
 
 				// Song * friends show online, 06.03.05
 
-				$this->output .= View::Make("msg.render_address_row", ['entry' => $row]);
+				$this->output .= View::make("msg.render_address_row", ['entry' => $row]);
 			}
 
-			$this->output .= View::Make("msg.end_address_table");
+			$this->output .= View::make("msg.end_address_table");
 		} else
 		{
-			$this->output .= View::Make("msg.Address_none");
+			$this->output .= View::make("msg.Address_none");
 		}
 
 		// Do we have a name to enter?
@@ -971,7 +982,7 @@ class Messenger
 			}
 		}
 
-		$this->output .= View::Make("msg.address_add", ['mem_to_add' => $name_to_enter]);
+		$this->output .= View::make("msg.address_add", ['mem_to_add' => $name_to_enter]);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -1347,7 +1358,7 @@ class Messenger
 				$member['signature'] = $this->parser->parse_html($member['signature'], 0);
 			}
 
-			$member['signature'] = View::Make("global.signature_separator", ['sig' => $member['signature']]);
+			$member['signature'] = View::make("global.signature_separator", ['sig' => $member['signature']]);
 		} else
 		{
 			$member['signature'] = "";
@@ -1363,12 +1374,16 @@ class Messenger
 			$online = "";
 		}
 
-		$this->output .= View::Make("msg.Render_msg", ['data' => array(
-				'msg'    => $msg,
-				'member' => $member,
-				'jump'   => $this->jump_html,
-				'online' => $online
-			)]
+		$this->output .= View::make(
+			"msg.Render_msg",
+			[
+				'data' => array(
+					'msg'    => $msg,
+					'member' => $member,
+					'jump'   => $this->jump_html,
+					'online' => $online
+				)
+			]
 		);
 
 		$this->page_title = $ibforums->lang['t_welcome'];
@@ -1428,12 +1443,12 @@ class Messenger
 			                                       'HTML'    => $ibforums->vars['msg_allow_html']
 			                                  ));
 
-			$this->output .= View::Make("msg.preview", ['data' => $old_msg]);
+			$this->output .= View::make("msg.preview", ['data' => $old_msg]);
 		}
 
 		if ($errors)
 		{
-			$this->output .= View::Make("msg.pm_errors", ['data' => $errors]);
+			$this->output .= View::make("msg.pm_errors", ['data' => $errors]);
 			$preview = 1;
 		}
 
@@ -1501,23 +1516,30 @@ class Messenger
 		// Build up the HTML for the send form
 		//--------------------------------------
 
-		$this->output .= View::Make("post.get_javascript");
+		$this->output .= View::make("post.get_javascript");
 
-		$this->output .= View::Make("msg.Send_form", ['data' => array(
-				'CONTACTS' => $contacts,
-				'MEMBER'   => $this->member,
-				'N_ENTER'  => $name_to_enter,
-				'O_TITLE'  => $old_title,
-				'OID'      => $ibforums->input['OID'],
-				// Old unsent msg id for restoring saved msg - used to delete saved when sent
-			)]
+		$this->output .= View::make(
+			"msg.Send_form",
+			[
+				'data' => array(
+					'CONTACTS' => $contacts,
+					'MEMBER'   => $this->member,
+					'N_ENTER'  => $name_to_enter,
+					'O_TITLE'  => $old_title,
+					'OID'      => $ibforums->input['OID'],
+					// Old unsent msg id for restoring saved msg - used to delete saved when sent
+				)
+			]
 		);
 
 		$ibforums->lang['the_max_length'] = $ibforums->vars['max_post_length'] * 1024;
 
-		$this->output .= View::Make("post.pm_postbox_buttons", ['data' => $old_message,'syntax_select' => $std->code_tag_button()]);
+		$this->output .= View::make(
+			"post.pm_postbox_buttons",
+			['data' => $old_message, 'syntax_select' => $std->code_tag_button()]
+		);
 
-		$this->output .= View::Make("msg.send_form_footer");
+		$this->output .= View::make("msg.send_form_footer");
 
 		//--------------------------------------
 		// Add in the smilies box
@@ -1540,7 +1562,8 @@ class Messenger
 				$cc_box = preg_replace("#</textarea>#i", "", $std->txt_stripslashes($_POST['carbon_copy']));
 			}
 
-			$this->output = str_replace("<!--IBF.MASS_PM_BOX-->", View::Make("msg.mass_pm_box", ['names' => $cc_box]), $this->output);
+			$this->output = str_replace("<!--IBF.MASS_PM_BOX-->",
+				View::make("msg.mass_pm_box", ['names' => $cc_box]), $this->output);
 		}
 	}
 
@@ -1576,22 +1599,26 @@ class Messenger
 		// Build up the HTML for the send form
 		//--------------------------------------
 
-		$this->output .= View::Make("msg.Send_form", ['data' => array(
-				'CONTACTS' => $contacts,
-				'MEMBER'   => $this->member,
-				'N_ENTER'  => $msg['to_name'],
-				'O_TITLE'  => $msg['title'],
-				'OID'      => $msg['msg_id'],
-			)]
+		$this->output .= View::make(
+			"msg.Send_form",
+			[
+				'data' => array(
+					'CONTACTS' => $contacts,
+					'MEMBER'   => $this->member,
+					'N_ENTER'  => $msg['to_name'],
+					'O_TITLE'  => $msg['title'],
+					'OID'      => $msg['msg_id'],
+				)
+			]
 		);
 
 		$ibforums->lang['the_max_length'] = $ibforums->vars['max_post_length'] * 1024;
 
-		$this->output .= View::Make("post.get_javascript");
+		$this->output .= View::make("post.get_javascript");
 
-		$this->output .= View::Make("post.postbox_buttons", ['data' => str_replace("<br>", "\n", $msg['message'])]);
+		$this->output .= View::make("post.postbox_buttons", ['data' => str_replace("<br>", "\n", $msg['message'])]);
 
-		$this->output .= View::Make("msg.send_form_footer");
+		$this->output .= View::make("msg.send_form_footer");
 
 		//--------------------------------------
 		// Add in the smilies box
@@ -1616,7 +1643,8 @@ class Messenger
 				$cc_box = str_replace("<br>", "\n", $cc_box);
 			}
 
-			$this->output = str_replace("<!--IBF.MASS_PM_BOX-->", View::Make("msg.mass_pm_box", ['names' => $cc_box]), $this->output);
+			$this->output = str_replace("<!--IBF.MASS_PM_BOX-->",
+				View::make("msg.mass_pm_box", ['names' => $cc_box]), $this->output);
 		}
 	}
 
@@ -2222,7 +2250,15 @@ class Messenger
 				    ORDER BY $sort_key LIMIT $start, $p_end");
 		}
 
-		$this->output .= View::Make("msg.inbox_table_header", ['dirname' => $this->msg_stats['current_dir'],'info' => $info,'vdi_html' => $this->jump_html,'pages' => $pages]);
+		$this->output .= View::make(
+			"msg.inbox_table_header",
+			[
+				'dirname'  => $this->msg_stats['current_dir'],
+				'info'     => $info,
+				'vdi_html' => $this->jump_html,
+				'pages'    => $pages
+			]
+		);
 
 		//---------------------------------------------
 		// Get the messages
@@ -2251,14 +2287,17 @@ class Messenger
 
 				$d_array = array('msg' => $row, 'member' => $this->member, 'stat' => $this->msg_stats);
 
-				$this->output .= View::Make("msg.inbox_row", ['data' => $d_array]);
+				$this->output .= View::make("msg.inbox_row", ['data' => $d_array]);
 			}
 		} else
 		{
-			$this->output .= View::Make("msg.No_msg_inbox");
+			$this->output .= View::make("msg.No_msg_inbox");
 		}
 
-		$this->output .= View::Make("msg.end_inbox", ['vdi_html' => $this->jump_html,'amount_info' => $amount_info,'pages' => $pages]);
+		$this->output .= View::make(
+			"msg.end_inbox",
+			['vdi_html' => $this->jump_html, 'amount_info' => $amount_info, 'pages' => $pages]
+		);
 
 		//---------------------------------------------
 		// Update the message stats if we have to
@@ -2290,7 +2329,7 @@ class Messenger
 		// Print the header
 		//---------------------------------------------
 
-		$this->output .= View::Make("msg.unsent_table_header");
+		$this->output .= View::make("msg.unsent_table_header");
 
 		$stmt = $ibforums->db->query("SELECT m.*, mp.name as to_name FROM ibf_messages m, ibf_members mp WHERE member_id='" . $this->member['id'] . "' AND vid='unsent' and mp.id=m.recipient_id ORDER BY msg_date DESC");
 
@@ -2310,14 +2349,14 @@ class Messenger
 
 				$d_array = array('msg' => $row, 'member' => $this->member);
 
-				$this->output .= View::Make("msg.unsent_row", ['data' => $d_array]);
+				$this->output .= View::make("msg.unsent_row", ['data' => $d_array]);
 			}
 		} else
 		{
-			$this->output .= View::Make("msg.No_msg_inbox");
+			$this->output .= View::make("msg.No_msg_inbox");
 		}
 
-		$this->output .= View::Make("msg.unsent_end");
+		$this->output .= View::make("msg.unsent_end");
 
 		$this->page_title = $ibforums->lang['t_welcome'];
 		$this->nav        = array("<a href='" . $this->base_url . "act=UserCP&amp;CODE=00'>" . $ibforums->lang['t_title'] . "</a>");
@@ -2331,7 +2370,7 @@ class Messenger
 		// Get all tracked and read messages
 		//---------------------------------------------
 
-		$this->output .= View::Make("msg.trackread_table_header");
+		$this->output .= View::make("msg.trackread_table_header");
 
 		$stmt = $ibforums->db->query("SELECT m.*, mp.name as to_name, mp.id as memid
  					  FROM ibf_messages m, ibf_members mp
@@ -2352,11 +2391,11 @@ class Messenger
 				{
 					if ($current == "")
 					{
-						$this->output .= View::Make("msg.No_msg_inbox");
+						$this->output .= View::make("msg.No_msg_inbox");
 					}
 
-					$this->output .= View::Make("msg.trackread_end");
-					$this->output .= View::Make("msg.trackUNread_table_header");
+					$this->output .= View::make("msg.trackread_end");
+					$this->output .= View::make("msg.trackUNread_table_header");
 					$change = TRUE;
 				}
 
@@ -2364,12 +2403,12 @@ class Messenger
 				{
 					$row['icon'] = "<{M_READ}>";
 					$row['date'] = $std->get_date($row['read_date']);
-					$this->output .= View::Make("msg.trackread_row", ['data' => $row]);
+					$this->output .= View::make("msg.trackread_row", ['data' => $row]);
 				} else
 				{
 					$row['icon'] = "<{M_UNREAD}>";
 					$row['date'] = $std->get_date($row['msg_date']);
-					$this->output .= View::Make("msg.trackUNread_row", ['data' => $row]);
+					$this->output .= View::make("msg.trackUNread_row", ['data' => $row]);
 				}
 
 				$current = $row['read_state'];
@@ -2377,20 +2416,20 @@ class Messenger
 
 			if (!$change)
 			{
-				$this->output .= View::Make("msg.trackread_end");
-				$this->output .= View::Make("msg.trackUNread_table_header");
-				$this->output .= View::Make("msg.No_msg_inbox");
+				$this->output .= View::make("msg.trackread_end");
+				$this->output .= View::make("msg.trackUNread_table_header");
+				$this->output .= View::make("msg.No_msg_inbox");
 			}
 
-			$this->output .= View::Make("msg.trackUNread_end");
+			$this->output .= View::make("msg.trackUNread_end");
 		} else
 		{
-			$this->output .= View::Make("msg.No_msg_inbox");
-			$this->output .= View::Make("msg.trackread_end");
+			$this->output .= View::make("msg.No_msg_inbox");
+			$this->output .= View::make("msg.trackread_end");
 
-			$this->output .= View::Make("msg.trackUNread_table_header");
-			$this->output .= View::Make("msg.No_msg_inbox");
-			$this->output .= View::Make("msg.trackUNread_end");
+			$this->output .= View::make("msg.trackUNread_table_header");
+			$this->output .= View::make("msg.No_msg_inbox");
+			$this->output .= View::make("msg.trackUNread_end");
 		}
 
 		$this->page_title = $ibforums->lang['t_welcome'];
@@ -2571,7 +2610,7 @@ class Messenger
 			$smilies .= "</tr>";
 		}
 
-		$table = View::Make("post.smilie_table");
+		$table = View::make("post.smilie_table");
 
 		if ($show_table != 0)
 		{

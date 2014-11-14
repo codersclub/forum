@@ -1,15 +1,14 @@
 <?php
-function _do_autoload($class_name)
-{
-    //load skin class. We can't do it while we don't know which skin we are using
-    //todo delete. use views collection functionality instead
-    if (class_exists('Ibf', false) AND Ibf::isApplicationRegistered() AND !empty(Ibf::app()->skin)) {
-        $fname = Ibf::app()->skin->getTemplatesPath() . DIRECTORY_SEPARATOR . "$class_name.php";
-        if (file_exists($fname)) {
-            require $fname;
-            return;
-        }
-    }
-}
+/**
+ * @file autoload functions
+ */
 
-spl_autoload_register('_do_autoload');
+spl_autoload_register(function ($class){
+        $map = explode('\\', $class);
+        if (count($map) > 2 && $map[0] == 'Skins' && $map[1] == 'Themes') {
+            $file = Config::get('path.templates') . DIRECTORY_SEPARATOR . $map[2] . DIRECTORY_SEPARATOR . $map[2] . '.php';
+            if (file_exists($file)) {
+                include $file;
+            }
+        }
+});

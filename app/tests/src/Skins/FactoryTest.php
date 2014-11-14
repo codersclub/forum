@@ -5,8 +5,6 @@
 
 namespace Skins;
 
-use Models\Skins;
-
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -25,7 +23,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         //uses DatasetSkinManager
         $skin = Factory::create(0);
-        $this->assertInstanceOf('\Skins\BaseSkin', $skin);
+        $this->assertInstanceOf('\Skins\BaseSkinManager', $skin);
         $this->assertAttributeEquals('Default test skin', 'name', $skin);
     }
 
@@ -33,7 +31,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         \Config::set('app.skins.default', 1);
         $skin = Factory::createDefaultSkin();
-        $this->assertInstanceOf('\Skins\BaseSkin', $skin);
+        $this->assertInstanceOf('\Skins\BaseSkinManager', $skin);
         $this->assertTrue($skin->getId() === 1);
     }
 

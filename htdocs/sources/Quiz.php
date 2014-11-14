@@ -15,7 +15,8 @@
   | You may edit this file as long as you retain this Copyright notice.	 |
   | Redistribution not permitted without permission from Zachary Anker.	 |
   \*--------------------------------------------------------------------- */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $quiz = new quiz;
 
@@ -123,7 +124,7 @@ class quiz
 
 		// add all of are skin output
 
-		$this->output .= View::Make("quiz.end_page");
+		$this->output .= View::make("quiz.end_page");
 
 		if ($ibforums->vars['ibstore_safty'] == 1)
 		{
@@ -344,9 +345,9 @@ class quiz
 		//					 )      );
 		//form_multiselect( "quiz_items[]", $items, $settings['items_won'],$rows);
 
-		$this->output .= View::Make("quiz.quiz_edit_header", ['settings' => $settings]);
+		$this->output .= View::make("quiz.quiz_edit_header", ['settings' => $settings]);
 
-		$this->output .= View::Make("quiz.quiz_q_a_submit");
+		$this->output .= View::make("quiz.quiz_q_a_submit");
 	}
 
 	//------------------------------------
@@ -614,7 +615,7 @@ class quiz
 
 		$this->page_title = $ibforums->lang['questions_nav'];
 
-		$this->output .= View::Make("quiz.quiz_question_header", ['settings' => $settings]);
+		$this->output .= View::make("quiz.quiz_question_header", ['settings' => $settings]);
 
 		//--------------------------------
 		// Get all the Quiz questions
@@ -638,11 +639,11 @@ class quiz
 
 			$quiz['question'] = stripslashes($quiz['question']);
 
-			$this->output .= View::Make("quiz.edit_question", ['nq' => $n,'quiz' => $quiz]);
+			$this->output .= View::make("quiz.edit_question", ['nq' => $n, 'quiz' => $quiz]);
 			$n++;
 		}
 
-		$this->output .= View::Make("quiz.quiz_q_a_submit");
+		$this->output .= View::make("quiz.quiz_q_a_submit");
 	}
 
 	//---------------------------------------------
@@ -751,7 +752,7 @@ class quiz
 
 		// Make Header
 
-		$this->output .= View::Make("quiz.quiz_u_a_header", ['settings' => $quiz,'member' => $member]);
+		$this->output .= View::make("quiz.quiz_u_a_header", ['settings' => $quiz, 'member' => $member]);
 
 		// Loop for all the questions
 
@@ -764,7 +765,7 @@ class quiz
 
 			$q['user_answer'] = $answers[$q['mid']];
 
-			$this->output .= View::Make("quiz.user_answer", ['info' => $q]);
+			$this->output .= View::make("quiz.user_answer", ['info' => $q]);
 		}
 	}
 
@@ -978,7 +979,7 @@ class quiz
 		//    $row['quiz_desc'] = str_replace("\n","<br>",$row['quiz_desc']);
 		//    $row['post'] = str_replace("\n","<br>",$row['post']);
 
-		$this->output .= View::Make("quiz.quiz_results_header", ['id' => $qid,'title' => $row['quizname']]);
+		$this->output .= View::make("quiz.quiz_results_header", ['id' => $qid, 'title' => $row['quizname']]);
 
 		// Get all playing members
 		$stmt = $ibforums->db->query("SELECT f.*, m.name,m.id
@@ -1009,7 +1010,7 @@ class quiz
 
 			$member['time_took'] = $m . ":" . $s;
 
-			$this->output .= View::Make("quiz.quiz_results_results", ['member' => $member,'place' => $place]);
+			$this->output .= View::make("quiz.quiz_results_results", ['member' => $member, 'place' => $place]);
 		}
 	}
 
@@ -1205,14 +1206,15 @@ class quiz
 				$close_check['plays_left'] = $ibforums->lang['none_played'];
 			}
 
-			$this->output = str_replace("<!--Plays Left Header-->", View::Make("quiz.plays_left_header"), $this->output);
-			$this->output = str_replace("<!--Plays Left Middle-->", View::Make("quiz.plays_left_middle", ['plays' => $close_check['plays_left']]), $this->output);
+			$this->output = str_replace("<!--Plays Left Header-->", View::make("quiz.plays_left_header"), $this->output);
+			$this->output = str_replace("<!--Plays Left Middle-->",
+				View::make("quiz.plays_left_middle", ['plays' => $close_check['plays_left']]), $this->output);
 		}
 
 		$row['post'] = str_replace("\r", "", $row['post']);
 		$row['post'] = str_replace("\n", "<br>", $row['post']);
 
-		$this->output .= View::Make("quiz.quiz_show", ['post' => $row,'author' => $member]);
+		$this->output .= View::make("quiz.quiz_show", ['post' => $row, 'author' => $member]);
 	}
 
 	//---------------------------------------------
@@ -1241,11 +1243,16 @@ class quiz
 			$quiz_button = "";
 		}
 
-		$this->output .= View::Make("quiz.quiz_header", ['data' => array(
-				'name'        => $ibforums->lang['quiz_nav'],
-				'last_column' => '',
-				'QUIZ_BUTTON' => $quiz_button
-			)]);
+		$this->output .= View::make(
+			"quiz.quiz_header",
+			[
+				'data' => array(
+					'name' => $ibforums->lang['quiz_nav'],
+					'last_column' => '',
+					'QUIZ_BUTTON' => $quiz_button
+				)
+			]
+		);
 
 		if ($ibforums->member['mgroup'] != $ibforums->vars['admin_group'])
 		{
@@ -1320,7 +1327,7 @@ class quiz
 
 			$quiz['quiz_status'] = ucfirst(mb_strtolower($quiz['quiz_status']));
 			$quiz['amount_won']  = $std->do_number_format($quiz['amount_won']);
-			$this->output .= View::Make("quiz.list_quiz", ['data' => $quiz]);
+			$this->output .= View::make("quiz.list_quiz", ['data' => $quiz]);
 
 			if ($ibforums->vars['showplaysleft'])
 			{
@@ -1329,8 +1336,10 @@ class quiz
 					$close_check['plays_left'] = $ibforums->lang['none_played'];
 				}
 
-				$this->output = str_replace("<!--Plays Left Header-->", View::Make("quiz.plays_left_header"), $this->output);
-				$this->output = str_replace("<!--Plays Left Middle-->", View::Make("quiz.plays_left_middle", ['plays' => $close_check['plays_left']]), $this->output);
+				$this->output = str_replace("<!--Plays Left Header-->",
+					View::make("quiz.plays_left_header"), $this->output);
+				$this->output = str_replace("<!--Plays Left Middle-->",
+					View::make("quiz.plays_left_middle", ['plays' => $close_check['plays_left']]), $this->output);
 			}
 		}
 	}
@@ -1414,7 +1423,7 @@ class quiz
 		$settings['quiz_desc'] = str_replace("\n", "<br>", $settings['quiz_desc']);
 		$settings['post']      = str_replace("\n", "<br>", $settings['post']);
 
-		$this->output .= View::Make("quiz.quiz_q_a_header", ['settings' => $settings]);
+		$this->output .= View::make("quiz.quiz_q_a_header", ['settings' => $settings]);
 
 		//--------------------------------
 		// Get all the Quiz questions
@@ -1465,7 +1474,7 @@ class quiz
 				$quiz['answer'] = stripslashes($quiz['answer']);
 				$n++;
 				//echo $n.". ".$quiz['answer']."<br>\n";
-				$this->output .= View::Make("quiz.single_question", ['num' => $n,'info' => $quiz]);
+				$this->output .= View::make("quiz.single_question", ['num' => $n, 'info' => $quiz]);
 				//echo "single.<br>\n";
 			} //----------------------
 			// DROPDOWN
@@ -1491,7 +1500,7 @@ class quiz
 				$quiz['dropdown'] .= "</select>";
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= View::Make("quiz.dropdown_question", ['num' => $n,'info' => $quiz]);
+				$this->output .= View::make("quiz.dropdown_question", ['num' => $n, 'info' => $quiz]);
 			} //----------------------
 			// RADIO
 
@@ -1515,7 +1524,7 @@ class quiz
 
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= View::Make("quiz.dropdown_question", ['num' => $n,'info' => $quiz]);
+				$this->output .= View::make("quiz.dropdown_question", ['num' => $n, 'info' => $quiz]);
 			} //----------------------
 			// CHECKBOX
 
@@ -1541,7 +1550,7 @@ class quiz
 
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= View::Make("quiz.dropdown_question", ['num' => $n,'info' => $quiz]);
+				$this->output .= View::make("quiz.dropdown_question", ['num' => $n, 'info' => $quiz]);
 			} //----------------------
 			// OPINION
 
@@ -1555,14 +1564,14 @@ class quiz
 
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= View::Make("quiz.opinion_question", ['num' => $n,'info' => $quiz]);
+				$this->output .= View::make("quiz.opinion_question", ['num' => $n, 'info' => $quiz]);
 			} else
 			{
 				//echo "???.<br>\n";
 			}
 		}
 
-		$this->output .= View::Make("quiz.quiz_q_a_submit");
+		$this->output .= View::make("quiz.quiz_q_a_submit");
 	}
 
 	//---------------------------------------------
@@ -2061,9 +2070,9 @@ class quiz
 		{
 			$message = $msg;
 		}
-		$html .= View::Make("quiz.error");
-		$html .= View::Make("quiz.error_row", ['message' => $message]);
-		$html .= View::Make("quiz.end_page");
+		$html .= View::make("quiz.error");
+		$html .= View::make("quiz.error_row", ['message' => $message]);
+		$html .= View::make("quiz.end_page");
 		// If you wish to remove it you will have to pay the 40$ fee.
 		// See: www.outlaw.ipbhost.com/store/services.php for more infomation on how to pay.
 		//	$html .= "<br/><div align='center' class='copyright'>Powered by <a href=\"http://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='http://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
@@ -2140,11 +2149,11 @@ class quiz
 
 		$mid = $ibforums->input['mid'];
 
-		$output = View::Make("quiz.ShowTitle");
+		$output = View::make("quiz.ShowTitle");
 
-		$output .= View::Make("quiz.ShowHeader");
+		$output .= View::make("quiz.ShowHeader");
 
-		$output .= View::Make("quiz.ShowFooter");
+		$output .= View::make("quiz.ShowFooter");
 
 		$print->add_output("$output");
 
@@ -2265,7 +2274,10 @@ class quiz
 				$member['warn_img'] = " [ " . $member['warn_level'] . " ] ";
 
 				$member['warn_text'] = $ibforums->lang['tt_rating'];
-				$member['warn_text'] = View::Make("quiz.warn_title", ['id' => $member['id'],'title' => $member['warn_text']]);
+				$member['warn_text'] = View::make(
+					"quiz.warn_title",
+					['id' => $member['id'], 'title' => $member['warn_text']]
+				);
 				$member['warn_text'] .= $member['warn_minus'] . $member['warn_img'] . $member['warn_add'] . "<br>";
 			}
 		}

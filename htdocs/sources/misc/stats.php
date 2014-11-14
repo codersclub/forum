@@ -20,7 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new stats;
 
@@ -29,7 +30,6 @@ class stats
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 	var $forum = "";
 
 	function stats()
@@ -99,19 +99,25 @@ class stats
 		if ($stmt->rowCount())
 		{
 
-			$to_print = View::Make("stats.who_header", ['fid' => $this->forum['id'],'tid' => $tid,'title' => $this->forum['topic_title']]);
+			$to_print = View::make(
+				"stats.who_header",
+				['fid' => $this->forum['id'], 'tid' => $tid, 'title' => $this->forum['topic_title']]
+			);
 
 			while ($r = $stmt->fetch())
 			{
 				if ($r['author_id'])
 				{
-					$r['author_name'] = View::Make("stats.who_name_link", ['id' => $r['author_id'],'name' => $r['author_name']]);
+					$r['author_name'] = View::make(
+						"stats.who_name_link",
+						['id' => $r['author_id'], 'name' => $r['author_name']]
+					);
 				}
 
-				$to_print .= View::Make("stats.who_row", ['row' => $r]);
+				$to_print .= View::make("stats.who_row", ['row' => $r]);
 			}
 
-			$to_print .= View::Make("stats.who_end");
+			$to_print .= View::make("stats.who_end");
 		} else
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
@@ -208,16 +214,19 @@ class stats
 		$stmt = $ibforums->db->query("SELECT id,name,email,hide_email,location,aim_name,icq_number FROM ibf_members
 		    WHERE mgroup='" . $ibforums->vars['admin_group'] . "' ORDER BY name");
 
-		$this->output .= View::Make("stats.group_strip", ['group' => $ibforums->lang['leader_admins']]);
+		$this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_admins']]);
 
 		while ($member = $stmt->fetch())
 		{
-			$this->output .= View::Make("stats.leader_row", ['info' => $this->parse_member($member),'forums' => $ibforums->lang['leader_all_forums']]);
+			$this->output .= View::make(
+				"stats.leader_row",
+				['info' => $this->parse_member($member), 'forums' => $ibforums->lang['leader_all_forums']]
+			);
 
 			$admin_ids[] = $member['id'];
 		}
 
-		$this->output .= View::Make("stats.close_strip");
+		$this->output .= View::make("stats.close_strip");
 
 		//--------------------------------------------
 		// Do the bizz with the super men, er mods.
@@ -234,14 +243,17 @@ class stats
 
 			if ($stmt->rowCount())
 			{
-				$this->output .= View::Make("stats.group_strip", ['group' => $ibforums->lang['leader_global']]);
+				$this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_global']]);
 
 				while ($member = $stmt->fetch())
 				{
-					$this->output .= View::Make("stats.leader_row", ['info' => $this->parse_member($member),'forums' => $ibforums->lang['leader_all_forums']]);
+					$this->output .= View::make(
+						"stats.leader_row",
+						['info' => $this->parse_member($member), 'forums' => $ibforums->lang['leader_all_forums']]
+					);
 				}
 
-				$this->output .= View::Make("stats.close_strip");
+				$this->output .= View::make("stats.close_strip");
 			}
 
 		}
@@ -305,7 +317,7 @@ class stats
 		{
 			$mod_array = array();
 
-			$this->output .= View::Make("stats.group_strip", ['group' => $ibforums->lang['leader_mods']]);
+			$this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_mods']]);
 
 			foreach ($data as $idx => $i)
 			{
@@ -336,24 +348,30 @@ class stats
 				if (count($mod_array['forums'][$id]) > 1)
 				{
 					$cnt   = count($mod_array['forums'][$id]);
-					$fhtml = View::Make("stats.leader_row_forum_start", ['id' => $id, 'count_string' => sprintf($ibforums->lang['no_forums'], $cnt)]);
+					$fhtml = View::make(
+						"stats.leader_row_forum_start",
+						['id' => $id, 'count_string' => sprintf($ibforums->lang['no_forums'], $cnt)]
+					);
 
 					foreach ($mod_array['forums'][$id] as $idx => $data)
 					{
-						$fhtml .= View::Make("stats.leader_row_forum_entry", ['id' => $data[0],'name' => $data[1]]);
+						$fhtml .= View::make("stats.leader_row_forum_entry", ['id' => $data[0], 'name' => $data[1]]);
 					}
 
-					$fhtml .= View::Make("stats.leader_row_forum_end");
+					$fhtml .= View::make("stats.leader_row_forum_end");
 				} else
 				{
 					$fhtml = "<a href='{$ibforums->base_url}showforum=" . $mod_array['forums'][$id][0][0] . "'>" . $mod_array['forums'][$id][0][1] . "</a>";
 				}
 
-				$this->output .= View::Make("stats.leader_row", ['info' => $this->parse_member($mod_array['member'][$id]),'forums' => $fhtml]);
+				$this->output .= View::make(
+					"stats.leader_row",
+					['info' => $this->parse_member($mod_array['member'][$id]), 'forums' => $fhtml]
+				);
 
 			}
 
-			$this->output .= View::Make("stats.close_strip");
+			$this->output .= View::make("stats.close_strip");
 
 		}
 
@@ -380,7 +398,7 @@ class stats
 
 		//$this->output .= View::Make("stats.page_title", ['title' => $ibforums->lang['todays_posters'] ]);
 
-		$this->output .= View::Make("stats.top_poster_header");
+		$this->output .= View::make("stats.top_poster_header");
 
 		$time_high = time();
 
@@ -416,18 +434,21 @@ class stats
 					$info['posts'] = $std->do_number_format($info['posts']);
 					$info['tpost'] = $std->do_number_format($info['tpost']);
 
-					$this->output .= View::Make("stats.top_poster_row", ['info' => $info]);
+					$this->output .= View::make("stats.top_poster_row", ['info' => $info]);
 				}
 			} else
 			{
-				$this->output .= View::Make("stats.top_poster_no_info");
+				$this->output .= View::make("stats.top_poster_no_info");
 			}
 		} else
 		{
-			$this->output .= View::Make("stats.top_poster_no_info");
+			$this->output .= View::make("stats.top_poster_no_info");
 		}
 
-		$this->output .= View::Make("stats.top_poster_footer", ['info' => $std->do_number_format($todays_posts['count'])]);
+		$this->output .= View::make(
+			"stats.top_poster_footer",
+			['info' => $std->do_number_format($todays_posts['count'])]
+		);
 
 		$this->page_title = $ibforums->lang['top_poster_title'];
 
@@ -574,13 +595,23 @@ class stats
 		if (count($data) > 0)
 		{
 			$num          = 1;
-			$this->output = View::Make("stats.one_leader_strip", ['name' => "<a href='{$ibforums->base_url}showuser= . $data[0]['id']" . "' target='_blank'>" . $data[0]['name'] . "</a>"]);
+			$this->output = View::make(
+				"stats.one_leader_strip",
+				['name' => "<a href='{$ibforums->base_url}showuser= . $data[0]['id']" . "' target='_blank'>" . $data[0]['name'] . "</a>"]
+			);
 			foreach ($data as $idx => $i)
 			{
-				$this->output .= View::Make("stats.one_leader", ['number' => $num,'forum' => "<a href='{$ibforums->base_url}showforum=" . $i['forum_id'] . "' target='_blank'>" . $i['forum_name'] . "</a><br>",'posts_count' => intval($counts[$i['forum_id']])]);
+				$this->output .= View::make(
+					"stats.one_leader",
+					[
+						'number' => $num,
+						'forum' => "<a href='{$ibforums->base_url}showforum=" . $i['forum_id'] . "' target='_blank'>" . $i['forum_name'] . "</a><br>",
+						'posts_count' => intval($counts[$i['forum_id']])
+					]
+				);
 				$num++;
 			}
-			$this->output .= View::Make("stats.close_strip");
+			$this->output .= View::make("stats.close_strip");
 		}
 
 		$print->text_only($ibforums->lang['leader_forums'] . "\n" . $this->output, true);

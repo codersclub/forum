@@ -53,17 +53,6 @@ abstract class BaseSkinManager implements \ArrayAccess
      */
     abstract public function getTemplatesName();
 
-    /**
-     * Возвращает содержимое враппера
-     * @return string
-     */
-    public function getWrapper()
-    {
-        ob_start();
-        require $this->getTemplatesPath() . DIRECTORY_SEPARATOR . 'wrapper.tpl.php';
-        return ob_get_clean();
-    }
-
     public function isHidden()
     {
         return in_array($this->getId(), \Config::get('app.skins.hidden', []));

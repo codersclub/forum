@@ -1,6 +1,7 @@
 <?php
 
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $fav = new fav;
 
@@ -11,7 +12,6 @@ $fav = new fav;
 class fav
 {
 	var $output = "";
-	var $html = "";
 	var $nav = "";
 
 	function __construct()
@@ -153,7 +153,7 @@ class fav
 			Ibf::app()->lang = Ibf::app()->functions->load_words(Ibf::app()->lang, 'lang_global', Ibf::app()->lang_id);
 			$e               = Ibf::app()->lang['fav_nolinks'];
 
-			$this->output .= View::Make("fav.error", ['e' => $e]);
+			$this->output .= View::make("fav.error", ['e' => $e]);
 		} else
 		{
 			foreach ($data as $topic)
@@ -181,12 +181,12 @@ class fav
 				foreach ($new as $topic)
 				{
 					$topic['last_post'] = Ibf::app()->functions->get_date($topic['last_post']);
-					$html['new'] .= View::Make("fav.topic_row", ['t' => $topic]);
+					$html['new'] .= View::make("fav.topic_row", ['t' => $topic]);
 				}
 
 			} else
 			{
-				$html['new'] = View::Make("fav.none");
+				$html['new'] = View::make("fav.none");
 			}
 
 			if (isset($nonew))
@@ -195,12 +195,12 @@ class fav
 				foreach ($nonew as $topic)
 				{
 					$topic['last_post'] = Ibf::app()->functions->get_date($topic['last_post']);
-					$html['nonew'] .= View::Make("fav.topic_row", ['t' => $topic]);
+					$html['nonew'] .= View::make("fav.topic_row", ['t' => $topic]);
 				}
 
 			} else
 			{
-				$html['nonew'] = View::Make("fav.none");
+				$html['nonew'] = View::make("fav.none");
 			}
 
 			//-------------------------------------
@@ -211,7 +211,7 @@ class fav
 				Favorites::purgeTopics($remove);
 			}
 
-			$this->output .= View::Make("fav.main", ['html' => $html]);
+			$this->output .= View::make("fav.main", ['html' => $html]);
 		}
 
 		$print->add_output($this->output);

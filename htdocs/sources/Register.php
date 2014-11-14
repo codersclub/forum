@@ -22,7 +22,8 @@
  */
 
 $idx = new Register;
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 class Register
 {
@@ -30,7 +31,6 @@ class Register
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	var $html = "";
 	var $email = "";
 	var $modules = "";
 
@@ -163,14 +163,14 @@ class Register
 
 		if ($errors != "")
 		{
-			$this->output .= View::Make("register.errors", ['data' => $ibforums->lang[$errors]]);
+			$this->output .= View::make("register.errors", ['data' => $ibforums->lang[$errors]]);
 		}
 
 		$name = $ibforums->member['id'] == ""
 			? ''
 			: $ibforums->member['name'];
 
-		$this->output .= View::Make("register.show_revalidate_form", ['name' => $name]);
+		$this->output .= View::make("register.show_revalidate_form", ['name' => $name]);
 		$this->page_title = $ibforums->lang['rv_title'];
 		$this->nav        = array($ibforums->lang['rv_title']);
 	}
@@ -278,7 +278,7 @@ class Register
 			}
 		}
 
-		$this->output .= View::Make("register.show_revalidated");
+		$this->output .= View::make("register.show_revalidated");
 
 		$this->page_title = $ibforums->lang['rv_title'];
 		$this->nav        = array($ibforums->lang['rv_title']);
@@ -293,7 +293,7 @@ class Register
 
 	function coppa_perms_form()
 	{
-		echo(View::Make("register.coppa_form"));
+		echo(View::make("register.coppa_form"));
 		exit();
 	}
 
@@ -305,7 +305,7 @@ class Register
 
 		$ibforums->lang['coppa_form_text'] = str_replace("<#FORM_LINK#>", "<a href='{$ibforums->base_url}act=Reg&amp;CODE=12'>{$ibforums->lang['coppa_link_form']}</a>", $ibforums->lang['coppa_form_text']);
 
-		$this->output .= View::Make("register.coppa_start", ['coppadate' => $coppa_date]);
+		$this->output .= View::make("register.coppa_start", ['coppadate' => $coppa_date]);
 
 		$this->page_title = $ibforums->lang['coppa_title'];
 
@@ -318,7 +318,7 @@ class Register
 
 		$ibforums->lang['coppa_form_text'] = str_replace("<#FORM_LINK#>", "<a href='{$ibforums->base_url}act=Reg&amp;CODE=12'>{$ibforums->lang['coppa_link_form']}</a>", $ibforums->lang['coppa_form_text']);
 
-		$this->output .= View::Make("register.coppa_two");
+		$this->output .= View::make("register.coppa_two");
 
 		$this->page_title = $ibforums->lang['coppa_title'];
 
@@ -375,18 +375,20 @@ class Register
 
 		if ($errors != "")
 		{
-			$this->output .= View::Make("register.errors", ['data' => $ibforums->lang[$errors]]);
+			$this->output .= View::make("register.errors", ['data' => $ibforums->lang[$errors]]);
 		}
 
-		$this->output .= View::Make("register.lost_pass_form", ['lasid' => $regid]);
+		$this->output .= View::make("register.lost_pass_form", ['lasid' => $regid]);
 
 		if ($ibforums->vars['bot_antispam'] == 'gd')
 		{
-			$this->output = str_replace("<!--{REG.ANTISPAM}-->", View::Make("register.bot_antispam_gd", ['regid' => $regid]), $this->output);
+			$this->output = str_replace("<!--{REG.ANTISPAM}-->",
+				View::make("register.bot_antispam_gd", ['regid' => $regid]), $this->output);
 		} else {
 			if ($ibforums->vars['bot_antispam'] == 'gif')
 			{
-				$this->output = str_replace("<!--{REG.ANTISPAM}-->", View::Make("register.bot_antispam", ['regid' => $regid]), $this->output);
+				$this->output = str_replace("<!--{REG.ANTISPAM}-->",
+					View::make("register.bot_antispam", ['regid' => $regid]), $this->output);
 			}
 		}
 	}
@@ -508,7 +510,7 @@ class Register
 
 			$this->email->send_mail();
 
-			$this->output = View::Make("register.show_lostpasswait", ['member' => $member]);
+			$this->output = View::make("register.show_lostpasswait", ['member' => $member]);
 		}
 
 		$this->page_title = $ibforums->lang['lost_pass_form'];
@@ -624,15 +626,24 @@ class Register
 
 				if ($d_content != "")
 				{
-					$form_element = View::Make("register.field_dropdown", ['name' => 'field_' . $row['fid'],'options' => $d_content]);
+					$form_element = View::make(
+						"register.field_dropdown",
+						['name' => 'field_' . $row['fid'], 'options' => $d_content]
+					);
 				}
 			} else {
 				if ($row['ftype'] == 'area')
 				{
-					$form_element = View::Make("register.field_textarea", ['name' => 'field_' . $row['fid'],'value' => $ibforums->input['field_' . $row['fid']]]);
+					$form_element = View::make(
+						"register.field_textarea",
+						['name' => 'field_' . $row['fid'], 'value' => $ibforums->input['field_' . $row['fid']]]
+					);
 				} else
 				{
-					$form_element = View::Make("register.field_textinput", ['name' => 'field_' . $row['fid'],'value' => $ibforums->input['field_' . $row['fid']]]);
+					$form_element = View::make(
+						"register.field_textinput",
+						['name' => 'field_' . $row['fid'], 'value' => $ibforums->input['field_' . $row['fid']]]
+					);
 				}
 			}
 
@@ -640,7 +651,10 @@ class Register
 			$row['fdesc'] = str_replace(array("&lt;", "&gt;", "&quot;"), array("<", ">", "\""), $row['fdesc']);
 			// Song * show settings
 
-			${$ftype} .= View::Make("register.field_entry", ['title' => $row['ftitle'],'desc' => $row['fdesc'],'content' => $form_element]);
+			${$ftype} .= View::make(
+				"register.field_entry",
+				['title' => $row['ftitle'], 'desc' => $row['fdesc'], 'content' => $form_element]
+			);
 		}
 
 		$this->page_title = $ibforums->lang['registration_form'];
@@ -652,22 +666,29 @@ class Register
 
 		if ($errors != "")
 		{
-			$this->output .= View::Make("register.errors", ['data' => $ibforums->lang[$errors]]);
+			$this->output .= View::make("register.errors", ['data' => $ibforums->lang[$errors]]);
 		}
 
-		$this->output .= View::Make("register.ShowForm", ['data' => array(
-				'TEXT'       => $ibforums->lang['std_text'],
-				'RULES'      => $ibforums->lang['click_wrap'],
-				'coppa_user' => $coppa,
-			)]);
+		$this->output .= View::make(
+			"register.ShowForm",
+			[
+				'data' => array(
+					'TEXT'       => $ibforums->lang['std_text'],
+					'RULES'      => $ibforums->lang['click_wrap'],
+					'coppa_user' => $coppa,
+				)
+			]
+		);
 
 		if ($ibforums->vars['bot_antispam'] == 'gd')
 		{
-			$this->output = str_replace("<!--{REG.ANTISPAM}-->", View::Make("register.bot_antispam_gd", ['regid' => $regid]), $this->output);
+			$this->output = str_replace("<!--{REG.ANTISPAM}-->",
+				View::make("register.bot_antispam_gd", ['regid' => $regid]), $this->output);
 		} else {
 			if ($ibforums->vars['bot_antispam'] == 'gif')
 			{
-				$this->output = str_replace("<!--{REG.ANTISPAM}-->", View::Make("register.bot_antispam", ['regid' => $regid]), $this->output);
+				$this->output = str_replace("<!--{REG.ANTISPAM}-->",
+					View::make("register.bot_antispam", ['regid' => $regid]), $this->output);
 			}
 		}
 
@@ -678,7 +699,7 @@ class Register
 
 		if ($optional_output != "")
 		{
-			$this->output = str_replace("<!--{OPTIONAL.FIELDS}-->", View::Make("register.optional_title") . "\n" . $optional_output, $this->output);
+			$this->output = str_replace("<!--{OPTIONAL.FIELDS}-->", View::make("register.optional_title") . "\n" . $optional_output, $this->output);
 		}
 
 		if (USE_MODULES == 1)
@@ -1165,11 +1186,11 @@ class Register
 
 					$this->email->send_mail();
 
-					$this->output = View::Make("register.show_authorise", ['member' => $member]);
+					$this->output = View::make("register.show_authorise", ['member' => $member]);
 				} else {
 					if ($ibforums->vars['reg_auth_type'] == 'admin')
 					{
-						$this->output = View::Make("register.show_preview", ['member' => $member]);
+						$this->output = View::make("register.show_preview", ['member' => $member]);
 					}
 				}
 
@@ -1485,7 +1506,7 @@ class Register
 			    WHERE ID='00'");
 		$rules = $stmt->fetch();
 
-		$this->output     = View::Make("register.show_rules", ['text' => $rules]);//todo no such a template
+		$this->output     = View::make("register.show_rules", ['text' => $rules]);//todo no such a template
 		$this->page_title = $ibforums->lang['board_rules'];
 		$this->nav        = array($ibforums->lang['board_rules']);
 	}
@@ -1504,7 +1525,7 @@ class Register
 		if ($type == 'lostpass')
 		{
 
-			$this->output = View::Make("register.show_lostpass_form");
+			$this->output = View::make("register.show_lostpass_form");
 
 			//------------------------------------------------------------
 			// Check for input and it's in a valid format.
@@ -1564,14 +1585,16 @@ class Register
 					$std->Error(array('LEVEL' => 1, 'MSG' => 'auth_no_key'));
 				}
 
-				$this->output = str_replace("<!--IBF.INPUT_TYPE-->", View::Make("register.show_lostpass_form_auto", ['aid' => $in_validate_key,'uid' => $in_user_id]), $this->output);
+				$this->output = str_replace("<!--IBF.INPUT_TYPE-->",
+					View::make("register.show_lostpass_form_auto", ['aid' => $in_validate_key, 'uid' => $in_user_id]), $this->output);
 			} else
 			{
-				$this->output = str_replace("<!--IBF.INPUT_TYPE-->", View::Make("register.show_lostpass_form_manual"), $this->output);
+				$this->output = str_replace("<!--IBF.INPUT_TYPE-->",
+					View::make("register.show_lostpass_form_manual"), $this->output);
 			}
 		} else
 		{
-			$this->output = View::Make("register.show_dumb_form", ['type' => $type]);
+			$this->output = View::make("register.show_dumb_form", ['type' => $type]);
 		}
 
 		$this->page_title = $ibforums->lang['activation_form'];

@@ -20,7 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new Printable;
 
@@ -29,7 +30,6 @@ class Printable
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 	var $moderator = array();
 	var $forum = array();
 	var $topic = array();
@@ -178,7 +178,10 @@ class Printable
 				"<a href='{$this->base_url}&act=ST&f={$this->forum['id']}&t={$this->topic['tid']}'>{$this->topic['title']}</a>"
 			);
 
-			$this->output = View::Make("printpage.choose_form", ['fid' => $this->forum['id'],'tid' => $this->topic['tid'],'title' => $this->topic['title']]);
+			$this->output = View::make(
+				"printpage.choose_form",
+				['fid' => $this->forum['id'], 'tid' => $this->topic['tid'], 'title' => $this->topic['title']]
+			);
 
 			$print->add_output("$this->output");
 
@@ -233,7 +236,16 @@ class Printable
 		// Render the page top
 		/***********************************/
 
-		$posts_html = View::Make("printpage.pp_header", ['forum_name' => $this->forum['name'],'topic_title' => $this->topic['title'],'topic_starter' => $this->topic['starter_name'],'fid' => $this->forum['id'],'tid' => $this->topic['tid']]);
+		$posts_html = View::make(
+			"printpage.pp_header",
+			[
+				'forum_name'    => $this->forum['name'],
+				'topic_title'   => $this->topic['title'],
+				'topic_starter' => $this->topic['starter_name'],
+				'fid'           => $this->forum['id'],
+				'tid'           => $this->topic['tid']
+			]
+		);
 
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_posts WHERE topic_id='" . $this->topic['tid'] . "' and queued !='1' and use_sig=0 ORDER BY pid");
 
@@ -367,7 +379,7 @@ class Printable
 
 			if (trim($row['post']))
 			{
-				$posts_html .= View::Make("printpage.pp_postentry", ['poster' => $poster,'entry' => $row]);
+				$posts_html .= View::make("printpage.pp_postentry", ['poster' => $poster, 'entry' => $row]);
 			}
 		}
 
@@ -375,7 +387,7 @@ class Printable
 		// Print the footer
 		/***********************************/
 
-		$posts_html .= View::Make("printpage.pp_end");
+		$posts_html .= View::make("printpage.pp_end");
 
 		return $posts_html;
 	}

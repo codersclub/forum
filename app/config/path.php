@@ -8,7 +8,7 @@ return [
 
     'app' => __DIR__ . '/..',
 
-    'templates' => __DIR__ . '/../views',
+    'templates' => __DIR__ . '/../themes',
 
     'data' => __DIR__ . '/../data',
 ];

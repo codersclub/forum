@@ -19,7 +19,8 @@
 |
 +--------------------------------------------------------------------------
 */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 class syntax_cfg
 {
@@ -637,16 +638,19 @@ class PostParser
 			//Starting Tag
 			$this->quote_open++;
 			$matches[3] = trim($matches[3]);
-			return View::Make('global.renderTagSpoilerTop', [
-				'header' => $matches[3]
-					? $matches[3]
-					: $ibforums->lang["spoiler"]
-			]);
+			return View::make(
+				'tags.spoiler.top',
+				[
+					'header' => $matches[3]
+						? $matches[3]
+						: $ibforums->lang["spoiler"]
+				]
+			);
 		} elseif ($this->quote_open > 0)
 		{
 			// Ending Tag
 			$this->quote_open--;
-			return View::Make("global.renderTagSpoilerBottom");
+			return View::make("tags.spoiler.bottom");
 		} else
 		{
 			// Leave As Is
@@ -942,7 +946,7 @@ class PostParser
 
 			!trim($text) && $text = $ibforums->lang['attached_file'];
 
-			$text = \Skins\Views\View::Make('forum.attach',['text' => $text, 'attach' => $attach]);
+			$text = View::make('forum.attach', ['text' => $text, 'attach' => $attach]);
 		}
 		return $text;
 	}
@@ -968,27 +972,36 @@ class PostParser
 
 		if ($attach->hasOption('img'))
 		{ //image as itself
-			$text = \Skins\Views\View::Make('forum.attachImageFull', [
-				'text' => $text,
-				'alt' => $alt,
-				'url' => $attach->getHref()
-			]);
+			$text = View::make(
+				'forum.attachImageFull',
+				[
+					'text' => $text,
+					'alt'  => $alt,
+					'url'  => $attach->getHref()
+				]
+			);
 		} elseif ($show_reduced)
 		{
 			//image as reduced preview
-			$text = Skins\Views\View::Make('skin_forum.attachImagePreviewReduced', [
-				'text' => $text,
-				'alt' => $alt,
-				'attach' => $attach
-			]);
+			$text = View::make(
+				'forum.attachImagePreviewReduced',
+				[
+					'text'   => $text,
+					'alt'    => $alt,
+					'attach' => $attach
+				]
+			);
 		} else
 		{
 			//image as preview
-			$text = \Skins\Views\View::Make('skin_forum.attachImagePreview', [
-				'text' => $text,
-				'alt' => $alt,
-				'attach' => $attach
-			]);
+			$text = View::make(
+				'forum.attachImagePreview',
+				[
+					'text'   => $text,
+					'alt'    => $alt,
+					'attach' => $attach
+				]
+			);
 		}
 		return $text;
 	}
@@ -1095,7 +1108,7 @@ class PostParser
 			return "";
 		}
 
-		return View::Make("global.renderTagMM", ['text' => $message]);
+		return View::make("tags.MM", ['text' => $message]);
 
 	}
 
@@ -1121,7 +1134,7 @@ class PostParser
 			}
 		}
 
-		return View::Make("global.renderTagGM", ['text' => $message]);
+		return View::make("tags.GM", ['text' => $message]);
 
 	}
 
@@ -1232,7 +1245,7 @@ class PostParser
 
 				return ($ibf->vars['plg_offline_client'] || $ibf->member['rss']) //todo !!!!??!!!!
 					? $ibf->functions->old_get_date($m[1])
-					: View::Make("global.renderTime", ['unixtime' => $m[1],'class' => 'tag-mergetime']);
+					: View::make("global.time", ['unixtime' => $m[1], 'class' => 'tag-mergetime']);
 			},
 			$txt);
 
@@ -2455,8 +2468,8 @@ class PostParser
 		//$txt = str_replace( "\n", "", str_replace( "\r\n", "\n", $txt ) );
 
 		return $type == ""
-			? View::Make("global.renderTagListUnordered", ['text' => $this->regex_list_item($txt)])
-			: View::Make("global.renderTagListOrdered", ['text' => $this->regex_list_item($txt),'type' => $type]);
+			? View::make("tags.ListUnordered", ['text' => $this->regex_list_item($txt)])
+			: View::make("tags.ListOrdered", ['text' => $this->regex_list_item($txt), 'type' => $type]);
 	}
 
 	function regex_list_item($txt)
@@ -2498,7 +2511,7 @@ class PostParser
 		// Ensure that spacing is preserved
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
-		$html = View::Make("global.renderTagMod", ['text' => $txt]);
+		$html = View::make("tags.Mod", ['text' => $txt]);
 
 
 		return $html;
@@ -2535,7 +2548,7 @@ class PostParser
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
 
-		$html = View::Make("global.renderTagEx", ['text' => $txt]);
+		$html = View::make("tags.Ex", ['text' => $txt]);
 
 		return $html;
 	}
@@ -2673,7 +2686,7 @@ class PostParser
 			{
 				$date = ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
 					? $std->old_get_date($date)
-					: View::Make("global.renderTime", ['unixtime' => $date,'class' => 'tag-quote__quoted-time']);
+					: View::make("global.time", ['unixtime' => $date, 'class' => 'tag-quote__quoted-time']);
 			}
 
 			$html = $this->wrap_style(array(
@@ -2816,21 +2829,21 @@ class PostParser
 				$IN['1'] = 30;
 			}
 
-			return View::Make("global.renderTagSize", ['value' => $IN['1'],'text' => $IN['2']]);
+			return View::make("tags.Size", ['value' => $IN['1'], 'text' => $IN['2']]);
 
 		} elseif ($IN['s'] == 'col')
 		{
 			$IN[1] = strtolower(preg_replace("/[^\d\w\#\s]/s", "", $IN[1]));
 
 			return preg_match('!^([0-9a-f]{6}|[0-9a-f]{3})$!i', $IN['1'])
-				? View::Make("global.renderTagColor", ['value' => $IN['1'],'text' => $IN['2']])
-				: View::Make("global.renderTagColorNamed", ['value' => $IN['1'],'text' => $IN['2']]);
+				? View::make("tags.Color", ['value' => $IN['1'], 'text' => $IN['2']])
+				: View::make("tags.ColorNamed", ['value' => $IN['1'], 'text' => $IN['2']]);
 
 		} elseif ($IN['s'] == 'font')
 		{
 			$IN['1'] = preg_replace("/[^\d\w\#\-\_\s]/s", "", $IN['1']);
 
-			return View::Make("global.renderTagFont", ['value' => $IN['1'],'text' => $IN['2']]);
+			return View::make("tags.Font", ['value' => $IN['1'], 'text' => $IN['2']]);
 		}
 	}
 

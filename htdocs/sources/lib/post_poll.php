@@ -19,7 +19,9 @@
 +--------------------------------------------------------------------------
 */
 
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -492,13 +494,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= View::Make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
+			$class->output .= View::make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= View::Make("post.errors", ['data' => $error_message]);
+				$class->output .= View::make("post.errors", ['data' => $error_message]);
 			}
 		}
 
@@ -510,7 +512,7 @@ class post_functions extends Post
 			                                                                                 'SMILIES' => $ibforums->input['enableemo'],
 			                                                                                 'HTML'    => $class->forum['use_html']
 			                                                                            )), $class->forum['use_html']);
-			$class->output .= View::Make("post.preview", ['data' => $this->post['post']]);
+			$class->output .= View::make("post.preview", ['data' => $this->post['post']]);
 		}
 
 		$extra = "";
@@ -538,13 +540,19 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= View::Make("post.table_structure");
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$topic_title = View::Make("post.topictitle_fields", ['data' => array('TITLE' => $topic_title,'DESC' => $topic_desc)]);
+		$topic_title = View::make(
+			"post.topictitle_fields",
+			['data' => array('TITLE' => $topic_title, 'DESC' => $topic_desc)]
+		);
 
-		$start_table = View::Make("post.table_top", ['data' => "{$ibforums->lang['top_txt_poll']}: {$class->forum['name']}"]);
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_poll']}: {$class->forum['name']}"]
+		);
 
 		$name_fields = $class->html_name_field();
 
@@ -552,15 +560,15 @@ class post_functions extends Post
 
 		$mod_options = $class->mod_options();
 
-		$poll_box = View::Make("post.poll_box", ['data' => $poll,'extra' => $extra]);
+		$poll_box = View::make("post.poll_box", ['data' => $poll, 'extra' => $extra]);
 
-		$end_form = View::Make("post.EndForm", ['data' => $ibforums->lang['submit_poll']]);
+		$end_form = View::make("post.EndForm", ['data' => $ibforums->lang['submit_poll']]);
 
 		$post_icons = $class->html_post_icons();
 
 		if ($class->obj['can_upload'])
 		{
-			$upload_field = View::Make("post.Upload_field", ['data' => $ibforums->member['g_attach_max'] * 1024]);
+			$upload_field = View::make("post.Upload_field", ['data' => $ibforums->member['g_attach_max'] * 1024]);
 		}
 
 		//---------------------------------------
@@ -607,7 +615,7 @@ class post_functions extends Post
 
 		if ($ibforums->vars['poll_disable_noreply'] != 1)
 		{
-			$class->output = str_replace("<!--IBF.POLL_OPTIONS-->", View::Make('post.poll_options'), $class->output);
+			$class->output = str_replace("<!--IBF.POLL_OPTIONS-->", View::make('post.poll_options'), $class->output);
 		}
 
 		//---------------------------------------

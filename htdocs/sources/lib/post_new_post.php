@@ -21,7 +21,9 @@
 +--------------------------------------------------------------------------
 */
 
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -539,13 +541,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= View::Make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
+			$class->output .= View::make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= View::Make("post.errors", ['data' => $error_message]);
+				$class->output .= View::make("post.errors", ['data' => $error_message]);
 			}
 		}
 
@@ -582,7 +584,7 @@ class post_functions extends Post
 				$class->process_edituploads($this->upload, Attachment::ITEM_TYPE_TOPIC_DRAFT);
 			}
 
-			$class->output .= View::Make("post.preview", ['data' => $this->post['post']]);
+			$class->output .= View::make("post.preview", ['data' => $this->post['post']]);
 		} else
 		{
 
@@ -617,11 +619,11 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= View::Make("post.table_structure");
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$topic_title = View::Make(
+		$topic_title = View::make(
 			'post.topictitle_fields',
 			[
 				'data' => [
@@ -631,7 +633,10 @@ class post_functions extends Post
 			]
 		);
 
-		$start_table = View::Make("post.table_top", ['data' => "{$ibforums->lang['top_txt_new']} {$class->forum['name']}"]);
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_new']} {$class->forum['name']}"]
+		);
 
 		$name_fields = $class->html_name_field();
 
@@ -650,10 +655,10 @@ class post_functions extends Post
 				$checked = 'checked';
 			}
 
-			$rights_options = View::Make("post.rights_options", ['checked' => $checked]);
+			$rights_options = View::make("post.rights_options", ['checked' => $checked]);
 		}
 
-		$end_form = View::Make("post.EndForm", ['data' => $ibforums->lang['submit_new']]);
+		$end_form = View::make("post.EndForm", ['data' => $ibforums->lang['submit_new']]);
 
 		$post_icons = $class->html_post_icons();
 
@@ -662,11 +667,17 @@ class post_functions extends Post
 
 			if ($this->upload)
 			{
-				$upload_field .= View::Make("post.edit_upload_field", ['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024),'files' => $this->upload]);
+				$upload_field .= View::make(
+					"post.edit_upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024), 'files' => $this->upload]
+				);
 
 			} else
 			{
-				$upload_field = View::Make("post.Upload_field", ['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]);
+				$upload_field = View::make(
+					"post.Upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]
+				);
 			}
 		}
 

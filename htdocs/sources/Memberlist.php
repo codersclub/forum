@@ -20,7 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new Memberlist;
 
@@ -30,7 +31,6 @@ class Memberlist
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	var $html = "";
 	var $base_url = "";
 	var $first = 0;
 
@@ -347,9 +347,9 @@ class Memberlist
 		                                    'BASE_URL'   => $this->base_url . "&amp;act=Members&amp;photoonly={$ibforums->input['photoonly']}&amp;name=" . urlencode($ibforums->input['name']) . "&amp;name_box={$ibforums->input['name_box']}&amp;max_results={$this->max_results}&amp;filter={$this->filter}&amp;sort_order={$this->sort_order}&amp;sort_key={$this->sort_key}"
 		                               ));
 
-		$this->output = View::Make("mlist.start");
+		$this->output = View::make("mlist.start");
 
-		$this->output .= View::Make("mlist.Page_header", ['links' => array('SHOW_PAGES' => $links)]);
+		$this->output .= View::make("mlist.Page_header", ['links' => array('SHOW_PAGES' => $links)]);
 
 		//-----------------------------
 		// START THE LISTING
@@ -465,16 +465,16 @@ class Memberlist
 				$member['fined'] = "<a href='{$ibforums->vars['board_url']}/index.php?act=store&amp;code=showfine&amp;id={$member['id']}'>" . $member['fined'] . "</a>";
 			}
 
-			$this->output .= View::Make("mlist.show_row", ['member' => $member]);
+			$this->output .= View::make("mlist.show_row", ['member' => $member]);
 		}
 
 		$checked = $ibforums->input['photoonly'] == 1
 			? 'checked="checked"'
 			: "";
 
-		$this->output .= View::Make("mlist.Page_end", ['checked' => $checked]);
+		$this->output .= View::make("mlist.Page_end", ['checked' => $checked]);
 
-		$this->output .= View::Make("mlist.end", ['links' => array('SHOW_PAGES' => $links)]);
+		$this->output .= View::make("mlist.end", ['links' => array('SHOW_PAGES' => $links)]);
 
 		$print->add_output("$this->output");
 		$print->do_output(array(

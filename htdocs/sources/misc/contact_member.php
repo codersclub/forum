@@ -20,7 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new Contact;
 
@@ -29,7 +30,6 @@ class Contact
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 
 	var $nav = array();
 	var $page_title = "";
@@ -181,7 +181,10 @@ class Contact
 
 		$this->page_title = $ibforums->vars['gl_title'];
 
-		$this->output .= View::Make("emails.board_rules", ['title' => $ibforums->vars['gl_title'],'body' => $row['cs_value']]);
+		$this->output .= View::make(
+			"emails.board_rules",
+			['title' => $ibforums->vars['gl_title'], 'body' => $row['cs_value']]
+		);
 
 	}
 
@@ -223,14 +226,34 @@ class Contact
 
 		if ($ibforums->input['pop'])
 		{
-			$html = View::Make("emails.chat_pop", ['acc_no' => $ibforums->vars['chat_account_no'],'lang' => $lang,'w' => $width,'h' => $height,'user' => $user,'pass' => $pass]);
+			$html = View::make(
+				"emails.chat_pop",
+				[
+					'acc_no' => $ibforums->vars['chat_account_no'],
+					'lang'   => $lang,
+					'w'      => $width,
+					'h'      => $height,
+					'user'   => $user,
+					'pass'   => $pass
+				]
+			);
 
 			$print->pop_up_window("CHAT", $html);
 
 			exit();
 		} else
 		{
-			$this->output .= View::Make("emails.chat_inline", ['acc_no' => $ibforums->vars['chat_account_no'],'lang' => $lang,'w' => $width,'h' => $height,'user' => $user,'pass' => $pass]);
+			$this->output .= View::make(
+				"emails.chat_inline",
+				[
+					'acc_no' => $ibforums->vars['chat_account_no'],
+					'lang'   => $lang,
+					'w'      => $width,
+					'h'      => $height,
+					'user'   => $user,
+					'pass'   => $pass
+				]
+			);
 		}
 
 		$this->nav[] = $ibforums->lang['live_chat'];
@@ -264,7 +287,10 @@ class Contact
 
 		$this->check_access($fid, $tid);
 
-		$this->output .= View::Make("emails.report_form", ['fid' => $fid,'tid' => $tid,'pid' => $pid,'st' => $st,'topic_title' => $this->forum['topic_title']]);
+		$this->output .= View::make(
+			"emails.report_form",
+			['fid' => $fid, 'tid' => $tid, 'pid' => $pid, 'st' => $st, 'topic_title' => $this->forum['topic_title']]
+		);
 
 		$this->nav[] = "<a href='" . $ibforums->base_url . "act=SC&c={$this->forum['cat_id']}'>{$this->forum['cat_name']}</a>";
 		$this->nav[] = "<a href='" . $ibforums->base_url . "act=SF&f={$this->forum['id']}'>{$this->forum['name']}</a>";
@@ -454,11 +480,11 @@ class Contact
 
 		//----------------------------------
 
-		$html = View::Make("emails.pager_header", ['data' => array('TITLE' => 'MSN')]);
+		$html = View::make("emails.pager_header", ['data' => array('TITLE' => 'MSN')]);
 
-		$html .= View::Make("emails.msn_body", ['msnname' => $member['msnname']]);
+		$html .= View::make("emails.msn_body", ['msnname' => $member['msnname']]);
 
-		$html .= View::Make("emails.end_table");
+		$html .= View::make("emails.end_table");
 
 		$print->pop_up_window("MSN CONSOLE", $html);
 
@@ -516,11 +542,11 @@ class Contact
 
 		//----------------------------------
 
-		$html = View::Make("emails.pager_header", ['data' => array('TITLE' => "Yahoo!")]);
+		$html = View::make("emails.pager_header", ['data' => array('TITLE' => "Yahoo!")]);
 
-		$html .= View::Make("emails.yahoo_body", ['yahoo' => $member['yahoo']]);
+		$html .= View::make("emails.yahoo_body", ['yahoo' => $member['yahoo']]);
 
-		$html .= View::Make("emails.end_table");
+		$html .= View::make("emails.end_table");
 
 		$print->pop_up_window("YAHOO! CONSOLE", $html);
 
@@ -580,7 +606,9 @@ class Contact
 
 		//----------------------------------
 
-		$print->pop_up_window("AOL CONSOLE", View::Make("emails.aol_body", ['data' => array('AOLNAME' => $member['aim_name'])]));
+		$print->pop_up_window("AOL CONSOLE",
+			View::make("emails.aol_body", ['data' => array('AOLNAME' => $member['aim_name'])])
+		);
 
 	}
 
@@ -636,11 +664,11 @@ class Contact
 
 		//----------------------------------
 
-		$html = View::Make("emails.pager_header", ['data' => array($ibforums->lang['icq_title'])]);
+		$html = View::make("emails.pager_header", ['data' => array($ibforums->lang['icq_title'])]);
 
-		$html .= View::Make("emails.icq_body", ['data' => array('UIN' => $member['icq_number'])]);
+		$html .= View::make("emails.icq_body", ['data' => array('UIN' => $member['icq_number'])]);
 
-		$html .= View::Make("emails.end_table");
+		$html .= View::make("emails.end_table");
 
 		$print->pop_up_window("ICQ CONSOLE", $html);
 
@@ -739,22 +767,32 @@ class Contact
 				$msg = str_replace("<#EXTRA#>", $extra, $msg);
 			}
 
-			$this->output .= View::Make("emails.errors", ['data' => $msg]);
+			$this->output .= View::make("emails.errors", ['data' => $msg]);
 		}
 
 		//----------------------------------
 
 		$this->output .= $ibforums->vars['use_mail_form']
-			? View::Make('emails.send_form', [ 'data' => array(
-			                              'NAME'    => $member['name'],
-			                              'TO'      => $member['id'],
-			                              'subject' => $ibforums->input['subject'],
-			                              'content' => stripslashes(htmlentities($_POST['message'])),
-			                         )])
-			: View::Make('emails.show_address', ['data' => array(
-			                                 'NAME'    => $member['name'],
-			                                 'ADDRESS' => $member['email'],
-			                            )]);
+			? View::make(
+				'emails.send_form',
+				[
+					'data' => array(
+						'NAME'    => $member['name'],
+						'TO'      => $member['id'],
+						'subject' => $ibforums->input['subject'],
+						'content' => stripslashes(htmlentities($_POST['message'])),
+					)
+				]
+			)
+			: View::make(
+				'emails.show_address',
+				[
+					'data' => array(
+						'NAME'    => $member['name'],
+						'ADDRESS' => $member['email'],
+					)
+				]
+			);
 
 		$this->page_title = $ibforums->lang['member_address_title'];
 		$this->nav        = array($ibforums->lang['member_address_title']);
@@ -873,9 +911,9 @@ class Contact
 
 		$forum_jump = $std->build_forum_jump();
 
-		$this->output = View::Make("emails.sent_screen", ['member_name' => $member['name']]);
+		$this->output = View::make("emails.sent_screen", ['member_name' => $member['name']]);
 
-		$this->output .= View::Make("emails.forum_jump", ['data' => $forum_jump]);
+		$this->output .= View::make("emails.forum_jump", ['data' => $forum_jump]);
 
 		$this->page_title = $ibforums->lang['email_sent'];
 		$this->nav        = array($ibforums->lang['email_sent']);

@@ -21,7 +21,8 @@
 +--------------------------------------------------------------------------
 */
 
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new buddy;
 
@@ -30,7 +31,6 @@ class buddy {
     var $output     = "";
     var $page_title = "";
     var $nav        = array();
-    var $html       = "";
 
 
 
@@ -58,9 +58,9 @@ class buddy {
 
     	// If we have any HTML to print, do so...
 
-    	$this->output = str_replace( "<!--CLOSE.LINK-->", View::Make("buddy.closelink"), $this->output );
+    	$this->output = str_replace( "<!--CLOSE.LINK-->", View::make("buddy.closelink"), $this->output );
 
-    	$print->pop_up_window($ibforums->lang['page_title'], View::Make("buddy.buddy_js").$this->output);
+    	$print->pop_up_window($ibforums->lang['page_title'], View::make("buddy.buddy_js") .$this->output);
 
 
  	}
@@ -76,7 +76,7 @@ class buddy {
 
  		if ( ! $ibforums->member['id'] )
  		{
- 			$this->output = View::Make("buddy.login");
+ 			$this->output = View::make("buddy.login");
  			return;
  		}
  		else
@@ -168,18 +168,21 @@ class buddy {
  				$ibforums->lang['my_replies'] = sprintf($ibforums->lang['my_replies'], $topics_total );
 
 // 				$ibforums->lang['new_posts'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
- 				$ibforums->lang['new_posts'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
+ 				$ibforums->lang['new_posts'] .= View::make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
 
  				if ($topic > 0)
  				{
- 					$ibforums->lang['my_replies'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getreplied']);
+ 					$ibforums->lang['my_replies'] .= View::make(
+					    "buddy.append_view",
+					    ['url' => '&act=Select&CODE=getreplied']
+				    );
  				}
 
- 				$text = View::Make("buddy.build_away_msg");
+ 				$text = View::make("buddy.build_away_msg");
  			}
 
 
- 			$this->output = View::Make("buddy.main", ['away_text' => $text]);
+ 			$this->output = View::make("buddy.main", ['away_text' => $text]);
  		}
 
 

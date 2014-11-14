@@ -20,7 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new Login;
 
@@ -79,7 +80,7 @@ class Login
 
 		if ($message != "")
 		{
-			$this->output .= View::Make("login.errors", ['data' => $ibforums->lang[$message]]);
+			$this->output .= View::make("login.errors", ['data' => $ibforums->lang[$message]]);
 		}
 
 		$html = <<<EOF

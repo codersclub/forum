@@ -9,7 +9,7 @@ class DatasetSkinManager extends BaseSkinManager
     private $macro;
     private $css;
     private $imagesDir;
-    private $viewsDir;
+    private $theme;
 
     function __construct(array $data)
     {
@@ -20,7 +20,7 @@ class DatasetSkinManager extends BaseSkinManager
             $this->css       = $data['css'];
             $this->imagesDir = $data['images'];
             $this->id        = $data['id'];
-            $this->viewsDir  = $data['views'];
+            $this->theme     = $data['views'];
         } else {
             throw new \Exception('Data passed to constructor is wrong');
         }
@@ -82,7 +82,7 @@ class DatasetSkinManager extends BaseSkinManager
      */
     public function getTemplatesPath()
     {
-        return \Config::get('path.templates') . DIRECTORY_SEPARATOR . $this->viewsDir;
+        return \Config::get('path.templates') . DIRECTORY_SEPARATOR . $this->theme;
     }
 
     /**
@@ -91,6 +91,6 @@ class DatasetSkinManager extends BaseSkinManager
      */
     public function getTemplatesName()
     {
-        return $this->viewsDir;
+        return $this->theme;
     }
 }

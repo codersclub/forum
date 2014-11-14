@@ -20,7 +20,8 @@
   |	> Module Version Number: 1.0.0
   +--------------------------------------------------------------------------
  */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 class functions
 {
@@ -705,7 +706,7 @@ class functions
 
 			$forums .= "</select>&nbsp;<input type='button' value='{$ibforums->lang['jmp_go']}' class='forminput' onClick='do_url({$pid});'></form>";
 
-			$forums = View::Make("global.forum_filter", ['data' => $forums]);
+			$forums = View::make("global.forum_filter", ['data' => $forums]);
 
 			return $forums;
 		}
@@ -1352,8 +1353,8 @@ class functions
 
 				$rules['fid'] = $forum['id'];
 				$ruleshtml    = $forum['show_rules'] == 2
-					? View::Make("global.forum_show_rules_full", ['rules' => $rules])
-					: View::Make("global.forum_show_rules_link", ['rules' => $rules]);
+					? View::make("global.forum_show_rules_full", ['rules' => $rules])
+					: View::make("global.forum_show_rules_link", ['rules' => $rules]);
 			}
 		}
 
@@ -2035,7 +2036,10 @@ class functions
 
 		if ($work['pages'] > 1)
 		{
-			$work['first_page'] = View::Make("global.make_page_jump", ['tp' => $data['TOTAL_POSS'],'pp' => $data['PER_PAGE'],'ub' => $data['BASE_URL']]) . " (" . $work['pages'] . ")";
+			$work['first_page'] = View::make(
+					"global.make_page_jump",
+					['tp' => $data['TOTAL_POSS'], 'pp' => $data['PER_PAGE'], 'ub' => $data['BASE_URL']]
+				) . " (" . $work['pages'] . ")";
 
 			for ($i = 0; $i <= $work['pages'] - 1; ++$i)
 			{
@@ -3157,7 +3161,7 @@ class functions
 			$ibforums->vars['plg_catch_err']->Error($msg);
 		}
 
-		$html = View::Make("global.Error", ['message' => $msg,'ad_email_one' => $em_1,'ad_email_two' => $em_2]);
+		$html = View::make("global.Error", ['message' => $msg, 'ad_email_one' => $em_1, 'ad_email_two' => $em_2]);
 
 		//-----------------------------------------
 		// If we're a guest, show the log in box..
@@ -3165,7 +3169,8 @@ class functions
 
 		if (!$ibforums->member['id'] and $error['MSG'] != 'server_too_busy' and $error['MSG'] != 'account_susp')
 		{
-			$html = str_replace("<!--IBF.LOG_IN_TABLE-->", View::Make("global.error_log_in", ['q_string' => $_SERVER['QUERY_STRING']]), $html);
+			$html = str_replace("<!--IBF.LOG_IN_TABLE-->",
+				View::make("global.error_log_in", ['q_string' => $_SERVER['QUERY_STRING']]), $html);
 		}
 
 		//-----------------------------------------
@@ -3176,7 +3181,10 @@ class functions
 		{
 			if ($_POST['Post'])
 			{
-				$post_thing = View::Make("global.error_post_textarea", ['post' => $this->txt_htmlspecialchars($this->txt_stripslashes($_POST['Post']))]);
+				$post_thing = View::make(
+					"global.error_post_textarea",
+					['post' => $this->txt_htmlspecialchars($this->txt_stripslashes($_POST['Post']))]
+				);
 
 				$html = str_replace("<!--IBF.POST_TEXTAREA-->", $post_thing, $html);
 			}
@@ -3356,7 +3364,7 @@ class functions
 
 		$msg = preg_replace("/\n/", "<br>", stripslashes($ibforums->vars['offline_msg']));
 
-		$html = View::Make("global.board_offline", ['message' => $msg]);
+		$html = View::make("global.board_offline", ['message' => $msg]);
 
 		$print = new display();
 

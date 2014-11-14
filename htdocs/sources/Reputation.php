@@ -2,6 +2,9 @@
 
 $idx = new Reputation;
 
+use Skins\Skin;
+use Views\View;
+
 class Reputation
 {
 
@@ -361,7 +364,7 @@ class Reputation
 					$info['anon'] = "";
 				}
 
-				$output .= View::Make("rep.ShowForm", ['i' => $info]);
+				$output .= View::make("rep.ShowForm", ['i' => $info]);
 
 				$NAV        = $ibforums->lang['pnav'];
 				$page_title = $ibforums->lang['ptitle'];
@@ -420,7 +423,7 @@ class Reputation
 					$info['anon'] = "";
 				}
 
-				$output .= View::Make("rep.ShowForm", ['i' => $info]);
+				$output .= View::make("rep.ShowForm", ['i' => $info]);
 
 				$NAV        = $ibforums->lang['pnav'];
 				$page_title = $ibforums->lang['ptitle'];
@@ -454,7 +457,7 @@ class Reputation
 				                                    'BASE_URL'   => $ibforums->base_url . "act=rep&amp;CODE=03&amp;type={$ibforums->input['type']}&amp;mid=" . $memid,
 				                               ));
 
-				$output .= View::Make("rep.Links", ['links' => $links]);
+				$output .= View::make("rep.Links", ['links' => $links]);
 				$output .= "<br>";
 
 				$ratting = ($ibforums->input['type'] == "t")
@@ -489,9 +492,9 @@ class Reputation
 
 				$info['name'] = "<a href='{$ibforums->base_url}act=Profile&MID={$info['id']}'>" . $info['name'] . "</a>";
 
-				$output .= View::Make("rep.ShowTitle", ['i' => $info]);
+				$output .= View::make("rep.ShowTitle", ['i' => $info]);
 
-				$output .= View::Make("rep.ShowHeader");
+				$output .= View::make("rep.ShowHeader");
 
 				//Jureth			$stmt = $ibforums->db->query("SELECT r.*, m.name, t.title, f.read_perms
 				$stmt = $ibforums->db->query("SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
@@ -504,7 +507,7 @@ class Reputation
 
 				if (!$stmt->rowCount())
 				{
-					$output .= View::Make("rep.ShowNone");
+					$output .= View::make("rep.ShowNone");
 				}
 
 				while ($i = $stmt->fetch())
@@ -574,7 +577,7 @@ class Reputation
 
 					$i['memid'] = $memid;
 
-					$output .= View::Make("rep.ShowRow", ['i' => $i]);
+					$output .= View::make("rep.ShowRow", ['i' => $i]);
 				}
 
 				if (!$ibforums->input['t'] or !$ibforums->input['f'])
@@ -585,10 +588,10 @@ class Reputation
 					$back = "{$ibforums->base_url}act=ST&t=" . $ibforums->input['t'] . "&f=" . $ibforums->input['f'];
 				}
 
-				$output .= View::Make("rep.ShowFooter", ['link' => $back]);
+				$output .= View::make("rep.ShowFooter", ['link' => $back]);
 
 				$output .= "<br>";
-				$output .= View::Make("rep.Links", ['links' => $links]);
+				$output .= View::make("rep.Links", ['links' => $links]);
 
 				$NAV = sprintf($ibforums->lang['snav'], $ibforums->lang['rep_' . $ibforums->input['type']]);
 
@@ -625,7 +628,7 @@ class Reputation
 				                                    'BASE_URL'   => $ibforums->base_url . "act=rep&CODE=04&mid=" . $memid,
 				                               ));
 
-				$output .= View::Make("rep.Links", ['links' => $links]);
+				$output .= View::make("rep.Links", ['links' => $links]);
 				$output .= "<br>";
 
 				$stmt = $ibforums->db->query("SELECT m.id, m.name, COUNT(r.from_id) as times
@@ -650,9 +653,9 @@ class Reputation
 
 				$info['name'] = "<a href='{$ibforums->base_url}act=Profile&MID={$info['id']}'>" . $info['name'] . "</a>";
 
-				$output .= View::Make("rep.ShowSelfTitle", ['i' => $info]);
+				$output .= View::make("rep.ShowSelfTitle", ['i' => $info]);
 
-				$output .= View::Make("rep.ShowSelfHeader");
+				$output .= View::make("rep.ShowSelfHeader");
 
 				//Jureth			$stmt = $ibforums->db->query("SELECT r.*, m.name, t.title, f.read_perms
 				$stmt = $ibforums->db->query("SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
@@ -664,7 +667,7 @@ class Reputation
 
 				if (!$stmt->rowCount())
 				{
-					$output .= View::Make("rep.ShowNone");
+					$output .= View::make("rep.ShowNone");
 				}
 
 				while ($i = $stmt->fetch())
@@ -733,7 +736,7 @@ class Reputation
 
 					$i['memid'] = $memid;
 
-					$output .= View::Make("rep.ShowRow", ['i' => $i]);
+					$output .= View::make("rep.ShowRow", ['i' => $i]);
 				}
 
 				if (!$ibforums->input['t'] or !$ibforums->input['f'])
@@ -744,10 +747,10 @@ class Reputation
 					$back = "{$ibforums->base_url}act=ST&t=" . $ibforums->input['t'] . "&f=" . $ibforums->input['f'];
 				}
 
-				$output .= View::Make("rep.ShowFooter", ['link' => $back]);
+				$output .= View::make("rep.ShowFooter", ['link' => $back]);
 
 				$output .= "<br>";
-				$output .= View::Make("rep.Links", ['links' => $links]);
+				$output .= View::make("rep.Links", ['links' => $links]);
 
 				$NAV = sprintf($ibforums->lang['snav'], "");
 
@@ -911,10 +914,10 @@ class Reputation
 				                                    'BASE_URL'   => $ibforums->base_url . "act=rep&CODE=totals&max_results={$this->max_results}&&sort_order={$this->sort_order}&sort_key={$this->sort_key}"
 				                               ));
 
-				$output = View::Make("rep.Links", ['links' => $links]);
+				$output = View::make("rep.Links", ['links' => $links]);
 				$output .= "<br>";
 
-				$output .= View::Make("rep.StatsLinks");
+				$output .= View::make("rep.StatsLinks");
 
 				if (!$ibforums->member['g_access_cp'])
 				{
@@ -970,10 +973,10 @@ class Reputation
 						$member['times'] .= " " . $ibforums->lang['rep_postfix'] . " <a href='{$ibforums->base_url}act=rep&CODE=04&mid={$member['id']}'>{$ibforums->lang['details']}</a>";
 					}
 
-					$output .= View::Make("rep.ShowTotalsRow", ['i' => $member]);
+					$output .= View::make("rep.ShowTotalsRow", ['i' => $member]);
 				}
 
-				$output .= View::Make("rep.Page_end");
+				$output .= View::make("rep.Page_end");
 
 				if (!$ibforums->input['t'] or !$ibforums->input['f'])
 				{
@@ -983,10 +986,10 @@ class Reputation
 					$back = "{$ibforums->base_url}act=ST&t=" . $ibforums->input['t'] . "&f=" . $ibforums->input['f'];
 				}
 
-				$output .= View::Make("rep.ShowFooter", ['link' => $back]);
+				$output .= View::make("rep.ShowFooter", ['link' => $back]);
 
 				$output .= "<br>";
-				$output .= View::Make("rep.Links", ['links' => $links]);
+				$output .= View::make("rep.Links", ['links' => $links]);
 
 				$NAV        = $ibforums->lang['bnav'];
 				$page_title = $ibforums->lang['btitle'];

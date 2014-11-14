@@ -20,7 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Views\View;
+use Skins\Skin;
+use Views\View;
 
 $idx = new calendar;
 
@@ -29,7 +30,6 @@ class calendar
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 	var $page_title = "";
 	var $nav;
 
@@ -305,33 +305,35 @@ class calendar
 			? "<option value='y' selected='selected'>{$ibforums->lang['fv_years']}</option>"
 			: "<option value='y'>{$ibforums->lang['fv_years']}</option>";
 
-		$this->output .= View::Make("post.get_javascript");
+		$this->output .= View::make("post.get_javascript");
 
-		$this->output .= View::Make("calendar.calendar_start_edit_form", ['eventid' => $event['eventid']]);
-		$this->output .= View::Make("calendar.table_top", ['data' => $ibforums->lang['edit_event']]);
-		$this->output .= View::Make("calendar.calendar_delete_box");
-		$this->output .= View::Make("calendar.calendar_event_title", ['data' => $event['title']]);
-		$this->output .= View::Make("calendar.calendar_choose_date", [
-				'days' => $this->get_day_dropdown($event['mday']),
-				'months' => $this->get_month_dropdown($event['month']),
-				'years' => $this->get_year_dropdown($event['year']),
-				'end_days' => $this->get_day_dropdown($event['end_day']),
+		$this->output .= View::make("calendar.calendar_start_edit_form", ['eventid' => $event['eventid']]);
+		$this->output .= View::make("calendar.table_top", ['data' => $ibforums->lang['edit_event']]);
+		$this->output .= View::make("calendar.calendar_delete_box");
+		$this->output .= View::make("calendar.calendar_event_title", ['data' => $event['title']]);
+		$this->output .= View::make(
+			"calendar.calendar_choose_date",
+			[
+				'days'       => $this->get_day_dropdown($event['mday']),
+				'months'     => $this->get_month_dropdown($event['month']),
+				'years'      => $this->get_year_dropdown($event['year']),
+				'end_days'   => $this->get_day_dropdown($event['end_day']),
 				'end_months' => $this->get_month_dropdown($event['end_month']),
-				'end_years' => $this->get_year_dropdown($event['end_year']),
+				'end_years'  => $this->get_year_dropdown($event['end_year']),
 				'recur_days' => $this->get_day_dropdown("1"),
 				'recur_unit' => $recur_menu,
-				'div' => array(
+				'div'        => array(
 					'range_on'  => $range_on,
 					'range_off' => $range_off,
 					'recur_on'  => $recur_on,
 					'recur_off' => $recur_off
 				),
-				'checked' => $checked,
-				'cols' => array(
+				'checked'    => $checked,
+				'cols'       => array(
 					'bg' => $this->get_color_dropdown('bg', $event['event_bgcolor']),
 					'ft' => $this->get_color_dropdown('ft', $event['event_color'])
 				),
-				'recend' => array(
+				'recend'     => array(
 					'd' => $this->get_day_dropdown($event['end_day']),
 					'm' => $this->get_month_dropdown($event['end_month']),
 					'y' => $this->get_year_dropdown($event['end_year'])
@@ -350,7 +352,10 @@ class calendar
 			$public = ' selected';
 		}
 
-		$this->output .= View::Make("calendar.calendar_event_type", ['pub_select' => $public,'priv_select' => $private]);
+		$this->output .= View::make(
+			"calendar.calendar_event_type",
+			['pub_select' => $public, 'priv_select' => $private]
+		);
 
 		if ($ibforums->member['mgroup'] == $ibforums->vars['admin_group'])
 		{
@@ -372,23 +377,28 @@ class calendar
 				$group_choices .= "<option value='" . $r['g_id'] . "'" . $selected . ">" . $r['g_title'] . "</option>\n";
 			}
 
-			$this->output .= View::Make("calendar.calendar_admin_group_box", ['groups' => $group_choices]);
+			$this->output .= View::make("calendar.calendar_admin_group_box", ['groups' => $group_choices]);
 		}
 
-		$this->output .= View::Make("post.postbox_buttons", ['data' => str_replace("<br>", "\n", $event['event_text'])]);
+		$this->output .= View::make(
+			"post.postbox_buttons",
+			['data' => str_replace("<br>", "\n", $event['event_text'])]
+		);
 
 		$this->output = str_replace(
 			'<!--IBF.EMO-->',
-			View::Make("post.get_box_enableemo", [
-				'checked' => $event['show_emoticons']
-					? 'checked="checked"'
-					: ""
+			View::make(
+				"post.get_box_enableemo",
+				[
+					'checked' => $event['show_emoticons']
+						? 'checked="checked"'
+						: ""
 				]
 			),
 			$this->output
 		);
 
-		$this->output .= View::Make("calendar.calendar_end_form", ['data' => $ibforums->lang['calendar_edit_submit']]);
+		$this->output .= View::make("calendar.calendar_end_form", ['data' => $ibforums->lang['calendar_edit_submit']]);
 
 		//--------------------------------------
 		// Add in the smilies box
@@ -467,7 +477,7 @@ class calendar
 			$smilies .= "</tr>";
 		}
 
-		$table = View::Make("post.smilie_table");
+		$table = View::make("post.smilie_table");
 
 		if ($show_table != 0)
 		{
@@ -880,7 +890,15 @@ class calendar
 			}
 		}
 
-		$this->output .= View::Make("calendar.cal_main_content", ['month' => $this->month_words[$this->chosen_month - 1],'year' => $this->chosen_year,'prev' => $prev_month,'next' => $next_month]);
+		$this->output .= View::make(
+			"calendar.cal_main_content",
+			[
+				'month' => $this->month_words[$this->chosen_month - 1],
+				'year'  => $this->chosen_year,
+				'prev'  => $prev_month,
+				'next'  => $next_month
+			]
+		);
 
 		//-----------------------------------------
 		// Print the days table top row
@@ -891,7 +909,7 @@ class calendar
 
 		foreach ($this->day_words as $day)
 		{
-			$day_output .= View::Make("calendar.cal_day_bit", ['day' => $day]);
+			$day_output .= View::make("calendar.cal_day_bit", ['day' => $day]);
 		}
 
 		//-----------------------------------------
@@ -916,7 +934,7 @@ class calendar
 					break;
 				}
 
-				$cal_output .= View::Make("calendar.cal_new_row");
+				$cal_output .= View::make("calendar.cal_new_row");
 			}
 
 			//-----------------------------------------
@@ -926,7 +944,7 @@ class calendar
 
 			if (($c < $this->first_day_array['wday']) or ($day_array['mon'] != $this->chosen_month))
 			{
-				$cal_output .= View::Make("calendar.cal_blank_cell");
+				$cal_output .= View::make("calendar.cal_blank_cell");
 			} else
 			{
 				if ($seen_days[$day_array['yday']] == 1)
@@ -991,7 +1009,15 @@ class calendar
 
 						if ($s == 1)
 						{
-							$this_day_events .= View::Make("calendar.cal_events_wrap_range", ['link' => 'code=showevent&amp;eventid=' . $d['eventid'],'text' => $d['title'],'ft' => $d['ft'],'bg' => $d['bg']]);
+							$this_day_events .= View::make(
+								"calendar.cal_events_wrap_range",
+								[
+									'link' => 'code=showevent&amp;eventid=' . $d['eventid'],
+									'text' => $d['title'],
+									'ft'   => $d['ft'],
+									'bg'   => $d['bg']
+								]
+							);
 
 							$seen_ids[$d['eventid']] = 1;
 						}
@@ -1096,7 +1122,10 @@ class calendar
 
 						if ($sh == 1)
 						{
-							$this_day_events .= View::Make("calendar.cal_events_wrap_recurring", ['link' => 'code=showevent&amp;eventid=' . $rc['eventid'],'text' => $rc['title']]);
+							$this_day_events .= View::make(
+								"calendar.cal_events_wrap_recurring",
+								['link' => 'code=showevent&amp;eventid=' . $rc['eventid'], 'text' => $rc['title']]
+							);
 						}
 					}
 				}
@@ -1116,7 +1145,10 @@ class calendar
 								continue;
 							}
 
-							$this_day_events .= View::Make("calendar.cal_events_wrap", ['link' => 'code=showevent&amp;eventid=' . $data['eventid'],'text' => $data['title']]);
+							$this_day_events .= View::make(
+								"calendar.cal_events_wrap",
+								['link' => 'code=showevent&amp;eventid=' . $data['eventid'], 'text' => $data['title']]
+							);
 						}
 					}
 				}
@@ -1127,7 +1159,13 @@ class calendar
 
 				if (isset($birthdays[$day_array['mday']]) and $birthdays[$day_array['mday']] > 0)
 				{
-					$this_day_events .= View::Make("calendar.cal_events_wrap", ['link' => 'code=birthdays&amp;y=' . $this->chosen_year . "&amp;m=" . $this->chosen_month . "&amp;d=" . $day_array['mday'],'text' => sprintf($ibforums->lang['entry_birthdays'], $birthdays[$day_array['mday']])]);
+					$this_day_events .= View::make(
+						"calendar.cal_events_wrap",
+						[
+							'link' => 'code=birthdays&amp;y=' . $this->chosen_year . "&amp;m=" . $this->chosen_month . "&amp;d=" . $day_array['mday'],
+							'text' => sprintf($ibforums->lang['entry_birthdays'], $birthdays[$day_array['mday']])
+						]
+					);
 
 				}
 
@@ -1135,15 +1173,23 @@ class calendar
 				{
 					$cal_date = "<a href='{$ibforums->base_url}&amp;act=calendar&amp;code=showday&amp;y=" . $this->chosen_year . "&amp;m=" . $this->chosen_month . "&amp;d=" . $day_array['mday'] . "'>{$day_array['mday']}</a>";
 
-					$this_day_events = View::Make("calendar.cal_events_start") . $this_day_events . View::Make("calendar.cal_events_end");
+					$this_day_events = View::make("calendar.cal_events_start") . $this_day_events . View::make(
+							"calendar.cal_events_end"
+						);
 				}
 
 				if (($day_array['mday'] == $this->now_date['mday']) and ($this->now_date['mon'] == $day_array['mon']) and ($this->now_date['year'] == $day_array['year']))
 				{
-					$cal_output .= View::Make("calendar.cal_date_cell_today", ['month_day' => $cal_date,'events' => $this_day_events]);
+					$cal_output .= View::make(
+						"calendar.cal_date_cell_today",
+						['month_day' => $cal_date, 'events' => $this_day_events]
+					);
 				} else
 				{
-					$cal_output .= View::Make("calendar.cal_date_cell", ['month_day' => $cal_date,'events' => $this_day_events]);
+					$cal_output .= View::make(
+						"calendar.cal_date_cell",
+						['month_day' => $cal_date, 'events' => $this_day_events]
+					);
 				}
 
 				unset($this_day_events);
@@ -1196,30 +1242,46 @@ class calendar
 		$this->nav[] = "<a href='{$ibforums->base_url}&amp;act=calendar'>{$ibforums->lang['page_title']}</a>";
 		$this->nav[] = $ibforums->lang['post_new_event'];
 
-		$this->output .= View::Make("post.get_javascript");
+		$this->output .= View::make("post.get_javascript");
 
-		$this->output .= View::Make("calendar.calendar_start_form");
-		$this->output .= View::Make("calendar.table_top", ['data' => $ibforums->lang['post_new_event']]);
-		$this->output .= View::Make("calendar.calendar_event_title");
-		$this->output .= View::Make("calendar.calendar_choose_date", ['days' => $this->get_day_dropdown(),'months' => $this->get_month_dropdown(),'years' => $this->get_year_dropdown(),'end_days' => $this->get_day_dropdown(),'end_months' => $this->get_month_dropdown(),'end_years' => $this->get_year_dropdown(),'recur_days' => $this->get_day_dropdown("1"), 'recur_unit' => "<option value='w'>{$ibforums->lang['fv_days']}</option><option value='m'>{$ibforums->lang['fv_months']}</option><option value='y'>{$ibforums->lang['fv_years']}</option>", 'div' => array(
-		                                                                                                                                                                                                                                                                                                                                                                                                                                          'range_on'  => 'none',
-		                                                                                                                                                                                                                                                                                                                                                                                                                                          'range_off' => 'show',
-		                                                                                                                                                                                                                                                                                                                                                                                                                                          'recur_on'  => 'none',
-		                                                                                                                                                                                                                                                                                                                                                                                                                                          'recur_off' => 'show'
-		                                                                                                                                                                                                                                                                                                                                                                                                                                     ), array(
-		                                                                                                                                                                                                                                                                                                                                                                                                                                             'range'  => '',
-		                                                                                                                                                                                                                                                                                                                                                                                                                                             'recur'  => '',
-		                                                                                                                                                                                                                                                                                                                                                                                                                                             'normal' => 'checked="checked"'
-		                                                                                                                                                                                                                                                                                                                                                                                                                                        ), array(
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                'bg' => $this->get_color_dropdown('bg', 'darkblue'),
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                'ft' => $this->get_color_dropdown('ft', 'white')
-		                                                                                                                                                                                                                                                                                                                                                                                                                                           ), array(
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                   'd' => $this->get_day_dropdown(),
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                   'm' => $this->get_month_dropdown(),
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                   'y' => $this->get_year_dropdown()
-		                                                                                                                                                                                                                                                                                                                                                                                                                                              )]);
+		$this->output .= View::make("calendar.calendar_start_form");
+		$this->output .= View::make("calendar.table_top", ['data' => $ibforums->lang['post_new_event']]);
+		$this->output .= View::make("calendar.calendar_event_title");
+		$this->output .= View::make(
+			"calendar.calendar_choose_date",
+			[
+				'days'       => $this->get_day_dropdown(),
+				'months'     => $this->get_month_dropdown(),
+				'years'      => $this->get_year_dropdown(),
+				'end_days'   => $this->get_day_dropdown(),
+				'end_months' => $this->get_month_dropdown(),
+				'end_years'  => $this->get_year_dropdown(),
+				'recur_days' => $this->get_day_dropdown("1"),
+				'recur_unit' => "<option value='w'>{$ibforums->lang['fv_days']}</option><option value='m'>{$ibforums->lang['fv_months']}</option><option value='y'>{$ibforums->lang['fv_years']}</option>",
+				'div'        => array(
+					'range_on'  => 'none',
+					'range_off' => 'show',
+					'recur_on'  => 'none',
+					'recur_off' => 'show'
+				),
+				array(
+					'range'  => '',
+					'recur'  => '',
+					'normal' => 'checked="checked"'
+				),
+				array(
+					'bg' => $this->get_color_dropdown('bg', 'darkblue'),
+					'ft' => $this->get_color_dropdown('ft', 'white')
+				),
+				array(
+					'd' => $this->get_day_dropdown(),
+					'm' => $this->get_month_dropdown(),
+					'y' => $this->get_year_dropdown()
+				)
+			]
+		);
 
-		$this->output .= View::Make("calendar.calendar_event_type");
+		$this->output .= View::make("calendar.calendar_event_type");
 
 		if ($ibforums->member['mgroup'] == $ibforums->vars['admin_group'])
 		{
@@ -1234,14 +1296,15 @@ class calendar
 				$group_choices .= "<option value='" . $r['g_id'] . "'>" . $r['g_title'] . "</option>\n";
 			}
 
-			$this->output .= View::Make("calendar.calendar_admin_group_box", ['groups' => $group_choices]);
+			$this->output .= View::make("calendar.calendar_admin_group_box", ['groups' => $group_choices]);
 		}
 
-		$this->output .= View::Make("post.postbox_buttons", []);
+		$this->output .= View::make("post.postbox_buttons", []);
 
-		$this->output = str_replace('<!--IBF.EMO-->', View::Make("post.get_box_enableemo", ['checked' => 'checked="checked"']), $this->output);
+		$this->output = str_replace('<!--IBF.EMO-->',
+			View::make("post.get_box_enableemo", ['checked' => 'checked="checked"']), $this->output);
 
-		$this->output .= View::Make("calendar.calendar_end_form", ['data' => $ibforums->lang['calendar_submit']]);
+		$this->output .= View::make("calendar.calendar_end_form", ['data' => $ibforums->lang['calendar_submit']]);
 
 		//--------------------------------------
 		// Add in the smilies box
@@ -1324,7 +1387,7 @@ class calendar
 			$smilies .= "</tr>";
 		}
 
-		$table = View::Make("post.smilie_table");
+		$table = View::make("post.smilie_table");
 
 		if ($show_table != 0)
 		{
@@ -1575,7 +1638,7 @@ class calendar
 
 		$this->parser = new PostParser();
 
-		$this->output .= View::Make("calendar.cal_page_events_start");
+		$this->output .= View::make("calendar.cal_page_events_start");
 
 		//-----------------------------------------
 		// Get recurring events
@@ -1734,7 +1797,7 @@ class calendar
 
 		$this->output .= $this->make_birthday_html($month, $day, $switch);
 
-		$this->output .= View::Make("calendar.cal_page_events_end");
+		$this->output .= View::make("calendar.cal_page_events_end");
 
 		$this->nav[] = "<a href='{$ibforums->base_url}&amp;act=calendar'>{$ibforums->lang['page_title']}</a>";
 		$this->nav[] = $day . " " . $this->month_words[$this->chosen_month - 1] . " " . $this->chosen_year;
@@ -1792,7 +1855,9 @@ class calendar
 
 		//-----------------------------------------
 
-		$this->output .= View::Make("calendar.cal_page_events_start") . $this->make_event_html($event) . View::Make("calendar.cal_page_events_end");
+		$this->output .= View::make("calendar.cal_page_events_start") . $this->make_event_html($event) . View::make(
+				"calendar.cal_page_events_end"
+			);
 
 		$this->nav[] = "<a href='{$ibforums->base_url}&amp;act=calendar'>{$ibforums->lang['page_title']}</a>";
 		$this->nav[] = $event['title'];
@@ -1846,13 +1911,13 @@ class calendar
 
 		if ($ibforums->member['g_is_supmod'] == 1)
 		{
-			$edit_button = View::Make("calendar.cal_edit_del_button", ['id' => $event['eventid']]);
+			$edit_button = View::make("calendar.cal_edit_del_button", ['id' => $event['eventid']]);
 		} // Are we the OP of this event?
 
 		else {
 			if ($ibforums->member['id'] == $event['userid'])
 			{
-				$edit_button = View::Make("calendar.cal_edit_del_button", ['id' => $event['eventid']]);
+				$edit_button = View::make("calendar.cal_edit_del_button", ['id' => $event['eventid']]);
 			}
 		}
 
@@ -1891,7 +1956,17 @@ class calendar
 			}
 		}
 
-		return View::Make("calendar.cal_show_event", ['event' => $event,'member' => $member,'event_type' => $event_type,'edit_button' => $edit_button,'type' => $type,'date_ends' => $de]);
+		return View::make(
+			"calendar.cal_show_event",
+			[
+				'event'       => $event,
+				'member'      => $member,
+				'event_type'  => $event_type,
+				'edit_button' => $edit_button,
+				'type'        => $type,
+				'date_ends'   => $de
+			]
+		);
 
 	}
 
@@ -1916,7 +1991,9 @@ class calendar
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_date_oor'));
 		}
 
-		$this->output .= View::Make("calendar.cal_page_events_start") . $this->make_birthday_html($month, $day) . View::Make("calendar.cal_page_events_end");
+		$this->output .= View::make(
+				"calendar.cal_page_events_start"
+			) . $this->make_birthday_html($month, $day) . View::make("calendar.cal_page_events_end");
 
 		$this->nav[] = "<a href='{$ibforums->base_url}&amp;act=calendar'>{$ibforums->lang['page_title']}</a>";
 		$this->nav[] = $ibforums->lang['cal_birthdays'] . " " . $this->month_words[$this->chosen_month - 1] . " " . $this->chosen_year;
@@ -1952,16 +2029,19 @@ class calendar
 			}
 		} else
 		{
-			$output .= View::Make("calendar.cal_birthday_start");
+			$output .= View::make("calendar.cal_birthday_start");
 
 			while ($r = $stmt->fetch())
 			{
 				$age = $this->chosen_year - $r['bday_year'];
 
-				$output .= View::Make("calendar.cal_birthday_entry", ['uid' => $r['id'],'uname' => $r['name'],'age' => $age]);
+				$output .= View::make(
+					"calendar.cal_birthday_entry",
+					['uid' => $r['id'], 'uname' => $r['name'], 'age' => $age]
+				);
 			}
 
-			$output .= View::Make("calendar.cal_birthday_end");
+			$output .= View::make("calendar.cal_birthday_end");
 		}
 
 		return $output;

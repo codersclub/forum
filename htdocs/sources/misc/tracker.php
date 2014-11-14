@@ -28,7 +28,6 @@ class tracker
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 
 	var $forum = array();
 	var $topic = array();
