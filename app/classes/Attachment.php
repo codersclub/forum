@@ -556,7 +556,7 @@ if (!class_exists('Attachment'))
 		public function getLink()
 		{
 			global $ibforums;
-			return $this->getImageOfType() . "<a class='e-attach-link' href='{$this->getHref()}' title='Скачать файл' target='_blank'>" . ($this->filename()) . "</a>";
+			return $this->getImageOfType() . "<a class='b-attach-link' href='{$this->getHref()}' title='Скачать файл' target='_blank'>" . ($this->filename()) . "</a>";
 		}
 
 		public function accessIsAllowed($member)

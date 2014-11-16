@@ -29,7 +29,7 @@ class TestBaseSkin extends BaseSkin {
         return 'test';
     }
 
-    public function getTemplatesDirectory()
+    public function getViewsDirectory()
     {
         return \Config::get('path.app') . '/tests/Mock/SkinsTestFiles/template';
     }

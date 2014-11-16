@@ -35,7 +35,7 @@ class Collection implements \ArrayAccess
     }
 
     protected function getFileFromClassName($class_name){
-        return $this->owner->getTemplatesDirectory() . DIRECTORY_SEPARATOR . "$class_name.php";
+        return $this->owner->getViewsDirectory() . DIRECTORY_SEPARATOR . "$class_name.php";
     }
 
     protected function nameToClassName($name)

@@ -2,22 +2,25 @@
 
 namespace Skins;
 
-class DatasetSkin extends InvisionBaseSkin
+class DatasetSkin extends BaseSkin
 {
     private $id;
     private $name;
     private $macro;
     private $css;
     private $imagesDir;
+    private $viewsDir;
 
     function __construct(array $data)
     {
-        if (isset($data['name']) && isset($data['id']) && isset($data['macro']) && isset($data['css']) && isset($data['images'])) {
+        //todo refactor?
+        if (isset($data['name']) && isset($data['id']) && isset($data['macro']) && isset($data['css']) && isset($data['images']) && isset($data['views'])) {
             $this->name      = $data['name'];
             $this->macro     = $data['macro'];
             $this->css       = $data['css'];
             $this->imagesDir = $data['images'];
             $this->id        = $data['id'];
+            $this->viewsDir  = $data['views'];
         } else {
             throw new \Exception('Data passed to constructor is wrong');
         }
@@ -71,5 +74,14 @@ class DatasetSkin extends InvisionBaseSkin
     public static function getAllSkinsData()
     {
         return require \Config::get('path.data') . '/skins.php';
+    }
+
+    /**
+     * Возвращает путь к директории шаблона
+     * @return string
+     */
+    public function getViewsDirectory()
+    {
+        return \Config::get('path.templates') . DIRECTORY_SEPARATOR . $this->viewsDir;
     }
 }

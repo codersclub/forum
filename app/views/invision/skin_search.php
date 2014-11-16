@@ -105,26 +105,26 @@ function RenderPostRow($Data) {
 global $ibforums;
 return <<<EOF
 
-<div class="tableborder b-post-wrapper b-found-posts-post-wrapper">
+<div class="tableborder b-post__wrapper b-found-posts-post-wrapper">
   <div class="maintitle b-found-posts-post_topic-title">{$Data["folder_img"]}&nbsp;{$Data["prefix"]} <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}" class="linkthru e-found-posts-post_topic-title-link">{$Data["title"]}</a></span></b>  {$Data[PAGES]}</div>
   <table class="tablebasic b-post b-found-posts-post">
-  <tr class="b-post-headers-row">
-	<td class="b-post-author-name row4"><span class="e-post-author normalname" data-author-id="{$Data["author_id"]}">{$Data["author_name"]}</span></td>
-	<td class="row4 b-post-header"><div class="b-post-info row4"><span class="e-post-date-prefix">{$ibforums->lang["rp_postedon"]}</span><time class="e-post-date" datetime="{$Data["std_post_date"]}">{$Data["post_date"]}</time></div></td>
+  <tr class="b-post__headers-row">
+	<td class="b-post__author-name row4"><span class="e-post-author normalname" data-author-id="{$Data["author_id"]}">{$Data["author_name"]}</span></td>
+	<td class="row4 b-post__header"><div class="b-post__info row4"><span class="e-post-date-prefix">{$ibforums->lang["rp_postedon"]}</span><time class="e-post-date" datetime="{$Data["std_post_date"]}">{$Data["post_date"]}</time></div></td>
   </tr>
-  <tr class="b-post-data-row">
-	<td class="post1 b-post-author-info">
+  <tr class="b-post__data-row">
+	<td class="post1 b-post__author-info">
 	  <div class="postdetails">
-		  <div class="b-post-topic_replies"><span class="e-post-topic_replies-title">{$ibforums->lang["rp_replies"]}</span><span class="e-post-topic_replies">{$Data["posts"]}</span></div>
-		  <div class="b-post-topic_hits"><span class="b-post-topic_hits-title">{$ibforums->lang["rp_hits"]}</span><span class="e-post-topic_hits">{$Data["views"]}</span></div>
-		  <div class="b-post-author-ip"><span class="e-ip-value">{$Data["ip_address"]}</span></div>
+		  <div class="b-post__topic-replies"><span class="e-post-topic_replies-title">{$ibforums->lang["rp_replies"]}</span><span class="e-post-topic_replies">{$Data["posts"]}</span></div>
+		  <div class="b-post__topic_hits"><span class="b-post__topic_hits-title">{$ibforums->lang["rp_hits"]}</span><span class="e-post-topic_hits">{$Data["views"]}</span></div>
+		  <div class="b-post__author-ip"><span class="e-ip-value">{$Data["ip_address"]}</span></div>
 	  </div>
 	</td>
-	<td class="post1 b-post-body">{$Data["post"]}</td>
+	<td class="post1 b-post__body">{$Data["post"]}</td>
   </tr>
-   <tr class="b-post-footer-row">
-	<td class="row4 b-post-footer-left_cell">&nbsp;</td>
-	<td class="row4 b-post-links"><span class="b-post-links-forum"><span class="b-post-links-forum-title">{$ibforums->lang["rp_forum"]}</span><a class="e-post-links-forum" href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a></span><span class="b-post-links-post"><span class="b-post-links-post-title">{$ibforums->lang["rp_post"]}</span><a href="{$ibforums->base_url}act=ST&amp;f={$Data["forum_id"]}&amp;t={$Data["tid"]}&amp;hl={$Data["keywords"]}&amp;view=findpost&amp;p={$Data["pid"]}" class="linkthru b-post-links-post">#{$Data["pid"]}</a></span></td>
+   <tr class="b-post__footer-row">
+	<td class="row4 b-post__footer-left_cell">&nbsp;</td>
+	<td class="row4 b-post-links"><span class="b-post-links__forum"><span class="b-post-links__forum-title">{$ibforums->lang["rp_forum"]}</span><a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a></span><span class="b-post-links__post"><span class="b-post-links__post-title">{$ibforums->lang["rp_post"]}</span><a href="{$ibforums->base_url}act=ST&amp;f={$Data["forum_id"]}&amp;t={$Data["tid"]}&amp;hl={$Data["keywords"]}&amp;view=findpost&amp;p={$Data["pid"]}" class="linkthru b-post-links__post">#{$Data["pid"]}</a></span></td>
   </tr>
   </table>
 </div>
