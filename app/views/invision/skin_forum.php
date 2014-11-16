@@ -259,8 +259,8 @@ var js_base_url = "{$ibforums->js_base_url}";
    <table width="100%" class="topics b-topics-list">
     <thead>
     <tr class="b-header-row">
-     <th class="b-column b-column_status"><img src="{$ibforums->vars["img_url"]}/spacer.gif" alt="" width="20" height="1"></td>
-     <th class="b-column b-column_icon"><img src="{$ibforums->vars["img_url"]}/spacer.gif" alt="" width="20" height="1"></td>
+     <th class="b-column b-column_status"><img src="{$ibforums->skin["ImagesPath"]}/spacer.gif" alt="" width="20" height="1"></td>
+     <th class="b-column b-column_icon"><img src="{$ibforums->skin["ImagesPath"]}/spacer.gif" alt="" width="20" height="1"></td>
      <th class="b-column b-column_title">{$ibforums->lang["h_topic_title"]}</th>
      <th width="14%" class="b-column b-column_author">{$ibforums->lang["h_topic_starter"]}</th>
      <th width="7%" class="b-column b-column_posts-num">{$ibforums->lang["h_replies"]}</th>
