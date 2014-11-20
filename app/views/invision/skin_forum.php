@@ -429,7 +429,7 @@ EOF;
 function attachImagePreviewReduced($text, $alt, AttachImage $attach) {
 	$size = $attach->getPreviewSizes();
 	return <<<EOF
-	<span class="b-attached-image-preview" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
+	<span class="b-attached-image" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}" data-reduced="1">
 		<div class="b-attach__title">{$text}</div>
 		<a class="b-attached-image__link" href="{$attach->getHref()}" title="{$alt}" target="_blank">
 			<img src="{$attach->getPeviewLink()}" width="{$size["img_width"]}" height="{$size["img_height"]}" class="b-attached-image__image_reduced" alt="{$alt}">
@@ -441,7 +441,7 @@ EOF;
 function attachImagePreview($text, $alt, AttachImage $attach){
 	$ibf = Ibf::app();
 	return <<<EOF
-	<span class="b-attached-image" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
+	<span class="b-attached-image" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}"  data-reduced="0">
 		<div class="b-attach__title">{$text}</div>
 		<img class="b-attached-image__image" src="{$ibf->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}" alt="{$alt}">
 	</span>
@@ -450,7 +450,7 @@ EOF;
 
 function attachImageFull($text, $alt, $url) {
 	return <<<EOF
-		<img class="b-attached-image b-embedded-image" src="{$url}" border="0" alt="{$alt}" title="{$text}">
+		<img class="b-embedded-image" src="{$url}" border="0" alt="{$alt}" title="{$text}">
 EOF;
 }
 
