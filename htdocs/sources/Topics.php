@@ -189,7 +189,12 @@ class Topics
 	}
 
 	// Song * safe code tag withing wrapping long lines, 03.11.2004
-
+	/**
+	 * @param PDOStatementWrapper $stmt
+	 * @param int $pinned
+	 * @param int $offset
+	 * @param bool $preview_one_post
+	 */
 	function process_posts($stmt, $pinned = 0, $offset = 0, $preview_one_post = false)
 	{
 		global $ibforums, $std;
@@ -637,7 +642,7 @@ class Topics
 		}
 
 		// Song * quote
-		$poster['name'] = str_replace(array(" ", "&#39;", "'"), array("&nbsp;", "", ""), $poster['name']);
+		$poster['name'] = str_replace(array("&#39;", "'"), array("", ""), $poster['name']);
 		$name           = $poster['name'];
 
 		$poster['name'] = str_replace(array("[", "]"), array("&amp;#091;", "&amp;#093;"), $poster['name']);
@@ -768,7 +773,7 @@ class Topics
 				$row['quote'],
 				$row['delete_delayed']
 			);
-			$row['html_actions'] = $skin_universal->renderActionButtons($post_actions, 'b-post-actions', 'b-post-action-button');
+			$row['html_actions'] = $skin_universal->renderActionButtons($post_actions, 'b-post__actions', 'b-post-action-button');
 
 			// Song * message has been deleted by moderator, 13.11.2004, or by author (negram, January 2011)
 
@@ -1686,14 +1691,13 @@ class Topics
 		if (!$stmt->rowCount() and $this->first >= $ibforums->vars['display_max_posts'])
 		{
 
-			$stmt = $ibforums->db->query("SELECT
+			$pcount = $ibforums->db->query("SELECT
 				COUNT(pid) as pcount
 			    FROM ibf_posts
 			    WHERE
 				topic_id='" . $this->topic['tid'] . "'
-				AND queued != 1");
-
-			$pcount = $stmt->fetch();
+				AND queued != 1")
+				->fetch();
 
 			$pcount['pcount'] = ($pcount['pcount'])
 				? $pcount['pcount'] - 1

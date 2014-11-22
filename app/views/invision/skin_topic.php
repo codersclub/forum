@@ -119,40 +119,40 @@ EOF;
 
 function RenderRow($post, $author) {
 global $ibforums;
-$add_post_classes = "";
+$add_data_fields = "";
 foreach(["pinned", "queued", "deleting", "added_to_faq"] as $property)
 	if ($post[$property])
-		$add_post_classes .= " b-post-" . $property;
+		$add_data_fields .= " data-flag-" . $property . '="1"';
 
 return <<<EOF
-	<div class="b-post-wrapper">
-    <table class="b-post b-post-{$post["pid"]} b-post-author-{$post["author_id"]} {$add_post_classes}" id="post_{$post["pid"]}" data-post-id="{$post["pid"]}" data-post-author-id="{$post["author_id"]}">
-    <tr class="b-post-headers-row">
-       <td class="b-post-author-name row4">{$author["member_group_img"]} <a name="entry{$post["pid"]}"></a>
-        <span class="e-post-author {$post["name_css"]}" data-author-id="{$post['author_id']}">{$author["name"]}</span>{$author["online"]}
+	<div class="b-post__wrapper">
+    <table class="b-post" id="post_{$post["pid"]}" data-post-id="{$post["pid"]}" data-post-author-id="{$post["author_id"]}" {$add_data_fields}>
+    <tr class="b-post__headers-row">
+       <td class="b-post__author-name">{$author["member_group_img"]} <a name="entry{$post["pid"]}"></a>
+        <span class="b-post__author {$post["name_css"]}" data-author-id="{$post['author_id']}">{$author["name"]}</span>{$author["online"]}
        </td>
-       <td class="row4 b-post-header">
-        <div class="b-post-info row4">{$post["checkbox"]}
-         {$post["post_icon"]}<span class="postdetails"><span class="b-post-title"><span class="e-post-title-prefix">{$post["pinned_title"]}</span> <a class="e-post-title-number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a></span><span class="e-post-date-prefix">{$ibforums->lang["posted_on"]}</span><time class="e-post-date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time></span>
+       <td class="b-post__header">
+        <div class="b-post__info">{$post["checkbox"]}
+         {$post["post_icon"]}<span class="postdetails"><span class="b-post__title"><span class="b-post__title__prefix">{$post["pinned_title"]}</span> <a class="b-post__title__number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a></span><span class="b-post__date__prefix">{$ibforums->lang["posted_on"]}</span><time class="b-post__date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time></span>
          </div>
          {$post["html_actions"]}
 
       </td>
     </tr>
-    <tr class="b-post-data-row">
-      <td class="b-post-author-info {$post["post_css"]}">
+    <tr class="b-post__data-row">
+      <td class="b-post__author-info {$post["post_css"]}">
         <div class="postdetails">
-        <div class="b-post-author-avatar">{$author["avatar"]}</div>
-        <div class="b-post-author-title">{$author["sex"]}{$author["title"]}</div>
-        <div class="b-post-author-rank">{$author["member_rank_img"]}</div>
-        <div class="b-post-author-profile">{$author["profile"]}</div>
-        <div class="b-post-author-member_points">{$author["member_points"]}</div>
-        <div class="b-post-author-rep">{$author["rep"]}</div>
-        <div class="b-post-author-warns">{$author["warn_text"]}</div>
+        <div class="b-post__author-avatar">{$author["avatar"]}</div>
+        <div class="b-post__author-title">{$author["sex"]}{$author["title"]}</div>
+        <div class="b-post__author-rank">{$author["member_rank_img"]}</div>
+        <div class="b-post__author-profile">{$author["profile"]}</div>
+        <div class="b-post__author-member_points">{$author["member_points"]}</div>
+        <div class="b-post__author-rep">{$author["rep"]}</div>
+        <div class="b-post__author-warns">{$author["warn_text"]}</div>
         </div>
 		{$post["ip_address"]}
       </td>
-      <td class="b-post-body {$post["post_css"]}">
+      <td class="b-post__body {$post["post_css"]}">
         <div class="postcolor">{$post["post"]} {$post["attachment"]}</div>
         {$post["signature"]}
       </td>
@@ -179,10 +179,10 @@ if ($post["use_sig"] == 1)
 $trpost = "";
 if ($preview)
 	$trpost = <<<EOF
-	<tr class="b-post-data-row">
-      <td class="b-post-author-info {$post["post_css"]}">&nbsp;
+	<tr class="b-post__data-row">
+      <td class="b-post__author-info {$post["post_css"]}">&nbsp;
       </td>
-      <td class="b-post-body {$post["post_css"]}">
+      <td class="b-post__body {$post["post_css"]}">
         <div class="postcolor">{$post["post"]} {$post["attachment"]}</div>
       </td>
     </tr>
@@ -190,16 +190,16 @@ EOF;
 
 return <<<EOF
 
-    <table class="b-post b-post-{$post["pid"]} b-post-deleted" id="post_{$post["pid"]}" data-id="{$post["pid"]}">
-    <tr class="b-post-headers-row">
-       <td class="b-post-author-name row4" ><a name="entry{$post["pid"]}"></a>
-       <span class="e-post-author {$post["name_css"]}" data-author-id="{$post['author_id']}">{$author["name"]}</span>
-        <div class="b-post-author-warns">{$author["warn_text"]}</div>
+    <table class="b-post" id="post_{$post["pid"]}" data-id="{$post["pid"]}" data-flag-deleted="1">
+    <tr class="b-post__headers-row">
+       <td class="b-post__author-name" ><a name="entry{$post["pid"]}"></a>
+       <span class="b-post__author {$post["name_css"]}" data-author-id="{$post['author_id']}">{$author["name"]}</span>
+        <div class="b-post__author-warns">{$author["warn_text"]}</div>
         {$post["ip_address"]}
        </td>
-       <td class="row4 b-post-header">
-        <div class="row4 b-post-info">{$post["checkbox"]}
-         {$post["post_icon"]}<span class="postdetails"><span class="b-post-title"><span class="e-post-title-prefix">{$post["pinned_title"]}</span> <a class="e-post-title-number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a></span><span class="e-post-date-prefix">{$ibforums->lang["posted_on"]}</span><time class="e-post-date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time><span class="e-post-delete-text">$dtext</span></span>
+       <td class="b-post__header">
+        <div class="b-post__info">{$post["checkbox"]}
+         {$post["post_icon"]}<span class="postdetails"><span class="b-post__title"><span class="b-post__title__prefix">{$post["pinned_title"]}</span> <a class="b-post__title__number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a></span><span class="b-post__date__prefix">{$ibforums->lang["posted_on"]}</span><time class="b-post__date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time><span class="b-post__delete-text">$dtext</span></span>
          </div>
 		{$post['html_actions']}
 
@@ -212,7 +212,7 @@ EOF;
 
 function RowSeparator() {
 return <<<EOF
-    <div class="e-posts-separator"></div>
+    <div class="b-posts-separator"></div>
 EOF;
 
 }
@@ -222,7 +222,7 @@ EOF;
 function ip_show($data) {
 global $ibforums;
 return <<<EOF
-<div class="b-post-author-ip"><span class="e-ip-title">{$ibforums->lang["ip"]}</span> <span class="e-ip-value">$data</span></div>
+<div class="b-post__author-ip"><span class="b-ip__title">{$ibforums->lang["ip"]}</span> <span class="b-ip__value">$data</span></div>
 EOF;
 }
 
@@ -300,7 +300,7 @@ if ( MessageMax < 0 ) MessageMax = 0;
 </tr>
 </table>
 <div id="PostsWrapper" class="tableborder {$wrapper_classes}" data-topic-id="{$data["TOPIC"]["tid"]}" data-topic-author-id="{$data["TOPIC"]["starter_id"]}">
-  <div class="maintitle"><span class="topic-image"><{CAT_IMG}></span>&nbsp;<span class="e-posts-topic-title">{$data["TOPIC"]["title"]}</span><span class="e-posts-topic-description">{$data["TOPIC"]["description"]}{$data["TOPIC"]["club"]}</span></div>
+  <div class="maintitle"><span class="topic-image"><{CAT_IMG}></span>&nbsp;<span class="b-posts__topic__title">{$data["TOPIC"]["title"]}</span><span class="b-posts__topic__description">{$data["TOPIC"]["description"]}{$data["TOPIC"]["club"]}</span></div>
   <div class="b-poll-wrapper"><!--{IBF.POLL}--></div>
   {$data["TOPIC"]["modform_open"]}
   <div class="topic-links">
@@ -642,11 +642,11 @@ EOF;
 }
 
 function renderElementOnline(){
-	return '<span class="e-author-online-text">Online</span>';
+	return '<span class="b-author-online-text">Online</span>';
 }
 
 function renderNewWarnNotice() {
-	return '<span class="e-new_warning_notice">(new!)</span>';
+	return '<span class="b-new-warning-notice">(new!)</span>';
 }
 
 function favoriteButton($tid, $text){

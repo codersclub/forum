@@ -52,7 +52,7 @@ abstract class BaseSkin implements \ArrayAccess
      * Возвращает путь к директории шаблона
      * @return string
      */
-    abstract public function getTemplatesDirectory();
+    abstract public function getViewsDirectory();
 
     /**
      * Возвращает содержимое враппера
@@ -61,7 +61,7 @@ abstract class BaseSkin implements \ArrayAccess
     public function getWrapper()
     {
         ob_start();
-        require $this->getTemplatesDirectory() . DIRECTORY_SEPARATOR . 'wrapper.tpl.php';
+        require $this->getViewsDirectory() . DIRECTORY_SEPARATOR . 'wrapper.tpl.php';
         return ob_get_clean();
     }
 
