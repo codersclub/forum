@@ -229,12 +229,12 @@ div.warning-message {
 	font-weight: bold;
 }
 
-.topic-mine .b-topics-list-column-author {
+.topic-mine .b-column_author {
     font-weight: bold;
 }
 
 
-.topic-pinned .b-topics-list-column-title {
+.topic-pinned .b-column_title {
     font-weight: bold;
 }
 
@@ -274,6 +274,7 @@ div.warning-message {
     visibility: hidden;
 }
 
+/* are used in search results */
 .b-topics-list-column-status,
 .b-topics-list-column-icon,
 .b-topics-list-column-author,
