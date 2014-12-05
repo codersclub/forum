@@ -467,6 +467,8 @@ var max_attach_size = {$ibforums->member['g_attach_max']};
 <td class='b-neighbor-links' colspan=2>
 &middot;
 <a class='b-neighbor-link b-neighbor-link_magazine' href="http://magazine.sources.ru/"><b>Журнал</b></a>
+<a class='e-neighbor-link e-neighbor-link-discuz' href="http://discuz.ml/" title="Discuz! MultiLingual"><b>Discuz!ML</b></a>
+&middot;
 &middot;
 <a class='b-neighbor-link b-neighbor-link_alglib' href="http://alglib.sources.ru/"><b>Алгоритмы</b></a>
 &middot;

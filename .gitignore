@@ -9,3 +9,6 @@ ip_table.php
 /vendor
 /composer.lock
 /*.iml
+app/config/app.php
+app/config/database.php
+app/config/logs.php
