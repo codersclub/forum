@@ -23,6 +23,9 @@
 
 require_once dirname(__FILE__) . '/PostEditHistory.php';
 
+use Skins\Skin;
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -634,7 +637,10 @@ class post_functions extends Post
 				? $ibforums->input['TopicDesc']
 				: $this->topic['description'];
 
-			$topic_title = $class->html->topictitle_fields(array('TITLE' => $topic_title, 'DESC' => $topic_desc));
+			$topic_title = View::make(
+				"post.topictitle_fields",
+				['data' => array('TITLE' => $topic_title, 'DESC' => $topic_desc)]
+			);
 
 			// Song * club tool
 			if ($std->check_perms($ibforums->member['club_perms']) == TRUE and
@@ -648,7 +654,7 @@ class post_functions extends Post
 					$checked = "checked";
 				}
 
-				$rights_options = $class->html->rights_options($checked);
+				$rights_options = View::make("post.rights_options", ['checked' => $checked]);
 			}
 
 		}
@@ -664,13 +670,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= $class->html->errors($ibforums->lang[$class->obj['post_errors']]);
+			$class->output .= View::make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= $class->html->errors($error_message);
+				$class->output .= View::make("post.errors", ['data' => $error_message]);
 			}
 		}
 
@@ -687,7 +693,7 @@ class post_functions extends Post
 					? 1
 					: 0);
 
-			$class->output .= $class->html->preview($this->post['post']);
+			$class->output .= View::make("post.preview", ['data' => $this->post['post']]);
 		}
 
 		$class->check_upload_ability();
@@ -703,17 +709,20 @@ class post_functions extends Post
 		// START TABLE
 		//---------------------------------------
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_edit']} {$this->topic['title']}");
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_edit']} {$this->topic['title']}"]
+		);
 
 		$name_fields = $class->html_name_field();
 
 		$post_box = $class->html_post_body($raw_post);
 
-		$end_form = $class->html->EndForm($ibforums->lang['submit_edit']);
+		$end_form = View::make("post.EndForm", ['data' => $ibforums->lang['submit_edit']]);
 
 		$post_icons = $class->html_post_icons($this->orig_post['icon_id']);
 
@@ -722,10 +731,16 @@ class post_functions extends Post
 			if ($attachments = Attachment::getPostAttachmentsFromRow($this->orig_post))
 			{
 
-				$upload_field .= $class->html->edit_upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024), $attachments);
+				$upload_field .= View::make(
+					"post.edit_upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024), 'files' => $attachments]
+				);
 			} else
 			{
-				$upload_field = $class->html->Upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024));
+				$upload_field = View::make(
+					"post.Upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]
+				);
 			}
 		}
 

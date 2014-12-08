@@ -20,6 +20,8 @@
 |   > Module Version 2.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Skin;
+use Views\View;
 
 $idx = new Moderate;
 
@@ -28,7 +30,6 @@ class Moderate
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 
 	var $moderator = array();
 	var $forum = array();
@@ -60,7 +61,7 @@ class Moderate
 
 	function Moderate()
 	{
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		//-------------------------------------
 		// Compile the language file
@@ -68,8 +69,6 @@ class Moderate
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_modcp', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_topic', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_modcp');
 
 		//--------------------------------------------
 		// Get the sync module
@@ -685,18 +684,18 @@ class Moderate
 
 			if ($i = $stmt->fetch())
 			{
-				$forum = $this->html->ip_select_region($i['name']);
+				$forum = View::make("modcp.ip_select_region", ['forum' => $i['name']]);
 			}
 		}
 
 		$stmt = $ibforums->db->query($query);
 
 		$add_ip = ($this->forum_id)
-			? $this->html->add_ip($ip_arr, $forum)
-			: $this->html->add_ip_no();
+			? View::make("modcp.add_ip", ['ip_addr' => $ip_arr, 'select' => $forum])
+			: View::make("modcp.add_ip_no");
 
 		$checkboxes = ($this->forum_id)
-			? $this->html->search_ip_checkboxes()
+			? View::make("modcp.search_ip_checkboxes")
 			: "";
 
 		$ip_list = "";
@@ -724,7 +723,16 @@ class Moderate
 			}
 		}
 
-		$this->output .= $this->html->ip_start_form($ip_arr, $add_ip, $ip_list, $forum, $checkboxes);
+		$this->output .= View::make(
+			"modcp.ip_start_form",
+			[
+				'ip_addr'    => $ip_arr,
+				'add_ip'     => $add_ip,
+				'ip'         => $ip_list,
+				'select'     => $forum,
+				'checkboxes' => $checkboxes
+			]
+		);
 	}
 
 	//-------------------------------------------------------------------------------
@@ -1001,7 +1009,10 @@ class Moderate
 			{
 				$ibforums->lang['ip_resolve_result'] = sprintf($ibforums->lang['ip_resolve_result'], $final_ip_string, $resolved, $final_ip_string);
 
-				$this->output .= $this->html->mod_simple_page($ibforums->lang['cp_results'], $ibforums->lang['ip_resolve_result']);
+				$this->output .= View::make(
+					"modcp.mod_simple_page",
+					['title' => $ibforums->lang['cp_results'], 'msg' => $ibforums->lang['ip_resolve_result']]
+				);
 
 				return TRUE;
 
@@ -1091,7 +1102,7 @@ class Moderate
 			                                    'L_MULTI'    => $ibforums->lang['multi_page_forum'],
 			                                    'BASE_URL'   => $this->base_url . "act=modcp&CODE=doip&iptool=members&ip1={$ibforums->input['ip1']}&ip2={$ibforums->input['ip2']}&ip3={$ibforums->input['ip3']}&ip4={$ibforums->input['ip4']}",
 			                               ));
-			$this->output .= $this->html->ip_member_start($pages);
+			$this->output .= View::make("modcp.ip_member_start", ['pages' => $pages]);
 
 			$stmt = $ibforums->db->query("SELECT
 					IFNULL(m.id,1) as id,
@@ -1116,10 +1127,10 @@ class Moderate
 				}
 
 				$row['joined'] = $std->format_date_without_time($row['joined']);
-				$this->output .= $this->html->ip_member_row($row);
+				$this->output .= View::make("modcp.ip_member_row", ['row' => $row]);
 			}
 
-			$this->output .= $this->html->ip_member_end($pages);
+			$this->output .= View::make("modcp.ip_member_end", ['pages' => $pages]);
 		} else
 		{
 			// Find posts then!
@@ -1229,7 +1240,13 @@ class Moderate
 
 			$ibforums->db->insertRow("ibf_search_results", $data);
 
-			$this->output .= $this->html->mod_simple_page($ibforums->lang['cp_results'], $this->html->ip_post_results($unique_id, $max_hits));
+			$this->output .= View::make(
+				"modcp.mod_simple_page",
+				[
+					'title' => $ibforums->lang['cp_results'],
+					'msg'   => View::make("modcp.ip_post_results", ['uid' => $unique_id, 'count' => $max_hits])
+				]
+			);
 
 			return TRUE;
 		}
@@ -1410,7 +1427,10 @@ class Moderate
 
 		$jump_html = $std->build_forum_jump('no_html');
 
-		$this->output .= $this->html->move_checked_form_start($this->forum['name'], $this->forum['id']);
+		$this->output .= View::make(
+			"modcp.move_checked_form_start",
+			['forum_name' => $this->forum['name'], 'fid' => $this->forum['id']]
+		);
 
 		$stmt = $ibforums->db->query("SELECT
 				tid,
@@ -1420,10 +1440,13 @@ class Moderate
 
 		while ($row = $stmt->fetch())
 		{
-			$this->output .= $this->html->move_checked_form_entry($row['tid'], $row['title']);
+			$this->output .= View::make(
+				"modcp.move_checked_form_entry",
+				['tid' => $row['tid'], 'title' => $row['title']]
+			);
 		}
 
-		$this->output .= $this->html->move_checked_form_end($jump_html);
+		$this->output .= View::make("modcp.move_checked_form_end", ['jump_html' => $jump_html]);
 
 	}
 
@@ -2084,7 +2107,10 @@ class Moderate
 
 		// Show results..
 
-		$this->output .= $this->html->mod_simple_page($ibforums->lang['cp_results'], $ibforums->lang['cp_result_del'] . $num_rows);
+		$this->output .= View::make(
+			"modcp.mod_simple_page",
+			['title' => $ibforums->lang['cp_results'], 'msg' => $ibforums->lang['cp_result_del'] . $num_rows]
+		);
 
 	}
 
@@ -2207,7 +2233,16 @@ class Moderate
 				$link_text = $ibforums->lang['cp_prune_domove'];
 			}
 
-			$confirm_html = $this->html->prune_confirm($tcount['tcount'], $count['count'], $link, $link_text, $std->return_md5_check());
+			$confirm_html = View::make(
+				"modcp.prune_confirm",
+				[
+					'tcount'    => $tcount['tcount'],
+					'count'     => $count['count'],
+					'link'      => $link,
+					'link_text' => $link_text,
+					'key'       => $std->return_md5_check()
+				]
+			);
 
 		}
 
@@ -2237,7 +2272,10 @@ class Moderate
 			$forums = preg_replace("/<option value=\"" . $ibforums->input['df'] . "\"/", "<option value=\"" . $ibforums->input['df'] . "\" selected", $forums);
 		}
 
-		$this->output .= $this->html->prune_splash($this->forum, $forums, $select, $button, $confirm);
+		$this->output .= View::make(
+			"modcp.prune_splash",
+			['forum' => $this->forum, 'forums' => $forums, 'select' => $select]
+		);
 
 		if ($confirm_html)
 		{
@@ -2275,7 +2313,7 @@ class Moderate
 			return;
 		}
 
-		$this->output .= $this->html->find_user();
+		$this->output .= View::make("modcp.find_user");
 	}
 
 	function find_user_two()
@@ -2310,7 +2348,7 @@ class Moderate
 
 			$select .= "</select>";
 
-			$this->output .= $this->html->find_two($select);
+			$this->output .= View::make("modcp.find_two", ['select' => $select]);
 		} else
 		{
 			$this->mod_error('cp_no_matches');
@@ -2389,7 +2427,7 @@ class Moderate
 		$editable['id']        = $member['id'];
 		$editable['name']      = $member['name'];
 
-		$this->output .= $this->html->edit_user_form($editable);
+		$this->output .= View::make("modcp.edit_user_form", ['profile' => $editable]);
 
 		//-- mod_member_ips begin
 
@@ -2638,7 +2676,10 @@ class Moderate
 
 		//-------------------------------
 
-		$this->output .= $this->html->splash($tcount, $pcount, $this->forum['name']);
+		$this->output .= View::make(
+			"modcp.splash",
+			['tcount' => $tcount, 'pcount' => $pcount, 'forum' => $this->forum['name']]
+		);
 	}
 
 	/*************************************************/
@@ -2740,7 +2781,10 @@ class Moderate
 		// Show results..
 		//----------------------------------
 
-		$this->output .= $this->html->mod_simple_page($ibforums->lang['cp_results'], $ibforums->lang['cp_result_move'] . $num_rows);
+		$this->output .= View::make(
+			"modcp.mod_simple_page",
+			['title' => $ibforums->lang['cp_results'], 'msg' => $ibforums->lang['cp_result_move'] . $num_rows]
+		);
 
 	}
 
@@ -2882,7 +2926,7 @@ class Moderate
 
 		$error = $ibforums->lang[$error];
 
-		$this->output .= $this->html->mod_simple_page($ibforums->lang['cp_error'], $error);
+		$this->output .= View::make("modcp.mod_simple_page", ['title' => $ibforums->lang['cp_error'], 'msg' => $error]);
 
 		if (count($this->nav) < 1)
 		{
@@ -2958,7 +3002,7 @@ class Moderate
 	{
 		global $ibforums, $std, $print;
 
-		$this->output .= $this->html->cp_index();
+		$this->output .= View::make("modcp.cp_index");
 
 	}
 
@@ -3008,7 +3052,7 @@ class Moderate
 			return;
 		}
 
-		$this->output .= $this->html->highlight_start_form('', '');
+		$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => '', 'rule' => '']);
 	}
 
 	function syntax_set()
@@ -3030,7 +3074,7 @@ class Moderate
 			return;
 		}
 
-		$this->output .= $this->html->highlight_start_form($syntax_id, '');
+		$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => '']);
 	}
 
 	function syntax_rule()
@@ -3053,7 +3097,7 @@ class Moderate
 			return;
 		}
 
-		$this->output .= $this->html->highlight_start_form($syntax_id, $rule);
+		$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => $rule]);
 	}
 
 	// Mastilior + Song * save highlight rules to file
@@ -3240,7 +3284,7 @@ class Moderate
 					]
 				);
 
-			$this->output .= $this->html->highlight_start_form($syntax_id, $rule);
+			$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => $rule]);
 		} else
 		{
 			$ibforums->db->prepare("UPDATE ibf_syntax_rules
@@ -3300,7 +3344,7 @@ class Moderate
 					]
 				);
 
-			$this->output .= $this->html->highlight_start_form($syntax_id, $rule);
+			$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => $rule]);
 		}
 
 		$this->save_syntax_to_js($syntax_id);
@@ -3437,7 +3481,7 @@ class Moderate
 
 		$this->save_syntax_to_js($syntax_id);
 
-		$this->output .= $this->html->highlight_start_form($syntax_id, $rule);
+		$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => $rule]);
 	}
 
 	//-------------------------------------------------------------------------------
@@ -3532,7 +3576,7 @@ class Moderate
 			return;
 		}
 
-		$this->output .= $this->html->forum_rules($forum_list);
+		$this->output .= View::make("modcp.forum_rules", ['forum_rules' => $forum_list]);
 
 		if ($edit and $ibforums->input['f'])
 		{
@@ -3567,7 +3611,17 @@ class Moderate
 
 				$row['rules'] = str_replace("<br>", "\r\n", $row['rules']);
 
-				$this->output .= $this->html->forum_rules_text($row['title'], $row['rules'], $no, $link, $txt, $border);
+				$this->output .= View::make(
+					"modcp.forum_rules_text",
+					[
+						'title'        => $row['title'],
+						'txt'          => $row['rules'],
+						'style_no'     => $no,
+						'style_link'   => $link,
+						'style_txt'    => $txt,
+						'border_check' => $border
+					]
+				);
 			}
 		}
 	}
@@ -3717,7 +3771,7 @@ class Moderate
 			return;
 		}
 
-		$this->output .= $this->html->multi_mod($forum_list);
+		$this->output .= View::make('modcp.multi_mod', ['forums_list' => $forum_list]);
 	}
 
 	// Song * multimoderation

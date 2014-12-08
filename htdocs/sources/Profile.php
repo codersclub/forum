@@ -20,6 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Skin;
+use Views\View;
 
 $idx = new Profile;
 
@@ -29,7 +31,6 @@ class Profile
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	var $html = "";
 	// vot    var $parser;
 
 	var $member = array();
@@ -69,8 +70,6 @@ class Profile
 		//--------------------------------------------
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_profile', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_profile');
 
 		$this->base_url        = $ibforums->base_url;
 		$this->base_url_nosess = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}";
@@ -243,7 +242,7 @@ class Profile
 				$ibforums->lang['active_stats']
 			);
 
-			$this->output = $this->html->show_forum_stat($info);
+			$this->output = View::make("profile.show_forum_stat", ['info' => $info]);
 		}
 	}
 
@@ -318,7 +317,14 @@ class Profile
 
 		if ($this->has_photo == TRUE)
 		{
-			$photo = $this->html->get_photo($this->show_photo, $this->show_width, $this->show_height);
+			$photo = View::make(
+				"profile.get_photo",
+				[
+					'show_photo'  => $this->show_photo,
+					'show_width'  => $this->show_width,
+					'show_height' => $this->show_height
+				]
+			);
 		} else
 		{
 			$photo = "<{NO_PHOTO}>";
@@ -328,7 +334,10 @@ class Profile
 		{
 			$photo = str_replace("<{NO_PHOTO}>", "No Photo Available", $photo);
 
-			$html = $this->html->show_card_download($member['name'], $photo, $info);
+			$html = View::make(
+				"profile.show_card_download",
+				['name' => $member['name'], 'photo' => $photo, 'info' => $info]
+			);
 
 			@flush();
 			@header("Content-type: unknown/unknown");
@@ -337,7 +346,7 @@ class Profile
 			exit();
 		} else
 		{
-			$html = $this->html->show_card($member['name'], $photo, $info);
+			$html = View::make("profile.show_card", ['name' => $member['name'], 'photo' => $photo, 'info' => $info]);
 
 			$print->pop_up_window($ibforums->lang['photo_title'], $html);
 		}
@@ -376,13 +385,20 @@ class Profile
 
 		if ($this->has_photo == TRUE)
 		{
-			$photo = $this->html->get_photo($this->show_photo, $this->show_width, $this->show_height);
+			$photo = View::make(
+				"profile.get_photo",
+				[
+					'show_photo'  => $this->show_photo,
+					'show_width'  => $this->show_width,
+					'show_height' => $this->show_height
+				]
+			);
 		} else
 		{
 			$photo = "<{NO_PHOTO}>";
 		}
 
-		$html = $this->html->show_photo($this->photo_member['name'], $photo);
+		$html = View::make("profile.show_photo", ['name' => $this->photo_member['name'], 'photo' => $photo]);
 
 		$print->pop_up_window($ibforums->lang['photo_title'], $html);
 
@@ -665,15 +681,15 @@ class Profile
 		if ($ibforums->member['show_ratting'] and $member['show_ratting'])
 		{
 			$this->view_rep($member, $info, 'rep');
-			$info['rep'] = $this->html->show_rep($info);
+			$info['rep'] = View::make("profile.show_rep", ['info' => $info]);
 
 			$this->view_rep($member, $info, 'ratting');
-			$info['ratting'] = $this->html->show_ratting($info);
+			$info['ratting'] = View::make("profile.show_ratting", ['info' => $info]);
 		}
 
 		// /* <--- Jureth ---  Show DigiMoney in profile*/
 		$info['fines'] = $std->do_number_format($member['fined']);
-		$info['fines'] = $this->html->show_fines($info);
+		$info['fines'] = View::make("profile.show_fines", ['info' => $info]);
 		/* >--- Jureth --- */
 
 		$info['aim_name'] = $member['aim_name']
@@ -800,7 +816,14 @@ class Profile
 
 		if ($this->has_photo == TRUE)
 		{
-			$info['photo'] = $this->html->get_photo($this->show_photo, $this->show_width, $this->show_height);
+			$info['photo'] = View::make(
+				"profile.get_photo",
+				[
+					'show_photo'  => $this->show_photo,
+					'show_width'  => $this->show_width,
+					'show_height' => $this->show_height
+				]
+			);
 
 		} else {
 			$info['photo'] = "";
@@ -814,7 +837,7 @@ class Profile
 		// Output
 		//---------------------------------------------------
 
-		$this->output .= $this->html->show_profile($info);
+		$this->output .= View::make("profile.show_profile", ['info' => $info]);
 
 		//---------------------------------------------------
 		// Is this our profile?
@@ -822,7 +845,10 @@ class Profile
 
 		if ($member['id'] == $this->member['id'])
 		{
-			$this->output = preg_replace("/<!--MEM OPTIONS-->/e", "\$this->html->user_edit(\$info)", $this->output);
+			$this->output = preg_replace_callback("/<!--MEM OPTIONS-->/", function($matches) { return View::make(
+					'profile.user_edit',
+					['info' => $matches]
+				); }, $this->output);
 		}
 
 		//---------------------------------------------------
@@ -890,7 +916,10 @@ class Profile
 					: nl2br($field_data[$row['fid']]);
 			}
 
-			$custom_out .= $this->html->custom_field($row['ftitle'], $field_data[$row['fid']]);
+			$custom_out .= View::make(
+				"profile.custom_field",
+				['title' => $row['ftitle'], 'value' => $field_data[$row['fid']]]
+			);
 		}
 
 		if ($custom_out)
@@ -999,10 +1028,26 @@ class Profile
 
 						if ($mod == 1)
 						{
-							$this->output = str_replace("<!--{WARN_LEVEL}-->", $this->html->warn_level($member['id'], $member['warn_img'], $member['warn_percent']), $this->output);
+							$this->output = str_replace("<!--{WARN_LEVEL}-->",
+								View::make(
+									"profile.warn_level",
+									[
+										'mid'     => $member['id'],
+										'img'     => $member['warn_img'],
+										'percent' => $member['warn_percent']
+									]
+								),$this->output);
 						} else
 						{
-							$this->output = str_replace("<!--{WARN_LEVEL}-->", $this->html->warn_level_no_mod($member['id'], $member['warn_img'], $member['warn_percent']), $this->output);
+							$this->output = str_replace("<!--{WARN_LEVEL}-->",
+								View::make(
+									"profile.warn_level_no_mod",
+									[
+										'mid'     => $member['id'],
+										'img'     => $member['warn_img'],
+										'percent' => $member['warn_percent']
+									]
+								),$this->output);
 						}
 					} else
 					{
@@ -1010,10 +1055,28 @@ class Profile
 
 						if ($mod == 1)
 						{
-							$this->output = str_replace("<!--{WARN_LEVEL}-->", $this->html->warn_level_rating($member['id'], $member['warn_level'], $ibforums->vars['warn_min'], $ibforums->vars['warn_max']), $this->output);
+							$this->output = str_replace("<!--{WARN_LEVEL}-->",
+								View::make(
+									"profile.warn_level_rating",
+									[
+										'mid'   => $member['id'],
+										'level' => $member['warn_level'],
+										'min'   => $ibforums->vars['warn_min'],
+										'max'   => $ibforums->vars['warn_max']
+									]
+								), $this->output);
 						} else
 						{
-							$this->output = str_replace("<!--{WARN_LEVEL}-->", $this->html->warn_level_rating_no_mod($member['id'], $member['warn_level'], $ibforums->vars['warn_min'], $ibforums->vars['warn_max']), $this->output);
+							$this->output = str_replace("<!--{WARN_LEVEL}-->",
+								View::make(
+									"profile.warn_level_rating_no_mod",
+									[
+										'mid'   => $member['id'],
+										'level' => $member['warn_level'],
+										'min'   => $ibforums->vars['warn_min'],
+										'max'   => $ibforums->vars['warn_max']
+									]
+								), $this->output);
 						}
 					}
 				}

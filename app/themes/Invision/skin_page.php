@@ -2,19 +2,9 @@
 // vot
 // Skin for Article Page
 //-------------------------
+use Views\View;
+
 class skin_page {
-
-protected $post;
-/**
- * @return skin_post
- */
-protected function post()
-{
-	global $std;
-	!$this->post && !$this->post = $std->load_template('skin_post');
-	return $this->post;
-}
-
 
 function Show_attachments_img($aid) {
 global $ibforums;
@@ -129,7 +119,7 @@ EOF;
 
 //-------------------------------------
 function PageTop($data) {
-global $ibforums, $skin_universal;
+global $ibforums;
 return <<<EOF
 
 <script language='javascript' type='text/javascript'>
@@ -301,9 +291,12 @@ $out = <<<EOF
 <table cellpadding="0" cellspacing="0" width="100%">
 <!--IBF.NAME_FIELD-->
 EOF;
-$out .= $this->post()->postbox_buttons('', $syntax_select, $mod_buttons, $topic_decided);
-$out .= $this->post()->Upload_field($std->size_format( $ibforums->member['g_attach_max'] * 1024 ));
-$out .= $this->post()->EndForm($ibforums->lang['submit_reply']);
+$out .= View::make(
+    'post.postbox_buttons',
+    ['data' => '', 'syntax_select' => $syntax_select, 'mod_buttons' => $mod_buttons, 'topic_decided' => $topic_decided]
+);
+$out .= View::make('post.Upload_field', ['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]);
+$out .= View::make('post.EndForm', ['data' => $ibforums->lang['submit_reply']]);
 $out .= <<<EOF
 </div>
 </table>
@@ -626,4 +619,3 @@ EOF;
 
 
 }
-?>

@@ -67,6 +67,11 @@ return <<<EOF
 EOF;
 }
 
+    /**
+     * @deprecated
+     * @param string $show_all
+     * @return string
+     */
 function PageTop($show_all = "") {
 global $ibforums;
 return <<<EOF
@@ -235,7 +240,12 @@ return <<<EOF
 EOF;
 }
 
-function show_global_message($message) {
+    /**
+     * @deprecated
+     * @param $message
+     * @return string
+     */
+function renderGlobalMessage($message) {
 return <<<EOF
 <div id="GlobalMessage">{$message}</div>
 EOF;

@@ -28,7 +28,6 @@ class tracker
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 
 	var $forum = array();
 	var $topic = array();
@@ -45,7 +44,7 @@ class tracker
 		// up for us.
 		//------------------------------------------------------
 
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		if ($ibforums->member['disable_mail'])
 		{

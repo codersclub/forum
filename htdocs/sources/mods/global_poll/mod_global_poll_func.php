@@ -16,10 +16,12 @@
 +--------------------------------------------------------------------------
 */
 
+use Skins\Skin;
+use Views\View;
+
 class global_poll
 {
 
-	var $html = "";
 	var $output = "";
 	var $lang = "";
 	var $parser = "";
@@ -44,8 +46,6 @@ class global_poll
 		{
 			die("Could not load required language file 'lang/$this->lang_id/mod_global_poll.php'");
 		}
-
-		$this->html = $std->load_template('mod_global_poll_skin');
 
 		$stmt = $ibforums->db->query("SELECT starter_id, choices, votes, poll_question, tid
 		    FROM ibf_polls
@@ -90,7 +90,7 @@ class global_poll
 		$header["header_text"]   = $emoticon . " " . $this->lang['poll_topic'] . " : <a href={$ibforums->base_url}showtopic=" . $poll_data["tid"] . "&view=getnewpost>" . $poll_text["title"] . "</a> " . $this->lang['by'] . " <a href={$ibforums->base_url}showuser=" . $poll_text['author_id'] . ">" . $poll_text['author_name'] . "</a>";
 		$header["form_url"]      = $ibforums->base_url . "act=Poll&amp;t=" . $poll_data["tid"];
 
-		$this->output .= $this->html->global_poll_table_header($header);
+		$this->output .= View::make("mod_global_poll_skin.global_poll_table_header", ['data' => $header]);
 
 		// Have we voted in this poll?
 
@@ -157,11 +157,14 @@ class global_poll
 				$width   = $percent > 0
 					? (int)$percent * 2
 					: 0;
-				$html .= $this->html->Render_row_results($votes, $id, $choice, $percent, $width);
+				$html .= View::make(
+					"mod_global_poll_skin.Render_row_results",
+					['votes' => $votes, 'id' => $id, 'answer' => $choice, 'percentage' => $percent, 'width' => $width]
+				);
 			}
 			$total_votes = $this->lang['pv_total_votes'] . ": " . $total_votes;
 
-			$html .= $this->html->show_total_votes($total_votes);
+			$html .= View::make("mod_global_poll_skin.show_total_votes", ['total_votes' => $total_votes]);
 
 		} else
 		{
@@ -186,12 +189,15 @@ class global_poll
 					$choice = $this->parser->parse_poll_tags($choice);
 				}
 
-				$html .= $this->html->Render_row_form($votes, $id, $choice);
+				$html .= View::make(
+					"mod_global_poll_skin.Render_row_form",
+					['votes' => $votes, 'id' => $id, 'answer' => $choice]
+				);
 			}
 			$poll_footer = "<input type='submit' name='submit'   value='{$this->lang['poll_add_vote']}' class='forminput'>&nbsp;" . "<input type='submit' name='nullvote' value='{$this->lang['poll_null_vote']}' class='forminput'>";
 		}
 
-		$html .= $this->html->global_poll_table_footer($poll_footer);
+		$html .= View::make("mod_global_poll_skin.global_poll_table_footer", ['footerText' => $poll_footer]);
 
 		return $html;
 	}

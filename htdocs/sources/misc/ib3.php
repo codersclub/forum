@@ -20,6 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Skin;
+use Views\View;
 
 $idx = new Login;
 
@@ -42,8 +44,6 @@ class Login
 		// Require the HTML and language modules
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_login', $ibforums->lang_id);
-
-		$this->login_html = $std->load_template('skin_login');
 
 		// What to do?
 
@@ -80,7 +80,7 @@ class Login
 
 		if ($message != "")
 		{
-			$this->output .= $this->login_html->errors($ibforums->lang[$message]);
+			$this->output .= View::make("login.errors", ['data' => $ibforums->lang[$message]]);
 		}
 
 		$html = <<<EOF

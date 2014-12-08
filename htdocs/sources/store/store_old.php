@@ -9,6 +9,9 @@
 |	You may edit this file as long as you retain this Copyright notice.	 |
 |	Redistribution not permitted without permission from Zachary Anker.	 |
 \*--------------------------------------------------------------------- */
+use Skins\Skin;
+use Views\View;
+
 $store = new store;
 class store
 {
@@ -28,8 +31,6 @@ class store
 		}
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_store', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_store');
 
 		if (!$ibforums->vars['store_guest'] && $ibforums->member['id'] == 0)
 		{
@@ -144,9 +145,9 @@ class store
 		}
 
 		// add all of are skin output
-		$out_put = $this->html->menu($this->compile_links());
-		$this->output .= $this->html->end_page();
-		$this->output = str_replace("<!--IBS.CHECK-->", $this->html->check(), $this->output);
+		$out_put = View::make("store.menu", ['links' => $this->compile_links()]);
+		$this->output .= View::make("store.end_page");
+		$this->output = str_replace("<!--IBS.CHECK-->", View::make('store.check'), $this->output);
 
 		if ($ibforums->vars['ibstore_safty'] == 1)
 		{
@@ -163,10 +164,10 @@ class store
 
 		if ($ibforums->member['g_fine_edit'] || $ibforums->member['mgroup'] == $ibforums->vars['admin_group'] || $ibforums->member['g_allow_inventoryedit'])
 		{
-			$out_put .= $this->html->menu_mod($this->compile_links());
+			$out_put .= View::make("store.menu_mod", ['links' => $this->compile_links()]);
 		}
 
-		$out_put .= $this->html->menu_last($this->compile_links());
+		$out_put .= View::make("store.menu_last", ['links' => $this->compile_links()]);
 
 		$out_put .= $this->output;
 
@@ -198,15 +199,15 @@ class store
 		$info['welcome_desc'] = $this->postparse(str_replace("*username*", $ibforums->member['name'], $ibforums->vars['welcome_desc']));
 		$info['welcome_line'] = $this->postparse(str_replace("*username*", $ibforums->member['name'], $ibforums->vars['welcome_line']));
 
-		$this->output .= $this->html->show_middle($info);
-		$this->output .= $this->html->category_header($info);
+		$this->output .= View::make("store.show_middle", ['info' => $info]);
+		$this->output .= View::make("store.category_header", ['info' => $info]);
 
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_store_category ORDER BY catid DESC");
 		while ($temp = $stmt->fetch())
 		{
 			$temp['cat_desc'] = "{$temp['cat_desc']}";
 			$temp['cat_name'] = "<a href='{$ibforums->base_url}act=store&code=shop&category={$temp['catid']}'><b>{$temp['cat_name']}</b></a><br>";
-			$this->output .= $this->html->category($temp);
+			$this->output .= View::make("store.category", ['categorys' => $temp]);
 		}
 	}
 
@@ -230,12 +231,12 @@ class store
 		    GROUP BY i.item_id ORDER BY item_name DESC");
 		if ($stmt->rowCount() == 0)
 		{
-			$this->temp_output = $this->html->noinventory();
+			$this->temp_output = View::make("store.noinventory");
 		}
 		while ($user_inventory = $stmt->fetch())
 		{
 
-			$this->temp_output .= $this->html->view_inventory_middle($user_inventory);
+			$this->temp_output .= View::make("store.view_inventory_middle", ['user_inventory' => $user_inventory]);
 			$resell_price = $std->do_number_format(round(($ibforums->vars['resell_percentage'] / 100) * $user_inventory['price_payed']));
 			if ($ibforums->vars['inventory_showresell'])
 			{
@@ -246,7 +247,7 @@ class store
 
 		$value['total_value'] = $std->do_number_format($value['total_value']);
 
-		$this->tempoutput .= $this->html->view_inventory_stats($value, $member);
+		$this->tempoutput .= View::make("store.view_inventory_stats", ['stats' => $value, 'member' => $member]);
 
 		if ($ibforums->vars['inventory_showresell'])
 		{
@@ -333,7 +334,7 @@ class store
 		{
 			$this->error("no_edit_permissions");
 		}
-		$this->output .= $this->html->fine_users();
+		$this->output .= View::make("store.fine_users");
 	}
 
 	function do_fine_users()
@@ -378,7 +379,7 @@ class store
 		{
 			$this->error("no_edit_permissions");
 		}
-		$this->output .= $this->html->edit_users_points();
+		$this->output .= View::make("store.edit_users_points");
 	}
 
 	//---------------------------------------------
@@ -411,7 +412,7 @@ class store
 		$itemm = new item;
 		if ($ibforums->input['change'] == "" && $html = $itemm->on_use($ibforums->input['itemid'], $item['item_name']))
 		{
-			$this->output .= $this->html->useitem($html);
+			$this->output .= View::make("store.useitem", ['code' => $html]);
 		} else
 		{
 			$itemm->do_on_use($item['extra_one'], $item['extra_two'], $item['extra_three']);
@@ -438,7 +439,7 @@ class store
 		{
 			$disabled = "disabled";
 		}
-		$this->output .= $this->html->donatemoney($disabled);
+		$this->output .= View::make("store.donatemoney", ['disable' => $disabled]);
 	}
 
 	function dodonate_money()
@@ -543,7 +544,7 @@ class store
 			}
 
 		}
-		$this->output .= $this->html->donateitem($dropdown, $disabled);
+		$this->output .= View::make("store.donateitem", ['options' => $dropdown, 'disable' => $disabled]);
 	}
 
 	//---------------------------------------------
@@ -553,7 +554,7 @@ class store
 	{
 		global $ibforums, $std, $print;
 		$this->nav = array($ibforums->lang['show_nav']);
-		$this->output .= $this->html->item_info();
+		$this->output .= View::make("store.item_info");
 		if (isset($ibforums->input['category']))
 		{
 			$info['category'] = "&category={$ibforums->input['category']}";
@@ -602,7 +603,7 @@ class store
 			$item['item_desc'] = $t = str_replace('&gt;', '>', $item['item_desc']);
 			$item['item_desc'] = $t = str_replace('&lt;', '<', $item['item_desc']);
 
-			$this->output .= $this->html->list_items($item);
+			$this->output .= View::make("store.list_items", ['item' => $item]);
 
 			if ($ibforums->vars['mass_buyon'])
 			{
@@ -627,8 +628,9 @@ class store
 				{
 					$mass_buy_list = "( {$mass} )";
 				}
-				$this->output = str_replace("<!--Mass Buy Header-->", $this->html->mass_buy_header(), $this->output);
-				$this->output = str_replace("<!--Mass Buy Middle-->", $this->html->mass_buy_middle($mass_buylist), $this->output);
+				$this->output = str_replace("<!--Mass Buy Header-->", View::make('store.mass_buy_header'), $this->output);
+				$this->output = str_replace("<!--Mass Buy Middle-->",
+					View::make("store.mass_buy_middle", ['mass_buy' => $mass_buylist]), $this->output);
 				unset($mass_buy_list, $mass_buylist);
 			}
 		}
@@ -637,10 +639,10 @@ class store
 		$ibforums->lang['showingitems'] = str_replace("<#NUM#>", $total_items, $ibforums->lang['showingitems']);
 		if ($returned_rows)
 		{
-			$this->output .= $this->html->next_lastlinks($info);
+			$this->output .= View::make("store.next_lastlinks", ['info' => $info]);
 		} else
 		{
-			$this->output .= $this->html->cannot_finditems();
+			$this->output .= View::make("store.cannot_finditems");
 		}
 	}
 
@@ -762,7 +764,7 @@ class store
 				GROUP BY i.item_id ORDER BY item_name DESC");
 		if ($stmt->rowCount() == 0)
 		{
-			$this->temp_output = $this->html->noinventory();
+			$this->temp_output = View::make("store.noinventory");
 		}
 		while ($user_inventory = $stmt->fetch())
 		{
@@ -773,7 +775,7 @@ class store
 			$user_inventory['item_desc'] = $t = str_replace('&gt;', '>', $user_inventory['item_desc']);
 			$user_inventory['item_desc'] = $t = str_replace('&lt;', '<', $user_inventory['item_desc']);
 
-			$this->temp_output .= $this->html->inventory_middle($user_inventory);
+			$this->temp_output .= View::make("store.inventory_middle", ['user_inventory' => $user_inventory]);
 
 			// More number formating
 			$resell_price = round($user_inventory['price_payed'] - (($ibforums->member['g_discount'] / 100) * $user_inventory['price_payed']));
@@ -805,7 +807,7 @@ class store
 		$value['total_value'] = $std->do_number_format($value['total_value']);
 
 		// In order to cut down on a query we add them all in a odd way, dont complain it cuts down on a query
-		$this->tempoutput .= $this->html->inventory_stats($value);
+		$this->tempoutput .= View::make("store.inventory_stats", ['stats' => $value]);
 
 		// Add the language part of the resell amount if we want to tell them
 		if ($ibforums->vars['tell_resellamount'])
@@ -828,7 +830,7 @@ class store
 		{
 			$this->error("cannoteditroot");
 		}
-		$this->output .= $this->html->do_edit_users_points($member);
+		$this->output .= View::make("store.do_edit_users_points", ['member' => $member]);
 	}
 
 	function do_do_edit_points()
@@ -848,23 +850,23 @@ class store
 		{
 			$this->error("no_edit_permissions");
 		}
-		$this->output .= $this->html->edit_users_inventory();
+		$this->output .= View::make("store.edit_users_inventory");
 	}
 
 	function do_staff_inventory()
 	{
 		global $ibforums, $std;
 		$user = $this->getmid($ibforums->input['username']);
-		$this->output .= $this->html->show_users_inventory_header($user);
+		$this->output .= View::make("store.show_users_inventory_header", ['user' => $user]);
 		$stmt = $ibforums->db->query("SELECT i.*,s.*
 		    FROM ibf_store_inventory i
 		    LEFT JOIN ibf_store_shopstock s on (i.item_id=s.id)
 		    WHERE i.owner_id='{$user['id']}' ORDER BY i.i_id DESC");
 		while ($item = $stmt->fetch())
 		{
-			$this->output .= $this->html->show_users_inventory($item);
+			$this->output .= View::make("store.show_users_inventory", ['inventory' => $item]);
 		}
-		$this->output .= $this->html->edit_inventory_submit();
+		$this->output .= View::make("store.edit_inventory_submit");
 	}
 
 	function do_do_staff_inventory()
@@ -921,8 +923,8 @@ class store
 		// vot: require added for Sale Rules as HTML:
 		//	require($ibforums->vars['base_dir']."sources/store/rules.php");
 
-		$this->output .= $this->html->post_info();
-		$this->output .= $this->html->output_stats_end();
+		$this->output .= View::make("store.post_info");
+		$this->output .= View::make("store.output_stats_end");
 	}
 
 	//---------------------------------------------
@@ -963,9 +965,9 @@ class store
 		{
 			$message = $msg;
 		}
-		$html .= $this->html->error();
-		$html .= $this->html->error_row($message);
-		$html .= $this->html->end_page();
+		$html .= View::make("store.error");
+		$html .= View::make("store.error_row", ['message' => $message]);
+		$html .= View::make("store.end_page");
 		// If you wish to remove it you will have to pay the 40$ fee.
 		// See: www.outlaw.ipbhost.com/store/services.php for more infomation on how to pay.
 		$html .= "<br/><div align='center' class='copyright'>Powered by <a href=\"http://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='http://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
@@ -992,18 +994,27 @@ class store
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_store_category WHERE catid>'0' ORDER BY catid DESC");
 		if ($ibforums->vars['show_shopcat'])
 		{
-			$link['shop'] .= $this->html->make_url("act=store&code=shop", $ibforums->lang['shop']);
+			$link['shop'] .= View::make(
+				"store.make_url",
+				['address' => "act=store&code=shop", 'text' => $ibforums->lang['shop']]
+			);
 		}
 		$i = 0;
 		while ($temp = $stmt->fetch())
 		{
 			if (isset($ibforums->input['view_all']) || $i < 10)
 			{
-				$link['shop'] .= $this->html->make_url("act=store&code=shop&category={$temp['catid']}", $temp['cat_name']);
+				$link['shop'] .= View::make(
+					"store.make_url",
+					['address' => "act=store&code=shop&category={$temp['catid']}", 'text' => $temp['cat_name']]
+				);
 			} else {
 				if ($i >= 10 && empty($ibforums->input['view_all']))
 				{
-					$link['shop'] .= $this->html->make_url("act=store&code=shop&view_all=all", $ibforums->lang['view_all_cats']);
+					$link['shop'] .= View::make(
+						"store.make_url",
+						['address' => "act=store&code=shop&view_all=all", 'text' => $ibforums->lang['view_all_cats']]
+					);
 					break;
 				}
 			}
@@ -1012,19 +1023,28 @@ class store
 		// Make the stat links
 		if ($ibforums->vars['richest_onhand'])
 		{
-			$link['stat'] .= $this->html->make_url("act=store&code=stats&type=member", $ibforums->lang['stats_member']);
+			$link['stat'] .= View::make(
+				"store.make_url",
+				['address' => "act=store&code=stats&type=member", 'text' => $ibforums->lang['stats_member']]
+			);
 		}
 		if ($ibforums->vars['richest_bank'])
 		{
-			$link['stat'] .= $this->html->make_url("act=store&code=stats&type=bank", $ibforums->lang['stats_bank']);
+			$link['stat'] .= View::make(
+				"store.make_url",
+				['address' => "act=store&code=stats&type=bank", 'text' => $ibforums->lang['stats_bank']]
+			);
 		}
 		if ($ibforums->vars['richest_overall'])
 		{
-			$link['stat'] .= $this->html->make_url("act=store&code=stats", $ibforums->lang['stats_overall']);
+			$link['stat'] .= View::make(
+				"store.make_url",
+				['address' => "act=store&code=stats", 'text' => $ibforums->lang['stats_overall']]
+			);
 		}
 		if ($ibforums->vars['show_memberpoints'])
 		{
-			$link['points'] .= $this->html->member_points();
+			$link['points'] .= View::make("store.member_points");
 		}
 		return $link;
 	}
@@ -1078,7 +1098,7 @@ class store
 		global $ibforums, $std, $print;
 
 		$this->nav = array($ibforums->lang['quiz_nav'], $ibforums->lang['main_quizs_nav']);
-		$this->output .= $this->html->quiz_header();
+		$this->output .= View::make("store.quiz_header");
 
 		if ($ibforums->member['mgroup'] != $ibforums->vars['admin_group'])
 		{
@@ -1125,15 +1145,17 @@ class store
 			}
 			$quiz['quiz_status'] = ucfirst(mb_strtolower($quiz['quiz_status']));
 			$quiz['amount_won']  = $std->do_number_format($quiz['amount_won']);
-			$this->output .= $this->html->list_quiz($quiz);
+			$this->output .= View::make("store.list_quiz", ['quiz' => $quiz]);
 			if ($ibforums->vars['showplaysleft'])
 			{
 				if ($close_check['plays_left'] < 1)
 				{
 					$close_check['plays_left'] = $ibforums->lang['none_played'];
 				}
-				$this->output = str_replace("<!--Plays Left Header-->", $this->html->plays_left_header(), $this->output);
-				$this->output = str_replace("<!--Plays Left Middle-->", $this->html->plays_left_middle($close_check['plays_left']), $this->output);
+				$this->output = str_replace("<!--Plays Left Header-->",
+					View::make('store.plays_left_header'), $this->output);
+				$this->output = str_replace("<!--Plays Left Middle-->",
+					View::make("store.plays_left_middle", ['plays' => $close_check['plays_left']]),$this->output);
 			}
 
 		}
@@ -1169,7 +1191,7 @@ class store
 		}
 		$settings['time'] = time();
 
-		$this->output .= $this->html->quiz_q_a_header($settings);
+		$this->output .= View::make("store.quiz_q_a_header", ['settings' => $settings]);
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_store_quizs WHERE quiz_id='{$ibforums->input['quiz_id']}'");
 		if ($stmt->rowCount() <= 0)
 		{
@@ -1185,7 +1207,7 @@ class store
 				}
 				$quiz['anwser']   = stripslashes($quiz['anwser']);
 				$quiz['question'] = stripslashes($quiz['question']);
-				$this->output .= $this->html->single_question($quiz);
+				$this->output .= View::make("store.single_question", ['info' => $quiz]);
 			} else {
 				if ($quiz['type'] == 'dropdown')
 				{
@@ -1203,13 +1225,13 @@ class store
 					}
 					$quiz['dropdown'] .= "</select>";
 					$quiz['question'] = stripslashes($quiz['question']);
-					$this->output .= $this->html->dropdown_question($quiz);
+					$this->output .= View::make("store.dropdown_question", ['info' => $quiz]);
 				}
 			}
 
 		}
 
-		$this->output .= $this->html->quiz_q_a_submit();
+		$this->output .= View::make("store.quiz_q_a_submit");
 	}
 
 	//---------------------------------------------
@@ -1327,7 +1349,7 @@ class store
 		global $ibforums;
 		$this->nav = array($ibforums->lang['results_nav']);
 
-		$this->output .= $this->html->quiz_results_header();
+		$this->output .= View::make("store.quiz_results_header");
 		$stmt = $ibforums->db->query("SELECT f.*, m.name,m.id
 								FROM ibf_store_quizwinners f
 								LEFT JOIN ibf_members m ON (m.id=f.memberid)
@@ -1347,7 +1369,7 @@ class store
 					$member['time_took'] = $member['time_took'] . ' ' . $ibforums->lang['results_minutes'];
 				}
 			}
-			$this->output .= $this->html->quiz_results_results($member, $place);
+			$this->output .= View::make("store.quiz_results_results", ['member' => $member, 'place' => $place]);
 		}
 	}
 
@@ -1377,8 +1399,8 @@ class store
 			'stock' => $std->do_number_format($total_stock),
 			'total' => $std->do_number_format($total_money + $total_bank)
 		);
-		$this->output .= $this->html->misc_stats($stats);
-		$this->output .= $this->html->output_stats_end();
+		$this->output .= View::make("store.misc_stats", ['stats' => $stats]);
+		$this->output .= View::make("store.output_stats_end");
 	}
 
 	function stats()
@@ -1399,7 +1421,7 @@ class store
 		}
 		if (isset($ibforums->input['type']))
 		{
-			$this->output .= $this->html->header_stats($header);
+			$this->output .= View::make("store.header_stats", ['name' => $header]);
 			$stmt = $ibforums->db->query($query);
 			while ($temp = $stmt->fetch())
 			{
@@ -1408,21 +1430,21 @@ class store
 					$temp['points'] = $temp['deposited'];
 				}
 				$temp['points'] = $std->do_number_format($temp['points']);
-				$this->output .= $this->html->output_stats($temp);
+				$this->output .= View::make("store.output_stats", ['member' => $temp]);
 			}
-			$this->output .= $this->html->output_stats_end();
+			$this->output .= View::make("store.output_stats_end");
 		} else
 		{
-			$this->output .= $this->html->overall_stats_header();
+			$this->output .= View::make("store.overall_stats_header");
 			$stmt = $ibforums->db->query("SELECT id,name,points,deposited FROM ibf_members WHERE id>'0' AND points>'0' AND deposited>'0' ORDER BY points+deposited DESC LIMIT " . $ibforums->vars['richest_showamount']);
 			while ($temp = $stmt->fetch())
 			{
 				$temp['total_points'] = $std->do_number_format($temp['points'] + $temp['deposited']);
 				$temp['points']       = $std->do_number_format($temp['points']);
 				$temp['deposited']    = $std->do_number_format($temp['deposited']);
-				$this->output .= $this->html->output_overall_stats($temp);
+				$this->output .= View::make("store.output_overall_stats", ['member' => $temp]);
 			}
-			$this->output .= $this->html->output_stats_end();
+			$this->output .= View::make("store.output_stats_end");
 		}
 	}
 
@@ -1492,12 +1514,12 @@ class store
 					$auto_interest                 = $interest_points * $cancollect;
 					$ibforums->member['deposited'] = round($ibforums->member['deposited'] + $auto_interest);
 					$ibforums->db->exec("UPDATE ibf_members SET last_collect='{$time}', deposited='{$ibforums->member['deposited']}' WHERE id='{$ibforums->member['id']}' LIMIT 1");
-					$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $auto_interest, "Начислен процент: " . $auto_interest . ' ' . $ibforums->vars['currency_name'] . " Всего денег в банке: " . $ibforums->member['deposited'] . ' ' . $ibforums->vars['currency_name'], "auto_collect_int");
+					$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $auto_interest, "РќР°С‡РёСЃР»РµРЅ РїСЂРѕС†РµРЅС‚: " . $auto_interest . ' ' . $ibforums->vars['currency_name'] . " Р’СЃРµРіРѕ РґРµРЅРµРі РІ Р±Р°РЅРєРµ: " . $ibforums->member['deposited'] . ' ' . $ibforums->vars['currency_name'], "auto_collect_int");
 				}
 			}
 		}
 
-		$this->output .= $this->html->bank($info, $collect_submit);
+		$this->output .= View::make("store.bank", ['info' => $info, 'collect_submit' => $collect_submit]);
 	}
 
 	function do_bank()
@@ -1569,11 +1591,11 @@ class store
 
 		$mid = $ibforums->input['mid'];
 
-		$output = $this->html->ShowTitle();
+		$output = View::make("store.ShowTitle");
 
-		$output .= $this->html->ShowHeader();
+		$output .= View::make("store.ShowHeader");
 
-		$output .= $this->html->ShowFooter();
+		$output .= View::make("store.ShowFooter");
 
 		$print->add_output("$output");
 
