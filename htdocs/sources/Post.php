@@ -20,6 +20,8 @@
   |   > Module Version 1.0.0
   +--------------------------------------------------------------------------
  */
+use Skins\Skin;
+use Views\View;
 
 require_once "mimecrutch.php"; // Barazuk
 
@@ -30,7 +32,6 @@ class Post
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 	var $parser = "";
 	var $moderator = array();
 	var $forum = array();
@@ -67,8 +68,6 @@ class Post
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_topic', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_error', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_post');
 
 		//--------------------------------------------
 		// Get the sync module
@@ -1360,7 +1359,7 @@ class Post
 			$html .= "<option value='hide'>" . $ibforums->lang['mod_hide'] . "</option>";
 		}
 
-		return $this->html->mod_options($html);
+		return View::make("post.mod_options", ['jump' => $html]);
 	}
 
 	/*	 * ************************************************** */
@@ -1374,7 +1373,7 @@ class Post
 	{
 		global $ibforums;
 
-		$form = $this->html->get_javascript();
+		$form = View::make("post.get_javascript");
 
 		$form .= "<form name='REPLIER' action='{$this->base_url}' method='post' onsubmit='return ValidateForm()'" . $this->obj['form_extra'] . ">" . "<input type='hidden' name='st' value='" . $ibforums->input['st'] . "'>\n" . "<input type='hidden' name='act' value='Post' />\n" . "<input type='hidden' name='s' value='" . $ibforums->session_id . "'>\n" . "<input type='hidden' name='f' value='" . $this->forum['id'] . "'>\n" . "<input type='hidden' name='auth_key' value='" . $this->md5_check . "'>\n" . $this->obj['hidden_field'];
 
@@ -1404,8 +1403,8 @@ class Post
 		global $ibforums;
 
 		return $ibforums->member['id']
-			? $this->html->nameField_reg()
-			: $this->html->nameField_unreg($ibforums->input['UserName']);
+			? View::make("post.nameField_reg")
+			: View::make("post.nameField_unreg", ['data' => $ibforums->input['UserName']]);
 	}
 
 	/*	 * ************************************************** */
@@ -1418,7 +1417,7 @@ class Post
 
 	function html_post_body($raw_post = "", $topic = array())
 	{
-		global $ibforums, $std, $skin_universal;
+		global $ibforums, $std;
 
 		$ibforums->lang['the_max_length'] = $ibforums->vars['max_post_length'] * 1024;
 
@@ -1430,19 +1429,19 @@ class Post
 		{
 			if ($this->moderator['mid'] or $ibforums->member['g_is_supmod'])
 			{
-				$mod_buttons .= $skin_universal->mod_buttons();
+				$mod_buttons .= View::make("global.mod_buttons");
 			}
 
 			if ($ibforums->member['g_is_supmod'])
 			{
-				$mod_buttons .= $skin_universal->global_mod_buttons();
+				$mod_buttons .= View::make("global.global_mod_buttons");
 			}
 
-			$mod_buttons .= $skin_universal->common_mod_buttons();
+			$mod_buttons .= View::make("global.common_mod_buttons");
 
 			if ($mod_buttons)
 			{
-				$mod_buttons = $skin_universal->mod_buttons_label() . $mod_buttons;
+				$mod_buttons = View::make("global.mod_buttons_label") . $mod_buttons;
 			}
 		}
 
@@ -1453,11 +1452,19 @@ class Post
 		if ($topic['tid'] and !$topic['decided'] and $this->forum['decided_button'] and $ibforums->member['id'])
 		{
 			$topic_decided = ($ibforums->member['g_use_decided'] and $ibforums->member['id'] == $topic['starter_id'])
-				? $skin_universal->topic_decided()
+				? View::make("global.topic_decided")
 				: "";
 		}
 
-		return $this->html->postbox_buttons($raw_post, $std->code_tag_button($std->get_highlight_id($this->forum['id'])), $mod_buttons, $topic_decided);
+		return View::make(
+			"post.postbox_buttons",
+			[
+				'data' => $raw_post,
+				'syntax_select' => $std->code_tag_button($std->get_highlight_id($this->forum['id'])),
+				'mod_buttons' => $mod_buttons,
+				'topic_decided' => $topic_decided
+			]
+		);
 	}
 
 	/*	 * ************************************************** */
@@ -1479,7 +1486,7 @@ class Post
 
 		$ibforums->lang['the_max_length'] = $ibforums->vars['max_post_length'] * 1024;
 
-		$html = $this->html->PostIcons();
+		$html = View::make("post.PostIcons");
 
 		if ($post_icon)
 		{
@@ -1525,7 +1532,8 @@ class Post
 			$default_checked['emo'] = "";
 		}
 
-		$this->output = str_replace('<!--IBF.EMO-->', $this->html->get_box_enableemo($default_checked['emo']), $this->output);
+		$this->output = str_replace('<!--IBF.EMO-->',
+			View::make("post.get_box_enableemo", ['checked' => $default_checked['emo']]), $this->output);
 
 		if ($ibforums->member['id'])
 		{
@@ -1536,7 +1544,8 @@ class Post
 				{
 					$default_checked['merge'] = "";
 				}
-				$this->output = str_replace('<!--IBF.MERGE_POST_LABEL-->', $this->html->add_merge_edit_box($default_checked['merge']), $this->output);
+				$this->output = str_replace('<!--IBF.MERGE_POST_LABEL-->',
+					View::make("post.add_merge_edit_box", ['checked' => $default_checked['merge']]), $this->output);
 			} elseif ($type == "edit" && $ibforums->member['g_edit_posts'] == 1)
 			{
 				// Sunny: галочка "надпись отредактировано"
@@ -1544,7 +1553,8 @@ class Post
 				{
 					$default_checked['edit'] = "";
 				}
-				$this->output = str_replace('<!--IBF.MOD_ADD_EDIT_LABEL-->', $this->html->add_edit_box($default_checked['edit']), $this->output);
+				$this->output = str_replace('<!--IBF.MOD_ADD_EDIT_LABEL-->',
+					View::make("post.add_edit_box", ['checked' => $default_checked['edit']]), $this->output);
 			}
 
 			if ($type != "edit")
@@ -1570,10 +1580,12 @@ class Post
 
 				if ($tid and $cnt > 0)
 				{
-					$this->output = str_replace('<!--IBF.TRACK-->', $this->html->get_box_alreadytrack(), $this->output);
+					$this->output = str_replace('<!--IBF.TRACK-->',
+						View::make("post.get_box_alreadytrack"), $this->output);
 				} else
 				{
-					$this->output = str_replace('<!--IBF.TRACK-->', $this->html->get_box_enabletrack($default_checked['tra']), $this->output);
+					$this->output = str_replace('<!--IBF.TRACK-->',
+						View::make("post.get_box_enabletrack", ['checked' => $default_checked['tra']]), $this->output);
 				}
 			}
 
@@ -1590,7 +1602,8 @@ class Post
 					$default_checked['fav'] = 'checked="checked"';
 				}
 
-				$this->output = str_replace('<!--IBF.FAV-->', $this->html->get_box_enablefav($default_checked['fav']), $this->output);
+				$this->output = str_replace('<!--IBF.FAV-->',
+					View::make("post.get_box_enablefav", ['checked' => $default_checked['fav']]), $this->output);
 
 				// Song * offtopic checkbox, 19.04.05
 				// Song * don't bump topic, 03.05.05
@@ -1616,7 +1629,8 @@ class Post
 						$default_checked['offtop'] = 'checked="checked"';
 					}
 
-					$this->output = str_replace('<!--IBF.OFFTOP-->', $this->html->get_box_enable_offtop($default_checked['offtop']), $this->output);
+					$this->output = str_replace('<!--IBF.OFFTOP-->',
+						View::make("post.get_box_enable_offtop", ['checked' => $default_checked['offtop']]), $this->output);
 				}
 
 				// don't bump checkbox
@@ -1630,7 +1644,8 @@ class Post
 						$default_checked['bump'] = 'checked="checked"';
 					}
 
-					$this->output = str_replace('<!--IBF.BUMP-->', $this->html->get_box_bump($default_checked['bump']), $this->output);
+					$this->output = str_replace('<!--IBF.BUMP-->',
+						View::make("post.get_box_bump", ['checked' => $default_checked['bump']]), $this->output);
 				}
 			}
 		}
@@ -1731,7 +1746,7 @@ class Post
 			$smilies .= "</tr>";
 		}
 
-		$table = $this->html->smilie_table();
+		$table = View::make("post.smilie_table");
 
 		if ($show_table != 0)
 		{
@@ -1764,7 +1779,7 @@ class Post
 
 		$cached_members = array();
 
-		$this->output .= $this->html->TopicSummary_top();
+		$this->output .= View::make("post.TopicSummary_top");
 
 		//--------------------------------------------------------------
 		// Get the posts
@@ -1825,10 +1840,10 @@ class Post
 
 			// vot			$row['post']   = str_replace( "<br>", "<br>", $row['post'] );
 
-			$this->output .= $this->html->TopicSummary_body($row);
+			$this->output .= View::make("post.TopicSummary_body", ['data' => $row]);
 		}
 
-		$this->output .= $this->html->TopicSummary_bottom();
+		$this->output .= View::make("post.TopicSummary_bottom");
 	}
 
 	/*	 * ************************************************** */

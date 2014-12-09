@@ -1,5 +1,7 @@
 <?php
 
+use Views\View;
+
 class skin_forum {
 
 
@@ -328,8 +330,8 @@ EOF;
 
 
 function TableEnd($data) {
-global $ibforums, $skin_universal;
-$legend = $skin_universal->topicsListLegend();
+global $ibforums;
+$legend = View::make('global.topicsListLegend');
 return <<<EOF
 <tfoot>
 {$data["modform_close"]}

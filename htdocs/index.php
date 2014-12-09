@@ -162,9 +162,6 @@ if ($ibforums->member['id'])
 
 //--------------------------------
 
-/** @var skin_global $skin_universal */
-$skin_universal = $std->load_template('skin_global');
-
 if ($ibforums->input['act'] == "Error")
 {
 	$std->Error(array('LEVEL' => 1, 'MSG' => $ibforums->input['type']));

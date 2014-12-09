@@ -8,7 +8,7 @@ class Factory
      * Factory method
      * @param int skin id
      * @throws \Exception
-     * @return BaseSkin
+     * @return BaseSkinManager
      */
     public static function create($id)
     {
@@ -16,12 +16,12 @@ class Factory
         if ($skin === null) {
             throw new \Exception(sprintf('Skin with id %d not found', $id));
         }
-        return new DatasetSkin($skin);
+        return new DatasetSkinManager($skin);
     }
 
     /**
      * Небольщая обёртка для поиска дефолтового скина
-     * @return BaseSkin
+     * @return BaseSkinManager
      */
     public static function createDefaultSkin()
     {
@@ -55,6 +55,6 @@ class Factory
      */
     public static function getAllSkinsData()
     {
-        return DatasetSkin::getAllSkinsData();
+        return DatasetSkinManager::getAllSkinsData();
     }
 }

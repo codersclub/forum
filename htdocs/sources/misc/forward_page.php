@@ -20,6 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Skin;
+use Views\View;
 
 $idx = new Forward;
 
@@ -28,7 +30,6 @@ class Forward
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 
 	var $forum = array();
 	var $topic = array();
@@ -43,15 +44,13 @@ class Forward
 	function Forward()
 	{
 
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		//-------------------------------------
 		// Compile the language file
 		//-------------------------------------
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_emails');
 
 		//-------------------------------------
 		// Check the input
@@ -223,7 +222,10 @@ class Forward
 		$ibforums->lang['send_text'] = preg_replace("/<#THE LINK#>/", $this->base_url_NS . "?act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid'], $ibforums->lang['send_text']);
 		$ibforums->lang['send_text'] = preg_replace("/<#USER NAME#>/", $ibforums->member['name'], $ibforums->lang['send_text']);
 
-		$this->output = $this->html->forward_form($this->topic['title'], $ibforums->lang ['send_text'], $lang_select);
+		$this->output = View::make(
+			"emails.forward_form",
+			['title' => $this->topic['title'], 'text' => $ibforums->lang ['send_text'], 'lang' => $lang_select]
+		);
 
 		$this->page_title = $ibforums->lang['title'];
 

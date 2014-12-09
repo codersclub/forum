@@ -20,6 +20,8 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Skins\Skin;
+use Views\View;
 
 $idx = new legends;
 
@@ -28,7 +30,6 @@ class legends
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 
 	function legends()
 	{
@@ -40,11 +41,9 @@ class legends
 		// up for us.
 		//------------------------------------------------------
 
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_legends', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_legends');
 
 		$this->base_url = $ibforums->base_url;
 
@@ -104,7 +103,7 @@ class legends
 			? $ibforums->input['sep']
 			: 'line';
 
-		$this->output .= $this->html->find_user_one($entry, $name, $sep);
+		$this->output .= View::make("legends.find_user_one", ['entry' => $entry, 'name' => $name, 'sep' => $sep]);
 
 		$this->page_title = $ibforums->lang['fu_title'];
 
@@ -166,7 +165,10 @@ class legends
 					}
 				}
 
-				$this->output .= $this->html->find_user_final($select_box, $entry, $name, $sep);
+				$this->output .= View::make(
+					"legends.find_user_final",
+					['names' => $select_box, 'entry' => $entry, 'name' => $name, 'sep' => $sep]
+				);
 
 				$this->page_title = $ibforums->lang['fu_title'];
 			}
@@ -182,7 +184,7 @@ class legends
 
 		$this->page_title = $ibforums->lang['fu_title'];
 
-		$this->output = $this->html->find_user_error($ibforums->lang[$error]);
+		$this->output = View::make("legends.find_user_error", ['msg' => $ibforums->lang[$error]]);
 
 		return;
 
@@ -196,7 +198,7 @@ class legends
 
 		//  $this->output .= $this->html->page_header('Русская клавиатура' ,'', '<FONT size=1>by SergeS</FONT>');
 
-		$this->output .= $this->html->keyb_javascript();
+		$this->output .= View::make("legends.keyb_javascript");
 
 		$this->output .= '</table><DIV id="keys1" style="display:none"><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
 
@@ -272,7 +274,7 @@ class legends
 
 		$this->output .= '</tr></table></DIV><table>';
 
-		$this->output .= '</table><DIV id="keys2" style="display:show"><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
+		$this->output .= '</table><DIV id="keys2" style="display:block"><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
 
 		$keys2 = array(
 			'й',
@@ -346,7 +348,7 @@ class legends
 
 		$this->output .= '</tr></table></DIV><table>';
 
-		$this->output .= $this->html->page_footer();
+		$this->output .= View::make("legends.page_footer");
 	}
 
 	//--------------------------------------------------------------
@@ -357,9 +359,16 @@ class legends
 
 		$this->page_title = $ibforums->lang['emo_title'];
 
-		$this->output .= $this->html->emoticon_javascript();
+		$this->output .= View::make("legends.emoticon_javascript");
 
-		$this->output .= $this->html->page_header($ibforums->lang['emo_title'], $ibforums->lang['emo_type'], $ibforums->lang['emo_img']);
+		$this->output .= View::make(
+			"legends.page_header",
+			[
+				'title' => $ibforums->lang['emo_title'],
+				'row1'  => $ibforums->lang['emo_type'],
+				'row2'  => $ibforums->lang['emo_img']
+			]
+		);
 
 		// Song * smile skin
 
@@ -441,15 +450,32 @@ class legends
 
 				if (!$sskin)
 				{
-					$this->output .= $this->html->text_emoticons_row(stripslashes($r['typed']), stripslashes($r['image']), $in_delim, $out_delim);
+					$this->output .= View::make(
+						"legends.text_emoticons_row",
+						[
+							'code'  => stripslashes($r['typed']),
+							'image' => stripslashes($r['image']),
+							'in'    => $in_delim,
+							'out'   => $out_delim
+						]
+					);
 				} else
 				{
-					$this->output .= $this->html->emoticons_row(stripslashes($r['typed']), stripslashes($r['image']), $sskin, $in_delim, $out_delim);
+					$this->output .= View::make(
+						"legends.emoticons_row",
+						[
+							'code'  => stripslashes($r['typed']),
+							'image' => stripslashes($r['image']),
+							'sskin' => $sskin,
+							'in'    => $in_delim,
+							'out'   => $out_delim
+						]
+					);
 				}
 			}
 		}
 
-		$this->output .= $this->html->page_footer();
+		$this->output .= View::make("legends.page_footer");
 
 	}
 
@@ -530,9 +556,16 @@ class legends
 
 		$this->page_title = $ibforums->lang['bbc_title'];
 
-		$this->output .= $this->html->bbcode_header();
+		$this->output .= View::make("legends.bbcode_header");
 
-		$this->output .= $this->html->page_header($ibforums->lang['bbc_title'], $ibforums->lang['bbc_before'], $ibforums->lang['bbc_after']);
+		$this->output .= View::make(
+			"legends.page_header",
+			[
+				'title' => $ibforums->lang['bbc_title'],
+				'row1'  => $ibforums->lang['bbc_before'],
+				'row2'  => $ibforums->lang['bbc_after']
+			]
+		);
 
 		foreach ($bbcode as $bbc)
 		{
@@ -541,7 +574,10 @@ class legends
 			$close   = $bbc[1];
 			$preface = $bbc[3];
 
-			$before = $this->html->wrap_tag($open) . $content . $this->html->wrap_tag($close);
+			$before = View::make("legends.wrap_tag", ['tag' => $open]) . $content . View::make(
+					"legends.wrap_tag",
+					['tag' => $close]
+				);
 
 			$after = $this->parser->convert(array('TEXT' => $open . $content . $close, 'CODE' => 1));
 
@@ -556,14 +592,14 @@ class legends
 			//vot - highlight all tags
 			if (!$open)
 			{
-				$before = $this->html->highlight_tags($before);
+				$before = View::make("legends.highlight_tags", ['txt' => $before]);
 			}
 
-			$this->output .= $this->html->bbcode_row($before, stripslashes($after));
+			$this->output .= View::make("legends.bbcode_row", ['before' => $before, 'after' => stripslashes($after)]);
 
 		}
 
-		$this->output .= $this->html->page_footer();
+		$this->output .= View::make("legends.page_footer");
 
 	}
 

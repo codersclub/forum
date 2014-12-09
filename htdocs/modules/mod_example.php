@@ -32,7 +32,6 @@ class module extends module_loader
 
 	var $class = "";
 	var $module = "";
-	var $html = "";
 
 	var $result = "";
 
@@ -50,7 +49,6 @@ class module extends module_loader
 		//=====================================
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_boards', $ibforums->lang_id);
-		$this->html     = $std->load_template('skin_boards');
 
 		//=====================================
 		// Set up structure

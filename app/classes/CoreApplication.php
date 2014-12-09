@@ -24,7 +24,7 @@ class CoreApplication
 	public $member;
 
 	/**
-	 * @var \Skins\BaseSkin
+	 * @var \Skins\BaseSkinManager
 	 */
 	public $skin;
 
@@ -76,7 +76,7 @@ class CoreApplication
 
     /**
      * Skin init
-     * @return \Skins\BaseSkin
+     * @return \Skins\BaseSkinManager
      */
     protected function loadSkin()
     {

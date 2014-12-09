@@ -60,12 +60,6 @@ try {
 	$ibforums->init();
 
 	//--------------------------------
-	//  Set up our language choice
-	//--------------------------------
-
-	$skin_universal = $std->load_template('skin_global');
-
-	//--------------------------------
 
 	$std->flood_begin();
 

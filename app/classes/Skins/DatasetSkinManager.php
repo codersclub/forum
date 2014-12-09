@@ -2,25 +2,25 @@
 
 namespace Skins;
 
-class DatasetSkin extends BaseSkin
+class DatasetSkinManager extends BaseSkinManager
 {
     private $id;
     private $name;
     private $macro;
     private $css;
     private $imagesDir;
-    private $viewsDir;
+    private $theme;
 
     function __construct(array $data)
     {
         //todo refactor?
-        if (isset($data['name']) && isset($data['id']) && isset($data['macro']) && isset($data['css']) && isset($data['images']) && isset($data['views'])) {
+        if (isset($data['name']) && isset($data['id']) && isset($data['macro']) && isset($data['css']) && isset($data['images']) && isset($data['theme'])) {
             $this->name      = $data['name'];
             $this->macro     = $data['macro'];
             $this->css       = $data['css'];
             $this->imagesDir = $data['images'];
             $this->id        = $data['id'];
-            $this->viewsDir  = $data['views'];
+            $this->theme     = $data['theme'];
         } else {
             throw new \Exception('Data passed to constructor is wrong');
         }
@@ -77,11 +77,11 @@ class DatasetSkin extends BaseSkin
     }
 
     /**
-     * Возвращает путь к директории шаблона
+     * Возвращает имя темы
      * @return string
      */
-    public function getViewsDirectory()
+    public function getThemeName()
     {
-        return \Config::get('path.templates') . DIRECTORY_SEPARATOR . $this->viewsDir;
+        return $this->theme;
     }
 }

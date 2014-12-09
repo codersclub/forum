@@ -144,8 +144,6 @@ require ROOT_PATH."sources/Admin/admin_skin.php";
 
 $SKIN = new admin_skin();
 
-$skin_universal = &$SKIN; //To keep functions.php happy
-
 /*-----------------------------------------------
   Import Admin Functions
  ------------------------------------------------*/

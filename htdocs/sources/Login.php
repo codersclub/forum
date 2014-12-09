@@ -20,6 +20,8 @@
   |	> Module Version Number: 1.0.0
   +--------------------------------------------------------------------------
  */
+use Skins\Skin;
+use Views\View;
 
 $idx = new Login;
 
@@ -38,8 +40,6 @@ class Login
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_login', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_error', $ibforums->lang_id);
-
-		$this->login_html = $std->load_template('skin_login');
 
 		if (USE_MODULES == 1)
 		{
@@ -299,10 +299,13 @@ class Login
 			$message = $ibforums->lang[$message];
 			$message = preg_replace("/<#NAME#>/", "<b>{$ibforums->input['UserName']}</b>", $message);
 
-			$this->output .= $this->login_html->errors($message . ' ' . $error_message);
+			$this->output .= View::make("login.errors", ['data' => $message . ' ' . $error_message]);
 		}
 
-		$this->output .= $this->login_html->ShowForm($ibforums->lang['please_log_in'], $_SERVER['HTTP_REFERER']);
+		$this->output .= View::make(
+			"login.ShowForm",
+			['message' => $ibforums->lang['please_log_in'], 'referer' => $_SERVER['HTTP_REFERER']]
+		);
 
 		$this->nav        = array($ibforums->lang['log_in']);
 		$this->page_title = $ibforums->lang['log_in'];

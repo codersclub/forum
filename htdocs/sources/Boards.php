@@ -21,14 +21,15 @@
   +--------------------------------------------------------------------------
  */
 
-
 $idx = new Boards;
+
+use Skins\Skin;
+use Views\View;
 
 class Boards {
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 	var $forums = array();
 	var $mods = array();
 	var $cats = array();
@@ -51,7 +52,7 @@ class Boards {
 
 	function Boards()
 	{
-		global $std, $print, $skin_universal;
+		global $std, $print;
 
 		$ibf = Ibf::app();
 		$this->base_url = $ibf->base_url;
@@ -60,9 +61,7 @@ class Boards {
 
 		$ibf->lang = $std->load_words($ibf->lang, 'lang_boards', $ibf->lang_id);
 
-		$this->html = $std->load_template('skin_boards');
-
-		$this->sep_char = trim($this->html->active_list_sep());
+		$this->sep_char = trim(View::make("boards.active_list_sep"));
 
 		if (!$ibf->member['id'])
 			$ibf->input['last_visit'] = time();
@@ -70,10 +69,10 @@ class Boards {
 		// Song * show all forums link, 09.03.05
 
 		$show_all_link = ( $ibf->member['id'] and !$ibf->input['show'] )
-			? $this->html->ShowAllLink()
+			? View::make("boards.ShowAllLink")
 			: "";
 
-		$this->output .= $this->html->PageTop($show_all_link);
+		$this->output .= View::make("boards.pageTop", ['show_all' => $show_all_link]);
 
 
 		// Get the forums and category info from the DB
@@ -364,17 +363,17 @@ class Boards {
 				// Show a link?
 
 				if ($ibf->vars['allow_online_list'])
-					$active['links'] = $this->html->active_user_links();
+					$active['links'] = View::make("boards.active_user_links");
 
 				$ibf->lang['active_users'] = sprintf($ibf->lang['active_users'], $ibf->vars['au_cutoff']);
 
 				// Song * friends show online, 05.03.05
 
 				$friends = ( $active['FRIENDS'] )
-					? $this->html->ActiveFriends($active)
+					? View::make("boards.ActiveFriends", ['active' => $active])
 					: "";
 				$active['groups_list_html'] = $this->renderMemberGroups();
-				$stats_html .= $this->html->ActiveUsers($active, $friends);
+				$stats_html .= View::make("boards.ActiveUsers", ['active' => $active, 'friends' => $friends]);
 
 
 
@@ -497,14 +496,20 @@ class Boards {
 					$lang = ($count > 1)
 						? $ibf->lang['birth_users']
 						: $ibf->lang['birth_user'];
-					$stats_html .= $this->html->birthdays($birthstring, $count, $lang);
+					$stats_html .= View::make(
+						"boards.birthdays",
+						['birthusers' => $birthstring, 'total' => $count, 'birth_lang' => $lang]
+					);
 				} else
 				{
 					$count = "";
 
 					if (!$ibf->vars['autohide_bday'])
 					{
-						$stats_html .= $this->html->birthdays($birthstring, $count, $lang);
+						$stats_html .= View::make(
+							"boards.birthdays",
+							['birthusers' => $birthstring, 'total' => $count, 'birth_lang' => $lang]
+						);
 					}
 				}
 			}
@@ -565,11 +570,11 @@ class Boards {
 				if (count($show_events) > 0)
 				{
 					$event_string = implode($this->sep_char . ' ', $show_events);
-					$stats_html .= $this->html->calendar_events($event_string);
+					$stats_html .= View::make("boards.calendar_events", ['events' => $event_string]);
 				} elseif (!$ibf->vars['autohide_calendar'])
 				{
 					$event_string = $ibf->lang['no_calendar_events'];
-					$stats_html .= $this->html->calendar_events($event_string);
+					$stats_html .= View::make("boards.calendar_events", ['events' => $event_string]);
 				}
 			}
 
@@ -663,24 +668,24 @@ class Boards {
 				$ibf->lang['total_word_string'] = str_replace("<#link#>", $link, $ibf->lang['total_word_string']);
 
 				if ($user_stat_html)
-					$stats_html .= $this->html->TodayOnline($user_stat_html);
+					$stats_html .= View::make('boards.TodayOnline', ['activity' => $user_stat_html]);
 
-				$stats_html .= $this->html->ShowStats($ibf->lang['total_word_string']);
+				$stats_html .= View::make('boards.ShowStats', ['text' => $ibf->lang['total_word_string']]);
 			}
 		}
 
 		if ($stats_html)
 		{
-			$this->output .= $this->html->stats_header();
+			$this->output .= View::make('boards.stats_header');
 			$this->output .= $stats_html;
-			$this->output .= $this->html->stats_footer();
+			$this->output .= View::make('boards.stats_footer');
 		}
 
 		//---------------------------------------
 		// Add in board info footer
 		//---------------------------------------
 
-		$this->output .= $this->html->bottom_links();
+		$this->output .= View::make('boards.bottom_links');
 
 
 // vot	$this->output .= '<% BOTTOM BANNER %%>';
@@ -690,21 +695,42 @@ class Boards {
 
 		if ($this->news_title and $this->news_topic_id and $this->news_forum_id)
 		{
-			$t_html = $this->html->newslink($this->news_forum_id, stripslashes($this->news_title), $this->news_topic_id);
+			$t_html = View::make(
+				"boards.newslink",
+				[
+					'fid'   => $this->news_forum_id,
+					'title' => stripslashes($this->news_title),
+					'tid'   => $this->news_topic_id
+				]
+			);
 
 			$this->output = str_replace("<!--IBF.NEWSLINK-->", "$t_html", $this->output);
 		}
 
 		if ($this->news_title2 and $this->news_topic_id2 and $this->news_forum_id2)
 		{
-			$t_html = $this->html->secondnewslink($this->news_forum_id2, stripslashes($this->news_title2), $this->news_topic_id2);
+			$t_html = View::make(
+				"boards.secondnewslink",
+				[
+					'fid'   => $this->news_forum_id2,
+					'title' => stripslashes($this->news_title2),
+					'tid'   => $this->news_topic_id2
+				]
+			);
 
 			$this->output = str_replace("<!--IBF.SECONDNEWSLINK-->", "$t_html", $this->output);
 		}
 
 		if ($this->our_poll_forum_id and $this->our_poll_topic_id and $this->our_poll_forum_id)
 		{
-			$t_html = $this->html->our_poll_link($this->our_poll_forum_id, stripslashes($this->our_poll_title), $this->our_poll_topic_id);
+			$t_html = View::make(
+				"boards.our_poll_link",
+				[
+					'fid'   => $this->our_poll_forum_id,
+					'title' => stripslashes($this->our_poll_title),
+					'tid'   => $this->our_poll_topic_id
+				]
+			);
 
 			$this->output = str_replace("<!--IBF.OUR_POLL_LINK-->", "$t_html", $this->output);
 		}
@@ -716,13 +742,14 @@ class Boards {
 
 		if (!$ibf->member['id'])
 		{
-			$this->output = str_replace("<!--IBF.QUICK_LOG_IN-->", $this->html->quick_log_in(), $this->output);
+			$this->output = str_replace("<!--IBF.QUICK_LOG_IN-->", View::make("boards.quick_log_in"), $this->output);
 		}
 		if ($ibf->vars['global_message_on'])
 		{
 			$message = preg_replace("/\n/", "<br>", stripslashes($ibf->vars['global_message']));
 
-			$this->output = str_replace("<!--GLOBAL.MESSAGE-->", $this->html->show_global_message($message), $this->output);
+			$this->output = str_replace("<!--GLOBAL.MESSAGE-->",
+				View::make('boards.globalMessage', ['message' => $message]), $this->output);
 		}
 
 		$print->add_output("$this->output");
@@ -735,7 +762,7 @@ class Boards {
 		// Song * RSS, 31.01.05
 
 		$rss = ( $cat )
-			? $skin_universal->rss("?c=" . $ibf->input['c'])
+			? View::make("global.rss", ['param' => "?c=" . $ibf->input['c']])
 			: "";
 
 
@@ -837,16 +864,16 @@ class Boards {
 			if ($cat_data['visible'] == 0)
 			{
 				$plus = ( $ibforums->member['id'] )
-					? $this->html->CatPlus($cat_data['id'])
+					? View::make("boards.CatPlus", ['id' => $cat_data['id']])
 					: "";
 
-				$this->output .= $this->html->CatHeader_Collapsed($cat_data, $plus);
+				$this->output .= View::make("boards.CatHeader_Collapsed", ['info' => $cat_data, 'plus' => $plus]);
 
-				$this->output .= $this->html->end_all_cats();
-//			$this->output .= $this->html->end_this_cat();
+				$this->output .= View::make("boards.end_all_cats");
+//			$this->output .= View::Make("boards.end_this_cat");
 				// vot: Draw inter-categories banner
 //			$this->output .= "\$cat_counter=".$cat_counter."<br>";
-//			$this->output .= $this->html->draw_middle_banner();
+//			$this->output .= View::Make("boards.draw_middle_banner");
 
 				continue;
 			}
@@ -867,15 +894,15 @@ class Boards {
 			if ($temp_html)
 			{
 				$minus = ( $ibforums->member['id'] )
-					? $this->html->CatMinus($cat_data['id'])
+					? View::make("boards.CatMinus", ['id' => $cat_data['id']])
 					: "";
 
-				$this->output .= $this->html->CatHeader_Expanded($cat_data, $minus);
+				$this->output .= View::make("boards.CatHeader_Expanded", ['Data' => $cat_data, 'minus' => $minus]);
 				$this->output .= $temp_html;
 
 
 
-				$this->output .= $this->html->end_this_cat();
+				$this->output .= View::make("boards.end_this_cat");
 
 				unset($temp_html);
 			}
@@ -886,7 +913,7 @@ class Boards {
 			}
 		}
 
-		$this->output .= $this->html->end_all_cats();
+		$this->output .= View::make("boards.end_all_cats");
 	}
 
 	//*********************************************/
@@ -940,15 +967,15 @@ class Boards {
 
 		if ($temp_html)
 		{
-			$this->output .= $this->html->CatHeader_Expanded($cat_data);
+			$this->output .= View::make("boards.CatHeader_Expanded", ['Data' => $cat_data]);
 			$this->output .= $temp_html;
-			$this->output .= $this->html->end_this_cat();
+			$this->output .= View::make("boards.end_this_cat");
 		} else
 			$std->Error(array('LEVEL'	 => 1, 'MSG'	 => 'missing_files'));
 
 		unset($temp_html);
 
-		$this->output .= $this->html->end_all_cats();
+		$this->output .= View::make("boards.end_all_cats");
 	}
 
 	//*********************************************/
@@ -1221,7 +1248,10 @@ class Boards {
 						$newest['last_topic'] = $ibforums->lang['f_protected'];
 					} elseif ($newest['last_title'] != "")
 					{
-						$newest['last_unread'] = $this->html->forumrow_lastunread_link($newest['fid'], $newest['last_id']);
+						$newest['last_unread'] = View::make(
+							"boards.forumrow_lastunread_link",
+							['fid' => $newest['fid'], 'tid' => $newest['last_id']]
+						);
 
 						$newest['last_topic'] = "<a href='{$ibforums->base_url}showtopic={$newest['last_id']}&amp;view=getnewpost'>{$newest['last_title']}</a>";
 					} else
@@ -1245,7 +1275,10 @@ class Boards {
 
 					if ($newest['img_new_post'] == '<{C_ON_CAT}>')
 					{
-						$newest['img_new_post'] = $this->html->subforum_img_with_link($newest['img_new_post'], $forum_data['id']);
+						$newest['img_new_post'] = View::make(
+							"boards.subforum_img_with_link",
+							['img' => $newest['img_new_post'], 'id' => $forum_data['id']]
+						);
 					}
 
 					$newest['last_post_std'] = date('c', $newest['last_post']);
@@ -1368,7 +1401,7 @@ class Boards {
 					}
 
 					// add drawed forum to result
-					$result = $this->html->ForumRow($forum_data) . $result;
+					$result = View::make("boards.ForumRow", ['info' => $forum_data]) . $result;
 				}
 
 				return $result;
@@ -1417,7 +1450,7 @@ class Boards {
 				if (0 == $level)
 					$forum_data['colspan'] = 'colspan="2" ';
 
-				return $this->html->forum_redirect_row($forum_data);
+				return View::make("boards.forum_redirect_row", ['info' => $forum_data]);
 // Shaman
 			}
 
@@ -1429,7 +1462,10 @@ class Boards {
 
 			if ($forum_data['img_new_post'] == '<{C_ON}>')
 			{
-				$forum_data['img_new_post'] = $this->html->subforum_img_with_link($forum_data['img_new_post'], $forum_data['id']);
+				$forum_data['img_new_post'] = View::make(
+					"boards.subforum_img_with_link",
+					['img' => $forum_data['img_new_post'], 'id' => $forum_data['id']]
+				);
 			}
 
 			$forum_data['last_post_std'] = date('c', $forum_data['last_post']);
@@ -1474,7 +1510,10 @@ class Boards {
 					$forum_data['last_topic'] = $ibforums->lang['f_protected'];
 				} else
 				{
-					$forum_data['last_unread'] = $this->html->forumrow_lastunread_link($forum_data['id'], $forum_data['last_id']);
+					$forum_data['last_unread'] = View::make(
+						"boards.forumrow_lastunread_link",
+						['fid' => $forum_data['id'], 'tid' => $forum_data['last_id']]
+					);
 
 					$forum_data['last_topic'] = "<a href='{$ibforums->base_url}showtopic={$forum_data['last_id']}&amp;view=getnewpost'>{$forum_data['last_title']}</a>";
 				}
@@ -1509,7 +1548,7 @@ class Boards {
 				$forum_data['tree'] = '  <td class="row4" align="center">' . $forum_data['img_new_post'] . '</td>';
 			}
 
-			return $this->html->ForumRow($forum_data) . $result;
+			return View::make("boards.ForumRow", ['info' => $forum_data]) . $result;
 // Shaman
 		}
 	}
@@ -1550,7 +1589,7 @@ class Boards {
 		while ($row = $stmt->fetch()) {
 			$visible_groups[$row['g_id']] = $row;
 		}
-		return $this->html->renderMemberGroupsList($visible_groups);
+		return View::make("boards.renderMemberGroupsList", ['groups' => $visible_groups]);
 
 	}
 	/* End */

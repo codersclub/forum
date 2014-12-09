@@ -13,7 +13,6 @@
     <% GENERATOR %>
     <% CSS %>
     <% JAVASCRIPT %>
-
 </head>
 <body <% BODY_DATA_TAGS %> >
 <div id="ipbwrapper">

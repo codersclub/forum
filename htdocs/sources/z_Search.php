@@ -20,6 +20,8 @@
 |	> Module Version Number: 1.1.0
 +--------------------------------------------------------------------------
 */
+use Skins\Skin;
+use Views\View;
 
 $idx = new Search;
 
@@ -29,7 +31,6 @@ class Search
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	var $html = "";
 
 	var $first = 0;
 
@@ -63,8 +64,6 @@ class Search
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_search', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_forum', $ibforums->lang_id);
 
-		$this->html = $std->load_template('skin_search');
-
 		$this->base_url = $ibforums->base_url;
 
 		//    	if ( !$ibforums->vars['allow_search']) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'search_off') );
@@ -73,7 +72,7 @@ class Search
 		{
 			$this->page_title = $ibforums->lang['search_title'];
 			$this->nav        = array($ibforums->lang['search_form']);
-			$this->output     = $this->html->alien_form('search_off');
+			$this->output     = View::make("search.alien_form", ['message' => 'search_off']);
 			$print->add_output("$this->output");
 			$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 		}
@@ -625,7 +624,7 @@ class Search
 
 			$this->parser = new PostParser();
 
-			$this->output .= $this->html->start_as_post(array('SHOW_PAGES' => $links));
+			$this->output .= View::make("search.start_as_post", ['Data' => array('SHOW_PAGES' => $links)]);
 
 			foreach ($topic_list as $row)
 			{
@@ -656,10 +655,10 @@ class Search
 					$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
 				}
 
-				$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
+				$this->output .= View::make("search.RenderPostRow", ['Data' => $this->parse_entry($row, 1)]);
 			}
 
-			$this->output .= $this->html->end_as_post(array('SHOW_PAGES' => $links));
+			$this->output .= View::make("search.end_as_post", ['Data' => array('SHOW_PAGES' => $links)]);
 
 		} else {
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_search_results'));
@@ -786,7 +785,7 @@ class Search
 	{
 		global $std, $ibforums, $print;
 
-		$print->pop_up_window($ibforums->lang['be_link'], $this->html->boolean_explain_page());
+		$print->pop_up_window($ibforums->lang['be_link'], View::make("search.boolean_explain_page"));
 
 	}
 
@@ -950,26 +949,33 @@ class Search
 		} else
 		{
 			$label = $ibforums->lang['keysearch_text'];
-			$where = $this->html->checkbox_where();
+			$where = View::make("search.checkbox_where");
 		}
 
 		if ($ibforums->input['mode'] == 'simple')
 		{
 			if ($ibforums->vars['search_sql_method'] == 'ftext')
 			{
-				$this->output = $this->html->simple_form($forums, $label, $where);
+				$this->output = View::make(
+					"search.simple_form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 			} else
 			{
-				$this->output = $this->html->Form($forums, $label, $where);
+				$this->output = View::make(
+					"search.Form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 			}
 
 		} elseif ($ibforums->input['mode'] == 'adv')
 		{
-			$this->output = $this->html->Form($forums, $label, $where);
+			$this->output = View::make("search.Form", ['forums' => $forums, 'search_txt' => $label, 'where' => $where]);
 
 			if ($ibforums->vars['search_sql_method'] == 'ftext')
 			{
-				$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->", $this->html->form_simple_button(), $this->output);
+				$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->",
+					View::make("search.form_simple_button"), $this->output);
 			}
 		} else
 		{
@@ -977,16 +983,23 @@ class Search
 
 			if ($ibforums->vars['search_default_method'] == 'simple')
 			{
-				$this->output = $this->html->Form($forums, $label, $where);
+				$this->output = View::make(
+					"search.Form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 			} else
 			{
 				// Default..
 
-				$this->output = $this->html->Form($forums, $label, $where);
+				$this->output = View::make(
+					"search.Form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 
 				if ($ibforums->vars['search_sql_method'] == 'ftext')
 				{
-					$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->", $this->html->form_simple_button(), $this->output);
+					$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->",
+						View::make("search.form_simple_button"), $this->output);
 				}
 			}
 		}
@@ -995,7 +1008,8 @@ class Search
 
 		if ($this->mysql_version >= 40010 AND $ibforums->vars['search_sql_method'] == 'ftext')
 		{
-			$this->output = str_replace("<!--IBF.BOOLEAN_EXPLAIN-->", $this->html->boolean_explain_link(), $this->output);
+			$this->output = str_replace("<!--IBF.BOOLEAN_EXPLAIN-->",
+				View::make("search.boolean_explain_link"), $this->output);
 		}
 
 		$this->page_title = $ibforums->lang['search_title'];
@@ -1284,10 +1298,10 @@ class Search
 
 					if ($row['pinned'])
 					{
-						$this->output .= $this->html->RenderPinnedRow($this->parse_entry($row));
+						$this->output .= View::make("search.RenderPinnedRow", ['Data' => $this->parse_entry($row)]);
 					} else
 					{
-						$this->output .= $this->html->RenderRow($this->parse_entry($row));
+						$this->output .= View::make("search.RenderRow", ['Data' => $this->parse_entry($row)]);
 					}
 
 				}
@@ -1298,7 +1312,7 @@ class Search
 
 			//--------------------------------------------
 
-			$this->output .= $this->html->end(array('SHOW_PAGES' => $this->links));
+			$this->output .= View::make("search.end", ['Data' => array('SHOW_PAGES' => $this->links)]);
 
 		} else
 		{
@@ -1427,10 +1441,10 @@ class Search
 					$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
 				}
 
-				$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
+				$this->output .= View::make("search.RenderPostRow", ['Data' => $this->parse_entry($row, 1)]);
 			}
 
-			$this->output .= $this->html->end_as_post(array('SHOW_PAGES' => $this->links));
+			$this->output .= View::make("search.end_as_post", ['Data' => array('SHOW_PAGES' => $this->links)]);
 		}
 
 		// Song * club tool
@@ -1488,15 +1502,18 @@ class Search
 
 		if ($ibforums->input['new'] and $ibforums->member['id'])
 		{
-			$button = $this->html->button();
+			$button = View::make("search.button");
 
-			$selector = $this->html->start_search_days();
+			$selector = View::make("search.start_search_days");
 
 			$selected = ($ibforums->member['search_days'] == -1)
 				? " selected='selected'"
 				: "";
 
-			$selector .= $this->html->search_days(-1, $ibforums->lang['search_last_visit'], $selected);
+			$selector .= View::make(
+				"search.search_days",
+				['days' => -1, 'title' => $ibforums->lang['search_last_visit'], 'check' => $selected]
+			);
 
 			for ($i = 1; $i < 15; ++$i)
 			{
@@ -1504,10 +1521,13 @@ class Search
 					? " selected='selected'"
 					: "";
 
-				$selector .= $this->html->search_days($i, sprintf($ibforums->lang['search_days'], $i), $selected);
+				$selector .= View::make(
+					"search.search_days",
+					['days' => $i, 'title' => sprintf($ibforums->lang['search_days'], $i), 'check' => $selected]
+				);
 			}
 
-			$selector .= $this->html->end_search_days();
+			$selector .= View::make("search.end_search_days");
 		} else
 		{
 			$button = "";
@@ -1525,10 +1545,10 @@ class Search
 
 		if (!$is_post)
 		{
-			return $this->html->start($out);
+			return View::make("search.start", ['Data' => $out]);
 		} else
 		{
-			return $this->html->start_as_post($out);
+			return View::make("search.start_as_post", ['Data' => $out]);
 		}
 	}
 
@@ -1636,9 +1656,9 @@ class Search
 
 			if ($topics == "")
 			{
-				$this->output .= $this->html->active_start(array('SHOW_PAGES' => ""));
-				$this->output .= $this->html->active_none();
-				$this->output .= $this->html->end("");
+				$this->output .= View::make("search.active_start", ['data' => array('SHOW_PAGES' => "")]);
+				$this->output .= View::make("search.active_none");
+				$this->output .= View::make("search.end", []);
 				$this->page_title = $ibforums->lang['search_results'];
 				$this->nav        = array(
 					"<a href='{$this->base_url}&act=Search2'>{$ibforums->lang['search_form']}</a>",
@@ -1717,7 +1737,7 @@ class Search
 		                                    'BASE_URL'   => $this->base_url . "act=Search2&CODE=getactive&searchid=$unique_id",
 		                               ));
 
-		$this->output .= $this->html->active_start(array('SHOW_PAGES' => $links));
+		$this->output .= View::make("search.active_start", ['data' => array('SHOW_PAGES' => $links)]);
 
 		// Regex in our selected values.
 
@@ -1742,7 +1762,7 @@ class Search
 			$count++;
 			// Song * club tool
 			$row['keywords'] = $url_words;
-			$this->output .= $this->html->RenderRow($this->parse_entry($row));
+			$this->output .= View::make("search.RenderRow", ['Data' => $this->parse_entry($row)]);
 
 		}
 
@@ -1761,7 +1781,7 @@ class Search
 			$ibforums->lang['search_title']
 		);
 
-		$this->output .= $this->html->end(array('SHOW_PAGES' => $links));
+		$this->output .= View::make("search.end", ['Data' => array('SHOW_PAGES' => $links)]);
 
 	}
 
@@ -2316,7 +2336,7 @@ class Search
 
 				$checkbox = (!$r['status'] or $r['redirect_on'] or !$r['sub_can_post'])
 					? ""
-					: $this->html->checkbox($r);
+					: View::make("search.checkbox", ['data' => $r]);
 
 				$r['css'] = 'row1';
 
@@ -2329,7 +2349,7 @@ class Search
 
 				$r['name'] = "&nbsp;" . $prefix . " " . $r['name'];
 
-				$temp_html .= $this->html->boardlay_between($r, $checkbox);
+				$temp_html .= View::make("search.boardlay_between", ['data' => $r, 'checkbox' => $checkbox]);
 
 				$this->subforums_search_list($children, $r['id'], $level + 1, $temp_html, $all_checkboxes);
 			}
@@ -2377,7 +2397,7 @@ class Search
 
 		$last_cat_id = -1;
 
-		$this->output .= $this->html->boardlay_start();
+		$this->output .= View::make("search.boardlay_start");
 
 		foreach ($cats as $c)
 		{
@@ -2403,11 +2423,11 @@ class Search
 
 					$checkbox = (!$r['status'] or $r['redirect_on'] or !$r['sub_can_post'])
 						? ""
-						: $this->html->checkbox($r);
+						: View::make("search.checkbox", ['data' => $r]);
 
 					$r['css'] = 'row1';
 
-					$temp_html .= $this->html->boardlay_between($r, $checkbox);
+					$temp_html .= View::make("search.boardlay_between", ['data' => $r, 'checkbox' => $checkbox]);
 
 					$this->subforums_search_list($children, $r['id'], 1, $temp_html, $all_checkboxes);
 				}
@@ -2415,7 +2435,7 @@ class Search
 
 			if ($temp_html)
 			{
-				$this->output .= $this->html->boardlay_between($c);
+				$this->output .= View::make("search.boardlay_between", ['data' => $c]);
 				$this->output .= $temp_html;
 
 				unset($temp_html);
@@ -2423,7 +2443,7 @@ class Search
 
 		}
 
-		$this->output .= $this->html->boardlay_end();
+		$this->output .= View::make("search.boardlay_end");
 
 		$this->page_title = $ibforums->lang['search_title'];
 		$this->nav        = array($ibforums->lang['search_form']);
@@ -2457,7 +2477,7 @@ class Search
 			}
 		}
 
-		$this->output .= $this->html->boardlay_successful();
+		$this->output .= View::make("search.boardlay_successful");
 
 		$this->page_title = $ibforums->lang['search_title'];
 		$this->nav        = array($ibforums->lang['search_form']);
