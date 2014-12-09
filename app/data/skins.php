@@ -6,7 +6,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_main.scss',
         'images' => '1',
-        'views'  => 'Invision',
+        'theme'  => 'Invision',
     ],
     [
         'name'   => 'Xpression Final',
@@ -14,7 +14,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_xpression.scss',
         'images' => 'Xpressio-296',
-        'views'  => 'Invision',
+        'theme'  => 'Invision',
     ],
     [
         'name'   => 'FAQ',
@@ -22,7 +22,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_main.scss',
         'images' => '1',
-        'views'  => 'Invision',
+        'theme'  => 'Invision',
     ],
     [
         'name'   => 'New Year - graphics',
@@ -30,7 +30,7 @@ return [
         'macro'  => 'snow',
         'css'    => 'skin_new_year.scss',
         'images' => 'NBS-Snow-262',
-        'views'  => 'Invision',
+        'theme'  => 'Invision',
     ],
     [
         'name'   => 'New Year - text',
@@ -38,7 +38,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_new_year.scss',
         'images' => 'NBS-Snow-262',
-        'views'  => 'Text',
+        'theme'  => 'Text',
     ],
     [
         'name'   => 'Sources Winter Graphic',
@@ -46,7 +46,7 @@ return [
         'macro'  => 'winter',
         'css'    => 'skin_winter.scss',
         'images' => 'Invision-058',
-        'views'  => 'Invision',
+        'theme'  => 'Invision',
     ],
     [
         'name'   => 'Sources Winter Text',
@@ -54,7 +54,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_winter.scss',
         'images' => 'Invision-058',
-        'views'  => 'Text',
+        'theme'  => 'Text',
     ],
     [
         'name'   => 'Mastilior',
@@ -62,7 +62,7 @@ return [
         'macro'  => 'mastilior',
         'css'    => 'skin_mastilior.scss',
         'images' => 'Sources_-383',
-        'views'  => 'Invision',
+        'theme'  => 'Invision',
     ],
     [
         'name'   => 'Text Skin',
@@ -70,7 +70,7 @@ return [
         'macro'  => 'text',
         'css'    => 'skin_text.scss',
         'images' => 'Text_Ski-187',
-        'views'  => 'Text',
+        'theme'  => 'Text',
     ],
     [
         'name'   => 'Black Label',
@@ -78,6 +78,6 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_blacklabel.scss',
         'images' => 'BlackLabel',
-        'views'  => 'Main',
+        'theme'  => 'Main',
     ],
 ];

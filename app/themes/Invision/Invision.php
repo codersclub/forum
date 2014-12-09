@@ -2,9 +2,27 @@
 
 namespace Skins\Themes;
 
+/**
+ * Class Invision Обработчик для оригинальных тем invision boards forum.
+ * Преобразует путь к шаблону в вызов метода соответствующего класса внутри темы.
+ * Поиск метода немного расширен по сравнению с обработкой пути в базовой теме для облегчения рефакторинга.
+ * Так путь "foo.bar" по порядку преобразуется в
+ * 1. skin_foo::bar()
+ * 2. skin_foo::renderBar()
+ * 3. skin_global::fooBar()
+ * 4. skin_global::renderFooBar()
+ * Note: Так как в описаниях методов классов шаблонов переменные определены непосредственно, то при вызове рендера важнее
+ * порядок передаваемых параметров, чем их имена.
+ * @package Skins\Themes
+ */
 class Invision extends AbstractTheme
 {
 
+    /**
+     * @param string $path
+     * @param mixed $data
+     * @return bool|mixed|string
+     */
     public function getHtml($path, $data)
     {
         static $paths = [];

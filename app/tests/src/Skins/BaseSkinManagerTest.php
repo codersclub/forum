@@ -34,7 +34,7 @@ class TestBaseSkinManager extends BaseSkinManager {
         return \Config::get('path.app') . '/tests/Mock/SkinsTestFiles/template';
     }
 
-    public function getTemplatesName()
+    public function getThemeName()
     {
         return 'test';
     }

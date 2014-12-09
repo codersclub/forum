@@ -47,7 +47,7 @@ class View
     public function render()
     {
         $this->beforeRender();
-        $text = ThemesFactory::create(\Ibf::app()->skin->getTemplatesName())
+        $text = ThemesFactory::create(\Ibf::app()->skin->getThemeName())
             ->render($this->path, $this->data);
         $this->afterRender($text);
         return $text;

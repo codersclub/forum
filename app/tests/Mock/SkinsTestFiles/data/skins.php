@@ -10,7 +10,7 @@ return [
         'macro'  => 'test',
         'css'    => 'test.scss',
         'images' => 'test',
-        'views'  => 'invi',
+        'theme'  => 'invi',
     ],
     [
         'name'   => 'Test skin',
@@ -18,6 +18,6 @@ return [
         'macro'  => 'x1',
         'css'    => 'x1.scss',
         'images' => 'x1',
-        'views'  => 'invi',
+        'theme'  => 'invi',
     ],
 ];

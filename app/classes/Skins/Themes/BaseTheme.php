@@ -6,6 +6,8 @@ use Exceptions\MissingTemplateException;
 
 /**
  * @class BaseTheme Обработчик темы, основанный на простом подключении html/php файлов
+ * Хранит все шаблоны в файлах в директории темы, пути к файлам получаются через замену в пути шаблона точек на
+ * разделитель пути. Т.е. шаблону foo.bar соответствует файл theme_path/foo/bar.inc
  * @package Skins\Themes
  */
 class BaseTheme extends AbstractTheme

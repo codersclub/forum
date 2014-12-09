@@ -23,7 +23,7 @@ class DatasetSkinManagerTest extends \PHPUnit_Framework_TestCase
                 'macro'  => 'x1',
                 'css'    => 'x1.scss',
                 'images' => 'x1',
-                'views'  => 'invi',
+                'theme'  => 'invi',
             ]
         );
         $this->assertEquals('Test skin', $skin->getName());
@@ -31,8 +31,7 @@ class DatasetSkinManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('x1', $skin->getMacroId());
         $this->assertStringEndsWith('x1.scss', $skin->getCSSFile());
         $this->assertStringEndsWith('x1', $skin->getImagesPath());
-        $this->assertStringEndsWith('invi', $skin->getTemplatesPath());
-        $this->assertEquals('invi', $skin->getTemplatesName());
+        $this->assertEquals('invi', $skin->getThemeName());
     }
 
     /**

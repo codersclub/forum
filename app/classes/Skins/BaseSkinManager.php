@@ -42,16 +42,10 @@ abstract class BaseSkinManager implements \ArrayAccess
     abstract public function getId();
 
     /**
-     * Возвращает путь к директории шаблона
+     * Возвращает имя темы
      * @return string
      */
-    abstract public function getTemplatesPath();
-
-    /**
-     * Возвращает имя коллекции шаблонов
-     * @return string
-     */
-    abstract public function getTemplatesName();
+    abstract public function getThemeName();
 
     public function isHidden()
     {
