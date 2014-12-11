@@ -2,7 +2,6 @@
 
 $idx = new Reputation;
 
-use Skins\Skin;
 use Views\View;
 
 class Reputation

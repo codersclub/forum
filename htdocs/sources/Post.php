@@ -20,7 +20,6 @@
   |   > Module Version 1.0.0
   +--------------------------------------------------------------------------
  */
-use Skins\Skin;
 use Views\View;
 
 require_once "mimecrutch.php"; // Barazuk

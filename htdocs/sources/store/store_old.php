@@ -9,7 +9,6 @@
 |	You may edit this file as long as you retain this Copyright notice.	 |
 |	Redistribution not permitted without permission from Zachary Anker.	 |
 \*--------------------------------------------------------------------- */
-use Skins\Skin;
 use Views\View;
 
 $store = new store;

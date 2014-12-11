@@ -1,6 +1,5 @@
 <?php
 
-use Skins\Skin;
 use Views\View;
 
 $fav = new fav;

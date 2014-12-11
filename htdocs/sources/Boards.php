@@ -23,7 +23,6 @@
 
 $idx = new Boards;
 
-use Skins\Skin;
 use Views\View;
 
 class Boards {
