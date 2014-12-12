@@ -20,7 +20,6 @@
 */
 require_once dirname(__FILE__) . '/PostEditHistory.php';
 
-use Skins\Skin;
 use Views\View;
 
 class post_functions extends Post

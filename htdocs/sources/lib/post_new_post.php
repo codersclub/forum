@@ -21,7 +21,6 @@
 +--------------------------------------------------------------------------
 */
 
-use Skins\Skin;
 use Views\View;
 
 class post_functions extends Post

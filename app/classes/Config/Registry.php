@@ -133,8 +133,8 @@ class Registry
     /**
      * Загружает кофигурационные файлы
      * @param $name
+     * @throws ConfigNotFoundException
      * @return mixed
-     * @throws \InvalidArgumentException
      */
     protected function getConfigs($name)
     {
@@ -164,6 +164,8 @@ class Registry
     /**
      * Возвращает конфиги по ->get('файл.ключ')
      * @param string $path Путь к значению в конфиге
+     * @param mixed $defaultValue Значение по умолчанию
+     * @throws ConfigNotFoundException
      * @return mixed
      */
     public function get($path, $defaultValue = null)

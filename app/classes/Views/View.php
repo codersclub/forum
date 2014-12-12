@@ -55,7 +55,12 @@ class View
 
     public function __toString()
     {
-        return (string)$this->render();
+        try {
+            return (string)$this->render();
+        }catch(\Exception $e){
+            \Logs::critical('PHP', get_class($e) . ' raised with message:' . $e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine(), 'trace' =>  $e->getTraceAsString()]);
+            return '';
+        }
     }
 
     public function __construct($path, $data)

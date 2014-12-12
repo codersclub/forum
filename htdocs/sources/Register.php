@@ -22,7 +22,6 @@
  */
 
 $idx = new Register;
-use Skins\Skin;
 use Views\View;
 
 class Register

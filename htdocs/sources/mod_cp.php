@@ -20,7 +20,6 @@
 |   > Module Version 2.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Skin;
 use Views\View;
 
 $idx = new Moderate;

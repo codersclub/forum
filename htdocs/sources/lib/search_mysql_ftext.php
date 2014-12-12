@@ -21,7 +21,6 @@
 +--------------------------------------------------------------------------
 */
 
-use Skins\Skin;
 use Views\View;
 
 class search_lib extends Search

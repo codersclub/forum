@@ -22,7 +22,6 @@
 */
 
 $idx = new Search;
-use Skins\Skin;
 use Views\View;
 
 class Search

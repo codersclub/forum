@@ -20,7 +20,6 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
-use Skins\Skin;
 use Views\View;
 
 $idx = new legends;

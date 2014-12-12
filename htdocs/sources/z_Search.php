@@ -20,7 +20,6 @@
 |	> Module Version Number: 1.1.0
 +--------------------------------------------------------------------------
 */
-use Skins\Skin;
 use Views\View;
 
 $idx = new Search;
