@@ -700,24 +700,12 @@ class PostParser
 
 	function smilie_length_sort($a, $b)
 	{
-		if (mb_strlen($a['typed']) == mb_strlen($b['typed']))
-		{
-			return 0;
-		}
-		return (mb_strlen($a['typed']) > mb_strlen($b['typed']))
-			? -1
-			: 1;
+		return mb_strlen($b['typed']) - mb_strlen($a['typed']);
 	}
 
 	function word_length_sort($a, $b)
 	{
-		if (mb_strlen($a['type']) == mb_strlen($b['type']))
-		{
-			return 0;
-		}
-		return (mb_strlen($a['type']) > mb_strlen($b['type']))
-			? -1
-			: 1;
+		return mb_strlen($b['type']) - mb_strlen($a['type']);
 	}
 
 	///////////////////////////////////////////////////////////
