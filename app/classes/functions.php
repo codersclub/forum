@@ -3816,27 +3816,15 @@ class functions
 	//+-------------------------------------------------
 	function is_ip_banned($ipaddr)
 	{
-		global $ibforums;
+		$addr_parts = [];
+		preg_match('/(\d+)\.(\d+)\.(\d+)\.(\d+)/', $ipaddr, $addr_parts);
+		array_shift($addr_parts);//удаляем всё совпадение, нужны только разбитые части
+		array_walk($addr_parts, function(&$item){ $item = sprintf('(?:%s|\*)', $item);  });
+		//#(?:^|\|)((?:[ip-part]|\*)\.(?:[ip-part]|\*)\.(?:[ip-part]|\*)\.(?:[ip-part]|\*))(?:$|\|)#
+		$regexp = '#(?:^|\|\s*?)(' . $addr_parts[0] . '\.' . $addr_parts[1] . '\.' . $addr_parts[2] . '\.' . $addr_parts[3] . ')(?:\s*?$|\|)#';
 
-		$res = 0;
-		if ($ibforums->vars['ban_ip'])
-		{
-			$ips = explode("|", $ibforums->vars['ban_ip']);
-			foreach ($ips as $ip)
-			{
+		$res = preg_match($regexp, Ibf::app()->vars['ban_ip']);
 
-				// New IP ban algorithm by archimed7592
-				//      $ip = preg_replace( "/\*/", '.*' , preg_quote($ip, "/") );
-				//      if ( preg_match( "/$ip/", $ipaddr ) )
-				$ip = preg_quote($ip, "/");
-				$ip = preg_replace("/\\\\\\*/", '[0-9]{1,3}', $ip);
-				if (preg_match('/^' . $ip . '/', $ipaddr))
-				{
-					$res = 1;
-					break;
-				}
-			}
-		}
 		return $res;
 	}
 }
