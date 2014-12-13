@@ -1325,74 +1325,7 @@ class Forums
 
 		$topic['start_date'] = $ibforums->functions->get_date($topic['start_date']);
 
-		$pages = 1;
-
-		if ($topic['posts'])
-		{
-			if ((($topic['posts'] + 1) % $ibforums->vars['display_max_posts']) == 0)
-			{
-				$pages = ($topic['posts'] + 1) / $ibforums->vars['display_max_posts'];
-			} else
-			{
-				$number = (($topic['posts'] + 1) / $ibforums->vars['display_max_posts']);
-				$pages  = ceil($number);
-			}
-		}
-
-		if ($pages > 1)
-		{
-			$topic['PAGES'] = "<span class='b-pages b-topic-pages small'><span class='e-pages-prefix'>({$ibforums->lang['topic_sp_pages']} </span>";
-
-			// Song * new pages, 14.02.05
-
-			for ($i = 0; $i < $pages; ++$i)
-			{
-				$real_no = $i * $ibforums->vars['display_max_posts'];
-
-				$page_no = $i + 1;
-
-				if ($page_no == 4)
-				{
-					$tripledot = $pages == $page_no
-						? ""
-						: "<span class='e-pages-hellip'>... </span>";
-
-					$topic['PAGES'] .= $tripledot;
-
-					break;
-				} else
-				{
-					$topic['PAGES'] .= "<a class='e-view_page-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;st=$real_no'>$page_no</a> ";
-				}
-			}
-
-			if ($pages - $page_no > 2)
-			{
-				for ($i = $pages - 2; $i < $pages; ++$i)
-				{
-					$real_no = $i * $ibforums->vars['display_max_posts'];
-
-					$page_no = $i + 1;
-
-					$topic['PAGES'] .= "<a class='e-view_page-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;st=$real_no'>$page_no</a> ";
-				}
-			} elseif ($page_no > 3)
-			{
-				$topic['PAGES'] .= "<a class='e-view_page-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;st=" . ($pages - 1) * $ibforums->vars['display_max_posts'] . "'>$pages</a>";
-			}
-
-			// Song * new pages, 14.02.05
-
-			$topic['PAGES'] .= " <a class='e-view_last_post-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'>#</a>";
-			// Song * link "all"
-			if ($topic['posts'] < $ibforums->vars['max_show_all_posts'])
-			{
-				$topic['PAGES'] .= " <a class='e-view_all-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=showall'>" . $ibforums->lang['all_posts'] . "</a>";
-			}
-
-			// Song * link "all"
-			$topic['PAGES'] .= "<span class='e-pages-suffux'>)</span></span>";
-		}
+		$topic['PAGES'] = View::make('forum.topicTitlePager', ['tid' => $topic['tid'], 'count' => $topic['posts']]);
 
 		//------------------------------------------------
 		// Format some numbers
