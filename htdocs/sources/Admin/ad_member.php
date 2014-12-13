@@ -2652,7 +2652,7 @@ class ad_forums
             function ($item) {
                 return [
                     $item['id'],
-                    $item['name'] . (in_array($item['id'], \Config::get('app.skins.hidden'))
+                    $item['name'] . (in_array($item['id'], \Config::get('app.skins.hidden', []))
                         ? " *(Hidden)"
                         : '')
                 ];
