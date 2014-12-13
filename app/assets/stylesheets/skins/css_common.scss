@@ -731,11 +731,25 @@ ul.b-breadcrumbs-top li:nth-child(7) {
 .b-topics-list {
     width: 100%;
     border-spacing: 1px;
-
-}
-
-.b-topics-list td {
-    padding: 4px;
+    td {
+        padding: 4px;
+    }
+    .b-column_title {
+        .b-pages {
+            &:before {
+                content: '(';
+                font-weight: normal;
+                position: relative;
+                left: 0.3em;
+            }
+            &:after {
+                content: ')';
+                font-weight: normal;
+                position: relative;
+                right: 0.3em;
+            }
+        }
+    }
 }
 
 .b-flash-player-wrapper {
