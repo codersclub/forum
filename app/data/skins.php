@@ -6,7 +6,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_main.scss',
         'images' => '1',
-        'theme'  => 'Invision',
+        'theme'  => 'Main',
     ],
     [
         'name'   => 'Xpression Final',
@@ -14,7 +14,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_xpression.scss',
         'images' => 'Xpressio-296',
-        'theme'  => 'Invision',
+        'theme'  => 'Main',
     ],
     [
         'name'   => 'FAQ',
@@ -22,7 +22,7 @@ return [
         'macro'  => 'default',
         'css'    => 'skin_main.scss',
         'images' => '1',
-        'theme'  => 'Invision',
+        'theme'  => 'Main',
     ],
     [
         'name'   => 'New Year - graphics',
@@ -30,7 +30,7 @@ return [
         'macro'  => 'snow',
         'css'    => 'skin_new_year.scss',
         'images' => 'NBS-Snow-262',
-        'theme'  => 'Invision',
+        'theme'  => 'Main',
     ],
     [
         'name'   => 'New Year - text',
@@ -46,7 +46,7 @@ return [
         'macro'  => 'winter',
         'css'    => 'skin_winter.scss',
         'images' => 'Invision-058',
-        'theme'  => 'Invision',
+        'theme'  => 'Main',
     ],
     [
         'name'   => 'Sources Winter Text',
@@ -62,7 +62,7 @@ return [
         'macro'  => 'mastilior',
         'css'    => 'skin_mastilior.scss',
         'images' => 'Sources_-383',
-        'theme'  => 'Invision',
+        'theme'  => 'Main',
     ],
     [
         'name'   => 'Text Skin',
