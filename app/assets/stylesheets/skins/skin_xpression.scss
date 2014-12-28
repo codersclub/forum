@@ -265,7 +265,7 @@ option.sub {
 #logostrip {
   border: 1px solid #345487;
   background-color: #AAB7C8;
-  background-image: url($images_path + /tile_back2.gif);
+  background-image: url($images_path + '/tile_back2.gif');
   padding: 0px;
   margin: 0px
 }
@@ -355,7 +355,7 @@ h3, .pformstrip {
   padding: 7px;
   margin-top: 1px;
   font-size: 10px;
-  background-image: url($images_path + /post_tile_sub.gif);
+  background-image: url($images_path + '/post_tile_sub.gif');
   text-align: right;
   font-weight: bold;
 }

@@ -273,7 +273,7 @@ option.sub {
 
 #logostrip {
   background-color: #78B1F3;
-  background-image: url($images_path + /tile_back.gif)
+  background-image: url($images_path + '/tile_back.gif')
 }
 
 #top-menu {
@@ -384,7 +384,7 @@ h3, .pformstrip {
   padding: 7px;
   margin-top: 1px;
   font-size: 10px;
-  background-image: url($images_path + /tile_sub.gif);
+  background-image: url($images_path + '/tile_sub.gif');
   text-align: right;
   font-weight: bold;
 }
@@ -833,7 +833,7 @@ ul.b-breadcrumbs-top li:first-child {
   font-weight: bold;
   color: #3A4F6C;
   background-color: #ABBFE1;
-  background-image: url($images_path + /tile_sub.gif)
+  background-image: url($images_path + '/tile_sub.gif')
 }
 
 .b-pm-list th, .b-pm-list tfoot td {

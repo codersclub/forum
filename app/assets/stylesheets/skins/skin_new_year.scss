@@ -69,13 +69,13 @@ form {
 }
 
 .snowstrip {
-  background-image: url($images_path + /snowstrip.gif);
+  background-image: url($images_path + '/snowstrip.gif');
   padding: 4px
 }
 
 .avatar {
   text-align: left;
-  background-image: url($images_path + /avastrip.gif);
+  background-image: url($images_path + '/avastrip.gif');
   padding-left: 1px;
   padding-right: 1px
 }
@@ -84,24 +84,24 @@ form {
   height: 20px;
   text-decoration: none;
   color: #333333;
-  background-image: url($images_path + /wrapfoot.gif);
+  background-image: url($images_path + '/wrapfoot.gif');
   padding: 8px
 }
 
 .msg {
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url($images_path + /mem_mess.gif)
+  background-image: url($images_path + '/mem_mess.gif')
 }
 
 .shadowL {
-  background-image: url($images_path + /left_shadow.gif);
+  background-image: url($images_path + '/left_shadow.gif');
   width: 7px;
   background-repeat: repeat-y
 }
 
 .shadowR {
-  background-image: url($images_path + /right_shadow.gif);
+  background-image: url($images_path + '/right_shadow.gif');
   width: 3px;
   background-repeat: repeat-y
 }
@@ -111,7 +111,7 @@ BODY {
   font-size: 11px;
   margin: 0px 0px 0px 0px;
   color: #000;
-  background-image: url($images_path + /main_bg.gif)
+  background-image: url($images_path + '/main_bg.gif')
 }
 
 HR {
@@ -176,7 +176,7 @@ TABLE.post_table TH {
   background-position: center;
   background-repeat: no-repeat;
   background-color: #ffffff;
-  background-image: url($images_path + /nophoto.gif)
+  background-image: url($images_path + '/nophoto.gif')
 }
 
 .buttons a:visited {
@@ -206,7 +206,7 @@ TABLE.post_table TH {
 .membar {
   text-decoration: none;
   color: #666666;
-  background-image: url($images_path + /membar.gif)
+  background-image: url($images_path + '/membar.gif')
 }
 
 .membar a:link {
@@ -351,7 +351,7 @@ option.sub {
   background-color: #3366a8;
   padding: 0px;
   margin: 0px;
-  background-image: url($images_path + /logostrip.gif);
+  background-image: url($images_path + '/logostrip.gif');
   vertical-align: top
 }
 
@@ -407,7 +407,7 @@ h3, .pformstrip {
   margin-top: 1px;
   color: #f9f9f9;
   background-color: #f9f9f9;
-  background-image: url($images_path + /tile_sub.gif)
+  background-image: url($images_path + '/tile_sub.gif')
 }
 
 .pformstrip a:link, .pformstrip a:active, .pformstrip a:visited {
@@ -493,7 +493,7 @@ h3 a:link, h3 a:active, h3 a:visited {
   color: #f9f9f9;
   padding: 1px;
   background-color: #4969AA;
-  background-image: url($images_path + /tile_sub.gif)
+  background-image: url($images_path + '/tile_sub.gif')
 }
 
 .row1 {
@@ -618,7 +618,7 @@ h2 {
 
 .footer, .footer a:link, .footer a:visited, .footer a:active {
   height: 14;
-  background-image: url($images_path + /mainfoot.gif);
+  background-image: url($images_path + '/mainfoot.gif');
   background-repeat: repeat-x;
   color: #ffffff;
   font-size: 9px;
@@ -752,7 +752,7 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-color: #ffffff;
-  background-image: url($images_path + /replybg.gif)
+  background-image: url($images_path + '/replybg.gif')
 }
 
 .dropdown {
