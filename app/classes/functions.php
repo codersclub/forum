@@ -982,9 +982,6 @@ class functions
 		$ibforums->db->exec("DELETE FROM ibf_voters
 			    WHERE member_id" . $ids);
 
-		$ibforums->db->exec("DELETE FROM ibf_check_members
-			    WHERE mid" . $ids);
-
 		$ibforums->db->exec("DELETE FROM ibf_search_forums
 			    WHERE mid" . $ids);
 
