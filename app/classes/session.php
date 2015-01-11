@@ -764,77 +764,77 @@ class session
 							//Jureth				  unset($mod);
 						}
 
-						// **************** CHECK USERS that do not visit forum ( 150 days ) *************************************
-						// vot: BAD MESSAGE - use language !
-						$title = "Уведомление об предполагаемом удалении Вашего аккаунта";
-
-						$mes = "Здравствуйте, %s!\n";
-						$mes .= "Вы не посещали Форум на Исходниках.RU (http://forum.sources.ru) уже в течение 150-ти дней.\n";
-						$mes .= "По правилам нашего форума аккаунт удаляется, если участник ни разу не посещает форум в течение 6 месяцев, ";
-						$mes .= "авторизуясь под своим аккаунтом. Поэтому, если Вы не зайдёте на наш форум ещё в течение месяца, ";
-						$mes .= "Ваш аккаунт будет удалён без дальнейших предупреждений.\n";
-						$mes .= "Если Вы просто редко посещаете наш форум и намереваетесь продолжать его посещать дальше, просто зайдите ";
-						$mes .= "на форум, авторизуясь под своим ником.\n";
-						$mes .= "Если Вы уверены, что это ошибка, зайдите на наш форум и сообщите об этом администратору или ";
-						$mes .= "напишите сейчас об ошибке на адрес admin@sources.ru\n\n";
-						$mes .= "С уважением, администрация Форума на Исходниках.RU";
-
-						// send warnings letters
-						$stmt = $ibforums->db->query("SELECT
-							cm.mid,
-							m.name,
-							m.mgroup,
-							m.temp_ban,
-                                                        m.language
-						    FROM
-							ibf_check_members cm,
-							ibf_members m
-						    WHERE
-							m.id=cm.mid and
-							cm.sent=0 and
-							cm.last_visit<" . $time . "-60*60*24*150");
-
-						while ($row = $stmt->fetch())
-						{
-							if ($row['mgroup'] == $ibforums->vars['ban_group'] or $row['temp_ban'])
-							{
-								continue;
-							}
-                                                        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $row['language']);
-
-							$std->sendpm($row['mid'], sprintf($mes, $row['name']), $title, 8617, 1, 1);
-						}
-
-						// mark members
-						$ibforums->db->exec("UPDATE ibf_check_members
-						    SET sent=1
-						    WHERE
-							sent=0 and
-							last_visit<" . $time . "-60*60*24*150");
-
-						// ******* DELETE USERS that do not visit forum ( 180 days )  *****************************
-						// vot: NEED TO have preserved members!!!
-
-						$ids = array();
-
-						// delete non active users that were sent letters
-						$stmt = $ibforums->db->query("SELECT mid
-						    FROM ibf_check_members
-						    WHERE
-							sent=1 and
-							last_visit<" . $time . "-60*60*24*180");
-
-						while ($row = $stmt->fetch())
-						{
-							$ids[] = $row['mid'];
-						}
-
-						if (count($ids))
-						{
-							$std->delete_members(" IN (" . implode(",", $ids) . ")");
-
-							unset($ids);
-						}
+//vot						// **************** CHECK USERS that do not visit forum ( 150 days ) *************************************
+//vot						// vot: BAD MESSAGE - use language !
+//vot						$title = "Уведомление об предполагаемом удалении Вашего аккаунта";
+//vot
+//vot						$mes = "Здравствуйте, %s!\n";
+//vot						$mes .= "Вы не посещали Форум на Исходниках.RU (http://forum.sources.ru) уже в течение 150-ти дней.\n";
+//vot						$mes .= "По правилам нашего форума аккаунт удаляется, если участник ни разу не посещает форум в течение 6 месяцев, ";
+//vot						$mes .= "авторизуясь под своим аккаунтом. Поэтому, если Вы не зайдёте на наш форум ещё в течение месяца, ";
+//vot						$mes .= "Ваш аккаунт будет удалён без дальнейших предупреждений.\n";
+//vot						$mes .= "Если Вы просто редко посещаете наш форум и намереваетесь продолжать его посещать дальше, просто зайдите ";
+//vot						$mes .= "на форум, авторизуясь под своим ником.\n";
+//vot						$mes .= "Если Вы уверены, что это ошибка, зайдите на наш форум и сообщите об этом администратору или ";
+//vot						$mes .= "напишите сейчас об ошибке на адрес admin@sources.ru\n\n";
+//vot						$mes .= "С уважением, администрация Форума на Исходниках.RU";
+//vot
+//vot						// send warnings letters
+//vot						$stmt = $ibforums->db->query("SELECT
+//vot							cm.mid,
+//vot							m.name,
+//vot							m.mgroup,
+//vot							m.temp_ban,
+//vot							m.language
+//vot						    FROM
+//vot							ibf_check_members cm,
+//vot							ibf_members m
+//vot						    WHERE
+//vot							m.id=cm.mid and
+//vot							cm.sent=0 and
+//vot							cm.last_visit<" . $time . "-60*60*24*150");
+//vot
+//vot						while ($row = $stmt->fetch())
+//vot						{
+//vot							if ($row['mgroup'] == $ibforums->vars['ban_group'] or $row['temp_ban'])
+//vot							{
+//vot								continue;
+//vot							}
+//vot							$ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $row['language']);
+//vot
+//vot							$std->sendpm($row['mid'], sprintf($mes, $row['name']), $title, 8617, 1, 1);
+//vot						}
+//vot
+//vot						// mark members
+//vot						$ibforums->db->exec("UPDATE ibf_check_members
+//vot						    SET sent=1
+//vot						    WHERE
+//vot							sent=0 and
+//vot							last_visit<" . $time . "-60*60*24*150");
+//vot
+//vot						// ******* DELETE USERS that do not visit forum ( 180 days )  *****************************
+//vot						// vot: NEED TO have preserved members!!!
+//vot
+//vot						$ids = array();
+//vot
+//vot						// delete non active users that were sent letters
+//vot						$stmt = $ibforums->db->query("SELECT mid
+//vot						    FROM ibf_check_members
+//vot						    WHERE
+//vot							sent=1 and
+//vot							last_visit<" . $time . "-60*60*24*180");
+//vot
+//vot						while ($row = $stmt->fetch())
+//vot						{
+//vot							$ids[] = $row['mid'];
+//vot						}
+//vot
+//vot						if (count($ids))
+//vot						{
+//vot							$std->delete_members(" IN (" . implode(",", $ids) . ")");
+//vot
+//vot							unset($ids);
+//vot						}
 
 						// *************************************************************************************************************************
 						// ************************** END OF MODERATORS TASKS ************************************************
