@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 function ValidateForm() {
 	var Check = 0;
@@ -7,7 +7,7 @@ function ValidateForm() {
 	// if (document.LOGIN.PassWord.value == '') { Check = 1; }
 
 	if (Check == 1) {
-		alert(js_blank_fields);
+		alert(blank_fields);
 		return false;
 	} else {
 		document.LOGIN.submit.disabled = true;
@@ -18,7 +18,7 @@ function ValidateForm() {
 function onAuthMethodChange() {
 	var auth_selector = 'tr[name^=auth_'+ document.LOGIN.auth_method.value + ']';
 	var trs = $('tr[name^=auth_]');
-	
+
 	trs.not(auth_selector).hide();
 	trs.filter(auth_selector).show();
 	/*
@@ -27,7 +27,9 @@ function onAuthMethodChange() {
 		$('#auth_password').show();
 	} else {
 		$('#auth_openid').show();
-		$('#auth_password').hide();		
+		$('#auth_password').hide();
 	}
 	*/
 }
+
+$(window).load(function() {onAuthMethodChange();});

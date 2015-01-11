@@ -56,7 +56,7 @@ function CheckLength(Type) {
         }
         alert(message + "  " + js_used + " " + InterestLength + " " + js_so_far + ".");
     }
-    
+
 }
 function ValidateProfile() {
     LocationLength  = document.theForm.Location.value.length;
@@ -71,8 +71,8 @@ function ValidateProfile() {
         if (InterestLength > max_interest_length) {
             errors = errors + "  " + js_interests + ":  " + js_max + " " + max_interest_length + " " + js_characters + ".  " + js_used + ": " + InterestLength;
         }
-    } 
-    
+    }
+
     if (errors != "") {
         alert(errors);
         return false;
@@ -89,7 +89,7 @@ function restore_it()
 }
 function select_url() { restore_it(); }
 function select_upload() {
-  
+
   try {
 	  if ( document.creator.url_avatar.value != "" ) { url_input2 = document.creator.url_avatar.value; }
 	  document.creator.url_avatar.value = "";
@@ -134,15 +134,15 @@ function do_smile_preview() {
 
         window.open( 'index.php?act=legends&CODE=emoticons&s=&sskin=' + f.options[f.selectedIndex].value,'Legends','width=250,height=500,resizable=yes,scrollbars=yes')
 
-}	
+}
 function do_preview() {
-	
+
 	var f = document.prefs.u_skin;
-	
+
 	if (f.options[f.selectedIndex].value == -1) { return false; }
-	
+
 	window.open(js_base_url + 'skinid=' + f.options[f.selectedIndex].value, 'Preview', 'width=800,height=600,top=0,left=0,resizable=1,scrollbars=1,location=no,directories=no,status=no,menubar=no,toolbar=no');
-	
+
 }
 function CheckAll(cb) {
 	  var fmobj = document.mutliact;
@@ -153,7 +153,7 @@ function CheckAll(cb) {
 		  }
 	  }
 }
-function CheckCheckAll(cb) {	
+function CheckCheckAll(cb) {
 	  var fmobj = document.mutliact;
 	  var TotalBoxes = 0;
 	  var TotalOn = 0;

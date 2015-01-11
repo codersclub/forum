@@ -8,7 +8,7 @@ class View
      * Main static call
      * @param string $path
      * @param array $data
-     * @return View
+     * @return BaseView
      */
     public static function make($path, $data = [])
     {

@@ -5,94 +5,11 @@ class skin_calendar {
 function table_top($data) {
 global $ibforums;
 return <<<EOF
-<script language='Javascript' type='text/javascript'>
-	<!--
-	function PopUp(url, name, width,height,center,resize,scroll,posleft,postop) {
-		if (posleft != 0) { x = posleft }
-		if (postop  != 0) { y = postop  }
-	
-		if (!scroll) { scroll = 1 }
-		if (!resize) { resize = 1 }
-	
-		if ((parseInt (navigator.appVersion) >= 4 ) && (center)) {
-		  X = (screen.width  - width ) / 2;
-		  Y = (screen.height - height) / 2;
-		}
-		if (scroll != 0) { scroll = 1 }
-	
-		var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',left='+X+',resizable='+resize+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no');
-	 }
-
-	function changeDiv(id, method)
-	{
-		var itm = null;
-		if (document.getElementById) {
-			itm = document.getElementById(id);
-		} else if (document.all)     {
-			itm = document.all[id];
-		} else if (document.layers)   {
-			itm = document.layers[id];
-		}
-		
-		if (itm.style)
-		{
-			if ( method == 'show' )
-			{
-				itm.style.display = "";
-			}
-			else
-			{
-				itm.style.display = "none";
-			}
-		}
-		else
-		{
-			itm.visibility = "show";
-		}
-	}
-	
-	function selecttype()
-	{
-		
-		if ( document.REPLIER.eventtype[1].checked == true )
-		{
-			// Ranged date...
-			
-			changeDiv( 'rangeshow', 'show' );
-			changeDiv( 'rangehide', 'none' );
-			changeDiv( 'recurshow', 'none' );
-			changeDiv( 'recurhide', 'show' );
-		}
-		else if ( document.REPLIER.eventtype[2].checked == true )
-		{
-			// Repeating event
-			
-			changeDiv( 'rangeshow', 'none' );
-			changeDiv( 'rangehide', 'show' );
-			changeDiv( 'recurshow', 'show' );
-			changeDiv( 'recurhide', 'none' );
-		}
-		else
-		{
-			changeDiv( 'rangeshow', 'none' );
-			changeDiv( 'rangehide', 'show' );
-			changeDiv( 'recurshow', 'none' );
-			changeDiv( 'recurhide', 'show' );
-		}
-	}
-	
-	function changeColour(BOXid, val)
-	{
-		document.all.BOXid.style.backgroundColor = val;
-	}
-	//-->
-</script>
-
 <table class='tableborder' cellpadding="0" cellspacing="0" width="100%">
 <tr>
  <td class='maintitle' colspan="2">&nbsp;&nbsp;$data</td>
 </tr>
-      
+
 EOF;
 }
 
@@ -128,8 +45,8 @@ EOF;
 function calendar_event_title($data="") {
 global $ibforums;
 return <<<EOF
-  
-<tr> 
+
+<tr>
           <td class="pformleft"><strong>{$ibforums->lang['calendar_title']}</strong></td>
           <td class="pformright"><input type='text' size='40' maxlength='40' name='event_title' class='forminput' value='$data'></td>
         </tr>
@@ -140,7 +57,7 @@ EOF;
 function calendar_delete_box() {
 global $ibforums;
 return <<<EOF
-<tr> 
+<tr>
           <td class="row1" width="100%" colspan='2' style='height:40px;border:1px solid black'><input type='checkbox' name='event_delete' value='1'>&nbsp;{$ibforums->lang['calendar_delete_box']}</td>
         </tr>
 EOF;
@@ -150,7 +67,7 @@ EOF;
 function calendar_choose_date($days, $months, $years, $end_days, $end_months, $end_years, $recur_days, $recur_unit, $div, $checked, $cols, $recend) {
 global $ibforums;
 return <<<EOF
-<tr> 
+<tr>
           <td class="pformleft" valign='top'><strong>{$ibforums->lang['calendar_event_date']}</strong></td>
           <td class="pformright">
           	<table cellpadding='3'>
@@ -200,7 +117,7 @@ EOF;
 function calendar_event_type($pub_select="", $priv_select="") {
 global $ibforums;
 return <<<EOF
-<tr> 
+<tr>
           <td class="pformleft"><strong>{$ibforums->lang['calendar_event_type']}</strong></td>
           <td class="pformright"><select name='e_type' class='forminput'><option value='public'$pub_select>{$ibforums->lang['calendar_type_public']}</option><option value='private'$priv_select>{$ibforums->lang['calendar_type_private']}</option></select></td>
         </tr>
@@ -211,7 +128,7 @@ EOF;
 function calendar_admin_group_box($groups) {
 global $ibforums;
 return <<<EOF
-<tr> 
+<tr>
           <td class="pformleft">{$ibforums->lang['calendar_group_filter']}</td>
           <td class="pformright"><select name='e_groups[]' class='forminput' size='5' multiple>$groups</select></td>
         </tr>
@@ -251,16 +168,6 @@ function cal_page_events_start() {
 global $ibforums;
 
 return <<<HTML
-<script type='text/javascript'>
-	function deleteEvent(id) {
-		if (confirm('{$ibforums->lang['js_del_1']}')) {
-			 window.location.href = "{$ibforums->base_url}act=calendar&code=delete&e=" + id;
-		 }
-		 else {
-			alert ('{$ibforums->lang['js_del_2']}');
-		} 
-	}
-</script>
 <div class='tableborder'>
   <div class='maintitle'>{$ibforums->lang['cal_title_events']}</div>
 HTML;
@@ -281,7 +188,7 @@ global $ibforums;
 return <<<HTML
   <div class='pformstrip'>{$ibforums->lang['cal_birthdays']}</div>
   <div class='tablepad'>
-   <ul>	
+   <ul>
 HTML;
 }
 
@@ -324,7 +231,7 @@ return <<<HTML
   <table width="100%" border="0" cellspacing="1" cellpadding="0">
    <tr>
 	 <!--IBF.DAYS_TITLE_ROW-->
-   
+
 	 <!--IBF.DAYS_CONTENT-->
 	</tr>
   </table>
@@ -357,7 +264,7 @@ return <<<HTML
 
 	</tr>
 	<tr>
-	
+
 HTML;
 }
 
@@ -367,7 +274,7 @@ global $ibforums;
 return <<<HTML
 
 	<td style='height:100px' class='darkrow1'><br></td>
-	
+
 HTML;
 }
 
@@ -380,7 +287,7 @@ return <<<HTML
 	<td style='height:100px' valign='top' class='row3'>
 	<div class='caldate'>$month_day</div>$events
 	</td>
-	
+
 HTML;
 }
 
@@ -393,7 +300,7 @@ return <<<HTML
 	<div class='caldate'>$month_day</div>
 	$events
 	</td>
-	
+
 HTML;
 }
 
@@ -403,7 +310,7 @@ global $ibforums;
 
 return <<<HTML
 <div style='padding:2px'>
-	
+
 HTML;
 }
 

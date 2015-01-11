@@ -197,8 +197,6 @@ class legends
 
 		//  $this->output .= $this->html->page_header('Русская клавиатура' ,'', '<FONT size=1>by SergeS</FONT>');
 
-		$this->output .= View::make("legends.keyb_javascript");
-
 		$this->output .= '</table><DIV id="keys1" style="display:none"><table width = 100% cellspacing = 1 bgcolor=#000000><tr height = 30>';
 
 		$keys1 = array(
@@ -357,8 +355,6 @@ class legends
 		global $ibforums, $std;
 
 		$this->page_title = $ibforums->lang['emo_title'];
-
-		$this->output .= View::make("legends.emoticon_javascript");
 
 		$this->output .= View::make(
 			"legends.page_header",

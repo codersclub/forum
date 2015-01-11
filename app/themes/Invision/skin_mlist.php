@@ -59,12 +59,12 @@ function Page_end($checked="") {
 global $ibforums;
 return <<<EOF
 
-  <tr> 
+  <tr>
     <td class='row3' colspan="10" align='center' valign='middle'>
       <strong>{$ibforums->lang['photo_only']}&nbsp;<input type="checkbox" value="1" name="photoonly" class="forminput" $checked></strong>
     </td>
   </tr>
-  <tr> 
+  <tr>
     <td class='pformstrip' colspan="10" align='center' valign='middle'>
       <select class='forminput' name='name_box'>
 	 <option value='begins'>{$ibforums->lang['ch_begins']}</option>
@@ -90,22 +90,6 @@ function Page_header($links) {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
-<!--
-function PopUp(url, name, width,height,center,resize,scroll,posleft,postop) {
-	if (posleft != 0) { x = posleft }
-	if (postop  != 0) { y = postop  }
-	if (!scroll) { scroll = 1 }
-	if (!resize) { resize = 1 }
-	if ((parseInt (navigator.appVersion) >= 4 ) && (center)) {
-	  X = (screen.width  - width ) / 2;
-	  Y = (screen.height - height) / 2;
-	}
-	if (scroll != 0) { scroll = 1 }
-	var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',left='+X+',resizable='+resize+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no');
- }
-//-->
-</script>
 <form action='{$ibforums->base_url}' method='post'>
 <input type='hidden' name='act' value='Members'>
 <input type='hidden' name='s'   value='{$ibforums->session_id}'>

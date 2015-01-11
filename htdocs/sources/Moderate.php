@@ -2874,7 +2874,7 @@ class Moderate
 			$this->moderate_error();
 		}
 
-		$this->output = View::make("mod.delete_js");
+		$this->output = '';
 
 		$this->output .= $this->html_start_form(array(
 		                                             1 => array('CODE', '08'),

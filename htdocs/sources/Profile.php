@@ -119,6 +119,7 @@ class Profile
 
 		// If we have any HTML to print, do so...
 
+		$print->js->addLocal('profile.js');
 		$print->add_output("$this->output");
 		$print->do_output(array(
 		                       'TITLE' => $this->page_title,

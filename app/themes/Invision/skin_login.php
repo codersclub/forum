@@ -26,13 +26,6 @@ foreach($auth_methods as $name => $title) {
     $methods .= "<option value='$name' $selected>$title</option>\n";
 }
 return <<<EOF
-<script  type="text/javascript" src='html/login.js?{$ibforums->vars['client_script_version']}'></script>
-<script language='JavaScript' type="text/javascript">
-<!--
-var js_blank_fields = '{$ibforums->lang['blank_fields']}';
-$(window).load(function() {onAuthMethodChange();});
-//-->
-</script>     
 {$ibforums->lang['login_text']}
 <br>
 <br>
@@ -66,7 +59,7 @@ $(window).load(function() {onAuthMethodChange();});
     <td class='pformright'><input type='url' size='60' name='openid_url' class='forminput' value='{$ibforums->input['openid_url']}'></td>
   </tr>
   </table>
-  <div class="pformstrip">{$ibforums->lang['options']}</div>		
+  <div class="pformstrip">{$ibforums->lang['options']}</div>
   <table class="tablebasic" cellspacing="1">
   <tr>
     <td class='pformleftw'>{$ibforums->lang['cookies']}</td>
@@ -76,7 +69,7 @@ $(window).load(function() {onAuthMethodChange();});
     <td class='pformleftw'>{$ibforums->lang['privacy']}</td>
     <td class='pformright'><label><input type="checkbox" name="Privacy" value="1">{$ibforums->lang['anon_name']}</label></td>
   </tr>
-  </table>		
+  </table>
   <div class="pformstrip" align="center"><input type="submit" name='submit' value="{$ibforums->lang['log_in_submit']}" class='forminput'></div>
 </div>
 </form>

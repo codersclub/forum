@@ -9,16 +9,6 @@ $multi_poll = $_POST['multi_poll'] ? 'checked' : '';
 $weighted_poll = $_POST['weighted_poll'] ? 'checked' : '';
 $life = $ibforums->input['life'];
 $output = <<<EOF
-<script language='JavaScript'>
-function chk_multi() {
-document.REPLIER.multi_poll.checked = true
-document.REPLIER.weighted_poll.checked = false;
-}
-function off_weighted() {
-document.REPLIER.weighted_poll.checked = false;
-}
-</script>
-
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['poll_only']}</b></td>
  <td class='pformright' colspan='2'><label><input type='checkbox' size='40' value='1' name='allow_disc' class='forminput' $allow_disc/> {$ibforums->lang['no_replies']}</label></td>
@@ -48,15 +38,6 @@ $output .= <<<EOF
 </td>
 </tr>
 
-<script language='Javascript'>
-function chk_weighted() {
-document.REPLIER.weighted_poll.checked = true;
-document.REPLIER.multi_poll.checked = false;
-}
-function off_multi() {
-document.REPLIER.multi_poll.checked = false;
-}
-</script>
 <tr>
  <td class='pformleft'><b>{$ibforums->lang['pe_make_weighted']}</b></td>
  <td class='pformright' colspan='2'>
@@ -459,54 +440,40 @@ EOF;
 }
 
 function get_javascript() {
-global $ibforums;
-return <<<EOF
-
-<script language='javascript' type='text/javascript'>
-var base_url		= "{$ibforums->base_url}";
-var tid			= "{$ibforums->input['t']}";
-var session_id		= "{$ibforums->session_id}";
-var error_no_url        = "{$ibforums->lang['jscode_error_no_url']}";
-var error_no_title      = "{$ibforums->lang['jscode_error_no_title']}";
-var error_no_email      = "{$ibforums->lang['jscode_error_no_email']}";
-var error_no_width      = "{$ibforums->lang['jscode_error_no_width']}";
-var error_no_height     = "{$ibforums->lang['jscode_error_no_height']}";
-var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}";
-var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}";
-var text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}";
-var prompt_start        = "{$ibforums->lang['js_text_to_format']}";
-var tt_prompt		= "{$ibforums->lang['tt_prompt']}";
-var js_del_1		= "{$ibforums->lang['js_del_1']}";
-var js_del_2		= "{$ibforums->lang['js_del_2']}";
-var msg_no_title	= "{$ibforums->lang['msg_no_title']}";
-var js_no_message	= "{$ibforums->lang['js_no_message']}";
-var js_max_length	= "{$ibforums->lang['js_max_length']}";
-var js_characters	= "{$ibforums->lang['js_characters']}";
-var js_current		= "{$ibforums->lang['js_current']}";
-var error_no_url        = "{$ibforums->lang['jscode_error_no_url']}";
-var error_no_title      = "{$ibforums->lang['jscode_error_no_title']}";
-var error_no_email      = "{$ibforums->lang['jscode_error_no_email']}";
-var error_no_width      = "{$ibforums->lang['jscode_error_no_width']}";
-var error_no_height     = "{$ibforums->lang['jscode_error_no_height']}";
-var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}";
-var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}";
-var text_enter_image    = "{$ibforums->lang['jscode_text_enter_image']}";
-var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
-var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
-
-
-var prompt_start        = "{$ibforums->lang['js_text_to_format']}";
-var MessageMax  	= "{$ibforums->lang['the_max_length']}";
-var Override    	= "{$ibforums->lang['override']}";
-var rusLet		= new Array("Э","Щ","Щ","Ч","Ч","Ш","Ш","Ё","Ё","Ё","Ё","Ю","Ю","Ю","Ю","Я","Я","Я","Я","Ж","Ж","А","Б","В","Г","Д","Е","З","ИЙ","ИЙ","ЫЙ","ЫЙ","И","Й","К","КС","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Щ","Ы","э","щ","ч","ш","ё","ё","ю","ю","я","я","ж","а","б","в","г","д","е","з","ий","ий","ый","ый","и","й","к","кс","л","м","н","о","п","р","с","т","у","ф","х","ц","щ","щ","ы","ъ","ъ","ь");
-var engReg		= new Array(/E'/g,/SHCH/g,/Shch/g,/CH/g,/Ch/g,/SH/g,/Sh/g,/YO/g,/JO/g,/Yo/g,/Jo/g,/YU/g,/JU/g,/Yu/g,/Ju/g,/YA/g,/JA/g,/Ya/g,/Ja/g,/ZH/g,/Zh/g,/A/g,/B/g,/V/g,/G/g,/D/g,/E/g,/Z/g,/II/g,/IY/g,/YI/g,/YY/g,/I/g,/J/g,/K/g,/X/g,/L/g,/M/g,/N/g,/O/g,/P/g,/R/g,/S/g,/T/g,/U/g,/F/g,/H/g,/C/g,/W/g,/Y/g,/e'/g,/shch/g,/ch/g,/sh/g,/yo/g,/jo/g,/yu/g,/ju/g,/ya/g,/ja/g,/zh/g,/a/g,/b/g,/v/g,/g/g,/d/g,/e/g,/z/g,/ii/g,/iy/g,/yi/g,/yy/g,/i/g,/j/g,/k/g,/x/g,/l/g,/m/g,/n/g,/o/g,/p/g,/r/g,/s/g,/t/g,/u/g,/f/g,/h/g,/c/g,/w/g,/#/g,/y/g,/`/g,/~/g,/'/g);
-MessageMax      	= parseInt(MessageMax);
-if ( MessageMax < 0 ) MessageMax = 0;
-</script>
-<script type='text/javascript' src='{$ibforums->vars['html_url']}/topics.js?{$ibforums->vars['client_script_version']}'></script>
-<script type='text/javascript' src='{$ibforums->vars['html_url']}/video.js?{$ibforums->vars['client_script_version']}'></script>
-
-EOF;
+global $print;
+    //todo move somewhere
+    $print->exportJSLang([
+            'error_no_url',
+            'error_no_title',
+            'error_no_email',
+            'error_no_width',
+            'error_no_height',
+            'text_enter_image',
+            'tt_prompt',
+            'js_del_1',
+            'js_del_2',
+            'msg_no_title',
+            'js_no_message',
+            'js_max_length',
+            'js_characters',
+            'js_current',
+            'error_no_url',
+            'error_no_title',
+            'error_no_email',
+            'error_no_width',
+            'error_no_height',
+            'text_enter_url',
+            'text_enter_url_name',
+            'text_enter_image',
+            'text_enter_spoiler',
+        ]);
+    $print->js->addVariable('prompt_start', Ibf::app()->lang['js_to_format']);
+    $print->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler']);
+    $print->js->addVariable('MessageMax', max(0, (int)Ibf::app()->lang['the_max_length']));
+    $print->js->addVariable('Override', Ibf::app()->lang['override']);
+    $print->js->addLocal('keyb.js');
+    $print->js->addLocal('topics.js');
+    $print->js->addLocal('video.js');
 }
 
 
@@ -611,19 +578,18 @@ EOF;
 
 
 function postbox_buttons($data, $syntax_select = "", $mod_buttons = "", $topic_decided = "") {
-global $ibforums;
+global $ibforums, $print;
 
 $ipicture = $ibforums->vars['use_ipicture_button']
 	? "<input type='button' value=' iPicture ' class='codebuttons' name='ipicture' title='{$ibforums->lang['ipicture_title']}' onclick='PopUp(\"http://ipicture.ru/\", \"iPicture\", 640,480,1,1,1)'>"
 	: "";
-
+$print->js->addLocal('ibfcode.js');
 return <<<EOF
 
 <h3>{$ibforums->lang['ib_code_buttons']}</h3>
 <table>
 <tr>
    <td class='pformright' align='center' colspan='2'>
-     <script type='text/javascript' src='{$ibforums->vars['board_url']}/html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
 	   <select name='ffont' class='codebuttons' onchange="alterfont(this.options[this.selectedIndex].value, 'FONT')">
 	   <option value='0'>{$ibforums->lang['ct_font']}</option>
 	   <option value='Arial' style='font-family:Arial'>{$ibforums->lang['ct_arial']}</option>
@@ -667,7 +633,7 @@ return <<<EOF
 	   <input type='button' value=' L ' onclick='simpletag("L")' class='codebuttons' name='L' title='Left'">
 	   <input type='button' accesskey='с' value=' C ' onclick='simpletag("C")' class='codebuttons' name='C' title='Center'">
 	   <input type='button' accesskey='r' value=' R ' onclick='simpletag("R")' class='codebuttons' name='R' title='Right'">
-	   
+
          <!-- e-moe: table buttons -->
          <input value='table' onclick='tag_table()' class='codebuttons' name='table' title='Таблица' type='button'>
 	 <input value='tr' onclick='simpletag("tr")' class='codebuttons' name='tr' title='Ряд' type='button'>

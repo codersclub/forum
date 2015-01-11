@@ -1,14 +1,20 @@
 /**
- * 
+ *
  */
 
 function go_gadget_simple()
 {
 	window.location = "./?act=Search&mode=simple&f=" + current_forum;
 }
+
+function go_gadget_advanced()
+{
+	window.location = "./?act=Search&mode=adv&f=" + current_forum;
+}
+
 function win_pop()
 {
-    window.open('./?act=Search&CODE=explain','WIN','width=400,height=300,resizable=yes,scrollbars=yes'); 
+    window.open('./?act=Search&CODE=explain','WIN','width=400,height=300,resizable=yes,scrollbars=yes');
 }
 function toggle_fulltext_features(hide) {
 	var phrase    = $('input[name=space_determine][value=phrase]').parent();
@@ -31,7 +37,7 @@ function toggle_fulltext_features(hide) {
 
 function on_fulltext_change() {
 	var ch = $(this);
-	toggle_fulltext_features ( ! ch.is(':checked') );	
+	toggle_fulltext_features ( ! ch.is(':checked') );
 }
 
 $(window).load(function() {
@@ -39,3 +45,16 @@ $(window).load(function() {
 		.change(on_fulltext_change)
 		.change();
 });
+
+
+function checkvalues() {
+	f = document.dateline;
+	if (f.st_day.value < f.end_day.value) {
+		alert(active_js_error);
+		return false;
+	}
+	if (f.st_day.value == f.end_day.value) {
+		alert(active_js_error);
+		return false;
+	}
+}

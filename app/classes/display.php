@@ -10,6 +10,12 @@ class display
 {
 	var $syntax = array();
 	var $to_print = "";
+	public $js;
+
+	function __construct()
+	{
+		$this->js = new \JS\JS();
+	}
 
 	function is_new_fav_exists()
 	{
@@ -282,19 +288,19 @@ class display
 
 			foreach ($this->syntax as $row => $highlight)
 			{
-				$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n";
+				$this->js->addRaw("<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>", \JS\JS::HEAD);
 				$count++;
 			}
 
 			if ($count)
 			{
-				$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core.js?{$ibforums->vars['client_script_version']}'></script>\n";
+				$this->js->addLocal("h_core.js");
 			}
 		}
 
 		if ($output_array['JS'])
 		{
-			$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/{$output_array['JS']}'></script>";
+			$this->js->addLocal($output_array['JS']);
 		}
 
 		// End of Song + Mixxx * included js, 23.12.04
@@ -324,6 +330,40 @@ class display
 
 		/*		 * ***************************************************** */
 		// Build the board header
+		$this->js->addLocal('global.js', true);
+		$this->js->addLocal('jqcd/jqcd.js');
+		$this->js->addVariable('base_url', Ibf::app()->base_url);
+		$this->js->addVariable('session_id', Ibf::app()->session->session_id);
+		$this->js->addVariable('max_attach_size', $ibforums->member['g_attach_max']);
+		$this->js->addVariable('st', $ibforums->input['st']);
+		$this->exportJSLang([
+				'text_enter_url',
+		        'text_enter_url_name',
+		        'text_enter_email',
+		        'text_enter_email_name',
+		        'list_prompt',
+		        'text_enter_image',
+		        'text_spoiler',
+		        'text_quote',
+		        'text_img',
+		        'text_url',
+		        'text_list',
+		        'error_no_url',
+		        'error_no_title',
+		        'error_no_email',
+		        'error_no_email_name',
+		        'text_enter_spoiler',
+		        'text_enter_quote',
+		        'list_numbered',
+		        'list_numbered_rome',
+		        'list_marked',
+		        'tpl_q1'
+			]);
+		$this->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler']);
+		$this->js->addVariable('text_cancel', Ibf::app()->lang['js_cancel']);
+		$this->js->addVariable('upload_attach_too_big', Ibf::app()->lang['upload_to_big']);
+		$this->js->addVariable('js_base_url', Ibf::app()->vars['board_url'] . '/index.' . Ibf::app()->vars['php_ext'] . '?s=' . Ibf::app()->session->session_id . '&');
+
 		$this_header = View::make(
 			"global.BoardHeader",
 			['fav_active' => $ibforums->member['id'] && $this->is_new_fav_exists()]
@@ -357,8 +397,6 @@ class display
 			$output_array['MEMBER_BAR'] = View::make("global.Guest_bar");
 		} else
 		{
-			$pm_js = "";
-
 			if (($ibforums->member['g_max_messages'] > 0) and ($ibforums->member['msg_total'] >= $ibforums->member['g_max_messages']))
 			{
 				$msg_data['TEXT'] = $ibforums->lang['msg_full'];
@@ -392,7 +430,8 @@ class display
 
 				if ($ibforums->input['act'] != 'Msg')
 				{
-					$pm_js = View::make("global.PM_popup");
+					$this->js->AddInline('pm_popup();', \JS\JS::BOTTOM);
+
 				}
 			}
 
@@ -423,7 +462,7 @@ class display
 				);
 			} else
 			{
-				$output_array['MEMBER_BAR'] = $pm_js . View::make(
+				$output_array['MEMBER_BAR'] = View::make(
 						'global.Member_bar',
 						[
 							'msg'      => $msg_data,
@@ -457,8 +496,12 @@ class display
 		$replace[] = "<% CSS %>";
 		$change[]  = $css;
 
-		$replace[] = "<% JAVASCRIPT %>";
-		$change[]  = $js;
+		$replace[] = "<% JAVASCRIPT_HEAD %>";
+		$change[]  = $this->js->render(\JS\JS::HEAD);
+		$replace[] = "<% JAVASCRIPT_TOP %>";
+		$change[]  = $this->js->render(\JS\JS::TOP);
+		$replace[] = "<% JAVASCRIPT_BOTTOM %>";
+		$change[]  = $this->js->render(\JS\JS::BOTTOM);
 
 		// Song * RSS, 29.01.05
 
@@ -751,7 +794,7 @@ class display
 		// CSS
 		//---------------------------------------------------------
 		// CSS based on User CP + common CSS, Song * 29.12.04
-
+		$this->js->addLocal('global.js');
 		$css = View::make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
 
 		// Song + Mixxx * included js, client highlight, 23.12.04
@@ -762,17 +805,17 @@ class display
 
 			foreach ($this->syntax as $row => $highlight)
 			{
-				$css .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n";
+				$this->js->addRaw("<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n", \JS\JS::HEAD);
 				$count++;
 			}
 
 			if ($count)
 			{
-				$css .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core.js?{$ibforums->vars['client_script_version']}'></script>\n";
+				$this->js->addLocal('h_core.js');
 			}
 		}
 
-		$html = View::make("global.pop_up_window", ['title' => $title, 'css' => $css, 'text' => $text]);
+		$html = View::make("global.pop_up_window", ['title' => $title, 'js' => $this->js->render(\JS\JS::HEAD), 'css' => $css, 'text' => $text]);
 
 		foreach($ibforums->skin->getMacroValues() as $macro_value => $macro_replace)
 		{
@@ -844,4 +887,11 @@ class display
 		return $out;
 	}
 
+	public function exportJSLang($ids) {
+		foreach($ids as $id) {
+			if (isset(Ibf::app()->lang[$id])){
+				$this->js->addVariable($id, Ibf::app()->lang[$id]);
+			}
+		}
+	}
 }

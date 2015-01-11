@@ -1040,6 +1040,7 @@ class Forums
 			$this->forum['last_column'] = View::make("forum.last_column");
 		}
 
+		$print->js->addLocal('forum.js');
 		$this->output .= View::make("forum.PageTop", ['data' => $this->forum]);
 
 		//+----------------------------------------------------------------

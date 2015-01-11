@@ -218,28 +218,29 @@ EOF;
 
 
 function PageTop($data) {
-global $ibforums;
+global $ibforums, $print;
 
 $wrapper_classes = "b-topic-posts";
 foreach(["pinned", "hidden", "decided", "club", "closed", "mirror", "deleted"] as $key)
 	if ($data["TOPIC"][$key])
 		$wrapper_classes .= " topic-{$key}-posts";
 
+$print->js->addLocal('keyb.js');
+$print->js->addLocal('video.js');
+$print->js->addLocal('topics.js');
 return <<<EOF
 
 <script language="javascript" type="text/javascript">
 var
-base_url	    = "{$ibforums->base_url}",
 tid		    = "{$ibforums->input["t"]}",
-session_id	    = "{$ibforums->session_id}",
-error_no_url        = "{$ibforums->lang["jscode_error_no_url"]}",
-error_no_title      = "{$ibforums->lang["jscode_error_no_title"]}",
-error_no_email      = "{$ibforums->lang["jscode_error_no_email"]}",
-error_no_width      = "{$ibforums->lang["jscode_error_no_width"]}",
-error_no_height     = "{$ibforums->lang["jscode_error_no_height"]}",
-text_enter_url      = "{$ibforums->lang["jscode_text_enter_url"]}",
-text_enter_url_name = "{$ibforums->lang["jscode_text_enter_url_name"]}",
-text_enter_image    = "{$ibforums->lang["jscode_text_enter_image"]}",
+error_no_url        = "{$ibforums->lang["error_no_url"]}",
+error_no_title      = "{$ibforums->lang["error_no_title"]}",
+error_no_email      = "{$ibforums->lang["error_no_email"]}",
+error_no_width      = "{$ibforums->lang["error_no_width"]}",
+error_no_height     = "{$ibforums->lang["error_no_height"]}",
+text_enter_url      = "{$ibforums->lang["text_enter_url"]}",
+text_enter_url_name = "{$ibforums->lang["text_enter_url_name"]}",
+text_enter_image    = "{$ibforums->lang["text_enter_image"]}",
 prompt_start        = "{$ibforums->lang["js_text_to_format"]}",
 tt_prompt	    = "{$ibforums->lang["tt_prompt"]}",
 js_del_1	    = "{$ibforums->lang["js_del_1"]}",
@@ -249,19 +250,17 @@ js_no_message	    = "{$ibforums->lang["js_no_message"]}",
 js_max_length	    = "{$ibforums->lang["js_max_length"]}",
 js_characters	    = "{$ibforums->lang["js_characters"]}",
 js_current	    = "{$ibforums->lang["js_current"]}",
-error_no_url        = "{$ibforums->lang["jscode_error_no_url"]}",
-error_no_title      = "{$ibforums->lang["jscode_error_no_title"]}",
-error_no_email      = "{$ibforums->lang["jscode_error_no_email"]}",
-error_no_width      = "{$ibforums->lang["jscode_error_no_width"]}",
-error_no_height     = "{$ibforums->lang["jscode_error_no_height"]}",
-text_enter_url      = "{$ibforums->lang["jscode_text_enter_url"]}",
-text_enter_url_name = "{$ibforums->lang["jscode_text_enter_url_name"]}",
-text_enter_image    = "{$ibforums->lang["jscode_text_enter_image"]}",
+error_no_url        = "{$ibforums->lang["error_no_url"]}",
+error_no_title      = "{$ibforums->lang["error_no_title"]}",
+error_no_email      = "{$ibforums->lang["error_no_email"]}",
+error_no_width      = "{$ibforums->lang["error_no_width"]}",
+error_no_height     = "{$ibforums->lang["error_no_height"]}",
+text_enter_url      = "{$ibforums->lang["text_enter_url"]}",
+text_enter_url_name = "{$ibforums->lang["text_enter_url_name"]}",
+text_enter_image    = "{$ibforums->lang["text_enter_image"]}",
 prompt_start        = "{$ibforums->lang["js_text_to_format"]}",
 MessageMax  	    = "{$ibforums->lang["the_max_length"]}",
 Override    	    = "{$ibforums->lang["override"]}",
-rusLet		    = new Array("Э","Щ","Щ","Ч","Ч","Ш","Ш","Ё","Ё","Ё","Ё","Ю","Ю","Ю","Ю","Я","Я","Я","Я","Ж","Ж","А","Б","В","Г","Д","Е","З","ИЙ","ИЙ","ЫЙ","ЫЙ","И","Й","К","КС","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Щ","Ы","э","щ","ч","ш","ё","ё","ю","ю","я","я","ж","а","б","в","г","д","е","з","ий","ий","ый","ый","и","й","к","кс","л","м","н","о","п","р","с","т","у","ф","х","ц","щ","щ","ы","ъ","ъ","ь"),
-engReg		    = new Array(/E"/g,/SHCH/g,/Shch/g,/CH/g,/Ch/g,/SH/g,/Sh/g,/YO/g,/JO/g,/Yo/g,/Jo/g,/YU/g,/JU/g,/Yu/g,/Ju/g,/YA/g,/JA/g,/Ya/g,/Ja/g,/ZH/g,/Zh/g,/A/g,/B/g,/V/g,/G/g,/D/g,/E/g,/Z/g,/II/g,/IY/g,/YI/g,/YY/g,/I/g,/J/g,/K/g,/X/g,/L/g,/M/g,/N/g,/O/g,/P/g,/R/g,/S/g,/T/g,/U/g,/F/g,/H/g,/C/g,/W/g,/Y/g,/e"/g,/shch/g,/ch/g,/sh/g,/yo/g,/jo/g,/yu/g,/ju/g,/ya/g,/ja/g,/zh/g,/a/g,/b/g,/v/g,/g/g,/d/g,/e/g,/z/g,/ii/g,/iy/g,/yi/g,/yy/g,/i/g,/j/g,/k/g,/x/g,/l/g,/m/g,/n/g,/o/g,/p/g,/r/g,/s/g,/t/g,/u/g,/f/g,/h/g,/c/g,/w/g,/#/g,/y/g,/`/g,/~/g,/"/g),
 decline1 	    = "<{P_DECLINE}>",
 decline2 	    = "<{P_RESTORE}>",
 post_delete1 	    = "<{P_X}>",
@@ -274,9 +273,6 @@ scroll_to	    = {$ibforums->member["show_wp"]},
 MessageMax          = parseInt(MessageMax);
 if ( MessageMax < 0 ) MessageMax = 0;
 </script>
-
-<script type="text/javascript" src="{$ibforums->vars["board_url"]}/html/topics.js?{$ibforums->vars["client_script_version"]}"></script>
-<script type="text/javascript" src="{$ibforums->vars["board_url"]}/html/video.js?{$ibforums->vars["client_script_version"]}"></script>
 
 <a name="top"></a>
 <!--IBF.FORUM_RULES-->

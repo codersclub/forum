@@ -89,7 +89,7 @@ $html .= "<tr align=center>
 ";
 
 if ( $ibforums->member['g_is_supmod'] ||
-     ($info[member_id] == $ibforums->member['id'])) 
+     ($info[member_id] == $ibforums->member['id']))
 {
 $html .= "
 <form action='{$ibforums->base_url}act=Profile&amp;CODE=save_stat&amp;MID={$info[member_id]}' name='sForm' method='POST'>
@@ -162,7 +162,7 @@ return <<<EOF
 EOF;
 }
 
-/* <--- Jureth --- Show DigiMoney in Profile */ 
+/* <--- Jureth --- Show DigiMoney in Profile */
 function show_fines($info){
 global $ibforums;
 return <<<EOF
@@ -174,17 +174,15 @@ return <<<EOF
 EOF;
 }
 /* >--- Jureth --- */
- 
+
 
 function show_profile($info) {
-global $ibforums;	  
+global $ibforums;
 if ($info['mod_forums']) $mod_forums = "	  <tr>
 		<td class=\"row3\" valign='top'><b>{$ibforums->lang['mod_forums']}</b></td>
 		<td align='left' class='row1'>{$info['mod_forums']}</td>
-	  </tr>";	  
+	  </tr>";
 return <<<EOF
-
-<script type='text/javascript' src='html/profile.js?{$ibforums->vars['client_script_version']}'></script>
 <table class='tablebasic' cellspacing='0' cellpadding='2'>
 <tr>
  <td>{$info['photo']}</td>
@@ -234,7 +232,7 @@ return <<<EOF
 	  </tr>
 	  </table>
 	</td>
-	
+
    <td width='50%' valign='top' class="plainborder">
 	 <table cellspacing="1" cellpadding='6' width='100%'>
 	  <tr>
@@ -270,7 +268,7 @@ return <<<EOF
 	  </tr>
 	  </table>
 	</td>
-	
+
   </tr>
   <tr>
 	<td width='50%' valign='top' class="plainborder">
@@ -305,7 +303,7 @@ return <<<EOF
 	  <!--{CUSTOM.FIELDS}-->
 	  </table>
 	</td>
-	
+
         <td width='50%' valign='top' class="plainborder">
 	 <table cellspacing="1" cellpadding='6' width='100%'>
 	  <tr>
@@ -327,7 +325,7 @@ return <<<EOF
 	  <tr>
 		<td class="row3" valign='top'><b>{$ibforums->lang['siggie']}</b></td>
 		<td align='left' class='row1'>{$info['signature']}</td>
-    
+
           {$info['rep']}
           {$info['ratting']}
 	  {$info['fines']}
@@ -342,7 +340,7 @@ return <<<EOF
   </td>
 </tr>
 </table>
-	
+
 
 EOF;
 }
@@ -407,7 +405,7 @@ return <<<EOF
 	 #profilename { font-size:28px; font-weight:bold; }
 	 #photowrap { padding:6px; }
 	 #phototitle { font-size:24px; border-bottom:1px solid black }
-	 #photoimg   { text-align:center; margin-top:15px } 
+	 #photoimg   { text-align:center; margin-top:15px }
 	 .plainborder { border:1px solid #345487;background-color:#F5F9FD }
 	 .tableborder { border:1px solid #345487;background-color:#FFF }
 	 .tablefill   { border:1px solid #345487;background-color:#F5F9FD;padding:6px }
@@ -418,7 +416,6 @@ return <<<EOF
 	 .row3 { background-color: #EEF2F7 }
 	 .row4 { background-color: #E4EAF2 }
   </style>
-  <script type='text/javascript' src='html/profile.js?{$ibforums->vars['client_script_version']}'></script>
  </head>
 <body>
 <table width='100%' height='100%'>
