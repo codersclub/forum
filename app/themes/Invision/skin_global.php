@@ -285,7 +285,7 @@ EOF;
 }
 
 
-function pop_up_window($title, $css, $text) {
+function pop_up_window($title, $js, $css, $text) {
 global $ibforums;
 return <<<EOF
 
@@ -295,6 +295,7 @@ return <<<EOF
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <title>$title</title>
   $css
+  $js
  </head>
  <body>
  <div style='text-align:left'>
@@ -411,42 +412,6 @@ global $ibforums;
 	}
 
 return <<<EOF
-
-<script language='JavaScript' type='text/javascript'>
-var session_id  	= "{$ibforums->session_id}";
-var st 			= "{$ibforums->input['st']}";
-var tpl_q1 		= "{$ibforums->lang['tpl_q1']}";
-var base_url		= "{$ibforums->base_url}";
-
-var text_enter_url      = "{$ibforums->lang['jscode_text_enter_url']}"; //lang_post: Введите полный адрес ссылки
-var text_enter_url_name = "{$ibforums->lang['jscode_text_enter_url_name']}"; //lang_post: Введите название сайта
-var text_enter_email	= "{$ibforums->lang['jscode_text_enter_email']}"; //lang_post: Введите адрес электронной почты
-var text_enter_email_name = "{$ibforums->lang['jscode_text_enter_email_name']}"; //lang_post: Введите имя
-var list_prompt         = "{$ibforums->lang['jscode_tag_list']}"; //lang_post: Введите пункт списка....
-var text_enter_image	= "{$ibforums->lang['jscode_text_enter_image']}";
-var text_spoiler = "{$ibforums->lang['jscode_text_spoiler']}";
-var text_quote = "{$ibforums->lang['jscode_text_quote']}";
-var text_img = "{$ibforums->lang['jscode_text_img']}";
-var text_url = "{$ibforums->lang['jscode_text_url']}";
-var text_list = "{$ibforums->lang['jscode_text_list']}";
-var error_no_url        = "{$ibforums->lang['jscode_error_no_url']}"; //lang_post: Вы должны ввести адрес
-var error_no_title      = "{$ibforums->lang['jscode_error_no_title']}"; //lang_post: Вы должны ввести название";
-var error_no_email      = "{$ibforums->lang['jscode_error_no_email']}"; //lang_posr: Вы должны ввести адрес электронной почты
-var error_no_email_name = "{$ibforums->lang['jscode_error_no_email_name']}"; //lang_post: Вы должны ввести имя";
-var text_enter_spoiler    = "{$ibforums->lang['jscode_text_enter_spoiler']}";
-var text_spoiler_hidden_text    = "{$ibforums->lang['spoiler']}";
-var text_enter_quote    = "{$ibforums->lang['jscode_text_enter_quote']}";
-var list_numbered       = "{$ibforums->lang['jscode_tag_list_numbered']}";
-var list_numbered_rome  = "{$ibforums->lang['jscode_tag_list_numbered_rome']}";
-var list_marked         = "{$ibforums->lang['jscode_tag_list_marked']}";
-var text_cancel		= "{$ibforums->lang['js_cancel']}";
-var upload_attach_too_big = "{$ibforums->lang['upload_to_big']}";
-var max_attach_size = {$ibforums->member['g_attach_max']};
-</script>
-
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/jqcd/jqcd.js'></script>
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
-
 <table id='b-header'>
 <tr id='logostrip'>
 <td class='b-logo-wrapper'><a class='b-logo_link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='b-logo_img' src='{$ibforums->skin['ImagesPath']}/logo4.gif' alt='На главную' border='0'></a></td>
@@ -636,19 +601,6 @@ return <<<EOF
 
 EOF;
 }
-
-
-function PM_popup() {
-global $ibforums;
-return <<<EOF
-
-<script language='JavaScript' type="text/javascript">
- pm_popup();
-</script>
-
-EOF;
-}
-
 
 function forum_filter($data) {
 global $ibforums;

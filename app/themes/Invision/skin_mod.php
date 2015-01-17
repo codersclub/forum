@@ -158,25 +158,6 @@ return <<<EOF
 EOF;
 }
 
-
-function delete_js() {
-global $ibforums;
-return <<<EOF
-
-  <script language='JavaScript' type='text/javascript'>
-  <!--
-  function ValidateForm() {
-	 document.REPLIER.submit.disabled = true;
-	 return true;
-  }
-  //-->
-  </script>
-
-
-EOF;
-}
-
-
 function topictitle_fields($title, $desc) {
 global $ibforums;
 return <<<EOF
@@ -609,19 +590,7 @@ EOF;
 
 
 function lazy_combobox() {
-global $ibforums;
 return <<<EOF
-  <script language='JavaScript' type='text/javascript'>
-  <!--
-	function doInsert(value,txt)
-	{
-		if ( value == -1 ) return;
-		var reason = document.WARN.reason;
-		reason.value += txt;
-		reason.focus();
-	}
-  //-->
-  </script>
 <select name='lazy' class='codebuttons' onchange='doInsert(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'>
 <option value=-1>Выберите причину из списка или введите сами</option>
 <option>Нарушение п. 1 .Правил Форума</option>

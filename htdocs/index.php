@@ -145,8 +145,6 @@ if ($INFO['session_hide'])
 	$ibforums->session_id = "";
 }
 
-$ibforums->js_base_url = $ibforums->vars['board_url'] . '/index.' . $ibforums->vars['php_ext'] . '?s=' . $ibforums->session_id . '&';
-
 //--------------------------------
 //	Set up the forum_read cookie
 //--------------------------------

@@ -12,10 +12,11 @@
     <% RSS %>
     <% GENERATOR %>
     <% CSS %>
-    <% JAVASCRIPT %>
+    <% JAVASCRIPT_HEAD %>
 </head>
 <body <% BODY_DATA_TAGS %> >
 <div id="ipbwrapper">
+    <% JAVASCRIPT_TOP %>
     <% BOARD HEADER %>
     <% NAVIGATION %>
     <% BOARD %>
@@ -69,6 +70,6 @@
 
 </div>
 <!-- <script type='text/javascript'>if(window.comboInit)setTimeout('comboInit()',10)</script> -->
-
+<% JAVASCRIPT_BOTTOM %>
 </body>
 </html>

@@ -30,23 +30,6 @@ EOF;
 function Render_msg($data) {
 global $ibforums;
 return <<<EOF
-
-<script language='javascript' type="text/javascript">
-<!--
-function PopUp(url, name, width,height,center,resize,scroll,posleft,postop) {
-if (posleft != 0) { x = posleft }
-if (postop  != 0) { y = postop  }
-if (!scroll) { scroll = 1 }
-if (!resize) { resize = 1 }
-if ((parseInt (navigator.appVersion) >= 4 ) && (center)) {
-  X = (screen.width  - width ) / 2;
-  Y = (screen.height - height) / 2;
-}
-if (scroll != 0) { scroll = 1 }
-var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',left='+X+',resizable='+resize+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no');
-}
-//-->
-</script>
 <h3>{$data['msg']['title']}</h3>
 <div align="right" style="padding:6px;font-weight:bold">
   [ <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MSID={$data['msg']['msg_id']}&amp;MID={$data['member']['id']}&amp;fwd=1'>{$ibforums->lang['vm_forward_pm']}</a> | <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MID={$data['member']['id']}&amp;MSID={$data['msg']['msg_id']}'>{$ibforums->lang['pm_reply_link']}</a> ]
@@ -135,16 +118,6 @@ EOF;
 function Send_form($data) {
 global $ibforums;
 return <<<EOF
-
-<script language='javascript' type="text/javascript">
-<!--
-function find_users()
-{
-  url = "index.{$ibforums->vars['php_ext']}?act=legends&CODE=finduser_one&s={$ibforums->session_id}&entry=textarea&name=carbon_copy&sep=line";
-  window.open(url,'FindUsers','width=400,height=250,resizable=yes,scrollbars=yes');
-}
-//-->
-</script>
 <form class="b-send-pm-form" name='REPLIER' action="{$ibforums->base_url}" method="post" onsubmit='return ValidateForm(1)'>
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='04'>
@@ -279,42 +252,6 @@ function inbox_table_header($dirname, $info, $vdi_html="", $pages="") {
 global $ibforums;
 return <<<EOF
 
-<script language='JavaScript' type="text/javascript">
-<!--
-
-function select_read(context) {
-	$('.b-row[data-read="1"] .b-column_checkbox input:checkbox', context).prop('checked', true);
-	$('.b-row[data-read="1"] .b-column_checkbox input:checkbox', context).trigger('change');
-}
-function unselect_all(context) {
-	$('.b-row .b-column_checkbox input:checkbox', context).prop('checked', false);
-	$('.b-row .b-column_checkbox input:checkbox', context).trigger('change');
-}
-
-$(document).ready(function(){
-	$('.b-row .b-column_checkbox input:checkbox').change(function(){
-		if ($(this).is(':checked'))
-		{
-			$(this).closest('tr').addClass('selected');
-		}else
-		{
-			$(this).closest('tr').removeClass('selected');
-		}
-		//find unchecked
-		if ( $(this).closest('tbody').find('.b-column_checkbox input:checkbox:not(:checked)').length > 0) {
-			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', false);
-		}else {
-			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', true);
-		}
-	});
-
-	$('.b-header-row .b-column_checkbox input:checkbox').click(function(){
-		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').prop('checked', $(this).prop('checked'));
-		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').trigger('change');
-	});
-});
-//-->
-</script>
 <h3>$dirname</h3>
 <table class="b-pm-list__content-top" >
 <tr>
@@ -396,33 +333,6 @@ EOF;
 function unsent_table_header() {
 global $ibforums;
 return <<<EOF
-
-<script language='JavaScript' type="text/javascript">
-<!--
-$(document).ready(function(){
-	$('.b-row .b-column_checkbox input:checkbox').change(function(){
-		if ($(this).is(':checked'))
-		{
-			$(this).closest('tr').addClass('selected');
-		}else
-		{
-			$(this).closest('tr').removeClass('selected');
-		}
-		//find unchecked
-		if ( $(this).closest('tbody').find('.b-column_checkbox input:checkbox:not(:checked)').length > 0) {
-			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', false);
-		}else {
-			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', true);
-		}
-	});
-
-	$('.b-header-row .b-column_checkbox input:checkbox').click(function(){
-		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').prop('checked', $(this).prop('checked'));
-		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').trigger('change');
-	});
-});
-//-->
-</script>
 <form action="{$ibforums->base_url}CODE=06&amp;act=Msg&amp;saved=1" name='mutliact' method="post">
 <h3>{$ibforums->lang['pms_saved_title']}</h3>
 <div class="tableborder b-pm-list-wrapper pm-unsent-list-wrapper">
@@ -518,34 +428,6 @@ EOF;
 function trackread_table_header() {
 global $ibforums;
 return <<<EOF
-
-<script language='JavaScript' type="text/javascript">
-<!--
-
-$(document).ready(function(){
-	$('.b-row .b-column_checkbox input:checkbox').change(function(){
-		if ($(this).is(':checked'))
-		{
-			$(this).closest('tr').addClass('selected');
-		}else
-		{
-			$(this).closest('tr').removeClass('selected');
-		}
-		//find unchecked
-		if ( $(this).closest('tbody').find('.b-column_checkbox input:checkbox:not(:checked)').length > 0) {
-			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', false);
-		}else {
-			$(this).closest('table').find('thead .b-column_checkbox input:checkbox').prop('checked', true);
-		}
-	});
-
-	$('.b-header-row .b-column_checkbox input:checkbox').click(function(){
-		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').prop('checked', $(this).prop('checked'));
-		$(this).closest('table').find('tbody .b-column_checkbox input:checkbox').trigger('change');
-	});
-});
-//-->
-</script>
 <form class="b-tracking-form" action="{$ibforums->base_url}CODE=31&amp;act=Msg" name='trackread' method="post">
 <h3>{$ibforums->lang['tk_read_messages']}</h3>
 <p class="b-description">{$ibforums->lang['tk_read_desc']}</p>
@@ -772,26 +654,6 @@ EOF;
 function pm_popup($text, $mid) {
 global $ibforums;
 return <<<EOF
-
-<script language='javascript'>
-<!--
- function goto_inbox() {
- 	opener.document.location.href = '{$ibforums->base_url}act=Msg&amp;CODE=01';
- 	window.close();
- }
-
- function goto_this_inbox() {
- 	window.resizeTo('700','500');
- 	document.location.href = '{$ibforums->base_url}&act=Msg&CODE=01';
- }
-
- function go_read_msg() {
- 	window.resizeTo('700','500');
- 	document.location.href = '{$ibforums->base_url}&act=Msg&CODE=03&VID=in&MSID=$mid';
- }
-
-//-->
-</script>
 <table cellspacing='1' cellpadding='10' width='100%' height='100%' align='center' class='row1'>
 <tr>
    <td id='phototitle' align='center'>{$ibforums->lang['pmp_title']}</td>

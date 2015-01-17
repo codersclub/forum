@@ -11,7 +11,7 @@ function mod_checkbox($class, $tid) {
 global $ibforums;
 return <<<EOF
 
-<td class="b-topics-list-column-mod_checkbox $class"><input type="checkbox" name="TID_$tid" value="1" class="forminput" onclick="cca(this,"darkrow2");"></td>
+<td class="b-topics-list-column-mod_checkbox $class"><input type="checkbox" name="TID_$tid" value="1" class="forminput" onclick="cca(this,'darkrow2');"></td>
 
 EOF;
 }
@@ -265,16 +265,13 @@ EOF;
 }
 
 function Form($forums, $search_txt = "", $where = "") {
-global $ibforums;
+global $ibforums, $print;
+	$print->js->addVariable('current_forum', Ibf::app()->input["f"]);
+	$print->js->addLocal('search.js');
 return <<<EOF
-<script type="text/javascript">
-var current_forum = "{$ibforums->input["f"]}";
-</script>
-<script type="text/javascript" src="./html/search.js?{$ibforums->vars["client_script_version"]}"></script>
 <form action="{$ibforums->base_url}" method="get" name="sForm">
 <input type="hidden" name="act" value="Search">
 <input type="hidden" name="CODE" value="01">
-$hidden_fields
 <div class="tableborder">
 <table cellpadding="4" cellspacing="0" border="0" width="100%">
 <tr>
@@ -489,22 +486,11 @@ EOF;
 
 
 function simple_form($forums, $search_txt = "", $where = "") {
-global $ibforums;
+global $ibforums, $print;
+	$print->js->addLocal('search.js');
+	$print->js->addVariable('current_forum', Ibf::app()->input['f']);
 return <<<EOF
-<script type="text/javascript">
-<!--
-function go_gadget_advanced()
-{
-	window.location = "{$ibforums->js_base_url}act=Search&mode=adv&f={$ibforums->input["f"]}";
-}
-function win_pop()
-{
-    window.open('{$ibforums->js_base_url}act=Search&CODE=explain','WIN','width=400,height=300,resizable=yes,scrollbars=yes');
-}
--->
-</script>
 <form action="{$ibforums->base_url}act=Search&amp;CODE=simpleresults&amp;mode=simple" method="post" name="sForm">
-$hidden_fields
 <div class="tableborder">
   <div class="maintitle"  align="center">{$ibforums->lang["search_options"]}</div>
   <div class="pformstrip" align="center">{$ibforums->lang["key_search"]}</div>
@@ -665,24 +651,9 @@ EOF;
 
 
 function active_start($data) {
-global $ibforums;
+global $ibforums, $print;
+$print->exportJSLang(['active_js_error']);
 return <<<EOF
-
-<script language="Javascript" type="text/javascript">
-<!--
-function checkvalues() {
-   f = document.dateline;
-   if (f.st_day.value < f.end_day.value) {
-	   alert("{$ibforums->lang["active_js_error"]}");
-	   return false;
-   }
-   if (f.st_day.value == f.end_day.value) {
-	   alert("{$ibforums->lang["active_js_error"]}");
-	   return false;
-   }
-}
--->
-</script>
 <br>
 <form action="{$ibforums->base_url}act=Search&amp;CODE=getactive" method="post" name="dateline" onsubmit="return checkvalues();">
 <div class="pagelinks">{$data["SHOW_PAGES"]}</div>

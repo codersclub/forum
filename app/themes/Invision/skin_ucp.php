@@ -218,12 +218,9 @@ EOF;
 
 
 function photo_page($cur_photo, $cur_type, $url_photo, $show_size, $key="") {
-global $ibforums;
+global $ibforums, $print;
+  $print->js->addVariable('url_input', $url_photo);
 return <<<EOF
-
-<script language = 'javascript' type='text/javascript'>
-var url_input = "{$url_photo}";
-</script>
 <form action="{$ibforums->base_url}auth_key=$key" enctype='multipart/form-data' method="post" name="bob" onsubmit="return checkform();">
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='dophoto'>
@@ -425,12 +422,10 @@ EOF;
 
 
 function avatar_main($data, $formextra="", $hidden_field="", $key="") {
-global $ibforums;
-return <<<EOF
+global $ibforums, $print;
+  $print->js->addVariable('url_input2', $data['current_url_avatar']);
 
-<script langauge='javascript' type='text/javascript'>
-var url_input2 = "{$data['current_url_avatar']}";
-</script>
+return <<<EOF
 <!--IBF.LIMITS_AVATAR-->
 <h3>{$ibforums->lang['av_current']}</h3>
 <div class="tablepad" align="center">{$data['current_avatar_image']}<br>{$data['current_avatar_type']} {$data['current_avatar_dims']}</div>
@@ -607,31 +602,30 @@ EOF;
 
 
 function Menu_bar($base_url, $delete = "") {
-global $ibforums;
+global $ibforums, $print;
+  $print->exportJSLang([
+        'pp_confirm',
+        'js_location',
+        'js_max',
+        'js_characters',
+        'js_used',
+        'js_so_far',
+        'js_interests',
+        'av_confirm',
+        'js_max_length',
+        'js_current',
+      ]);
+  $print->js->addVariable('max_location_length', (int)$ibforums->vars['max_location_length']);
+  $print->js->addVariable('max_interest_length', (int)$ibforums->vars['max_interest_length']);
+  $print->js->addVariable('MessageMax', (int)$ibforums->lang['the_max_length']);
+  $print->js->addVariable('Override', $ibforums->lang['override']);
+  $print->js->addLocal('usercp.js');
 return <<<EOF
 
 <!--
 TABLE TO FIX IE/6 ISSUE
 The one where 23% margin + 100% table = 123% in IE6 o_O
 -->
-<script language='javascript' type='text/javascript'>
-var pp_confirm          = "{$ibforums->lang['pp_confirm']}";
-var max_location_length = "{$ibforums->vars['max_location_length']}";
-var max_interest_length	= "{$ibforums->vars['max_interest_length']}"
-var js_location         = "{$ibforums->lang['js_location']}";
-var js_max	        = "{$ibforums->lang['js_max']}";
-var js_characters       = "{$ibforums->lang['js_characters']}";
-var js_used	        = "{$ibforums->lang['js_used']}";
-var js_so_far	        = "{$ibforums->lang['js_so_far']}";
-var js_interests        = "{$ibforums->lang['js_interests']}";
-var av_confirm		= "{$ibforums->lang['av_confirm']}";
-var MessageMax  	= "{$ibforums->lang['the_max_length']}";
-var Override    	= "{$ibforums->lang['override']}";
-var js_max_length	= "{$ibforums->lang['js_max_length']}";
-var js_current		= "{$ibforums->lang['js_current']}";
-var js_base_url		= "{$ibforums->js_base_url}";
-</script>
-<script type='text/javascript' src='html/usercp.js?{$ibforums->vars['client_script_version']}'></script>
 <table class="usercp" cellspacing='0' cellpadding='0' width='100%'>
 <tr>
  <td id='ucpmenu' class="usercp-menu-wrapper">
@@ -707,7 +701,8 @@ EOF;
 
 
 function signature($sig, $t_sig, $key, $select_syntax = "") {
-global $ibforums;
+global $ibforums, $print;
+  $print->js->addLocal('ibfcode.js');
 return <<<EOF
 
 <form name='REPLIER' action='{$ibforums->base_url}' method='post'>
@@ -720,7 +715,6 @@ return <<<EOF
 <table width="100%">
 <tr>
   <td class="pformright" valign="top" align="center">
-        <script type='text/javascript' src='html/ibfcode.js?{$ibforums->vars['client_script_version']}'></script>
 	   <input type='button' accesskey='b' value=' B ' onclick='simpletag("B")' class='codebuttons' name='B' title='Bold' style="font-weight:bold">
 	   <input type='button' accesskey='i' value=' I ' onclick='simpletag("I")' class='codebuttons' name='I' title='Italic' style="font-style:italic">
 	   <input type='button' accesskey='u' value=' U ' onclick='simpletag("U")' class='codebuttons' name='U' title='Underline' style="text-decoration:underline">

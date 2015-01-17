@@ -268,7 +268,8 @@ class Messenger
 
 		$this->output .= View::make("ucp.forum_jump", ['data' => $fj]);
 
-		$print->add_output("$this->output");
+		$print->add_output($this->output);
+		$print->js->addLocal('msgbox.js');
 		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 	}
 
@@ -1514,7 +1515,7 @@ class Messenger
 		//--------------------------------------
 		// Build up the HTML for the send form
 		//--------------------------------------
-
+		$print->js->addVariable('tid', $ibforums->input['t']);
 		$this->output .= View::make("post.get_javascript");
 
 		$this->output .= View::make(

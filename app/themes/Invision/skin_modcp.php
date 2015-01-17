@@ -61,7 +61,7 @@ return <<<EOF
 <div class='tableborder'>
   <div class='maintitle'>$title</div>
 
-                
+
 EOF;
 }
 
@@ -78,7 +78,7 @@ return <<<EOF
 	<th class='pformstrip' width='20%' align='center'>{$ibforums->lang['cp_3_approveall']}</th>
 	<th class='pformstrip' width='20%' align='center'>{$ibforums->lang['cp_3_viewall']}</th>
   </tr>
-	 
+
 EOF;
 }
 
@@ -92,7 +92,7 @@ return <<<EOF
 	 <td class='row1' width='20%' align='center'><a href='{$ibforums->base_url}act=modcp&amp;f=$fid&amp;tid=$tid&amp;CODE=modtopicapprove'>{$ibforums->lang['cp_3_approveall']}</a></td>
 	 <td class='row1' width='20%' align='center'><a href='{$ibforums->base_url}act=modcp&amp;f=$fid&amp;tid=$tid&amp;CODE=modtopicview'>{$ibforums->lang['cp_3_viewall']}</a></td>
    </tr>
-	 
+
 EOF;
 }
 
@@ -102,7 +102,7 @@ return <<<EOF
 
    </table>
 </div>
-	 
+
 EOF;
 }
 
@@ -118,7 +118,7 @@ return <<<EOF
 <input type='hidden' name='CODE' value='domodtopics'>
 <input type='hidden' name='f' value='{$fid}'>
 <strong>{$ibforums->lang['cp_mod_topics_title2']} $forumname</strong>
-<br>$pages	 
+<br>$pages
 EOF;
 }
 
@@ -130,7 +130,7 @@ return <<<EOF
   <div class='pformstrip' align='center'><input type='submit' value='{$ibforums->lang['cp_1_go']}' class='forminput'></div>
 </div>
 </form>
-	 
+
 EOF;
 }
 
@@ -141,7 +141,7 @@ return <<<EOF
 
 <div class='tableborder'>
   <div class='titlemedium'><select name='TID_$topic_id' class='forminput'><option value='approve'>{$ibforums->lang['cp_1_approve']}</option><option value='remove'>{$ibforums->lang['cp_1_remove']}</option><option value='leave'>{$ibforums->lang['cp_1_leave']}</option></select>&nbsp;&nbsp; $title</div>
-                
+
 EOF;
 }
 
@@ -149,7 +149,7 @@ EOF;
 function mod_postentry($data) {
 global $ibforums;
 return <<<EOF
-   <table width='100%' cellspacing='1'>	
+   <table width='100%' cellspacing='1'>
    <tr>
 	   <td valign='top' class='row1' nowrap="nowrap"><span class='normalname'>{$data['member']['name']}</span><br><br>{$data['member']['avatar']}<span class='postdetails'><br>{$data['member']['MEMBER_GROUP']}<br>{$data['member']['MEMBER_POSTS']}<br>{$data['member']['MEMBER_JOINED']}</span></td>
 	   <td valign='top' class='row1' width='100%'>
@@ -159,7 +159,7 @@ return <<<EOF
 		   </span>
 	   </td>
 	</tr>
-	</table>		  
+	</table>
 
 EOF;
 }
@@ -615,7 +615,7 @@ return <<<EOF
 	<td class="row2" align="center">{$info['q_topics']}</td>
 	<td class="row2" align="center">{$info['q_posts']}</td>
 	<td class="row2">{$info['last_post']}<br>{$ibforums->lang['in']}: {$info['last_topic']}<br>{$ibforums->lang['by']}: {$info['last_poster']}</td>
-	<td class="row2" align="center">{$info['select_button']}</td>        
+	<td class="row2" align="center">{$info['select_button']}</td>
   </tr>
 EOF;
 }
@@ -630,7 +630,7 @@ return <<<EOF
 	<td class="row2" align="center">{$info['q_topics']}</td>
 	<td class="row2" align="center">{$info['q_posts']}</td>
 	<td class="row2">{$info['last_post']}<br>{$ibforums->lang['in']}: {$info['last_topic']}<br>{$ibforums->lang['by']}: {$info['last_poster']}</td>
-	<td class="row2" align="center"><input type='radio' name='f' value='{$info['id']}'></td>        
+	<td class="row2" align="center"><input type='radio' name='f' value='{$info['id']}'></td>
   </tr>
 EOF;
 }
@@ -651,7 +651,7 @@ return <<<EOF
   <tr>
 	<td colspan='7' class='maintitle'>$cat_name</td>
   </tr>
-  <tr> 
+  <tr>
 	<th class='titlemedium' align='left' width='5%'>&nbsp;</th>
 	<th width="35%" class='titlemedium' colspan='2'>{$ibforums->lang['cat_name']}</th>
 	<th width="15%" class='titlemedium'>{$ibforums->lang['f_q_topics']}</th>
@@ -702,63 +702,10 @@ return <<<EOF
 EOF;
 }
 
-function start_topics($pages,$info) {
-global $ibforums;
-return <<<EOF
-
-<script language='javascript'>
-<!--
- function checkdelete() {
- 
-   isDelete = document.topic.tact.options[document.topic.tact.selectedIndex].value;
-   
-   msg = '';
-   
-   if (isDelete == 'delete')
-   {
-	   msg = "{$ibforums->lang['cp_js_delete']}";
-	   
-	   formCheck = confirm(msg);
-	   
-	   if (formCheck == true)
-	   {
-		   return true;
-	   }
-	   else
-	   {
-		   return false;
-	   }
-   }
- }
-//-->
-</script>
-<form action='{$ibforums->base_url}act=modcp&amp;f={$info['id']}&amp;CODE=topicchoice' method='post' name='topic' onsubmit='return checkdelete();'>
-<div class='pagelinks'>$pages</div>
-<div align='right'>
-  <a href='{$ibforums->base_url}act=modcp&amp;fact=prune_move&amp;CODE=fchoice&amp;f={$info['id']}'>{$ibforums->lang['cp_prune_posts']}</a>
-</div>
-<br>
-<div class='tableborder'>
-  <div class='maintitle'>{$info['name']} [ <a target='_blank' href='{$ibforums->base_url}showforum={$info['id']}'>{$ibforums->lang['new_show_forum']}</a> ]</div>
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
-  <tr> 
-	<td class='titlemedium' style='width:5px'>&nbsp;</td>
-	<td class='titlemedium' style='width:5px'>&nbsp;</td>
-	<td width='40%' class='titlemedium'>{$ibforums->lang['h_topic_title']}</td>
-	<td width='15%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_topic_starter']}</td>
-	<td width='7%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_replies']}</td>
-	<td width='8%' align='center' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_hits']}</td>
-	<td width='25%' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['h_last_action']}</td>
-	<td width='5%' nowrap="nowrap" class='titlemedium'>{$ibforums->lang['f_select']}</td>
-  </tr>
-
-EOF;
-}
-
 function show_no_topics() {
 global $ibforums;
 return <<<EOF
-  <tr> 
+  <tr>
 	<td class='row4' colspan='8' align='center'>
 		<br>
 		 <b>{$ibforums->lang['fv_no_topics']}</b>
@@ -771,7 +718,7 @@ EOF;
 function topic_row($data) {
 global $ibforums;
 return <<<EOF
-    <tr> 
+    <tr>
 	  <td align='center' class='row4'>{$data['folder_img']}</td>
       <td align='center' class='row2'>{$data['topic_icon']}</td>
       <td class='row4'>{$data['prefix']} <a target='_blank' href='{$ibforums->base_url}showtopic={$data['tid']}' title='{$ibforums->lang['topic_started_on']} {$data['start_date']}'>{$data['title']}</a><br><span class='desc'>{$data['description']}</span></td>
@@ -844,13 +791,13 @@ EOF;
 function syntax_set_form ($syntax_id)
 {
 	global  $ibforums;
-	
+
 	$syntax_set_title			= $ibforums->lang['syntax_set_title'];
 	$syntax_set_quest			= $ibforums->lang['syntax_set_quest'];
 	$syntax_set_error			= $ibforums->lang['syntax_set_error'];
 	$syntax_set_submit			= $ibforums->lang['syntax_set_submit'];
 	$syntax_set_action			= 'syntax_set';
-	
+
 	$syntax_set_form			= "
 		<form name='ibform' action='{$ibforums->base_url}' method='post'>
 		<input type='hidden' name='s' value='{$ibforums->session_id}'>
@@ -862,7 +809,7 @@ function syntax_set_form ($syntax_id)
 		<td width='50%' class='row1'>{$syntax_set_quest}</td>
 		<td width='50%' class='row1'>
 		<select name='syntax_set' class='forminput'>";
-	
+
 	$stmt = $ibforums->db->query("select l.id, l.syntax, l.description
 		    from ibf_syntax_access a
 		    left join ibf_syntax_list l on l.id = a.syntax_id
@@ -873,19 +820,19 @@ function syntax_set_form ($syntax_id)
 		$id						= $row['id'];
 		$code					= $row['syntax'];
 		$description			= $row['description'];
-		
+
 		if($syntax_id == $id) $syntax_set_form	.= "<option value='{$id}' selected>{$code} - {$description}</option>";
 		else  $syntax_set_form	.= "<option value='{$id}'>{$code} - {$description}</option>";
-		
+
 		$records ++;
 	}
-	
+
 	$syntax_set_form			.= "
-		</select>		 
+		</select>
 		</td></tr></table>
 		<div class='pformstrip' align='center'><input type='submit' value='{$syntax_set_submit}' class='forminput'></div>
 		</div></form><br>";
-		
+
 	if($records == 0)
 	{
 		$syntax_set_form		= "
@@ -914,7 +861,7 @@ function syntax_rule_set_form ($syntax_id, $rule)
 	$suntax_rule_new			= $ibforums->lang['suntax_rule_new'];
 	$syntax_rule_submit			= $ibforums->lang['syntax_rule_submit'];
 	$suntax_rule_action			= 'syntax_rule';
-	
+
 	$syntax_rule_form			= '';
 
 	if($syntax_id != '')
@@ -937,7 +884,7 @@ function syntax_rule_set_form ($syntax_id, $rule)
 		{
 			$record					= $row['record'];
 			$description			= $row['description'];
-			
+
 			if($record == $rule) $syntax_rule_form		.= "<option value='{$record}' selected>{$record}. {$description}</option>";
 			else  $syntax_rule_form	.= "<option value='{$record}'>{$record}. {$description}</option>";
 		}
@@ -946,12 +893,12 @@ function syntax_rule_set_form ($syntax_id, $rule)
 		else  $syntax_rule_form	.= "<option value='new'>{$suntax_rule_new}</option>";
 
 		$syntax_rule_form		.=
-			"</select>		 
+			"</select>
 			</td></tr></table>
 			<div class='pformstrip' align='center'><input type='submit' value='{$syntax_rule_submit}' class='forminput'></div>
 			</div></form><br>";
 	}
-	
+
 	return $syntax_rule_form;
 }
 
@@ -961,16 +908,16 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 
 	$syntax_edit_title			= $ibforums->lang['syntax_edit_title'];
 	$syntax_new_title			= $ibforums->lang['syntax_new_title'];
-	
+
 	$syntax_edit_submit			= $ibforums->lang['syntax_edit_submit'];
 	$syntax_new_submit			= $ibforums->lang['syntax_new_submit'];
-	
+
 	$syntax_edit_description	= $ibforums->lang['syntax_edit_description'];
 	$syntax_edit_regexp			= $ibforums->lang['syntax_edit_regexp'];
-	
+
 	$syntax_edit_tag			= $ibforums->lang['syntax_edit_tag'];
 	$syntax_edit_action			= $ibforums->lang['syntax_edit_action'];
-	
+
 	$syntax_edit_form			= '';
 	if($syntax_id != '')
 	{
@@ -979,7 +926,7 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 		<input type='hidden' name='act' value='modcp'>
 		<input type='hidden' name='CODE' value='syntax_edit'>
 		<input type='hidden' name='syntax_set' value='{$syntax_id}'>";
-		
+
 		if(($rule != '') && ($rule != 'new'))
 		{
 			$syntax_edit_form	.= "
@@ -996,7 +943,7 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 
 				$syntax_edit_form		.= "<div class='pformstrip' align='left'><b>{$record}. {$description}.</b></div>";
 				$syntax_edit_form		.= "<table class='tablebasic'>";
-			
+
 				$syntax_edit_form		.= "
 					<tr>
 						<td width='50%' class='row2'><b>{$syntax_edit_description}</b></td>
@@ -1008,27 +955,27 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 						<td width='50%' class='row1'>&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' size='50' maxlength='63' name='description' value='{$description}' class='forminput'><br></td>
 						<td width='50%' class='row1'><input type='text' size='60' maxlength='4095' name='reg_exp' value='{$reg_exp}' class='forminput'><br></td>
 					</tr>";
-				
+
 				$syntax_edit_form		.= "
 					<tr>
 						<td width='50%' class='row2'><b>{$syntax_edit_tag}</b></td>
 						<td width='50%' class='row2'><b>{$syntax_edit_action}</b></td>
 					</tr>";
-				
+
 				for ($n = 0; $n < 10; $n ++)
 				{
 
 						$name			= "tag_".$n;
 						$tag			= $row["tag_".$n];
 						$syntax_edit_form .= "<tr><td width='50%' class='row1'>{$n}.&nbsp;<input type='text' size='50' maxlength='255' name='{$name}' value='{$tag}' class='forminput'></td>";
-				
+
 						$name			= "action_".$n;
 						$action			= $row["action_".$n];
 						$syntax_edit_form .= "<td width='50%' class='row1'><select name='{$name}' class='forminput'>";
-								
+
 						if($action == 'none') $syntax_edit_form .= "<option value='none' selected>none</option>";
 						else $syntax_edit_form .= "<option value='none'>none</option>";
-						
+
 						if($action == 'tag') $syntax_edit_form .= "<option value='tag' selected>tag</option>";
 						else $syntax_edit_form .= "<option value='tag'>tag</option>";
 
@@ -1037,13 +984,13 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 
 						if($action == 'count') $syntax_edit_form .= "<option value='count' selected>count</option>";
 						else $syntax_edit_form .= "<option value='count'>count</option>";
-						
+
 						if($action == '') $syntax_edit_form .= "<option value='' selected></option>";
 						else $syntax_edit_form .= "<option value=''></option>";
 
 						$syntax_edit_form .= "</select></td></tr>";
 				}
-			
+
 				$syntax_edit_form		.= "</table>";
 				$syntax_edit_form		.= "<div class='pformstrip' align='center'><input type='submit' value='{$syntax_edit_submit}' class='forminput'></div></form></div><br>";
 			}
@@ -1060,7 +1007,7 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 
 			$syntax_edit_form		.= "<div class='pformstrip' align='left'><b>{$record}. {$description}.</b></div>";
 			$syntax_edit_form		.= "<table class='tablebasic'>";
-		
+
 			$syntax_edit_form		.= "
 				<tr>
 					<td width='50%' class='row2'><b>{$syntax_edit_description}</b></td>
@@ -1072,13 +1019,13 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 					<td width='50%' class='row1'>&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' size='50' maxlength='63' name='description' value='{$description}' class='forminput'><br></td>
 					<td width='50%' class='row1'><input type='text' size='60' maxlength='4095' name='reg_exp' value='' class='forminput'><br></td>
 				</tr>";
-			
+
 			$syntax_edit_form		.= "
 				<tr>
 					<td width='50%' class='row2'><b>{$syntax_edit_tag}</b></td>
 					<td width='50%' class='row2'><b>{$syntax_edit_action}</b></td>
 				</tr>";
-			
+
 			for ($n = 0; $n < 10; $n ++)
 			{
 				$syntax_edit_form .= "
@@ -1091,7 +1038,7 @@ function syntax_rule_edit_form ($syntax_id, $rule)
 					<option value='' selected></option>
 					</select></td></tr>";
 			}
-		
+
 			$syntax_edit_form		.= "</table>";
 			$syntax_edit_form		.= "<div class='pformstrip' align='center'><input type='submit' value='{$syntax_new_submit}' class='forminput'></div></form></div><br>";
 		}
@@ -1104,12 +1051,12 @@ function syntax_order_form ($syntax_id)
 	global  $ibforums;
 
 	$syntax_order_title			= $ibforums->lang['syntax_order_title'];
-	
+
 	$syntax_order_apply			= $ibforums->lang['syntax_order_apply'];
 	$syntax_order_action		= $ibforums->lang['syntax_order_action'];
 	$syntax_delete_action		= $ibforums->lang['syntax_delete_action'];
 	$syntax_order_submit		= $ibforums->lang['syntax_order_submit'];
-	
+
 	$syntax_order_description	= $ibforums->lang['syntax_order_description'];
 	$syntax_order_position		= $ibforums->lang['syntax_order_position'];
 	$syntax_order_delete		= $ibforums->lang['syntax_order_delete'];
@@ -1127,14 +1074,14 @@ function syntax_order_form ($syntax_id)
 			<input type='hidden' name='syntax_rule' value='{$rule}'>
 			<div class='tableborder'><form name='ibform' action='' method='post'>
 			<div class='maintitle'>{$syntax_order_title}</div>";
-			
+
 		$syntax_order_form		.= "
 			<table class='tablebasic'><tr>
 			<td width='50%' class='row2'><b>{$syntax_order_description}</b></td>
 			<td width='45%' class='row2'><b>{$syntax_order_position}</b></td>
 			<td width='5%' class='row2' align='center'><b>{$syntax_order_delete}</b>
 			</td></tr>";
-	
+
 		$stmt = $ibforums->db->query("select * from ibf_syntax_rules where syntax_id = '".$syntax_id."' order by record");
 		while ($row = $stmt->fetch())
 		{
@@ -1150,7 +1097,7 @@ function syntax_order_form ($syntax_id)
 				<td width='45%' class='row1'><input type='text' size='3' maxlength='3' name='{$order}' value='{$record}' class='forminput'></td>
 				<td width='5%' class='row1' align='center'><input type='checkbox' name='{$delete}' value='checked' class='forminput'></td>
 				</tr>";
-		
+
 		}
 
 		$syntax_order_form		.= "</table>";
@@ -1171,10 +1118,10 @@ function syntax_order_form ($syntax_id)
 	return $syntax_order_form;
 }
 
-function highlight_start_form($syntax_id, $rule) 
+function highlight_start_form($syntax_id, $rule)
 {
 	global $ibforums;
-	
+
 	$syntax_set_form			= $this->syntax_set_form($syntax_id);
 	$syntax_rule_form			= $this->syntax_rule_set_form($syntax_id, $rule);
 	$syntax_edit_form			= $this->syntax_rule_edit_form($syntax_id, $rule);

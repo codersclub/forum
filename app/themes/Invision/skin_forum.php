@@ -237,11 +237,6 @@ EOF;
 function PageTop($data) {
 global $ibforums;
 return <<<EOF
-
-<script language="javascript" type="text/javascript">
-var js_base_url = "{$ibforums->js_base_url}";
-</script>
-<script type="text/javascript" src="html/forums.js?{$ibforums->vars["client_script_version"]}"></script>
 <table style="b-moderators-row" border=0 width="100%"><tr>
 <td class="moderators" align="left"><span class="moderators-title title">Модераторы:</span> <span class="moderators-list">{$data["moderators"]}</span></td>
 <td class="quick-search" align="right">{$data["quick_search"]}</td></tr></table>

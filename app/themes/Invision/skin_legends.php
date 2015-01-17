@@ -2,56 +2,7 @@
 
 class skin_legends {
 
-//function keyb_javascript()
-//{
-//return <<<EOF
-//<script language='javascript'>
-//<!--
-//	function add_smilie(code)
-//	{
-//		opener.document.REPLIER.Post.value += code;
-//		//return true;
-//	}
-////-->
-//</script>
-//EOF;
-//}
 
-function keyb_javascript() {
-return <<<EOF
-<script language='javascript'>
-<!--
-function add_smilie(code)
-{
-	opener.document.REPLIER.Post.value += code;
-}
-function ShowHide(id1, id2) {
-  if (id1 != '') expMenu(id1);
-  if (id2 != '') expMenu(id2);
-}
-function expMenu(id) {
-  var itm = null;
-  if (document.getElementById) {
-  itm = document.getElementById(id);
-  } else if (document.all){
-  itm = document.all[id];
-  } else if (document.layers){
-  itm = document.layers[id];
-  }
-  if (!itm) {
-  // do nothing
-  }
-  else if (itm.style) {
-  if (itm.style.display == "none") { itm.style.display = ""; }
-  else { itm.style.display = "none"; }
-  }
-  else { itm.visibility = "show"; }
-}
-//-->
-</script>
-EOF;
-}
-  
 
 function text_emoticons_row($code, $image, $in="'", $out="'") {
 global $ibforums;
@@ -113,9 +64,7 @@ EOF;
 
 
 function page_header($title, $row1, $row2) {
-global $ibforums;
 return <<<EOF
-<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/global.js?{$ibforums->vars['client_script_version']}'></script>
 <div class='tableborder'>
   <div class='maintitle'>$title</div>
   <table class='tablebasic' cellspacing='1' cellpadding='4'>
@@ -123,24 +72,6 @@ return <<<EOF
     <td width='50%' align='center' class='pformstrip' valign='middle'>$row1</td>
     <td width='50%' align='center' class='pformstrip' valign='middle'>$row2</td>
   </tr>
-
-EOF;
-}
-
-
-function emoticon_javascript() {
-global $ibforums;
-return <<<EOF
-
-<script language='javascript'>
-<!--
-	function add_smilie(code)
-	{
-		opener.document.REPLIER.Post.value += ' ' + code + ' ';
-		//return true;
-	}
-//-->
-</script>
 
 EOF;
 }
@@ -189,58 +120,58 @@ return <<<EOF
 <!--
 	function add_to_form()
 	{
-		
+
 		var separator = '$sep';
 		var entry     = '$entry';
-		
+
 		var name = document.finduser.username.options[document.finduser.username.selectedIndex].value;
-		
+
 		if (separator == 'line')
 		{
 			separator = '\\n';
 		}
-		
+
 		if (entry == 'textarea')
 		{
 			// Where shall we put the separator?
-			
+
 			var tbox     = opener.document.REPLIER.$name.value;
 			var tboxSize = opener.document.REPLIER.$name.value.length;
-			
+
 			// Remove leading spaces...
-			
+
 			while ( opener.document.REPLIER.$name.value.slice(0,1) == " " )
 			{
 				opener.document.REPLIER.$name.value = opener.document.REPLIER.$name.value.substr(1, opener.document.REPLIER.$name.value.length - 1);
 				opener.document.REPLIER.$name.value.length = opener.document.REPLIER.$name.value.length;
 			}
-			
+
 			// Remove trailing spaces...
-			
+
 			while ( opener.document.REPLIER.$name.value.slice(opener.document.REPLIER.$name.value.length - 1, opener.document.REPLIER.$name.value.length) == " " )
 			{
 				opener.document.REPLIER.$name.value = opener.document.REPLIER.$name.value.substr(0, opener.document.REPLIER.$name.value.length - 1);
 				opener.document.REPLIER.$name.value.length = opener.document.REPLIER.$name.value.length;
 			}
-			
+
 			// Do we have a leading comma?
-			
+
 			while ( opener.document.REPLIER.$name.value.slice(0,1) == "\\n" )
 			{
 				opener.document.REPLIER.$name.value = opener.document.REPLIER.$name.value.substr(1, opener.document.REPLIER.$name.value.length - 1);
 				opener.document.REPLIER.$name.value.length = opener.document.REPLIER.$name.value.length;
 			}
-			
+
 			// Do we have a trailing comma?...
-			
+
 			while ( opener.document.REPLIER.$name.value.slice(opener.document.REPLIER.$name.value.length - 1, opener.document.REPLIER.$name.value.length) == "\\n" )
 			{
 				opener.document.REPLIER.$name.value = opener.document.REPLIER.$name.value.substr(0, opener.document.REPLIER.$name.value.length - 1);
 				opener.document.REPLIER.$name.value.length = opener.document.REPLIER.$name.value.length;
 			}
-			
+
 			// First in box?
-			
+
 			if ( opener.document.REPLIER.$name.value.length == 0)
 			{
 				opener.document.REPLIER.$name.value += name;
@@ -250,7 +181,7 @@ return <<<EOF
 				opener.document.REPLIER.$name.value += separator + name;
 			}
 		}
-		
+
 	}
 //-->
 </script>

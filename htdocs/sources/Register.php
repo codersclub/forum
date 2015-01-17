@@ -143,7 +143,13 @@ class Register
 			$std->flood_end();
 		}
 		// If we have any HTML to print, do so...
-
+		$print->exportJSLang([
+				'js_blanks',
+		        'js_no_check',
+		        'js_err_email_address_match',
+		        'err_pass_match',
+			]);
+		$print->js->addLocal('register.js');
 		$print->add_output("$this->output");
 
 		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));

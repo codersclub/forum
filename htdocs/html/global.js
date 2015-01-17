@@ -107,6 +107,7 @@ function syntax_get_code_tag(el)
 function addClass(ele,cls) { // TODO: переделать на jQuery
 	if (!hasClass(ele,cls)) ele.className += " "+cls;
 }
+
 function removeClass(ele,cls) {	 // TODO: переделать на jQuery
 	if (hasClass(ele,cls)) {
 		var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
@@ -288,6 +289,134 @@ function PopUpCD(url, d_width,d_height) {
 	    $('#dialog').jqcd_set_caption(title);
 	    $('#dialog').jqcd_set_content(con);
     });
+}
 
+function add_smilie(code)
+{
+	opener.document.REPLIER.Post.value += code;
+}
 
+function ShowHide(id1, id2) {
+	if (id1 != '') expMenu(id1);
+	if (id2 != '') expMenu(id2);
+}
+function expMenu(id) {
+	var itm = null;
+	if (document.getElementById) {
+		itm = document.getElementById(id);
+	} else if (document.all){
+		itm = document.all[id];
+	} else if (document.layers){
+		itm = document.layers[id];
+	}
+	if (!itm) {
+		// do nothing
+	}
+	else if (itm.style) {
+		if (itm.style.display == "none") { itm.style.display = ""; }
+		else { itm.style.display = "none"; }
+	}
+	else { itm.visibility = "show"; }
+}
+
+function chk_multi() {
+	document.REPLIER.multi_poll.checked = true
+	document.REPLIER.weighted_poll.checked = false;
+}
+function off_weighted() {
+	document.REPLIER.weighted_poll.checked = false;
+}
+
+function chk_weighted() {
+	document.REPLIER.multi_poll.checked = false;
+	document.REPLIER.weighted_poll.checked = true;
+}
+function off_multi() {
+	document.REPLIER.multi_poll.checked = false;
+}
+
+//calendar
+function changeDiv(id, method)
+{
+	var itm = null;
+	if (document.getElementById) {
+		itm = document.getElementById(id);
+	} else if (document.all)     {
+		itm = document.all[id];
+	} else if (document.layers)   {
+		itm = document.layers[id];
+	}
+
+	if (itm.style)
+	{
+		if ( method == 'show' )
+		{
+			itm.style.display = "";
+		}
+		else
+		{
+			itm.style.display = "none";
+		}
+	}
+	else
+	{
+		itm.visibility = "show";
+	}
+}
+
+function selecttype()
+{
+
+	if ( document.REPLIER.eventtype[1].checked == true )
+	{
+		// Ranged date...
+
+		changeDiv( 'rangeshow', 'show' );
+		changeDiv( 'rangehide', 'none' );
+		changeDiv( 'recurshow', 'none' );
+		changeDiv( 'recurhide', 'show' );
+	}
+	else if ( document.REPLIER.eventtype[2].checked == true )
+	{
+		// Repeating event
+
+		changeDiv( 'rangeshow', 'none' );
+		changeDiv( 'rangehide', 'show' );
+		changeDiv( 'recurshow', 'show' );
+		changeDiv( 'recurhide', 'none' );
+	}
+	else
+	{
+		changeDiv( 'rangeshow', 'none' );
+		changeDiv( 'rangehide', 'show' );
+		changeDiv( 'recurshow', 'none' );
+		changeDiv( 'recurhide', 'show' );
+	}
+}
+
+function changeColour(BOXid, val)
+{
+	document.all.BOXid.style.backgroundColor = val;
+}
+
+function deleteEvent(id) {
+	if (confirm(js_del_1)) {
+		window.location.href = base_url + "act=calendar&code=delete&e=" + id;
+	}
+else {
+		alert (js_del_2);
+	}
+}
+
+function ValidateForm() {
+	document.REPLIER.submit.disabled = true;
+	return true;
+}
+
+function doInsert(value,txt)
+{
+	if ( value == -1 ) return;
+	var reason = document.WARN.reason;
+	reason.value += txt;
+	reason.focus();
 }

@@ -27,13 +27,13 @@ function Validate() {
 }
 
 function passwordsIsEquals() {
-	
+
 	if (!document.REG.PassWord_Check.setCustomValidity) {
 		return true;
 	}
-		
+
 	if (document.REG.PassWord.value != document.REG.PassWord_Check.value) {
-		document.REG.PassWord_Check.setCustomValidity(js_err_pass_match);
+		document.REG.PassWord_Check.setCustomValidity(err_pass_match);
 		return false;
 	} else {
 		document.REG.PassWord_Check.setCustomValidity('');
@@ -46,7 +46,7 @@ function emailsIsEquals() {
 	if (!document.REG.EmailAddress.setCustomValidity) {
 		return true;
 	}
-		
+
 	if (document.REG.EmailAddress.value != document.REG.EmailAddress_two.value) {
 		document.REG.EmailAddress_two.setCustomValidity(js_err_email_address_match);
 		return false;
@@ -54,6 +54,4 @@ function emailsIsEquals() {
 		document.REG.EmailAddress.setCustomValidity('');
 		return;
 	}
-	
 }
-

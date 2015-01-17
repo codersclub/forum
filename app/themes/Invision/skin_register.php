@@ -19,13 +19,6 @@ EOF;
 function show_dumb_form($type="reg") {
 global $ibforums;
 return <<<EOF
-<script language='javascript' type="text/javascript">
-<!--
-var js_blanks = "{$ibforums->lang['js_blanks']}";
-//-->
-</script>
-<script language='javascript' type="text/javascript" src="html/register.js"></script>
-
 <form action="{$ibforums->base_url}" method="post" name='REG' onsubmit='return Validate()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='03'>
@@ -98,15 +91,6 @@ EOF;
 function ShowForm($data) {
 global $ibforums;
 return <<<EOF
-<script language='javascript' type="text/javascript" src="html/register.js">
-</script>
-<script language='javascript' type="text/javascript">
-var js_blanks = '{$ibforums->lang['js_blanks']}';
-var js_no_check = "{$ibforums->lang['js_no_check']}";
-var js_err_pass_match = '{$ibforums->lang['err_pass_match']}';
-var js_err_email_address_match = '{$ibforums->lang['js_err_email_address_match']}';
-</script>
-
 <form action="{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}" method="post" name='REG' onsubmit='return Validate()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='02'>
@@ -148,7 +132,7 @@ var js_err_email_address_match = '{$ibforums->lang['js_err_email_address_match']
 <br>
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['terms_service']}</div>
-  <div class="tablepad" align="center">  
+  <div class="tablepad" align="center">
    <b>{$ibforums->lang['agree_submit']}</b>&nbsp;<input type='checkbox' name='agree' value='1'>
   </div>
   <div class="pformstrip" align="center"><input type="submit" value="{$ibforums->lang['submit_form']}" class='forminput'></div>
@@ -302,18 +286,6 @@ EOF;
 function show_lostpass_form() {
 global $ibforums;
 return <<<EOF
-
-<script language='javascript' type="text/javascript">
-<!--
-function Validate() {
-	// Check for Empty fields
-	if (document.REG.uid.value == "" || document.REG.aid.value == "") {
-		alert ("{$ibforums->lang['js_blanks']}");
-		return false;
-	}
-}
-//-->
-</script>
 <form action="{$ibforums->base_url}" method="post" name='REG' onsubmit='return ValidateLostPass()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='03'>
@@ -331,7 +303,7 @@ function Validate() {
 	<td class="pformright"><input type='password' size='32' maxlength='32' name='pass2' class='forminput'></td>
    </tr>
   </table>
- 
+
   <div class="pformstrip" align="center"><input type="submit" value="{$ibforums->lang['dumb_submit']}" class='forminput'></div>
 </div>
 </form>
@@ -355,7 +327,7 @@ return <<<EOF
 	<td class="pformleft"><strong>{$ibforums->lang['val_key']}</strong></td>
 	<td class="pformright"><input type='text' size='32' maxlength='50' name='aid' class='forminput'></td>
    </tr>
-  
+
 
 EOF;
 }
@@ -383,7 +355,7 @@ return <<<EOF
         	{$ibforums->lang['cpf_address']}
         	<br>
         	{$ibforums->vars['coppa_address']}
-        
+
         </td>
      </tr>
      </table>

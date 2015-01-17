@@ -45,27 +45,6 @@ EOF;
 function Page_header($links) {
 global $ibforums;
 return <<<EOF
-
-	<script language='Javascript' type='text/javascript'>
-		<!--
-		function PopUp(url, name, width,height,center,resize,scroll,posleft,postop) {
-			if (posleft != 0) { x = posleft }
-			if (postop  != 0) { y = postop  }
-		
-			if (!scroll) { scroll = 1 }
-			if (!resize) { resize = 1 }
-		
-			if ((parseInt (navigator.appVersion) >= 4 ) && (center)) {
-			  X = (screen.width  - width ) / 2;
-			  Y = (screen.height - height) / 2;
-			}
-			if (scroll != 0) { scroll = 1 }
-		
-			var Win = window.open( url, name, 'width='+width+',height='+height+',top='+Y+',left='+X+',resizable='+resize+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no');
-	     }
-		//-->
-	</script>
-	
     <div align='left'>$links</div>
     <br>
     <div class="tableborder">
@@ -77,10 +56,8 @@ return <<<EOF
 		   <th align='center' width='20%' class='titlemedium'>{$ibforums->lang['time']}</th>
 		   <th align='left' width='10%' class='titlemedium'>&nbsp;</th>
 		</tr>
-
 EOF;
 }
 
 
 }
-?>

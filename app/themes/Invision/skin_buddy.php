@@ -2,53 +2,6 @@
 
 class skin_buddy {
 
-
-function buddy_js() {
-global $ibforums;
-return <<<EOF
-<script language='javascript' type="text/javascript">
-<!--
- function redirect_to(where, closewin)
- {
- 	opener.location= '$ibforums->base_url' + where;
- 	
- 	if (closewin == 1)
- 	{
- 		self.close();
- 	}
- }
- 
- function check_form(helpform)
- {
- 	opener.name = "ibfmain";
- 
- 	if (helpform == 1) {
- 		document.theForm2.target = 'ibfmain';
- 	} else {
- 		document.theForm.target = 'ibfmain';
- 	}
- 	
- 	return true;
- }
- 
- function shrink()
- {
- 	window.resizeTo('200','75');
- }
- 
- function expand()
- {
- 	window.resizeTo('200','450');
- }
- 
- 
- //-->
- </script>
- 
-EOF;
-}
-
-
 function build_away_msg() {
 global $ibforums;
 return <<<EOF
@@ -56,7 +9,7 @@ return <<<EOF
 	{$ibforums->lang['new_posts']}
 	<br>
 	{$ibforums->lang['my_replies']}
- 
+
 EOF;
 }
 
@@ -91,7 +44,7 @@ return <<<EOF
  </form>
  </p>
  </div>
- 
+
  <div class="pformstrip" align="center">{$ibforums->lang['search_help']}</div>
  <div align="center">
  <p>

@@ -301,6 +301,10 @@ class Login
 			$this->output .= View::make("login.errors", ['data' => $message . ' ' . $error_message]);
 		}
 
+		$print->js->addLocal('login.js');
+		$print->exportJSLang([
+			'blank_fields'
+		]);
 		$this->output .= View::make(
 			"login.ShowForm",
 			['message' => $ibforums->lang['please_log_in'], 'referer' => $_SERVER['HTTP_REFERER']]

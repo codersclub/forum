@@ -175,7 +175,7 @@ class calendar
 			$this->nav[] = "<a href='{$ibforums->base_url}&amp;act=calendar'>{$ibforums->lang['page_title']}</a>";
 		}
 
-		$print->add_output("$this->output");
+		$print->add_output($this->output);
 		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
@@ -304,6 +304,7 @@ class calendar
 			? "<option value='y' selected='selected'>{$ibforums->lang['fv_years']}</option>"
 			: "<option value='y'>{$ibforums->lang['fv_years']}</option>";
 
+		$print->js->
 		$this->output .= View::make("post.get_javascript");
 
 		$this->output .= View::make("calendar.calendar_start_edit_form", ['eventid' => $event['eventid']]);
@@ -488,6 +489,7 @@ class calendar
 
 		$this->output = preg_replace("/<!--SIG-->.+?<!--ESIG-->/s", "", $this->output);
 
+		$print->js->addVariable('tid', $ibforums->input['t']);
 	}
 
 	//-----------------------------------------
@@ -1241,6 +1243,7 @@ class calendar
 		$this->nav[] = "<a href='{$ibforums->base_url}&amp;act=calendar'>{$ibforums->lang['page_title']}</a>";
 		$this->nav[] = $ibforums->lang['post_new_event'];
 
+		$print->js->addVariable('tid', Ibf::app()->input['t']);
 		$this->output .= View::make("post.get_javascript");
 
 		$this->output .= View::make("calendar.calendar_start_form");

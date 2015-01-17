@@ -58,8 +58,8 @@ class buddy {
     	// If we have any HTML to print, do so...
 
     	$this->output = str_replace( "<!--CLOSE.LINK-->", View::make("buddy.closelink"), $this->output );
-
-    	$print->pop_up_window($ibforums->lang['page_title'], View::make("buddy.buddy_js") .$this->output);
+	    $print->js->addLocal('buddy.js');
+    	$print->pop_up_window($ibforums->lang['page_title'], $this->output);
 
 
  	}

@@ -2075,6 +2075,7 @@ class Topics
 
 		// Pass it to our print routine
 
+		$print->js->addVariable('tid', $ibforums->input['t']);
 		$print->add_output($this->output);
 
 		$print->do_output(array(
