@@ -55,10 +55,6 @@ class SongFunc
 			case 'club_enable':
 				$this->club_member_enable($ibforums->input['mid']);
 				break;
-			case 'my_func':
-				$this->output = $this->my_func();
-				break;
-
 			default:
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				break;
@@ -91,28 +87,6 @@ class SongFunc
 			$print->add_output("$this->output");
 			$print->do_output(array());
 		}
-
-	}
-
-	function my_func()
-	{
-		global $ibforums;
-
-		if ($ibforums->member['id'] != 2)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
-		}
-
-		$stmt = $ibforums->db->query("SELECT m.id,m.last_activity
-		    FROM ibf_check_members cm, ibf_members m
-		    WHERE cm.mid=m.id and m.last_activity != cm.last_visit and m.last_activity > 0");
-
-		while ($member = $stmt->fetch())
-		{
-			$ibforums->db->exec("UPDATE ibf_check_members SET last_visit='" . $member['last_activity'] . "' WHERE mid='" . $member['id'] . "'");
-		}
-
-		return "Done!";
 
 	}
 

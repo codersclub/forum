@@ -1109,14 +1109,6 @@ class Register
 			$std->sendpm($member_id, $pm_message, $pm_subject, $ibforums->vars['auto_pm_from']);
 		}
 
-		// Song * look at died accounts
-
-		$ibforums->db->exec("INSERT INTO ibf_check_members
-			(mid,last_visit) VALUES
-			(" . $member_id . "," . time() . ")");
-
-		// Song * look at died accounts
-
 		$ibforums->db->exec("INSERT INTO ibf_member_extra
 			(id) VALUES ($member_id)");
 
