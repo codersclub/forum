@@ -31,7 +31,6 @@ function pm_popup() { window.open('index.php?act=Msg&CODE=99&s=' + session_id,'N
 
 //--------------------------------------------------------------
 // Expand/Collapse DIV
-//  by vot + MichSpar + Jureth
 //--------------------------------------------------------------
 function hasClass(e,cls) {
   return e.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));

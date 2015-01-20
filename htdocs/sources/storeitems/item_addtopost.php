@@ -52,14 +52,11 @@ class item
 
 	function do_on_use($addons, $blank = "", $blank = "")
 	{
-		// vot		global $ibforums,$print,$lib;
 		global $ibforums, $lib;
 		$addons = (int)$addons;
 		$ibforums->db->exec("UPDATE ibf_members SET posts=posts+$addons,post_addon=post_addon+$addons WHERE id='{$ibforums->member['id']}' LIMIT 1");
 		$lib->delete_item($ibforums->input['itemid']);
 		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "Использован товар 'Покупка постов'. Куплено и добавлено " . $addons . " сообщений.", "", "item");
-		// vot
-		//		$lib->redirect('Added onto Post Count','act=store&code=inventory','1');
 		return "";
 	}
 }

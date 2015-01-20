@@ -1581,10 +1581,10 @@ class quiz
 	{
 		global $ibforums, $std, $print, $lib, $HTTP_POST_VARS;
 
-		$debug = 0; // vot: For debug purposes !!!
-		// vot: 0 = no debug messages;
-		// vot: 1 = show correct/wrong answers
-		// vot: 2 = answers + form variables
+		$debug = 0; // For debug purposes !!!
+		// 0 = no debug messages;
+		// 1 = show correct/wrong answers
+		// 2 = answers + form variables
 
 		if ($ibforums->member['id'] <= 0)
 		{
@@ -1886,7 +1886,7 @@ class quiz
 			{
 				$quiz_items = explode("|", $quiz['quiz_items']);
 
-				// !!! vot: HAVE TO CHECK - If the item NOT sold!!!
+				// HAVE TO CHECK - If the item NOT sold!!!
 
 				foreach ($quiz_items as $items)
 				{
@@ -1931,7 +1931,7 @@ class quiz
 		$msg = str_replace("<WIN_AMOUNT>", $quiz['amount_won'], $msg);
 		$msg = str_replace("<QUIZ_PERCENT_NEEDED>", $quiz['percent_needed'], $msg);
 
-		// vot: !!! MAY BE - Redirect to the Quiz results???
+		// !!! MAY BE - Redirect to the Quiz results???
 		//    http://devel/index.php?act=quiz&code=quiz_results&quiz_id=1
 
 		$lib->redirect($msg, "act=quiz&" . $extra_location, 1);
@@ -2167,12 +2167,8 @@ class quiz
 	{
 		global $ibforums;
 
-		// Song * Reputation + show ratting setting
-
 		if ((!$ibforums->member['id'] or $ibforums->member['show_ratting']) and $member['show_ratting'] and !$member['use_sig'])
 		{
-
-			// Song * dual ratting, 15.01.05
 
 			$rep = ($this->forum['inc_postcount'])
 				? $member['rep']
@@ -2248,8 +2244,7 @@ class quiz
 		if ($member['rep'])
 			$member['rep'] .= "<br>";
 
-		// /Song * Reputation + show ratting setting
-		// Song * WARNINGS
+		// /Reputation + show ratting setting
 		if ($ibforums->vars['warn_on'] and !stristr($ibforums->vars['warn_protected'], ',' . $member['mgroup'] . ','))
 		{
 			if ($ibforums->member['id'] != $member['id'] and ($ibforums->member['g_is_supmod'] or $this->moderator['allow_warn']))
@@ -2433,90 +2428,6 @@ class quiz
 
 				$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
 			}
-
-			/*
-			  //--------------------------------------------------------------
-			  // Warny porny?
-			  //--------------------------------------------------------------
-
-			  if ( $ibforums->vars['warn_on']
-			  and !stristr( $ibforums->vars['warn_protected'], ','.$member['mgroup'].',' ) ) {
-			  if ( $ibforums->member['g_is_supmod'] or $this->moderator['allow_warn'] or
-			  ( $ibforums->vars['warn_show_own'] and $ibforums->member['id'] == $member['id'] )
-			  )
-			  {
-			  // Work out which image to show.
-
-			  if ( !$ibforums->vars['warn_show_rating'] )
-			  {
-			  if ( $member['warn_level'] <= $ibforums->vars['warn_min'] )
-			  {
-			  $member['warn_img']     = '<{WARN_0}>';
-			  $member['warn_percent'] = 0;
-
-			  } elseif ( $member['warn_level'] >= $ibforums->vars['warn_max'] )
-			  {
-			  $member['warn_img']     = '<{WARN_5}>';
-			  $member['warn_percent'] = 100;
-			  } else
-			  {
-			  $member['warn_percent'] = $member['warn_level'] ? sprintf( "%.0f", ( ($member['warn_level'] / $ibforums->vars['warn_max']) * 100) ) : 0;
-
-			  if ( $member['warn_percent'] > 100 ) {
-			  $member['warn_percent'] = 100;
-			  }
-
-			  if ( $member['warn_percent'] >= 81 )
-			  {
-			  $member['warn_img'] = '<{WARN_5}>';
-
-			  } elseif ( $member['warn_percent'] >= 61 )
-			  {
-			  $member['warn_img'] = '<{WARN_4}>';
-
-			  } elseif ( $member['warn_percent'] >= 41 )
-			  {
-			  $member['warn_img'] = '<{WARN_3}>';
-
-			  } elseif ( $member['warn_percent'] >= 21 )
-			  {
-			  $member['warn_img'] = '<{WARN_2}>';
-
-			  } elseif ( $member['warn_percent'] >= 1 )
-			  {
-			  $member['warn_img'] = '<{WARN_1}>';
-			  } else
-			  {
-			  $member['warn_img'] = '<{WARN_0}>';
-			  }
-			  }
-
-			  if ( $member['warn_percent'] < 1 ) $member['warn_percent'] = 0;
-
-			  //View::Make("quiz.warn_level_warn", []) no such a template
-			  $member['warn_text']  = $this->html->warn_level_warn($member['id'], $member['warn_percent'] );
-
-			  } else
-			  {
-			  // Ratings mode..
-
-			  $member['warn_text']  = $ibforums->lang['tt_rating'];
-			  $member['warn_text']  = View::Make("quiz.warn_title", ['id' => $member['id'],'title' => $member['warn_text']]);
-			  $member['warn_text'] .= $member['warn_level'];
-
-			  // Song * new separated warning system
-			  if ( $ibforums->member['is_new_warn_exixts'] )
-			  {
-			  $member['warn_text'] .= " <span class='movedprefix'>(new!)</span>";
-
-			  } elseif ( !$member['warn_level'] )
-			  {
-			  $member['warn_text'] = "";
-			  }
-			  $member['warn_text'] .= "<br>";
-			  }
-			  }
-			 */
 		}
 
 		// Add reputation and warn tools

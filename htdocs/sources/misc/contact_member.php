@@ -363,7 +363,6 @@ class Contact
 
 		if (!$stmt->rowCount())
 		{
-			//Jureth + vot		$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE mgroup='".$ibforums->vars['admin_group']."'");
 			$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE mgroup IN (" . $ibforums->vars['supermoderator_group'] . "," . $ibforums->vars['admin_group'] . ")");
 		}
 

@@ -82,7 +82,6 @@ class post_functions extends Post
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		//vot 23.08.2010
 		// Check for the URL parameters are modified manually
 
 		if (($this->orig_post['pid'] != intval($ibforums->input['p'])) || ($this->orig_post['topic_id'] != intval($ibforums->input['t'])) || ($this->orig_post['forum_id'] != intval($ibforums->input['f']))
@@ -97,7 +96,6 @@ class post_functions extends Post
 
 		if ($ibforums->member['id'])
 		{
-			//vot: old buggy WHERE:			forum_id='".$class->forum['id']."'
 			$stmt = $ibforums->db->query("SELECT
 					member_id,
 					member_name,
@@ -130,8 +128,6 @@ class post_functions extends Post
 		{
 			$can_edit = 1;
 		}
-
-		// Song * post has modcomment
 
 		if ($this->orig_post['author_id'] == $ibforums->member['id'] and $ibforums->member['g_edit_posts'])
 		{
@@ -415,8 +411,6 @@ class post_functions extends Post
 			$ibforums->input['TopicTitle'] = trim($class->parser->bad_words($ibforums->input['TopicTitle']));
 			$ibforums->input['TopicDesc']  = trim($class->parser->bad_words($ibforums->input['TopicDesc']));
 
-			// Song * club tool
-
 			if ($ibforums->input['club_only'] and
 			    $std->check_perms($ibforums->member['club_perms']) == FALSE
 			)
@@ -457,8 +451,6 @@ class post_functions extends Post
 
 		$time = time();
 
-		// Song * club tool
-
 		if (($ibforums->member['g_is_supmod'] or
 		     $class->moderator['edit_post']) and
 		    $ibforums->input['bump']
@@ -492,7 +484,6 @@ class post_functions extends Post
 			}
 
 			//----------------------------------------------------
-			// vot:
 			// Index the Topic Title for the Indexed Search Engine
 			//----------------------------------------------------
 
@@ -519,8 +510,7 @@ class post_functions extends Post
 		{
 			$this->post['append_edit'] = 1;
 
-			//Jureth		if ($ibforums->member['g_append_edit'])
-			if ($ibforums->member['g_append_edit'] and $this->orig_post['author_id'] == $ibforums->member['id']) //Jureth
+			if ($ibforums->member['g_append_edit'] and $this->orig_post['author_id'] == $ibforums->member['id'])
 			{
 				if ($ibforums->input['add_edit'] != 'yes')
 				{
@@ -533,8 +523,6 @@ class post_functions extends Post
 		{
 			$this->post['has_modcomment'] = $std->mod_tag_exists($this->post['post'], 1);
 		}
-
-		// Song * delayed post deleting, 19.04.05
 
 		if ($this->orig_post['delete_after']
 		    and !$this->post['delete_after']
@@ -562,7 +550,6 @@ class post_functions extends Post
 		PostEditHistory::addItem($this->post['pid'], $this->orig_post['post']);
 
 		//----------------------------------------------------
-		// vot:
 		// Index the Post body for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -641,7 +628,6 @@ class post_functions extends Post
 				['data' => array('TITLE' => $topic_title, 'DESC' => $topic_desc)]
 			);
 
-			// Song * club tool
 			if ($std->check_perms($ibforums->member['club_perms']) == TRUE and
 			    $ibforums->member['club_perms'] != $class->forum['read_perms']
 			)
@@ -755,8 +741,6 @@ class post_functions extends Post
 		$class->output = str_replace("<!--UPLOAD FIELD-->", $upload_field, $class->output);
 		$class->output = preg_replace("/<!--RIGHTS OPTIONS-->/", "$rights_options", $class->output);
 		$class->output = str_replace("<!--MOD OPTIONS-->", $mod_options . $edit_option, $class->output);
-
-		// Song * IBF forum rules
 
 		if ($class->forum['show_rules'])
 		{

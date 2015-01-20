@@ -47,9 +47,9 @@ $autologin             = 0;
 $allow_guest_access    = $INFO['chat_allow_guest'] == 1 ? ACCESS : DENIED;
 
 
-$allowed_groups        = 4; //vot
-$access_groups         = 4;  //vot
-$allow_guest_access    = DENIED; //vot
+$allowed_groups        = 4;
+$access_groups         = 4;
+$allow_guest_access    = DENIED;
 
 // Stupid PHP changing it's mind on HTTP args
 
@@ -93,7 +93,7 @@ $DB = @mysql_connect( $db_info['host'], $db_info['user'], $db_info['pass'] );
 if ( ! @mysql_select_db( $db_info['database'] ) )
 {
 	die_nice("Can't connect to MySQL.");
-	
+
 	//-- script exits --//
 }
 
@@ -113,11 +113,11 @@ else
 $query_id = @mysql_query("SELECT m.mgroup, m.password, m.name, m.id  FROM {$db_info['tbl_prefix']}members m
 						  WHERE m.name='".addslashes($username)."' LIMIT 1"
 						 , $DB );
-						
+
 if ( ! $query_id )
 {
 	die_nice("Can't SELECT from members.");
-	
+
 	//-- script exits --//
 }
 
@@ -125,9 +125,9 @@ if ( ! $query_id )
 if ( ! $member = @mysql_fetch_array( $query_id, MYSQL_ASSOC ) )
 {
 	// No member found - allow guest access?
-	
+
 	die_nice("Member not found. ".$allow_guest_access);
-	
+
 	//-- script exits --//
 }
 
@@ -142,13 +142,13 @@ if ( ! $member = @mysql_fetch_array( $query_id, MYSQL_ASSOC ) )
 if ( $password != "" )
 {
 	// Password was entered..
-	
+
 	if ( $md5_password != $member['password'] )
 	{
 		// Password incorrect..
-		
+
 		die_nice("Password incorrect.");
-		
+
 		//-- script exits --//
 	}
 	else
@@ -160,9 +160,9 @@ else
 {
 	// No password entered - die!
 	// Do not allow guest access on reg. name
-	
+
 	die_nice("No password entered.");
-		
+
 	//-- script exits --//
 }
 
@@ -194,8 +194,8 @@ if ( preg_match( "/(^|,)".$member['mgroup']."(,|$)/", $allowed_groups ) )
 print "Access code=".$output_int;
 
 exit();
-	 
-	 
+
+
 function die_nice( $access=0 )
 {
 	// Simply error out silently, showing guest access only for the user
@@ -211,19 +211,19 @@ function die_nice( $access=0 )
 function clean_value($val)
 {
     global $INFO;
-    
+
 	if ($val == "")
 	{
 		return "";
 	}
-	
+
 	$val = str_replace( "&#032;", " ", $val );
-	
+
 	if ( $INFO['strip_space_chr'] )
 	{
 		$val = str_replace( chr(0xCA), "", $val );  //Remove sneaky spaces
 	}
-	
+
 	$val = str_replace( "&"            , "&amp;"         , $val );
 	$val = str_replace( "<!--"         , "&#60;&#33;--"  , $val );
 	$val = str_replace( "-->"          , "--&#62;"       , $val );
@@ -236,23 +236,23 @@ function clean_value($val)
 	$val = preg_replace( "/\r/"        , ""              , $val ); // Remove literal carriage returns
 	$val = str_replace( "!"            , "&#33;"         , $val );
 	$val = str_replace( "'"            , "&#39;"         , $val ); // IMPORTANT: It helps to increase sql query safety.
-	
+
 	// Ensure unicode chars are OK
-	
+
 	$val = preg_replace("/&amp;#([0-9]+);/s", "&#\\1;", $val );
-	
+
 	// Strip slashes if not already done so.
-	
+
 	if ( get_magic_quotes_gpc() )
 	{
 		$val = stripslashes($val);
 	}
-	
+
 	// Swop user inputted backslashes
-	
-	$val = preg_replace( "/\\\(?!&amp;#|\?#)/", "&#092;", $val ); 
-	
+
+	$val = preg_replace( "/\\\(?!&amp;#|\?#)/", "&#092;", $val );
+
 	return $val;
 }
-	 
+
 ?>

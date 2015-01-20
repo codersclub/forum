@@ -85,14 +85,6 @@ class session
 			'mgroup'   => $ibforums->vars['guest_group']
 		]);
 
-		//--------------------------------------------
-		// no new headers if we're simply viewing an attachment..
-		//--------------------------------------------
-		// vot        if ( $ibforums->input['act'] == 'Attach' )
-		// vot        {
-		// vot        	return $this->member;
-		// vot        }
-
 		$_SERVER['HTTP_USER_AGENT'] = $std->clean_value($_SERVER['HTTP_USER_AGENT']);
 
 		$this->ip_address = $ibforums->input['IP_ADDRESS'];
@@ -393,7 +385,7 @@ class session
 					last_visit=?,
 					last_activity=?
 				    WHERE id=?");
-				$stmt->execute([$this->time_now, $this->time_now, $this->memeber['id']]);
+				$stmt->execute([$this->time_now, $this->time_now, $this->member['id']]);
 
 			} elseif ((time() - $ibforums->input['last_activity']) > 300)
 			{
@@ -402,7 +394,7 @@ class session
 				$stmt = $ibforums->db->prepare("UPDATE ibf_members
 				    SET last_activity=?
 				    WHERE id=?");
-				$stmt->execute([$this->time_now, $this->memeber['id']]);
+				$stmt->execute([$this->time_now, $this->member['id']]);
 				}
 
 			//-------------------------------------------------
@@ -454,8 +446,7 @@ class session
 		// permissions based on a group
 		$ibforums->perm_id = $this->member['g_perm_id'];
 
-		// Song * enchaced rights, 16.12.04
-		// additional permissions basen on a member
+		// additional permissions based on a member
 		$org_perm_id = isset($this->member['org_perm_id'])
 			? $this->member['org_perm_id']
 			: '';
@@ -507,7 +498,6 @@ class session
 
 				if ($this->member['id'])
 				{
-					// Song * club tool
 					$stmt = $ibforums->db->prepare("SELECT read_perms
 					FROM ibf_forums
 					WHERE id=?");
@@ -518,8 +508,8 @@ class session
 						$this->member['club_perms'] = $club['read_perms'];
 					}
 
-					// vot: BAD MESSAGE! yesterday, today
-					// Song * today/yesterday
+					// todo BAD MESSAGE! yesterday, today
+					// today/yesterday
 
 					if ($this->member['language'] == 'en')
 					{
@@ -543,11 +533,11 @@ class session
 
 					$time = time();
 
-					/* <--- Jureth ---
+					/**
 					 * Publish the moderated forums list
 					 * Hint: Result of query include forums, moderated by groups, rather than prev.
 					 *
-					 * */
+					 **/
 
 					$this->member['modforums'] = false;
 					$mod                       = array();
@@ -565,8 +555,6 @@ class session
 						$this->member['modforums'] = implode(',', $mod);
 					}
 					unset($mod);
-
-					/* >--- Jureth --- */
 
 					// if this is a user
 					if (!$this->member['is_mod'])
@@ -616,16 +604,16 @@ class session
 								// delete old record about violation
 								$ibforums->db->exec("DELETE FROM ibf_warnings
 								    WHERE id='" . $row['id'] . "'");
-								// vot: BAD MESSAGE!
+								// todo BAD MESSAGE!
 								$mes = "Уменьшен уровень Ваших предупреждений в связи с истечением срока действия одного из них.\n\n";
 
 								if ($group == $ibforums->vars['member_group'] or $group == $ibforums->vars['club_group'] or $group == 26 or $group == 9)
 								{
-									// vot: BAD MESSAGE!
+									// todo BAD MESSAGE!
 									$mes .= "[color=green]Вы обратно переведены в группу участников.[/color]";
 								} else
 								{
-									// vot: BAD MESSAGE!
+									// todo BAD MESSAGE!
 									$mes .= "[color=red]Вы переведены в группу нарушивших правила уровня " . $level . ".[/color]";
 								}
 
@@ -655,7 +643,7 @@ class session
 						// ************* BEGIN MODERATORS DAILY TASKS **********************************
 						// *****************************************************************************
 
-						if ($this->member['modforums']) //Jureth
+						if ($this->member['modforums'])
 						{
 							$topics = array();
 							$forums = array();
@@ -718,7 +706,6 @@ class session
 								unset($forums);
 							}
 
-							//Jureth				  unset($mod);
 						}
 						// *************************************************************************************************************************
 						// ************************** END OF MODERATORS TASKS ************************************************
@@ -792,7 +779,6 @@ class session
 		$this->member['password'] = "";
 	}
 
-	// Song * topic and forum recount within deleting of moderatorial posts, 15.02.05
 	//---------------------------------------------------
 	function clear_posts(PDOStatementWrapper $stmt, &$topics, &$forums)
 	{
@@ -936,7 +922,6 @@ class session
 		$ibforums->db->exec("UPDATE ibf_stats SET TOTAL_TOPICS=" . $topics['tcount'] . ", TOTAL_REPLIES=" . $posts);
 	}
 
-	// /Song * topic and forum recount within deleting of posts, 15.02.05
 	//-------------------------------------------
 	// Get a session based on the current session ID
 	//-------------------------------------------
@@ -1172,8 +1157,6 @@ class session
 				$ibforums->input['last_activity'] = $this->time_now;
 			}
 
-			// Song * who was today online (members)
-
 			$std->who_was_member($this->member['id']);
 		} else
 		{
@@ -1225,8 +1208,6 @@ class session
 
 		$ibforums->db->insertRow('ibf_sessions', $data);
 
-		// Song * who was today online (guest)
-
 		$std->who_was_guest_or_bot('ibf_g_visitors', 'guests', $this->session_id, $this->ip_address);
 	}
 
@@ -1277,7 +1258,6 @@ class session
 		);
 
 		$ibforums->db->insertRow('ibf_sessions', $data, 'DELAYED');
-		// Song * who was today online (bot)
 
 		$std->who_was_guest_or_bot('ibf_b_visitors', 'bots', $session_id, $this->ip_address);
 	}

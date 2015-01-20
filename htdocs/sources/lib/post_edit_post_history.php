@@ -121,8 +121,6 @@ class post_functions extends Post
 			$can_edit = 1;
 		}
 
-		// Song * post has modcomment
-
 		if ($this->orig_post['author_id'] == $ibforums->member['id'] and $ibforums->member['g_edit_posts'])
 		{
 			$can_edit = 1;

@@ -43,8 +43,6 @@ class functions
 			: $INFO['number_format'];
 	}
 
-	// Shaman * get/set forums open state
-
 	function get_board_visibility($board_id, $is_forum)
 	{
 		global $sess;
@@ -139,8 +137,6 @@ class functions
 		return (bool)preg_match($re, $post);
 	}
 
-	//-------------------------------------
-	// Song * delayed time, 03.05.05
 	function delayed_time($post, $days_off, $to_do = 0, $moderator = array(), $is_new_post = false)
 	{
 		global $ibforums;
@@ -202,8 +198,6 @@ class functions
 		return $days;
 	}
 
-	// Song * hide parts of post, 27.03.05
-
 	function regex_moderator_message($message)
 	{
 		global $ibforums;
@@ -246,8 +240,6 @@ class functions
 		return $post;
 	}
 
-	// Song * premoderation, 16.03.05
-
 	function premod_rights($mid, $queued = 0, &$resolve = 0)
 	{
 		global $ibforums;
@@ -281,8 +273,6 @@ class functions
 		return TRUE;
 	}
 
-	// Song * Old Topics Flood, 15.03.05
-
 	function user_reply_flood($start_date = 0)
 	{
 		global $ibforums;
@@ -297,8 +287,6 @@ class functions
 
 		return FALSE;
 	}
-
-	// Song * user ban function
 
 	function user_ban_check($forum = array())
 	{
@@ -371,8 +359,6 @@ class functions
 			}
 		}
 	}
-
-	// Song * ip control
 
 	function ip_control($forum, $ip)
 	{
@@ -526,8 +512,6 @@ class functions
 			$this->do_update($id, $pid);
 		}
 	}
-
-	// Song * forum filter, 19.11.2004, 19.12.2004 (with endless depth)
 
 	function subforums_addtorow($result, $children, $id, $level)
 	{
@@ -713,8 +697,6 @@ class functions
 		return "";
 	}
 
-	// Song * get syntax highlight id
-
 	function get_highlight_id($id)
 	{
 		$ibforums = Ibf::app();
@@ -738,8 +720,6 @@ class functions
 
 		return $row['highlight_fid'];
 	}
-
-	// Song * who was today online
 
 	function current_day()
 	{
@@ -886,8 +866,6 @@ class functions
 
 			$syntax_html .= "<option value='{$syntax['syntax']}'>{$syntax['syntax_description']}</option>";
 		}
-
-		// vot: BAD Message!!!
 
 		$syntax_html .= "<option value='no'>Без подсветки</option>";
 
@@ -1140,9 +1118,6 @@ class functions
 		return $message_id;
 	}
 
-	// -----------------------------------------------------
-	// Leprecon. Some functions for syntax highlight
-	// Begin -----------------------------------------------
 	function str_to_sql($str)
 	{
 		$str = preg_replace("/\\\/", "\\\\\\", $str);
@@ -1156,10 +1131,6 @@ class functions
 		$str = preg_replace("/'/", "&#39;", $str);
 		return $str;
 	}
-
-	// End -------------------------------------------------
-	// Leprecon
-	// -----------------------------------------------------
 
 	/* ------------------------------------------------------------------------- */
 	// txt_stripslashes
@@ -1326,8 +1297,6 @@ class functions
 	// ------------------
 	// Checks and prints forum rules (if required)
 	/* ------------------------------------------------------------------------- */
-
-	// Song * new IBF forum rules
 
 	function print_forum_rules($forum)
 	{
@@ -2057,7 +2026,6 @@ class functions
 
 					if ($PageNo > ($work['current_page'] + $section))
 					{
-						// Song * new pages, 14.02.05
 						$work['end_dots'] = "...&nbsp;";
 
 						if ($work['pages'] - $work['current_page'] > 2 and
@@ -2075,7 +2043,6 @@ class functions
 						{
 							$work['end_dots'] .= "<a href='{$data['BASE_URL']}&amp;st=" . ($work['pages'] - 1) * $data['PER_PAGE'] . "' title='{$ibforums->lang['ps_page']} {$work['pages']}'>{$ibforums->lang['ps_last']} &raquo;</a>";
 						}
-						// /Song * new pages, 14.02.05
 						break;
 					}
 
@@ -2085,8 +2052,6 @@ class functions
 
 			$work['return'] = $work['first_page'] . $work['st_dots'] . $work['page_span'] . '&nbsp;' . $work['end_dots'];
 
-			// Song * show all posts in the topic
-
 			if (mb_strpos($data['BASE_URL'], "showtopic") !== FALSE and
 			    $data['TOTAL_POSS'] < $ibforums->vars['max_show_all_posts']
 			)
@@ -2094,7 +2059,6 @@ class functions
 				$work['return'] .= " <a href='{$data['BASE_URL']}&amp;view=showall'>" . $ibforums->lang['all_posts'] . "</a>";
 			}
 
-			// /Song * show all posts in the topic
 		} else
 		{
 			$work['return'] = $data['L_SINGLE'];
@@ -2195,13 +2159,10 @@ class functions
 				{
 					if ($i['parent_id'] > 0)
 					{
-						//song						$children[ $i['parent_id'] ][] = "<option value=\"{$i['forum_id']}\"$selected>&nbsp;&nbsp;<IBF_SONG_DEPTH>&nbsp;{$i['forum_name']}</option>\n");
-						// Song * endless forums, 20.12.04
 						$children[$i['parent_id']][] = array(
 							$i['forum_id'],
 							"<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
 						);
-						// Song * endless forums, 20.12.04
 					} else
 					{
 						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
@@ -2242,9 +2203,7 @@ class functions
 
 							if ($ibforums->vars['short_forum_jump'] != 1)
 							{
-								// Song * endless forums, 20.12.04
 								$the_html .= $this->subforums_addtoform($idx, $children);
-								// Song * endless forums, 20.12.04
 							} else
 							{
 								$the_html = str_replace('<IBF_SONG_DEPTH>', "", $the_html);
@@ -2264,8 +2223,6 @@ class functions
 
 		return $the_html;
 	}
-
-	// Song * endless forums, 20.12.04
 
 	function subforums_addtoform($id, &$children, $level = '')
 	{
@@ -2392,13 +2349,10 @@ class functions
 				{
 					if ($i['parent_id'] > 0)
 					{
-						//song						$children[ $i['parent_id'] ][] = "<option value=\"{$i['forum_id']}\"".$selected.">&nbsp;&nbsp;---- {$i['forum_name']} $redirect</option>\n";
-						// Song * endless forums, 20.12.04
 						$children[$i['parent_id']][] = array(
 							$i['forum_id'],
 							"<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
 						);
-						// Song * endless forums, 20.12.04
 					} else
 					{
 						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
@@ -2439,9 +2393,7 @@ class functions
 
 							if ($ibforums->vars['short_forum_jump'] != 1)
 							{
-								// Song * endless forums, 20.12.04
 								$the_html .= $this->subforums_addtoform($idx, $children);
-								// Song * endless forums, 20.12.04
 							} else
 							{
 								$the_html = str_replace('<IBF_SONG_DEPTH>', "", $the_html);
@@ -2515,9 +2467,6 @@ class functions
 	// a time zone, we use the default board time offset (which should automagically
 	// be adjusted to match gmdate.
 	/* ------------------------------------------------------------------------- */
-
-	// Song * today/yesterday
-	// Edited by Sunny
 
 	function old_get_date($date)
 	{
@@ -2786,8 +2735,6 @@ class functions
 
 		$return = array();
 
-		// Song * secure patch
-
 		if (is_array($_GET))
 		{
 			while (list($k, $v) = each($_GET))
@@ -2796,7 +2743,6 @@ class functions
 				{
 					continue;
 				}
-				// Song * secure patch
 				if (is_array($_GET[$k]))
 				{
 					while (list($k2, $v2) = each($_GET[$k]))
@@ -3138,14 +3084,14 @@ class functions
 		if (!$error['EXTRA'])
 		{
 			$error['EXTRA'] = "";
-		} // vot
+		}
 		$msg = preg_replace("/<#EXTRA#>/", $error['EXTRA'], $msg);
 
 		if (!isset($error['EXTRA2']) || !$error['EXTRA2'])
 		{
 			$error['EXTRA2'] = "";
-		} // vot
-		$msg = preg_replace("/<#EXTRA2#>/", $error['EXTRA2'], $msg); // vot
+		}
+		$msg = preg_replace("/<#EXTRA2#>/", $error['EXTRA2'], $msg);
 		//sh: This returns to user just only error string
 		//Such behavior is needed for:
 		//a) offline clients
@@ -3195,8 +3141,6 @@ class functions
 		                       'TITLE'    => $ibforums->lang['error_title'],
 		                  ));
 	}
-
-	// Song * NEW system
 
 	function song_get_forumsread()
 	{
@@ -3350,8 +3294,6 @@ class functions
 		$this->song_set_forumread($fid);
 	}
 
-	// Song * new NEW system
-
 	function board_offline()
 	{
 		global $ibforums;
@@ -3400,8 +3342,6 @@ class functions
 
 		return $chosen;
 	}
-
-	// Song * enchased flood control, 23.02.05
 
 	function flood_begin()
 	{
@@ -3493,7 +3433,6 @@ class functions
 	//===========================================================================
 	//###########################################################################
 	//-----------------------------------------------
-	// vot:
 	// Reindex the Post body
 	//-----------------------------------------------
 	function index_reindex_post($pid = 0, $tid = 0, $fid = 0, $post = "")
@@ -3512,7 +3451,6 @@ class functions
 	}
 
 	//-----------------------------------------------
-	// vot:
 	// Reindex the Topic Title
 	//-----------------------------------------------
 	function index_reindex_title($tid = 0, $fid = 0, $title)
@@ -3531,7 +3469,6 @@ class functions
 	}
 
 	//------------------------------------------------------
-	// vot:
 	// delete indexed earlier words for the topic title only
 	//------------------------------------------------------
 
@@ -3549,7 +3486,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for this post
 	//--------------------------------------------------
 
@@ -3566,7 +3502,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for the postlist
 	//--------------------------------------------------
 
@@ -3588,7 +3523,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for all this topic
 	//--------------------------------------------------
 
@@ -3606,7 +3540,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for the topic list
 	//--------------------------------------------------
 
@@ -3628,7 +3561,6 @@ class functions
 	}
 
 	//-------------------------------------------------
-	// vot:
 	// Update the search words - MOVE to another forum
 	//-------------------------------------------------
 	function index_move_topics($tids, $movetoforum)
@@ -3649,7 +3581,6 @@ class functions
 	}
 
 	//--------------------------------------------
-	// vot:
 	// Build New Search Index for a Title or Post
 	//--------------------------------------------
 
@@ -3718,7 +3649,6 @@ class functions
 	}
 
 	//-----------------------------------------------
-	// vot:
 	// Parse the content, strip & return unique words
 	//-----------------------------------------------
 	function index_wordlist($post = "")
@@ -3809,7 +3739,7 @@ class functions
 	//##############################################################
 
 	//+-------------------------------------------------
-	// vot: Check if the user is banned by IP ?
+	// Check if the user is banned by IP ?
 	//+-------------------------------------------------
 	function is_ip_banned($ipaddr)
 	{

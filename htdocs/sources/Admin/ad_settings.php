@@ -441,8 +441,6 @@ class ad_settings
 			case 'docount':
 				$this->docount();
 				break;
-			// Song
-
 			//Reputation
 			case 'rep':
 				$this->reput();
@@ -472,8 +470,6 @@ class ad_settings
 				                   ));
 				break;
 			//Reputation
-
-			// Song
 
 			default:
 				$this->cookie();
@@ -1223,8 +1219,6 @@ class ad_settings
 
 	}
 
-	// Song
-
 	//-------------------------------------------------------------
 	// REPUTATION FUNCTIONS
 	//-------------------------------------------------------------
@@ -1348,8 +1342,6 @@ class ad_settings
 	}
 
 	//=====================================================
-
-	// Song
 
 	//-------------------------------------------------------------
 	// EMOTICON FUNCTIONS

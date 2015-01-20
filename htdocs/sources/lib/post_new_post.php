@@ -217,8 +217,6 @@ class post_functions extends Post
 		// Build the master array
 		//-------------------------------------------------
 
-		// Song * club tool
-
 		if ($ibforums->input['club_only'] and
 		    $std->check_perms($ibforums->member['club_perms']) == FALSE
 		)
@@ -257,8 +255,6 @@ class post_functions extends Post
 			'hidden'           => $hidden,
 		);
 
-		// Song * new pinned
-
 		if ($pinned)
 		{
 			$this->topic['pinned_date'] = time();
@@ -281,7 +277,6 @@ class post_functions extends Post
 			$draft->delete();
 		}
 		//----------------------------------------------------
-		// vot:
 		// Index the Topic Title for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -304,8 +299,6 @@ class post_functions extends Post
 		{
 			$this->post['queued'] = 0;
 		}
-
-		// Song * delayed post deleting, 19.04.05
 
 		$this->post['delete_after'] = 0;
 
@@ -332,7 +325,6 @@ class post_functions extends Post
 		}
 
 		//----------------------------------------------------
-		// vot:
 		// Index the Post body for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -348,7 +340,6 @@ class post_functions extends Post
 				    SET has_mod_posts=1
 				    WHERE id='" . $class->forum['id'] . "'");
 
-			// Song * favorite checkbox in the new topic, 18.03.05
 			$this->add_to_fav();
 
 			$print->redirect_screen($ibforums->lang['moderate_topic'], "act=SF&f={$class->forum['id']}");
@@ -360,8 +351,6 @@ class post_functions extends Post
 		//-------------------------------------------------
 
 		$class->forum['topics']++;
-
-		// Song * club tool
 
 		if (!$ibforums->input['club_only'])
 		{
@@ -472,11 +461,7 @@ class post_functions extends Post
 					last_post='{$ibforums->member['last_post']}'
 				    WHERE id='{$ibforums->member['id']}'");
 
-			// Song * favorite checkbox in the new topic, 18.03.05
-
 			$this->add_to_fav();
-
-			// Song * additional flood control
 
 		} else
 		{
@@ -492,9 +477,6 @@ class post_functions extends Post
 		$std->boink_it($class->base_url . "act=ST&amp;f={$class->forum['id']}&amp;t={$this->topic['tid']}");
 
 	}
-
-	//-----------------------------------------------------
-	// Song * favorite checkbox in the new topic, 18.03.05
 
 	function add_to_fav()
 	{
@@ -643,8 +625,6 @@ class post_functions extends Post
 
 		$mod_options = $class->mod_options();
 
-		// Song * club tool
-
 		if ($std->check_perms($ibforums->member['club_perms']) == TRUE and
 		    $ibforums->member['club_perms'] != $class->forum['read_perms']
 		)
@@ -691,8 +671,6 @@ class post_functions extends Post
 		$class->output = preg_replace("/<!--MOD OPTIONS-->/", "$mod_options", $class->output);
 		$class->output = preg_replace("/<!--END TABLE-->/", "$end_form", $class->output);
 		$class->output = preg_replace("/<!--TOPIC TITLE-->/", "$topic_title", $class->output);
-
-		// Song * IBF forum rules
 
 		if ($class->forum['show_rules'])
 		{

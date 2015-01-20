@@ -1319,8 +1319,8 @@ class ad_forums
 		//+-------------------------------
 
         $star = \Skins\Factory::createDefaultSkin()->getMacroValues()['A_STAR'];
-		Logs::debug('Debug', $star);
-		$row['A_STAR'] = str_replace("<#IMG_DIR#>", $SKIN->img_url, $star); //vot
+
+		$row['A_STAR'] = str_replace("<#IMG_DIR#>", $SKIN->img_url, $star);
 
 		$ADMIN->html .= $SKIN->start_table("Member Titles/Ranks");
 
@@ -1864,11 +1864,7 @@ class ad_forums
 
 		$id_count = count($ids);
 
-		// Song * delete members
-
 		$std->delete_members(" IN(" . $id_string . ")");
-
-		// Song * delete members
 
 		// Blow me melon farmer
 
@@ -1983,11 +1979,7 @@ class ad_forums
 			$ADMIN->error("Could not resolve member id");
 		}
 
-		// Song * delete members
-
 		$std->delete_members("='" . $IN['MEMBER_ID'] . "'");
-
-		// Song * delete members
 
 		// Blow me melon farmer
 
@@ -2187,10 +2179,7 @@ class ad_forums
 
 		while ($row = $stmt->fetch())
 		{
-			// vot: Temporarily disable OLD GENDER Fields!!!!!!
-			//if( ($row['fid'] != 1) && ($row['fid'] != 6) ) {
 			$custom_fields['field_' . $row['fid']] = $IN['field_' . $row['fid']];
-			//}
 		}
 
 		//+--------------------------------------------
@@ -3108,8 +3097,6 @@ class ad_forums
 		                                       $SKIN->form_textarea("signature", $mem['signature'])
 		                                  ));
 
-		// Song
-
 		//Reputation
 		$ADMIN->html .= $SKIN->end_table();
 
@@ -3294,14 +3281,10 @@ class ad_forums
 		                                                  'quote'
 		                                                  ], $member), "id='" . $IN['mid'] . "'");
 
-		// Song * reputation
-
 		if ($IN['rep_recount'])
 		{
 			$std->rep_recount($IN['mid']);
 		}
-
-		// Song * reputation
 
 		//----------------------------------
 		// Remove photo?

@@ -41,8 +41,6 @@ class RssApplication extends CoreApplication
 			}
 		}
 
-		// Song * club tool
-
 		// disable highlight to reduce power of parser
 		$data['syntax'] = 'none';
 

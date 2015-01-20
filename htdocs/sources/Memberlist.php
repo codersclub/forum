@@ -165,7 +165,7 @@ class Memberlist
 			'rep'        => 'sort_by_rep',
 			'points'     => 'sort_by_dgm',
 			'location'   => 'sort_by_location',
-			'icq_number' => 'sort_by_icq', // (c) barazuk
+			'icq_number' => 'sort_by_icq',
 		);
 
 		$the_max_results = array(
@@ -268,31 +268,6 @@ class Memberlist
 				$q_extra = " AND m.mgroup='" . $this->filter . "' ";
 			}
 		}
-
-		/* commented & modified by barazuk
-				if ( $ibforums->input['name_box'] != 'all' )
-				{
-				if ($this->sort_key == 'location')
-				{
-						if ( $ibforums->input['name_box'] == 'begins' )
-						{
-							$q_extra .= " AND m.location LIKE '".$ibforums->input['name']."%'";
-						} else
-						{
-							$q_extra .= " AND m.location LIKE '%".$ibforums->input['name']."%'";
-						}
-				} else
-				{
-						if ( $ibforums->input['name_box'] == 'begins' )
-						{
-							$q_extra .= " AND m.name LIKE '".$ibforums->input['name']."%'";
-						} else
-						{
-							$q_extra .= " AND m.name LIKE '%".$ibforums->input['name']."%'";
-						}
-				}
-				}
-		*/
 
 		if ($ibforums->input['name_box'] != 'all')
 		{
@@ -404,7 +379,6 @@ class Memberlist
 				}
 			}
 
-			// Song * sex
 			if ($member['gender'] == 'f')
 			{
 				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' border='0'> ";

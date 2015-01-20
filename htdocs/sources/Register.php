@@ -652,9 +652,7 @@ class Register
 				}
 			}
 
-			// Song * show settings
 			$row['fdesc'] = str_replace(array("&lt;", "&gt;", "&quot;"), array("<", ">", "\""), $row['fdesc']);
-			// Song * show settings
 
 			${$ftype} .= View::make(
 				"register.field_entry",
@@ -828,15 +826,11 @@ class Register
 			return;
 		}
 
-		// Song * dont mixing english and russian letters
-
 		if (preg_match("#[a-z]+#i", $in_username) && preg_match("#[а-я]+#i", $in_username))
 		{
 			$this->show_reg_form('err_rus_en_user_name');
 			return;
 		}
-
-		// Song * dont mixing english and russian letters
 
 		if (empty($len_p))
 		{
@@ -1026,7 +1020,6 @@ class Register
 		//+--------------------------------------------
 		//| Build up the hashes
 		//+--------------------------------------------
-		//vot	$mem_group = $ibforums->vars['member_group'];
 		$mem_group = $ibforums->vars['newbie_group'];
 
 		//+--------------------------------------------
@@ -1045,8 +1038,6 @@ class Register
 		//| Find the highest member id, and increment it
 		//| auto_increment not used for guest id 0 val.
 		//+--------------------------------------------
-		// Song * new register patch for increment, 27.12.04
-
 		$member = array(
 			'name'          => $in_username,
 			'password'      => $in_password,
@@ -1075,8 +1066,6 @@ class Register
 
 		$member['password'] = md5($member['password']);
 
-		// Song * show settings
-
 		if ($_POST['field_3'] == 'e')
 		{
 			$member['show_status']  = 0;
@@ -1095,7 +1084,6 @@ class Register
 		$member_id    = $ibforums->db->lastInsertId();
 		$member['id'] = $member_id;
 
-		// Song * new register patch for increment, 27.12.04
 		//------------------------------
 		// Отсылка ПМ новым пользователям
 		//------------------------------
@@ -1154,7 +1142,6 @@ class Register
 
 					'vid'        => $validate_key,
 					'member_id'  => $member['id'],
-					//vot				 'real_group'  => $ibforums->vars['member_group'],
 					'real_group' => $ibforums->vars['newbie_group'],
 					'temp_group' => $ibforums->vars['auth_group'],
 					'entry_date' => $time,
@@ -1377,7 +1364,6 @@ class Register
 							AND validate_type='new_reg')");
 
 				$this->bash_dead_validations();
-				// Song * send pm to new user
 				if ($ibforums->vars['auto_pm_on'] == 1)
 				{
 					$pm_subject = str_replace("*username*", $member['name'], $ibforums->vars['auto_pm_subject']);
@@ -1386,7 +1372,6 @@ class Register
 
 					$std->sendpm($member['id'], $pm_message, $pm_subject, $ibforums->vars['auto_pm_from']);
 				}
-				// Song * send pm to new user
 				$std->boink_it($ibforums->base_url . '&act=Login&CODE=autologin&fromreg=1');
 			} //------------------------------------------------------------
 			// LOST PASS VALIDATE

@@ -30,7 +30,6 @@ class Profile
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	// vot    var $parser;
 
 	var $member = array();
 	var $m_group = array();
@@ -507,7 +506,6 @@ class Profile
 		global $ibforums, $std, $print;
 
 		$info = array();
-		// vot echo "view_profile started.";
 
 		if ($ibforums->member['g_mem_info'] != 1)
 		{
@@ -661,8 +659,6 @@ class Profile
 			? $member['title']
 			: $rank;
 
-		// Song * online
-
 		if ($member['s_id'])
 		{
 			$online = "<{ONLINE}>";
@@ -672,11 +668,7 @@ class Profile
 		}
 		$info['online'] = $online;
 
-		// Song * last activity, 15.11.2004
-
 		$info['last_activity'] = $std->get_date($member['last_activity']);
-
-		// Song * dual reputation, 15.01.05
 
 		if ($ibforums->member['show_ratting'] and $member['show_ratting'])
 		{
@@ -687,10 +679,8 @@ class Profile
 			$info['ratting'] = View::make("profile.show_ratting", ['info' => $info]);
 		}
 
-		// /* <--- Jureth ---  Show DigiMoney in profile*/
 		$info['fines'] = $std->do_number_format($member['fined']);
 		$info['fines'] = View::make("profile.show_fines", ['info' => $info]);
-		/* >--- Jureth --- */
 
 		$info['aim_name'] = $member['aim_name']
 			? $member['aim_name']

@@ -11,18 +11,12 @@ require __DIR__ . '/../app/bootstrap.php';
 $enable_log=false;
 
 require "./sources/mimecrutch.php";
-//<- Added by Barazuk 21/07/07
+
 require "./conf_mime_types.php";
 
 
 if(count($_FILES)){
 
-  //$headers = apache_request_headers();
-  //foreach ($headers as $header => $value) {
-  //   echo "$header: $value <br>\n";
-  //}
-
-	
   echo "Uploaded file parameters:<br><br>\n";
   echo "Useragent: ".$_SERVER['HTTP_USER_AGENT']."<br>\n";
   echo "<HR>\n";
@@ -31,8 +25,6 @@ if(count($_FILES)){
 
     if($value['name'])
     {
-//      echo "header[name]:".$value['name']."<br>\n";
-//      echo "header[size]:".$value['size']."<br>\n";
 
       echo "<b>$header</b>:<br>\n";
 
@@ -43,58 +35,30 @@ if(count($_FILES)){
 
       if($value['error'] == 0){
         echo "Filename: {$value['tmp_name']}<br>\n";
-        /*
-        if(extension_loaded('mime_magic')) {
-          $detected_mime=mime_content_type($value['tmp_name']);
-          echo "Detected MIME: $detected_mime <br>\n";
-        }
 
-        if(extension_loaded('fileinfo')) {
-          $res = finfo_open(FILEINFO_MIME); 
-          $detected_mime2 = finfo_file($res, $value['tmp_name']);
-          echo "Fileinfo: $detected_mime2 \n";
-          finfo_close($res);
-        }
-
-        //<- Added by Barazuk 21/07/07
-        //-> Added by Barazuk 21/07/07
-
-        $detected_mime_crutch = mime_crutch($value['tmp_name']);
-
-        //<- Added by Barazuk 21/07/07
-        $allowed = $mime_types[$detected_mime_crutch][0] == 1 ?
-          "<span style='color:green'><B>allowed</B></span>" :
-          "<span style='color:red'><B>deprecated</B></span>" ;
-        //-> Added by Barazuk 21/07/07
-
-        //<- Modified by Barazuk 21/07/07
-        echo "MIME Crutch: $detected_mime_crutch ($allowed)\n";
-        */
-        
         $allowed = $mime_types[$value['type']][0] == 1 ?
           "<span style='color:green'><B>allowed</B></span>" :
           "<span style='color:red'><B>deprecated</B></span>" ;
         echo "MIME type ".$value['type']." is $allowed<BR>\n";
-        
+
         $type_titles = array(
-			'mime_type_fileinfo' => 'Fileinfo', 
-			'mime_type_file_util' => 'file', 
+			'mime_type_fileinfo' => 'Fileinfo',
+			'mime_type_file_util' => 'file',
 			'mime_type_by_content' => 'Detected MIME',
 			'mime_crutch' => 'MIME Crutch'
         );
         foreach (detect_mime_type($value['tmp_name'], true) as $check_type => $file_type) {
-        	
-	        $allowed = 
-	        	mime_type_is_allowed($file_type) 
+
+	        $allowed =
+	        	mime_type_is_allowed($file_type)
 	        	?
 	          		"<span style='color:green'><B>allowed</B></span>"
 	          	:
 	          		"<span style='color:red'><B>failed</B></span>" ;
-	        
+
 	        echo "{$type_titles[$check_type]}: {$file_type} is $allowed<BR>\n";
-	        
+
         }
-        //-> Modified by Barazuk 21/07/07
       } //if($value['error'] == 0){
 
       echo "<HR>\n";

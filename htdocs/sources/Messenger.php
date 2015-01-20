@@ -138,8 +138,6 @@ class Messenger
 
 		$this->jump_html .= "<!--EXTRA--></select>\n\n";
 
-		// Song * delete profile link, 04.03.05
-
 		if ($ibforums->member['profile_delete_time'])
 		{
 			$days_remained = "-";
@@ -161,8 +159,6 @@ class Messenger
 		{
 			$delete_profile_link = View::make("ucp.delete_account");
 		}
-
-		// Song * delete profile link, 04.03.05
 
 		$menu_html = View::make("ucp.Menu_bar", ['base_url' => $this->base_url, 'delete' => $delete_profile_link]);
 
@@ -836,8 +832,6 @@ class Messenger
 
 		$html .= "</select>";
 
-		// Song * show friends online, 05.03.05
-
 		$show_online = "<select name='show_online' class='forminput'>";
 
 		if ($memb['show_online'])
@@ -849,8 +843,6 @@ class Messenger
 		}
 
 		$show_online .= "</select>";
-
-		// Song * show friends online, 05.03.05
 
 		$this->output .= View::make(
 			"msg.address_edit",
@@ -896,13 +888,9 @@ class Messenger
 			? 1
 			: 0;
 
-		// Song * friends show online, 05.03.05
-
 		$ibforums->input['show_online'] = $ibforums->input['show_online'] == 'yes'
 			? 1
 			: 0;
-
-		// Song * friends show online, 05.03.05
 
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' AND contact_id='" . $ibforums->input['MID'] . "'");
 		$memb = $stmt->fetch();
@@ -946,13 +934,9 @@ class Messenger
 				$row['text'] = $row['allow_msg']
 					? $ibforums->lang['can_contact']
 					: $ibforums->lang['cannot_contact'];
-				// Song * friends show online, 06.03.05
-
 				$row['text'] .= $row['show_online']
 					? ") (" . $ibforums->lang['show_online']
 					: "";
-
-				// Song * friends show online, 06.03.05
 
 				$this->output .= View::make("msg.render_address_row", ['entry' => $row]);
 			}
@@ -1018,7 +1002,7 @@ class Messenger
 		}
 
 		//--------------------------------------
-		// Check for adding themself (by barazuk)
+		// Check for adding himself
 		//--------------------------------------
 		if ($this->memb['id'] == $ibforums->member['id'])
 		{
@@ -1048,8 +1032,6 @@ class Messenger
 			? 1
 			: 0;
 
-		// Song * friends show online, 06.03.05
-
 		$ibforums->input['show_online'] = $ibforums->input['show_online'] == 'yes'
 			? 1
 			: 0;
@@ -1062,7 +1044,6 @@ class Messenger
 			'contact_desc' => $ibforums->input['mem_desc'],
 			'contact_id'   => $memb['id']
 		];
-		// Song * friends show online, 06.03.05
 		$ibforums->db->insertRow('ibf_contacts', $db_string);
 
 		// BUH BYE!
@@ -2458,7 +2439,6 @@ class Messenger
 		$member['member_group'] = $ibforums->lang['m_group'] . ' ' . $member['g_title'];
 
 		$member['member_posts'] = $ibforums->lang['m_posts'] . ' ' . $std->do_number_format($member['posts']);
-		// Song
 		//Reputation
 		if (empty($member['rep']))
 		{
@@ -2473,8 +2453,6 @@ class Messenger
 			$member['title'] = $ibforums->vars['rep_badtitle'] . ' ' . $member['title'];
 		}
 		//Reputation
-		// Song
-
 		$member['member_number'] = $ibforums->lang['member_no'] . ' ' . $std->do_number_format($member['id']);
 
 		$member['profile_icon'] = "<a href='{$this->base_url}showuser={$member['id']}'><{P_PROFILE}></a>";
@@ -2535,8 +2513,6 @@ class Messenger
 		$smilies    = "<tr align='center'>\n";
 
 		// Get the smilies from the DB
-		// Song * smile skin
-
 		if (!$ibforums->member['id'])
 		{
 			$id = 1;
@@ -2550,8 +2526,6 @@ class Messenger
 		}
 
 		$stmt = $ibforums->db->query("SELECT typed, image from ibf_emoticons WHERE clickable='1' and skid='" . $id . "'");
-
-		// Song * smile skin
 
 		while ($elmo = $stmt->fetch())
 		{

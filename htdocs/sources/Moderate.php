@@ -258,18 +258,12 @@ class Moderate
 			case '17':
 				$this->rebuild_topic();
 				break;
-
-			// Song * show/hide topics
-
 			case '26':
 				$this->hide_topic();
 				break;
 			case '27':
 				$this->show_topic();
 				break;
-
-			// Song * delete delayed
-
 			case '28':
 				$this->delete_delayed(1);
 				break;
@@ -280,26 +274,18 @@ class Moderate
 			case '32':
 				$this->some_delete_delayed();
 				break;
-
-			// Song * decided topics
-
 			case '33':
 				$this->decided_topics(1);
 				break;
 			case '34':
 				$this->decided_topics(0);
 				break;
-
-			// Song * decline/restore post
-
 			case '18':
 				$this->decline_restore_post(1);
 				break;
 			case '19':
 				$this->decline_restore_post(0);
 				break;
-
-			// Song * add to faq, 02.05.05
 
 			case '35':
 				$this->add_to_faq();
@@ -743,8 +729,6 @@ class Moderate
 			}
 		}
 
-		// Song * change code tag
-
 		$posts = $ibforums->db->query("SELECT
 					pid,
 					forum_id,
@@ -812,7 +796,7 @@ class Moderate
 				topic_id='" . $new_topic_id . "'
 			    WHERE pid IN ($pid_string)");
 
-		// Song * remain notify in old topic
+		// remain notify in old topic
 		// get last remained post in old topic
 
 		$stmt = $ibforums->db->query("SELECT max(pid) as pid
@@ -897,8 +881,6 @@ class Moderate
 		$ibforums->db->exec("UPDATE ibf_posts
 			    SET new_topic=0
 			    WHERE topic_id='$new_topic_id'");
-
-		// Song * remain notify in new topic
 
 		$moved_line = "[COLOR=gray][SIZE=0]" . $ibforums->lang['split_topic'] . "&quot;[URL={$this->base_url}showtopic={$this->topic['tid']}]{$this->topic['title']}[/URL]&quot;[/SIZE][/COLOR]";
 
@@ -1601,7 +1583,6 @@ class Moderate
 		if ($state == "closed")
 		{
 
-			// vot: BAD MESSAGE
 			$ibforums->db->exec("UPDATE ibf_topics
 				    SET description='голосование окончено'
 				    WHERE tid='" . $this->topic['tid'] . "'");
@@ -1703,8 +1684,6 @@ class Moderate
 
 		$poll_data['choices'] = addslashes(serialize($new_poll_array));
 
-		// Song * multiple choices
-
 		$query = "UPDATE ibf_polls
 			  SET
 				choices='" . $poll_data['choices'] . "',
@@ -1731,8 +1710,6 @@ class Moderate
 				is_weighted_poll='1',
 				weighted_poll_places='" . $ibforums->input['weighted_poll_places'] . "' ";
 		}
-
-		// Song * poll life, 25.03.05
 
 		$life = intval($ibforums->input['life']);
 
@@ -1838,13 +1815,11 @@ class Moderate
 
 		if (count($poll_answers) < $ibforums->vars['max_poll_choices'])
 		{
-			for ($i = count($poll_answers) + 1; $i <= $ibforums->vars['max_poll_choices']; $i++) // Jureth: added +1 in the loop counter
+			for ($i = count($poll_answers) + 1; $i <= $ibforums->vars['max_poll_choices']; $i++)
 			{
 				$this->output .= View::make("mod.poll_edit_new_entry", ['id' => $i]);
 			}
 		}
-
-		// Song * poll life, 25.03.05
 
 		$days_left = "";
 
@@ -1862,8 +1837,6 @@ class Moderate
 			"mod.poll_select_form",
 			['poll_question' => $poll_data['poll_question'], 'life' => $days_left]
 		);
-
-		// Song * multiple choices
 
 		$this->output .= View::make(
 			"mod.poll_select_form_additions_multi",
@@ -2082,9 +2055,6 @@ class Moderate
 
 		$this->modfunc->forum_recount($moveto);
 
-		//Jureth		$this->modfunc->forum_recount_queue($source);
-		//Jureth		$this->modfunc->forum_recount_queue($moveto);
-
 		$print->redirect_screen($ibforums->lang['p_moved'], "act=SF&f=" . $this->forum['id'] . "&st=" . $ibforums->input['st']);
 	}
 
@@ -2204,27 +2174,6 @@ class Moderate
 		//-----------------------------------
 		// Check for an attempt to move into a subwrap forum
 		//-----------------------------------
-
-//no queries -- jureth
-//		while ($f = $stmt->fetch())
-//		{
-//			if ($f['id'] == $ibforums->input['sf'])
-//			{
-//				$source_name = $f['name'];
-//			} else
-//			{
-//				$dest_name = $f['name'];
-//			}
-//
-//			if (($f['subwrap'] == 1 and $f['sub_can_post'] != 1) OR $f['redirect_on'] == 1)
-//			{
-//				$this->Error(array(
-//				                  'LEVEL' => 1,
-//				                  'MSG'   => 'forum_no_post_allowed'
-//				             ));
-//			}
-//		}
-
 		$stmt = $ibforums->db->query("SELECT *
 			    FROM ibf_topics
 			    WHERE tid='" . $ibforums->input['tid'] . "'");
@@ -2252,9 +2201,6 @@ class Moderate
 		$this->modfunc->forum_recount($source);
 
 		$this->modfunc->forum_recount($moveto);
-
-		//Jureth		$this->modfunc->forum_recount_queue($source);
-		//Jureth		$this->modfunc->forum_recount_queue($moveto);
 
 		$print->redirect_screen($ibforums->lang['p_moved'], "act=SF&f=" . $this->forum['id'] . "&st=" . $ibforums->input['st']);
 	}
@@ -2536,8 +2482,6 @@ class Moderate
 	{
 		global $ibforums;
 
-		// vot: BAD MESSAGE
-
 		$html = "<form onsubmit=\"if(document.jumpmenu.f.value == -1){return false;}\" action='{$this->base_url}' method='get' name='jumpmenu'>
 		         <input type='hidden' name='act' value='Mod'>
                          <input type='hidden' name='auth_key' value='{$ibforums->input['auth_key']}'>
@@ -2585,8 +2529,6 @@ class Moderate
 	function get_attached_data()
 	{
 		global $ibforums;
-
-		// vot: BAD MESSAGE
 
 		$html = "<form onsubmit=\"if(document.jumpmenu.f.value == -1){return false;}\" action='{$this->base_url}' method='get' name='jumpmenu'>
 		         <input type='hidden' name='act' value='Mod'>
@@ -2758,7 +2700,7 @@ class Moderate
 		}
 
 		//---------------------------------------
-		// vot: delete the search words for this post
+		// delete the search words for this post
 		//---------------------------------------
 
 		$std->index_del_post($post['pid']);
@@ -2958,13 +2900,10 @@ class Moderate
 		$this->modfunc->topic_delete($this->topic['tid']);
 
 		//---------------------------------------
-		// vot: delete the search words for this topic
+		// delete the search words for this topic
 		//---------------------------------------
 
 		$std->index_del_topic($this->topic['tid']);
-
-		//Jureth: forum_recount() was called in topic_delete()
-		//Not needed		$this->modfunc->forum_recount_queue($this->forum['id']);
 
 		$this->moderate_log("Deleted a topic");
 
@@ -3085,7 +3024,7 @@ class Moderate
 			    WHERE tid='" . $this->topic['tid'] . "'");
 
 		//-------------------------------
-		// vot: Reindex the topic title!
+		// Reindex the topic title!
 		//-------------------------------
 
 		$std->index_reindex_title($this->topic['tid'], $this->forum['id'], $topic_title);
@@ -3279,7 +3218,6 @@ class Moderate
 		$print->redirect_screen($ibforums->lang['p_unpinned'], "act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid'] . "&st=" . $ibforums->input['st']);
 	}
 
-	// Song * show/hide topics
 	/*	 * ********************************************** */
 	// HIDE TOPIC:
 	// ---------------
@@ -3421,16 +3359,14 @@ class Moderate
 			             ));
 		}
 
-		/* <--- Jureth ---: Double. Function are identical. */
 		$this->modfunc->forum_recount($fid);
 	}
 
-	/*	 * ************************************************** */
-
+	/*****************************************************/
 	// HTML: start form.
 	// ------------------
 	// Returns the HTML for the <FORM> opening tag
-	/*	 * ************************************************** */
+	/*****************************************************/
 
 	function html_start_form($additional_tags = array())
 	{
@@ -3756,7 +3692,7 @@ class Moderate
 		$stmt = $ibforums->db->updateRow("ibf_posts", $data, "pid IN ({$ibforums->input['pidz']})");
 
 		//--------------------------------------------
-		// vot: delete the search words for this post
+		// delete the search words for this post
 		//--------------------------------------------
 
 		$std->index_del_posts($ibforums->input['pidz']);
@@ -3772,8 +3708,6 @@ class Moderate
 		$this->recount_topic($this->topic['tid']);
 
 		$this->recount($this->forum['id']);
-
-		//Jureth: not needed		$this->modfunc->forum_recount_queue($this->forum['id']);
 
 		$this->moderate_log("Deleted $idz posts");
 
@@ -3928,9 +3862,6 @@ class Moderate
 			$this->moderate_error();
 		}
 
-		// Song * change code tag
-		// vot: BAD QUERY: LIKE
-
 		$posts = $ibforums->db
 			->prepare("SELECT
 					pid,
@@ -4023,12 +3954,10 @@ class Moderate
 		$this->recount_topic($new['tid']);
 
 		$this->recount($this->topic['forum_id']);
-		//Jureth:not needed		$this->modfunc->forum_recount_queue($this->forum['id']);
 
 		if ($this->forum['id'] != $new['forum_id'])
 		{
 			$this->recount($new['forum_id']);
-			//Jureth:not needed			$this->modfunc->forum_recount_queue($new['forum_id']);
 		}
 
 		$print->redirect_screen("", "showtopic=$id&view=getlastpost");
@@ -4067,8 +3996,6 @@ class Moderate
 			    WHERE tid='" . $tid . "'");
 	}
 
-	// Song, Mixxx * js system, 06.05.05
-	//-------------------------------------------
 	function Error($error = array())
 	{
 		global $ibforums, $std;
@@ -4097,9 +4024,6 @@ class Moderate
 
 		exit();
 	}
-
-	//-----------------------------------------------
-	// Song * decline and restore post
 
 	function decline_restore_post($state)
 	{
@@ -4200,9 +4124,6 @@ class Moderate
 			die;
 		}
 	}
-
-	//--------------------------------------
-	// Song * delayed delete posts, 13.04.05
 
 	function delete_delayed($state)
 	{
@@ -4380,9 +4301,6 @@ class Moderate
 		$print->redirect_screen("", "showtopic={$this->topic['tid']}&st={$ibforums->input['st']}", "html");
 	}
 
-	//--------------------------------------
-	// Song * decided topics, 20.04.05
-
 	function decided_topics($state)
 	{
 		global $ibforums, $print, $std;
@@ -4465,9 +4383,6 @@ class Moderate
 			$print->redirect_js_screen(array('qsolveTop', 'qsolveBottom'), $label, $url);
 		}
 	}
-
-	//----------------------------------
-	// Song * add to faq, 02.05.05
 
 	function do_add_to_faq($fid = 0)
 	{
@@ -4598,7 +4513,7 @@ class Moderate
 		$tid = $ibforums->db->lastInsertId();
 
 		//-----------------------------------------------
-		// vot: index new topic
+		// index new topic
 		//-----------------------------------------------
 
 		$std->index_reindex_title($tid, $fid, $this->topic['title']);
@@ -4634,11 +4549,7 @@ class Moderate
 			$pid  = $ibforums->db->lastInsertId();
 
 			//-----------------------------------------------
-			// vot: index new post
-			// SOME IDEAS:
-			//
-			// may be, more usefull to copy old search words
-			// to new posts ???
+			// index new post
 			//-----------------------------------------------
 
 			$std->index_reindex_post($pid, $tid, $fid, $post['post']);

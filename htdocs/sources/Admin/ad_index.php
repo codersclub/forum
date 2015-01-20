@@ -207,7 +207,7 @@ class index_page
 						if (document.forms[0].username.value == \"\") {
 							alert(\"You must enter a username!\");
 						} else {
-							window.parent.body.location = '{$SKIN->base_url}' + '&act=mem&code=stepone&USER_NAME=' + document.forms[0].username.value; //Jureth
+							window.parent.body.location = '{$SKIN->base_url}' + '&act=mem&code=stepone&USER_NAME=' + document.forms[0].username.value;
 						}
 					  }
 

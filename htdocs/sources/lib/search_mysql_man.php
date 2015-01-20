@@ -227,8 +227,6 @@ class search_lib extends Search
 		if ($type != 'nameonly') // look for keywords
 		{
 
-			// Song * enchaced search
-
 			$keywords = trim($keywords);
 
 			if ($ibforums->input['space_determine'])
@@ -238,8 +236,6 @@ class search_lib extends Search
 
 			$keywords = str_replace("\+", " and ", $keywords);
 			$keywords = " " . $keywords . " ";
-
-			// /Song * enchaced search
 
 			if (preg_match("/ and|or /", $keywords))
 			{

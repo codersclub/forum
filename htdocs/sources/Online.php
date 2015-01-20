@@ -53,7 +53,7 @@ class Online
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 		}
 
-		// vot: Disable negative 'st' value
+		// Disable negative 'st' value
 		if ($ibforums->input['st'] < 0)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));

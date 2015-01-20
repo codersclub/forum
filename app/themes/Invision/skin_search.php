@@ -4,7 +4,7 @@ use Views\View;
 
 class skin_search {
 
-/* <--- Jureth ---
+/*
  * Mod functions in searchbox
 **/
 function mod_checkbox($class, $tid) {

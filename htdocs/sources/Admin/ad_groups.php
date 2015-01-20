@@ -317,8 +317,6 @@ class ad_groups
 
 		$perm_id = intval($IN['id']);
 
-		// Song * endless forums, 20.12.04
-
 		while ($i = $stmt->fetch())
 		{
 
@@ -1930,14 +1928,10 @@ class ad_groups
 		                                       $SKIN->form_input("suffix", $suffix)
 		                                  ));
 
-		// Song * permit reply to old topics, 15.03.05
-
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>How many days ago users of this group can reply to topics?</b><br>(Leave blank to make without limits)",
 		                                       $SKIN->form_input("g_days_ago", $group['g_days_ago'])
 		                                  ));
-
-		// Song * permit reply to old topics, 15.03.05
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Hide this group from the member list?</b>",
@@ -1980,7 +1974,6 @@ class ad_groups
 		                                       $SKIN->form_yes_no("g_use_search", $group['g_use_search'])
 		                                  ));
 
-		// vot:
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Number of seconds for post flood control</b><br>Stops post abuse, enter 0 or leave blank for no post flood control",
 		                                       $SKIN->form_input("g_post_flood", $group['g_post_flood'])
