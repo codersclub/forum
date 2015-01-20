@@ -314,9 +314,6 @@ class emailer
 		$words['SIGNATURE']     = $ibforums->vars['signature'];
 		$words['IP_ADDRESS']    = $ibforums->input['IP_ADDRESS'];
 
-		#		$words['MSG_BODY']      = $ibforums->input['Post']; // by Chainick
-		#		$words['MSG_BODY']      = $std->remove_tags($ibforums->input['Post']); // by Mastilior
-
 		// Swop the words
 
 		$this->message = preg_replace("/<#(.+?)#>/e", "\$words[\\1]", $this->message);

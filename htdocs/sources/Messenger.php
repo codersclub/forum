@@ -2039,7 +2039,6 @@ class Messenger
 				                                 'TITLE'    => $ibforums->input['msg_title'],
 				                                 'LINK'     => "?act=Msg&amp;CODE=03&amp;VID=in&amp;MSID=$new_id",
 				                                 'MSG_BODY' => $std->remove_tags($ibforums->input['Post'])
-				                                 // by Mastilior
 				                            ));
 
 				$this->email->build_subject(array(
