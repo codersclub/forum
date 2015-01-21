@@ -1142,9 +1142,8 @@ sub rebuild_html
 
   # convert links to BB-Code
 
-# !!! DOES NOT WORK
-
-  $newpage=~s/<a[^>]*href=\s*[\"\']*([^\'\">]+)[\"\']*[^>]*>/[url=$1]/ig;	# <a> => [url]
+# !!! todo check working
+  $newpage=~s/<a.+?href\s*=\s*[\'|\"](.+?)[\'|\"].*?>/[url=$1]/ig;	# <a> => [url]
   $newpage=~s/<\/a>/[\/url]/isg;		# <a> => [/url]
 # !!! DOES NOT WORK
   $newpage=~s/src\=([\"\'])\s/src=${1}/ig;	# src=" http..."
