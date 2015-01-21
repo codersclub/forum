@@ -350,13 +350,6 @@ class Contact
 		$report = str_replace("<!--", "", $report);
 		$report = str_replace("-->", "", $report);
 		$report = str_replace("<script", "", $report);
-		$report = (new PostParser(1))->convert([
-				'TEXT' => $report,
-				'SMILIES' => 1,
-				'CODE'      => 0,
-				'SIGNATURE' => 0,
-				'HTML'      => 0
-		]);
 
 		// Check for mods in this forum
 		$stmt = $ibforums->db->query("SELECT member_id as id, member_name as name FROM ibf_moderators WHERE forum_id='" . $fid . "'");
@@ -365,22 +358,39 @@ class Contact
 		{
 			$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE mgroup IN (" . $ibforums->vars['supermoderator_group'] . "," . $ibforums->vars['admin_group'] . ")");
 		}
-
+		//no mails are sent here, pm's only
 		while ($moderator = $stmt->fetch())
 		{
 			$this->email->get_template("report_post");
 
-			$this->email->build_message(array(
+			$this->email->build_message(
+				[
 
-			                                 'MOD_NAME'     => $moderator['name'],
-			                                 'USERNAME'     => $ibforums->member['name'],
-			                                 'TOPIC'        => $topic['title'],
-			                                 'LINK_TO_POST' => "{$ibforums->vars['board_url']}/index.php?showtopic={$tid}&amp;st={$st}",
-			                                 'REPORT'       => $report,
+					'MOD_NAME'     => $moderator['name'],
+					'USERNAME'     => $ibforums->member['name'],
+					'TOPIC'        => $topic['title'],
+					'LINK_TO_POST' => "{$ibforums->vars['board_url']}/index.php?showtopic={$tid}&amp;st={$st}",
+					'REPORT'       => $report,
 
-			                            ));
+				]
+			);
 
-			$std->sendpm($moderator['id'], $this->email->message, $title, $ibforums->member['id'], 1, 1);
+			Ibf::app()->functions->sendpm(
+				$moderator['id'],
+				(new PostParser(1))->convert(
+					[
+						'TEXT'      => $this->email->message,
+						'SMILIES'   => 1,
+						'CODE'      => 0,
+						'SIGNATURE' => 0,
+						'HTML'      => 0
+					]
+				),
+				$title,
+				$ibforums->member['id'],
+				1,
+				1
+			);
 		}
 
 		$print->redirect_screen($ibforums->lang['report_redirect'], "showtopic={$tid}&amp;st={$st}");
