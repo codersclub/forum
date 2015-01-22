@@ -347,7 +347,7 @@ class Post
 					if ($ibforums->member['g_avoid_flood'] != 1)
 					{
 						$remain = $ibforums->member['last_post'] + $ibforums->member['g_post_flood'] - time();
-						if ($remain > 0) // Der_Meister
+						if ($remain > 0)
 						{
 							$std->Error(array(
 							                 'LEVEL'  => 1,
@@ -917,7 +917,6 @@ class Post
 			'use_emo'      => $ibforums->input['enableemo'],
 			'ip_address'   => $ibforums->input['IP_ADDRESS'],
 			'post_date'    => time(),
-			//'edit_time'   => time(), negram: setting edit time only on  edit, not on creation
 			'icon_id'      => $ibforums->input['iconid'],
 			'post'         => $convert,
 			'author_name'  => $ibforums->member['id']
@@ -928,7 +927,6 @@ class Post
 			'queued'       => ($this->obj['moderate'] == 1 || $this->obj['moderate'] == 3)
 				? 1
 				: 0,
-			// negram: autodelete only on new post, not when edit
 			'delete_after' => $std->delayed_time($convert, $this->forum['days_off'], 0, $this->moderator, $is_new_post),
 		);
 

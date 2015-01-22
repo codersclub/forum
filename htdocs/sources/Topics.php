@@ -486,7 +486,7 @@ class Topics
 				: $this->show_preview_button($row['pid'], $poster, $row['post_date'], $preview);
 		}
 
-		// negram * history edit post button
+		// history edit post button
 		if ($row['edit_time'] && $row['edit_name'] != "")
 		{
 
