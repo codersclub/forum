@@ -63,8 +63,6 @@ try {
 
 	$std->flood_begin();
 
-// Song * club tool
-
 	// cats
 	$categories = array();
 

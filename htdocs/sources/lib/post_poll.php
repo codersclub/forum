@@ -114,7 +114,7 @@ class post_functions extends Post
 
 		$this->poll_choices .= "<br>";
 
-		$this->poll_choices = str_replace('<br><br>', '<br>', $this->poll_choices); // Jureth: added <br> to the result text
+		$this->poll_choices = str_replace('<br><br>', '<br>', $this->poll_choices);
 
 		$this->poll_choices = preg_replace('/<br>/e', '$this->regex_count_choices()', $this->poll_choices);
 
@@ -127,8 +127,6 @@ class post_functions extends Post
 		{
 			$class->obj['post_errors'] = 'poll_not_enough';
 		}
-
-		// Song * multiple chices
 
 		if ($ibforums->input['multi_poll'])
 		{
@@ -147,8 +145,6 @@ class post_functions extends Post
 		{
 			$class->obj['post_errors'] = 'weighted_poll_min_error';
 		}
-
-		// Song * multiple chices
 
 		//-------------------------------------------------
 		// If we don't have any errors yet, parse the upload
@@ -182,8 +178,7 @@ class post_functions extends Post
 		//-------------------------------------------------
 
 		$poll_array = array();
-		// Jureth	$count       = 0;
-		$count = 1; // Jureth
+		$count = 1;
 
 		$polls = explode("<br>", $this->poll_choices);
 
@@ -321,7 +316,6 @@ class post_functions extends Post
 			'starter_id'           => $ibforums->member['id'],
 			'votes'                => 0,
 			'poll_question'        => $class->parser->bad_words($ibforums->input['pollq']),
-			// Song * multiple choices
 			'is_multi_poll'        => ($ibforums->input['multi_poll'])
 				? 1
 				: 0,
@@ -337,11 +331,7 @@ class post_functions extends Post
 			'weighted_poll_places' => ($ibforums->input['weighted_poll'])
 				? $ibforums->input['weighted_poll_places']
 				: 0,
-			// Song * multiple choices
-
 		);
-
-		// Song * poll life, 25.03.05
 
 		$life = intval($ibforums->input['life']);
 
@@ -434,14 +424,10 @@ class post_functions extends Post
 			$module = new module();
 			$ibforums->db->exec("UPDATE ibf_members SET " . $pcount . $mgroup . $module->post_points($ibforums->vars['pointsper_poll']) . "last_post='" . $ibforums->member['last_post'] . "'" . "WHERE id='" . $ibforums->member['id'] . "'");
 
-			// Song * additional flood control
-
 		} else
 		{
 			$ibforums->db->exec("UPDATE ibf_sessions SET last_post='" . time() . "' WHERE id='" . $sess->session_id . "'");
 		}
-
-		// Song * additional flood control
 
 		//-------------------------------------------------
 		// Set a last post time cookie
@@ -582,8 +568,6 @@ class post_functions extends Post
 		$class->output = preg_replace("/<!--TOPIC TITLE-->/", "$topic_title", $class->output);
 		$class->output = preg_replace("/<!--POLL BOX-->/", "$poll_box", $class->output);
 
-		// Song * IBF forum rules
-
 		if ($class->forum['show_rules'])
 		{
 			if ($class->forum['rules_title'])
@@ -607,8 +591,6 @@ class post_functions extends Post
 				$class->forum['rules_text'] = str_replace(";&lt;br&gt;", "<br>", $class->forum['rules_text']);
 			}
 		}
-
-		// Song * IBF forum rules
 
 		$class->output = str_replace("<!--FORUM RULES-->", $std->print_forum_rules($class->forum), $class->output);
 

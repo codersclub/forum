@@ -31,7 +31,6 @@ class UserCP
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	// vot    var $parser;
 
 	var $member = array();
 	var $m_group = array();
@@ -128,8 +127,6 @@ class UserCP
 		// Print the top button menu
 		//--------------------------------------------
 
-		// Song * delete profile link, 04.03.05
-
 		if ($this->member['profile_delete_time'])
 		{
 			$days_remained = "--";
@@ -151,8 +148,6 @@ class UserCP
 		{
 			$delete_profile_link = View::make("ucp.delete_account");
 		}
-
-		// Song * delete profile link, 04.03.05
 
 		$menu_html = View::make("ucp.Menu_bar", ['base_url' => $this->base_url, 'delete' => $delete_profile_link]);
 
@@ -1160,7 +1155,6 @@ class UserCP
 			while ($topic = $stmt->fetch())
 			{
 				$topic['topic_read'] = $std->get_topic_last_read($topic['tid']);
-				// Song * NEW
 				if ($last_forum_id != $topic['forum_id'])
 				{
 					$last_forum_id = $topic['forum_id'];
@@ -1183,7 +1177,6 @@ class UserCP
 				{
 					$topic['prefix'] = $ibforums->vars['pre_polls'] . ' ';
 				}
-				// Song * NEW
 				$read_mark = $ibforums->forums_read[$topic['forum_id']];
 
 				$read_mark = ($ibforums->member['board_read'] > $read_mark)
@@ -1215,7 +1208,6 @@ class UserCP
 				} else {
 					$topic['go_new_post'] = "";
 				}
-				// Song * NEW
 				$topic['folder_icon'] = $std->folder_icon($topic, "", $last_time, $read_mark);
 
 				$topic['topic_icon'] = $topic['icon_id']
@@ -1361,11 +1353,7 @@ class UserCP
 
 		$smile_select = "<select name='u_sskin' class='forminput'>\n";
 
-		// Song * add text smile skin
-
 		$smile_select .= "<option value='0' selected>{$ibforums->lang['text_smile']}</option>";
-
-		// Song * add text smile skin
 
 		$stmt = $ibforums->db->query("SELECT id, name
 			    FROM ibf_emoticons_skins");

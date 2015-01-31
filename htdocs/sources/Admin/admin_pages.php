@@ -58,7 +58,7 @@ $PAGES = array(
 		6 => array('Re-Order Forums', 'act=forum&code=reorder'),
 		7 => array('Moderators', 'act=mod'),
 		8 => array('Topic Multi-Moderation', 'act=multimod'),
-		9 => array('Syntax Highlight', 'act=syntax'), // Вот эту. Leprecon
+		9 => array('Syntax Highlight', 'act=syntax'),
 	),
 	4  => array(
 		1 => array('Moderator\'s CP', 'act=modcp', 1),
@@ -123,10 +123,6 @@ $PAGES = array(
 		11 => array('<b>Updater</b>', 'act=store&code=update_page'),
 	),
 	14 => array(
-		//------------------------------------------------------------
-		// RSS feeds import (c) vot
-		// Date added: 01.06.2007
-		//------------------------------------------------------------
 		1 => array('RSS Sources', 'act=rss_sources'),
 		2 => array('RSS Channels', 'act=rss_channels'),
 		3 => array('RSS Logs', 'act=rss_logs'),

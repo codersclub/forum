@@ -626,7 +626,6 @@ return <<<EOF
 	   <input type='button' accesskey='s' value=' S ' onclick='simpletag("S")' class='codebuttons' name='S' title='Strike' style="text-decoration:line-through">
 	   <input type='button' accesskey='o' value=' O ' onclick='simpletag("O")' class='codebuttons' name='O' title='Overline' style="text-decoration:overline">
 
-	   <!-- barazuk: [o] [sub] [sup] -->
 	   <input type='button' value='sub' onclick='simpletag("sub")' class='codebuttons' name='sub' title='Subscript'>
            <input type='button' value='sup' onclick='simpletag("sup")' class='codebuttons' name='sup' title='Superscript'>
 

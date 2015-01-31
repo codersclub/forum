@@ -65,8 +65,6 @@ class Boards {
 		if (!$ibf->member['id'])
 			$ibf->input['last_visit'] = time();
 
-		// Song * show all forums link, 09.03.05
-
 		$show_all_link = ( $ibf->member['id'] and !$ibf->input['show'] )
 			? View::make("boards.ShowAllLink")
 			: "";
@@ -78,8 +76,6 @@ class Boards {
 
 		$forums_visibility = array();
 		$cats_visibility = array();
-
-		// Song * select visibility state of cats and forums
 
 		if ($ibf->member['id'])
 		{
@@ -101,8 +97,6 @@ class Boards {
 		}
 
 
-
-		// Song * querying only forums from category, 31.01.05
 
 		if ($ibf->input['c'])
 			$ibf->input['c'] = intval($ibf->input['c']);
@@ -221,7 +215,7 @@ class Boards {
 		}
 
 
-		// Show Stats for Members only!  //vot
+		// Show Stats for Members only!
 
 		$stats_html = "";
 
@@ -249,8 +243,6 @@ class Boards {
 
 				$cut_off = $ibf->vars['au_cutoff'] * 60;
 				$time = time() - $cut_off;
-
-				// Song * friends show online, 05.03.05
 
 				$friends = array();
 
@@ -324,7 +316,6 @@ class Boards {
 								if ($ibf->member['mgroup'] == $ibf->vars['admin_group'] and
 									$ibf->vars['disable_admin_anon'] != 1)
 								{
-									// Song * friends show online, 05.03.05
 									if (isset($friends[$result['member_id']]))
 									{
 										$active['FRIENDS'] .= "<a href='{$ibf->base_url}showuser={$result['member_id']}'>{$result['prefix']}{$result['member_name']}{$result['suffix']}</a>*{$this->sep_char} \n";
@@ -336,7 +327,6 @@ class Boards {
 							} else
 							{
 								$active['MEMBERS']++;
-								// Song * friends show online, 05.03.05
 								if (isset($friends[$result['member_id']]))
 								{
 									$active['FRIENDS'] .= "<a href='{$ibf->base_url}showuser={$result['member_id']}'>{$result['prefix']}{$result['member_name']}{$result['suffix']}</a>{$this->sep_char} \n";
@@ -351,8 +341,6 @@ class Boards {
 
 				$active['NAMES'] = preg_replace("/" . preg_quote($this->sep_char) . "$/", "", trim($active['NAMES']));
 
-				// Song * friends show online, 05.03.05
-
 				$active['FRIENDS'] = preg_replace("/" . preg_quote($this->sep_char) . "$/", "", trim($active['FRIENDS']));
 
 
@@ -366,8 +354,6 @@ class Boards {
 
 				$ibf->lang['active_users'] = sprintf($ibf->lang['active_users'], $ibf->vars['au_cutoff']);
 
-				// Song * friends show online, 05.03.05
-
 				$friends = ( $active['FRIENDS'] )
 					? View::make("boards.ActiveFriends", ['active' => $active])
 					: "";
@@ -375,8 +361,6 @@ class Boards {
 				$stats_html .= View::make("boards.ActiveUsers", ['active' => $active, 'friends' => $friends]);
 
 
-
-				// Song * who was online today and yesterday
 
 				$user_stat_html = $ibf->lang['users_online_today'];
 
@@ -630,8 +614,6 @@ class Boards {
 					->prepare('UPDATE ibf_stats SET ' . implode(',', $sql))
 					->execute($params);
 
-				// Song * record of visit
-
 				$most_time = $std->format_date_without_time($stats['MOST_DATE']);
 
 				$ibf->lang['most_online'] = str_replace("<#NUM#>", $std->do_number_format($stats['MOST_COUNT']), $ibf->lang['most_online']);
@@ -687,7 +669,6 @@ class Boards {
 		$this->output .= View::make('boards.bottom_links');
 
 
-// vot	$this->output .= '<% BOTTOM BANNER %%>';
 		//---------------------------------------
 		// Check for news forum.
 		//---------------------------------------
@@ -757,8 +738,6 @@ class Boards {
 
 		if ($ibf->vars['ips_cp_purchase'])
 			$cp = "";
-
-		// Song * RSS, 31.01.05
 
 		$rss = ( $cat )
 			? View::make("global.rss", ['param' => "?c=" . $ibf->input['c']])
@@ -835,19 +814,6 @@ class Boards {
 			// Is this category turned on?
 			//----------------------------
 			// if category is hidden
-// vot: check for portal
-//		if(defined('PORTAL'))
-//		{
-//		  if ( $cat_data['state'] <= 1 or
-//		     !( !$ibforums->member['id'] or
-//			$this->cs[ $cat_data['id'] ] == 1 or
-//		        $this->cs[ $cat_data['id'] ] == "" or
-//			$ibforums->input['show']
-//		      )
-//		   ) continue;
-//		}
-//		else
-//		{
 			if ($cat_data['state'] != 1 or
 				!(!$ibforums->member['id'] or
 				$this->cs[$cat_data['id']] == 1 or
@@ -869,15 +835,10 @@ class Boards {
 				$this->output .= View::make("boards.CatHeader_Collapsed", ['info' => $cat_data, 'plus' => $plus]);
 
 				$this->output .= View::make("boards.end_all_cats");
-//			$this->output .= View::Make("boards.end_this_cat");
-				// vot: Draw inter-categories banner
-//			$this->output .= "\$cat_counter=".$cat_counter."<br>";
-//			$this->output .= View::Make("boards.draw_middle_banner");
-
 				continue;
 			}
 
-			$cat_counter++; // vot: counter for MIDDLE BANNER
+			$cat_counter++; // counter for MIDDLE BANNER
 			// draw forums and subforums of current category
 			$temp_html = "";
 			foreach ($this->forums as $forum_id => $forum_data)
@@ -1005,7 +966,6 @@ class Boards {
 			if (isset($this->children[$forum_data['id']]) and
 				count($this->children[$forum_data['id']]) > 0)
 			{
-// Song + Shaman * forum visibility
 
 				if ($ibforums->member['id'] and $op and
 					!$ibforums->member['show_filter'] and
@@ -1047,7 +1007,6 @@ class Boards {
 						}
 					}
 				}
-// Song + Shaman
 				$can_see_root = $std->check_perms($forum_data['read_perms']);
 
 				// Are we allowed to see the postable forum stuff?
@@ -1112,7 +1071,6 @@ class Boards {
 						continue;
 
 					$rtime = $data['last_post'];
-// Song * NEW
 					if ($ibforums->member['id'] and !$state and $ibforums->member['board_read'] < $rtime)
 					{
 						$ftime = $ibforums->forum_read[$data['id']];
@@ -1120,7 +1078,6 @@ class Boards {
 						if ($ftime < $rtime)
 							$state = 1;
 					}
-// Song * NEW
 					if (!$forum_data['sub_can_post'] and $forum_data['redirect_on'] != 1)
 					{
 						// Do the news stuff first
@@ -1295,8 +1252,6 @@ class Boards {
 
 					$forum_data = $this->forum_icon($forum_data);
 
-// Shaman
-// do not paint tree if mode is filter
 					if ($ibforums->member['show_filter'])
 					{
 						$forum_data['tree'] = '  <td colspan="2" class="row4" align="center">' . $forum_data['img_new_post'] . '</td>';
@@ -1404,7 +1359,6 @@ class Boards {
 				}
 
 				return $result;
-// Shaman
 			} else
 				return "";
 		} else
@@ -1443,14 +1397,12 @@ class Boards {
 				}
 
 				$forum_data['redirect_hits'] = $std->do_number_format($forum_data['redirect_hits']);
-// Shaman
 				$forum_data['colspan'] = "";
 
 				if (0 == $level)
 					$forum_data['colspan'] = 'colspan="2" ';
 
 				return View::make("boards.forum_redirect_row", ['info' => $forum_data]);
-// Shaman
 			}
 
 			//--------------------------------------
@@ -1538,7 +1490,6 @@ class Boards {
 			$forum_data = $this->forum_icon($forum_data);
 
 			$forum_data['description'] = str_replace("/r/n", "<br>", $forum_data['description']);
-// Shaman
 			if (0 == $level)
 			{
 				$forum_data['tree'] = '  <td colspan="2" class="row4" align="center">' . $forum_data['img_new_post'] . '</td>';
@@ -1548,11 +1499,8 @@ class Boards {
 			}
 
 			return View::make("boards.ForumRow", ['info' => $forum_data]) . $result;
-// Shaman
 		}
 	}
-
-	/* Sunny (e-boxes@list.ru, 288-681-633): Forum Icon */
 
 	function forum_icon($forum_data)
 	{

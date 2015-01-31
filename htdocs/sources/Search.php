@@ -60,7 +60,6 @@ class Search
 	var $read_array = array();
 	var $read_mark = array();
 
-	//Jureth: show modpanel in search
 	var $modfunctions = false;
 
 	//--------------------------------------------
@@ -243,7 +242,7 @@ class Search
 		                       'TITLE' => $this->page_title,
 		                       'JS'    => ($this->modfunctions)
 			                       ? "rows_js.js?{$ibforums->vars['client_script_version']}"
-			                       : 0, //Jureth
+			                       : 0,
 		                       'NAV'   => $this->nav
 		                  ));
 
@@ -273,8 +272,6 @@ class Search
 	//------------------------------------------------
 	// Show main form
 	//------------------------------------------------
-	// Song * quick search from special tag
-
 	function do_word_search($search_in)
 	{
 		global $ibforums;
@@ -315,9 +312,6 @@ class Search
 		$this->do_search();
 	}
 
-	// /Song * quick search from special tag
-
-	//----------------------------------------------------------------
 	function do_search()
 	{
 		global $ibforums, $std, $print;
@@ -374,16 +368,13 @@ class Search
 		if ($ibforums->input['useridsearch'])
 		{
 			$this->search_type = 'userid';
-			// vot			$this->keywords = $this->filter_keywords($ibforums->input['useridsearch']);
 			$this->keywords = $ibforums->input['useridsearch'];
 		} else
 		{
 			$this->search_type = 'posts';
-			// vot			$this->keywords = $this->filter_keywords($ibforums->input['keywords']);
 			$this->keywords = $ibforums->input['keywords'];
 			if ($this->debug)
 			{
-				//			echo "search_type=".$this->search_type."<br>\n";
 				$this->output .= "search_type=" . $this->search_type . "<br>\n";
 			}
 		}
@@ -483,9 +474,6 @@ class Search
 
 		//------------------------------------
 		// Correct the min search length
-
-		// vot: WHAT the hell????
-
 		if ($ibforums->vars['min_search_word'] < 1)
 		{
 			$ibforums->vars['min_search_word'] = 3;
@@ -737,7 +725,6 @@ class Search
 	}
 
 	/******************************************************/
-	// vot:
 	// Show Search Results
 	// Shows the results of the search directly
 	/******************************************************/
@@ -792,9 +779,7 @@ class Search
 		{
 			if ($this->search_in == 'titles')
 			{
-				// Song * NEW
 				$this->fill_read_arrays($topics);
-				// /Song * NEW
 
 				$this->output .= $this->start_page($topic_max_hits);
 
@@ -812,7 +797,6 @@ class Search
 					  ORDER BY t.pinned DESC,";
 
 				// search new topics of user
-				// vot
 				if ($ibforums->input['new'])
 				{
 					$query .= "f.id ASC,";
@@ -858,7 +842,6 @@ class Search
 					$topics = implode(',', $topics);
 				}
 
-				// Song * NEW
 				$this->fill_read_arrays($topics);
 
 				$this->output .= $this->start_page($topic_max_hits);
@@ -877,7 +860,6 @@ class Search
 						t.pinned DESC,";
 
 				// Search new topics of user
-				// vot
 				if ($ibforums->input['new'])
 				{
 					$query .= "f.id ASC,";
@@ -894,14 +876,12 @@ class Search
 			{
 				while ($row = $stmt->fetch())
 				{
-					// Song * club tool
 					if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 					{
 						continue;
 					}
 
 					$count++;
-					// Song * club tool
 
 					$row['keywords'] = $url_words;
 
@@ -1026,10 +1006,6 @@ class Search
 			$this->show_result_from_select($stmt, $post_max_hits, 1);
 		}
 
-		// Song * club tool
-
-		// vot debug
-		//		if($this->debug && ($ibforums->member[id] == 2)) {
 		$this->output .= "
 			<hr>
 			'search_in'	= {$this->search_in}<br>
@@ -1052,11 +1028,9 @@ class Search
 			'topics'	= {$topics}<br>
 			'posts'		= {$posts}<br>
 ";
-		//		}
 
 		return;
 
-		// vot debug
 		if (!$this->debug)
 		{
 			if ($count <= 0)
@@ -1067,7 +1041,7 @@ class Search
 				            ));
 			}
 		}
-		// /Song * club tool
+		// club tool
 
 		$this->page_title = $ibforums->lang['search_results'];
 
@@ -1111,8 +1085,6 @@ class Search
 			{
 				while ($row = $stmt->fetch())
 				{
-					// Song * ip address in a search
-
 					if ($ibforums->member['g_is_supmod'])
 					{
 						$row['ip_address'] = "( <a href='{$ibforums->base_url}&act=modcp&CODE=ip&incoming={$row['ip_address']}' target='_blank'>{$row['ip_address']}</a> )";
@@ -1121,8 +1093,6 @@ class Search
 						$row['ip_address'] = "";
 					}
 
-					// /Song * ip address in a search
-					// Song * club tool
 					if ($row['club'] and
 					    $std->check_perms($ibforums->member['club_perms']) == FALSE
 					)
@@ -1131,8 +1101,6 @@ class Search
 					}
 
 					$count++;
-					// /Song * club tool
-
 					$data = array(
 						'TEXT'      => $row['post'],
 						'SMILIES'   => $row['use_emo'],
@@ -1220,10 +1188,7 @@ class Search
 
 			if ($this->search_in == 'titles')
 			{
-				// Song * NEW
 				$this->fill_read_arrays($topics);
-				// /Song * NEW
-
 			} else
 			{ // ( $this->search_in == 'posts' )
 				//--------------------------------------------
@@ -1258,7 +1223,6 @@ class Search
 
 					$topics = implode(',', $topics);
 				}
-				// Song * NEW
 				$this->fill_read_arrays($topics);
 
 			}
@@ -1269,14 +1233,12 @@ class Search
 			{
 				while ($row = $stmt->fetch())
 				{
-					// Song * club tool
 					if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 					{
 						continue;
 					}
 
 					$count++;
-					// Song * club tool
 
 					$row['keywords'] = $this->keywords
 						? : $this->convert_highlite_words($ibforums->input['highlite']);
@@ -1407,9 +1369,7 @@ class Search
 		{
 			if ($this->search_in == 'titles')
 			{
-				// Song * NEW
 				$this->fill_read_arrays($topics);
-				// /Song * NEW
 
 				$this->output .= $this->start_page($topic_max_hits);
 
@@ -1426,7 +1386,6 @@ class Search
 					  ORDER BY t.pinned DESC,";
 
 				// search new topics of user
-				// vot
 				if ($ibforums->input['new'])
 				{
 					$query .= "f.id ASC,";
@@ -1476,7 +1435,6 @@ class Search
 
 					$topics = implode(',', $topics);
 				}
-				// Song * NEW
 				$this->fill_read_arrays($topics);
 
 				$this->output .= $this->start_page($topic_max_hits);
@@ -1495,7 +1453,6 @@ class Search
 						t.pinned DESC,";
 
 				// Search new topics of user
-				// vot
 				if ($ibforums->input['new'])
 				{
 					$query .= "f.id ASC,";
@@ -1512,14 +1469,13 @@ class Search
 			{
 				while ($row = $stmt->fetch())
 				{
-					// Song * club tool
+					// club tool
 					if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 					{
 						continue;
 					}
 
 					$count++;
-					// Song * club tool
 
 					$row['keywords'] = $url_words;
 
@@ -1651,8 +1607,6 @@ class Search
 
 			while ($row = $stmt->fetch())
 			{
-				// Song * ip address in a search
-
 				if ($ibforums->member['g_is_supmod'])
 				{
 					$row['ip_address'] = "( <a href='{$ibforums->base_url}&act=modcp&CODE=ip&incoming={$row['ip_address']}' target='_blank'>{$row['ip_address']}</a> )";
@@ -1661,9 +1615,6 @@ class Search
 					$row['ip_address'] = "";
 				}
 
-				// /Song * ip address in a search
-
-				// Song * club tool
 				if ($row['club'] and
 				    $std->check_perms($ibforums->member['club_perms']) == FALSE
 				)
@@ -1672,7 +1623,6 @@ class Search
 				}
 
 				$count++;
-				// /Song * club tool
 
 				$data = array(
 					'TEXT'      => $row['post'],
@@ -1733,8 +1683,6 @@ class Search
 			$this->output .= View::make("search.end_as_post", ['Data' => array('SHOW_PAGES' => $this->links)]);
 		}
 
-		// Song * club tool
-
 		if ($count <= 0)
 		{
 			$std->Error(array(
@@ -1742,8 +1690,6 @@ class Search
 			                 'MSG'   => 'no_search_results'
 			            ));
 		}
-
-		// /Song * club tool
 
 		$this->page_title = $ibforums->lang['search_results'];
 
@@ -1860,12 +1806,10 @@ class Search
 
 				if ($i['parent_id'] > 0)
 				{
-					// Song * endless forums, 20.12.04
 					$children[$i['parent_id']][] = array(
 						$i['forum_id'],
 						"<option value=\"{$i['forum_id']}\"$selected>&middot;&middot;&middot;&middot;<IBF_SONG_DEPTH>&nbsp;{$i['forum_name']}</option>\n"
 					);
-					// /Song * endless forums, 20.12.04
 
 				} else
 				{
@@ -1908,8 +1852,6 @@ class Search
 		}
 
 		$forums = "<select name='forums[]' class='forminput' size='10' multiple='multiple'>\n" . "<option value='all'" . $init_sel . ">" . $ibforums->lang['all_forums'] . "</option>" . $the_html . "</select>";
-
-		// Song * variable label and checkbox, 06.12.04
 
 		if ($ibforums->vars['search_sql_method'] == 'ftext')
 		{
@@ -1971,7 +1913,6 @@ class Search
 				}
 			}
 		}
-		// /Song * variable label and checkbox, 06.12.04
 
 		if ($this->mysql_version >= 40010 AND $ibforums->vars['search_sql_method'] == 'ftext')
 		{
@@ -1984,9 +1925,6 @@ class Search
 
 	}
 
-	//------------------------------
-	// Song * NEW
-	//---------------------------------------------------
 	function fill_read_arrays($topics)
 	{
 		global $ibforums;
@@ -2030,9 +1968,6 @@ class Search
 
 	}
 
-	// /Song * NEW
-
-	//--------------------------------------------------
 	function start_page($amount, $is_post = 0)
 	{
 		global $ibforums, $std;
@@ -2055,8 +1990,6 @@ class Search
 		                                          'L_MULTI'    => $ibforums->lang['search_pages'],
 		                                          'BASE_URL'   => $baseurl,
 		                                     ));
-
-		// Song * select forums for "new" search
 
 		if ($ibforums->input['new'] and $ibforums->member['id'])
 		{
@@ -2092,7 +2025,6 @@ class Search
 			$selector = "";
 		}
 
-		//Jureth
 		if ($this->modfunctions)
 		{
 			$searchdata                 = array(
@@ -2105,13 +2037,11 @@ class Search
 			$modcontrol['mod_column']   = View::make("search.mod_column_head");
 		}
 
-		// /Song * select forums for "new" search
-
 		$out = array(
 			'SHOW_PAGES'  => $this->links,
 			'BUTTON'      => $button,
 			'SEARCH_DAYS' => $selector,
-			'MOD_CONTROL' => $modcontrol, //Jureth
+			'MOD_CONTROL' => $modcontrol,
 		);
 
 		if (!$is_post)
@@ -2162,7 +2092,6 @@ class Search
 
 		$topic['topic_start_date'] = $std->get_date($topic['start_date']);
 
-		//Jureth
 		if ($this->modfunctions)
 		{
 			if ((mb_strpos(',' . $ibforums->member['modforums'] . ',', ',' . $topic['forum_id'] . ',') !== false) or ($ibforums->member['g_is_supmod']))
@@ -2237,7 +2166,6 @@ class Search
 			$topic['posts'] = 0;
 		}
 
-		// Song * NEW
 		if (!$ibforums->member['id'])
 		{
 			$last_time = '';
@@ -2273,7 +2201,6 @@ class Search
 
 		// icon of topic
 		$topic['folder_img'] = $std->folder_icon($topic, "", $this->read_array[$topic['tid']], $this->read_mark[$topic['forum_id']]);
-		// /Song * NEW
 
 		if ($last_time && ($topic['last_post'] > $last_time))
 		{
@@ -2342,14 +2269,12 @@ class Search
 						{
 							foreach ($word_array as $keywords)
 							{
-								//vot $topic['post'] = preg_replace( "/(^|\s)(".preg_quote($keywords, "/").")(\s|$)/i", "\\1<span class='searchlite'>\\2</span>\\3", $topic['post'] );
 								$topic['post'] = preg_replace("/(" . preg_quote($keywords, "/") . ")/i", "<span class='searchlite'>\\1</span>", $topic['post']);
 							}
 						}
 					}
 				} else
 				{
-					// vot $topic['post'] = preg_replace( "/(^|\s)(".preg_quote($keywords, "/").")(\s|,|$)/i", "\\1<span class='searchlite'>\\2</span>\\3", $topic['post'] );
 					$topic['post'] = preg_replace("/(" . preg_quote($keywords, "/") . ")/i", "<span class='searchlite'>\\1</span>", $topic['post']);
 				}
 			}
@@ -2397,18 +2322,14 @@ class Search
 
 		if ($name == 0)
 		{
-			// vot
 			$words = preg_replace("/[\|\[\]\{\}\(\)\,\.:\\\\\/\"']|&quot;/", " ", $words);
 		}
 
 		// Remove common words..
 
-		// vot    	$words = preg_replace( "/^(?:img|quote|code|html|javascript|a href|color|span|div)$/", "", $words );
+		$words = preg_replace("/\s+/", " ", $words);
 
-		$words = preg_replace("/\s+/", " ", $words); // vot
-
-		// vot    	return " ".preg_quote($words)." ";
-		$words = trim($words); // vot
+		$words = trim($words);
 		return $words;
 	}
 
@@ -2740,9 +2661,6 @@ class Search
 
 	}
 
-	//----------------------------------------------
-	// Song * forum_list
-
 	function subforums_search_list($children, $id, $level, &$temp_html, $all_checkboxes)
 	{
 		global $std;
@@ -2938,11 +2856,6 @@ class Search
 
 	}
 
-	// /Song * forum_list
-
-	//-----------------------------------
-	// Song * endless forums, 20.12.04
-
 	function subforums_addtoform($id, &$children, $level = '')
 	{
 
@@ -2970,10 +2883,7 @@ class Search
 
 	}
 
-	// /Song * endless forums, 20.12.04
-
 	//----------------------------------
-	// Song * selected search, 12.03.05
 
 	function change_days()
 	{
@@ -2993,8 +2903,6 @@ class Search
 		$print->redirect_screen($ibforums->lang['search_redirect'], "act=Search&CODE=" . $ibforums->input['CODE_MODE']);
 
 	}
-
-	// /Song * selected search, 12.03.05
 
 	// SELECT FUNCTIONS
 
@@ -3203,7 +3111,6 @@ class Search
 		// the database
 		//------------------------------------------------
 
-		// Song * selected search
 		$stmt = $ibforums->db->query("SELECT
 				sf.fid,
 				f.read_perms
@@ -3236,17 +3143,11 @@ class Search
 			// 5 days ago
 			$time = $time - 60 * 60 * 24 * intval($ibforums->member['search_days']);
 		}
-		// /Song * selected search
-
-		// Song * NEW
 		// read topic changes
 		$this->get_read_topics($time);
 
-		// Song * new and mine new messages
-
 		if ($mine)
 		{
-			// vot: BAD REQUEST!!!  p.post NOT LIKE '%[MOD]%' AND p.post NOT LIKE '%[EX]%' AND
 			$query = "SELECT
 					t.tid as topic_id,
 					t.last_post,
@@ -3279,17 +3180,14 @@ class Search
 					t.last_post > '" . $time . "'";
 		}
 
-		// Song * selected search
-
 		if ($all)
 		{
 			$query .= " and t.forum_id IN (" . $all . "0)";
 		}
 
-		$query .= " GROUP BY t.tid"; // vot
-		// vot		$query .= " ORDER by t.last_post";
+		$query .= " GROUP BY t.tid";
 
-		// /Song * selected search
+		// selected search
 
 		$stmt = $ibforums->db->query($query);
 
@@ -3304,7 +3202,7 @@ class Search
 			$tid = $topic['topic_id'];
 			$fid = $topic['forum_id'];
 
-			// Song * NEW
+			// * NEW
 			if ($ibforums->member['id'])
 			{
 				if (!isset($this->read_mark[$fid]))
@@ -3338,7 +3236,6 @@ class Search
 			{
 				$posts .= $tid . ",";
 			}
-			// /Song * NEW
 		}
 
 		$stmt->closeCursor();
@@ -3436,12 +3333,10 @@ class Search
 
 			while ($row = $stmt->fetch())
 			{
-				// Song * club tool
 				if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 				{
 					continue;
 				}
-				// /Song * club tool
 
 				$row['ip_address'] = "";
 
@@ -3504,8 +3399,6 @@ class Search
 			            ));
 		}
 
-		// Song * club tool
-
 		if ($count <= 0)
 		{
 			$std->Error(array(
@@ -3513,8 +3406,6 @@ class Search
 			                 'MSG'   => 'no_search_results'
 			            ));
 		}
-
-		// /Song * club tool
 
 		$stmt->closeCursor();
 
@@ -3718,7 +3609,6 @@ class Search
 				    AND p.queued != 1
 				  ORDER BY t.last_post DESC
 				  LIMIT 0,200";
-			// vot: WHY 200 ONLY ????
 
 			//------------------------------------------------
 			// Get the topic ID's to serialize and store into
@@ -3847,20 +3737,17 @@ class Search
 
 		while ($row = $stmt->fetch())
 		{
-			// Song * club tool
 			if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 			{
 				continue;
 			}
 
 			$count++;
-			// /Song * club tool
 
 			$row['keywords'] = $url_words;
 			$this->output .= View::make("search.RenderRow", ['Data' => $this->parse_entry($row)]);
 		}
 
-		// Song * club tool
 		if ($count <= 0)
 		{
 			$std->Error(array(
@@ -3868,8 +3755,6 @@ class Search
 			                 'MSG'   => 'no_search_results'
 			            ));
 		}
-		// /Song * club tool
-
 		$this->page_title = $ibforums->lang['search_results'];
 		$this->nav        = array(
 			"<a href='{$this->base_url}act=Search'>{$ibforums->lang['search_form']}</a>",

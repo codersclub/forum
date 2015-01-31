@@ -154,8 +154,6 @@ class search_lib extends Search
 		//------------------------------------
 		// Correct the min search length
 
-		// vot: WHAT the hell????
-
 		if ($ibforums->vars['min_search_word'] < 1)
 		{
 			$ibforums->vars['min_search_word'] = 3;
@@ -339,56 +337,12 @@ class search_lib extends Search
 
 			//----------------------------------------
 			// Search type AND/OR parameter
-			//		$num_of_words = count($wordidlist);
 
 			$and_or = "";
 			if (!$ibforums->input['space_determine'])
 			{
 				$and_or = "HAVING COUNT(s.word_id)=" . $this->num_of_words . " ";
 			}
-
-			//echo "words: $wordlist<br>";
-			//echo "words: $wordidlist<br>";
-
-			//$posts_datecut $topics_datecut $post_like $title_like $posts_name $topics_name
-
-			// OLD SEARCH QUERIES
-			//'topics_query' = SELECT t.tid FROM ibf_topics t
-			//                 WHERE t.last_post > 1106136530
-			//		AND t.forum_id IN (7,52,90,16,36,86,105,104,110,114,131,132,148,159,158,160,187,188)
-			//		AND t.approved=1
-			//		AND (( t.title LIKE '%purpe%' or t.title LIKE '%vot%' ))
-			//'posts_query' = SELECT p.pid FROM ibf_posts p WHERE p.post_date > 1106136530 AND p.forum_id IN (7,52,90,16,36,86,105,104,110,114,131,132,148,159,158,160,187,188) AND p.use_sig=0 AND p.queued <> 1 AND (( p.post LIKE '%purpe%' or p.post LIKE '%vot%' )),
-
-			//---------------------------------------
-			// count for posts where WORD_ID presents
-
-			//			$sql = "SELECT COUNT(*)
-			//				FROM ibf_search
-			//				WHERE word_id IN ($wordidlist) ";
-			//
-			//			// What forums to search in
-			//			if(scalar(@forums)) {
-			//			  $sql .= "AND fid in (".$forumlist.") ";
-			//			}
-			//
-			//			// Where to search: posts or topic titles
-			//			if($search_in eq 'posts') {
-			//			} elsif($search_in eq 'titles') {
-			//			  $sql .= "AND pid=0 ";
-			//			}
-			//
-			//			$sql .= "GROUP BY tid ";
-			//
-			//			if ($stype eq "AND") {
-			//			  $sql .= "HAVING COUNT(word_id)=".$num_of_words." ";
-			//			}
-			//
-			//			//  print "Query: ".$sql."<br>\n";
-			//
-			//			$request = $dbh->prepare($sql);
-			//			$request->execute();
-			//			$rows_affected = $request->rows;
 
 			//---------------------------------------
 			// search for posts where WORD_ID presents
@@ -430,32 +384,6 @@ class search_lib extends Search
 				GROUP BY s.pid
 				$and_or ";
 
-			//				$group_by = '';
-
-			//  $sql .= "LIMIT $stpos,$res_num";
-
-			//-----------------------------------
-			//			$topics_query = "SELECT
-			//						t.tid
-			//					FROM
-			//						ibf_topics t
-			//					WHERE
-			//						$topics_datecut
-			//						t.forum_id IN ($forums)
-			//						$topics_name AND
-			//						t.approved=1 AND
-			//						($title_like)";
-			//
-			//
-			//			$posts_query = "SELECT p.pid
-			//					FROM ibf_posts p
-			//					WHERE
-			//						$posts_datecut
-			//						p.forum_id IN ($forums) AND
-			//						p.use_sig=0 AND
-			//						p.queued <> 1
-			//						$posts_name AND
-			//						($post_like)";
 		} else
 		{
 			$topics_query = "SELECT t.tid

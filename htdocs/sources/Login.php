@@ -223,8 +223,6 @@ class Login
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		// Song * NEW
-
 		if (!$forums_read = $ibforums->forums_read)
 		{
 			$forums_read = array();
@@ -244,7 +242,6 @@ class Login
 
 		$ibforums->db->exec("UPDATE ibf_members SET forums_read='" . serialize($forums_read) . "' WHERE id='" . $ibforums->member['id'] . "'");
 
-		// Song * NEW
 		//--------------------------------------
 		// Are we getting kicked back to the root forum (if sub forum) or index?
 		//--------------------------------------
@@ -415,11 +412,7 @@ class Login
 				$ibf->db->insertRow('ibf_sessions', $data);
 			}
 
-			// Song * who was today online (members)
-
 			$std->who_was_member($member['id']);
-
-			// Song * who was today online (members)
 
 			$ibf->member     = $member;
 			$ibf->session_id = $session_id;

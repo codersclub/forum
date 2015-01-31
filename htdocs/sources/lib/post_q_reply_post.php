@@ -56,8 +56,6 @@ class post_functions extends Post
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		// Song * Old Topics Flood, 15.03.05
-
 		if ($std->user_reply_flood($this->topic['start_date']))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
@@ -296,8 +294,6 @@ class post_functions extends Post
 			}
 		}
 
-		// Song * decided topics, 20.04.05
-
 		if ($class->forum['decided_button'] and
 		    $ibforums->member['id'] and
 		    $ibforums->member['g_use_decided'] and
@@ -308,8 +304,6 @@ class post_functions extends Post
 				? 1
 				: $this->topic['decided'];
 		}
-
-		// Song * merge mod
 
 		if (!$this->post['delete_after'] and
 		    !$this->post['attach_id'] and
@@ -344,14 +338,9 @@ class post_functions extends Post
 
 				$timedeff = time() - $lastpost['post_date'];
 
-				// vot: BAD CONSTANT 3500
-
 				if ($ibforums->member['id'] and $timedeff < 3500 and !$std->mod_tag_exists($lastpost['post'], 1))
 				{
-					//Спящий                                        if  ( (!(($ibforums->member['g_is_supmod'] == 1) or ($ibforums->member['is_mod']))) or
-					//Спящий                                              ((($ibforums->member['g_is_supmod'] == 1) or ($ibforums->member['is_mod'])) and ($ibforums->input['add_merge_edit'] == 1))
-					//Спящий                                            )
-					if ($ibforums->input['add_merge_edit']) //Спящий
+					if ($ibforums->input['add_merge_edit'])
 					{
 						if ($ibforums->member['g_avoid_flood'] != 1)
 						{
@@ -364,8 +353,6 @@ class post_functions extends Post
 								            ));
 							}
 						}
-						// vot: move "Added" to LANG !
-						// Jureth: done
 						$lang               = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
 						$this->post['post'] = $lastpost['post'] . " \n\n[color=mergepost][size=0]" . $lang['added_post'] . " [mergetime]" . time() . "[/mergetime][/size][/color]\n" . $this->post['post'];
 						unset($lang);
@@ -387,13 +374,11 @@ class post_functions extends Post
 					 WHERE pid='" . $lastpost['pid'] . "'");
 
 						//----------------------------------------------------
-						// vot:
 						// Index the Post body for the Indexed Search Engine
 						//----------------------------------------------------
 
 						$std->index_reindex_post($lastpost['pid'], $this->post['topic_id'], $class->forum['id'], $this->post['post']);
 
-						// Song * club tool
 						if (!$this->topic['club'])
 						{
 							// change forum
@@ -482,7 +467,6 @@ class post_functions extends Post
 		}
 
 		//----------------------------------------------------
-		// vot:
 		// Index the Post body for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -513,8 +497,6 @@ class post_functions extends Post
 			? $ibforums->member['name']
 			: $ibforums->input['UserName'];
 		$class->forum['last_poster_id']   = $ibforums->member['id'];
-
-		// Song * club tool
 
 		if (!$this->topic['club'])
 		{
@@ -621,8 +603,6 @@ class post_functions extends Post
 			$ibforums->db->exec("UPDATE ibf_members
 				    SET " . $pcount . $mgroup . $module->post_points($ibforums->vars['pointsper_reply']) . "last_post='" . $ibforums->member['last_post'] . "'" . " WHERE id='" . $ibforums->member['id'] . "'");
 
-			// Song * additional flood control
-
 		} else {
 			$ibforums->db->exec("UPDATE ibf_sessions
 				   SET last_post='" . time() . "'
@@ -725,7 +705,7 @@ class post_functions extends Post
 
 		$this->quoted_post['post'] = trim($class->parser->unconvert($this->quoted_post['post']));
 
-		// Song * user nicknames with "[" or "]"
+		// user nicknames with "[" or "]"
 
 		$this->quoted_post['post'] = str_replace(array(
 		                                              "&#091;",
@@ -734,8 +714,6 @@ class post_functions extends Post
 		                                                 "&amp;#091;",
 		                                                 "&amp;#093;"
 		                                            ), $this->quoted_post['post']);
-
-		// Song * user nicknames with "[" or "]"
 
 		//-------------------------------------------------
 		// Are we stripping quotes?
@@ -851,8 +829,6 @@ class post_functions extends Post
 		$class->output = preg_replace("/<!--END TABLE-->/", "$end_form", $class->output);
 		$class->output = preg_replace("/<!--QUOTE BOX-->/", "$quote_box", $class->output);
 
-		// Song * IBF forum rules
-
 		if ($class->forum['show_rules'])
 		{
 			if ($class->forum['rules_title'])
@@ -876,8 +852,6 @@ class post_functions extends Post
 				$class->forum['rules_text'] = str_replace(";&lt;br&gt;", "<br>", $class->forum['rules_text']);
 			}
 		}
-
-		// Song * IBF forum rules
 
 		$class->output = str_replace("<!--FORUM RULES-->", $std->print_forum_rules($class->forum), $class->output);
 

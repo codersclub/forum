@@ -123,8 +123,6 @@ class Printable
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		// Song * club tool
-
 		if ($this->topic['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'is_broken_link'));

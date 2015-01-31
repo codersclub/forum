@@ -935,9 +935,7 @@ class ad_mod
 							$css);
 					}
 
-					// Song * infinite subforums, 17.12.04
 					$this->subforums_addtorow($children, $r['id'], 0, $mods);
-					// Song * infinite subforums, 17.12.04
 
 				}
 			}

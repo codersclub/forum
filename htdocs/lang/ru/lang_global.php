@@ -1,9 +1,9 @@
 <?php
 
-$lang['moderators'] = "Модераторы: "; // vot
-$lang['spoiler']  = "Скрытый текст"; // vot
-$lang['ipicture_title'] = "Загрузить изображение на iPicture.ru"; // vot
-$lang['fine'] = "Поощрения"; // Jureth
+$lang['moderators'] = "Модераторы: ";
+$lang['spoiler']  = "Скрытый текст";
+$lang['ipicture_title'] = "Загрузить изображение на iPicture.ru";
+$lang['fine'] = "Поощрения";
 $lang['pm_email_subject']  = "Приватное сообщение от <#POSTER#>";
 
 $lang['ibstore']  = "DigiMania";

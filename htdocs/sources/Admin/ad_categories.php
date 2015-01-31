@@ -532,16 +532,6 @@ class ad_cat
 						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=frules&f={$r['id']}'><img src='{$SKIN->img_url}/acp_rules.gif' border='0' title='Forum Rules'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$r['id']}'><img src='{$SKIN->img_url}/acp_edit.gif' border='0' title='Skin Options'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=recount&f={$r['id']}'><img src='{$SKIN->img_url}/acp_resync.gif' border='0' title='Resynchronise'></a></center>",
 						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=subdelete&f={$r['id']}'>Delete</a>" . " | <b><a href='{$ADMIN->base_url}&act=forum&code=empty&f={$r['id']}'>Empty Forum</a></b></center>",
 						                                  ), 'subforum');
-						//						}
-						//						else
-						//						{
-						//							$ADMIN->html .= $SKIN->add_td_row( array(
-						//																	   " - <b>".$r['name']."</b>$redirect $skin_stuff",
-						//																	   "<a href='{$ADMIN->base_url}&act=forum&code=subedit&f={$r['id']}'>Edit</a>",
-						//																	   "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$r['id']}'>Skin Options</a>",
-						//																	   "<a href='{$ADMIN->base_url}&act=forum&code=subdelete&f={$r['id']}'>Delete</a>",
-						//															 )   , 'subforum' );
-						//						}
 					} else
 					{
 						$ADMIN->html .= $SKIN->add_td_row(array(
@@ -552,11 +542,7 @@ class ad_cat
 						                                  ));
 					}
 
-					// Song * infinite subforums, 17.12.04
-
 					$this->subforums_addtorow($children, $r['id'], 0);
-
-					// Song * infinite subforums, 17.12.04
 				}
 			}
 		}
@@ -696,8 +682,6 @@ class ad_cat
 
 	}
 
-	// Song * endless forums, 19.12.04
-
 	function delete_forum_link($children, $row)
 	{
 		global $ADMIN;
@@ -706,7 +690,6 @@ class ad_cat
 		return (!count($children[$row['id']]) > 0)
 			? "<center><a href='{$ADMIN->base_url}&act=forum&code=delete&f={$row['id']}'>Delete</a> | "
 			: "<center>";
-
 	}
 
 	function subforums_addtorow($children, $id, $level)
@@ -749,9 +732,6 @@ class ad_cat
 
 			$this->subforums_addtorow($children, $rd['id'], $level + 1);
 		}
-
-		// Song * endless forums, 19.12.04
-
 	}
 
 }

@@ -162,7 +162,6 @@ return <<<EOF
 EOF;
 }
 
-/* <--- Jureth --- Show DigiMoney in Profile */
 function show_fines($info){
 global $ibforums;
 return <<<EOF
@@ -173,8 +172,6 @@ return <<<EOF
   </tr>
 EOF;
 }
-/* >--- Jureth --- */
-
 
 function show_profile($info) {
 global $ibforums;
