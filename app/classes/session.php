@@ -1061,7 +1061,7 @@ class session
 				: (time() - 3600);
 
 			$ibforums->db->exec("DELETE FROM ibf_sessions
-			    WHERE running_time < {$ibforums->vars['session_expiration']}");
+			    WHERE running_time < {$ibforums->vars['session_expiration']} LIMIT 10");
 
 			$ibforums->db->exec("DELETE FROM ibf_sessions
 			    WHERE member_id='" . $this->member['id'] . "'");
