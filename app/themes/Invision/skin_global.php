@@ -430,7 +430,6 @@ return <<<EOF
 Наши проекты:
 </td>
 <td class='b-neighbor-links' colspan=2>
-&middot;
 <a class='b-neighbor-link b-neighbor-link_magazine' href="http://magazine.sources.ru/"><b>Журнал</b></a>
 &middot;
 <a class='e-neighbor-link e-neighbor-link-discuz' href="http://discuz.ml/" title="Discuz! MultiLingual"><b>Discuz!ML</b></a>
