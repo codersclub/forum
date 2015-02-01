@@ -85,7 +85,7 @@ class display
 	}
 
 	//-------------------------------------------
-	// vot: Rotate banners from array.
+	// Rotate banners from array.
 	//-------------------------------------------
 
 	function rotate_banner($banners = "")
@@ -117,7 +117,7 @@ class display
 	}
 
 	//-------------------------------------------
-	// vot: Output the XAP network banner.
+	// Output the XAP network banner.
 	//-------------------------------------------
 
 	function xap_banner()
@@ -161,15 +161,13 @@ class display
 				: '0';
 			exit();
 		}
-		// Song * Adjust the Favorites Icon
-//        something_wrong();
 		//---------------------------------------------
 		// Check for DEBUG Mode
 		//---------------------------------------------
 
 		if ($ibforums->member['g_access_cp'])
 		{
-			if (FALSE) //if ( $DB->obj['debug'] ) //todo need to move to the debug class or remove it completely - jureth
+			if (FALSE) //if ( $DB->obj['debug'] ) //todo need to move to the debug class or remove it completely
 			{
 				flush();
 				print "<html><head><title>mySQL Debugger</title><body bgcolor='white'><style type='text/css'> TABLE, TD, TR, BODY { font-family: verdana,arial, sans-serif;color:black;font-size:11px }</style>";
@@ -258,8 +256,6 @@ class display
 		//---------------------------------------------------------
 		// CSS
 		//---------------------------------------------------------
-		// Song * CSS based on User CP + common CSS, 29.12.04
-
 		$css = View::make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
 
 		//---------------------------------------------------------
@@ -276,11 +272,6 @@ class display
 				$extra = "<div align='center' class='copyright'>Registered to: " . $ibforums->vars['ipb_reg_name'] . "</div>";
 			}
 		}
-
-		//-------------------------------------------------------
-		// Song + Mixxx * included js, client highlight, 23.12.04
-
-		$js = "";
 
 		if ($ibforums->member['syntax'] == "client")
 		{
@@ -303,7 +294,6 @@ class display
 			$this->js->addLocal($output_array['JS']);
 		}
 
-		// End of Song + Mixxx * included js, 23.12.04
 		// Copyrights
 		// Yes, I realise that this is silly and easy to remove the copyright, but
 		// as it's not concealed source, there's no point having a 1337 fancy hashing
@@ -408,7 +398,7 @@ class display
 
 				$msg_data['TEXT'] = sprintf($ibforums->lang['msg_new'], $ibforums->member['new_msg']);
 
-				// CBP & vot: Check for NEW PM
+				// Check for NEW PM
 
 				if ($ibforums->member['new_msg'])
 				{
@@ -474,7 +464,6 @@ class display
 			}
 		}
 
-		// vot:
 		// Adjust the page title for russian search bots
 		//todo jrth: hmmm
 		$output_array['TITLE'] = str_replace(".RU", ".Ру", $output_array['TITLE']);
@@ -502,8 +491,6 @@ class display
 		$change[]  = $this->js->render(\JS\JS::TOP);
 		$replace[] = "<% JAVASCRIPT_BOTTOM %>";
 		$change[]  = $this->js->render(\JS\JS::BOTTOM);
-
-		// Song * RSS, 29.01.05
 
 		$replace[] = "<% RSS %>";
 
@@ -536,8 +523,6 @@ class display
 
 		$replace[] = "<% NAVIGATION %>";
 		$change[]  = $nav;
-
-		// Song * secondary navigation
 
 		$replace[] = "<!--IBF.NAVIGATION-->";
 		$change[]  = $this->bottomNav($output_array);
@@ -613,27 +598,27 @@ class display
 		}
 
 		//-----------------------------------
-		// vot: header banner
+		// header banner
 		$replace[] = "<!-- HEADER_BANNER -->";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_header']);
 
 		//-----------------------------------
-		// vot: top banner
+		// top banner
 		$replace[] = "<% TOP NAV BANNER %>";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_top_nav']);
 
 		//-----------------------------------
-		// vot: middle banner
+		// middle banner
 		$replace[] = "<% MIDDLE BANNER %>";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_middle']);
 
 		//-----------------------------------
-		// vot: bottom banner
+		// bottom banner
 		$replace[] = "<% BOTTOM BANNER %>";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_bottom']);
 
 		//-----------------------------------
-		// vot: bottom XAP banner
+		// bottom XAP banner
 		$replace[] = "<% XAP BANNER %>";
 		$change[]  = $this->xap_banner();
 		//+--------------------------------------------
@@ -666,8 +651,8 @@ class display
 		$replace[] = "<#IMG_DIR#>";
 		$change[]  = $ibforums->skin->getImagesPath();
 
-		$replace[] = "<#BASE_URL#>"; // vot
-		$change[]  = $ibforums->base_url; // vot
+		$replace[] = "<#BASE_URL#>";
+		$change[]  = $ibforums->base_url;
 
 		return str_replace($replace, $change, $template);
 	}
@@ -793,11 +778,8 @@ class display
 		//---------------------------------------------------------
 		// CSS
 		//---------------------------------------------------------
-		// CSS based on User CP + common CSS, Song * 29.12.04
 		$this->js->addLocal('global.js');
 		$css = View::make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
-
-		// Song + Mixxx * included js, client highlight, 23.12.04
 
 		if ($ibforums->member['syntax'] == "client")
 		{

@@ -1,5 +1,4 @@
 <?php
-// vot
 // Skin for Article Page
 //-------------------------
 use Views\View;

@@ -814,9 +814,8 @@ function doInsert(ibTag, ibClsTag, isSingle)
 
     } else if ((is_nav && (myVersion > 4)) || is_webkit) 
     {
-//negram        obj_ta. focus ();
-    	var selStart = obj_ta.selectionStart; //negram
-    	var selEnd = obj_ta.selectionEnd; //negram
+    	var selStart = obj_ta.selectionStart;
+    	var selEnd = obj_ta.selectionEnd;
 
         sel1 = obj_ta. value. substr(0, obj_ta.selectionStart);
         sel2 = obj_ta. value. substr(obj_ta.selectionEnd, obj_ta. value. length - obj_ta.selectionEnd);
@@ -829,8 +828,6 @@ function doInsert(ibTag, ibClsTag, isSingle)
 
         obj_ta. value = sel1 + text + sel2;
         
-//negram        selPos = text.length + sel1.length;
-//negram        obj_ta. setSelectionRange(selPos, selPos);
         obj_ta.focus();
         inner_length = sel.length;
         if (!ibClsTag.length) inner_length=0;
@@ -844,12 +841,10 @@ function doInsert(ibTag, ibClsTag, isSingle)
 
         obj_ta.value += ibTag;
 
-        obj_ta.focus(); //negram
+        obj_ta.focus();
 
     }
 
-//negram    obj_ta.focus();
-    
     return isClose;
 }
 

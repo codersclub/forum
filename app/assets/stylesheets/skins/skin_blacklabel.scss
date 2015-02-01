@@ -1400,27 +1400,30 @@ td.b-menu-item {
   padding-bottom: 2px;
 }
 
-.b-queued_topic-approve-button a:link,
-.b-queued_topic-reject-button a:link,
-.b-queued_topic-approve-button a:hover,
-.b-queued_topic-reject-button a:hover,
-.b-queued_topic-approve-button a:visited,
-.b-queued_topic-reject-button a:visited {
-  color: goldenrod;
-  font-weight: normal;
+.b-topics-list-row {
+  .b-queued_topic-approve-button a:link,
+  .b-queued_topic-reject-button a:link,
+  .b-queued_topic-approve-button a:hover,
+  .b-queued_topic-reject-button a:hover,
+  .b-queued_topic-approve-button a:visited,
+  .b-queued_topic-reject-button a:visited {
+    color: goldenrod;
+    font-weight: normal;
+  }
 }
 
 .b-queued-topic-actions__title {
   color: goldenrod;
   /*font-weight: bold;*/
 }
-
-.b-posts-need-approve-button a:active,
-.b-posts-need-approve-button a:link,
-.b-posts-need-approve-button a:hover,
-.b-posts-need-approve-button a:visited {
-  /*font-weight: bold;*/
-  color: goldenrod;
+.b-topics-list-row .desc {
+  .b-posts-need-approve-button a:active,
+  .b-posts-need-approve-button a:link,
+  .b-posts-need-approve-button a:hover,
+  .b-posts-need-approve-button a:visited {
+    font-weight: bold;
+    color: gold;
+  }
 }
 
 ul.b-breadcrumbs-top li {

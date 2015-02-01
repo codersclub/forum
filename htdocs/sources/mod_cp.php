@@ -34,7 +34,7 @@ class Moderate
 	var $forum = array();
 	var $topic = array();
 	var $tids = array();
-	//Jureth - multisource: forums of $tids. Must be tid=>forum_id indexed array.
+	//multisource: forums of $tids. Must be tid=>forum_id indexed array.
 	var $tids_forums = array();
 
 	var $forums = array();
@@ -141,9 +141,6 @@ class Moderate
 				$this->pass = 0;
 			}
 		}
-
-		// Song * mod access
-
 		if (!$this->pass and !($ibforums->member['id'] and (mb_strpos($ibforums->input['CODE'], "ip") !== FALSE or $ibforums->input['CODE'] == "topicchoice")))
 		{
 			if (!$ibforums->member['is_mod'])
@@ -157,8 +154,6 @@ class Moderate
 				$ibforums->input['CODE']  = "";
 			}
 		}
-
-		// Song * mod access
 
 		//-------------------------------------
 		// Load mod module...
@@ -226,10 +221,8 @@ class Moderate
 
 			case 'topicchoice':
 
-				/** <--- Jureth --- * Multisource */
 				$this->tids_forums = $this->get_tids();
 				$this->tids        = array_keys($this->tids_forums);
-				//Jureth			$this->load_forum();
 				if (!$ibforums->input['f'])
 				{
 					//we can't load all forums, so load the first captured
@@ -238,7 +231,6 @@ class Moderate
 				{
 					$this->load_forum();
 				}
-				/* >--- Jureth --- */
 
 				switch ($ibforums->input['tact'])
 				{
@@ -551,7 +543,6 @@ class Moderate
 		// Recount root forum
 		//-------------------------------------
 
-		//Jureth: useless code - multimod can't be started for different forums simultaneously
 		if ($this->tids_forums)
 		{
 			foreach ($this->tids_forums as $tf)
@@ -1280,8 +1271,7 @@ class Moderate
 		}
 
 		$dest_id = intval($ibforums->input['df']);
-		/* <--- Jureth --- */
-		//		$source_id = $this->forum['id'];
+
 		if (count($this->tids_forums))
 		{
 			//topic sources already checked. We can use them safetly
@@ -1295,7 +1285,6 @@ class Moderate
 		// Check for input..
 		//----------------------------------
 
-		//Jureth	if ( !$source_id )
 		if (!reset($source_id))
 		{
 			$this->mod_error('cp_error_move');
@@ -1312,7 +1301,6 @@ class Moderate
 
 		//----------------------------------
 
-		//Jureth		if ( $source_id == $dest_id )
 		if (in_array($dest_id, $source_id))
 		{
 			$this->mod_error('cp_error_move');
@@ -1328,16 +1316,13 @@ class Moderate
 				name
 			    FROM ibf_forums
 			    WHERE id IN(" . implode(",", $source_id) . "," . $dest_id . ")");
-		//Jureth		    WHERE id IN(".$source_id.",".$dest_id.")");
 
-		//Jureth	if ($stmt->rowCount() != 2)
 		if ($stmt->rowCount() < 2)
 		{
 			$this->mod_error('cp_error_move');
 			return;
 		}
 
-		//Jureth	$source_name = "";
 		$source_name = array();
 		$dest_name   = "";
 
@@ -1347,14 +1332,11 @@ class Moderate
 
 		while ($f = $stmt->fetch())
 		{
-			//Jureth		if ($f['id'] == $source_id)
 			if ($f['id'] == $dest_id)
 			{
-				//Jureth			$source_name = $f['name'];
 				$dest_name = $f['name'];
 			} else
 			{
-				//Jureth			$dest_name = $f['name'];
 				$source_name[] = $f['name'];
 			}
 
@@ -1378,7 +1360,6 @@ class Moderate
 		// Resync the forums..
 		//----------------------------------
 
-		//Jureth	$this->modfunc->forum_recount($source);
 		foreach ($source as $s)
 		{
 			$this->modfunc->forum_recount($s);
@@ -1386,7 +1367,6 @@ class Moderate
 
 		$this->modfunc->forum_recount($moveto);
 
-		//Jureth	$this->moderate_log("Moved topics from $source_name to $dest_name");
 		foreach ($source_name as $s)
 		{
 			$this->moderate_log("Moved topics from $s to $dest_name");
@@ -1511,15 +1491,6 @@ class Moderate
 	{
 		global $ibforums;
 
-		//Jureth	$result = "showforum=".$this->forum['id'];
-
-		//Jureth	$this->add_redirect_part("view", &$result);
-		//Jureth	$this->add_redirect_part("prune_day", &$result);
-		//Jureth	$this->add_redirect_part("sort_by", &$result);
-		//Jureth	$this->add_redirect_part("sort_key", &$result);
-		//Jureth	$this->add_redirect_part("st", &$result);
-
-		//Jureth
 		if ("search" == $ibforums->input['old_act'])
 		{
 			$result = "act=Search&CODE=show";
@@ -1809,14 +1780,13 @@ class Moderate
 			$topic->forum_id = $this->forum_id;
 			$topic->update_last_post_time();
 
-			// vot: Remove search words for this topics
+			// Remove search words for this topics
 
 			$std->index_del_posts($pids);
 		}
 
 		// Recount..
 
-		//Jureth		$this->modfunc->forum_recount_queue($this->forum['id']);
 		$this->modfunc->forum_recount($this->forum['id']);
 		$this->modfunc->stats_recount();
 
@@ -2001,12 +1971,12 @@ class Moderate
 				    WHERE topic_id IN ($tids)");
 
 			//----------------------------------------
-			// vot: Remove search words for this posts
+			// Remove search words for this posts
 
 			$std->index_del_posts($pids);
 
 			//----------------------------------------
-			// vot: Remove search words for this topics
+			// Remove search words for this topics
 
 			$std->index_del_topics("IN(" . $tids . ")");
 
@@ -2014,7 +1984,6 @@ class Moderate
 
 		// Recount..
 
-		//Jureth		$this->modfunc->forum_recount_queue($this->forum['id']);
 		$this->modfunc->forum_recount($this->forum['id']);
 		$this->modfunc->stats_recount();
 
@@ -2099,7 +2068,7 @@ class Moderate
 			$tid_array[] = $tid['tid'];
 		}
 
-		$tid_array = array_fill_keys($tid_array, $this->forum['id']); //Jureth: multisource
+		$tid_array = array_fill_keys($tid_array, $this->forum['id']);
 		$this->modfunc->topic_delete($tid_array);
 
 		$this->moderate_log("Pruned Forum");
@@ -2877,7 +2846,6 @@ class Moderate
 			return;
 		}
 
-		//Jureth	if ( $ibforums->member['g_is_supmod'] ) return $ids; else
 		$new = array();
 		if ($ibforums->member['g_is_supmod'])
 		{
@@ -2901,9 +2869,6 @@ class Moderate
 		}
 		while ($row = $stmt->fetch())
 		{
-			//Jureth		$new[] = $row['tid'];
-			//Jureth		$this->moderator = $row;
-
 			$new[$row['tid']] = $row['fid'];
 			if (!$ibforums->member['g_is_supmod'])
 			{
@@ -3099,8 +3064,6 @@ class Moderate
 		$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => $rule]);
 	}
 
-	// Mastilior + Song * save highlight rules to file
-
 	function save_rules($lang, $version, $rules)
 	{
 		global $std;
@@ -3211,8 +3174,6 @@ class Moderate
 		fclose($fout);
 
 	}
-
-	// Mastilior + Song * save highlight rules to file
 
 	function syntax_edit()
 	{
@@ -3358,8 +3319,6 @@ class Moderate
 			return;
 		}
 
-		// Song * write rules to js file
-
 		$ibforums->db->exec("UPDATE ibf_syntax_list
 		    SET version=version+1
 		    WHERE id='" . $id . "'");
@@ -3385,9 +3344,6 @@ class Moderate
 
 			$this->save_rules($row['syntax'], $row['version'], $rules);
 		}
-
-		// Song * write rules to js file
-
 	}
 
 	function syntax_order()
@@ -3482,10 +3438,6 @@ class Moderate
 
 		$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => $rule]);
 	}
-
-	//-------------------------------------------------------------------------------
-
-	// Song * rules edit
 
 	function rules_edit($edit = 0)
 	{
@@ -3677,10 +3629,6 @@ class Moderate
 
 	}
 
-	// Song * rules edit
-
-	// Song * multimoderation
-
 	function multi_mod()
 	{
 		global $std, $ibforums, $print;
@@ -3772,7 +3720,4 @@ class Moderate
 
 		$this->output .= View::make('modcp.multi_mod', ['forums_list' => $forum_list]);
 	}
-
-	// Song * multimoderation
-
 }

@@ -790,12 +790,7 @@ class ad_forums
 						                                  ));
 					}
 
-					// Song * infinite subforums, 17.12.04
-
 					$this->subforums_addtorow($children, $r['id'], 0);
-
-					// Song * infinite subforums, 17.12.04
-
 				}
 			}
 		}
@@ -844,8 +839,6 @@ class ad_forums
 			$ADMIN->error("Could not determine the forum ID to delete.");
 		}
 
-		// Song * infinite subforums, 17.12.04
-
 		$stmt = $ibforums->db->query("SELECT f.id, f.name, f.parent_id FROM ibf_forums f, ibf_categories c
 			    WHERE c.id=f.category ORDER BY c.position, f.position");
 
@@ -889,8 +882,6 @@ class ad_forums
 		{
 			$result[$idx] = array($idx, $row['name']);
 		}
-
-		// Song * infinite subforums, 17.12.04
 
 		//+-------------------------------
 
@@ -974,25 +965,13 @@ class ad_forums
 
 		$ibforums->db->exec("DELETE FROM ibf_moderators WHERE forum_id='" . $IN['f'] . "'");
 
-		// Song * forums filter, 19.12.04
-
 		$ibforums->db->exec("DELETE FROM ibf_forums_order WHERE id='" . $IN['f'] . "'");
 
-		// Song * forums filter, 19.12.04
-
-		// Song * add to faq, 02.05.05
-
 		$ibforums->db->exec("UPDATE ibf_forums SET faq_id=0 WHERE faq_id='" . $IN['f'] . "'");
-
-		// Song * add to faq, 02.05.05
-
-		// Song * NEW system
 
 		$ibforums->db->exec("UPDATE ibf_log_forums SET fid='" . $IN['MOVE_ID'] . "' WHERE fid='" . $IN['f'] . "'");
 
 		$ibforums->db->exec("UPDATE ibf_log_topics SET fid='" . $IN['MOVE_ID'] . "' WHERE fid='" . $IN['f'] . "'");
-
-		// Song * NEW system
 
 		$this->recount($IN['MOVE_ID']);
 
@@ -1036,8 +1015,6 @@ class ad_forums
 			$f_name = $std->txt_stripslashes(urldecode($_GET['name']));
 		}
 
-		// Song * infinite subforums, 17.12.04
-
 		$cats = array();
 		$seen = array();
 
@@ -1077,8 +1054,6 @@ class ad_forums
 				}
 			}
 		}
-
-		// Song * infinite subforums, 17.12.04
 
 		$ADMIN->page_title = "Add a new Forum";
 
@@ -1218,15 +1193,10 @@ class ad_forums
 		                                       $SKIN->form_yes_no("FORUM_IBC", 1)
 		                                  ));
 
-		//-----------
-
-		// Song * quote
-
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Turn on the Quick Reply Box?</b>",
 		                                       $SKIN->form_yes_no("quick_reply", 1)
 		                                  ));
-		// Song
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Allow Polls in this forum (when allowed)?</b>",
@@ -1461,11 +1431,7 @@ class ad_forums
 			$ibforums->db->exec("UPDATE ibf_forums SET subwrap=1 WHERE id='$parent'");
 		}
 
-		// Song * forums filer, 19.12.04
-
 		$std->update_forum_order_cache($row['top_forum'], $parent);
-
-		// Song * forums filer, 19.12.04
 
 		$ADMIN->save_log("Forum '{$IN['FORUM_NAME']}' created");
 
@@ -1491,8 +1457,6 @@ class ad_forums
 		{
 			$ADMIN->error("You didn't choose a forum to edit, duh!");
 		}
-
-		// Song * infinite subforums, 17.12.04
 
 		$cats = array();
 		$seen = array();
@@ -1548,8 +1512,6 @@ class ad_forums
 				}
 			}
 		}
-
-		// Song * infinite subforums, 17.12.04
 
 		$stmt  = $ibforums->db->query("SELECT *
 			    FROM ibf_forums
@@ -1976,13 +1938,9 @@ class ad_forums
 			}
 		}
 
-		// Song * forums filer, 19.12.04
-
 		$ibforums->db->exec("DELETE FROM ibf_forums_order WHERE id='" . $IN['f'] . "'");
 
 		$std->update_forum_order_cache($IN['f'], $parent);
-
-		// Song * forums filer, 19.12.04
 
 		$ADMIN->save_log("Forum '{$IN['name']}' edited");
 
@@ -2513,8 +2471,7 @@ class ad_forums
 	{
 		if (!(isset($children[$id])) || (count($children[$id]) <= 0))
 		{
-			// vot		return;		// It's Song's mistake!
-			return array(); // vot   this is right!
+			return array();
 		}
 
 		//echo "\$id=$id<br>\n";

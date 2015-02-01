@@ -62,9 +62,7 @@ class Forums
 		$ibforums = Ibf::app();
 		if ($ibforums->member['id'] and
 		    ($ibforums->member['g_is_supmod'] or
-		     //vot: check for single moderator
 		     $this->mods[$forum_id][$ibforums->member['id']] or
-		     //vot: check for group moderators
 		     $this->gmods[$forum_id][$ibforums->member['mgroup']])
 		)
 		{
@@ -88,7 +86,6 @@ class Forums
 		//+------------------------------------------
 		// Are we doing anything with "site jump?"
 		//+------------------------------------------
-		// Song * show only new topics, 17.01.05
 		$ibforums->input['view'] = ($ibforums->member['show_new'] and $ibforums->input['view'] != "all")
 			? "new"
 			: $ibforums->input['view'];
@@ -118,7 +115,6 @@ class Forums
 
 		$ibforums->input['f'] = intval($ibforums->input['f']);
 
-		// Song * forum filter, 19.11.2004
 		// parent forum id
 		$pid = intval($ibforums->input['pid']);
 
@@ -139,7 +135,6 @@ class Forums
 			}
 		}
 
-		// Song * forum filter, 19.11.2004
 		$this->forum = $ibforums->db->query("SELECT f.*, c.id as cat_id, c.name as cat_name
 		    FROM ibf_forums f
         	    LEFT JOIN ibf_categories c ON (c.id=f.category)
@@ -179,14 +174,12 @@ class Forums
 			$ibforums->functions->boink_it($this->forum['redirect_url']);
 		}
 
-		// Song * user ban patch
 		$ibforums->functions->user_ban_check($this->forum);
 
 		//----------------------------------------
 		// If this is a sub forum, we need to get
 		// the cat details, and parent details
 		//----------------------------------------
-		// Song * endless forums, 20.12.04
 		$this->base_url = $ibforums->base_url;
 
 		// id of most upper forum
@@ -219,8 +212,6 @@ class Forums
 
 		array_push($this->nav_extra, "<a href='" . $this->base_url . "showforum={$this->forum['id']}'>{$this->forum['name']}</a>");
 
-		// /Song * endless forums, 20.12.04
-		//--------------------------------------------------------------------------------
 		// quick jump
 		$this->forum['FORUM_JUMP'] = $ibforums->functions->build_forum_jump_topics();
 
@@ -231,8 +222,6 @@ class Forums
 		} else
 		{
 
-			// Song * forum filter + endless forums, 20.12.04
-			// build structure of forums + combobox for filter
 			$this->forums_id = $ibforums->functions->forums_array($this->main_id, $this->forum, $this->forums, $this->children, $this->forums_list);
 
 			// user board layout, fill only for filter, for mode "all visible forums"
@@ -249,7 +238,6 @@ class Forums
 				}
 			}
 
-			// /Song * forum filter + endless forums, 20.12.04
 			// moderators of current forum
 			$this->forum['moderators'] = $this->get_moderators();
 
@@ -299,7 +287,6 @@ class Forums
 
 		$print->add_output($this->output);
 
-		// Song * RSS, 31.01.05
 		$sub = ($ibforums->member['show_filter'])
 			? "&view=sub"
 			: "";
@@ -313,8 +300,6 @@ class Forums
 		                       'RSS'   => View::make("global.rss", ['param' => "?f={$this->forum['id']}{$sub}"]),
 		                  ));
 	}
-
-	// Song * forum filter + endless forums, 29.12.04
 
 	function add_to_array(&$result, $id)
 	{
@@ -417,8 +402,6 @@ class Forums
 		return $ids;
 	}
 
-	// /Song * forum filter + endless forums, 29.12.04
-	//--------------------------------------------
 	function get_moderators()
 	{
 		$ibforums = Ibf::app();
@@ -448,7 +431,6 @@ class Forums
 					'topic_q'    => $mod['topic_q'],
 					'hide_topic' => $mod['hide_topic'],
 				);
-				//vot: check for group moderators
 				if ($mod['group_id'] == $ibforums->member['mgroup'])
 				{
 					$this->mod = 1; //$mod['mod_id'];
@@ -897,14 +879,11 @@ class Forums
 		//+----------------------------------------------------------------
 		// check for any form funny business by wanna-be hackers
 		//+----------------------------------------------------------------
-		// Song * secure patch
 
 		if ((!isset($sort_keys[$sort_key])) or (!isset($prune_by_day[$prune_value])) or (!isset($sort_by_keys[$sort_by])))
 		{
 			$ibforums->functions->Error(array('LEVEL' => 5, 'MSG' => 'incorrect_use'));
 		}
-
-		// /Song * secure patch
 
 		$r_sort_by = $sort_by == 'A-Z'
 			? 'ASC'
@@ -913,7 +892,6 @@ class Forums
 		//+----------------------------------------------------------------
 		// Query the database to see how many topics there are in the forum
 		//+----------------------------------------------------------------
-		// Song * forum filter, 19.11.2004
 
 		$stmt = $ibforums->db->query("SELECT COUNT(tid) as max FROM ibf_topics WHERE forum_id{$this->ids}
 				and approved=1 and (pinned=1 or last_post > $Prune) and deleted=0");
@@ -931,8 +909,6 @@ class Forums
 		                                                                        'L_SINGLE'   => $ibforums->lang['single_page_forum'],
 		                                                                        'BASE_URL'   => $this->base_url . "showforum=" . $this->forum['id'] . "&amp;view={$ibforums->input['view']}&amp;prune_day=$prune_value&amp;sort_by=$sort_by&amp;sort_key=$sort_key",
 		                                                                   ));
-		// Song * show only new topics, 17.01.05
-
 		if ($ibforums->member['id'])
 		{
 			if ($ibforums->input['view'] == 'new')
@@ -947,8 +923,6 @@ class Forums
 		//+----------------------------------------------------------------
 		// Do we have any rules to show?
 		//+----------------------------------------------------------------
-		// Song * IBF forum rules
-
 		if ($this->forum['show_rules'])
 		{
 			if ($this->forum['rules_title'])
@@ -989,8 +963,6 @@ class Forums
 			? $poll
 			: "";
 
-		// Song * forum filter, 19.11.2004
-
 		if ($ibforums->member['id'] and $ibforums->member['show_filter'])
 		{
 			// draw combobox
@@ -1011,7 +983,6 @@ class Forums
 			$this->forum['POLL_BUTTON']  = $poll;
 		}
 
-		// /Song * forum filter, 19.11.2004
 		//+----------------------------------------------------------------
 		// Start printing the page
 		//+----------------------------------------------------------------
@@ -1019,15 +990,12 @@ class Forums
 		if ($ibforums->member['id'])
 		{
 
-			// Song * quick search
 			$this->forum['quick_search'] = ($ibforums->member['quick_search'])
 				? View::make("forum.quick_search", ['data' => $this->forum])
 				: "";
 
 			$this->forum['mark_read'] = View::make("forum.mark_forum_read", ['data' => $this->forum]);
 		}
-
-		// Song * moderator checkbox, 09.04.2005
 
 		if ($this->mod)
 		{
@@ -1097,20 +1065,15 @@ class Forums
 
 		while ($topic = $stmt->fetch())
 		{
-			// Song * club tool
 			if ($topic['club'] and $ibforums->functions->check_perms($ibforums->member['club_perms']) == FALSE)
 			{
 				continue;
 			}
 
-			// Song * premoderation, 16.03.05
-
 			if (!$topic['approved'] and !$ibforums->functions->premod_rights($topic['starter_id'], $this->mods[$this->forum['id']][$ibforums->member['id']]['topic_q'], $topic['app']))
 			{
 				continue;
 			}
-
-			// Song * hidden topics, 11.04.05
 
 			if ($topic['hidden'] and !($ibforums->member['g_is_supmod'] or $this->mods[$this->forum['id']][$ibforums->member['id']]['hide_topic']))
 			{
@@ -1195,9 +1158,7 @@ class Forums
 		//+----------------------------------------------------------------
 		// If all the new topics have been read in this forum..
 		//+----------------------------------------------------------------
-		// Song * NEW
 		$ibforums->functions->song_set_forumread($this->forum['id']);
-		// Song * NEW
 		//+----------------------------------------------------------------
 		// Process users active in this forum
 		//+----------------------------------------------------------------
@@ -1345,15 +1306,12 @@ class Forums
 			$topic['posts'] = "<b>{$topic['posts']}</b>";
 		}
 
-		// Song * moderator checkbox, 09.04.2005
 		// ********************** DO NOT DELETE THREE FOLLOWING LINES ! *************************************
 		// save old ids for moderator checkbox
 		$topic['old_tid']      = $topic['tid'];
 		$topic['old_forum_id'] = $topic['forum_id'];
 
 		// **************************************************************************************************
-		// Song * moderator checkbox, 09.04.2005
-
 		if ($topic['state'] == 'link' || $topic['state'] == 'mirror')
 		{
 			$this->new_posts--;
@@ -1409,7 +1367,6 @@ class Forums
 			//------------------------------------------------
 			// Last time stuff...
 			//------------------------------------------------
-			// Song * NEW
 			if (!$ibforums->member['id'])
 			{
 				$last_time = '';
@@ -1441,7 +1398,6 @@ class Forums
 					}
 				}
 			}
-			// Song * NEW
 			if ($last_time && ($topic['last_post'] > $last_time))
 			{
 				$topic['go_new_post'] = View::make("forum.renderGoNewPostLink", ['topic' => $topic]);
@@ -1502,14 +1458,10 @@ class Forums
 			$topic['colspan'] = " colspan='2'";
 		}
 
-		// Song * favorite topics
-
 		if (in_array($topic['tid'], $this->favs))
 		{
 			$topic['favorite'] = TRUE;
 		}
-
-		// Song * premoderation links
 
 		if ($q or (!$topic['approved'] and $topic['app']))
 		{
@@ -1536,16 +1488,10 @@ class Forums
 			}
 		}
 
-		// Song * premoderation links
-		// Song * club tool
-
 		if ($topic['club'])
 		{
 			$topic['prefix'] = View::make("forum.renderClubTopicPrefix");
 		}
-
-		// Song * club tool
-		// Song * forum filter, 06.01.05
 
 		if ($this->mode_id)
 		{
@@ -1560,14 +1506,10 @@ class Forums
 		$topic['has_my_posts'] = $this->dots[$topic['tid']];
 		$topic['is_mirror'] = (bool)$topic['mirrored_topic_id'] || $topic['state'] == 'mirror';
 
-		// Song * decided topics, 20.04.05
-
 		if ($topic['decided'])
 		{
 			$topic['topic_icon'] = "<{B_DECIDED}>";
 		}
-
-		// Song * decided topics, 20.04.05
 
 		if ($topic['pinned'])
 		{
@@ -1591,8 +1533,6 @@ class Forums
 	{
 		return Ibf::app()->functions->get_date($topic['last_post']);
 	}
-
-	// Song * NEW
 
 	function get_read_topics($tids)
 	{
@@ -1627,8 +1567,6 @@ class Forums
 			}
 		}
 	}
-
-	// Song * new topic rights
 
 	function allow_topic()
 	{

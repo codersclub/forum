@@ -245,13 +245,10 @@ class  warn
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'protected_user'));
 		}
 
-		// Song * new warning system
-
 		if ($this->warn_member['id'] == $ibforums->member['id'])
 		{
 			$ibforums->db->exec("UPDATE ibf_members SET is_new_warn_exixts=0 WHERE id='" . $this->warn_member['id'] . "'");
 		}
-		// Song
 		$perpage = 50;
 
 		$start = intval($ibforums->input['st']);
@@ -356,8 +353,6 @@ class  warn
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'incorrect_use'));
 		}
 
-		// Song * new time warning system
-
 		if ($ibforums->input['level'] == 'add')
 		{
 			$restrict_time = $ibforums->input['time'];
@@ -371,8 +366,6 @@ class  warn
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'incorrect_use'));
 			}
-
-			// Song * post pid for that violation be, 15.11.2004
 
 			if (!$ibforums->member['g_is_supmod'])
 			{
@@ -389,11 +382,7 @@ class  warn
 				}
 			}
 
-			// Song * post pid for that violation be, 15.11.2004
-
 		}
-
-		// Song * new time warning system
 
 		$err = "";
 
@@ -626,13 +615,9 @@ class  warn
 		// Enter into warn loggy poos (eeew - poo)
 		//-------------------------------------------------
 
-		// Song * new time warning system
-
 		if ($ibforums->input['level'] != 'null')
 		{
 			$warn_level = intval($this->warn_member['warn_level']);
-
-			// Song * ban group, 09.03.05
 
 			// if ban checkbox is dropped, reset group to reset ban
 			if ($this->warn_member['mgroup'] == $ibforums->vars['ban_group'] and
@@ -641,8 +626,6 @@ class  warn
 			{
 				$this->warn_member['mgroup'] = "";
 			}
-
-			// Song * ban group, 09.03.05
 
 			if ($this->warn_member['mgroup'] == $ibforums->vars['ban_group'])
 			{
@@ -703,17 +686,11 @@ class  warn
 				}
 			}
 
-			// Song * new time warning system
-
-			// Song * ban group, 09.03.05
-
 			// admins only
 			if ($ibforums->member['g_is_supmod'] and $ibforums->input['ban'])
 			{
 				$group = $ibforums->vars['ban_group'];
 			}
-
-			// Song * ban group, 09.03.05
 
 			if ($ibforums->input['level'] == 'add')
 			{
@@ -753,17 +730,9 @@ class  warn
 			$ibforums->input['reason'] = $mes;
 		}
 
-		// Song * convert links
-
 		$ibforums->input['reason'] = $this->parser->macro($ibforums->input['reason']);
 
-		// Song * convert links
-
-		// Song * post pid for that violation be, 15.11.2004
-
 		$save['pid'] = $pid;
-
-		// Song * post pid for that violation be, 15.11.2004
 
 		$save['wlog_notes'] = "<content>{$ibforums->input['reason']}</content>";
 		$save['wlog_notes'] .= "<mod>{$ibforums->input['mod_value']},{$ibforums->input['mod_unit']},{$ibforums->input['mod_indef']}</mod>";
@@ -794,8 +763,6 @@ class  warn
 						   warn_lastwarn='" . time() . "',
 						   is_new_warn_exixts=1
 			    WHERE id='" . $this->warn_member['id'] . "'");
-
-			// Song * new ban control
 
 			// Delete old data, may be after we will insert it again, may be no
 			$ibforums->db->exec("DELETE FROM ibf_preview_user WHERE mid='" . $this->warn_member['id'] . "' and fid='" . $fid . "'");
@@ -906,8 +873,6 @@ class  warn
 			    WHERE id='" . $this->warn_member['id'] . "'");
 		}
 
-		// Song * new ban control
-
 		//-------------------------------------------------
 		// Now what? Show success screen, that's what!!
 		//-------------------------------------------------
@@ -968,8 +933,6 @@ class  warn
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'incorrect_use'));
 		}
 
-		// Song * post pid for that violation be, 15.11.2004
-
 		if (!$ibforums->member['g_is_supmod'] and $ibforums->input['type'] == "add")
 		{
 			$stmt = $ibforums->db->query("SELECT m.id,m.name FROM ibf_members m, ibf_warn_logs wl WHERE wl.pid='" . $pid . "'
@@ -984,8 +947,6 @@ class  warn
 				            ));
 			}
 		}
-
-		// Song * post pid for that violation be, 15.11.2004
 
 		$stmt = $ibforums->db->query("SELECT mod_posts,restrict_posts,temp_ban FROM ibf_preview_user WHERE mid='" . $this->warn_member['id'] . "' and fid='" . $fid . "'");
 
@@ -1160,8 +1121,6 @@ class  warn
 			}
 		}
 
-		// Song * ban group, 09.03.05
-
 		if ($ibforums->member['g_is_supmod'])
 		{
 			$ban = ($this->warn_member['mgroup'] == $ibforums->vars['ban_group'])
@@ -1170,8 +1129,6 @@ class  warn
 
 			$this->output .= View::make("mod.warn_ban_group", ['checked' => $ban]);
 		}
-
-		// Song * ban group, 09.03.05
 
 		if ($ibforums->input['type'] == "add")
 		{

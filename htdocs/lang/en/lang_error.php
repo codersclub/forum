@@ -7,8 +7,6 @@ $lang = array (
 'poll_error_most' => "You can pick at most <#EXTRA#> choices.",
 'poll_error_exactly' => "You must pick exactly <#EXTRA#> choices.",
 
-// Song * reputation
-
 'duplicate_names'		=> "Duplicate username!",
 //Reputation
 'rep_cantchange'		=> "Forum Administrator had forbidden you to change users' reputation",
@@ -19,18 +17,10 @@ $lang = array (
 'rep_noposts'			=> "You do not have enough posts to change users' reputation. <#EXTRA#> posts required",
 //Reputation
 
-// Song
-
-
 'auth_no_key_not_allow' => "Sorry, you cannot perform this action until the board administrator has approved your account",
-
-
-// added 1.2 B3
-
 'no_flash_av'   => "You are not permitted to use flash in your avatar, post or signature",
 'no_warn_max'   => "This member cannot be warned in that direction any further. They have reached their maximum or minumum level",
 
-// added 1.2
 'split_too_much' => "You cannot select all of the posts to split, you must leave at least one post in the original topic",
 
 'ml_error' => "This member group has chosen to not be shown on this member list.",

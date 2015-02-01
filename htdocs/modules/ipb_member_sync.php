@@ -198,8 +198,6 @@ class ipb_member_sync
 	// $new_group = new int() group id
 	//-----------------------------------------------
 
-	// vot: BAD Message -> move to LANG !
-
 	function on_group_change($id, $new_group)
 	{
 		global $std, $ibforums;
@@ -259,9 +257,6 @@ class ipb_member_sync
 
 			$row = $stmt->fetch();
 
-			// vot: 15.06.2006: added warn link
-
-			//		$message .= ( $row['cnt'] == "0" ) ? "нет" : "да, ".$row['cnt']." раз. ";
 			if ($row['cnt'] == "0")
 			{
 				$message .= "нет\n";
@@ -338,13 +333,11 @@ class ipb_member_sync
 				'starter_id'           => 8617,
 				'votes'                => 0,
 				'poll_question'        => $question,
-				// Song * multiple choices
 				'is_multi_poll'        => 0,
 				'multi_poll_min'       => 0,
 				'multi_poll_max'       => 0,
 				'is_weighted_poll'     => 0,
 				'weighted_poll_places' => 0,
-				// Song * multiple choices
 				'live_before'          => $life,
 			);
 

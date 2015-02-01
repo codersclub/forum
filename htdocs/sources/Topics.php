@@ -125,8 +125,6 @@ class Topics
 		return $mod_string;
 	}
 
-	// Song * attachments, 16.03.05
-
 	function set_attach($row = array())
 	{
 		global $ibforums;
@@ -152,9 +150,6 @@ class Topics
 		$row['attach_size'] = $size;
 	}
 
-	// Song * attachments, 16.03.05
-	// Song * safe code tag withing wrapping long lines, 03.11.2004
-
 	function cut_code_tag_text($code, $syntax)
 	{
 
@@ -176,7 +171,7 @@ class Topics
 		return "song_code_" . $temp . "#";
 	}
 
-	// vot: safe code tag withing wrapping long lines, 03.11.2004
+	// safe code tag withing wrapping long lines, 03.11.2004
 
 	function cut_html_tag_text($code)
 	{
@@ -188,7 +183,6 @@ class Topics
 		return "song_code_" . $this->code_counter++ . "#";
 	}
 
-	// Song * safe code tag withing wrapping long lines, 03.11.2004
 	/**
 	 * @param PDOStatementWrapper $stmt
 	 * @param int $pinned
@@ -198,8 +192,6 @@ class Topics
 	function process_posts($stmt, $pinned = 0, $offset = 0, $preview_one_post = false)
 	{
 		global $ibforums, $std;
-
-		// Song * quote rights
 
 		$qr = $std->check_perms($this->forum['reply_perms']);
 
@@ -217,7 +209,6 @@ class Topics
 				}
 			}
 
-			// Song * Old Topics Flood, 15.03.05
 			if ($std->user_reply_flood($this->topic['start_date']))
 			{
 				$qr = FALSE;
@@ -243,8 +234,6 @@ class Topics
 		while ($row = $stmt->fetch())
 		{
 
-			// Song * premoderation, 16.03.05
-
 			if ($row['queued'] and !$std->premod_rights($row['author_id'], $this->mod[$ibforums->member['id']]['post_q'], $row['app']))
 			{
 				continue;
@@ -258,7 +247,6 @@ class Topics
 	function process_one_post($row, $pinned, &$post_count, $qr, $preview = false)
 	{
 		global $ibforums, $std, $print;
-		// Song * quote with post link, 26.11.04
 		// remember posts that have been on the page
 		$this->parser->cache_posts[$row['pid']] = $row['pid'];
 
@@ -283,14 +271,10 @@ class Topics
 				// Ok, it's already cached, read from it
 				$poster = $this->cached_members[$row['author_id']];
 
-				// Song * correct cached fields for new post id
-
 				$poster['pid']     = $row['pid'];
 				$poster['rep']     = $row['rep'];
 				$poster['use_sig'] = $row['use_sig'];
 				$poster            = $this->correct_cached_fields($poster);
-
-				// Song * correct cached fields for new post id
 
 				$row['name_css'] = 'normalname';
 			} else
@@ -330,8 +314,6 @@ class Topics
 		//--------------------------------------------------------------
 		// Do word wrap?
 		//--------------------------------------------------------------
-		// Song * word wrapping only for text out of the code tag text, 03.11.2004
-
 		if ($ibforums->vars['post_wordwrap'] > 0 and !$row['use_sig'])
 		{
 			// check if code tag text is present
@@ -409,7 +391,7 @@ class Topics
 		}
 
 		//--------------------------------------------------------------
-		// vot: HighLight the search words found:
+		// HighLight the search words found:
 
 		if ($ibforums->input['hl'])
 		{
@@ -417,7 +399,7 @@ class Topics
 			// reset array
 			$this->code_text = array();
 
-			// vot: collect html tag text to array and remove it
+			// collect html tag text to array and remove it
 			$row['post'] = preg_replace("#<(.*?)>#ies", "\$this->cut_html_tag_text('\\1')", $row['post']);
 
 			$keywords = str_replace("+", " ", $ibforums->input['hl']);
@@ -441,7 +423,7 @@ class Topics
 				$row['post'] = preg_replace("/(" . preg_quote($keywords, '/') . ")/i", "<span class='searchlite'>\\1</span>", $row['post']);
 			}
 
-			// vot: restore code tag text from an array if post has been wrapped
+			// restore code tag text from an array if post has been wrapped
 			foreach ($this->code_text as $idx => $code)
 			{
 				$row['post'] = str_replace("song_code_{$idx}#", $code, $row['post']);
@@ -468,8 +450,6 @@ class Topics
 		}
 		$row['deleting'] = (bool)$row['delete_after'];
 
-		// Song * Add to FAQ button, 02.05.04
-
 		if ($ibforums->member['id'] and $this->forum['faq_id'] and
 		                                ($this->moderator['add_to_faq'] or $ibforums->member['g_is_supmod'])
 		)
@@ -479,16 +459,12 @@ class Topics
 				: $ibforums->lang['to_FAQ']) . "</a>";
 		}
 
-		// Song * delete post button
-
 		if ((($post_count and !$this->first) or $this->first) and !$row['use_sig'])
 		{
 			$row['delete_button'] = ($qr)
 				? $this->delete_button($row['pid'], $poster, $row['queued'])
 				: "";
 		}
-
-		// Song * delete delayed button, 13.04.05
 
 		if ($this->forum['days_off'] && !$row['use_sig'])
 		{
@@ -497,7 +473,6 @@ class Topics
 				: "";
 		}
 
-		// Song * edit post button
 		if (!$row['use_sig'])
 		{
 			$row['edit_button'] = ($qr == FALSE)
@@ -511,7 +486,7 @@ class Topics
 				: $this->show_preview_button($row['pid'], $poster, $row['post_date'], $preview);
 		}
 
-		// negram * history edit post button
+		// history edit post button
 		if ($row['edit_time'] && $row['edit_name'] != "")
 		{
 
@@ -522,8 +497,6 @@ class Topics
 		{
 			$row['edit_history_button'] = '';
 		}
-
-		// Song * restore/decline buttons
 
 		if (!$row['queued'] and ($this->moderator['delete_post'] or $ibforums->member['g_is_supmod']))
 		{
@@ -543,8 +516,6 @@ class Topics
 			$row['checkbox'] = $this->checkbox($row['pid']);
 		}
 
-		// Song * today/yesterday
-
 		$row['old_post_date'] = $row['post_date'];
 
 		$row['std_post_date'] = date('r', $row['post_date']);
@@ -560,11 +531,7 @@ class Topics
 			? View::make("topic.report_link", ['data' => $row])
 			: "";
 
-		// Song * reputation
-
 		$row['rep_options'] = $this->rep_options($poster['id'], $row['pid']);
-
-		// Song * attachments, 16.03.05
 
 		if (($row['attach_id'] or $row['attach_exists']) and !$row['use_sig'])
 		{
@@ -644,7 +611,6 @@ class Topics
 			$row['signature'] = View::make("global.signature_separator", ['sig' => $poster['signature']]);
 		}
 
-		// Song * quote
 		$poster['name'] = str_replace(array("&#39;", "'"), array("", ""), $poster['name']);
 		$name           = $poster['name'];
 
@@ -659,20 +625,13 @@ class Topics
 		{
 			$poster['name'] = "<a href='{$ibforums->base_url}showuser={$poster['id']}' target='_blank'>";
 		}
-		// /Song * quote
-		// Song * quote and quickquote post buttons
-
 		$row['quote'] = ($qr == FALSE or $row['use_sig'])
 			? ""
 			: "<a href='{$this->base_url}act=Post&amp;CODE=06&amp;f={$this->forum['id']}&amp;t={$this->topic['tid']}&amp;p={$row['pid']}'><{P_QUOTE}></a>";
 
-		// Song * quickquote post buttons
-
 		$row['quick_quote'] = ($qr == FALSE or $row['use_sig'])
 			? ""
 			: "<a onmouseover=\"get_selection('{$rname}', '{$row['old_post_date']}', '{$row['pid']}');\" href=\"javascript:Insert();\"><{P_QUICKQUOTE}></a>";
-
-		// Song * leave link from guests nick too
 
 		if (!$row['author_id'])
 		{
@@ -746,7 +705,6 @@ class Topics
 		//--------------------------------------------------------------
 		// A bit hackish - but there are lots of <br> => <br /> changes to make
 		//--------------------------------------------------------------
-		// Song * online
 		if ($row['s_id'])
 		{
 			$poster['online'] = View::make("topic.renderElementOnline");
@@ -755,8 +713,6 @@ class Topics
 			$poster['online'] = "";
 		}
 
-		// Song * fixed any post css
-		// title of post
 		if ($pinned)
 		{
 			$row['pinned_title'] = $ibforums->lang['entry_pinned_post'];
@@ -794,8 +750,6 @@ class Topics
 				]
 			);
 
-			// Song * message has been deleted by moderator, 13.11.2004, or by author (negram, January 2011)
-
 			if ($row['use_sig'])
 			{
 				if ($ibforums->input['ajax'])
@@ -827,8 +781,6 @@ class Topics
 			}
 		}
 	}
-
-	// Song * cut mod tags for cancelled posts, 01.12.2004
 
 	function mod_tags_cut($the_tag, $txt)
 	{
@@ -946,8 +898,6 @@ class Topics
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'is_broken_link'));
 		}
 
-		// Song * NEW + topic subscribe, 16.01.05
-
 		if ($ibforums->member['id'])
 		{
 			$stmt = $ibforums->db->query("SELECT trid
@@ -992,14 +942,10 @@ class Topics
 			$print->redirect_screen($ibforums->lang['topic_moved'], "showtopic={$f_stuff[0]}$append");
 		}
 
-		// Song * club tool
-
 		if ($this->topic['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'is_broken_link'));
 		}
-
-		// Song * user ban patch
 
 		$std->user_ban_check($this->forum);
 
@@ -1009,8 +955,6 @@ class Topics
 		//-------------------------------------
 		// Error out if the topic is not approved
 		//-------------------------------------
-		// Song * premoderation, 16.03.05
-
 		if (!$this->topic['approved'])
 		{
 			$this->topic['state'] = "closed";
@@ -1281,8 +1225,6 @@ class Topics
 		// If this is a sub forum, we need to get
 		// the cat details, and parent details
 		//----------------------------------------
-		// Song * endless forums, 20.12.04
-
 		$this->base_url = $ibforums->base_url;
 
 		if ($this->forum['parent_id'] > 0)
@@ -1374,8 +1316,6 @@ class Topics
 		//-------------------------------------
 		// Get the reply, and posting buttons
 		//-------------------------------------
-		// Song * define rights for creating topic
-
 		$this->topic['TOPIC_BUTTON'] = ($this->allow_topic())
 			? "<a href='" . $this->base_url . "act=Post&amp;CODE=00&amp;f=" . $this->forum['id'] . "'><{A_POST}></a>"
 			: '';
@@ -1388,14 +1328,10 @@ class Topics
 
 		$this->topic['REPLY_BUTTON'] = $this->reply_button();
 
-		// Song * decided topics, 20.04.05
-
 		if ($this->forum['decided'])
 		{
 			$this->decided_button($this->topic['SOLVE_UPPER_BUTTON'], $this->topic['SOLVE_DOWN_BUTTON']);
 		}
-
-		// /Song * decided topics, 20.04.05
 
 		if ($ibforums->input['hl'])
 		{
@@ -1403,8 +1339,6 @@ class Topics
 
 			$hl = '&amp;hl=' . $ibforums->input['hl'];
 		}
-
-		// Song * show all posts at once
 
 		if ($ibforums->input['view'] == "showall" and $this->topic['posts'] > $ibforums->vars['max_show_all_posts'])
 		{
@@ -1447,8 +1381,6 @@ class Topics
 			$this->topic['end_why_close'] = '<br><br>' . $this->topic['end_why_close'];
 			$this->topic['why_close'] .= '<br><br>';
 		}
-
-		// Song * show all posts at once
 
 		if ($ibforums->input['view'] != "showall" and ($this->topic['posts'] + 1) > $ibforums->vars['display_max_posts'])
 		{
@@ -1548,13 +1480,9 @@ class Topics
 			$this->topic['modform_close'] = "</form>";
 		}
 
-		// Song * club tool
-
 		$this->topic['club'] = $this->topic['club']
 			? $ibforums->lang['club_topic']
 			: "";
-
-		// Song * subscribe the topic, 16.01.05
 
 		$this->topic['subscribe'] = ($this->trid)
 			? "<a href='{$ibforums->base_url}act=UserCP&amp;CODE=27&amp;id-{$this->trid}=1'>{$ibforums->lang['untrack_topic']}</a>"
@@ -1637,7 +1565,7 @@ class Topics
 
 		$this->first = intval($ibforums->input['st']);
 		if ($this->first < 0)
-			$this->first = 0; // vot
+			$this->first = 0;
 
 		$this->parser->prepareIcons();
 
@@ -1646,7 +1574,6 @@ class Topics
 		// MySQL.com insists that forcing LEFT JOIN or
 		// STRAIGHT JOIN helps the query optimizer, so..
 		//--------------------------------------------
-		// Song * reputation + session_id
 		$query = "SELECT
 			p.*,
 			s.id as s_id,
@@ -1669,8 +1596,6 @@ class Topics
 			ON (g.g_id=m.mgroup)
 		  $join_profile_query
 		  WHERE ";
-
-		// Song * pinned post
 
 		$pinned = 0;
 
@@ -1938,8 +1863,6 @@ class Topics
 				}
 			}
 
-			// Song * mod buttons, 08.11.2004
-
 			$mod_buttons = "";
 
 			if ($ibforums->member['is_mod'])
@@ -1964,8 +1887,6 @@ class Topics
 
 			if ($q)
 				$warning = $ibforums->lang['mod_posts_warning'];
-
-			// Song * decided topics, 20.04.05
 
 			$topic_decided = "";
 			if ($this->topic['SOLVE_UPPER_BUTTON'] and !$this->topic['decided'])
@@ -2145,8 +2066,6 @@ class Topics
 				View::make("topic.get_box_enabletrack", ['checked' => $default_checked['tra']]), $this->output);
 		}
 
-		// Song * offtopic checkbox, 19.04.05
-
 		if ($this->forum['days_off'] and ($this->moderator['delete_post'] or $ibforums->member['g_is_supmod'] or $ibforums->member['g_delay_delete_posts']))
 		{
 			$this->output = str_replace('<!--IBF.OFFTOP-->',
@@ -2163,7 +2082,6 @@ class Topics
 		$smilies    = "<tr align='center'>\n";
 
 		// Get the smilies from the DB
-		// Song * smile skin
 		if (!$ibforums->member['id'])
 			$id = 1; else
 			$id = $ibforums->member['sskin_id'];
@@ -2176,7 +2094,6 @@ class Topics
 				image
 			    FROM ibf_emoticons
 			    WHERE clickable='1' and skid='" . $id . "'");
-		// /Song * smile skin
 
 		while ($elmo = $stmt->fetch())
 		{
@@ -2246,12 +2163,8 @@ class Topics
 	{
 		global $ibforums;
 
-		// Song * Reputation + show ratting setting
-
 		if ((!$ibforums->member['id'] or $ibforums->member['show_ratting']) and $member['show_ratting'] and !$member['use_sig'])
 		{
-
-			// Song * dual ratting, 15.01.05
 
 			$rep = ($this->forum['inc_postcount'])
 				? $member['rep']
@@ -2330,8 +2243,6 @@ class Topics
 		if ($member['rep'])
 			$member['rep'] .= "<br>";
 
-		// /Song * Reputation + show ratting setting
-		// Song * WARNINGS
 		if ($ibforums->vars['warn_on'] and !stristr($ibforums->vars['warn_protected'], ',' . $member['mgroup'] . ','))
 		{
 			if ($ibforums->member['id'] != $member['id'] and ($ibforums->member['g_is_supmod'] or $this->moderator['allow_warn']))
@@ -2587,7 +2498,6 @@ class Topics
 					);
 					$member['warn_text'] .= $member['warn_level'];
 
-					// Song * new separated warning system
 					if ($ibforums->member['is_new_warn_exixts'])
 					{
 						$member['warn_text'] .= View::make("topic.renderNewWarnNotice");
@@ -2595,7 +2505,6 @@ class Topics
 					{
 						$member['warn_text'] = "";
 					}
-					// /Song * new warning system
 				}
 			}
 		}
@@ -2651,9 +2560,6 @@ class Topics
 
 		return "";
 	}
-
-	//------------------------------------------
-	// Song * delete delayed, 13.04.05
 
 	function delayed_delete_button(&$row, $poster, $post_count)
 	{
@@ -3100,26 +3006,18 @@ class Topics
 		if (!$this->topic['pinned'] and $key == 'UNPIN_TOPIC')
 			return "";
 
-		// Song * pin/unpin post
-
 		if ($key == 'PIN_POST' and $this->topic['pinned_post'])
 			return "";
 		if ($key == 'UNPIN_POST' and !$this->topic['pinned_post'])
 			return "";
-
-		// Song * hide/show topic, 11.04.05
 
 		if ($key == 'HIDE_TOPIC' and $this->topic['hidden'])
 			return "";
 		if ($key == 'SHOW_TOPIC' and !$this->topic['hidden'])
 			return "";
 
-		// Song * delete posts delayed
-
 		if ($key == 'DELETE_DELAYED' and !$this->forum['days_off'])
 			return "";
-
-		// Song * add to faq, 02.05.05
 
 		if ($key == 'FAQ_POSTS' and !$this->forum['faq_id'])
 			return "";
@@ -3134,7 +3032,6 @@ class Topics
 	}
 
 	//----------------------------------------------------
-	// Song * decided topics, 20.04.05
 
 	function decided_button(&$upper_button, &$down_button)
 	{
@@ -3206,8 +3103,6 @@ class Topics
 
 		if ($std->check_perms($this->forum['reply_perms']) == FALSE)
 			return "";
-
-		// Song * Old Topics Flood, 15.03.05
 
 		if ($std->user_reply_flood($this->topic['start_date']))
 			return "";
@@ -3296,8 +3191,6 @@ class Topics
 		if (!$poll_data['poll_question'])
 			$poll_data['poll_question'] = $this->topic['title'];
 
-		// Song * poll life, 25.03.05
-
 		if ($poll_data['live_before'] and !($poll_data['state'] == 'closed' or $this->topic['state'] == 'closed'))
 		{
 			$days_left = round(($poll_data['live_before'] - time()) / 86400);
@@ -3314,7 +3207,6 @@ class Topics
 				$ibforums->db->exec("UPDATE ibf_polls
 				    SET state='closed'
 				    WHERE tid='" . $this->topic['tid'] . "'");
-				// vot: BAD QUERY
 				$ibforums->db->exec("UPDATE ibf_topics
 				    SET description='голосование окончено'
 				    WHERE tid='" . $this->topic['tid'] . "'");
@@ -3326,7 +3218,6 @@ class Topics
 			$expired = "";
 		}
 
-		// /Song * poll life, 25.03.05
 		//----------------------------------
 
 		$delete_link = "";
@@ -3491,8 +3382,6 @@ class Topics
 						$choice = $this->parser->my_wordwrap($choice, $ibforums->vars['post_wordwrap']);
 					}
 
-					// Song * multiple choices
-
 					$percent = $votes == 0
 						? 0
 						: $votes / $total_votes * 100;
@@ -3514,7 +3403,6 @@ class Topics
 						"poll.Render_row_results",
 						['votes' => $votes, 'id' => $id, 'answer' => $choice, 'procent_bar' => $bar]
 					);
-					// /Song * multiple choices
 				}
 
 				$html .= View::make(
@@ -3589,8 +3477,6 @@ class Topics
 					{
 						$choice = $this->parser->my_wordwrap($choice, $ibforums->vars['post_wordwrap']);
 					}
-
-					// Song * multiple choices
 
 					if ($poll_data['is_multi_poll'])
 					{
@@ -3699,7 +3585,7 @@ class Topics
 	}
 
 	//---------------------------------------------------
-	// Song * new topic rights
+	// new topic rights
 	//---------------------------------------------------
 
 	function allow_topic()

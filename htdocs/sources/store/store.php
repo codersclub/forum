@@ -284,7 +284,6 @@ class store
 	function resell()
 	{
 		global $ibforums, $lib, $IN;
-		//vot: added "item_id" field in select
 		$stmt = $ibforums->db->query("SELECT price_payed, item_id FROM ibf_store_inventory WHERE i_id='{$ibforums->input['itemid']}' AND owner_id='{$ibforums->member['id']}' LIMIT 1");
 		if ($stmt->rowCount() <= 0)
 		{
@@ -296,7 +295,6 @@ class store
 		$ibforums->db->exec("UPDATE ibf_members SET points='{$ibforums->member['points']}' WHERE id='{$ibforums->member['id']}' LIMIT 1");
 		$ibforums->db->exec("UPDATE ibf_store_shopstock SET stock=stock+1 WHERE id='{$IN['itemid']}' LIMIT 1");
 
-		//vot: get item name added (6 lines below)
 		$stmt = $ibforums->db->query("SELECT item_name FROM ibf_store_shopstock
 		    WHERE id='{$price['item_id']}' LIMIT 1");
 		if ($stmt->rowCount() <= 0)
@@ -305,7 +303,6 @@ class store
 		}
 		$item = $stmt->fetch();
 
-		// vot: log added
 		$lib->write_log($ibforums->vars['auto_pm_from'], 'Shop', $ibforums->member['id'], $ibforums->member['name'], round(($ibforums->vars['resell_percentage'] / 100) * $price['price_payed']), "Товар '" . $item['item_name'] . "' возвращён в магазин", $ibforums->input['user_reson'], "resell");
 		$lib->redirect("resolditem", "act=store&code=inventory");
 	}
@@ -358,12 +355,7 @@ class store
 		$member['points'] = $ibforums->input['fine_amount'];
 
 		$ibforums->db->exec("UPDATE ibf_members SET points=points+'{$member['points']}', fined=fined+'{$member['points']}' WHERE id='{$member['id']}' LIMIT 1");
-		//vot: log added
-
-		//	$lib->add_reason($ibforums->member['id'],$ibforums->member['name'],$member['id'],$member['name'],$member['points'],
-		//                        "Поощрён участник ".$member['name']." на ".$member['points']." ".$ibforums->vars['currency_name'],$ibforums->input['user_reson'],"fine");
 		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $member['id'], $ibforums->input['username'], $ibforums->input['fine_amount'], "Поощрён '" . $ibforums->input['username'] . "' на " . $ibforums->input['fine_amount'] . ' ' . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "fine");
-		//	$lib->write_log("Поощрён участник ".$ibforums->input['username']." на ".$ibforums->input['fine_amount'].' '.$ibforums->vars['currency_name'],"Fine User");
 		$lib->redirect("fined_user", "act=store&code=fine");
 	}
 
@@ -634,7 +626,7 @@ class store
 		if ($ibforums->input['page'] < 0)
 		{
 			$current_page = 0;
-		} // vot
+		}
 		$limit_extra  = "LIMIT $current_page,$limit";
 		$info['next'] = $current_page + $limit;
 		$info['last'] = $current_page - $limit;
@@ -806,21 +798,12 @@ class store
 			}
 
 			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->vars['auto_pm_from'], 'Shop', round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])), "Куплен товар '" . $item['item_name'] . "x" . $i . "' за " . round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])) . ' ' . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "bought");
-			//	    $lib->write_log("Куплен товар '".$item['item_name']."x".$i."' за ".round($item['sell_price'] - (($ibforums->member['g_discount']/100)*$item['sell_price'])).' '.$ibforums->vars['currency_name'],"bought_item");
 		} else
 		{
 			$ibforums->db->exec("INSERT INTO ibf_store_inventory(i_id,owner_id,item_id,price_payed) VALUES('','{$ibforums->member['id']}','{$item_id}','{$item['sell_price']}')");
 			$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->vars['auto_pm_from'], 'Shop', round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])), "Куплен товар '" . $item['item_name'] . "x" . $i . "' за " . round($item['sell_price'] - (($ibforums->member['g_discount'] / 100) * $item['sell_price'])) . ' ' . $ibforums->vars['currency_name'], $ibforums->input['user_reson'], "bought");
-			//	    $lib->write_log("Куплен товар '".$item['item_name']."' за ".round($item['sell_price'] - (($ibforums->member['g_discount']/100)*$item['sell_price'])).' '.$ibforums->vars['currency_name'],"bought_item");
 		}
-		// vot: redirect added
 		$lib->redirect("item_bought", "act=store&code=inventory", "item_bought");
-		// vot: ATTENTION: $item->on_buy() does not work here!!!
-		// vot		    require($file_name);
-		// vot		    $itemm = new item;
-		// vot		    if(!$itemm->on_buy()) {
-		// vot			$lib->redirect("item_bought","act=store&code=inventory","item_bought");
-		// vot		    }
 	}
 
 	//---------------------------------------------
@@ -994,12 +977,6 @@ class store
 	{
 		global $std, $ibforums;
 		$this->nav = array($ibforums->lang['postinfo_nav']);
-
-		// vot	$ibforums->vars['pointsper_topic'] = $std->do_number_format($ibforums->vars['pointsper_topic']);
-		// vot	$ibforums->vars['pointsper_reply'] = $std->do_number_format($ibforums->vars['pointsper_reply']);
-		// vot	$ibforums->vars['pointsper_poll'] = $std->do_number_format($ibforums->vars['pointsper_poll']);
-		// vot: require added for Sale Rules as HTML:
-		//	require($ibforums->vars['base_dir']."sources/store/rules.php");
 
 		$this->output .= View::make("store.post_info");
 		$this->output .= View::make("store.output_stats_end");

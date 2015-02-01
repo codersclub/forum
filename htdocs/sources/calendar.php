@@ -410,8 +410,6 @@ class calendar
 
 		// Get the smilies from the DB
 
-		// Song * smile skin
-
 		if (!$ibforums->member['id'])
 		{
 			$id = 1;

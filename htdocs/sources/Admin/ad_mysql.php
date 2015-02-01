@@ -660,14 +660,10 @@ class ad_mysql
 		{
 			$SKIN->td_header[] = array($fields[$i]['name'], "*");
 		}
-		// Song * drop query
-
 		if ($sql == "SHOW FULL PROCESSLIST")
 		{
 			$SKIN->td_header[] = array('Drop Query', "*");
 		}
-
-		// Song * drop query
 
 		$ADMIN->html .= $SKIN->start_table("Result: " . $tbl_title);
 
@@ -705,8 +701,6 @@ class ad_mysql
 				$rows[] = $row;
 			}
 
-			// Song * drop query
-
 			if ($sql == "SHOW FULL PROCESSLIST")
 			{
 				$row = $SKIN->start_form(array(
@@ -720,8 +714,6 @@ class ad_mysql
 				$rows[] = $row;
 
 			}
-			// Song * drop query
-
 			$ADMIN->html .= $SKIN->add_td_row($rows);
 
 		}
@@ -940,7 +932,6 @@ class ad_mysql
 
 				$idx = $this->gen_size($r['Index_length'], 3, $iBit);
 				$tbl = $this->gen_size($r['Data_length'], 3, $tBit);
-				// Song * admin logs
 				$query = "SELECT * FROM {$r['Name']}";
 
 				if ($r['Name'] == "ibf_admin_foreign_visits")
@@ -949,7 +940,6 @@ class ad_mysql
 				}
 
 				$table = "<b><span style='font-size:12px'><a href='{$SKIN->base_url}&act=mysql&code=runsql&query=" . urlencode($query) . "'>{$r['Name']}</a></span></b>";
-				// Song * admin logs
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       $table,
 				                                       "<center>{$r['Rows']}</center>",

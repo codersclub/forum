@@ -95,13 +95,6 @@ class SongFunc
 		global $ibforums, $std;
 
 		$mid = intval($mid);
-		// vot: debug
-		//echo "mid=$mid<br>\n";
-		//echo "member[id]=".$ibforums->member['id']."<br>\n";
-		//echo "member[g_is_supmod]=".$ibforums->member['g_is_supmod']."<br>\n";
-		//echo "vars[member_group]=".$ibforums->vars['member_group']."<br>\n";
-		//echo "vars[club_boss]=".$ibforums->vars['club_boss']."<br>\n";
-		//echo "vars[club_group]=".$ibforums->vars['club_group']."<br>\n";
 
 		if (!$ibforums->member['id'] or
 		    !$mid or
@@ -427,19 +420,9 @@ class SongFunc
 				{
 					$select->execute([$word]);
 					if ($select->rowCount()){
-//						$id = $select->fetchColumn();
 					}else{
 						$insert->execute([$word]);
-//						$id = $ibforums->db->lastInsertId();
 					}
-					// add word record
-//no such table -- jureth
-//					if ($id)
-//					{
-//						$ibforums->db->exec("INSERT INGORE INTO ibf_search_post_words VALUES (" . $post['pid'] . ",
-//					   " . $post['topic_id'] . "," . $post['forum_id'] . ",
-//					    " . $id . ")");
-//					}
 				}
 			}
 

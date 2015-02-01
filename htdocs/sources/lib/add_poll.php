@@ -70,8 +70,6 @@ class Poll
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		// Song * multiple choices
-
 		// Load the topic and poll
 		$stmt = $ibforums->db->query("SELECT
 				f.allow_pollbump,
@@ -136,8 +134,6 @@ class Poll
 			            ));
 		}
 
-		// /Song * multiple choices
-
 		if (!$ibforums->input['nullvote'])
 		{
 			if ($this->topic['is_multi_poll'])
@@ -150,8 +146,8 @@ class Poll
 					{
 						$vote_count++;
 					}
-					$key                                = intval($key); //vot
-					$ibforums->input['poll_vote'][$key] = $key; //vot
+					$key                                = intval($key);
+					$ibforums->input['poll_vote'][$key] = $key;
 				}
 
 				if ($vote_count < $this->topic['multi_poll_min'])
@@ -196,8 +192,6 @@ class Poll
 			}
 		}
 
-		// /Song * multiple choices
-
 		// If we're here, lets add the vote
 		$data = [
 			'member_id'  => $ibforums->member['id'],
@@ -221,17 +215,13 @@ class Poll
 
 			foreach ($poll_answers as $ind => $entry)
 			{
-				//vot                		$id     = $entry[0];
 				$id     = $ind + 1;
 				$choice = $entry[1];
 				$votes  = $entry[2];
 
-				// Song * multiple choices
 				if ($this->topic['is_multi_poll'])
 				{
-					//vot					$id++;
 
-					//vot					if ( $id == $ibforums->input['poll_vote'][$i] && isset( $ibforums->input['poll_vote'][$i] ) )
 					if (isset($ibforums->input['poll_vote'][$i]) && $id == $ibforums->input['poll_vote'][$i])
 					{
 						$votes++;
@@ -252,7 +242,6 @@ class Poll
 				}
 
 				$i++;
-				// /Song * multiple choices
 
 				$new_poll_array[] = array($id, $choice, $votes);
 			}

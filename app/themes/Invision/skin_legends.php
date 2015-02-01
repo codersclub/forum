@@ -106,7 +106,7 @@ function wrap_tag($tag) {
   return "<span style='color:#F00;font-weight:bold;'>$tag</span>";
 }
 
-//vot - highlight all tags
+//highlight all tags
 function highlight_tags($txt='') {
   $txt = preg_replace("/(\[[^\]]+\])/","<span style='color:#F00;font-weight:bold;'>\\1</span>",$txt);
   return $txt;

@@ -365,8 +365,6 @@ class legends
 			]
 		);
 
-		// Song * smile skin
-
 		if (!$ibforums->member['id'])
 		{
 			$id = 1;
@@ -386,14 +384,10 @@ class legends
 			$id = 1;
 		}
 
-		// Song * smile skin
-
 		$stmt = $ibforums->db->query("SELECT typed,image FROM ibf_emoticons WHERE skid='" . $id . "'");
 
 		if ($stmt->rowCount())
 		{
-			// SergeS + Song * smile skin
-
 			if (!$ibforums->member['id'])
 			{
 				$sskin = 'Main';
@@ -428,8 +422,6 @@ class legends
 			{
 				$sskin = "Main";
 			}
-
-			// SergeS + Song * smile skin
 
 			while ($r = $stmt->fetch())
 			{
@@ -584,7 +576,6 @@ class legends
 			$before = $preface . $before;
 			$before = str_replace("&lt;br&gt;", "<br>", $before);
 
-			//vot - highlight all tags
 			if (!$open)
 			{
 				$before = View::make("legends.highlight_tags", ['txt' => $before]);

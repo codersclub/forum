@@ -1298,11 +1298,9 @@ class usercp_functions
 			'bday_year'  => $ibforums->input['year'],
 		);
 
-		// vot * Check if Rename enabled
+		// Check if Rename enabled
 		if ($ibforums->vars['allow_user_rename'])
 		{
-
-			// Song * change member name, 4.01.05
 
 			if ($_POST['MemberName'])
 			{

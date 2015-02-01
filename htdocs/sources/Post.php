@@ -22,7 +22,7 @@
  */
 use Views\View;
 
-require_once "mimecrutch.php"; // Barazuk
+require_once "mimecrutch.php";
 
 $idx = new Post;
 
@@ -256,8 +256,6 @@ class Post
 		//--------------------------------------
 		// Does this member have mod_posts enabled?
 		//--------------------------------------
-		// Song * new ban control
-
 		if ($ibforums->member['mod_posts'])
 		{
 			if ($ibforums->member['mod_posts'] == 1)
@@ -330,15 +328,10 @@ class Post
 			}
 		}
 
-		// /Song * new ban control
-		// Song * ip blocked
-		// check ip
 		if (!$this->obj['moderate'])
 		{
 			$this->obj['moderate'] = $std->ip_control($this->forum, $ibforums->input['IP_ADDRESS']);
 		}
-
-		// Song * Additional flood check
 
 		if ($ibforums->input['CODE'] != "08"
 		    and $ibforums->input['CODE'] != "09"
@@ -353,17 +346,15 @@ class Post
 					// Flood check..
 					if ($ibforums->member['g_avoid_flood'] != 1)
 					{
-						// Der_Meister			if ( time() - $ibforums->member['last_post'] < $ibforums->member['g_post_flood'] )
-						// Jureth			$remain=$ibforums->member['last_post'] + $ibforums->vars['flood_control'] - time(); // Der_Meister
-						$remain = $ibforums->member['last_post'] + $ibforums->member['g_post_flood'] - time(); // Jureth
-						if ($remain > 0) // Der_Meister
+						$remain = $ibforums->member['last_post'] + $ibforums->member['g_post_flood'] - time();
+						if ($remain > 0)
 						{
 							$std->Error(array(
 							                 'LEVEL'  => 1,
 							                 'MSG'    => 'flood_control',
 							                 'EXTRA'  => $ibforums->member['g_post_flood'],
 							                 'EXTRA2' => $remain
-							            ) // vot
+							            )
 							);
 						}
 					}
@@ -607,7 +598,6 @@ class Post
 	/*	 * ************************************************** */
 
 	// Remove moderator's tags from mail for NOT a moderator
-	// by vot & FullArcticFox
 	function parse_post_mail($post = '', $poster = 0, $mgroup = 0)
 	{
 		// $post = post body
@@ -681,7 +671,6 @@ class Post
 			    AND m.id <> '{$ibforums->member['id']}'
 			    AND t.tid=tr.topic_id
 			   ");
-		//vot			    AND m.last_activity > '$last_post'
 
 		if ($stmt->rowCount())
 		{
@@ -695,7 +684,6 @@ class Post
 					? $r['language']
 					: 'en';
 
-				// vot & FullArcticFox
 				$post = $this->parse_post_mail($post_original, $poster, $r['mgroup']);
 				if ($post)
 				{
@@ -929,7 +917,6 @@ class Post
 			'use_emo'      => $ibforums->input['enableemo'],
 			'ip_address'   => $ibforums->input['IP_ADDRESS'],
 			'post_date'    => time(),
-			//'edit_time'   => time(), negram: setting edit time only on  edit, not on creation
 			'icon_id'      => $ibforums->input['iconid'],
 			'post'         => $convert,
 			'author_name'  => $ibforums->member['id']
@@ -940,7 +927,6 @@ class Post
 			'queued'       => ($this->obj['moderate'] == 1 || $this->obj['moderate'] == 3)
 				? 1
 				: 0,
-			// negram: autodelete only on new post, not when edit
 			'delete_after' => $std->delayed_time($convert, $this->forum['days_off'], 0, $this->moderator, $is_new_post),
 		);
 
@@ -1420,8 +1406,6 @@ class Post
 
 		$ibforums->lang['the_max_length'] = $ibforums->vars['max_post_length'] * 1024;
 
-		// Song * mod buttons, 08.11.2004
-
 		$mod_buttons = "";
 
 		if ($ibforums->member['is_mod'])
@@ -1443,8 +1427,6 @@ class Post
 				$mod_buttons = View::make("global.mod_buttons_label") . $mod_buttons;
 			}
 		}
-
-		// Song * decided topics, 20.04.05
 
 		$topic_decided = "";
 
@@ -1518,8 +1500,6 @@ class Post
 		);
 
 		// Make sure we're not previewing them and they've been unchecked!
-		// Song * emoticon checkbox correct
-
 		if (isset($ibforums->input['enableemo']))
 		{
 			if (!$ibforums->input['enableemo'])
@@ -1538,7 +1518,6 @@ class Post
 		{
 			if ($type == "reply")
 			{
-				// Sunny: галочка "склеивание сообщений"
 				if (isset($ibforums->input['add_merge_edit']) and !$ibforums->input['add_merge_edit'])
 				{
 					$default_checked['merge'] = "";
@@ -1547,7 +1526,6 @@ class Post
 					View::make("post.add_merge_edit_box", ['checked' => $default_checked['merge']]), $this->output);
 			} elseif ($type == "edit" && $ibforums->member['g_edit_posts'] == 1)
 			{
-				// Sunny: галочка "надпись отредактировано"
 				if (isset($ibforums->input['add_edit']) and !$ibforums->input['add_edit'])
 				{
 					$default_checked['edit'] = "";
@@ -1588,8 +1566,6 @@ class Post
 				}
 			}
 
-			// Song * favorite checkbox in the new topic, 18.03.05
-
 			if (!$type)
 			{
 				// add to favorites
@@ -1604,8 +1580,6 @@ class Post
 				$this->output = str_replace('<!--IBF.FAV-->',
 					View::make("post.get_box_enablefav", ['checked' => $default_checked['fav']]), $this->output);
 
-				// Song * offtopic checkbox, 19.04.05
-				// Song * don't bump topic, 03.05.05
 			} elseif ($type == "reply" or $type == "edit")
 			{
 				// offtop checkbox
@@ -1666,8 +1640,6 @@ class Post
 		$smilies    = "<tr align='center'>\n";
 
 		// Get the smilies from the DB
-		// Song * smile skin
-
 		if (!$ibforums->member['id'])
 		{
 			$id = 1;
@@ -1836,8 +1808,6 @@ class Post
 			{
 				$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
 			}
-
-			// vot			$row['post']   = str_replace( "<br>", "<br>", $row['post'] );
 
 			$this->output .= View::make("post.TopicSummary_body", ['data' => $row]);
 		}

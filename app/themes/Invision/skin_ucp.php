@@ -172,9 +172,6 @@ return <<<EOF
 
 EOF;
 }
-// barazuk: REMOVED from the FORM (after </table>, before SUBMIT button
-// barazuk: &nbsp;<span class='desc'>{$ibforums->lang['need_cookie_yum_yum']}</span>
-
 
 
 function avatar_gallery_start_row() {

@@ -254,8 +254,6 @@ class Reputation
 		}
 	}
 
-	// Song * silent check correct parameters
-
 	function check_it_out()
 	{
 		global $ibforums, $std;
@@ -315,8 +313,6 @@ class Reputation
 		}
 	}
 
-	// Song * silent check correct parameters
-
 	function show_form($memid)
 	{
 		global $ibforums, $std, $print;
@@ -338,11 +334,7 @@ class Reputation
 					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				}
 
-				// Song * silent check correct parameters
-
 				$this->check_it_out();
-
-				// Song * silent check correct parameters
 
 				$info = array();
 
@@ -377,11 +369,7 @@ class Reputation
 					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				}
 
-				// Song * silent check correct parameters
-
 				$this->check_it_out();
-
-				// Song * silent check correct parameters
 
 				if ($ibforums->member['posts'] < $ibforums->vars['rep_posts'])
 				{
@@ -495,7 +483,6 @@ class Reputation
 
 				$output .= View::make("rep.ShowHeader");
 
-				//Jureth			$stmt = $ibforums->db->query("SELECT r.*, m.name, t.title, f.read_perms
 				$stmt = $ibforums->db->query("SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
 					    FROM (ibf_reputation r, ibf_forums f )
 				            LEFT JOIN ibf_members m ON (m.id=r.from_id)
@@ -541,7 +528,6 @@ class Reputation
 						? "<a href='{$ibforums->base_url}act=ST&f={$i['forum_id']}&t={$i['topic_id']}&view=findpost&p={$i['post']}'>{$i['title']}</a>"
 						: "<span style='color:lightsteelblue'>{$ibforums->lang['no_topic']}</span>";
 
-					/* <--- Jureth --- */
 					$i['forum'] = ($i['title'])
 						? "<a href='{$ibforums->base_url}showforum={$i['forum_id']}'>{$i['forum']}</a>"
 						: "<span style='color: lightsteelblue'>{$ibforums->lang['no_forum']}</span>";
@@ -656,7 +642,6 @@ class Reputation
 
 				$output .= View::make("rep.ShowSelfHeader");
 
-				//Jureth			$stmt = $ibforums->db->query("SELECT r.*, m.name, t.title, f.read_perms
 				$stmt = $ibforums->db->query("SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
 					    FROM (ibf_reputation r, ibf_forums f )
 				            LEFT JOIN ibf_members m ON (m.id=r.member_id)
@@ -705,7 +690,6 @@ class Reputation
 						$i['title'] = "<a href='{$ibforums->base_url}act=ST&f={$i['forum_id']}&t={$i['topic_id']}&view=findpost&p={$i['post']}'>{$i['title']}</a>";
 					}
 
-					/* <--- Jureth --- */
 					if (!$i['title'])
 					{
 						$i['forum'] = "<span style='color: lightsteelblue'>{$ibforums->lang['no_forum']}</span>";
@@ -790,7 +774,8 @@ class Reputation
 				break;
 
 			case 'totals': //Showing board overall stats
-				// Song * disable feature
+				//disable feature
+				//todo: remove the code at all?
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 
 				if ($ibforums->member['g_mem_info'] != 1)
