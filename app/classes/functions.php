@@ -825,9 +825,10 @@ class functions
 			$ibforums->db->exec("INSERT
 				INTO " . $table . "
 				VALUES ('" . $session_id . "','" . $ip_address . "'," . $cur_day . "," . $cur_mon . ")");
+			$this->inc_user_count($field, $cur_day, $cur_mon);
 		} catch (PDOException $e)
 		{
-			$this->inc_user_count($field, $cur_day, $cur_mon);
+			//finally
 		}
 	}
 
