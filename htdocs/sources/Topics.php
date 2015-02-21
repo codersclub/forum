@@ -631,7 +631,7 @@ class Topics
 
 		$row['quick_quote'] = ($qr == FALSE or $row['use_sig'])
 			? ""
-			: "<a onmouseover=\"get_selection('{$rname}', '{$row['old_post_date']}', '{$row['pid']}');\" href=\"javascript:Insert();\"><{P_QUICKQUOTE}></a>";
+			: "<a class=\"quick-quote\" data-qname=\"{$rname}\" data-qdate=\"{$row['old_post_date']}\" data-post-id=\"{$row['pid']}\" href=\"#\"><{P_QUICKQUOTE}></a>";
 
 		if (!$row['author_id'])
 		{
