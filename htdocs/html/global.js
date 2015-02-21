@@ -42,7 +42,7 @@ function changeClass(e,class_old,class_new) {
   }
 }
 
-function openClose(node){ // TODO: переделать на jQuery
+function openClose(node){ // TODO: РїРµСЂРµРґРµР»Р°С‚СЊ РЅР° jQuery
 	if(hasClass(node, 'closed')) {
 		changeClass(node, 'closed', 'open');
 	} else {
@@ -103,11 +103,11 @@ function syntax_get_code_tag(el)
 	return $(el).parent().siblings('.code');
 }
 
-function addClass(ele,cls) { // TODO: переделать на jQuery
+function addClass(ele,cls) { // TODO: РїРµСЂРµРґРµР»Р°С‚СЊ РЅР° jQuery
 	if (!hasClass(ele,cls)) ele.className += " "+cls;
 }
 
-function removeClass(ele,cls) {	 // TODO: переделать на jQuery
+function removeClass(ele,cls) {	 // TODO: РїРµСЂРµРґРµР»Р°С‚СЊ РЅР° jQuery
 	if (hasClass(ele,cls)) {
 		var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
 		ele.className=ele.className.replace(reg,' ');
@@ -152,7 +152,7 @@ function syntax_numbering(el,tag_id)
 {
 	var div = syntax_get_code_tag(el);
 	/*
-	 * отключаю нумерацию именно таким способом, ибо FF копирует "<li>траляля</li>" как "# траляля" вместо "траляля"
+	 * РѕС‚РєР»СЋС‡Р°СЋ РЅСѓРјРµСЂР°С†РёСЋ РёРјРµРЅРЅРѕ С‚Р°РєРёРј СЃРїРѕСЃРѕР±РѕРј, РёР±Рѕ FF РєРѕРїРёСЂСѓРµС‚ "<li>С‚СЂР°Р»СЏР»СЏ</li>" РєР°Рє "# С‚СЂР°Р»СЏР»СЏ" РІРјРµСЃС‚Рѕ "С‚СЂР°Р»СЏР»СЏ"
 	 */
 	if (div.hasClass( 'code_numbered')) {
 		div.html(div.html().replace(/<li[^>]*>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>'));
@@ -209,7 +209,7 @@ function syntax_add_show_controls_on_mouseenter() {
 	});
 }
 /**
- * предварительно подгружает картинки для переключения режимов тега [code]
+ * РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕ РїРѕРґРіСЂСѓР¶Р°РµС‚ РєР°СЂС‚РёРЅРєРё РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ СЂРµР¶РёРјРѕРІ С‚РµРіР° [code]
  * @param tag_id
  */
 function preloadCodeButtons(tag_id)
@@ -260,7 +260,7 @@ function PopUpCD(url, d_width,d_height) {
 // First string will be used for title
     if (last=document.getElementById('dialog')) document.body.removeChild(last);
 
-    title = 'Загрузка...';
+    title = 'Р—Р°РіСЂСѓР·РєР°...';
 
     text = "<div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'></div></div></div>";
 
