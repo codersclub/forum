@@ -864,6 +864,17 @@ function get_selection(qname, qdate, pid)
   if ( txt ) txt='[quote='+qname+','+qdate+','+pid+']'+txt+'[/quote]\n';
 }
 
+
+$( document ).ready(function() {
+	var clickEventType=((document.ontouchstart!==null)?'click':'touchstart');
+    $('.quick-quote').bind(clickEventType, function(e) {
+        var el = $( this );
+        get_selection(el.data("qname"), el.data("qdate"), el.data("post-id"));
+        Insert();
+        e.preventDefault();
+    });
+});
+
 function getSelectedText(obj)
 {
  obj.focus();
