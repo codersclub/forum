@@ -548,9 +548,20 @@ h3, .pformstrip {
   font-size: 11px;
   color: #465584;
   background-color: #fafcfe;
-  border: 1px solid #000;
   line-height: 120%;
   padding: 2px;
+  border: 1px solid #99a;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .3);
+
+  ol {
+    padding: 0;
+    li {
+      padding: 3px 10px;
+      border-left: 1px solid #6b7f9a;
+      box-shadow: -40px 0 0 #fafafa;
+    }
+  }
 }
 
 table.post_table {
