@@ -8,64 +8,52 @@ html {
 
 .tag-mm-header,
 .mstop {
-  BORDER-RIGHT: #000 1px dotted;
-  PADDING-RIGHT: 3px;
-  BORDER-TOP: #000 1px dotted;
-  PADDING-LEFT: 3px;
-  FONT-WEIGHT: bold;
-  FONT-SIZE: 10px;
-  BACKGROUND: #e4eaf2;
-  PADDING-BOTTOM: 3px;
-  MARGIN: 8px auto 0px;
-  BORDER-LEFT: #8394b2 4px solid;
-  COLOR: #000;
-  PADDING-TOP: 3px;
-  BORDER-BOTTOM: 0px;
+  border-right: #000 1px dotted;
+  padding: 3px;
+  border-top: #000 1px dotted;
+  font-weight: bold;
+  font-size: 10px;
+  background: #e4eaf2;
+  margin: 8px auto 0;
+  border-left: #8394b2 4px solid;
+  color: #000;
+  border-bottom: 0;
 }
 
 .tag-mm-body,
 .msmain {
-  BORDER-RIGHT: #000 1px dotted;
-  PADDING-RIGHT: 4px;
-  BORDER-TOP: 0px;
-  PADDING-LEFT: 4px;
-  BACKGROUND: #fafcfe;
-  PADDING-BOTTOM: 4px;
-  MARGIN: 0px auto 8px;
-  BORDER-LEFT: #8394b2 4px solid;
-  COLOR: #465584;
-  PADDING-TOP: 4px;
-  BORDER-BOTTOM: #000 1px dotted;
+  border-right: #000 1px dotted;
+  padding: 4px;
+  border-top: 0;
+  background: #fafcfe;
+  margin: 0 auto 8px;
+  border-left: #8394b2 4px solid;
+  color: #465584;
+  border-bottom: #000 1px dotted;
 }
 
 .tag-gm-header {
-  BORDER-RIGHT: #000 1px dotted;
-  PADDING-RIGHT: 3px;
-  BORDER-TOP: #000 1px dotted;
-  PADDING-LEFT: 3px;
-  FONT-WEIGHT: bold;
-  FONT-SIZE: 10px;
-  BACKGROUND: #faa298;
-  PADDING-BOTTOM: 3px;
-  MARGIN: 8px auto 0px;
-  BORDER-LEFT: #8394b2 4px solid;
-  COLOR: #000;
-  PADDING-TOP: 3px;
-  BORDER-BOTTOM: 0px;
+  border-right: #000 1px dotted;
+  padding: 3px;
+  border-top: #000 1px dotted;
+  font-weight: bold;
+  font-size: 10px;
+  background: #faa298;
+  margin: 8px auto 0;
+  border-left: #8394b2 4px solid;
+  color: #000;
+  border-bottom: 0;
 }
 
 .tag-gm-body {
-  BORDER-RIGHT: #000 1px dotted;
-  PADDING-RIGHT: 4px;
-  BORDER-TOP: 0px;
-  PADDING-LEFT: 4px;
-  BACKGROUND: #fafcfe;
-  PADDING-BOTTOM: 4px;
-  MARGIN: 0px auto 8px;
-  BORDER-LEFT: #8394b2 4px solid;
-  COLOR: #465584;
-  PADDING-TOP: 4px;
-  BORDER-BOTTOM: #000 1px dotted;
+  border-right: #000 1px dotted;
+  padding: 4px;
+  border-top: 0;
+  background: #fafcfe;
+  margin: 0 auto 8px;
+  border-left: #8394b2 4px solid;
+  color: #465584;
+  border-bottom: #000 1px dotted;
 }
 
 form {
@@ -74,18 +62,18 @@ form {
 
 img {
   vertical-align: middle;
-  border: 0px;
+  border: 0;
 }
 
-BODY {
+body {
   font-family: Verdana, Tahoma, Arial, sans-serif;
   font-size: 11px;
   color: #000;
-  margin: 0px 10px 0px 10px;
-  background-color: #FFF;
+  margin: 0 10px 0 10px;
+  background-color: #fff;
 }
 
-TABLE, TR, TD {
+table, tr, td {
   font-family: Verdana, Tahoma, Arial, sans-serif;
   font-size: 11px;
   color: #000;
@@ -93,7 +81,7 @@ TABLE, TR, TD {
 
 a:link, a:active, a:visited {
   text-decoration: underline;
-  color: #000000;
+  color: #000;
 }
 
 a:hover {
@@ -147,12 +135,12 @@ img.attach {
 }
 
 li.helprow {
-  padding: 0px;
-  margin: 0px 0px 10px 0px
+  padding: 0;
+  margin: 0 0 10px 0
 }
 
 ul#help {
-  padding: 0px 0px 0px 15px
+  padding: 0 0 0 15px
 }
 
 option.cat {
@@ -171,7 +159,7 @@ option.sub {
   color: #777;
   background-color: #DFE6EF;
   padding: 4px;
-  margin: 0px
+  margin: 0
 }
 
 .warngood {
@@ -186,7 +174,7 @@ option.sub {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  padding: 14px 0px 14px 0px
+  padding: 14px 0 14px 0
 }
 
 #profilename {
@@ -223,7 +211,7 @@ option.sub {
 
 .usercp-menu-wrapper p {
   padding: 2px 5px 6px 9px;
-  margin: 0px
+  margin: 0
 }
 
 .usercp-content {
@@ -236,7 +224,7 @@ option.sub {
 
 .usercp-content p {
   padding: 10px;
-  margin: 0px
+  margin: 0
 }
 
 #ipsbanner {
@@ -248,29 +236,29 @@ option.sub {
 #logostrip {
   border: 1px solid #345487;
   background-color: #6EA1E3;
-  padding: 0px;
-  margin: 0px
+  padding: 0;
+  margin: 0
 }
 
 .logo {
-  color: #FFFFFF
+  color: #fff
 }
 
 .logo a:link, .logo a:visited, .logo a:active {
   text-decoration: none;
-  color: #FFFFFF
+  color: #fff
 }
 
 .logo a:hover {
   text-decoration: underline;
-  color: #000000
+  color: #000
 }
 
 #top-menu {
   border: 1px solid #BCD0ED;
   background-color: #DFE6EF;
   font-size: 10px;
-  margin: 3px 0px 3px 0px;
+  margin: 3px 0 3px 0;
   color: #3A4F6C;
   font-weight: bold
 }
@@ -289,7 +277,7 @@ option.sub {
 
 .b-navigation-wrapper {
   font-weight: bold;
-  padding: 6px 0px 6px 0px
+  padding: 6px 0 6px 0
 }
 
 .activeuserstrip {
@@ -394,7 +382,7 @@ h3, .pformstrip {
   color: #3A4F6C;
   background-color: #D1DCEB;
   padding: 7px;
-  margin: 0px;
+  margin: 0;
   a:link, a:visited, a:active {
     text-decoration: underline;
     color: #3A4F6C
@@ -410,7 +398,7 @@ h3, .pformstrip {
 }
 
 .maintitle {
-  color: #FFFFFF;
+  color: #fff;
   background-color: #6EA1E3;
   vertical-align: middle;
   font-weight: bold;
@@ -419,11 +407,17 @@ h3, .pformstrip {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(#fff, .1),
+      0 1px 0 rgba(#000, .2);
+  border-radius: 2px 2px 0 0;
+
   a {
     &:link, &:visited, &:active {
       text-decoration: none;
-      color: #FFF
+      color: #fff
     }
+
     &:hover {
       text-decoration: underline
     }
@@ -453,9 +447,9 @@ h3, .pformstrip {
 
 .tablebasic {
   width: 100%;
-  padding: 0px 0px 0px 0px;
-  margin: 0px;
-  border: 0px
+  padding: 0 0 0 0;
+  margin: 0;
+  border: 0
 }
 
 .wrapmini {
@@ -507,70 +501,99 @@ h3, .pformstrip {
 .unreg {
   font-size: 11px;
   font-weight: bold;
-  color: #900
+  color: #900;
 }
 
 .searchlite {
   font-weight: bold;
   color: #F00;
-  background-color: #FF0
+  background-color: #FF0;
 }
 
 .quote {
-  font-family: Verdana, Arial;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
   font-size: 11px;
   color: #465584;
-  background-color: #FAFCFE;
-  border: 1px solid #000;
-  padding-top: 2px;
-  padding-right: 2px;
-  padding-bottom: 2px;
-  padding-left: 2px;
-  overflow: auto;
+  background: #fafcfe;
+  border: 1px solid #aab;
+  padding: 7px 10px;
+  border-radius: 3px;
+  word-break: break-all;
+  white-space: normal;
+  box-shadow: 0 1px 0 rgba(#fff, .3);
+  margin-top: 4px;
+  position: relative;
+  overflow: visible;
+
+  &:after,
+  &:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border: transparent 6px solid;
+    border-bottom-color: #fafcfe;
+    position: absolute;
+    top: -12px;
+    left: 18px;
+  }
+
+  &:before {
+    border-bottom-color: darken(#aab, 5%);
+    top: -13px;
+  }
 }
 
 .code {
   font-size: 11px;
   color: #465584;
-  background-color: #FAFCFE;
-  border: 1px solid #000;
+  background-color: #fafcfe;
   line-height: 120%;
-  padding-top: 2px;
-  padding-right: 2px;
-  padding-bottom: 2px;
-  padding-left: 2px;
+  padding: 2px;
+  border: 1px solid #99a;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .3);
+
+  ol {
+    padding: 0;
+    li {
+      padding: 3px 10px;
+      border-left: 1px solid #6b7f9a;
+      box-shadow: -40px 0 0 #fafafa;
+    }
+  }
 }
 
-TABLE.post_table {
+table.post_table {
   background-color: #345487;
   vertical-align: top;
 }
 
-TABLE.post_table TD {
-  background-color: #CCC;
+table.post_table td {
+  background-color: #ccc;
   padding: 3px 3px 3px 3px;
 }
 
-TABLE.post_table TH {
+table.post_table th {
   background-color: #9FBCE3;
   padding: 3px 3px 3px 3px;
 }
 
 .copyright {
-  font-family: Verdana, Tahoma, Arial, Sans-Serif;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
   font-size: 9px;
   line-height: 12px
 }
 
 .codebuttons {
   font-size: 10px;
-  font-family: verdana, helvetica, sans-serif;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
   vertical-align: middle
 }
 
 .forminput, .radiobutton, .checkbox {
   font-size: 11px;
-  font-family: verdana, helvetica, sans-serif;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
   vertical-align: middle
 }
 
@@ -582,11 +605,11 @@ TABLE.post_table TH {
 }
 
 .thin {
-  padding: 6px 0px 6px 0px;
+  padding: 6px 0 6px 0;
   line-height: 140%;
-  margin: 2px 0px 2px 0px;
-  border-top: 1px solid #FFF;
-  border-bottom: 1px solid #FFF
+  margin: 2px 0 2px 0;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff
 }
 
 .purple {
@@ -649,7 +672,7 @@ TABLE.post_table TH {
 
 .spoiler .body {
   border-top: 1px solid black;
-  padding: 0px 2px;
+  padding: 0 2px;
 }
 
 .open .spoiler_header {
@@ -675,20 +698,20 @@ span.attach_preview p {
 
 span.attach_preview img {
   border: 1px solid black;
-  border-spacing: 0px;
+  border-spacing: 0;
   padding: 0 0 0 0;
   display: inline;
 }
 
 span.attach_preview p img {
-  border: 0px;
+  border: 0;
 }
 
 #GlobalMessage {
   border: 1px solid #BCD0ED;
   background-color: #DFE6EF;
   font-size: 10px;
-  margin: 3px 0px 3px 0px;
+  margin: 3px 0 3px 0;
   color: #3A4F6C;
   font-weight: bold;
 }
@@ -833,7 +856,7 @@ ul.b-breadcrumbs-top li:first-child {
 
 .b-pm-list th, .b-pm-list tfoot td {
   padding: 7px;
-  margin: 0px;
+  margin: 0;
 }
 
 .b-pm-list thead a:link, .b-pm-list thead a:visited, .b-pm-list thead a:active {
@@ -850,7 +873,7 @@ ul.b-breadcrumbs-top li:first-child {
 }
 
 .tag-quote {
-  font-family: verdana, tahoma, arial, sans-serif;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
 }
 
 .usercp-menu-item__new_message a,
@@ -870,7 +893,7 @@ ul.b-breadcrumbs-top li:first-child {
 
 h2 {
   @extend .maintitle;
-  color: #000000;
+  color: #000;
 }
 
 th.b-column {
@@ -894,18 +917,33 @@ th.b-column {
   }
 }
 
+
+
 .b-post__author-name {
   @extend .row4;
 }
 
 .b-post__header {
   @extend .row4;
+  padding: 7px 10px !important;
 }
 
 .b-post__info {
   @extend .row4;
 }
 
+.b-post__body {
+  padding: 5px 10px;
+}
+
 .b-topic-decided-btn {
   font-weight: bold;
+}
+
+.b-topic-posts {
+  border-radius: 2px;
+}
+
+.b-topics-list__title {
+  color: #fff;
 }
