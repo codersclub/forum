@@ -518,9 +518,12 @@ h3, .pformstrip {
   border: 1px solid #aab;
   padding: 7px 10px;
   border-radius: 3px;
-  overflow-x: auto;
+  word-break: break-all;
+  white-space: normal;
   box-shadow: 0 1px 0 rgba(#fff, .3);
-  margin-top: 12px;
+  margin-top: 4px;
+  position: relative;
+  overflow: visible;
 
   &:after,
   &:before {
@@ -537,7 +540,7 @@ h3, .pformstrip {
 
   &:before {
     border-bottom-color: darken(#aab, 5%);
-    left: 18px;
+    top: -13px;
   }
 }
 
