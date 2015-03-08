@@ -93,55 +93,55 @@ my @task_list = (
 	{
 		'TITLE'		=> "1. Remove Topics Marked as Moved (older 7 days):\n",
 		'SELECT'	=> '', ###"SELECT tid, title FROM ibf_topics WHERE state='link' and link_time < $age",
-		'DELETE'	=> 'DELETE FROM ibf_topics WHERE state=\'link\' and link_time < $age LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_topics WHERE state=\'link\' and link_time < $age LIMIT 500',
 		'DTL'		=> 7
 	},
 	{
 		'TITLE'		=> "2. Remove old search queries (older 24 hours):\n",
 		'SELECT'	=> '', ###"SELECT tid, title FROM ibf_topics WHERE state='link' and link_time < $age",
-		'DELETE'	=> 'DELETE FROM ibf_search_results WHERE search_date < $age LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_search_results WHERE search_date < $age LIMIT 500',
 		'DTL'		=> 1
 	},
 	{
 		'TITLE'		=> "3. Remove topic visit logs (older 30 days ):\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_log_topics WHERE NOT (tid IN (SELECT tid FROM ibf_topics WHERE pinned=1 and approved=1)) AND logTime<$age LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_log_topics WHERE NOT (tid IN (SELECT tid FROM ibf_topics WHERE pinned=1 and approved=1)) AND logTime<$age LIMIT 500',
 		'DTL'		=> 30
 	},
 	{
 		'TITLE'		=> "4. Clear posts edit history (items older 180 days ):\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_post_edit_history WHERE edit_time < $age LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_post_edit_history WHERE edit_time < $age LIMIT 500',
 		'DTL'		=> 180
 	},
 	{
 		'TITLE'		=> "5. Clear topic drafts without attachments (items older 14 days ):\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_topic_draft WHERE created < $age AND not exists (SELECT * FROM ibf_attachments_link WHERE item_type = \'topic_draft\' AND item_id = ibf_topic_draft.id ) LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_topic_draft WHERE created < $age AND not exists (SELECT * FROM ibf_attachments_link WHERE item_type = \'topic_draft\' AND item_id = ibf_topic_draft.id ) LIMIT 500',
 		'DTL'		=> 14
 	},
 	{
 		'TITLE'		=> "6.1 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_m_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_m_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 1000',
 		'DTL'		=> 28
 	},
 	{
 		'TITLE'		=> "6.2 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_g_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_g_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 3000',
 		'DTL'		=> 28
 	},
 	{
 		'TITLE'		=> "6.3 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_b_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_b_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 1000',
 		'DTL'		=> 28
 	},
 	{
 		'TITLE'		=> "6.4 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_users_stat WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 50',
+		'DELETE'	=> 'DELETE FROM ibf_users_stat WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 500',
 		'DTL'		=> 28
 	}
 #	{
