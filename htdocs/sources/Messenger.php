@@ -54,6 +54,7 @@ class Messenger
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_msg', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_ucp', $ibforums->lang_id);
 
+		$print->js->addLocal('msgbox.js');
 		//--------------------------------------------
 
 		$this->base_url = $ibforums->base_url;
@@ -265,8 +266,7 @@ class Messenger
 		$this->output .= View::make("ucp.forum_jump", ['data' => $fj]);
 
 		$print->add_output($this->output);
-		$print->js->addLocal('msgbox.js');
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
+		$print->do_output(['TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav]);
 	}
 
 	/**
@@ -341,6 +341,8 @@ class Messenger
 		// Fix up the text string...
 
 		$row['msg_date'] = $std->get_date($row['msg_date']);
+
+		$print->js->addVariable('mid', $this->msg_stats['msg_msg_id']);
 
 		$text = preg_replace("/<#NAME#>/", $row['name'], $ibforums->lang['pmp_string']);
 		$text = preg_replace("/<#TITLE#>/", $row['title'], $text);

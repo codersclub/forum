@@ -322,10 +322,9 @@ class display
 		// Build the board header
 		$this->js->addLocal('global.js', true);
 		$this->js->addLocal('jqcd/jqcd.js');
-		$this->js->addVariable('base_url', Ibf::app()->base_url);
-		$this->js->addVariable('session_id', Ibf::app()->session->session_id);
-		$this->js->addVariable('max_attach_size', $ibforums->member['g_attach_max']);
-		$this->js->addVariable('st', $ibforums->input['st']);
+		
+		$this->add_js_variables();
+
 		$this->exportJSLang([
 				'text_enter_url',
 		        'text_enter_url_name',
@@ -349,11 +348,6 @@ class display
 		        'list_marked',
 		        'tpl_q1'
 			]);
-		$this->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler']);
-		$this->js->addVariable('text_cancel', Ibf::app()->lang['js_cancel']);
-		$this->js->addVariable('upload_attach_too_big', Ibf::app()->lang['upload_to_big']);
-		$this->js->addVariable('js_base_url', Ibf::app()->vars['board_url'] . '/index.' . Ibf::app()->vars['php_ext'] . '?s=' . Ibf::app()->session->session_id . '&');
-
 		$this_header = View::make(
 			"global.BoardHeader",
 			['fav_active' => $ibforums->member['id'] && $this->is_new_fav_exists()]
@@ -576,6 +570,18 @@ class display
 		exit;
 	}
 
+	function add_js_variables() {
+		global $ibforums;
+		$this->js->addVariable('base_url', Ibf::app()->base_url);
+		$this->js->addVariable('session_id', Ibf::app()->session->session_id);
+		$this->js->addVariable('max_attach_size', $ibforums->member['g_attach_max']);
+		$this->js->addVariable('st', $ibforums->input['st']);
+		$this->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler']);
+		$this->js->addVariable('text_cancel', Ibf::app()->lang['js_cancel']);
+		$this->js->addVariable('upload_attach_too_big', Ibf::app()->lang['upload_to_big']);
+		$this->js->addVariable('js_base_url', Ibf::app()->vars['board_url'] . '/index.' . Ibf::app()->vars['php_ext'] . '?s=' . Ibf::app()->session->session_id . '&');	
+	}
+	
 	function prepare_output($template)
 	{
 		global $Debug, $std;
@@ -797,7 +803,9 @@ class display
 			}
 		}
 
-		$html = View::make("global.pop_up_window", ['title' => $title, 'js' => $this->js->render(\JS\JS::HEAD), 'css' => $css, 'text' => $text]);
+		$this->add_js_variables();
+
+		$html = View::make("global.pop_up_window", ['title' => $title, 'js' => $this->js->render(\JS\JS::HEAD) . $this->js->render(\JS\JS::TOP), 'css' => $css, 'text' => $text]);
 
 		foreach($ibforums->skin->getMacroValues() as $macro_value => $macro_replace)
 		{

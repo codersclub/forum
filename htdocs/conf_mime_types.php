@@ -55,5 +55,3 @@ $mime_types = array(
   'text/plain'				=> array( 1, 'text.gif'    , 'Text File'       ),
 );
 
-
-?>

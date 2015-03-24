@@ -13,18 +13,18 @@ function unselect_all(context) {
 }
 
 function goto_inbox() {
-    opener.document.location.href = base_url + 'act=Msg&amp;CODE=01';
+    opener.document.location.href = js_base_url + 'act=Msg&amp;CODE=01';
     window.close();
 }
 
 function goto_this_inbox() {
     window.resizeTo('700', '500');
-    document.location.href = base_url + '&act=Msg&CODE=01';
+    document.location.href = js_base_url + 'act=Msg&CODE=01';
 }
 
 function go_read_msg() {
     window.resizeTo('700', '500');
-    document.location.href = base_url + '&act=Msg&CODE=03&VID=in&MSID=$mid';
+    document.location.href = js_base_url + 'act=Msg&CODE=03&VID=in&MSID=' + mid;
 }
 
 $(document).ready(function () {
