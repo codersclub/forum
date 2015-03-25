@@ -20,10 +20,10 @@ function jqcd_create(id, opts, content){
 	var jqcd_btn_c = 0;
 	var	dialog_z_index = 1001;
 	var	dialog_z_index_topmost = 1100;
-	var jqcd_old_ie = false;
+	/*var jqcd_old_ie = false;
 	if($.browser.msie&&parseInt($.browser.version, 10)<9)
 		jqcd_old_ie = true;
-	
+	*/
 	$.fn.jqcd_set_top = function(curr_dlg){
 		$.each(jqcd_list, function(i,v){
 				var opts = v.data('opts');
@@ -127,12 +127,12 @@ function jqcd_create(id, opts, content){
 			dlg.css('z-index', dialog_z_index_topmost);
 		
 		dlg.prepend('<div class="jqcd_disabler"></div>');
-		if(opts['has_shadow']&&jqcd_old_ie){
+		/*if(opts['has_shadow']&&jqcd_old_ie){
 			dlg.append('<div class="jqcd_shadow"></div>');
 			var oshadow = dlg.find(".jqcd_shadow");
 			oshadow.width(opts['width']-2);
 			oshadow.height(opts['height']-2);
-		}		
+		}*/		
 		
 		if(!opts['has_shadow'])
 		{
@@ -245,10 +245,10 @@ function jqcd_create(id, opts, content){
 					content_layer.height(content_layer.height()-dy);
 					dialog_content.height(dialog_content.height()-dy);
 				}	
-				if(opts['has_shadow']&&jqcd_old_ie){
+				/*if(opts['has_shadow']&&jqcd_old_ie){
 					oshadow.width(dlg.width()-2);
 					oshadow.height(dlg.height()-2);
-				}
+				}*/
 				return false;
 			}
 			if(clicked)
@@ -294,12 +294,12 @@ function jqcd_create(id, opts, content){
 			$("#jqcd_modal_layer").height($(document).height());
 			$("#jqcd_modal_layer").show();
 		}
-		if(opts["has_shadow"]&&jqcd_old_ie)
+		/*if(opts["has_shadow"]&&jqcd_old_ie)
 		{
 			var os = this.find(".jqcd_shadow");
 			os.width(opts['width']-2);
 			os.height(opts['height']-2);			
-		}
+		}*/
 		this.width(opts["width"]);
 		this.height(opts["height"]);
 		this.jqcd_adjust();
@@ -376,8 +376,8 @@ function jqcd_create(id, opts, content){
 		this.jqcd_adjust();
 		this.jqcd_adjust_title(this.find(".jqcd_title_text"), this.find(".jqcd_title"), 
 				this.find(".jqcd_dialog"), this.find(".jqcd_content"));	
-		if(opts['has_shadow']&&jqcd_old_ie)
-			this.find(".jqcd_shadow").width(this.width()-2);
+		/*if(opts['has_shadow']&&jqcd_old_ie)
+			this.find(".jqcd_shadow").width(this.width()-2);*/
 	};
 
 	$.fn.jqcd_set_height = function(height){
@@ -387,8 +387,8 @@ function jqcd_create(id, opts, content){
 		this.jqcd_adjust();
 		this.jqcd_adjust_title(this.find(".jqcd_title_text"), this.find(".jqcd_title"), 
 				this.find(".jqcd_dialog"), this.find(".jqcd_content"));	
-		if(opts['has_shadow']&&jqcd_old_ie)
-			this.find(".jqcd_shadow").height(this.height()-2);
+		/*if(opts['has_shadow']&&jqcd_old_ie)
+			this.find(".jqcd_shadow").height(this.height()-2);*/
 	};	
 	
 	
