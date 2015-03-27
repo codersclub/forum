@@ -1,5 +1,7 @@
 <?php
 
+use Views\View;
+
 /**
  * @class Display Class used for rendering process
  *
@@ -8,6 +10,12 @@ class display
 {
 	var $syntax = array();
 	var $to_print = "";
+	public $js;
+
+	function __construct()
+	{
+		$this->js = new \JS\JS();
+	}
 
 	function is_new_fav_exists()
 	{
@@ -58,11 +66,10 @@ class display
 
 	function topNav($output_array)
 	{
-		global $skin_universal, $ibforums, $std;
 
-		$nav = $skin_universal->start_nav("_NEW");
-		$nav .= $skin_universal->topBreadcrumbs($this->makeBreadcrumbs($output_array));
-		$nav .= $skin_universal->end_nav();
+		$nav = View::make("global.start_nav", ['NEW' => "_NEW"]);
+		$nav .= View::make("global.topBreadcrumbs", ['items' => $this->makeBreadcrumbs($output_array)]);
+		$nav .= View::make("global.end_nav");
 
 		return $nav;
 	}
@@ -74,12 +81,11 @@ class display
 	 */
 	function bottomNav($output_array)
 	{
-		global $skin_universal;
-		return $skin_universal->bottomBreadcrumbs($this->makeBreadcrumbs($output_array));
+		return View::make("global.bottomBreadcrumbs", ['items' => $this->makeBreadcrumbs($output_array)]);
 	}
 
 	//-------------------------------------------
-	// vot: Rotate banners from array.
+	// Rotate banners from array.
 	//-------------------------------------------
 
 	function rotate_banner($banners = "")
@@ -111,7 +117,7 @@ class display
 	}
 
 	//-------------------------------------------
-	// vot: Output the XAP network banner.
+	// Output the XAP network banner.
 	//-------------------------------------------
 
 	function xap_banner()
@@ -138,7 +144,7 @@ class display
 
 	function do_output($output_array)
 	{
-		global $Debug, $skin_universal, $ibforums, $std;
+		global $Debug, $ibforums, $std;
 
 		if ($ibforums->input['show_cp_order_number'] == 1)
 		{
@@ -155,15 +161,13 @@ class display
 				: '0';
 			exit();
 		}
-		// Song * Adjust the Favorites Icon
-//        something_wrong();
 		//---------------------------------------------
 		// Check for DEBUG Mode
 		//---------------------------------------------
 
 		if ($ibforums->member['g_access_cp'])
 		{
-			if (FALSE) //if ( $DB->obj['debug'] ) //todo need to move to the debug class or remove it completely - jureth
+			if (FALSE) //if ( $DB->obj['debug'] ) //todo need to move to the debug class or remove it completely
 			{
 				flush();
 				print "<html><head><title>mySQL Debugger</title><body bgcolor='white'><style type='text/css'> TABLE, TD, TR, BODY { font-family: verdana,arial, sans-serif;color:black;font-size:11px }</style>";
@@ -237,7 +241,10 @@ class display
 
 			$timestamp = gmdate('j.m.y, H:i T');
 
-			$stats = $skin_universal->RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload);
+			$stats = View::make(
+				"global.RenderScriptStatsRow",
+				['ex_time' => $ex_time, 'query_cnt' => $query_cnt, 'timestamp' => $timestamp, 'sload' => $sload]
+			);
 
 		}
 		/********************************************************/
@@ -249,10 +256,7 @@ class display
 		//---------------------------------------------------------
 		// CSS
 		//---------------------------------------------------------
-		// Song * CSS based on User CP + common CSS, 29.12.04
-
-		$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']);
-		$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
+		$css = View::make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
 
 		//---------------------------------------------------------
 
@@ -269,33 +273,27 @@ class display
 			}
 		}
 
-		//-------------------------------------------------------
-		// Song + Mixxx * included js, client highlight, 23.12.04
-
-		$js = "";
-
 		if ($ibforums->member['syntax'] == "client")
 		{
 			$count = 0;
 
 			foreach ($this->syntax as $row => $highlight)
 			{
-				$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n";
+				$this->js->addRaw("<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>", \JS\JS::HEAD);
 				$count++;
 			}
 
 			if ($count)
 			{
-				$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core.js?{$ibforums->vars['client_script_version']}'></script>\n";
+				$this->js->addLocal("h_core.js");
 			}
 		}
 
 		if ($output_array['JS'])
 		{
-			$js .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/{$output_array['JS']}'></script>";
+			$this->js->addLocal($output_array['JS']);
 		}
 
-		// End of Song + Mixxx * included js, 23.12.04
 		// Copyrights
 		// Yes, I realise that this is silly and easy to remove the copyright, but
 		// as it's not concealed source, there's no point having a 1337 fancy hashing
@@ -322,7 +320,44 @@ class display
 
 		/*		 * ***************************************************** */
 		// Build the board header
-		$this_header = $skin_universal->BoardHeader($ibforums->member['id'] && $this->is_new_fav_exists());
+		$this->js->addLocal('global.js', true);
+		$this->js->addLocal('jqcd/jqcd.js');
+		$this->js->addVariable('base_url', Ibf::app()->base_url);
+		$this->js->addVariable('session_id', Ibf::app()->session->session_id);
+		$this->js->addVariable('max_attach_size', $ibforums->member['g_attach_max']);
+		$this->js->addVariable('st', $ibforums->input['st']);
+		$this->exportJSLang([
+				'text_enter_url',
+		        'text_enter_url_name',
+		        'text_enter_email',
+		        'text_enter_email_name',
+		        'list_prompt',
+		        'text_enter_image',
+		        'text_spoiler',
+		        'text_quote',
+		        'text_img',
+		        'text_url',
+		        'text_list',
+		        'error_no_url',
+		        'error_no_title',
+		        'error_no_email',
+		        'error_no_email_name',
+		        'text_enter_spoiler',
+		        'text_enter_quote',
+		        'list_numbered',
+		        'list_numbered_rome',
+		        'list_marked',
+		        'tpl_q1'
+			]);
+		$this->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler']);
+		$this->js->addVariable('text_cancel', Ibf::app()->lang['js_cancel']);
+		$this->js->addVariable('upload_attach_too_big', Ibf::app()->lang['upload_to_big']);
+		$this->js->addVariable('js_base_url', Ibf::app()->vars['board_url'] . '/index.' . Ibf::app()->vars['php_ext'] . '?s=' . Ibf::app()->session->session_id . '&');
+
+		$this_header = View::make(
+			"global.BoardHeader",
+			['fav_active' => $ibforums->member['id'] && $this->is_new_fav_exists()]
+		);
 
 		// Show rules link?
 
@@ -335,7 +370,10 @@ class display
 
 			$this_header = str_replace(
 				"<!--IBF.RULES-->",
-				$skin_universal->rules_link($ibforums->vars['gl_link'], $ibforums->vars['gl_title']),
+				View::make(
+					"global.rules_link",
+					['url' => $ibforums->vars['gl_link'], 'title' => $ibforums->vars['gl_title']]
+				),
 				$this_header
 			);
 		}
@@ -346,11 +384,9 @@ class display
 
 		if (!$ibforums->member['id'])
 		{
-			$output_array['MEMBER_BAR'] = $skin_universal->Guest_bar();
+			$output_array['MEMBER_BAR'] = View::make("global.Guest_bar");
 		} else
 		{
-			$pm_js = "";
-
 			if (($ibforums->member['g_max_messages'] > 0) and ($ibforums->member['msg_total'] >= $ibforums->member['g_max_messages']))
 			{
 				$msg_data['TEXT'] = $ibforums->lang['msg_full'];
@@ -362,7 +398,7 @@ class display
 
 				$msg_data['TEXT'] = sprintf($ibforums->lang['msg_new'], $ibforums->member['new_msg']);
 
-				// CBP & vot: Check for NEW PM
+				// Check for NEW PM
 
 				if ($ibforums->member['new_msg'])
 				{
@@ -384,18 +420,19 @@ class display
 
 				if ($ibforums->input['act'] != 'Msg')
 				{
-					$pm_js = $skin_universal->PM_popup();
+					$this->js->AddInline('pm_popup();', \JS\JS::BOTTOM);
+
 				}
 			}
 
 			$mod_link = "";
 
 			$admin_link = $ibforums->member['g_access_cp']
-				? $skin_universal->admin_link()
+				? View::make("global.admin_link")
 				: '';
 
 			$valid_link = $ibforums->member['mgroup'] == $ibforums->vars['auth_group']
-				? $skin_universal->validating_link()
+				? View::make("global.validating_link")
 				: '';
 
 			if ($ibforums->member['mgroup'] == $ibforums->vars['auth_group'])
@@ -403,27 +440,32 @@ class display
 				$valid_warning = str_replace(
 					'*EMAIL*',
 					$ibforums->member['email'],
-					$skin_universal->member_valid_warning()
+					View::make("global.member_valid_warning")
 				);
 			}
 
 			if (!$ibforums->member['g_use_pm'])
 			{
-				$output_array['MEMBER_BAR'] = $skin_universal->Member_no_usepm_bar($admin_link, $mod_link, $valid_link);
+				$output_array['MEMBER_BAR'] = View::make(
+					"global.Member_no_usepm_bar",
+					['ad_link' => $admin_link, 'mod_link' => $mod_link, 'val_link' => $valid_link]
+				);
 			} else
 			{
-				$output_array['MEMBER_BAR'] = $pm_js . $skin_universal->Member_bar(
-						$msg_data,
-						$admin_link,
-						$mod_link,
-						$valid_link
+				$output_array['MEMBER_BAR'] = View::make(
+						'global.Member_bar',
+						[
+							'msg'      => $msg_data,
+							'ad_link'  => $admin_link,
+							'mod_link' => $mod_link,
+							'val_link' => $valid_link
+						]
 					);
 			}
 		}
 
-		// vot:
 		// Adjust the page title for russian search bots
-
+		//todo jrth: hmmm
 		$output_array['TITLE'] = str_replace(".RU", ".Ру", $output_array['TITLE']);
 
 		// Check for OFFLINE BOARD
@@ -443,16 +485,18 @@ class display
 		$replace[] = "<% CSS %>";
 		$change[]  = $css;
 
-		$replace[] = "<% JAVASCRIPT %>";
-		$change[]  = $js;
-
-		// Song * RSS, 29.01.05
+		$replace[] = "<% JAVASCRIPT_HEAD %>";
+		$change[]  = $this->js->render(\JS\JS::HEAD);
+		$replace[] = "<% JAVASCRIPT_TOP %>";
+		$change[]  = $this->js->render(\JS\JS::TOP);
+		$replace[] = "<% JAVASCRIPT_BOTTOM %>";
+		$change[]  = $this->js->render(\JS\JS::BOTTOM);
 
 		$replace[] = "<% RSS %>";
 
 		if (!$output_array['RSS'])
 		{
-			$output_array['RSS'] = $skin_universal->rss();
+			$output_array['RSS'] = View::make("global.rss");
 		}
 
 		$change[] = $output_array['RSS'];
@@ -480,28 +524,35 @@ class display
 		$replace[] = "<% NAVIGATION %>";
 		$change[]  = $nav;
 
-		// Song * secondary navigation
-
 		$replace[] = "<!--IBF.NAVIGATION-->";
 		$change[]  = $this->bottomNav($output_array);
 
 		$replace[] = "<% MEMBER BAR %>";
+		$change[] = $output_array['MEMBER_BAR'] . $valid_warning;
 
-		//todo разрулить условие нафик
-		if (empty($output_array['OVERRIDE']) or TRUE /* MEMBER BAR WILL DISPLAY ON ERROR PAGES */)
-		{
-			$change[] = $output_array['MEMBER_BAR'] . $valid_warning;
-		} else
-		{
-			$change[] = $skin_universal->member_bar_disabled() . $valid_warning;
-		}
+        //tags
+        $tags = [
+            'uid' => Ibf::app()->member['id'],
+        ];
+        if (isset(Ibf::app()->input['showforum'])) {
+            $tags['shown-forum-id'] = Ibf::app()->input['showforum'];
+        }elseif (isset(Ibf::app()->input['showtopic'])) {
+            $tags['shown-topic-id'] = Ibf::app()->input['showtopic'];
+        }elseif(isset(Ibf::app()->input['showuser'])){
+            $tags['shown-profile'] = Ibf::app()->input['showuser'];
+        }
+        array_walk($tags, function(&$item, $key){ $item = sprintf('data-%s="%s"', $key, $item); });
+
+		$replace[] = "<% BODY_DATA_TAGS %>";
+		$change[] = implode(' ', $tags);
+		//todo добавить data зависящие от контента
 
 		//---------------------------------------
 		// Do replace in template
 		//---------------------------------------
-
-		$ibforums->skin['template'] = str_replace($replace, $change, $ibforums->skin['template']);
-		$ibforums->skin['template'] = $this->prepare_output($ibforums->skin['template']);
+		$output = View::make('global.wrapper');
+		$output = str_replace($replace, $change, $output);
+		$output = $this->prepare_output($output);
 
 		//---------------------------------------
 		// Start GZIP compression
@@ -517,7 +568,7 @@ class display
 
 		$this->do_headers();
 
-		print $ibforums->skin['template'];
+		print $output;
 
 		\Logs::info('Stats', 'Queries used: ' . Debug::instance()->stats->queriesCount);
 		\Logs::info('Stats', 'Script Execution Time: ' . sprintf('%.4f', Debug::instance()->executionTime()));
@@ -527,58 +578,47 @@ class display
 
 	function prepare_output($template)
 	{
-		global $Debug, $skin_universal, $std;
+		global $Debug, $std;
 		$ibforums = Ibf::app();
 
 		$replace = array();
 		$change  = array();
 
-		// Load the Macro Set
-
-		$stmt = $ibforums->db->query(
-			"SELECT
-				macro_value,
-				macro_replace
-	        FROM ibf_macro
-		    WHERE macro_set={$ibforums->skin['macro_id']}"
-		);
-
 		//+--------------------------------------------
 		//| Get the macros and replace them
 		//+--------------------------------------------
 
-		while ($row = $stmt->fetch())
+		foreach($ibforums->skin->getMacroValues() as $macro_value => $macro_replace)
 		{
-			if ($row['macro_value'])
+			if ($macro_value)
 			{
-				$replace[] = "<{" . $row['macro_value'] . "}>";
-				$change[]  = $row['macro_replace'];
+				$replace[] = "<{" . $macro_value . "}>";
+				$change[]  = $macro_replace;
 			}
 		}
-		$stmt->closeCursor();
 
 		//-----------------------------------
-		// vot: header banner
+		// header banner
 		$replace[] = "<!-- HEADER_BANNER -->";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_header']);
 
 		//-----------------------------------
-		// vot: top banner
+		// top banner
 		$replace[] = "<% TOP NAV BANNER %>";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_top_nav']);
 
 		//-----------------------------------
-		// vot: middle banner
+		// middle banner
 		$replace[] = "<% MIDDLE BANNER %>";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_middle']);
 
 		//-----------------------------------
-		// vot: bottom banner
+		// bottom banner
 		$replace[] = "<% BOTTOM BANNER %>";
 		$change[]  = $this->rotate_banner($ibforums->vars['banner_bottom']);
 
 		//-----------------------------------
-		// vot: bottom XAP banner
+		// bottom XAP banner
 		$replace[] = "<% XAP BANNER %>";
 		$change[]  = $this->xap_banner();
 		//+--------------------------------------------
@@ -588,7 +628,7 @@ class display
 		if ($ibforums->vars['ipshosting_credit'])
 		{
 			$replace[] = "<!--IBF.BANNER-->";
-			$change[]  = $skin_universal->ibf_banner();
+			$change[]  = View::make("global.ibf_banner");
 		}
 
 		//+--------------------------------------------
@@ -601,18 +641,18 @@ class display
 			$ibforums->vars['chat_width'] += 50;
 
 			$chat_link = ($ibforums->vars['chat_display'] == 'self')
-				? $skin_universal->show_chat_link_inline()
-				: $skin_universal->show_chat_link_popup();
+				? View::make("global.show_chat_link_inline")
+				: View::make("global.show_chat_link_popup");
 
 			$replace[] = "<!--IBF.CHATLINK-->";
 			$change[]  = $chat_link;
 		}
 
 		$replace[] = "<#IMG_DIR#>";
-		$change[]  = $ibforums->vars['img_url']; // vot
+		$change[]  = $ibforums->skin->getImagesPath();
 
-		$replace[] = "<#BASE_URL#>"; // vot
-		$change[]  = $ibforums->base_url; // vot
+		$replace[] = "<#BASE_URL#>";
+		$change[]  = $ibforums->base_url;
 
 		return str_replace($replace, $change, $template);
 	}
@@ -696,29 +736,20 @@ class display
 	//-------------------------------------------
 	function text_only($text = "", $macro = false)
 	{
-		global $skin_universal;
 		$ibforums = Ibf::app();
 
 		$html = $text;
 
 		if ($macro)
 		{
-			// Load Macro Values
-			$stmt = $ibforums->db->query(
-				"SELECT
-				macro_value,
-				macro_replace
-			    FROM ibf_macro
-			    WHERE macro_set='{$ibforums->skin['macro_id']}'"
-			);
-			while ($row = $stmt->fetch())
+			foreach($ibforums->skin->getMacroValues() as $macro_value => $macro_replace)
 			{
-				if ($row['macro_value'] != "")
+				if ($macro_value != "")
 				{
-					$html = str_replace("<{" . $row['macro_value'] . "}>", $row['macro_replace'], $html);
+					$html = str_replace("<{" . $macro_value . "}>", $macro_replace, $html);
 				}
 			}
-			$html = str_replace("<#IMG_DIR#>", $ibforums->vars['img_url'], $html);
+			$html = str_replace("<#IMG_DIR#>", $ibforums->skin->getImagesPath(), $html);
 		}
 
 		if ($ibforums->vars['disable_gzip'] != 1)
@@ -742,17 +773,13 @@ class display
 
 	function pop_up_window($title = 'Invision Power Board', $text = "")
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		//---------------------------------------------------------
 		// CSS
 		//---------------------------------------------------------
-		// CSS based on User CP + common CSS, Song * 29.12.04
-
-		$css = $skin_universal->css_external('common', $ibforums->skin['img_dir']) . "\n";
-		$css .= $skin_universal->css_external($ibforums->skin['css_id'], $ibforums->skin['img_dir']) . "\n";
-
-		// Song + Mixxx * included js, client highlight, 23.12.04
+		$this->js->addLocal('global.js');
+		$css = View::make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
 
 		if ($ibforums->member['syntax'] == "client")
 		{
@@ -760,37 +787,27 @@ class display
 
 			foreach ($this->syntax as $row => $highlight)
 			{
-				$css .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n";
+				$this->js->addRaw("<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n", \JS\JS::HEAD);
 				$count++;
 			}
 
 			if ($count)
 			{
-				$css .= "<script type='text/javascript' src='{$ibforums->vars['board_url']}/html/h_core.js?{$ibforums->vars['client_script_version']}'></script>\n";
+				$this->js->addLocal('h_core.js');
 			}
 		}
 
-		$html = $skin_universal->pop_up_window($title, $css, $text);
+		$html = View::make("global.pop_up_window", ['title' => $title, 'js' => $this->js->render(\JS\JS::HEAD), 'css' => $css, 'text' => $text]);
 
-		// Load Macro Values
-
-		$stmt = $ibforums->db->query(
-			"SELECT
-				macro_value,
-				macro_replace
-		    FROM ibf_macro
-		    WHERE macro_set='{$ibforums->skin['macro_id']}'"
-		);
-
-		while ($row = $stmt->fetch())
+		foreach($ibforums->skin->getMacroValues() as $macro_value => $macro_replace)
 		{
-			if ($row['macro_value'] != "")
+			if ($macro_value != "")
 			{
-				$html = str_replace("<{" . $row['macro_value'] . "}>", $row['macro_replace'], $html);
+				$html = str_replace("<{" . $macro_value . "}>", $macro_replace, $html);
 			}
 		}
 
-		$html = str_replace("<#IMG_DIR#>", $ibforums->vars['img_url'], $html);
+		$html = str_replace("<#IMG_DIR#>", $ibforums->skin->getImagesPath(), $html);
 
 		if ($ibforums->vars['disable_gzip'] != 1)
 		{
@@ -852,4 +869,11 @@ class display
 		return $out;
 	}
 
+	public function exportJSLang($ids) {
+		foreach($ids as $id) {
+			if (isset(Ibf::app()->lang[$id])){
+				$this->js->addVariable($id, Ibf::app()->lang[$id]);
+			}
+		}
+	}
 }

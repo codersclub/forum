@@ -20,6 +20,8 @@
 */
 require_once dirname(__FILE__) . '/PostEditHistory.php';
 
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -53,8 +55,6 @@ class post_functions extends Post
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
-
-		// Song * Old Topics Flood, 15.03.05
 
 		if ($std->user_reply_flood($this->topic['start_date']))
 		{
@@ -268,8 +268,6 @@ class post_functions extends Post
 			}
 		}
 
-		// Song * decided topics, 20.04.05
-
 		if ($class->forum['decided_button'] and
 		    $ibforums->member['id'] and
 		    $ibforums->member['g_use_decided'] and
@@ -280,8 +278,6 @@ class post_functions extends Post
 				? 1
 				: $this->topic['decided'];
 		}
-
-		// Song * merge mod
 
 		if (!$this->post['delete_after'] and
 		    !$this->post['attach_exists'] and
@@ -320,7 +316,6 @@ class post_functions extends Post
 
 				$timedeff = time() - $lastpost['post_date'];
 
-				// vot: WHAT THE HELL? 3500
 				if ($ibforums->member['id'] and
 				    $timedeff < 3500 and
 				    !$std->mod_tag_exists($lastpost['post'], 1)
@@ -341,7 +336,6 @@ class post_functions extends Post
 							}
 						}
 
-						//Jureth
 						$lang               = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
 						$this->post['post'] = $lastpost['post'] . " \n\n[color=mergepost][size=0]" . $lang['added_post'] . " [mergetime]" . time() . "[/mergetime][/size][/color]\n" . $this->post['post'];
 						unset($lang);
@@ -366,13 +360,11 @@ class post_functions extends Post
 						  pid='" . $lastpost['pid'] . "'");
 
 						//----------------------------------------------------
-						// vot:
 						// Index the Post body for the Indexed Search Engine
 						//----------------------------------------------------
 
 						$std->index_reindex_post($lastpost['pid'], $this->post['topic_id'], $class->forum['id'], $this->post['post']);
 
-						// Song * club tool
 						if (!$this->topic['club'])
 						{
 							// change forum
@@ -474,7 +466,6 @@ class post_functions extends Post
 		}
 
 		//----------------------------------------------------
-		// vot:
 		// Index the Post body for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -506,8 +497,6 @@ class post_functions extends Post
 			? $ibforums->member['name']
 			: $ibforums->input['UserName'];
 		$class->forum['last_poster_id']   = $ibforums->member['id'];
-
-		// Song * club tool
 
 		if (!$this->topic['club'])
 		{
@@ -646,8 +635,6 @@ class post_functions extends Post
 					last_post='{$ibforums->member['last_post']}'
 				    WHERE id='{$ibforums->member['id']}'");
 
-			// Song * additional flood control
-
 		} else
 		{
 			$ibforums->db->exec("UPDATE ibf_sessions
@@ -732,13 +719,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= $class->html->errors($ibforums->lang[$class->obj['post_errors']]);
+			$class->output .= View::make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= $class->html->errors($error_message);
+				$class->output .= View::make("post.errors", ['data' => $error_message]);
 			}
 		}
 		if ($class->obj['preview_post'])
@@ -790,7 +777,10 @@ class post_functions extends Post
 				? 1
 				: 0);
 
-			$class->output .= $class->html->preview($this->post['post'], $class->upload_errors);
+			$class->output .= View::make(
+				"post.preview",
+				['data' => $this->post['post'], 'upload_erros' => $class->upload_errors]
+			);
 		}
 
 		$class->check_upload_ability();
@@ -813,11 +803,14 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_reply']} {$this->topic['title']}");
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_reply']} {$this->topic['title']}"]
+		);
 
 		$name_fields = $class->html_name_field();
 
@@ -825,7 +818,7 @@ class post_functions extends Post
 
 		$mod_options = $class->mod_options(1);
 
-		$end_form = $class->html->EndForm($ibforums->lang['submit_reply']);
+		$end_form = View::make("post.EndForm", ['data' => $ibforums->lang['submit_reply']]);
 
 		$post_icons = $class->html_post_icons();
 
@@ -834,11 +827,17 @@ class post_functions extends Post
 
 			if ($this->upload)
 			{
-				$upload_field .= $class->html->edit_upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024), $this->upload);
+				$upload_field .= View::make(
+					"post.edit_upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024), 'files' => $this->upload]
+				);
 
 			} else
 			{
-				$upload_field = $class->html->Upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024));
+				$upload_field = View::make(
+					"post.Upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]
+				);
 			}
 		}
 
@@ -851,8 +850,6 @@ class post_functions extends Post
 		$class->output = preg_replace("/<!--UPLOAD FIELD-->/", "$upload_field", $class->output);
 		$class->output = preg_replace("/<!--MOD OPTIONS-->/", "$mod_options", $class->output);
 		$class->output = preg_replace("/<!--END TABLE-->/", "$end_form", $class->output);
-
-		// Song * IBF forum rules
 
 		if ($class->forum['show_rules'])
 		{

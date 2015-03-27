@@ -145,8 +145,6 @@ if ($INFO['session_hide'])
 	$ibforums->session_id = "";
 }
 
-$ibforums->js_base_url = $ibforums->vars['board_url'] . '/index.' . $ibforums->vars['php_ext'] . '?s=' . $ibforums->session_id . '&';
-
 //--------------------------------
 //	Set up the forum_read cookie
 //--------------------------------
@@ -161,9 +159,6 @@ if ($ibforums->member['id'])
 //--------------------------------
 
 //--------------------------------
-
-/** @var skin_global $skin_universal */
-$skin_universal = $std->load_template('skin_global');
 
 if ($ibforums->input['act'] == "Error")
 {

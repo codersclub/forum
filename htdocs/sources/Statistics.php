@@ -3,6 +3,7 @@
 //------------------------------------------------------------------------------------
 // INVISIONBOARD STATISTICS (JOHNATHAN @ IBPLANET.COM)
 //------------------------------------------------------------------------------------
+use Views\View;
 
 $idx = new Statistics;
 
@@ -11,7 +12,6 @@ class Statistics
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	var $html = "";
 
 	function Statistics()
 	{
@@ -23,9 +23,6 @@ class Statistics
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_statistics', $ibforums->lang_id);
 
-		require "./Skin/" . $ibforums->skin_id . "/skin_Statistics.php";
-
-		$this->html     = new skin_Statistics();
 		$this->base_url = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
 		$ibforums->input['act'];
 		$data = array();
@@ -810,7 +807,7 @@ EOF;
 		// RENDER THE STATISTICS
 		//-----------------------------------------------------
 
-		$this->output = $this->html->Statistics($data);
+		$this->output = View::make("Statistics.Statistics", ['data' => $data]);
 		$print->add_output("$this->output");
 		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 		$this->page_title = $ibforums->vars['board_name'];

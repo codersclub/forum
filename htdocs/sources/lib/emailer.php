@@ -312,10 +312,7 @@ class emailer
 		$words['WEB_ADDRESS']   = $ibforums->vars['home_url'];
 		$words['BOARD_NAME']    = $ibforums->vars['board_name'];
 		$words['SIGNATURE']     = $ibforums->vars['signature'];
-		$words['IP_ADDRESS']    = $ibforums->input['IP_ADDRESS']; // vot
-
-		#		$words['MSG_BODY']      = $ibforums->input['Post']; // by Chainick
-		#		$words['MSG_BODY']      = $std->remove_tags($ibforums->input['Post']); // by Mastilior
+		$words['IP_ADDRESS']    = $ibforums->input['IP_ADDRESS'];
 
 		// Swop the words
 

@@ -2,20 +2,21 @@
 
 trait SingletonTrait
 {
-    private static $_instance = null;
+    private static $_instance = [];
 
     public static function getInstance()
     {
-        if (self::$_instance === null) {
-            call_user_func_array([__CLASS__, 'setInstance'], func_get_args());
+        $class = get_called_class();
+        if (!isset(self::$_instance[$class])) {
+            call_user_func_array([$class, 'setInstance'], func_get_args());
         }
-        return self::$_instance;
+        return self::$_instance[$class];
     }
 
     public static function setInstance()
     {
-        $reflection      = new ReflectionClass(__CLASS__);
-        self::$_instance = $reflection->newInstanceArgs(
+        $reflection      = new ReflectionClass(get_called_class());
+        self::$_instance[get_called_class()] = $reflection->newInstanceArgs(
             func_get_args()
         );
     }

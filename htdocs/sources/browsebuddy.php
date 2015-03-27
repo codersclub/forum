@@ -21,6 +21,7 @@
 +--------------------------------------------------------------------------
 */
 
+use Views\View;
 
 $idx = new buddy;
 
@@ -29,7 +30,6 @@ class buddy {
     var $output     = "";
     var $page_title = "";
     var $nav        = array();
-    var $html       = "";
 
 
 
@@ -44,8 +44,6 @@ class buddy {
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_buddy', $ibforums->lang_id );
 
-    	$this->html = $std->load_template('skin_buddy');
-
     	//--------------------------------------------
     	// What to do?
     	//--------------------------------------------
@@ -59,9 +57,9 @@ class buddy {
 
     	// If we have any HTML to print, do so...
 
-    	$this->output = str_replace( "<!--CLOSE.LINK-->", $this->html->closelink(), $this->output );
-
-    	$print->pop_up_window($ibforums->lang['page_title'], $this->html->buddy_js().$this->output);
+    	$this->output = str_replace( "<!--CLOSE.LINK-->", View::make("buddy.closelink"), $this->output );
+	    $print->js->addLocal('buddy.js');
+    	$print->pop_up_window($ibforums->lang['page_title'], $this->output);
 
 
  	}
@@ -77,7 +75,7 @@ class buddy {
 
  		if ( ! $ibforums->member['id'] )
  		{
- 			$this->output = $this->html->login();
+ 			$this->output = View::make("buddy.login");
  			return;
  		}
  		else
@@ -168,19 +166,22 @@ class buddy {
  				$ibforums->lang['new_posts']  = sprintf($ibforums->lang['new_posts'] , $posts_total  );
  				$ibforums->lang['my_replies'] = sprintf($ibforums->lang['my_replies'], $topics_total );
 
-// 				$ibforums->lang['new_posts'] .= $this->html->append_view("&act=Select&CODE=getnew");
- 				$ibforums->lang['new_posts'] .= $this->html->append_view("&act=Select&CODE=getnew");
+// 				$ibforums->lang['new_posts'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
+ 				$ibforums->lang['new_posts'] .= View::make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
 
  				if ($topic > 0)
  				{
- 					$ibforums->lang['my_replies'] .= $this->html->append_view("&act=Select&CODE=getreplied");
+ 					$ibforums->lang['my_replies'] .= View::make(
+					    "buddy.append_view",
+					    ['url' => '&act=Select&CODE=getreplied']
+				    );
  				}
 
- 				$text = $this->html->build_away_msg();
+ 				$text = View::make("buddy.build_away_msg");
  			}
 
 
- 			$this->output = $this->html->main($text);
+ 			$this->output = View::make("buddy.main", ['away_text' => $text]);
  		}
 
 

@@ -144,8 +144,6 @@ require ROOT_PATH."sources/Admin/admin_skin.php";
 
 $SKIN = new admin_skin();
 
-$skin_universal = &$SKIN; //To keep functions.php happy
-
 /*-----------------------------------------------
   Import Admin Functions
  ------------------------------------------------*/
@@ -157,8 +155,6 @@ $ADMIN = new admin_functions();
 /*-----------------------------------------------
   Load up our database library
  ------------------------------------------------*/
-
-// Song * check access
 
 $ips_file = "../ip_table.php";
 
@@ -208,8 +204,6 @@ if ( file_exists( $ips_file ) )
 		fatal_error("You do not have access to the administrative CP");
 	}
 }
-
-// Song * check access
 
 //------------------------------------------------
 // Fix up the "show" ID's for the menu tree...
@@ -656,15 +650,7 @@ function do_admin_stuff() {
 			 'mod'      => 'moderator',
 			 'op'       => 'settings',
 			 'help'     => 'help',
-			 'skin'     => 'skins',
-			 'wrap'     => 'wrappers',
-			 'style'    => 'stylesheets',
-			 'image'    => 'imagemacros',
-			 'sets'     => 'stylesets',
-			 'templ'    => 'templates',
-			 'rtempl'   => 'remote_template',
 			 'lang'     => 'languages',
-			 'import'   => 'skin_import',
 			 'modlog'   => 'modlogs',
 			 'field'   => 'profilefields',
 			 'stats'   => "statistics",
@@ -680,12 +666,8 @@ function do_admin_stuff() {
 			 'warnlog'      => "warnlogs",
 			 'msubs'     => 'subsmanager',
 			 'store'     => 'store',
-			 'syntax'   => 'syntax', // Leprecon
-			 'sskin'    => 'sskin', // SergeS
-                        //-------------------------------------
-                        // RSS choise (c) vot
-                        // Date added: 04.07.2006
-                        //-------------------------------------
+			 'syntax'   => 'syntax',
+			 'sskin'    => 'sskin',
                         'rss_sources'      => 'rss',
                         'rss_add_source'   => 'rss',
                         'rss_edit_source'  => 'rss',

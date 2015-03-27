@@ -85,14 +85,6 @@ class session
 			'mgroup'   => $ibforums->vars['guest_group']
 		]);
 
-		//--------------------------------------------
-		// no new headers if we're simply viewing an attachment..
-		//--------------------------------------------
-		// vot        if ( $ibforums->input['act'] == 'Attach' )
-		// vot        {
-		// vot        	return $this->member;
-		// vot        }
-
 		$_SERVER['HTTP_USER_AGENT'] = $std->clean_value($_SERVER['HTTP_USER_AGENT']);
 
 		$this->ip_address = $ibforums->input['IP_ADDRESS'];
@@ -393,17 +385,8 @@ class session
 					last_visit=?,
 					last_activity=?
 				    WHERE id=?");
-				$stmt->execute([$this->time_now, $this->time_now, $this->memeber['id']]);
+				$stmt->execute([$this->time_now, $this->time_now, $this->member['id']]);
 
-				// Song * look at died accounts
-
-				if ($this->member['check_id'])
-				{
-					$stmt = $ibforums->db->prepare("UPDATE ibf_check_members
-					    SET last_visit=?
-					    WHERE mid=?");
-					$stmt->execute([$this->time_now, $this->memeber['check_id']]);
-				}
 			} elseif ((time() - $ibforums->input['last_activity']) > 300)
 			{
 				// If the last click was longer than 5 mins ago and this is a member
@@ -411,18 +394,8 @@ class session
 				$stmt = $ibforums->db->prepare("UPDATE ibf_members
 				    SET last_activity=?
 				    WHERE id=?");
-				$stmt->execute([$this->time_now, $this->memeber['id']]);
-
-				// Song * look at died accounts
-
-				if ($this->member['check_id'])
-				{
-					$stmt = $ibforums->db->prepare("UPDATE ibf_check_members
-					    SET last_visit=?
-					    WHERE mid=?");
-					$stmt->execute([$this->time_now, $this->memeber['check_id']]);
+				$stmt->execute([$this->time_now, $this->member['id']]);
 				}
-			}
 
 			//-------------------------------------------------
 			// Check ban status
@@ -473,8 +446,7 @@ class session
 		// permissions based on a group
 		$ibforums->perm_id = $this->member['g_perm_id'];
 
-		// Song * enchaced rights, 16.12.04
-		// additional permissions basen on a member
+		// additional permissions based on a member
 		$org_perm_id = isset($this->member['org_perm_id'])
 			? $this->member['org_perm_id']
 			: '';
@@ -509,18 +481,13 @@ class session
 				IFNULL(es.name,'Main') as sskin_name,
 				md.mid as is_mod,
 				md.allow_warn,
-				md.time_deleted_link,
-				cm.mid as check_id,
-				cm.sent
+				md.time_deleted_link
 			FROM ibf_members m
             		LEFT JOIN ibf_groups g
 				ON (g.g_id=m.mgroup)
 			LEFT JOIN ibf_emoticons_skins es
 				ON (es.id=m.sskin_id)
-			LEFT JOIN ibf_check_members cm
-				ON (cm.mid=m.id)
-            		LEFT JOIN ibf_moderators md
-				ON (md.member_id=m.id)
+			LEFT JOIN ibf_moderators md ON (md.member_id=m.id)
             		WHERE m.id=?
 			LIMIT 1");
 			$stmt->execute([$member_id]);
@@ -531,7 +498,6 @@ class session
 
 				if ($this->member['id'])
 				{
-					// Song * club tool
 					$stmt = $ibforums->db->prepare("SELECT read_perms
 					FROM ibf_forums
 					WHERE id=?");
@@ -542,8 +508,8 @@ class session
 						$this->member['club_perms'] = $club['read_perms'];
 					}
 
-					// vot: BAD MESSAGE! yesterday, today
-					// Song * today/yesterday
+					// todo BAD MESSAGE! yesterday, today
+					// today/yesterday
 
 					if ($this->member['language'] == 'en')
 					{
@@ -567,30 +533,11 @@ class session
 
 					$time = time();
 
-					// if member has more than 50 posts,
-					// leave him, abandon see him
-
-					if ($this->member['check_id'])
-					{
-						if ($this->member['posts'] > $ibforums->vars['check_before'])
-						{
-							$ibforums->db->exec("DELETE FROM ibf_check_members
-						      WHERE mid='" . $this->member['check_id'] . "'");
-							$this->member['check_id'] = "";
-						} elseif ($this->member['sent'])
-						{
-							$ibforums->db->exec("UPDATE ibf_check_members
-						      SET sent=0, last_visit='" . $time . "'
-						      WHERE mid='" . $this->member['check_id'] . "'");
-							$this->member['sent'] = 0;
-						}
-					}
-
-					/* <--- Jureth ---
+					/**
 					 * Publish the moderated forums list
 					 * Hint: Result of query include forums, moderated by groups, rather than prev.
 					 *
-					 * */
+					 **/
 
 					$this->member['modforums'] = false;
 					$mod                       = array();
@@ -608,8 +555,6 @@ class session
 						$this->member['modforums'] = implode(',', $mod);
 					}
 					unset($mod);
-
-					/* >--- Jureth --- */
 
 					// if this is a user
 					if (!$this->member['is_mod'])
@@ -659,16 +604,16 @@ class session
 								// delete old record about violation
 								$ibforums->db->exec("DELETE FROM ibf_warnings
 								    WHERE id='" . $row['id'] . "'");
-								// vot: BAD MESSAGE!
+								// todo BAD MESSAGE!
 								$mes = "Уменьшен уровень Ваших предупреждений в связи с истечением срока действия одного из них.\n\n";
 
 								if ($group == $ibforums->vars['member_group'] or $group == $ibforums->vars['club_group'] or $group == 26 or $group == 9)
 								{
-									// vot: BAD MESSAGE!
+									// todo BAD MESSAGE!
 									$mes .= "[color=green]Вы обратно переведены в группу участников.[/color]";
 								} else
 								{
-									// vot: BAD MESSAGE!
+									// todo BAD MESSAGE!
 									$mes .= "[color=red]Вы переведены в группу нарушивших правила уровня " . $level . ".[/color]";
 								}
 
@@ -698,7 +643,7 @@ class session
 						// ************* BEGIN MODERATORS DAILY TASKS **********************************
 						// *****************************************************************************
 
-						if ($this->member['modforums']) //Jureth
+						if ($this->member['modforums'])
 						{
 							$topics = array();
 							$forums = array();
@@ -761,81 +706,7 @@ class session
 								unset($forums);
 							}
 
-							//Jureth				  unset($mod);
 						}
-
-						// **************** CHECK USERS that do not visit forum ( 150 days ) *************************************
-						// vot: BAD MESSAGE - use language !
-						$title = "Уведомление об предполагаемом удалении Вашего аккаунта";
-
-						$mes = "Здравствуйте, %s!\n";
-						$mes .= "Вы не посещали Форум на Исходниках.RU (http://forum.sources.ru) уже в течение 150-ти дней.\n";
-						$mes .= "По правилам нашего форума аккаунт удаляется, если участник ни разу не посещает форум в течение 6 месяцев, ";
-						$mes .= "авторизуясь под своим аккаунтом. Поэтому, если Вы не зайдёте на наш форум ещё в течение месяца, ";
-						$mes .= "Ваш аккаунт будет удалён без дальнейших предупреждений.\n";
-						$mes .= "Если Вы просто редко посещаете наш форум и намереваетесь продолжать его посещать дальше, просто зайдите ";
-						$mes .= "на форум, авторизуясь под своим ником.\n";
-						$mes .= "Если Вы уверены, что это ошибка, зайдите на наш форум и сообщите об этом администратору или ";
-						$mes .= "напишите сейчас об ошибке на адрес admin@sources.ru\n\n";
-						$mes .= "С уважением, администрация Форума на Исходниках.RU";
-
-						// send warnings letters
-						$stmt = $ibforums->db->query("SELECT
-							cm.mid,
-							m.name,
-							m.mgroup,
-							m.temp_ban,
-                                                        m.language
-						    FROM
-							ibf_check_members cm,
-							ibf_members m
-						    WHERE
-							m.id=cm.mid and
-							cm.sent=0 and
-							cm.last_visit<" . $time . "-60*60*24*150");
-
-						while ($row = $stmt->fetch())
-						{
-							if ($row['mgroup'] == $ibforums->vars['ban_group'] or $row['temp_ban'])
-							{
-								continue;
-							}
-                                                        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $row['language']);
-
-							$std->sendpm($row['mid'], sprintf($mes, $row['name']), $title, 8617, 1, 1);
-						}
-
-						// mark members
-						$ibforums->db->exec("UPDATE ibf_check_members
-						    SET sent=1
-						    WHERE
-							sent=0 and
-							last_visit<" . $time . "-60*60*24*150");
-
-						// ******* DELETE USERS that do not visit forum ( 180 days )  *****************************
-						// vot: NEED TO have preserved members!!!
-
-						$ids = array();
-
-						// delete non active users that were sent letters
-						$stmt = $ibforums->db->query("SELECT mid
-						    FROM ibf_check_members
-						    WHERE
-							sent=1 and
-							last_visit<" . $time . "-60*60*24*180");
-
-						while ($row = $stmt->fetch())
-						{
-							$ids[] = $row['mid'];
-						}
-
-						if (count($ids))
-						{
-							$std->delete_members(" IN (" . implode(",", $ids) . ")");
-
-							unset($ids);
-						}
-
 						// *************************************************************************************************************************
 						// ************************** END OF MODERATORS TASKS ************************************************
 						// *************************************************************************************************************************
@@ -844,15 +715,15 @@ class session
 						// ************************* for admins-moderators ***************************************************
 						// ***********************************************************************************************************************
 						// Delete users that marked their accounts to deleting
+						//todo move to cron
 						if ($this->member['mgroup'] == $ibforums->vars['admin_group'])
 						{
 							$ids = array();
 
-							$stmt = $ibforums->db->query("SELECT id
+							$stmt = $ibforums->db->prepare("SELECT id
 						      FROM ibf_members
-						      WHERE
-							profile_delete_time != 0 and
-							profile_delete_time<'" . $time . "'");
+									WHERE profile_delete_time != 0 and profile_delete_time < ?")
+								->execute([$time]);
 
 							while ($member = $stmt->fetch())
 							{
@@ -908,7 +779,6 @@ class session
 		$this->member['password'] = "";
 	}
 
-	// Song * topic and forum recount within deleting of moderatorial posts, 15.02.05
 	//---------------------------------------------------
 	function clear_posts(PDOStatementWrapper $stmt, &$topics, &$forums)
 	{
@@ -1052,7 +922,6 @@ class session
 		$ibforums->db->exec("UPDATE ibf_stats SET TOTAL_TOPICS=" . $topics['tcount'] . ", TOTAL_REPLIES=" . $posts);
 	}
 
-	// /Song * topic and forum recount within deleting of posts, 15.02.05
 	//-------------------------------------------
 	// Get a session based on the current session ID
 	//-------------------------------------------
@@ -1192,7 +1061,7 @@ class session
 				: (time() - 3600);
 
 			$ibforums->db->exec("DELETE FROM ibf_sessions
-			    WHERE running_time < {$ibforums->vars['session_expiration']}");
+			    WHERE running_time < {$ibforums->vars['session_expiration']} LIMIT 10");
 
 			$ibforums->db->exec("DELETE FROM ibf_sessions
 			    WHERE member_id='" . $this->member['id'] . "'");
@@ -1280,13 +1149,6 @@ class session
 				// Update the Last Visit time
 				// (used at lookking for died accounts
 
-				if ($this->member['check_id'])
-				{
-					$ibforums->db->exec("UPDATE ibf_check_members
-					    SET last_visit='" . $this->time_now . "'
-					    WHERE mid='" . $this->member['check_id'] . "'");
-				}
-
 				//---------------------------------
 				// Fix up the last visit/activity times.
 				//---------------------------------
@@ -1294,8 +1156,6 @@ class session
 				$ibforums->input['last_visit']    = $this->member['last_activity'];
 				$ibforums->input['last_activity'] = $this->time_now;
 			}
-
-			// Song * who was today online (members)
 
 			$std->who_was_member($this->member['id']);
 		} else
@@ -1348,8 +1208,6 @@ class session
 
 		$ibforums->db->insertRow('ibf_sessions', $data);
 
-		// Song * who was today online (guest)
-
 		$std->who_was_guest_or_bot('ibf_g_visitors', 'guests', $this->session_id, $this->ip_address);
 	}
 
@@ -1400,7 +1258,6 @@ class session
 		);
 
 		$ibforums->db->insertRow('ibf_sessions', $data, 'DELAYED');
-		// Song * who was today online (bot)
 
 		$std->who_was_guest_or_bot('ibf_b_visitors', 'bots', $session_id, $this->ip_address);
 	}

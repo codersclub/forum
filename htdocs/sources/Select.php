@@ -20,6 +20,7 @@
 |	> Module Version Number: 1.1.0
 +--------------------------------------------------------------------------
 */
+use Views\View;
 
 require "att.php";
 
@@ -31,10 +32,6 @@ class Search
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	/**
-	 * @var skin_search
-	 */
-	var $html = "";
 
 	var $first = 0;
 
@@ -53,7 +50,7 @@ class Search
 	var $lib = "";
 	var $read_array = array();
 	var $read_mark = array();
-	//Jureth: show modpanel in search
+	//show modpanel in search
 	var $modfunctions = false;
 
 	var $mysql_version = "";
@@ -70,8 +67,6 @@ class Search
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_search', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_forum', $ibforums->lang_id);
 
-		$this->html = $std->load_template('skin_search');
-
 		$this->base_url = $ibforums->base_url;
 
 		//    	if ( !$ibforums->vars['allow_search']) $std->Error( array( 'LEVEL' => 1, 'MSG' => 'search_off') );
@@ -81,7 +76,7 @@ class Search
 		//    	   ( $ibforums->member['g_use_search'] != 1 )) {
 		//	  $this->page_title = $ibforums->lang['search_title'];
 		//	  $this->nav        = array( $ibforums->lang['search_form'] );
-		//	  $this->output = $this->html->alien_form('search_off');
+		//	  $this->output = View::Make("search.alien_form", ['message' => 'search_off']);
 		//    	  $print->add_output("$this->output");
 		//          $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav ) );
 		//        }
@@ -175,8 +170,6 @@ class Search
 				$this->do_word_search('titles');
 				break;
 
-			// Song * mine new messages
-
 			case 'mygetnew':
 				$this->get_new_posts(1);
 				break;
@@ -186,8 +179,6 @@ class Search
 			case 'change_days':
 				$this->change_days();
 				break;
-
-			// Song * mine new messages
 
 			case 'getactive':
 				$this->get_active();
@@ -224,7 +215,6 @@ class Search
 		// If we have any HTML to print, do so...
 
 		$print->add_output("$this->output");
-		//Jureth        $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav ) );
 		$print->do_output(array(
 		                       'TITLE' => $this->page_title,
 		                       'JS'    => ($this->modfunctions)
@@ -280,7 +270,7 @@ class Search
 			}
 		}
 
-		// vot: Check for valid forum ID
+		// Check for valid forum ID
 
 		$fid = intval($ibforums->input['fid']);
 
@@ -528,8 +518,6 @@ class Search
 		// the database
 		//------------------------------------------------
 
-		// Song * selected search
-
 		$stmt = $ibforums->db->query("SELECT
 				sf.fid,
 				f.read_perms
@@ -563,14 +551,8 @@ class Search
 			$time = $time - 60 * 60 * 24 * intval($ibforums->member['search_days']);
 		}
 
-		// Song * selected search
-
-		// Song * NEW
 		// read topic changes
 		$this->get_read_topics($time);
-		// Song * NEW
-
-		// Song * new and mine new messages
 
 		if ($mine)
 		{
@@ -584,19 +566,14 @@ class Search
 				  WHERE t.state != 'link' AND t.approved=1 AND t.forum_id IN($forums) AND t.last_post > '" . $time . "'";
 		}
 
-		// Song * new and mine new messages
-
-		// Song * selected search
-
 		if ($all)
 		{
 			$query .= " and t.forum_id IN (" . $all . "0)";
 		}
 
-		$query .= " GROUP BY t.tid"; // vot
-		//		$query .= " ORDER by t.last_post"; // vot
+		$query .= " GROUP BY t.tid";
 
-		// Song * selected search
+		// selected search
 
 		$stmt = $ibforums->db->query($query);
 
@@ -610,7 +587,6 @@ class Search
 
 			$tid = $topic['topic_id'];
 			$fid = $topic['forum_id'];
-			// Song * NEW
 			if ($ibforums->member['id'])
 			{
 				if (!isset($this->read_mark[$fid]))
@@ -644,7 +620,6 @@ class Search
 			{
 				$posts .= $tid . ",";
 			}
-			// Song * NEW
 		}
 
 		$stmt->closeCursor();
@@ -729,12 +704,10 @@ class Search
 
 			while ($row = $stmt->fetch())
 			{
-				// Song * club tool
 				if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 				{
 					continue;
 				}
-				// Song * club tool
 				$row['ip_address'] = "";
 
 				$topic_list[$count] = $row;
@@ -752,7 +725,7 @@ class Search
 
 			$this->parser = new PostParser();
 
-			$this->output .= $this->html->start_as_post(array('SHOW_PAGES' => $links));
+			$this->output .= View::make("search.start_as_post", ['Data' => array('SHOW_PAGES' => $links)]);
 
 			foreach ($topic_list as $row)
 			{
@@ -784,10 +757,10 @@ class Search
 					$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
 				}
 
-				$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
+				$this->output .= View::make("search.RenderPostRow", ['Data' => $this->parse_entry($row, 1)]);
 			}
 
-			$this->output .= $this->html->end_as_post(array('SHOW_PAGES' => $links));
+			$this->output .= View::make("search.end_as_post", ['Data' => array('SHOW_PAGES' => $links)]);
 
 		} else
 		{
@@ -797,8 +770,6 @@ class Search
 			            ));
 		}
 
-		// Song * club tool
-
 		if ($count <= 0)
 		{
 			$std->Error(array(
@@ -806,8 +777,6 @@ class Search
 			                 'MSG'   => 'no_search_results'
 			            ));
 		}
-
-		// Song * club tool
 
 		$stmt->closeCursor();
 
@@ -921,15 +890,13 @@ class Search
 	{
 		global $std, $ibforums, $print;
 
-		$print->pop_up_window($ibforums->lang['be_link'], $this->html->boolean_explain_page());
+		$print->pop_up_window($ibforums->lang['be_link'], View::make("search.boolean_explain_page"));
 
 	}
 
 	//------------------------------------------------
 	// Show main form
 	//------------------------------------------------
-
-	// Song * quick search from special tag
 
 	function do_word_search($search_in)
 	{
@@ -967,8 +934,6 @@ class Search
 
 		$this->do_search();
 	}
-
-	// Song * quick search from special tag
 
 	function show_form()
 	{
@@ -1015,14 +980,10 @@ class Search
 				{
 					if ($i['parent_id'] > 0)
 					{
-						// Song * endless forums, 20.12.04
 						$children[$i['parent_id']][] = array(
 							$i['forum_id'],
 							"<option value=\"{$i['forum_id']}\"$selected>&middot;&middot;&middot;&middot;<IBF_SONG_DEPTH>&nbsp;{$i['forum_name']}</option>\n"
 						);
-						// Song * endless forums, 20.12.04
-
-						//song						$children[ $i['parent_id'] ][] = "<option value=\"{$i['forum_id']}\"$selected>&middot;&middot;&middot;&middot;&nbsp;{$i['forum_name']}</option>\n";
 					} else
 					{
 						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $sub_css . "$selected>&middot;&middot;&nbsp;{$i['forum_name']}$is_sub</option>\n";
@@ -1059,9 +1020,7 @@ class Search
 						if (count($children[$idx]) > 0)
 						{
 							$the_html .= $forum_text;
-							// Song * endless forums, 20.12.04
 							$the_html .= $this->subforums_addtoform($idx, $children);
-							// Song * endless forums, 20.12.04
 						}
 					}
 				}
@@ -1077,7 +1036,6 @@ class Search
 
 		$forums = "<select name='forums[]' class='forminput' size='10' multiple='multiple'>\n" . "<option value='all'" . $init_sel . ">" . $ibforums->lang['all_forums'] . "</option>" . $the_html . "</select>";
 
-		// Song * variable label and checkbox, 06.12.04
 		$where = '';
 		if ($ibforums->vars['search_sql_method'] == 'ftext')
 		{
@@ -1085,26 +1043,33 @@ class Search
 		} else
 		{
 			$label = $ibforums->lang['keysearch_text'];
-			$where = $this->html->checkbox_where();
+			$where = View::make("search.checkbox_where");
 		}
 
 		if ($ibforums->input['mode'] == 'simple')
 		{
 			if ($ibforums->vars['search_sql_method'] == 'ftext')
 			{
-				$this->output = $this->html->simple_form($forums, $label, $where);
+				$this->output = View::make(
+					"search.simple_form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 			} else
 			{
-				$this->output = $this->html->Form($forums, $label, $where);
+				$this->output = View::make(
+					"search.Form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 			}
 
 		} elseif ($ibforums->input['mode'] == 'adv')
 		{
-			$this->output = $this->html->Form($forums, $label, $where);
+			$this->output = View::make("search.Form", ['forums' => $forums, 'search_txt' => $label, 'where' => $where]);
 
 			if ($ibforums->vars['search_sql_method'] == 'ftext')
 			{
-				$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->", $this->html->form_simple_button(), $this->output);
+				$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->",
+					View::make("search.form_simple_button"), $this->output);
 			}
 		} else
 		{
@@ -1112,25 +1077,31 @@ class Search
 
 			if ($ibforums->vars['search_default_method'] == 'simple')
 			{
-				$this->output = $this->html->Form($forums, $label, $where);
+				$this->output = View::make(
+					"search.Form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 			} else
 			{
 				// Default..
 
-				$this->output = $this->html->Form($forums, $label, $where);
+				$this->output = View::make(
+					"search.Form",
+					['forums' => $forums, 'search_txt' => $label, 'where' => $where]
+				);
 
 				if ($ibforums->vars['search_sql_method'] == 'ftext')
 				{
-					$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->", $this->html->form_simple_button(), $this->output);
+					$this->output = str_replace("<!--IBF.SIMPLE_BUTTON-->",
+						View::make("search.form_simple_button"), $this->output);
 				}
 			}
 		}
 
-		// Song * variable label and checkbox, 06.12.04
-
 		if ($this->mysql_version >= 40010 AND $ibforums->vars['search_sql_method'] == 'ftext')
 		{
-			$this->output = str_replace("<!--IBF.BOOLEAN_EXPLAIN-->", $this->html->boolean_explain_link(), $this->output);
+			$this->output = str_replace("<!--IBF.BOOLEAN_EXPLAIN-->",
+				View::make("search.boolean_explain_link"), $this->output);
 		}
 
 		$this->page_title = $ibforums->lang['search_title'];
@@ -1205,7 +1176,6 @@ class Search
 
 	/**
 	 * Обновление времени прочтённости топиков
-	 * @author Song
 	 * @param $topics array topic ids to update
 	 */
 	function fill_read_arrays($topics)
@@ -1398,7 +1368,6 @@ class Search
 
 				while ($row = $stmt->fetch())
 				{
-					// Song * club tool
 					if ($row['club'] and $ibforums->functions->check_perms($ibforums->member['club_perms']) == FALSE)
 					{
 						continue;
@@ -1406,15 +1375,14 @@ class Search
 					//обновляем информацию по прочитанности топика
 					$this->fillReadArrayItem($row['forum_id'], $row['tid'], $row['logTime'] );
 
-					// Song * club tool
 					$row['keywords'] = $url_words;
 
 					if ($row['pinned'])
 					{
-						$this->output .= $this->html->RenderPinnedRow($this->parse_entry($row));
+						$this->output .= View::make("search.RenderPinnedRow", ['Data' => $this->parse_entry($row)]);
 					} else
 					{
-						$this->output .= $this->html->RenderRow($this->parse_entry($row));
+						$this->output .= View::make("search.RenderRow", ['Data' => $this->parse_entry($row)]);
 					}
 					$count++;
 				}
@@ -1429,12 +1397,17 @@ class Search
 
 			//--------------------------------------------
 
-			$this->output .= $this->html->end(array(
-			                                       'SHOW_PAGES'    => $this->links,
-			                                       'modform_close' => ($this->modfunctions)
-				                                       ? $this->html->modform_close()
-				                                       : ""
-			                                  ));
+			$this->output .= View::make(
+				"search.end",
+				[
+					'Data' => array(
+						'SHOW_PAGES' => $this->links,
+						'modform_close' => ($this->modfunctions)
+							? View::make("search.modform_close")
+							: ""
+					)
+				]
+			);
 
 		} else
 		{
@@ -1601,14 +1574,12 @@ class Search
 					$row['post'] = $this->parser->my_wordwrap($row['post'], $ibforums->vars['post_wordwrap']);
 				}
 
-				$this->output .= $this->html->RenderPostRow($this->parse_entry($row, 1));
+				$this->output .= View::make("search.RenderPostRow", ['Data' => $this->parse_entry($row, 1)]);
 				$count++;
 			}
 
-			$this->output .= $this->html->end_as_post(array('SHOW_PAGES' => $this->links));
+			$this->output .= View::make("search.end_as_post", ['Data' => array('SHOW_PAGES' => $this->links)]);
 		}
-
-		// Song * club tool
 
 		if ($count <= 0)
 		{
@@ -1617,8 +1588,6 @@ class Search
 			                 'MSG'   => 'no_search_results'
 			            ));
 		}
-
-		// Song * club tool
 
 		$this->page_title = $ibforums->lang['search_results'];
 
@@ -1662,19 +1631,21 @@ class Search
 		                                          'BASE_URL'   => $this->base_url . "act=Select&nav={$ibforums->input['nav']}&CODE=show&CODE_MODE={$ibforums->input['CODE_MODE']}&searchid=" . $this->unique_id . "&search_in=" . $this->search_in . "&result_type=" . $this->result_type . "&new={$ibforums->input['new']}&hl=" . $url_words,
 
 		                                     ));
-		// Song * select forums for "new" search
 
 		if ($ibforums->input['new'] and $ibforums->member['id'])
 		{
-			$button = $this->html->button();
+			$button = View::make("search.button");
 
-			$selector = $this->html->start_search_days();
+			$selector = View::make("search.start_search_days");
 
 			$selected = ($ibforums->member['search_days'] == -1)
 				? " selected='selected'"
 				: "";
 
-			$selector .= $this->html->search_days(-1, $ibforums->lang['search_last_visit'], $selected);
+			$selector .= View::make(
+				"search.search_days",
+				['days' => -1, 'title' => $ibforums->lang['search_last_visit'], 'check' => $selected]
+			);
 
 			for ($i = 1; $i < 15; ++$i)
 			{
@@ -1682,10 +1653,13 @@ class Search
 					? " selected='selected'"
 					: "";
 
-				$selector .= $this->html->search_days($i, sprintf($ibforums->lang['search_days'], $i), $selected);
+				$selector .= View::make(
+					"search.search_days",
+					['days' => $i, 'title' => sprintf($ibforums->lang['search_days'], $i), 'check' => $selected]
+				);
 			}
 
-			$selector .= $this->html->end_search_days();
+			$selector .= View::make("search.end_search_days");
 		} else
 		{
 			$button = "";
@@ -1693,7 +1667,6 @@ class Search
 			$selector = "";
 		}
 
-		//Jureth
 		if ($this->modfunctions)
 		{
 			$searchdata                 = array(
@@ -1702,25 +1675,23 @@ class Search
 				'search_id'   => $this->unique_id,
 				'hl'          => $url_words,
 			);
-			$modcontrol['modform_open'] = $this->html->modform_open($searchdata);
-			$modcontrol['mod_column']   = $this->html->mod_column_head();
+			$modcontrol['modform_open'] = View::make("search.modform_open", ['data' => $searchdata]);
+			$modcontrol['mod_column']   = View::make("search.mod_column_head");
 		}
-
-		// Song * select forums for "new" search
 
 		$out = array(
 			'SHOW_PAGES'  => $this->links,
 			'BUTTON'      => $button,
 			'SEARCH_DAYS' => $selector,
-			'MOD_CONTROL' => $modcontrol, //Jureth
+			'MOD_CONTROL' => $modcontrol,
 		);
 
 		if (!$is_post)
 		{
-			return $this->html->start($out);
+			return View::make("search.start", ['Data' => $out]);
 		} else
 		{
-			return $this->html->start_as_post($out);
+			return View::make("search.start_as_post", ['Data' => $out]);
 		}
 	}
 
@@ -1828,9 +1799,9 @@ class Search
 
 			if ($topics == "")
 			{
-				$this->output .= $this->html->active_start(array('SHOW_PAGES' => ""));
-				$this->output .= $this->html->active_none();
-				$this->output .= $this->html->end("");
+				$this->output .= View::make("search.active_start", ['data' => array('SHOW_PAGES' => "")]);
+				$this->output .= View::make("search.active_none");
+				$this->output .= View::make("search.end", []);
 				$this->page_title = $ibforums->lang['search_results'];
 				$this->nav        = array(
 					"<a href='{$this->base_url}&act=Select'>{$ibforums->lang['search_form']}</a>",
@@ -1909,7 +1880,7 @@ class Search
 		                                    'BASE_URL'   => $this->base_url . "act=Select&CODE=getactive&searchid=$unique_id",
 		                               ));
 
-		$this->output .= $this->html->active_start(array('SHOW_PAGES' => $links));
+		$this->output .= View::make("search.active_start", ['data' => array('SHOW_PAGES' => $links)]);
 
 		// Regex in our selected values.
 
@@ -1925,27 +1896,21 @@ class Search
 
 		while ($row = $stmt->fetch())
 		{
-			// Song * club tool
 			if ($row['club'] and $std->check_perms($ibforums->member['club_perms']) == FALSE)
 			{
 				continue;
 			}
 
 			$count++;
-			// Song * club tool
 			$row['keywords'] = $url_words;
-			$this->output .= $this->html->RenderRow($this->parse_entry($row));
+			$this->output .= View::make("search.RenderRow", ['Data' => $this->parse_entry($row)]);
 
 		}
-
-		// Song * club tool
 
 		if ($count <= 0)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_search_results'));
 		}
-
-		// Song * club tool
 
 		$this->page_title = $ibforums->lang['search_results'];
 		$this->nav        = array(
@@ -1953,7 +1918,7 @@ class Search
 			$ibforums->lang['search_title']
 		);
 
-		$this->output .= $this->html->end(array('SHOW_PAGES' => $links));
+		$this->output .= View::make("search.end", ['Data' => array('SHOW_PAGES' => $links)]);
 
 	}
 
@@ -1977,7 +1942,7 @@ class Search
 		}
 
 		$topic['topic_icon'] = $topic['icon_id']
-			? '<img src="' . $ibforums->vars['img_url'] . '/icon' . $topic['icon_id'] . '.gif" border="0" alt="">'
+			? '<img src="' . $ibforums->skin->getImagesPath() . '/icon' . $topic['icon_id'] . '.gif" border="0" alt="">'
 			: '&nbsp;';
 
 		if ($topic['decided'])
@@ -1995,19 +1960,29 @@ class Search
 
 		$pages = 1;
 
-		//Jureth
 		if ($this->modfunctions)
 		{
 			if ((mb_strpos(',' . $ibforums->member['modforums'] . ',', ',' . $topic['forum_id'] . ',') !== false) or ($ibforums->member['g_is_supmod']))
 			{
-				$topic['mod_checkbox'] = $this->html->mod_checkbox($topic['pinned']
-					? 'pinned_topic'
-					: 'row4', $topic['tid']);
+				$topic['mod_checkbox'] = View::make(
+					"search.mod_checkbox",
+					[
+						'class' => $topic['pinned']
+							? 'pinned_topic'
+							: 'row4',
+						'tid'   => $topic['tid']
+					]
+				);
 			} else
 			{
-				$topic['mod_checkbox'] = $this->html->mod_nocheckbox($topic['pinned']
-					? 'pinned_topic'
-					: 'row4');
+				$topic['mod_checkbox'] = View::make(
+					"search.mod_nocheckbox",
+					[
+						'class' => $topic['pinned']
+							? 'pinned_topic'
+							: 'row4'
+					]
+				);
 			}
 		}
 
@@ -2057,7 +2032,6 @@ class Search
 			$topic['posts'] = 0;
 		}
 
-		// Song * NEW
 		if (!$ibforums->member['id'])
 		{
 			$last_time = '';
@@ -2093,7 +2067,6 @@ class Search
 
 		// icon of topic
 		$topic['folder_img'] = $std->folder_icon($topic, "", $this->read_array[$topic['tid']], $this->read_mark[$topic['forum_id']]);
-		// Song * NEW
 		if ($last_time && ($topic['last_post'] > $last_time))
 		{
 			$topic['go_last_page'] = "<a class='e-view_last_post-button' href='{$this->base_url}showtopic={$topic['tid']}&amp;view=getlastpost'><{GO_LAST_ON}></a>";
@@ -2523,8 +2496,6 @@ class Search
 
 	}
 
-	// Song * forum_list
-
 	function subforums_search_list($children, $id, $level, &$temp_html, $all_checkboxes)
 	{
 		global $std;
@@ -2547,7 +2518,7 @@ class Search
 
 				$checkbox = (!$r['status'] or $r['redirect_on'] or !$r['sub_can_post'])
 					? ""
-					: $this->html->checkbox($r);
+					: View::make("search.checkbox", ['data' => $r]);
 
 				$r['css'] = 'row1';
 
@@ -2560,7 +2531,7 @@ class Search
 
 				$r['name'] = "&nbsp;" . $prefix . " " . $r['name'];
 
-				$temp_html .= $this->html->boardlay_between($r, $checkbox);
+				$temp_html .= View::make("search.boardlay_between", ['data' => $r, 'checkbox' => $checkbox]);
 
 				$this->subforums_search_list($children, $r['id'], $level + 1, $temp_html, $all_checkboxes);
 			}
@@ -2609,7 +2580,7 @@ class Search
 
 		$last_cat_id = -1;
 
-		$this->output .= $this->html->boardlay_start();
+		$this->output .= View::make("search.boardlay_start");
 
 		foreach ($cats as $c)
 		{
@@ -2635,11 +2606,11 @@ class Search
 
 					$checkbox = (!$r['status'] or $r['redirect_on'] or !$r['sub_can_post'])
 						? ""
-						: $this->html->checkbox($r);
+						: View::make("search.checkbox", ['data' => $r]);
 
 					$r['css'] = 'row1';
 
-					$temp_html .= $this->html->boardlay_between($r, $checkbox);
+					$temp_html .= View::make("search.boardlay_between", ['data' => $r, 'checkbox' => $checkbox]);
 
 					$this->subforums_search_list($children, $r['id'], 1, $temp_html, $all_checkboxes);
 				}
@@ -2647,7 +2618,7 @@ class Search
 
 			if ($temp_html)
 			{
-				$this->output .= $this->html->boardlay_between($c);
+				$this->output .= View::make("search.boardlay_between", ['data' => $c]);
 				$this->output .= $temp_html;
 
 				unset($temp_html);
@@ -2655,7 +2626,7 @@ class Search
 
 		}
 
-		$this->output .= $this->html->boardlay_end();
+		$this->output .= View::make("search.boardlay_end");
 
 		$this->page_title = $ibforums->lang['search_title'];
 		$this->nav        = array($ibforums->lang['search_form']);
@@ -2689,7 +2660,7 @@ class Search
 			}
 		}
 
-		$this->output .= $this->html->boardlay_successful();
+		$this->output .= View::make("search.boardlay_successful");
 
 		$this->page_title = $ibforums->lang['search_title'];
 		$this->nav        = array($ibforums->lang['search_form']);
@@ -2698,10 +2669,6 @@ class Search
 		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
 
 	}
-
-	// Song * forum_list
-
-	// Song * endless forums, 20.12.04
 
 	function subforums_addtoform($id, &$children, $level = '')
 	{
@@ -2729,10 +2696,6 @@ class Search
 		return $html;
 
 	}
-
-	// Song * endless forums, 20.12.04
-
-	// Song * selected search, 12.03.05
 
 	function change_days()
 	{

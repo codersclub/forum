@@ -75,13 +75,6 @@ class ad_syntax
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
 
-		// vot debug
-		//foreach($IN as $k=>$v)
-		//{
-		//echo $k."=>".$v."<br>\n";
-		//}
-		//echo "-------------------------<br>\n";
-
 		if ($IN['code'] == 'delete')
 		{
 			$n           = 0;
@@ -276,8 +269,6 @@ class ad_syntax
 			$this->syntax_list[$n++] = array($row['id'], $row['syntax'] . " - " . $row['description']);
 		}
 
-		// Song * new forums list, 04.01.05
-
 		$cats     = array();
 		$forums   = array();
 		$children = array();
@@ -354,25 +345,16 @@ class ad_syntax
 
 						                                  ));
 					}
-
-					// Song * infinite subforums, 04.01.05
 					$this->subforums_addtorow($children, $r['id'], 0);
-
-					// Song * infinite subforums, 04.01.05
-
 				}
 			}
 		}
-
-		// Song * new forums list, 04.01.05
 
 		$ADMIN->html .= $SKIN->end_form("Apply");
 		$ADMIN->html .= $SKIN->end_table();
 
 		$ADMIN->output();
 	}
-
-	// Song * endless forums, 04.01.05
 
 	function subforums_addtorow($children, $id, $level)
 	{
@@ -421,8 +403,6 @@ class ad_syntax
 
 			$this->subforums_addtorow($children, $rd['id'], $level + 1);
 		}
-
-		// Song * endless forums, 04.01.05
 
 	}
 

@@ -19,6 +19,8 @@
 +--------------------------------------------------------------------------
 */
 
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -112,7 +114,7 @@ class post_functions extends Post
 
 		$this->poll_choices .= "<br>";
 
-		$this->poll_choices = str_replace('<br><br>', '<br>', $this->poll_choices); // Jureth: added <br> to the result text
+		$this->poll_choices = str_replace('<br><br>', '<br>', $this->poll_choices);
 
 		$this->poll_choices = preg_replace('/<br>/e', '$this->regex_count_choices()', $this->poll_choices);
 
@@ -125,8 +127,6 @@ class post_functions extends Post
 		{
 			$class->obj['post_errors'] = 'poll_not_enough';
 		}
-
-		// Song * multiple chices
 
 		if ($ibforums->input['multi_poll'])
 		{
@@ -145,8 +145,6 @@ class post_functions extends Post
 		{
 			$class->obj['post_errors'] = 'weighted_poll_min_error';
 		}
-
-		// Song * multiple chices
 
 		//-------------------------------------------------
 		// If we don't have any errors yet, parse the upload
@@ -180,8 +178,7 @@ class post_functions extends Post
 		//-------------------------------------------------
 
 		$poll_array = array();
-		// Jureth	$count       = 0;
-		$count = 1; // Jureth
+		$count = 1;
 
 		$polls = explode("<br>", $this->poll_choices);
 
@@ -319,7 +316,6 @@ class post_functions extends Post
 			'starter_id'           => $ibforums->member['id'],
 			'votes'                => 0,
 			'poll_question'        => $class->parser->bad_words($ibforums->input['pollq']),
-			// Song * multiple choices
 			'is_multi_poll'        => ($ibforums->input['multi_poll'])
 				? 1
 				: 0,
@@ -335,11 +331,7 @@ class post_functions extends Post
 			'weighted_poll_places' => ($ibforums->input['weighted_poll'])
 				? $ibforums->input['weighted_poll_places']
 				: 0,
-			// Song * multiple choices
-
 		);
-
-		// Song * poll life, 25.03.05
 
 		$life = intval($ibforums->input['life']);
 
@@ -432,14 +424,10 @@ class post_functions extends Post
 			$module = new module();
 			$ibforums->db->exec("UPDATE ibf_members SET " . $pcount . $mgroup . $module->post_points($ibforums->vars['pointsper_poll']) . "last_post='" . $ibforums->member['last_post'] . "'" . "WHERE id='" . $ibforums->member['id'] . "'");
 
-			// Song * additional flood control
-
 		} else
 		{
 			$ibforums->db->exec("UPDATE ibf_sessions SET last_post='" . time() . "' WHERE id='" . $sess->session_id . "'");
 		}
-
-		// Song * additional flood control
 
 		//-------------------------------------------------
 		// Set a last post time cookie
@@ -491,13 +479,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= $class->html->errors($ibforums->lang[$class->obj['post_errors']]);
+			$class->output .= View::make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= $class->html->errors($error_message);
+				$class->output .= View::make("post.errors", ['data' => $error_message]);
 			}
 		}
 
@@ -509,7 +497,7 @@ class post_functions extends Post
 			                                                                                 'SMILIES' => $ibforums->input['enableemo'],
 			                                                                                 'HTML'    => $class->forum['use_html']
 			                                                                            )), $class->forum['use_html']);
-			$class->output .= $class->html->preview($this->post['post']);
+			$class->output .= View::make("post.preview", ['data' => $this->post['post']]);
 		}
 
 		$extra = "";
@@ -537,13 +525,19 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$topic_title = $class->html->topictitle_fields(array('TITLE' => $topic_title, 'DESC' => $topic_desc));
+		$topic_title = View::make(
+			"post.topictitle_fields",
+			['data' => array('TITLE' => $topic_title, 'DESC' => $topic_desc)]
+		);
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_poll']}: {$class->forum['name']}");
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_poll']}: {$class->forum['name']}"]
+		);
 
 		$name_fields = $class->html_name_field();
 
@@ -551,15 +545,15 @@ class post_functions extends Post
 
 		$mod_options = $class->mod_options();
 
-		$poll_box = $class->html->poll_box($poll, $extra);
+		$poll_box = View::make("post.poll_box", ['data' => $poll, 'extra' => $extra]);
 
-		$end_form = $class->html->EndForm($ibforums->lang['submit_poll']);
+		$end_form = View::make("post.EndForm", ['data' => $ibforums->lang['submit_poll']]);
 
 		$post_icons = $class->html_post_icons();
 
 		if ($class->obj['can_upload'])
 		{
-			$upload_field = $class->html->Upload_field($ibforums->member['g_attach_max'] * 1024);
+			$upload_field = View::make("post.Upload_field", ['data' => $ibforums->member['g_attach_max'] * 1024]);
 		}
 
 		//---------------------------------------
@@ -573,8 +567,6 @@ class post_functions extends Post
 		$class->output = preg_replace("/<!--END TABLE-->/", "$end_form", $class->output);
 		$class->output = preg_replace("/<!--TOPIC TITLE-->/", "$topic_title", $class->output);
 		$class->output = preg_replace("/<!--POLL BOX-->/", "$poll_box", $class->output);
-
-		// Song * IBF forum rules
 
 		if ($class->forum['show_rules'])
 		{
@@ -600,13 +592,11 @@ class post_functions extends Post
 			}
 		}
 
-		// Song * IBF forum rules
-
 		$class->output = str_replace("<!--FORUM RULES-->", $std->print_forum_rules($class->forum), $class->output);
 
 		if ($ibforums->vars['poll_disable_noreply'] != 1)
 		{
-			$class->output = str_replace("<!--IBF.POLL_OPTIONS-->", $class->html->poll_options(), $class->output);
+			$class->output = str_replace("<!--IBF.POLL_OPTIONS-->", View::make('post.poll_options'), $class->output);
 		}
 
 		//---------------------------------------

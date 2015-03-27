@@ -31,7 +31,6 @@ function pm_popup() { window.open('index.php?act=Msg&CODE=99&s=' + session_id,'N
 
 //--------------------------------------------------------------
 // Expand/Collapse DIV
-//  by vot + MichSpar + Jureth
 //--------------------------------------------------------------
 function hasClass(e,cls) {
   return e.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
@@ -43,7 +42,7 @@ function changeClass(e,class_old,class_new) {
   }
 }
 
-function openClose(node){ // TODO: переделать на jQuery
+function openClose(node){ // TODO: РїРµСЂРµРґРµР»Р°С‚СЊ РЅР° jQuery
 	if(hasClass(node, 'closed')) {
 		changeClass(node, 'closed', 'open');
 	} else {
@@ -104,10 +103,11 @@ function syntax_get_code_tag(el)
 	return $(el).parent().siblings('.code');
 }
 
-function addClass(ele,cls) { // TODO: переделать на jQuery
+function addClass(ele,cls) { // TODO: РїРµСЂРµРґРµР»Р°С‚СЊ РЅР° jQuery
 	if (!hasClass(ele,cls)) ele.className += " "+cls;
 }
-function removeClass(ele,cls) {	 // TODO: переделать на jQuery
+
+function removeClass(ele,cls) {	 // TODO: РїРµСЂРµРґРµР»Р°С‚СЊ РЅР° jQuery
 	if (hasClass(ele,cls)) {
 		var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
 		ele.className=ele.className.replace(reg,' ');
@@ -152,7 +152,7 @@ function syntax_numbering(el,tag_id)
 {
 	var div = syntax_get_code_tag(el);
 	/*
-	 * отключаю нумерацию именно таким способом, ибо FF копирует "<li>траляля</li>" как "# траляля" вместо "траляля"
+	 * РѕС‚РєР»СЋС‡Р°СЋ РЅСѓРјРµСЂР°С†РёСЋ РёРјРµРЅРЅРѕ С‚Р°РєРёРј СЃРїРѕСЃРѕР±РѕРј, РёР±Рѕ FF РєРѕРїРёСЂСѓРµС‚ "<li>С‚СЂР°Р»СЏР»СЏ</li>" РєР°Рє "# С‚СЂР°Р»СЏР»СЏ" РІРјРµСЃС‚Рѕ "С‚СЂР°Р»СЏР»СЏ"
 	 */
 	if (div.hasClass( 'code_numbered')) {
 		div.html(div.html().replace(/<li[^>]*>/gi, '<div class="code_line">').replace(/<\/li>/gi, '</div>'));
@@ -209,7 +209,7 @@ function syntax_add_show_controls_on_mouseenter() {
 	});
 }
 /**
- * предварительно подгружает картинки для переключения режимов тега [code]
+ * РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕ РїРѕРґРіСЂСѓР¶Р°РµС‚ РєР°СЂС‚РёРЅРєРё РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ СЂРµР¶РёРјРѕРІ С‚РµРіР° [code]
  * @param tag_id
  */
 function preloadCodeButtons(tag_id)
@@ -260,7 +260,7 @@ function PopUpCD(url, d_width,d_height) {
 // First string will be used for title
     if (last=document.getElementById('dialog')) document.body.removeChild(last);
 
-    title = 'Загрузка...';
+    title = 'Р—Р°РіСЂСѓР·РєР°...';
 
     text = "<div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'></div></div></div>";
 
@@ -288,6 +288,134 @@ function PopUpCD(url, d_width,d_height) {
 	    $('#dialog').jqcd_set_caption(title);
 	    $('#dialog').jqcd_set_content(con);
     });
+}
 
+function add_smilie(code)
+{
+	opener.document.REPLIER.Post.value += code;
+}
 
+function ShowHide(id1, id2) {
+	if (id1 != '') expMenu(id1);
+	if (id2 != '') expMenu(id2);
+}
+function expMenu(id) {
+	var itm = null;
+	if (document.getElementById) {
+		itm = document.getElementById(id);
+	} else if (document.all){
+		itm = document.all[id];
+	} else if (document.layers){
+		itm = document.layers[id];
+	}
+	if (!itm) {
+		// do nothing
+	}
+	else if (itm.style) {
+		if (itm.style.display == "none") { itm.style.display = ""; }
+		else { itm.style.display = "none"; }
+	}
+	else { itm.visibility = "show"; }
+}
+
+function chk_multi() {
+	document.REPLIER.multi_poll.checked = true
+	document.REPLIER.weighted_poll.checked = false;
+}
+function off_weighted() {
+	document.REPLIER.weighted_poll.checked = false;
+}
+
+function chk_weighted() {
+	document.REPLIER.multi_poll.checked = false;
+	document.REPLIER.weighted_poll.checked = true;
+}
+function off_multi() {
+	document.REPLIER.multi_poll.checked = false;
+}
+
+//calendar
+function changeDiv(id, method)
+{
+	var itm = null;
+	if (document.getElementById) {
+		itm = document.getElementById(id);
+	} else if (document.all)     {
+		itm = document.all[id];
+	} else if (document.layers)   {
+		itm = document.layers[id];
+	}
+
+	if (itm.style)
+	{
+		if ( method == 'show' )
+		{
+			itm.style.display = "";
+		}
+		else
+		{
+			itm.style.display = "none";
+		}
+	}
+	else
+	{
+		itm.visibility = "show";
+	}
+}
+
+function selecttype()
+{
+
+	if ( document.REPLIER.eventtype[1].checked == true )
+	{
+		// Ranged date...
+
+		changeDiv( 'rangeshow', 'show' );
+		changeDiv( 'rangehide', 'none' );
+		changeDiv( 'recurshow', 'none' );
+		changeDiv( 'recurhide', 'show' );
+	}
+	else if ( document.REPLIER.eventtype[2].checked == true )
+	{
+		// Repeating event
+
+		changeDiv( 'rangeshow', 'none' );
+		changeDiv( 'rangehide', 'show' );
+		changeDiv( 'recurshow', 'show' );
+		changeDiv( 'recurhide', 'none' );
+	}
+	else
+	{
+		changeDiv( 'rangeshow', 'none' );
+		changeDiv( 'rangehide', 'show' );
+		changeDiv( 'recurshow', 'none' );
+		changeDiv( 'recurhide', 'show' );
+	}
+}
+
+function changeColour(BOXid, val)
+{
+	document.all.BOXid.style.backgroundColor = val;
+}
+
+function deleteEvent(id) {
+	if (confirm(js_del_1)) {
+		window.location.href = base_url + "act=calendar&code=delete&e=" + id;
+	}
+else {
+		alert (js_del_2);
+	}
+}
+
+function ValidateForm() {
+	document.REPLIER.submit.disabled = true;
+	return true;
+}
+
+function doInsert(value,txt)
+{
+	if ( value == -1 ) return;
+	var reason = document.WARN.reason;
+	reason.value += txt;
+	reason.focus();
 }

@@ -223,7 +223,6 @@ class modfunctions
 
 	}
 
-	// Song * show/hide topics
 	//------------------------------------------------------
 	// @topic_hide: hide topic ID's
 	// -----------
@@ -240,7 +239,6 @@ class modfunctions
 		$this->stm_exec($id);
 	}
 
-	// Song * show/hide topics
 	//------------------------------------------------------
 	// @topic_show: show topic ID's
 	// -----------
@@ -378,8 +376,6 @@ class modfunctions
 		// Remove polls assigned to this topic
 		//------------------------------------
 
-		// vot: BAD QUERY: post NOT LIKE
-
 		$stmt = $ibforums->db->query("SELECT p.author_id
 			    FROM
 				ibf_posts p,
@@ -446,15 +442,10 @@ class modfunctions
 		}
 
 		//------------------------------------
-		// vot:
 		// Remove search words for this topic
 		//------------------------------------
 
 		$std->index_del_topics($tid);
-
-		//		$ibforums->db->exec("DELETE
-		//			    FROM ibf_search
-		//			    WHERE tid".$tid);
 
 		//------------------------------------
 		// Remove the posts
@@ -482,9 +473,6 @@ class modfunctions
 		$this->stats_recount();
 
 	}
-
-	//--------------------------------------------------
-	// Song * leave message within transfering or mirroring topic
 
 	function leave_message($source, $moveto, $topic, $is_mirror = false)
 	{
@@ -587,10 +575,8 @@ class modfunctions
 
 	}
 
-	// vot: BAD - strange function. WHY TO CHANGE the code tag???
-
 	//--------------------------------------------------
-	// Song * change CODE tag within moving
+	// change CODE tag within moving
 
 	function syntax($code, $syntax)
 	{
@@ -652,7 +638,6 @@ class modfunctions
 	// Returns: NOTHING (TRUE/FALSE)
 	//------------------------------------------------------
 	//
-	// Jureth: Multisource patch. $source now is ( array | string )
 	// Arrays must be in form $topic_id=>$forum_id
 	//------------------------------------------------------
 
@@ -662,11 +647,10 @@ class modfunctions
 
 		$this->error = "";
 
-		$moveto = intval($moveto); //Jureth
+		$moveto = intval($moveto);
 
 		if (is_array($topics))
 		{
-			//Jureth
 			if (!is_array($source))
 			{
 				$source = array_fill_keys($topics, $source);
@@ -682,11 +666,9 @@ class modfunctions
 			}
 		} else
 		{
-			//Jureth
 			if (!is_array($source))
 			{
-				//Jureth				$source[$topics] = $source;
-				$source = array($topics => $source); //Jureth: fucked 5 version! (c)not me!!!!
+				$source = array($topics => $source);
 			}
 			$sourcequery = "=" . $source[$topics];
 
@@ -699,8 +681,8 @@ class modfunctions
 			}
 		}
 
-		// Song * permit activation topic if the destination forum is
-		// moderated within topics, 06.04.2005
+		// permit activation topic if the destination forum is
+		// moderated within topics
 
 		$preview = "";
 
@@ -734,10 +716,6 @@ class modfunctions
 		// Update the posts
 		//----------------------------------
 
-		// Song * change code tag
-
-		// vot: BAD QUERY: LIKE
-
 		$stmt = $ibforums->db->query("SELECT
 					pid,
 					post,
@@ -750,8 +728,8 @@ class modfunctions
 
 		while ($post = $stmt->fetch())
 		{
-			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", //Jureth					 "\$this->regex_code_syntax('\\3', '\\2', ".$source.")", $post['post']) and
-				"\$this->regex_code_syntax('\\3', '\\2', " . $source[$post['topic_id']] . ")", $post['post']) and //Jureth
+			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies",
+				"\$this->regex_code_syntax('\\3', '\\2', " . $source[$post['topic_id']] . ")", $post['post']) and
 			    $txt != $post['post']
 			)
 			{
@@ -773,7 +751,7 @@ class modfunctions
 
 		//==================================
 		//----------------------------------
-		// vot: Indexed search
+		// Indexed search
 		// Move search words to new forum
 		//----------------------------------
 
@@ -838,7 +816,7 @@ class modfunctions
 					'start_date'       => $row['start_date'],
 					'starter_name'     => $row['starter_name'],
 					'last_post'        => $row['last_post'],
-					'forum_id'         => $source[$row['tid']], //Jureth
+					'forum_id'         => $source[$row['tid']],
 					'approved'         => 1,
 					'pinned'           => 0,
 					'moved_to'         => $row['tid'] . '&' . $moveto . $move_string,
@@ -857,16 +835,15 @@ class modfunctions
 			{
 				foreach ($topics as $topic)
 				{
-					$this->leave_message($source[$topic], $moveto, $topic); //Jureth
+					$this->leave_message($source[$topic], $moveto, $topic);
 				}
-			} //Jureth			else $this->leave_message($source[$topic],$moveto,$topics); //Jureth
+			}
 			else
 			{
 				$this->leave_message($source[$topics], $moveto, $topics);
-			} //Jureth
+			}
 		}
 
-		// Song * NEW
 		// change fid id for transfering topic
 		$ibforums->db->exec("UPDATE ibf_log_topics
 			    SET
@@ -951,10 +928,6 @@ class modfunctions
 	// Accepts: $topics (array | string) $source,
 	//          $moveto
 	// Returns: NOTHING (TRUE/FALSE)
-	//------------------------------------------------------
-	//
-	// Jureth: Multisource patch. $source now is ( array | string )
-	// Arrays must be in form $topic_id=>$forum_id
 	//------------------------------------------------------
 
 	function topic_mirror_to_another_forum($topics, $source, $moveto, $leavelink = 0)
@@ -1069,8 +1042,6 @@ class modfunctions
 				'has_mirror' => 1,
 			];
 			$ibforums->db->updateRow("ibf_topics", $data, "tid $tid");
-			// Song * NEW
-			// change fid id for transfering topic
 			$ibforums->db->exec("UPDATE ibf_log_topics
 					    SET
 						fid=$current_move_forum,
@@ -1089,7 +1060,7 @@ class modfunctions
 
 		foreach ($topics as $topic)
 		{
-			$this->leave_message($moveto, $source[$topic], $topic, true); //Jureth
+			$this->leave_message($moveto, $source[$topic], $topic, true);
 		}
 
 		//----------------------------------
@@ -1266,7 +1237,7 @@ class modfunctions
 		$topics = $stmt->fetch();
 
 		//---------------------------------------------
-		// Jureth: Get premoderated topics...
+		// Get premoderated topics...
 		//---------------------------------------------
 		$stmt          = $ibforums->db->query("SELECT `approved`
 			    FROM ibf_topics
@@ -1288,7 +1259,7 @@ class modfunctions
 		$posts = $stmt->fetch();
 
 		//---------------------------------------------
-		// Jureth: Get premoderated posts
+		// Get premoderated posts
 		//---------------------------------------------
 		$stmt         = $ibforums->db->query("SELECT `queued`
 			    FROM ibf_posts
@@ -1419,7 +1390,6 @@ class modfunctions
 		}
 	}
 
-	// Song * show/hide topics
 	//------------------------------------------------------
 	// @stm_add_hide: add hide command to statement
 	// -----------
@@ -1490,20 +1460,14 @@ class modfunctions
 	{
 		global $ibforums;
 
-		// vot: BAD MESSAGE. NEED TO LOAD LANGUAGE FILE
-
 		if ($ibforums->input['why_close'] == 'Введите причину закрытия темы: ')
 		{
 			$ibforums->input['why_close'] = "";
 		}
 
-		// Song * why_close topic
-
 		$parser = new PostParser();
 
 		$ibforums->input['why_close'] = $parser->macro($ibforums->input['why_close']);
-
-		// vot: BAD MESSAGE. NEED TO LOAD LANGUAGE FILE
 
 		$ibforums->input['why_close'] = '[b][size=5][color=red]Закрыто[/color][/size] ' . $ibforums->member['name'] . '[/b] ' . date('d-m-Y', time()) . ': ' . $ibforums->input['why_close'];
 

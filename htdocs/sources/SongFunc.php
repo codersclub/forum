@@ -55,10 +55,6 @@ class SongFunc
 			case 'club_enable':
 				$this->club_member_enable($ibforums->input['mid']);
 				break;
-			case 'my_func':
-				$this->output = $this->my_func();
-				break;
-
 			default:
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				break;
@@ -94,40 +90,11 @@ class SongFunc
 
 	}
 
-	function my_func()
-	{
-		global $ibforums;
-
-		if ($ibforums->member['id'] != 2)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
-		}
-
-		$stmt = $ibforums->db->query("SELECT m.id,m.last_activity
-		    FROM ibf_check_members cm, ibf_members m
-		    WHERE cm.mid=m.id and m.last_activity != cm.last_visit and m.last_activity > 0");
-
-		while ($member = $stmt->fetch())
-		{
-			$ibforums->db->exec("UPDATE ibf_check_members SET last_visit='" . $member['last_activity'] . "' WHERE mid='" . $member['id'] . "'");
-		}
-
-		return "Done!";
-
-	}
-
 	function club_member_enable($mid = 0)
 	{
 		global $ibforums, $std;
 
 		$mid = intval($mid);
-		// vot: debug
-		//echo "mid=$mid<br>\n";
-		//echo "member[id]=".$ibforums->member['id']."<br>\n";
-		//echo "member[g_is_supmod]=".$ibforums->member['g_is_supmod']."<br>\n";
-		//echo "vars[member_group]=".$ibforums->vars['member_group']."<br>\n";
-		//echo "vars[club_boss]=".$ibforums->vars['club_boss']."<br>\n";
-		//echo "vars[club_group]=".$ibforums->vars['club_group']."<br>\n";
 
 		if (!$ibforums->member['id'] or
 		    !$mid or
@@ -453,19 +420,9 @@ class SongFunc
 				{
 					$select->execute([$word]);
 					if ($select->rowCount()){
-//						$id = $select->fetchColumn();
 					}else{
 						$insert->execute([$word]);
-//						$id = $ibforums->db->lastInsertId();
 					}
-					// add word record
-//no such table -- jureth
-//					if ($id)
-//					{
-//						$ibforums->db->exec("INSERT INGORE INTO ibf_search_post_words VALUES (" . $post['pid'] . ",
-//					   " . $post['topic_id'] . "," . $post['forum_id'] . ",
-//					    " . $id . ")");
-//					}
 				}
 			}
 

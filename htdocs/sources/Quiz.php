@@ -15,6 +15,7 @@
   | You may edit this file as long as you retain this Copyright notice.	 |
   | Redistribution not permitted without permission from Zachary Anker.	 |
   \*--------------------------------------------------------------------- */
+use Views\View;
 
 $quiz = new quiz;
 
@@ -46,8 +47,6 @@ class quiz
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_post', $ibforums->lang_id);
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_quiz', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_quiz');
 
 		if (!$ibforums->vars['store_guest'] && $ibforums->member['id'] == 0)
 		{
@@ -124,7 +123,7 @@ class quiz
 
 		// add all of are skin output
 
-		$this->output .= $this->html->end_page();
+		$this->output .= View::make("quiz.end_page");
 
 		if ($ibforums->vars['ibstore_safty'] == 1)
 		{
@@ -345,9 +344,9 @@ class quiz
 		//					 )      );
 		//form_multiselect( "quiz_items[]", $items, $settings['items_won'],$rows);
 
-		$this->output .= $this->html->quiz_edit_header($settings);
+		$this->output .= View::make("quiz.quiz_edit_header", ['settings' => $settings]);
 
-		$this->output .= $this->html->quiz_q_a_submit();
+		$this->output .= View::make("quiz.quiz_q_a_submit");
 	}
 
 	//------------------------------------
@@ -615,7 +614,7 @@ class quiz
 
 		$this->page_title = $ibforums->lang['questions_nav'];
 
-		$this->output .= $this->html->quiz_question_header($settings);
+		$this->output .= View::make("quiz.quiz_question_header", ['settings' => $settings]);
 
 		//--------------------------------
 		// Get all the Quiz questions
@@ -639,11 +638,11 @@ class quiz
 
 			$quiz['question'] = stripslashes($quiz['question']);
 
-			$this->output .= $this->html->edit_question($n, $quiz);
+			$this->output .= View::make("quiz.edit_question", ['nq' => $n, 'quiz' => $quiz]);
 			$n++;
 		}
 
-		$this->output .= $this->html->quiz_q_a_submit();
+		$this->output .= View::make("quiz.quiz_q_a_submit");
 	}
 
 	//---------------------------------------------
@@ -752,7 +751,7 @@ class quiz
 
 		// Make Header
 
-		$this->output .= $this->html->quiz_u_a_header($quiz, $member);
+		$this->output .= View::make("quiz.quiz_u_a_header", ['settings' => $quiz, 'member' => $member]);
 
 		// Loop for all the questions
 
@@ -765,7 +764,7 @@ class quiz
 
 			$q['user_answer'] = $answers[$q['mid']];
 
-			$this->output .= $this->html->user_answer($q);
+			$this->output .= View::make("quiz.user_answer", ['info' => $q]);
 		}
 	}
 
@@ -979,7 +978,7 @@ class quiz
 		//    $row['quiz_desc'] = str_replace("\n","<br>",$row['quiz_desc']);
 		//    $row['post'] = str_replace("\n","<br>",$row['post']);
 
-		$this->output .= $this->html->quiz_results_header($qid, $row['quizname']);
+		$this->output .= View::make("quiz.quiz_results_header", ['id' => $qid, 'title' => $row['quizname']]);
 
 		// Get all playing members
 		$stmt = $ibforums->db->query("SELECT f.*, m.name,m.id
@@ -1010,7 +1009,7 @@ class quiz
 
 			$member['time_took'] = $m . ":" . $s;
 
-			$this->output .= $this->html->quiz_results_results($member, $place);
+			$this->output .= View::make("quiz.quiz_results_results", ['member' => $member, 'place' => $place]);
 		}
 	}
 
@@ -1206,14 +1205,15 @@ class quiz
 				$close_check['plays_left'] = $ibforums->lang['none_played'];
 			}
 
-			$this->output = str_replace("<!--Plays Left Header-->", $this->html->plays_left_header(), $this->output);
-			$this->output = str_replace("<!--Plays Left Middle-->", $this->html->plays_left_middle($close_check['plays_left']), $this->output);
+			$this->output = str_replace("<!--Plays Left Header-->", View::make("quiz.plays_left_header"), $this->output);
+			$this->output = str_replace("<!--Plays Left Middle-->",
+				View::make("quiz.plays_left_middle", ['plays' => $close_check['plays_left']]), $this->output);
 		}
 
 		$row['post'] = str_replace("\r", "", $row['post']);
 		$row['post'] = str_replace("\n", "<br>", $row['post']);
 
-		$this->output .= $this->html->quiz_show($row, $member);
+		$this->output .= View::make("quiz.quiz_show", ['post' => $row, 'author' => $member]);
 	}
 
 	//---------------------------------------------
@@ -1242,11 +1242,16 @@ class quiz
 			$quiz_button = "";
 		}
 
-		$this->output .= $this->html->quiz_header(array(
-		                                               'name'        => $ibforums->lang['quiz_nav'],
-		                                               'last_column' => '',
-		                                               'QUIZ_BUTTON' => $quiz_button
-		                                          ));
+		$this->output .= View::make(
+			"quiz.quiz_header",
+			[
+				'data' => array(
+					'name' => $ibforums->lang['quiz_nav'],
+					'last_column' => '',
+					'QUIZ_BUTTON' => $quiz_button
+				)
+			]
+		);
 
 		if ($ibforums->member['mgroup'] != $ibforums->vars['admin_group'])
 		{
@@ -1321,7 +1326,7 @@ class quiz
 
 			$quiz['quiz_status'] = ucfirst(mb_strtolower($quiz['quiz_status']));
 			$quiz['amount_won']  = $std->do_number_format($quiz['amount_won']);
-			$this->output .= $this->html->list_quiz($quiz);
+			$this->output .= View::make("quiz.list_quiz", ['data' => $quiz]);
 
 			if ($ibforums->vars['showplaysleft'])
 			{
@@ -1330,8 +1335,10 @@ class quiz
 					$close_check['plays_left'] = $ibforums->lang['none_played'];
 				}
 
-				$this->output = str_replace("<!--Plays Left Header-->", $this->html->plays_left_header(), $this->output);
-				$this->output = str_replace("<!--Plays Left Middle-->", $this->html->plays_left_middle($close_check['plays_left']), $this->output);
+				$this->output = str_replace("<!--Plays Left Header-->",
+					View::make("quiz.plays_left_header"), $this->output);
+				$this->output = str_replace("<!--Plays Left Middle-->",
+					View::make("quiz.plays_left_middle", ['plays' => $close_check['plays_left']]), $this->output);
 			}
 		}
 	}
@@ -1415,7 +1422,7 @@ class quiz
 		$settings['quiz_desc'] = str_replace("\n", "<br>", $settings['quiz_desc']);
 		$settings['post']      = str_replace("\n", "<br>", $settings['post']);
 
-		$this->output .= $this->html->quiz_q_a_header($settings);
+		$this->output .= View::make("quiz.quiz_q_a_header", ['settings' => $settings]);
 
 		//--------------------------------
 		// Get all the Quiz questions
@@ -1466,7 +1473,7 @@ class quiz
 				$quiz['answer'] = stripslashes($quiz['answer']);
 				$n++;
 				//echo $n.". ".$quiz['answer']."<br>\n";
-				$this->output .= $this->html->single_question($n, $quiz);
+				$this->output .= View::make("quiz.single_question", ['num' => $n, 'info' => $quiz]);
 				//echo "single.<br>\n";
 			} //----------------------
 			// DROPDOWN
@@ -1492,7 +1499,7 @@ class quiz
 				$quiz['dropdown'] .= "</select>";
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= $this->html->dropdown_question($n, $quiz);
+				$this->output .= View::make("quiz.dropdown_question", ['num' => $n, 'info' => $quiz]);
 			} //----------------------
 			// RADIO
 
@@ -1516,7 +1523,7 @@ class quiz
 
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= $this->html->dropdown_question($n, $quiz);
+				$this->output .= View::make("quiz.dropdown_question", ['num' => $n, 'info' => $quiz]);
 			} //----------------------
 			// CHECKBOX
 
@@ -1542,7 +1549,7 @@ class quiz
 
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= $this->html->dropdown_question($n, $quiz);
+				$this->output .= View::make("quiz.dropdown_question", ['num' => $n, 'info' => $quiz]);
 			} //----------------------
 			// OPINION
 
@@ -1556,14 +1563,14 @@ class quiz
 
 				//    	$quiz['question'] = stripslashes($quiz['question']);
 				$n++;
-				$this->output .= $this->html->opinion_question($n, $quiz);
+				$this->output .= View::make("quiz.opinion_question", ['num' => $n, 'info' => $quiz]);
 			} else
 			{
 				//echo "???.<br>\n";
 			}
 		}
 
-		$this->output .= $this->html->quiz_q_a_submit();
+		$this->output .= View::make("quiz.quiz_q_a_submit");
 	}
 
 	//---------------------------------------------
@@ -1574,10 +1581,10 @@ class quiz
 	{
 		global $ibforums, $std, $print, $lib, $HTTP_POST_VARS;
 
-		$debug = 0; // vot: For debug purposes !!!
-		// vot: 0 = no debug messages;
-		// vot: 1 = show correct/wrong answers
-		// vot: 2 = answers + form variables
+		$debug = 0; // For debug purposes !!!
+		// 0 = no debug messages;
+		// 1 = show correct/wrong answers
+		// 2 = answers + form variables
 
 		if ($ibforums->member['id'] <= 0)
 		{
@@ -1879,7 +1886,7 @@ class quiz
 			{
 				$quiz_items = explode("|", $quiz['quiz_items']);
 
-				// !!! vot: HAVE TO CHECK - If the item NOT sold!!!
+				// HAVE TO CHECK - If the item NOT sold!!!
 
 				foreach ($quiz_items as $items)
 				{
@@ -1924,7 +1931,7 @@ class quiz
 		$msg = str_replace("<WIN_AMOUNT>", $quiz['amount_won'], $msg);
 		$msg = str_replace("<QUIZ_PERCENT_NEEDED>", $quiz['percent_needed'], $msg);
 
-		// vot: !!! MAY BE - Redirect to the Quiz results???
+		// !!! MAY BE - Redirect to the Quiz results???
 		//    http://devel/index.php?act=quiz&code=quiz_results&quiz_id=1
 
 		$lib->redirect($msg, "act=quiz&" . $extra_location, 1);
@@ -2062,9 +2069,9 @@ class quiz
 		{
 			$message = $msg;
 		}
-		$html .= $this->html->error();
-		$html .= $this->html->error_row($message);
-		$html .= $this->html->end_page();
+		$html .= View::make("quiz.error");
+		$html .= View::make("quiz.error_row", ['message' => $message]);
+		$html .= View::make("quiz.end_page");
 		// If you wish to remove it you will have to pay the 40$ fee.
 		// See: www.outlaw.ipbhost.com/store/services.php for more infomation on how to pay.
 		//	$html .= "<br/><div align='center' class='copyright'>Powered by <a href=\"http://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='http://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
@@ -2141,11 +2148,11 @@ class quiz
 
 		$mid = $ibforums->input['mid'];
 
-		$output = $this->html->ShowTitle();
+		$output = View::make("quiz.ShowTitle");
 
-		$output .= $this->html->ShowHeader();
+		$output .= View::make("quiz.ShowHeader");
 
-		$output .= $this->html->ShowFooter();
+		$output .= View::make("quiz.ShowFooter");
 
 		$print->add_output("$output");
 
@@ -2160,12 +2167,8 @@ class quiz
 	{
 		global $ibforums;
 
-		// Song * Reputation + show ratting setting
-
 		if ((!$ibforums->member['id'] or $ibforums->member['show_ratting']) and $member['show_ratting'] and !$member['use_sig'])
 		{
-
-			// Song * dual ratting, 15.01.05
 
 			$rep = ($this->forum['inc_postcount'])
 				? $member['rep']
@@ -2241,8 +2244,7 @@ class quiz
 		if ($member['rep'])
 			$member['rep'] .= "<br>";
 
-		// /Song * Reputation + show ratting setting
-		// Song * WARNINGS
+		// /Reputation + show ratting setting
 		if ($ibforums->vars['warn_on'] and !stristr($ibforums->vars['warn_protected'], ',' . $member['mgroup'] . ','))
 		{
 			if ($ibforums->member['id'] != $member['id'] and ($ibforums->member['g_is_supmod'] or $this->moderator['allow_warn']))
@@ -2266,7 +2268,10 @@ class quiz
 				$member['warn_img'] = " [ " . $member['warn_level'] . " ] ";
 
 				$member['warn_text'] = $ibforums->lang['tt_rating'];
-				$member['warn_text'] = $this->html->warn_title($member['id'], $member['warn_text']);
+				$member['warn_text'] = View::make(
+					"quiz.warn_title",
+					['id' => $member['id'], 'title' => $member['warn_text']]
+				);
 				$member['warn_text'] .= $member['warn_minus'] . $member['warn_img'] . $member['warn_add'] . "<br>";
 			}
 		}
@@ -2371,7 +2376,7 @@ class quiz
 			)
 			{
 				$member['member_points'] = $std->do_number_format($member['fined']);
-				$member['member_points'] = "<a href='{$ibforums->base_url}act=store&code=showfine&id={$member['id']}'>Поощрения</a>: {$member['member_points']} {$ibforums->vars['currency_name']}";
+				$member['member_points'] = "<a href='{$ibforums->base_url}act=store&code=showfine&id={$member['id']}'>РџРѕРѕС‰СЂРµРЅРёСЏ</a>: {$member['member_points']} {$ibforums->vars['currency_name']}";
 				$member['member_points'] .= "<br>";
 			} else
 				$member['member_points'] = "";
@@ -2423,89 +2428,6 @@ class quiz
 
 				$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
 			}
-
-			/*
-			  //--------------------------------------------------------------
-			  // Warny porny?
-			  //--------------------------------------------------------------
-
-			  if ( $ibforums->vars['warn_on']
-			  and !stristr( $ibforums->vars['warn_protected'], ','.$member['mgroup'].',' ) ) {
-			  if ( $ibforums->member['g_is_supmod'] or $this->moderator['allow_warn'] or
-			  ( $ibforums->vars['warn_show_own'] and $ibforums->member['id'] == $member['id'] )
-			  )
-			  {
-			  // Work out which image to show.
-
-			  if ( !$ibforums->vars['warn_show_rating'] )
-			  {
-			  if ( $member['warn_level'] <= $ibforums->vars['warn_min'] )
-			  {
-			  $member['warn_img']     = '<{WARN_0}>';
-			  $member['warn_percent'] = 0;
-
-			  } elseif ( $member['warn_level'] >= $ibforums->vars['warn_max'] )
-			  {
-			  $member['warn_img']     = '<{WARN_5}>';
-			  $member['warn_percent'] = 100;
-			  } else
-			  {
-			  $member['warn_percent'] = $member['warn_level'] ? sprintf( "%.0f", ( ($member['warn_level'] / $ibforums->vars['warn_max']) * 100) ) : 0;
-
-			  if ( $member['warn_percent'] > 100 ) {
-			  $member['warn_percent'] = 100;
-			  }
-
-			  if ( $member['warn_percent'] >= 81 )
-			  {
-			  $member['warn_img'] = '<{WARN_5}>';
-
-			  } elseif ( $member['warn_percent'] >= 61 )
-			  {
-			  $member['warn_img'] = '<{WARN_4}>';
-
-			  } elseif ( $member['warn_percent'] >= 41 )
-			  {
-			  $member['warn_img'] = '<{WARN_3}>';
-
-			  } elseif ( $member['warn_percent'] >= 21 )
-			  {
-			  $member['warn_img'] = '<{WARN_2}>';
-
-			  } elseif ( $member['warn_percent'] >= 1 )
-			  {
-			  $member['warn_img'] = '<{WARN_1}>';
-			  } else
-			  {
-			  $member['warn_img'] = '<{WARN_0}>';
-			  }
-			  }
-
-			  if ( $member['warn_percent'] < 1 ) $member['warn_percent'] = 0;
-
-			  $member['warn_text']  = $this->html->warn_level_warn($member['id'], $member['warn_percent'] );
-
-			  } else
-			  {
-			  // Ratings mode..
-
-			  $member['warn_text']  = $ibforums->lang['tt_rating'];
-			  $member['warn_text']  = $this->html->warn_title($member['id'], $member['warn_text']);
-			  $member['warn_text'] .= $member['warn_level'];
-
-			  // Song * new separated warning system
-			  if ( $ibforums->member['is_new_warn_exixts'] )
-			  {
-			  $member['warn_text'] .= " <span class='movedprefix'>(new!)</span>";
-
-			  } elseif ( !$member['warn_level'] )
-			  {
-			  $member['warn_text'] = "";
-			  }
-			  $member['warn_text'] .= "<br>";
-			  }
-			  }
-			 */
 		}
 
 		// Add reputation and warn tools

@@ -21,6 +21,8 @@
 +--------------------------------------------------------------------------
 */
 
+use Views\View;
+
 class search_lib extends Search
 {
 
@@ -235,14 +237,19 @@ class search_lib extends Search
 				$show_end = $sr['topic_max'];
 			}
 
-			$this->output .= $this->is->html->result_simple_header(array(
-			                                                            'links'   => $this->links,
-			                                                            'start'   => $this->is->first,
-			                                                            'end'     => $show_end,
-			                                                            'matches' => $sr['topic_max'],
-			                                                            'ex_time' => $ex_time,
-			                                                            'keyword' => $check_keywords,
-			                                                       ));
+			$this->output .= View::make(
+				'search.result_simple_header',
+				[
+					'data' => array(
+						'links'   => $this->links,
+						'start'   => $this->is->first,
+						'end'     => $show_end,
+						'matches' => $sr['topic_max'],
+						'ex_time' => $ex_time,
+						'keyword' => $check_keywords,
+					)
+				]
+			);
 
 			while ($row = $stmt->fetch())
 			{
@@ -349,12 +356,17 @@ class search_lib extends Search
 					$row['author_name'] = "<a href='{$ibforums->base_url}act=Profile&amp;MID={$row['author_id']}'>{$row['author_name']}</a>";
 				}
 
-				$this->output .= $this->is->html->result_simple_entry($row);
+				$this->output .= View::make('search.result_simple_entry', ['data' => $row]);
 			}
 
-			$this->output .= $this->is->html->result_simple_footer(array(
-			                                                            'links' => $this->links,
-			                                                       ));
+			$this->output .= View::make(
+				'search.result_simple_footer',
+				[
+					'data' => array(
+						'links' => $this->links,
+					)
+				]
+			);
 
 			$print->add_output("$this->output");
 			$print->do_output(array(

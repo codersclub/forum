@@ -11,7 +11,7 @@ $referer = mb_strtolower($referer);
 
 /*
   // Check for proper referer
-  
+
   if($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     if(!preg_match("#sources(\.ru)?/donate\.php#i",$referer)) {
@@ -26,9 +26,9 @@ $referer = mb_strtolower($referer);
 @header("Content-type: text/html; charset=utf-8");
 
 
-//----------------------------------------------------------------- 
+//-----------------------------------------------------------------
 // encode_header
-// Action: Encode a string according to RFC 1522 for use in headers 
+// Action: Encode a string according to RFC 1522 for use in headers
 // if it contains 8-bit characters.
 // Call: encode_header (string header, string charset)
 //
@@ -288,13 +288,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 if ($summ <= 0) {
                     $tMessage = 'Error. Invalid SUMM entered!';
-                } else {
-                    if ($email) {
-                        if (!preg_match("#^[\w\d\._-]+@([\w\d\.-])?$#i", $email)) {
-// !!! DOES NOT WORK for vot@sources.ru !!!
-//      $tMessage = 'Error. Invalid EMAIL entered!';
-                        }
-                    }
                 }
             }
         }

@@ -20,6 +20,7 @@
   |   > Module Version 1.0.0
   +--------------------------------------------------------------------------
  */
+use Views\View;
 
 $idx = new Moderate;
 
@@ -28,7 +29,6 @@ class Moderate
 
 	var $output = "";
 	var $base_url = "";
-	var $html = "";
 	var $moderator = "";
 	var $modfunc = "";
 	var $forum = array();
@@ -44,7 +44,7 @@ class Moderate
 	function Moderate()
 	{
 
-		global $ibforums, $std, $print, $skin_universal;
+		global $ibforums, $std, $print;
 
 		//-------------------------------------
 		// Make sure this is a POST request, not a naughty IMG redirect
@@ -78,8 +78,6 @@ class Moderate
 		//-------------------------------------
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_mod', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_mod');
 
 		//-------------------------------------
 		// Check the input
@@ -260,18 +258,12 @@ class Moderate
 			case '17':
 				$this->rebuild_topic();
 				break;
-
-			// Song * show/hide topics
-
 			case '26':
 				$this->hide_topic();
 				break;
 			case '27':
 				$this->show_topic();
 				break;
-
-			// Song * delete delayed
-
 			case '28':
 				$this->delete_delayed(1);
 				break;
@@ -282,26 +274,18 @@ class Moderate
 			case '32':
 				$this->some_delete_delayed();
 				break;
-
-			// Song * decided topics
-
 			case '33':
 				$this->decided_topics(1);
 				break;
 			case '34':
 				$this->decided_topics(0);
 				break;
-
-			// Song * decline/restore post
-
 			case '18':
 				$this->decline_restore_post(1);
 				break;
 			case '19':
 				$this->decline_restore_post(0);
 				break;
-
-			// Song * add to faq, 02.05.05
 
 			case '35':
 				$this->add_to_faq();
@@ -492,9 +476,9 @@ class Moderate
 			'th_avg_post'   => $avg_posts,
 		);
 
-		$this->output .= $this->html->topic_history($data);
+		$this->output .= View::make("mod.topic_history", ['data' => $data]);
 
-		$this->output .= $this->html->mod_log_start();
+		$this->output .= View::make("mod.mod_log_start");
 
 		// Do we have any logs in the mod-logs DB about this topic? eh? well?
 
@@ -505,18 +489,18 @@ class Moderate
 
 		if (!$stmt->rowCount())
 		{
-			$this->output .= $this->html->mod_log_none();
+			$this->output .= View::make("mod.mod_log_none");
 		} else
 		{
 			while ($row = $stmt->fetch())
 			{
 				$row['member'] = $std->make_profile_link($row['member_name'], $row['member_id']);
 				$row['date']   = $std->get_date($row['ctime']);
-				$this->output .= $this->html->mod_log_row($row);
+				$this->output .= View::make("mod.mod_log_row", ['data' => $row]);
 			}
 		}
 
-		$this->output .= $this->html->mod_log_end();
+		$this->output .= View::make("mod.mod_log_end");
 
 		$this->page_title = $this->topic['title'];
 
@@ -597,13 +581,16 @@ class Moderate
 
 		$this->output = $this->html_start_form($source);
 
-		$this->output .= $this->html->table_top($ibforums->lang['st_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['st_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
 
-		$this->output .= $this->html->mod_exp($ibforums->lang['st_explain']);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['st_explain']]);
 
-		$this->output .= $this->html->split_body($jump_html);
+		$this->output .= View::make("mod.split_body", ['jump' => $jump_html]);
 
-		$this->output .= $this->html->split_end_form($ibforums->lang['st_submit']);
+		$this->output .= View::make("mod.split_end_form", ['action' => $ibforums->lang['st_submit']]);
 
 		$this->page_title = $ibforums->lang['st_top'] . " " . $this->topic['title'];
 
@@ -742,8 +729,6 @@ class Moderate
 			}
 		}
 
-		// Song * change code tag
-
 		$posts = $ibforums->db->query("SELECT
 					pid,
 					forum_id,
@@ -811,7 +796,7 @@ class Moderate
 				topic_id='" . $new_topic_id . "'
 			    WHERE pid IN ($pid_string)");
 
-		// Song * remain notify in old topic
+		// remain notify in old topic
 		// get last remained post in old topic
 
 		$stmt = $ibforums->db->query("SELECT max(pid) as pid
@@ -896,8 +881,6 @@ class Moderate
 		$ibforums->db->exec("UPDATE ibf_posts
 			    SET new_topic=0
 			    WHERE topic_id='$new_topic_id'");
-
-		// Song * remain notify in new topic
 
 		$moved_line = "[COLOR=gray][SIZE=0]" . $ibforums->lang['split_topic'] . "&quot;[URL={$this->base_url}showtopic={$this->topic['tid']}]{$this->topic['title']}[/URL]&quot;[/SIZE][/COLOR]";
 
@@ -1050,13 +1033,19 @@ class Moderate
 		                                            3 => array('f', $this->forum['id']),
 		                                       ));
 
-		$this->output .= $this->html->table_top($ibforums->lang['mt_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['mt_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
 
-		$this->output .= $this->html->mod_exp($ibforums->lang['mt_explain']);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['mt_explain']]);
 
-		$this->output .= $this->html->merge_body($this->topic['title'], $this->topic['description']);
+		$this->output .= View::make(
+			"mod.merge_body",
+			['title' => $this->topic['title'], 'desc' => $this->topic['description']]
+		);
 
-		$this->output .= $this->html->end_form($ibforums->lang['mt_submit']);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['mt_submit']]);
 
 		$this->page_title = $ibforums->lang['mt_top'] . " " . $this->topic['title'];
 
@@ -1389,11 +1378,14 @@ class Moderate
 		                                            3 => array('f', $this->forum['id']),
 		                                       ));
 
-		$this->output .= $this->html->table_top($ibforums->lang['ts_title'] . " &gt; " . $this->forum['name'] . " &gt; " . $this->topic['title']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['ts_title'] . " &gt; " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
 
-		$this->output .= $this->html->mod_exp($text);
+		$this->output .= View::make("mod.mod_exp", ['words' => $text]);
 
-		$this->output .= $this->html->end_form($ibforums->lang['ts_submit']);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['ts_submit']]);
 
 		$this->page_title = $ibforums->lang['ts_title'] . " &gt; " . $this->topic['title'];
 
@@ -1486,11 +1478,14 @@ class Moderate
 		                                            3 => array('f', $this->forum['id']),
 		                                       ));
 
-		$this->output .= $this->html->table_top($ibforums->lang['pd_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['pd_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
 
-		$this->output .= $this->html->mod_exp($ibforums->lang['pd_text']);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['pd_text']]);
 
-		$this->output .= $this->html->end_form($ibforums->lang['pd_submit']);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['pd_submit']]);
 
 		$this->page_title = $ibforums->lang['pd_top'] . $this->topic['title'];
 
@@ -1588,7 +1583,6 @@ class Moderate
 		if ($state == "closed")
 		{
 
-			// vot: BAD MESSAGE
 			$ibforums->db->exec("UPDATE ibf_topics
 				    SET description='голосование окончено'
 				    WHERE tid='" . $this->topic['tid'] . "'");
@@ -1690,8 +1684,6 @@ class Moderate
 
 		$poll_data['choices'] = addslashes(serialize($new_poll_array));
 
-		// Song * multiple choices
-
 		$query = "UPDATE ibf_polls
 			  SET
 				choices='" . $poll_data['choices'] . "',
@@ -1718,8 +1710,6 @@ class Moderate
 				is_weighted_poll='1',
 				weighted_poll_places='" . $ibforums->input['weighted_poll_places'] . "' ";
 		}
-
-		// Song * poll life, 25.03.05
 
 		$life = intval($ibforums->input['life']);
 
@@ -1803,9 +1793,12 @@ class Moderate
 		                                            3 => array('f', $this->forum['id']),
 		                                       ));
 
-		$this->output .= $this->html->table_top($ibforums->lang['pe_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['pe_top'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
 
-		$this->output .= $this->html->poll_edit_top();
+		$this->output .= View::make("mod.poll_edit_top");
 
 		$poll_answers = unserialize(stripslashes($poll_data['choices']));
 
@@ -1817,18 +1810,16 @@ class Moderate
 			$choice = $entry[1];
 			$votes  = $entry[2];
 
-			$this->output .= $this->html->poll_entry($id, $choice);
+			$this->output .= View::make("mod.poll_entry", ['id' => $id, 'entry' => $choice]);
 		}
 
 		if (count($poll_answers) < $ibforums->vars['max_poll_choices'])
 		{
-			for ($i = count($poll_answers) + 1; $i <= $ibforums->vars['max_poll_choices']; $i++) // Jureth: added +1 in the loop counter
+			for ($i = count($poll_answers) + 1; $i <= $ibforums->vars['max_poll_choices']; $i++)
 			{
-				$this->output .= $this->html->poll_edit_new_entry($i);
+				$this->output .= View::make("mod.poll_edit_new_entry", ['id' => $i]);
 			}
 		}
-
-		// Song * poll life, 25.03.05
 
 		$days_left = "";
 
@@ -1842,16 +1833,27 @@ class Moderate
 			}
 		}
 
-		$this->output .= $this->html->poll_select_form($poll_data['poll_question'], $days_left);
+		$this->output .= View::make(
+			"mod.poll_select_form",
+			['poll_question' => $poll_data['poll_question'], 'life' => $days_left]
+		);
 
-		// Song * multiple choices
+		$this->output .= View::make(
+			"mod.poll_select_form_additions_multi",
+			[
+				'min' => $poll_data['multi_poll_min'],
+				'max' => $poll_data['multi_poll_max'],
+				'checked' => $poll_data['is_multi_poll']
+			]
+		);
+		$this->output .= View::make(
+			"mod.poll_select_form_additions_weighted",
+			['places' => $poll_data['weighted_poll_places'], 'checked' => $poll_data['is_weighted_poll']]
+		);
 
-		$this->output .= $this->html->poll_select_form_additions_multi($poll_data['multi_poll_min'], $poll_data['multi_poll_max'], $poll_data['is_multi_poll']);
-		$this->output .= $this->html->poll_select_form_additions_weighted($poll_data['weighted_poll_places'], $poll_data['is_weighted_poll']);
+		$this->output .= View::make("mod.poll_edit_bottom");
 
-		$this->output .= $this->html->poll_edit_bottom();
-
-		$this->output .= $this->html->end_form($ibforums->lang['pe_submit']);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['pe_submit']]);
 
 		$this->page_title = $ibforums->lang['pe_top'] . $this->topic['title'];
 
@@ -1903,10 +1905,13 @@ class Moderate
 
 		$jump_html = $std->build_forum_jump(0, 0, 0);
 
-		$this->output .= $this->html->table_top($ibforums->lang['top_move'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
-		$this->output .= $this->html->mod_exp($ibforums->lang['move_exp']);
-		$this->output .= $this->html->move_form($jump_html, $this->forum['name']);
-		$this->output .= $this->html->end_form($ibforums->lang['submit_move']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['top_move'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['move_exp']]);
+		$this->output .= View::make("mod.move_form", ['jhtml' => $jump_html, 'forum_name' => $this->forum['name']]);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_move']]);
 
 		$this->page_title = $ibforums->lang['t_move'] . ": " . $this->topic['title'];
 
@@ -2050,9 +2055,6 @@ class Moderate
 
 		$this->modfunc->forum_recount($moveto);
 
-		//Jureth		$this->modfunc->forum_recount_queue($source);
-		//Jureth		$this->modfunc->forum_recount_queue($moveto);
-
 		$print->redirect_screen($ibforums->lang['p_moved'], "act=SF&f=" . $this->forum['id'] . "&st=" . $ibforums->input['st']);
 	}
 
@@ -2099,10 +2101,13 @@ class Moderate
 
 		$jump_html = $std->build_forum_jump(0, 0, 0);
 
-		$this->output .= $this->html->table_top($ibforums->lang['top_mirror'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
-		$this->output .= $this->html->mod_exp($ibforums->lang['mirror_exp']);
-		$this->output .= $this->html->mirror_form($jump_html, $this->forum['name']);
-		$this->output .= $this->html->end_form($ibforums->lang['submit_mirror']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['top_mirror'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['mirror_exp']]);
+		$this->output .= View::make("mod.mirror_form", ['jhtml' => $jump_html, 'forum_name' => $this->forum['name']]);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_mirror']]);
 
 		$this->page_title = $ibforums->lang['t_move'] . ": " . $this->topic['title'];
 
@@ -2169,27 +2174,6 @@ class Moderate
 		//-----------------------------------
 		// Check for an attempt to move into a subwrap forum
 		//-----------------------------------
-
-//no queries -- jureth
-//		while ($f = $stmt->fetch())
-//		{
-//			if ($f['id'] == $ibforums->input['sf'])
-//			{
-//				$source_name = $f['name'];
-//			} else
-//			{
-//				$dest_name = $f['name'];
-//			}
-//
-//			if (($f['subwrap'] == 1 and $f['sub_can_post'] != 1) OR $f['redirect_on'] == 1)
-//			{
-//				$this->Error(array(
-//				                  'LEVEL' => 1,
-//				                  'MSG'   => 'forum_no_post_allowed'
-//				             ));
-//			}
-//		}
-
 		$stmt = $ibforums->db->query("SELECT *
 			    FROM ibf_topics
 			    WHERE tid='" . $ibforums->input['tid'] . "'");
@@ -2217,9 +2201,6 @@ class Moderate
 		$this->modfunc->forum_recount($source);
 
 		$this->modfunc->forum_recount($moveto);
-
-		//Jureth		$this->modfunc->forum_recount_queue($source);
-		//Jureth		$this->modfunc->forum_recount_queue($moveto);
 
 		$print->redirect_screen($ibforums->lang['p_moved'], "act=SF&f=" . $this->forum['id'] . "&st=" . $ibforums->input['st']);
 	}
@@ -2273,10 +2254,16 @@ class Moderate
 		{
 			$forums[$row['id']] = $row['name'];
 		}
-		$this->output .= $this->html->table_top($ibforums->lang['top_delete_mirror'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
-		$this->output .= $this->html->mod_exp($ibforums->lang['delete_mirror_exp']);
-		$this->output .= $this->html->delete_mirror_form($forums, $this->forum['name']);
-		$this->output .= $this->html->end_form($ibforums->lang['submit_delete_mirror']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['top_delete_mirror'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['delete_mirror_exp']]);
+		$this->output .= View::make(
+			"mod.delete_mirror_form",
+			['forums' => $forums, 'forum_name' => $this->forum['name']]
+		);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_delete_mirror']]);
 
 		$this->page_title = $ibforums->lang['t_move'] . ": " . $this->topic['title'];
 
@@ -2495,8 +2482,6 @@ class Moderate
 	{
 		global $ibforums;
 
-		// vot: BAD MESSAGE
-
 		$html = "<form onsubmit=\"if(document.jumpmenu.f.value == -1){return false;}\" action='{$this->base_url}' method='get' name='jumpmenu'>
 		         <input type='hidden' name='act' value='Mod'>
                          <input type='hidden' name='auth_key' value='{$ibforums->input['auth_key']}'>
@@ -2544,8 +2529,6 @@ class Moderate
 	function get_attached_data()
 	{
 		global $ibforums;
-
-		// vot: BAD MESSAGE
 
 		$html = "<form onsubmit=\"if(document.jumpmenu.f.value == -1){return false;}\" action='{$this->base_url}' method='get' name='jumpmenu'>
 		         <input type='hidden' name='act' value='Mod'>
@@ -2610,10 +2593,16 @@ class Moderate
 			$this->moderate_error();
 		}
 
-		$this->output .= $this->html->table_top($ibforums->lang['top_attach'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
-		$this->output .= $this->html->mod_exp($ibforums->lang['attach_exp']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['top_attach'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['attach_exp']]);
 		$jump_html = $this->get_attached_links();
-		$this->output .= $this->html->attach_form1($ibforums->lang['attach_edit'], $jump_html, $this->topic['title']);
+		$this->output .= View::make(
+			"mod.attach_form1",
+			['comment' => $ibforums->lang['attach_edit'], 'jhtml' => $jump_html, 'topic_name' => $this->topic['title']]
+		);
 
 		$this->output .= $this->html_start_form(array(
 		                                             1 => array('CODE', '71'),
@@ -2621,13 +2610,16 @@ class Moderate
 		                                             3 => array('auth_key', $ibforums->input['auth_key']),
 		                                        ));
 
-		$this->output .= $this->html->attach_form2();
-		$this->output .= $this->html->end_form($ibforums->lang['submit_attach']);
+		$this->output .= View::make("mod.attach_form2");
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_attach']]);
 
 		$this->output .= "<br>";
-		$this->output .= $this->html->table_top($ibforums->lang['data_exp']);
+		$this->output .= View::make("mod.table_top", ['posting_title' => $ibforums->lang['data_exp']]);
 		$data_links = $this->get_attached_data();
-		$this->output .= $this->html->attach_form1($ibforums->lang['data_edit'], $data_links, $this->topic['title']);
+		$this->output .= View::make(
+			"mod.attach_form1",
+			['comment' => $ibforums->lang['data_edit'], 'jhtml' => $data_links, 'topic_name' => $this->topic['title']]
+		);
 		$this->output .= $this->html_start_form(array(
 		                                             1 => array('CODE', '81'),
 		                                             2 => array('tid', $this->topic['tid']),
@@ -2635,9 +2627,9 @@ class Moderate
 		                                             4 => array('name', $ibforums->input['name']),
 		                                             5 => array('link', $ibforums->input['link']),
 		                                        ));
-		$this->output .= $this->html->mod_exp($ibforums->lang['data_add']);
-		$this->output .= $this->html->attach_form3();
-		$this->output .= $this->html->end_form($ibforums->lang['submit_data_attach']);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['data_add']]);
+		$this->output .= View::make("mod.attach_form3");
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_data_attach']]);
 
 		$this->page_title = $ibforums->lang['top_attach'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title'];
 
@@ -2708,7 +2700,7 @@ class Moderate
 		}
 
 		//---------------------------------------
-		// vot: delete the search words for this post
+		// delete the search words for this post
 		//---------------------------------------
 
 		$std->index_del_post($post['pid']);
@@ -2824,16 +2816,19 @@ class Moderate
 			$this->moderate_error();
 		}
 
-		$this->output = $this->html->delete_js();
+		$this->output = '';
 
 		$this->output .= $this->html_start_form(array(
 		                                             1 => array('CODE', '08'),
 		                                             2 => array('t', $this->topic['tid'])
 		                                        ));
 
-		$this->output .= $this->html->table_top($ibforums->lang['top_delete'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
-		$this->output .= $this->html->mod_exp($ibforums->lang['delete_topic']);
-		$this->output .= $this->html->end_form($ibforums->lang['submit_delete']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['top_delete'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['delete_topic']]);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_delete']]);
 
 		$this->page_title = $ibforums->lang['t_delete'] . ": " . $this->topic['title'];
 
@@ -2905,13 +2900,10 @@ class Moderate
 		$this->modfunc->topic_delete($this->topic['tid']);
 
 		//---------------------------------------
-		// vot: delete the search words for this topic
+		// delete the search words for this topic
 		//---------------------------------------
 
 		$std->index_del_topic($this->topic['tid']);
-
-		//Jureth: forum_recount() was called in topic_delete()
-		//Not needed		$this->modfunc->forum_recount_queue($this->forum['id']);
 
 		$this->moderate_log("Deleted a topic");
 
@@ -2965,10 +2957,16 @@ class Moderate
 		                                            2 => array('t', $this->topic['tid'])
 		                                       ));
 
-		$this->output .= $this->html->table_top($ibforums->lang['top_edit'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
-		$this->output .= $this->html->mod_exp($ibforums->lang['edit_topic']);
-		$this->output .= $this->html->topictitle_fields($this->topic['title'], $this->topic['description']);
-		$this->output .= $this->html->end_form($ibforums->lang['submit_edit']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['top_edit'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+		);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['edit_topic']]);
+		$this->output .= View::make(
+			"mod.topictitle_fields",
+			['title' => $this->topic['title'], 'desc' => $this->topic['description']]
+		);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_edit']]);
 
 		$this->page_title = $ibforums->lang['t_edit'] . ": " . $this->topic['title'];
 
@@ -3026,7 +3024,7 @@ class Moderate
 			    WHERE tid='" . $this->topic['tid'] . "'");
 
 		//-------------------------------
-		// vot: Reindex the topic title!
+		// Reindex the topic title!
 		//-------------------------------
 
 		$std->index_reindex_title($this->topic['tid'], $this->forum['id'], $topic_title);
@@ -3220,7 +3218,6 @@ class Moderate
 		$print->redirect_screen($ibforums->lang['p_unpinned'], "act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid'] . "&st=" . $ibforums->input['st']);
 	}
 
-	// Song * show/hide topics
 	/*	 * ********************************************** */
 	// HIDE TOPIC:
 	// ---------------
@@ -3362,16 +3359,14 @@ class Moderate
 			             ));
 		}
 
-		/* <--- Jureth ---: Double. Function are identical. */
 		$this->modfunc->forum_recount($fid);
 	}
 
-	/*	 * ************************************************** */
-
+	/*****************************************************/
 	// HTML: start form.
 	// ------------------
 	// Returns the HTML for the <FORM> opening tag
-	/*	 * ************************************************** */
+	/*****************************************************/
 
 	function html_start_form($additional_tags = array())
 	{
@@ -3456,9 +3451,12 @@ class Moderate
 		                                             3 => array('pidz', implode(',', $idz))
 		                                        ));
 
-		$this->output .= $this->html->table_top($ibforums->lang['deleting_postz'] . ' "' . $this->topic['title'] . '"');
-		$this->output .= $this->html->mod_exp($ibforums->lang['delete_postz']);
-		$this->output .= $this->html->end_form($ibforums->lang['submit_delete_postz']);
+		$this->output .= View::make(
+			"mod.table_top",
+			['posting_title' => $ibforums->lang['deleting_postz'] . ' "' . $this->topic['title'] . '"']
+		);
+		$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['delete_postz']]);
+		$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['submit_delete_postz']]);
 
 		$this->page_title = $ibforums->lang['deleting_postz'] . ' "' . $this->topic['title'] . '"';
 
@@ -3694,7 +3692,7 @@ class Moderate
 		$stmt = $ibforums->db->updateRow("ibf_posts", $data, "pid IN ({$ibforums->input['pidz']})");
 
 		//--------------------------------------------
-		// vot: delete the search words for this post
+		// delete the search words for this post
 		//--------------------------------------------
 
 		$std->index_del_posts($ibforums->input['pidz']);
@@ -3710,8 +3708,6 @@ class Moderate
 		$this->recount_topic($this->topic['tid']);
 
 		$this->recount($this->forum['id']);
-
-		//Jureth: not needed		$this->modfunc->forum_recount_queue($this->forum['id']);
 
 		$this->moderate_log("Deleted $idz posts");
 
@@ -3866,9 +3862,6 @@ class Moderate
 			$this->moderate_error();
 		}
 
-		// Song * change code tag
-		// vot: BAD QUERY: LIKE
-
 		$posts = $ibforums->db
 			->prepare("SELECT
 					pid,
@@ -3961,12 +3954,10 @@ class Moderate
 		$this->recount_topic($new['tid']);
 
 		$this->recount($this->topic['forum_id']);
-		//Jureth:not needed		$this->modfunc->forum_recount_queue($this->forum['id']);
 
 		if ($this->forum['id'] != $new['forum_id'])
 		{
 			$this->recount($new['forum_id']);
-			//Jureth:not needed			$this->modfunc->forum_recount_queue($new['forum_id']);
 		}
 
 		$print->redirect_screen("", "showtopic=$id&view=getlastpost");
@@ -4005,8 +3996,6 @@ class Moderate
 			    WHERE tid='" . $tid . "'");
 	}
 
-	// Song, Mixxx * js system, 06.05.05
-	//-------------------------------------------
 	function Error($error = array())
 	{
 		global $ibforums, $std;
@@ -4036,12 +4025,9 @@ class Moderate
 		exit();
 	}
 
-	//-----------------------------------------------
-	// Song * decline and restore post
-
 	function decline_restore_post($state)
 	{
-		global $ibforums, $print, $std, $skin_universal;
+		global $ibforums, $print, $std;
 
 		// Get this post id.
 		$pid = $ibforums->input['p'];
@@ -4138,9 +4124,6 @@ class Moderate
 			die;
 		}
 	}
-
-	//--------------------------------------
-	// Song * delayed delete posts, 13.04.05
 
 	function delete_delayed($state)
 	{
@@ -4318,9 +4301,6 @@ class Moderate
 		$print->redirect_screen("", "showtopic={$this->topic['tid']}&st={$ibforums->input['st']}", "html");
 	}
 
-	//--------------------------------------
-	// Song * decided topics, 20.04.05
-
 	function decided_topics($state)
 	{
 		global $ibforums, $print, $std;
@@ -4403,9 +4383,6 @@ class Moderate
 			$print->redirect_js_screen(array('qsolveTop', 'qsolveBottom'), $label, $url);
 		}
 	}
-
-	//----------------------------------
-	// Song * add to faq, 02.05.05
 
 	function do_add_to_faq($fid = 0)
 	{
@@ -4536,7 +4513,7 @@ class Moderate
 		$tid = $ibforums->db->lastInsertId();
 
 		//-----------------------------------------------
-		// vot: index new topic
+		// index new topic
 		//-----------------------------------------------
 
 		$std->index_reindex_title($tid, $fid, $this->topic['title']);
@@ -4572,11 +4549,7 @@ class Moderate
 			$pid  = $ibforums->db->lastInsertId();
 
 			//-----------------------------------------------
-			// vot: index new post
-			// SOME IDEAS:
-			//
-			// may be, more usefull to copy old search words
-			// to new posts ???
+			// index new post
 			//-----------------------------------------------
 
 			$std->index_reindex_post($pid, $tid, $fid, $post['post']);
@@ -4651,9 +4624,12 @@ class Moderate
 
 		if (count($faq))
 		{
-			$this->output .= $this->html->table_top($ibforums->lang['top_copy'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']);
+			$this->output .= View::make(
+				"mod.table_top",
+				['posting_title' => $ibforums->lang['top_copy'] . " " . $this->forum['name'] . " &gt; " . $this->topic['title']]
+			);
 
-			$this->output .= $this->html->mod_exp($ibforums->lang['copy_exp']);
+			$this->output .= View::make("mod.mod_exp", ['words' => $ibforums->lang['copy_exp']]);
 
 			$forums = "<form name='forummenu' action='{$ibforums->base_url}' method='get'>\n";
 			$forums .= "<input type='hidden' name='act' value='Mod'>\n";
@@ -4693,9 +4669,9 @@ class Moderate
 
 			$forums .= "</select>";
 
-			$this->output .= $this->html->move_form2($forums, $this->forum['name']);
+			$this->output .= View::make("mod.move_form2", ['jhtml' => $forums, 'forum_name' => $this->forum['name']]);
 
-			$this->output .= $this->html->end_form($ibforums->lang['jmp_go']);
+			$this->output .= View::make("mod.end_form", ['action' => $ibforums->lang['jmp_go']]);
 
 			$this->page_title = $ibforums->lang['t_copy'] . ": " . $this->topic['title'];
 

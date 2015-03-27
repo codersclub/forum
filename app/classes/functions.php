@@ -20,6 +20,7 @@
   |	> Module Version Number: 1.0.0
   +--------------------------------------------------------------------------
  */
+use Views\View;
 
 class functions
 {
@@ -41,8 +42,6 @@ class functions
 			? ' '
 			: $INFO['number_format'];
 	}
-
-	// Shaman * get/set forums open state
 
 	function get_board_visibility($board_id, $is_forum)
 	{
@@ -138,8 +137,6 @@ class functions
 		return (bool)preg_match($re, $post);
 	}
 
-	//-------------------------------------
-	// Song * delayed time, 03.05.05
 	function delayed_time($post, $days_off, $to_do = 0, $moderator = array(), $is_new_post = false)
 	{
 		global $ibforums;
@@ -201,8 +198,6 @@ class functions
 		return $days;
 	}
 
-	// Song * hide parts of post, 27.03.05
-
 	function regex_moderator_message($message)
 	{
 		global $ibforums;
@@ -245,8 +240,6 @@ class functions
 		return $post;
 	}
 
-	// Song * premoderation, 16.03.05
-
 	function premod_rights($mid, $queued = 0, &$resolve = 0)
 	{
 		global $ibforums;
@@ -280,8 +273,6 @@ class functions
 		return TRUE;
 	}
 
-	// Song * Old Topics Flood, 15.03.05
-
 	function user_reply_flood($start_date = 0)
 	{
 		global $ibforums;
@@ -296,8 +287,6 @@ class functions
 
 		return FALSE;
 	}
-
-	// Song * user ban function
 
 	function user_ban_check($forum = array())
 	{
@@ -370,8 +359,6 @@ class functions
 			}
 		}
 	}
-
-	// Song * ip control
 
 	function ip_control($forum, $ip)
 	{
@@ -526,8 +513,6 @@ class functions
 		}
 	}
 
-	// Song * forum filter, 19.11.2004, 19.12.2004 (with endless depth)
-
 	function subforums_addtorow($result, $children, $id, $level)
 	{
 
@@ -668,7 +653,7 @@ class functions
 
 	function forum_filter($forum = array(), $forums_id = array(), $mode = 0, $pid)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$k = count($forums_id);
 
@@ -704,15 +689,13 @@ class functions
 
 			$forums .= "</select>&nbsp;<input type='button' value='{$ibforums->lang['jmp_go']}' class='forminput' onClick='do_url({$pid});'></form>";
 
-			$forums = $skin_universal->forum_filter($forums);
+			$forums = View::make("global.forum_filter", ['data' => $forums]);
 
 			return $forums;
 		}
 
 		return "";
 	}
-
-	// Song * get syntax highlight id
 
 	function get_highlight_id($id)
 	{
@@ -737,8 +720,6 @@ class functions
 
 		return $row['highlight_fid'];
 	}
-
-	// Song * who was today online
 
 	function current_day()
 	{
@@ -844,9 +825,10 @@ class functions
 			$ibforums->db->exec("INSERT
 				INTO " . $table . "
 				VALUES ('" . $session_id . "','" . $ip_address . "'," . $cur_day . "," . $cur_mon . ")");
+			$this->inc_user_count($field, $cur_day, $cur_mon);
 		} catch (PDOException $e)
 		{
-			$this->inc_user_count($field, $cur_day, $cur_mon);
+			//finally
 		}
 	}
 
@@ -885,8 +867,6 @@ class functions
 
 			$syntax_html .= "<option value='{$syntax['syntax']}'>{$syntax['syntax_description']}</option>";
 		}
-
-		// vot: BAD Message!!!
 
 		$syntax_html .= "<option value='no'>Без подсветки</option>";
 
@@ -980,9 +960,6 @@ class functions
 
 		$ibforums->db->exec("DELETE FROM ibf_voters
 			    WHERE member_id" . $ids);
-
-		$ibforums->db->exec("DELETE FROM ibf_check_members
-			    WHERE mid" . $ids);
 
 		$ibforums->db->exec("DELETE FROM ibf_search_forums
 			    WHERE mid" . $ids);
@@ -1142,9 +1119,6 @@ class functions
 		return $message_id;
 	}
 
-	// -----------------------------------------------------
-	// Leprecon. Some functions for syntax highlight
-	// Begin -----------------------------------------------
 	function str_to_sql($str)
 	{
 		$str = preg_replace("/\\\/", "\\\\\\", $str);
@@ -1158,10 +1132,6 @@ class functions
 		$str = preg_replace("/'/", "&#39;", $str);
 		return $str;
 	}
-
-	// End -------------------------------------------------
-	// Leprecon
-	// -----------------------------------------------------
 
 	/* ------------------------------------------------------------------------- */
 	// txt_stripslashes
@@ -1329,11 +1299,9 @@ class functions
 	// Checks and prints forum rules (if required)
 	/* ------------------------------------------------------------------------- */
 
-	// Song * new IBF forum rules
-
 	function print_forum_rules($forum)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$ruleshtml = "";
 
@@ -1351,8 +1319,8 @@ class functions
 
 				$rules['fid'] = $forum['id'];
 				$ruleshtml    = $forum['show_rules'] == 2
-					? $skin_universal->forum_show_rules_full($rules)
-					: $skin_universal->forum_show_rules_link($rules);
+					? View::make("global.forum_show_rules_full", ['rules' => $rules])
+					: View::make("global.forum_show_rules_link", ['rules' => $rules]);
 			}
 		}
 
@@ -1633,88 +1601,6 @@ class functions
 
 		return $t;
 	}
-
-	/* ------------------------------------------------------------------------- */
-
-	//
-	// Load a template file from DB or from PHP file
-	//
-	/* ------------------------------------------------------------------------- */
-
-	/**
-	 * Загрузка шаблона.
-	 * @param string $name
-	 * @param string $id
-	 * @return stdClass
-	 */
-	function load_template($name, $id = '')
-	{
-		static $templates;
-		if (!isset($templates[$name]))
-		{
-			$ibforums = Ibf::app();
-
-			$tags = 1;
-
-			if (!$ibforums->vars['safe_mode_skins'])
-			{
-				// Simply require and return
-				// vot DEBUG:
-				//echo "load_template: ".$name." ".$id."<br>";
-				//echo "load_template: base_dir=".$ibforums->vars['base_dir']."<br>";
-				//echo "load_template: skin_id=".$ibforums->skin_id."<br>";
-				//echo "load_template: skin=".$ibforums->vars['base_dir']."Skin/".$ibforums->skin_id."/$name.php<br>";
-				$templates[$name] = new $name();
-
-			} else
-			{
-				// We're using safe mode skins, yippee
-				// Load the data from the DB
-
-				$stmt = $ibforums->db->query(
-					"SELECT
-										func_name,
-										func_data,
-										section_content
-										FROM ibf_skin_templates
-										WHERE
-										set_id='" . $ibforums->skin_rid . "' AND
-					group_name='$name'"
-				);
-
-				if (!$stmt->rowCount())
-				{
-					fatal_error(
-						"Could not fetch the templates from the database. Template $name, ID {$ibforums->skin_rid}"
-					);
-				} else
-				{
-					$new_class = "class $name {\n";
-
-					while ($row = $stmt->fetch())
-					{
-						if ($tags == 1)
-						{
-							$comment = "<!--TEMPLATE: $name, Template Part: " . $row['func_name'] . "-->\n";
-						}
-
-						$new_class .= 'function ' . $row['func_name'] . '(' . $row['func_data'] . ") {\n";
-						$new_class .= "global \$ibforums;\n";
-						$new_class .= 'return <<<EOF' . "\n" . $comment . $row['section_content'] . "\nEOF;\n}\n";
-					}
-
-					$new_class .= "}\n";
-
-					eval($new_class);
-
-					$templates[$name] = new $name();
-				}
-			}
-		}
-		return $templates[$name];
-	}
-
-	/* ------------------------------------------------------------------------- */
 
 	//
 	// Creates a profile link if member is a reg. member, else just show name
@@ -2090,7 +1976,7 @@ class functions
 
 	function build_pagelinks($data)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$work = array();
 
@@ -2116,7 +2002,10 @@ class functions
 
 		if ($work['pages'] > 1)
 		{
-			$work['first_page'] = $skin_universal->make_page_jump($data['TOTAL_POSS'], $data['PER_PAGE'], $data['BASE_URL']) . " (" . $work['pages'] . ")";
+			$work['first_page'] = View::make(
+					"global.make_page_jump",
+					['tp' => $data['TOTAL_POSS'], 'pp' => $data['PER_PAGE'], 'ub' => $data['BASE_URL']]
+				) . " (" . $work['pages'] . ")";
 
 			for ($i = 0; $i <= $work['pages'] - 1; ++$i)
 			{
@@ -2138,7 +2027,6 @@ class functions
 
 					if ($PageNo > ($work['current_page'] + $section))
 					{
-						// Song * new pages, 14.02.05
 						$work['end_dots'] = "...&nbsp;";
 
 						if ($work['pages'] - $work['current_page'] > 2 and
@@ -2156,7 +2044,6 @@ class functions
 						{
 							$work['end_dots'] .= "<a href='{$data['BASE_URL']}&amp;st=" . ($work['pages'] - 1) * $data['PER_PAGE'] . "' title='{$ibforums->lang['ps_page']} {$work['pages']}'>{$ibforums->lang['ps_last']} &raquo;</a>";
 						}
-						// /Song * new pages, 14.02.05
 						break;
 					}
 
@@ -2166,8 +2053,6 @@ class functions
 
 			$work['return'] = $work['first_page'] . $work['st_dots'] . $work['page_span'] . '&nbsp;' . $work['end_dots'];
 
-			// Song * show all posts in the topic
-
 			if (mb_strpos($data['BASE_URL'], "showtopic") !== FALSE and
 			    $data['TOTAL_POSS'] < $ibforums->vars['max_show_all_posts']
 			)
@@ -2175,7 +2060,6 @@ class functions
 				$work['return'] .= " <a href='{$data['BASE_URL']}&amp;view=showall'>" . $ibforums->lang['all_posts'] . "</a>";
 			}
 
-			// /Song * show all posts in the topic
 		} else
 		{
 			$work['return'] = $data['L_SINGLE'];
@@ -2276,13 +2160,10 @@ class functions
 				{
 					if ($i['parent_id'] > 0)
 					{
-						//song						$children[ $i['parent_id'] ][] = "<option value=\"{$i['forum_id']}\"$selected>&nbsp;&nbsp;<IBF_SONG_DEPTH>&nbsp;{$i['forum_name']}</option>\n");
-						// Song * endless forums, 20.12.04
 						$children[$i['parent_id']][] = array(
 							$i['forum_id'],
 							"<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
 						);
-						// Song * endless forums, 20.12.04
 					} else
 					{
 						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
@@ -2323,9 +2204,7 @@ class functions
 
 							if ($ibforums->vars['short_forum_jump'] != 1)
 							{
-								// Song * endless forums, 20.12.04
 								$the_html .= $this->subforums_addtoform($idx, $children);
-								// Song * endless forums, 20.12.04
 							} else
 							{
 								$the_html = str_replace('<IBF_SONG_DEPTH>', "", $the_html);
@@ -2345,8 +2224,6 @@ class functions
 
 		return $the_html;
 	}
-
-	// Song * endless forums, 20.12.04
 
 	function subforums_addtoform($id, &$children, $level = '')
 	{
@@ -2473,13 +2350,10 @@ class functions
 				{
 					if ($i['parent_id'] > 0)
 					{
-						//song						$children[ $i['parent_id'] ][] = "<option value=\"{$i['forum_id']}\"".$selected.">&nbsp;&nbsp;---- {$i['forum_name']} $redirect</option>\n";
-						// Song * endless forums, 20.12.04
 						$children[$i['parent_id']][] = array(
 							$i['forum_id'],
 							"<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
 						);
-						// Song * endless forums, 20.12.04
 					} else
 					{
 						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
@@ -2520,9 +2394,7 @@ class functions
 
 							if ($ibforums->vars['short_forum_jump'] != 1)
 							{
-								// Song * endless forums, 20.12.04
 								$the_html .= $this->subforums_addtoform($idx, $children);
-								// Song * endless forums, 20.12.04
 							} else
 							{
 								$the_html = str_replace('<IBF_SONG_DEPTH>', "", $the_html);
@@ -2562,144 +2434,6 @@ class functions
 	}
 
 	/* ------------------------------------------------------------------------- */
-
-	// SKIN, sort out the skin stuff
-	/* ------------------------------------------------------------------------- */
-
-	function load_skin()
-	{
-		global $ibforums;
-
-		$id       = -1;
-		$skin_set = 0;
-
-		if (($ibforums->is_bot == 1) and ($ibforums->vars['spider_suit'] != ""))
-		{
-			$skin_set = 1;
-			$id       = $ibforums->vars['spider_suit'];
-		} else
-		{
-			//------------------------------------------------
-			// Do we have a skin for a particular forum?
-			//------------------------------------------------
-
-			if ($ibforums->input['f'] and $ibforums->input['act'] != 'UserCP')
-			{
-				if ($ibforums->vars['forum_skin_' . $ibforums->input['f']] != "")
-				{
-					$id = $ibforums->vars['forum_skin_' . $ibforums->input['f']];
-
-					$skin_set = 1;
-				}
-			}
-
-			//------------------------------------------------
-			// Are we allowing user chooseable skins?
-			//------------------------------------------------
-
-			$extra = "";
-
-			if ($skin_set != 1 and $ibforums->vars['allow_skins'] == 1)
-			{
-				if (isset($ibforums->input['skinid']))
-				{
-					$id       = intval($ibforums->input['skinid']);
-					$extra    = " AND s.hidden=0";
-					$skin_set = 1;
-				} elseif ($ibforums->member['skin'] != "" and intval($ibforums->member['skin']) >= 0)
-				{
-					$id = $ibforums->member['skin'];
-
-					if ($id == 'Default')
-					{
-						$id = -1;
-					}
-
-					$skin_set = 1;
-				}
-			}
-		}
-
-		//------------------------------------------------
-		// Load the info from the database.
-		//------------------------------------------------
-
-		if ($id >= 0 and $skin_set == 1)
-		{
-			$stmt = $ibforums->db->query("SELECT
-				s.*,
-				t.template
-    			    FROM (
-				ibf_skins s
-				)
-    			    LEFT JOIN ibf_templates t
-				ON (s.tmpl_id=t.tmid)
-    	           	    WHERE
-				s.sid=$id" . $extra);
-
-			// Didn't get a row?
-			if (!$stmt->rowCount())
-			{
-				// Update this members profile
-
-				if ($ibforums->member['id'])
-				{
-					$stmt = $ibforums->db->query("UPDATE ibf_members
-					    SET skin='-1'
-					    WHERE id='" . $ibforums->member['id'] . "'");
-				}
-
-				$stmt = $ibforums->db->query("SELECT
-					s.*,
-					t.template
-	 			    FROM (
-					ibf_skins s
-					)
-	    			    LEFT JOIN ibf_templates t
-					ON (s.tmpl_id = t.tmid)
-	    	           	    WHERE
-					s.default_set=1");
-			}
-		} else
-		{
-			$stmt = $ibforums->db->query("SELECT
-				s.*,
-				t.template
-    			   FROM (
-				ibf_skins s
-				)
-    			   LEFT JOIN ibf_templates t
-				ON (s.tmpl_id=t.tmid)
-    	           	   WHERE
-				s.default_set=1");
-		}
-
-		if (!$row = $stmt->fetch())
-		{
-			echo("Could not query the skin information!");
-			exit();
-		}
-
-		//-------------------------------------------
-		// Setting the skin?
-		//-------------------------------------------
-
-		if (($ibforums->input['setskin']) and ($ibforums->member['id']))
-		{
-			$stmt = $ibforums->db->query("UPDATE ibf_members
-			     SET skin='" . intval($row['sid']) . "'
-			     WHERE id='" . intval($ibforums->member['id']) . "'");
-
-			$ibforums->member['skin'] = $row['sid'];
-		}
-
-		$row['white_background'] = str_replace("&#39;", "'", $row['white_background']);
-
-		return $row;
-	}
-
-	/* ------------------------------------------------------------------------- */
-
 	// Require, parse and return an array containing the language stuff
 	/* ------------------------------------------------------------------------- */
 
@@ -2734,9 +2468,6 @@ class functions
 	// a time zone, we use the default board time offset (which should automagically
 	// be adjusted to match gmdate.
 	/* ------------------------------------------------------------------------- */
-
-	// Song * today/yesterday
-	// Edited by Sunny
 
 	function old_get_date($date)
 	{
@@ -3005,8 +2736,6 @@ class functions
 
 		$return = array();
 
-		// Song * secure patch
-
 		if (is_array($_GET))
 		{
 			while (list($k, $v) = each($_GET))
@@ -3015,7 +2744,6 @@ class functions
 				{
 					continue;
 				}
-				// Song * secure patch
 				if (is_array($_GET[$k]))
 				{
 					while (list($k2, $v2) = each($_GET[$k]))
@@ -3305,7 +3033,7 @@ class functions
 
 	function Error($error)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		//INIT is passed to the array if we've not yet loaded a skin and stuff
 
@@ -3318,21 +3046,11 @@ class functions
 
 		if ($error['INIT'] == 1)
 		{
-			$stmt = $ibforums->db->query("SELECT
-				s.*,
-				t.template
-  			    FROM ibf_skins s
-  			    LEFT JOIN ibf_templates t
-				ON (t.tmid=s.tmpl_id)
-    	           	    WHERE s.default_set=1");
-
-			$ibforums->skin = $stmt->fetch();
+			$ibforums->skin = Skins\Factory::createDefaultSkin();
 
 			$ibforums->session_id = $this->my_getcookie('session_id');
 
 			$ibforums->base_url = $ibforums->vars['board_url'] . '/index.' . $ibforums->vars['php_ext'] . '?s=' . $ibforums->session_id;
-			$ibforums->skin_rid = $ibforums->skin['set_id'];
-			$ibforums->skin_id  = 's' . $ibforums->skin['set_id'];
 
 			if ($ibforums->vars['default_language'] == "")
 			{
@@ -3351,15 +3069,6 @@ class functions
 			}
 
 			$ibforums->lang = $this->load_words($ibforums->lang, "lang_global", $ibforums->lang_id);
-
-			//------------------------------------------
-			// Let's load the full path for the images, including the board url
-			// Date: 06/07/2005 16:17 (c) Anton
-			//-----------------------------------------
-			// vot $ibforums->vars['img_url'] = "/style_images/".$ibforums->skin['img_dir'];
-			$ibforums->vars['img_url'] = $ibforums->vars['board_url'] . '/style_images/' . $ibforums->skin['img_dir'];
-
-			$skin_universal = $this->load_template('skin_global');
 		}
 
 		$ibforums->lang = $this->load_words($ibforums->lang, "lang_error", $ibforums->lang_id);
@@ -3376,14 +3085,14 @@ class functions
 		if (!$error['EXTRA'])
 		{
 			$error['EXTRA'] = "";
-		} // vot
+		}
 		$msg = preg_replace("/<#EXTRA#>/", $error['EXTRA'], $msg);
 
 		if (!isset($error['EXTRA2']) || !$error['EXTRA2'])
 		{
 			$error['EXTRA2'] = "";
-		} // vot
-		$msg = preg_replace("/<#EXTRA2#>/", $error['EXTRA2'], $msg); // vot
+		}
+		$msg = preg_replace("/<#EXTRA2#>/", $error['EXTRA2'], $msg);
 		//sh: This returns to user just only error string
 		//Such behavior is needed for:
 		//a) offline clients
@@ -3395,7 +3104,7 @@ class functions
 			$ibforums->vars['plg_catch_err']->Error($msg);
 		}
 
-		$html = $skin_universal->Error($msg, $em_1, $em_2);
+		$html = View::make("global.Error", ['message' => $msg, 'ad_email_one' => $em_1, 'ad_email_two' => $em_2]);
 
 		//-----------------------------------------
 		// If we're a guest, show the log in box..
@@ -3403,7 +3112,8 @@ class functions
 
 		if (!$ibforums->member['id'] and $error['MSG'] != 'server_too_busy' and $error['MSG'] != 'account_susp')
 		{
-			$html = str_replace("<!--IBF.LOG_IN_TABLE-->", $skin_universal->error_log_in($_SERVER['QUERY_STRING']), $html);
+			$html = str_replace("<!--IBF.LOG_IN_TABLE-->",
+				View::make("global.error_log_in", ['q_string' => $_SERVER['QUERY_STRING']]), $html);
 		}
 
 		//-----------------------------------------
@@ -3414,7 +3124,10 @@ class functions
 		{
 			if ($_POST['Post'])
 			{
-				$post_thing = $skin_universal->error_post_textarea($this->txt_htmlspecialchars($this->txt_stripslashes($_POST['Post'])));
+				$post_thing = View::make(
+					"global.error_post_textarea",
+					['post' => $this->txt_htmlspecialchars($this->txt_stripslashes($_POST['Post']))]
+				);
 
 				$html = str_replace("<!--IBF.POST_TEXTAREA-->", $post_thing, $html);
 			}
@@ -3429,8 +3142,6 @@ class functions
 		                       'TITLE'    => $ibforums->lang['error_title'],
 		                  ));
 	}
-
-	// Song * NEW system
 
 	function song_get_forumsread()
 	{
@@ -3584,17 +3295,15 @@ class functions
 		$this->song_set_forumread($fid);
 	}
 
-	// Song * new NEW system
-
 	function board_offline()
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		$ibforums->lang = $this->load_words($ibforums->lang, "lang_error", $ibforums->lang_id);
 
 		$msg = preg_replace("/\n/", "<br>", stripslashes($ibforums->vars['offline_msg']));
 
-		$html = $skin_universal->board_offline($msg);
+		$html = View::make("global.board_offline", ['message' => $msg]);
 
 		$print = new display();
 
@@ -3634,8 +3343,6 @@ class functions
 
 		return $chosen;
 	}
-
-	// Song * enchased flood control, 23.02.05
 
 	function flood_begin()
 	{
@@ -3727,7 +3434,6 @@ class functions
 	//===========================================================================
 	//###########################################################################
 	//-----------------------------------------------
-	// vot:
 	// Reindex the Post body
 	//-----------------------------------------------
 	function index_reindex_post($pid = 0, $tid = 0, $fid = 0, $post = "")
@@ -3746,7 +3452,6 @@ class functions
 	}
 
 	//-----------------------------------------------
-	// vot:
 	// Reindex the Topic Title
 	//-----------------------------------------------
 	function index_reindex_title($tid = 0, $fid = 0, $title)
@@ -3765,7 +3470,6 @@ class functions
 	}
 
 	//------------------------------------------------------
-	// vot:
 	// delete indexed earlier words for the topic title only
 	//------------------------------------------------------
 
@@ -3783,7 +3487,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for this post
 	//--------------------------------------------------
 
@@ -3800,7 +3503,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for the postlist
 	//--------------------------------------------------
 
@@ -3822,7 +3524,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for all this topic
 	//--------------------------------------------------
 
@@ -3840,7 +3541,6 @@ class functions
 	}
 
 	//--------------------------------------------------
-	// vot:
 	// delete indexed earlier words for the topic list
 	//--------------------------------------------------
 
@@ -3862,7 +3562,6 @@ class functions
 	}
 
 	//-------------------------------------------------
-	// vot:
 	// Update the search words - MOVE to another forum
 	//-------------------------------------------------
 	function index_move_topics($tids, $movetoforum)
@@ -3883,7 +3582,6 @@ class functions
 	}
 
 	//--------------------------------------------
-	// vot:
 	// Build New Search Index for a Title or Post
 	//--------------------------------------------
 
@@ -3952,7 +3650,6 @@ class functions
 	}
 
 	//-----------------------------------------------
-	// vot:
 	// Parse the content, strip & return unique words
 	//-----------------------------------------------
 	function index_wordlist($post = "")
@@ -4043,31 +3740,19 @@ class functions
 	//##############################################################
 
 	//+-------------------------------------------------
-	// vot: Check if the user is banned by IP ?
+	// Check if the user is banned by IP ?
 	//+-------------------------------------------------
 	function is_ip_banned($ipaddr)
 	{
-		global $ibforums;
+		$addr_parts = [];
+		preg_match('/(\d+)\.(\d+)\.(\d+)\.(\d+)/', $ipaddr, $addr_parts);
+		array_shift($addr_parts);//удаляем всё совпадение, нужны только разбитые части
+		array_walk($addr_parts, function(&$item){ $item = sprintf('(?:%s|\*)', $item);  });
+		//#(?:^|\|)((?:[ip-part]|\*)\.(?:[ip-part]|\*)\.(?:[ip-part]|\*)\.(?:[ip-part]|\*))(?:$|\|)#
+		$regexp = '#(?:^|\|\s*?)(' . $addr_parts[0] . '\.' . $addr_parts[1] . '\.' . $addr_parts[2] . '\.' . $addr_parts[3] . ')(?:\s*?$|\|)#';
 
-		$res = 0;
-		if ($ibforums->vars['ban_ip'])
-		{
-			$ips = explode("|", $ibforums->vars['ban_ip']);
-			foreach ($ips as $ip)
-			{
+		$res = preg_match($regexp, Ibf::app()->vars['ban_ip']);
 
-				// New IP ban algorithm by archimed7592
-				//      $ip = preg_replace( "/\*/", '.*' , preg_quote($ip, "/") );
-				//      if ( preg_match( "/$ip/", $ipaddr ) )
-				$ip = preg_quote($ip, "/");
-				$ip = preg_replace("/\\\\\\*/", '[0-9]{1,3}', $ip);
-				if (preg_match('/^' . $ip . '/', $ipaddr))
-				{
-					$res = 1;
-					break;
-				}
-			}
-		}
 		return $res;
 	}
 }

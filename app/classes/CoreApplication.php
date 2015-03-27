@@ -24,7 +24,7 @@ class CoreApplication
 	public $member;
 
 	/**
-	 *
+	 * @var \Skins\BaseSkinManager
 	 */
 	public $skin;
 
@@ -65,7 +65,7 @@ class CoreApplication
 		return $this->functions->parse_incoming();
 	}
 
-	/**
+    /**
 	 * Member init
 	 * @return array
 	 */
@@ -74,16 +74,16 @@ class CoreApplication
 		return $this->session->authorise();
 	}
 
-	/**
-	 * Skin init
-	 * @return mixed
-	 */
-	protected function loadSkin()
-	{
-		return $this->functions->load_skin();
-	}
+    /**
+     * Skin init
+     * @return \Skins\BaseSkinManager
+     */
+    protected function loadSkin()
+    {
+        return \Skins\Factory::createDefaultSkin();
+    }
 
-	protected function loadLanguage()
+    protected function loadLanguage()
 	{
 		if (!$this->vars['default_language'])
 		{

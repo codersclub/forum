@@ -24,7 +24,7 @@ class Assets
                 Config::PATH_PUBLIC => public_path('assets'),
                 Config::PATH_SOURCE => app_path(),
                 Config::PATH_TEMP   => storage_path('assets'),
-                Config::PATH_URL    => '/assets/'
+                Config::PATH_URL    => 'assets/'
             ];
 
             self::$compiler = new Compiler(

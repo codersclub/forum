@@ -7,6 +7,7 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
     throw new Exception('Please run "composer install" first');
 }
 $loader = require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 /**
  * Helpers

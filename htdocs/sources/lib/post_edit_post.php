@@ -23,6 +23,8 @@
 
 require_once dirname(__FILE__) . '/PostEditHistory.php';
 
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -80,7 +82,6 @@ class post_functions extends Post
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		//vot 23.08.2010
 		// Check for the URL parameters are modified manually
 
 		if (($this->orig_post['pid'] != intval($ibforums->input['p'])) || ($this->orig_post['topic_id'] != intval($ibforums->input['t'])) || ($this->orig_post['forum_id'] != intval($ibforums->input['f']))
@@ -95,7 +96,6 @@ class post_functions extends Post
 
 		if ($ibforums->member['id'])
 		{
-			//vot: old buggy WHERE:			forum_id='".$class->forum['id']."'
 			$stmt = $ibforums->db->query("SELECT
 					member_id,
 					member_name,
@@ -128,8 +128,6 @@ class post_functions extends Post
 		{
 			$can_edit = 1;
 		}
-
-		// Song * post has modcomment
 
 		if ($this->orig_post['author_id'] == $ibforums->member['id'] and $ibforums->member['g_edit_posts'])
 		{
@@ -413,8 +411,6 @@ class post_functions extends Post
 			$ibforums->input['TopicTitle'] = trim($class->parser->bad_words($ibforums->input['TopicTitle']));
 			$ibforums->input['TopicDesc']  = trim($class->parser->bad_words($ibforums->input['TopicDesc']));
 
-			// Song * club tool
-
 			if ($ibforums->input['club_only'] and
 			    $std->check_perms($ibforums->member['club_perms']) == FALSE
 			)
@@ -455,8 +451,6 @@ class post_functions extends Post
 
 		$time = time();
 
-		// Song * club tool
-
 		if (($ibforums->member['g_is_supmod'] or
 		     $class->moderator['edit_post']) and
 		    $ibforums->input['bump']
@@ -490,7 +484,6 @@ class post_functions extends Post
 			}
 
 			//----------------------------------------------------
-			// vot:
 			// Index the Topic Title for the Indexed Search Engine
 			//----------------------------------------------------
 
@@ -517,8 +510,7 @@ class post_functions extends Post
 		{
 			$this->post['append_edit'] = 1;
 
-			//Jureth		if ($ibforums->member['g_append_edit'])
-			if ($ibforums->member['g_append_edit'] and $this->orig_post['author_id'] == $ibforums->member['id']) //Jureth
+			if ($ibforums->member['g_append_edit'] and $this->orig_post['author_id'] == $ibforums->member['id'])
 			{
 				if ($ibforums->input['add_edit'] != 'yes')
 				{
@@ -531,8 +523,6 @@ class post_functions extends Post
 		{
 			$this->post['has_modcomment'] = $std->mod_tag_exists($this->post['post'], 1);
 		}
-
-		// Song * delayed post deleting, 19.04.05
 
 		if ($this->orig_post['delete_after']
 		    and !$this->post['delete_after']
@@ -560,7 +550,6 @@ class post_functions extends Post
 		PostEditHistory::addItem($this->post['pid'], $this->orig_post['post']);
 
 		//----------------------------------------------------
-		// vot:
 		// Index the Post body for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -634,9 +623,11 @@ class post_functions extends Post
 				? $ibforums->input['TopicDesc']
 				: $this->topic['description'];
 
-			$topic_title = $class->html->topictitle_fields(array('TITLE' => $topic_title, 'DESC' => $topic_desc));
+			$topic_title = View::make(
+				"post.topictitle_fields",
+				['data' => array('TITLE' => $topic_title, 'DESC' => $topic_desc)]
+			);
 
-			// Song * club tool
 			if ($std->check_perms($ibforums->member['club_perms']) == TRUE and
 			    $ibforums->member['club_perms'] != $class->forum['read_perms']
 			)
@@ -648,7 +639,7 @@ class post_functions extends Post
 					$checked = "checked";
 				}
 
-				$rights_options = $class->html->rights_options($checked);
+				$rights_options = View::make("post.rights_options", ['checked' => $checked]);
 			}
 
 		}
@@ -664,13 +655,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= $class->html->errors($ibforums->lang[$class->obj['post_errors']]);
+			$class->output .= View::make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= $class->html->errors($error_message);
+				$class->output .= View::make("post.errors", ['data' => $error_message]);
 			}
 		}
 
@@ -687,7 +678,7 @@ class post_functions extends Post
 					? 1
 					: 0);
 
-			$class->output .= $class->html->preview($this->post['post']);
+			$class->output .= View::make("post.preview", ['data' => $this->post['post']]);
 		}
 
 		$class->check_upload_ability();
@@ -703,17 +694,20 @@ class post_functions extends Post
 		// START TABLE
 		//---------------------------------------
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_edit']} {$this->topic['title']}");
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_edit']} {$this->topic['title']}"]
+		);
 
 		$name_fields = $class->html_name_field();
 
 		$post_box = $class->html_post_body($raw_post);
 
-		$end_form = $class->html->EndForm($ibforums->lang['submit_edit']);
+		$end_form = View::make("post.EndForm", ['data' => $ibforums->lang['submit_edit']]);
 
 		$post_icons = $class->html_post_icons($this->orig_post['icon_id']);
 
@@ -722,10 +716,16 @@ class post_functions extends Post
 			if ($attachments = Attachment::getPostAttachmentsFromRow($this->orig_post))
 			{
 
-				$upload_field .= $class->html->edit_upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024), $attachments);
+				$upload_field .= View::make(
+					"post.edit_upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024), 'files' => $attachments]
+				);
 			} else
 			{
-				$upload_field = $class->html->Upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024));
+				$upload_field = View::make(
+					"post.Upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]
+				);
 			}
 		}
 
@@ -741,8 +741,6 @@ class post_functions extends Post
 		$class->output = str_replace("<!--UPLOAD FIELD-->", $upload_field, $class->output);
 		$class->output = preg_replace("/<!--RIGHTS OPTIONS-->/", "$rights_options", $class->output);
 		$class->output = str_replace("<!--MOD OPTIONS-->", $mod_options . $edit_option, $class->output);
-
-		// Song * IBF forum rules
 
 		if ($class->forum['show_rules'])
 		{

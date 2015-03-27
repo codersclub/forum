@@ -20,6 +20,7 @@
   |	> Module Version Number: 1.0.0
   +--------------------------------------------------------------------------
  */
+use Views\View;
 
 $idx = new Login;
 
@@ -38,8 +39,6 @@ class Login
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_login', $ibforums->lang_id);
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_error', $ibforums->lang_id);
-
-		$this->login_html = $std->load_template('skin_login');
 
 		if (USE_MODULES == 1)
 		{
@@ -224,8 +223,6 @@ class Login
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		// Song * NEW
-
 		if (!$forums_read = $ibforums->forums_read)
 		{
 			$forums_read = array();
@@ -245,7 +242,6 @@ class Login
 
 		$ibforums->db->exec("UPDATE ibf_members SET forums_read='" . serialize($forums_read) . "' WHERE id='" . $ibforums->member['id'] . "'");
 
-		// Song * NEW
 		//--------------------------------------
 		// Are we getting kicked back to the root forum (if sub forum) or index?
 		//--------------------------------------
@@ -299,10 +295,17 @@ class Login
 			$message = $ibforums->lang[$message];
 			$message = preg_replace("/<#NAME#>/", "<b>{$ibforums->input['UserName']}</b>", $message);
 
-			$this->output .= $this->login_html->errors($message . ' ' . $error_message);
+			$this->output .= View::make("login.errors", ['data' => $message . ' ' . $error_message]);
 		}
 
-		$this->output .= $this->login_html->ShowForm($ibforums->lang['please_log_in'], $_SERVER['HTTP_REFERER']);
+		$print->js->addLocal('login.js');
+		$print->exportJSLang([
+			'blank_fields'
+		]);
+		$this->output .= View::make(
+			"login.ShowForm",
+			['message' => $ibforums->lang['please_log_in'], 'referer' => $_SERVER['HTTP_REFERER']]
+		);
 
 		$this->nav        = array($ibforums->lang['log_in']);
 		$this->page_title = $ibforums->lang['log_in'];
@@ -409,11 +412,7 @@ class Login
 				$ibf->db->insertRow('ibf_sessions', $data);
 			}
 
-			// Song * who was today online (members)
-
 			$std->who_was_member($member['id']);
-
-			// Song * who was today online (members)
 
 			$ibf->member     = $member;
 			$ibf->session_id = $session_id;

@@ -258,6 +258,7 @@ Thanks, "DigiMania" Shop Service Bot
 ';
 $INFO['msg_allow_code']			=	'1';
 $INFO['msg_allow_html']			=	'0';
+$INFO['newbie_group']			=	'31';
 $INFO['new_reg_notify']			=	'0';
 $INFO['news_forum_id']			=	'86';
 $INFO['news_forum_id2']			=	'90';

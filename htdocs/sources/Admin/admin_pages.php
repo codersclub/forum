@@ -58,7 +58,7 @@ $PAGES = array(
 		6 => array('Re-Order Forums', 'act=forum&code=reorder'),
 		7 => array('Moderators', 'act=mod'),
 		8 => array('Topic Multi-Moderation', 'act=multimod'),
-		9 => array('Syntax Highlight', 'act=syntax'), // Вот эту. Leprecon
+		9 => array('Syntax Highlight', 'act=syntax'),
 	),
 	4  => array(
 		1 => array('Moderator\'s CP', 'act=modcp', 1),
@@ -82,14 +82,6 @@ $PAGES = array(
 		2 => array('Manage Emoticons', 'act=sskin'),
 		3 => array('Manage Help Files', 'act=help'),
 		4 => array('Recount Statistics', 'act=op&code=count'),
-
-	),
-	7  => array(
-		1 => array('<b>Manage Skin Sets</b>', 'act=sets'),
-		2 => array('&#0124;-- Board Wrappers', 'act=wrap'),
-		3 => array('&#0124;-- HTML Templates', 'act=templ'),
-		5 => array('&#039;-- Macros', 'act=image'),
-		6 => array('Import Skin files', 'act=import'),
 
 	),
 	8  => array(
@@ -131,10 +123,6 @@ $PAGES = array(
 		11 => array('<b>Updater</b>', 'act=store&code=update_page'),
 	),
 	14 => array(
-		//------------------------------------------------------------
-		// RSS feeds import (c) vot
-		// Date added: 01.06.2007
-		//------------------------------------------------------------
 		1 => array('RSS Sources', 'act=rss_sources'),
 		2 => array('RSS Channels', 'act=rss_channels'),
 		3 => array('RSS Logs', 'act=rss_logs'),
@@ -150,7 +138,6 @@ $CATS = array(
 	4  => 'Forum Moderation',
 	5  => 'Users and Groups',
 	6  => 'Administration',
-	7  => 'Skins & Templates',
 	8  => 'Languages',
 	9  => 'Statistic Center',
 	10 => 'SQL Management',
@@ -167,7 +154,6 @@ $DESC = array(
 	4  => "Access the moderators CP and manage topic multi-moderation",
 	5  => "Edit, register, remove and ban members. Set up member titles and ranks. Manage User Groups and moderated registrations",
 	6  => "Manage Help Files, Bad Word Filters and Emoticons",
-	7  => "Manage templates, skins, colours and images.",
 	8  => "Manage language sets",
 	9  => "Get registration and posting statistics",
 	10 => "Manage your SQL database; repair, optimize and export data",

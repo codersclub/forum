@@ -161,11 +161,11 @@ if($ARGC > 0) {
     $item{'post_id'} = $pid;
 
     $query = "SELECT topic_id, forum_id FROM ibf_posts
-   	    WHERE 
+   	    WHERE
   		pid   ='".$item{post_id}."'
              ";
 
-    if($debug) {	
+    if($debug) {
       print "Look for post exists query:\n";
       print $query."\n";
       print "============================\n";
@@ -210,7 +210,7 @@ if($ARGC > 0) {
       foreach $k (keys %channel) {
         print $k."=>".$channel{$k}."\n";
       }
-      print "-----------------------------------------------\n"; 
+      print "-----------------------------------------------\n";
     }
 
     process_channel(%channel);
@@ -291,7 +291,7 @@ sub get_rss_channels {
       foreach $k (keys %{$row}) {
         print $k."=>".$row->{$k}."\n";
       }
-      print "-----------------------------------------------\n"; 
+      print "-----------------------------------------------\n";
     }
 
     $i++;
@@ -313,7 +313,7 @@ sub process_channel {
     foreach $k (keys %channel) {
       print $k."=>".$channel{$k}."\n";
     }
-    print "-----------------------------------------------\n"; 
+    print "-----------------------------------------------\n";
   }
 
   my $page = get $channel{channel_url} or die("Can not open url: \"".$channel{channel_url}."\": $!");
@@ -482,7 +482,6 @@ sub process_item {
 
 #  unless(check_item(%item)) {
   if($item{pid} || !check_item(%item)) {
-#vot  if($item{pid}) {
 
     if($item{posting_type} eq 'SHORT') {
 
@@ -616,7 +615,7 @@ sub log_item {
   my %item = @_;
   my $forumlink = 'http://forum.sources.ru/index.php?showtopic='.$item{topic_id};
   $query = "INSERT INTO ibf_rss_logs
-	    SET 
+	    SET
 	    	source_id='".$item{source_id}."',
 		news_id='".$item{guid}."',
 	    	news_date='".strtotime($item{pubdate})."',
@@ -695,7 +694,7 @@ sub insert_topic {
 		posts		= 0,
 		views		= 0
 	";
-  if($debug) {	
+  if($debug) {
     print "insert_topic:\n";
     print $query."\n";
     print "============================\n";
@@ -737,15 +736,15 @@ sub update_topic {
   Encode::_utf8_off($description);
 
   $query = "UPDATE ibf_topics
-	    SET	
+	    SET
 		title           ='".addslashes($title)."'
 	   WHERE
 		forum_id   ='".$item{forum_id}."' AND
-		tid        ='".$item{topic_id}."' 
+		tid        ='".$item{topic_id}."'
 	";
 #		, description     ='".addslashes($description)."'
 
-  if($debug) {	
+  if($debug) {
     print "update_topic:\n";
     print $query."\n";
     print "============================\n";
@@ -795,11 +794,11 @@ sub update_post {
 		author_name='".$item{user_name}."',
 		ip_address ='127.0.0.1',
 		indexed    = 1
-	   WHERE 
+	   WHERE
 		pid   ='".$item{post_id}."'
            ";
 
-  if($debug) {	
+  if($debug) {
     print "update_post:\n";
     print $query."\n";
     print "============================\n";
@@ -870,7 +869,7 @@ sub insert_post {
 		indexed    = 1
            ";
 
-  if($debug) {	
+  if($debug) {
     print "insert_post:\n";
     print $query."\n";
     print "============================\n";
@@ -925,7 +924,7 @@ sub update_forum {
 		last_poster_name = '".$item{'user_name'}."'
             WHERE id='".$item{'forum_id'}."'";
 
-  if($debug) {	
+  if($debug) {
     print "update_forum:\n";
     print $query."\n";
     print "============================\n";
@@ -939,7 +938,7 @@ sub update_forum {
 
 
 #----------------------------------------
-# vot: new extract body algorithm
+# new extract body algorithm
 sub cnews_body_rewrite {
 
  my $link = shift;
@@ -1036,7 +1035,7 @@ sub cnews_body_rewrite {
 
  } else {
 
-    
+
    $page =~ s/^.+<div id\=\"pr_rewrite\"\>//is;
 
 #   $page =~ s/^.+<h(\d)[^>]*>/<h$1>/is;
@@ -1057,10 +1056,10 @@ sub cnews_body_rewrite {
 #     print "################# END OF BODY #####################\n";
    }
 
-   
+
  }
 
- $page =~ s/<p><b>Читайте на CNews<\/b>.+<\/p>//is;
+ $page =~ s/<p><b>пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ CNews<\/b>.+<\/p>//is;
 
  $page =~ s/<style.+<\/style>//igs;
  $page =~ s/<form.+<\/form>//igs;
@@ -1107,11 +1106,11 @@ sub rebuild_html
 #  my $newpage=$_[0];
   my $newpage=shift;
 
-  $newpage=~s/\r//g;			# vot: remove all CR
+  $newpage=~s/\r//g;			# remove all CR
 
   $newpage=~s/\n/ /g;			# \n => " "
 
-  $newpage=~s/\t/ /g;			# vot: remove middle spaces
+  $newpage=~s/\t/ /g;			# remove middle spaces
 
   $newpage=~s/&nbsp;/ /ig;		# &nbsp; => " "
 
@@ -1139,17 +1138,16 @@ sub rebuild_html
 
   $newpage=~s/<P align=center>([^>]+)<\/P>/[c]${1}[\/c]/ig;	# <P align=center> </P> => [c] [/c]
   $newpage=~s/<P[^>]*>/[br][br]/ig;	# <P> => <br><br>
-  $newpage=~s/<\/P>/\n/ig;		# <P> => \n 
+  $newpage=~s/<\/P>/\n/ig;		# <P> => \n
 
   # convert links to BB-Code
 
-# !!! DOES NOT WORK
-
-  $newpage=~s/<a[^>]*href=\s*[\"\']*([^\'\">]+)[\"\']*[^>]*>/[url=$1]/ig;	# <a> => [url]
+# !!! todo check working
+  $newpage=~s/<a.+?href\s*=\s*[\'|\"](.+?)[\'|\"].*?>/[url=$1]/ig;	# <a> => [url]
   $newpage=~s/<\/a>/[\/url]/isg;		# <a> => [/url]
 # !!! DOES NOT WORK
   $newpage=~s/src\=([\"\'])\s/src=${1}/ig;	# src=" http..."
-  $newpage=~s/<img[^>]*src=["']([^"']+)["'][^>]*>/[img]${1}[\/img]/ig;	# <img> => [img][/img]	
+  $newpage=~s/<img[^>]*src=["']([^"']+)["'][^>]*>/[img]${1}[\/img]/ig;	# <img> => [img][/img]
 
 
   $newpage=~s/<[^>]+>/ /g;		# remove all html tags
@@ -1162,14 +1160,14 @@ sub rebuild_html
 
   # remove repeated \n & spaces
 
-  $newpage=~s/^\s+//m;			# vot: remove leading spaces & \n
-  $newpage=~s/^\s+//gm;			# vot: remove leading spaces
+  $newpage=~s/^\s+//m;			# remove leading spaces & \n
+  $newpage=~s/^\s+//gm;			# remove leading spaces
 
-  $newpage=~s/\s+$//gm;			# vot: remove trailing spaces
+  $newpage=~s/\s+$//gm;			# remove trailing spaces
 
   $newpage=~s/\n+/\n\n/g;
 
-  $newpage=~s/ +/ /gm;			# vot: remove middle spaces
+  $newpage=~s/ +/ /gm;			# remove middle spaces
 
 
 
@@ -1193,7 +1191,7 @@ sub rebuild_html
 #   print $newpage."\n";
 #   print "-------END OF REBUILD HTML------------\n";
  }
-  
+
   return $newpage;
 }
 
@@ -1214,7 +1212,7 @@ sub clean_html
 {
   my $body=shift;
 
-  $body=~s/\r//g;		# vot: remove all CR
+  $body=~s/\r//g;		# remove all CR
   $body=~s/\n/ /g;		# \n => " "
   $body=~s/&amp;/\&/ig;		# &amp; => "&"
 
@@ -1224,9 +1222,9 @@ sub clean_html
   # remove repeated \n & spaces
 
   $body=~s/\n+/\n\n/sg;
-  $body=~s/^\s+//g;		# vot: remove leading spaces
-  $body=~s/\s+$//g;		# vot: remove trailing spaces
-  $body=~s/\s+/ /g;		# vot: remove middle spaces
+  $body=~s/^\s+//g;		# remove leading spaces
+  $body=~s/\s+$//g;		# remove trailing spaces
+  $body=~s/\s+/ /g;		# remove middle spaces
 
   return $body;
 }
@@ -1236,8 +1234,8 @@ sub clean_html
 sub trim {
   my $content = shift;
 
-  $content=~s/^\s+//ms;			# vot: remove leading spaces
-  $content=~s/\s+$//ms;			# vot: remove trailing spaces
+  $content=~s/^\s+//ms;			# remove leading spaces
+  $content=~s/\s+$//ms;			# remove trailing spaces
 
   return $content;
 }
@@ -1262,16 +1260,16 @@ sub addslashes {
 #  $s =~ s/\%/\\%/gm;
   $s =~ s/\'/\\'/gm;
   return $s;
-#\n linefeed (LF or 0x0A (10) in ASCII)  
-#\r carriage return (CR or 0x0D (13) in ASCII)  
-#\t horizontal tab (HT or 0x09 (9) in ASCII)  
-#\\ backslash  
-#\$ dollar sign  
-#\" double-quote  
-#\[0-7]{1,3} the sequence of characters matching the regular expression 
-# is a character in octal notation   
-#\x[0-9A-Fa-f]{1,2} the sequence of characters matching the regular expression 
-# is a character in hexadecimal notation   
+#\n linefeed (LF or 0x0A (10) in ASCII)
+#\r carriage return (CR or 0x0D (13) in ASCII)
+#\t horizontal tab (HT or 0x09 (9) in ASCII)
+#\\ backslash
+#\$ dollar sign
+#\" double-quote
+#\[0-7]{1,3} the sequence of characters matching the regular expression
+# is a character in octal notation
+#\x[0-9A-Fa-f]{1,2} the sequence of characters matching the regular expression
+# is a character in hexadecimal notation
 }
 
 
@@ -1389,7 +1387,7 @@ sub index_posts {
 
       if ( $id ) {
         $dsql = "INSERT INTO ibf_search VALUES (".$post_id.",".$topic_id.",".$forum_id.",".$id.")";
-        if($debug) {	
+        if($debug) {
           print "index_posts query:\n";
           print $dsql."\n";
           print "============================\n";
@@ -1440,7 +1438,7 @@ sub stripwords {
   #    ($plain_text = $html_text) =~ s/<(?:[^>'"]*|(['"]).*?\1)*>//gs;
 
   # Clean UBB quote tags
-#[QUOTE=Summit-,5.11.03, 15:58] +> R  -R <R ......  -R_   R < -? 
+#[QUOTE=Summit-,5.11.03, 15:58] +> R  -R <R ......  -R_   R < -?
 #      _ R_ RR _R R<!     ;D [/QUOTE]
 #[QUOTE=perch,5.11.03, 21:20] ( -R  Rc _ , R<R RR< _-_ R..., R_- -  :blink:  ) [/QUOTE]-R
 #<!--quotebegin--> ...... <!--quoteend-->
@@ -1458,7 +1456,7 @@ sub stripwords {
   }
 
   $post =~ s#\[quote[^\]]*\](.+?)\[/quote\]# #igs;
-  
+
 
 #    while ( $post =~ m#<\!--quotebegin-->(.+?)<\!--quoteend-->#is) {
 #      $post =~ s#<\!--quotebegin-->(.+?)<\!--quoteend--># #igs;
@@ -1681,7 +1679,7 @@ sub utf2win {
   my $str = shift;
 #  Encode::from_to($str, "utf-8", "windows-1251");
   Encode::from_to($str, "utf8", "windows-1251");
-#  $str = encode("cp1251", decode("utf8", $str)); 
+#  $str = encode("cp1251", decode("utf8", $str));
   return $str;
 }
 
@@ -1732,7 +1730,7 @@ sub utf8_to_win1251 {
   "\xD1\x8E"=>"", "\xD0\xAE"=>"",
   "\xD1\x8F"=>"", "\xD0\xAF"=>"",
   "\xC2\xAB"=>"&laquo;", "\xC2\xBB"=>"&raquo;",
-  );   
+  );
 
   $str =~ s|\xE2\x80\x93|&minus;|sg; # minus
   $str =~ s|\xE2\x80\x94|&mdash;|sg; # tire

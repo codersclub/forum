@@ -20,6 +20,7 @@
 |	> Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
+use Views\View;
 
 $idx = new Online;
 
@@ -29,7 +30,6 @@ class Online
 	var $output = "";
 	var $page_title = "";
 	var $nav = array();
-	var $html = "";
 	var $first = 0;
 	var $perpage = 25;
 
@@ -53,7 +53,7 @@ class Online
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 		}
 
-		// vot: Disable negative 'st' value
+		// Disable negative 'st' value
 		if ($ibforums->input['st'] < 0)
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
@@ -69,8 +69,6 @@ class Online
 		//--------------------------------------------
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_online', $ibforums->lang_id);
-
-		$this->html = $std->load_template('skin_online');
 
 		$this->base_url = $ibforums->base_url;
 
@@ -248,7 +246,7 @@ class Online
 		                                    'BASE_URL'   => $this->base_url . "&amp;act=Online&amp;CODE=listall&amp;sort_key=$sort_key_value&amp;sort_order=$sort_order_value&amp;show_mem=$show_mem_value"
 		                               ));
 
-		$this->output = $this->html->Page_header($links);
+		$this->output = View::make("online.Page_header", ['links' => $links]);
 
 		// Grab all the current sessions.
 
@@ -461,7 +459,14 @@ class Online
 
 		}
 
-		$this->output .= $this->html->Page_end($show_mem_html, $sort_order_html, $sort_key_html, $links);
+		$this->output .= View::make("online.Page_end",
+			[
+				'show_mem'   => $show_mem_html,
+				'sort_order' => $sort_order_html,
+				'sort_key'   => $sort_key_html,
+				'links'      => $links
+			]
+		);
 
 		$this->page_title = $ibforums->lang['page_title'];
 		$this->nav        = array($ibforums->lang['page_title']);
@@ -487,7 +492,7 @@ class Online
 			}
 		}
 
-		return $this->html->show_row($sess);
+		return View::make("online.show_row", ['session' => $sess]);
 	}
 
 	function list_forum()

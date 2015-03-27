@@ -23,6 +23,8 @@
 
 require_once dirname(__FILE__) . '/PostEditHistory.php';
 
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -118,8 +120,6 @@ class post_functions extends Post
 		{
 			$can_edit = 1;
 		}
-
-		// Song * post has modcomment
 
 		if ($this->orig_post['author_id'] == $ibforums->member['id'] and $ibforums->member['g_edit_posts'])
 		{
@@ -252,12 +252,19 @@ class post_functions extends Post
 		if ($old_post_id == "finished")
 		{
 			$view_post_text = $print->diff_text($old_post_text, $new_post_text, "<div style='background:#80FF80'>", " </div>", "<div style='background:#FF8080'>", " </div>", "", " \n", "<span style='background:#80FF80'>", "</span>", "<span style='background:#FF8080'>", "</span>");
-			$view_post_text = $class->html->posts_comparison($view_post_text);
+			$view_post_text = View::make("post.posts_comparison", ['text' => $view_post_text]);
 			$print->text_only($ibforums->lang['post_comparison'] . "\n" . $view_post_text, true);
 		} else
 		{
 
-			$class->output .= $class->html->edit_history($items, $this->orig_post['forum_id'], $this->orig_post['topic_id'], $this->orig_post['pid']);
+			$class->output .= View::make("post.edit_history",
+				[
+					'data'     => $items,
+					'forum_id' => $this->orig_post['forum_id'],
+					'topic_id' => $this->orig_post['topic_id'],
+					'post_id'  => $this->orig_post['pid']
+				]
+			);
 
 			$this->nav = array(
 				"<a href='{$class->base_url}&act=SC&c={$class->forum['cat_id']}'>{$class->forum['cat_name']}</a>",

@@ -19,6 +19,7 @@
 |
 +--------------------------------------------------------------------------
 */
+use Views\View;
 
 class syntax_cfg
 {
@@ -64,6 +65,7 @@ class ReplacementsStrorage
 
 	public function add($string)
 	{
+		Logs::debug('Parser', 'Replacement added to storage: ' . $string);
 		$this->last_id++;
 		$key = sprintf('%s%05d%s', $this->prefix, $this->last_id, $this->suffix);
 		$this->data[ $key ] = $string;
@@ -132,12 +134,6 @@ class PostParser
 
 	public $post_attachments = array();
 	public $siu_thumb = false;
-
-
-	// ******************************************************************************
-	// ***  Highlight Functions (c) by Leprecon
-	// ***  Modified by Song, 24.12.04 for local client highlight
-	// ******************************************************************************
 
 	function syntax_load_by_code($syntax, $method)
 	{
@@ -410,7 +406,6 @@ class PostParser
 
 				$length = mb_strlen($code);
 
-				// Song * Opera tool
 				// Client highlight is very slow for large text,
 				// so, reset highlight to server if current browser
 				// Opera and length of code tag is more than 10 kb.
@@ -431,10 +426,7 @@ class PostParser
 						}
 					} else
 					{
-						// Song * patch for 1C syntax
-						// (because there is confusing with
-						// russian "C" letter), 03.03.05
-
+						// patch for 1C syntax
 						if ($syntax == "1С" or $syntax == "1с")
 						{
 							$syntax = "1C";
@@ -515,7 +507,7 @@ class PostParser
 						$code = mb_substr($code, $l);
 					} else
 					{
-						$view .= $this->syntax_code_to_view($code[0]);
+						$view .= $this->syntax_code_to_view(mb_substr($code, 0, 1));
 
 						$pos++;
 						$code = mb_substr($code, 1);
@@ -571,7 +563,6 @@ class PostParser
 		                               'CODE_ID' => $this->code_count
 		                          ));
 
-		// vot	15/03/06
 		$view = "{$html['START']}<div>$view</div>{$html['END']}";
 		if ($temp == 'client' && $cfg)
 		{
@@ -628,23 +619,26 @@ class PostParser
 	//за исключением тех, которые находятся дальше последнего [/spoiler], ибо они сюда даже не попадут
 	private function convert_spoiler($matches)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 		//Проверка matches[4] здесь - выяснение, сработало вхождение [spoiler] или [/spoiler].
 		if (!$matches[4])
 		{
 			//Starting Tag
 			$this->quote_open++;
 			$matches[3] = trim($matches[3]);
-			return $skin_universal->renderTagSpoilerTop(
-				$matches[3]
-					? $matches[3]
-					: $ibforums->lang["spoiler"]
+			return View::make(
+				'tags.spoiler.top',
+				[
+					'header' => $matches[3]
+						? $matches[3]
+						: $ibforums->lang["spoiler"]
+				]
 			);
 		} elseif ($this->quote_open > 0)
 		{
 			// Ending Tag
 			$this->quote_open--;
-			return $skin_universal->renderTagSpoilerBottom();
+			return View::make("tags.spoiler.bottom");
 		} else
 		{
 			// Leave As Is
@@ -654,7 +648,6 @@ class PostParser
 	}
 
 	/**************************************************/
-	// vot:
 	// regex_parse_spoiler: Builds this [SPOILER] .. [/SPOILER] tag HTML
 	/**************************************************/
 	function regex_parse_spoiler($the_txt = "")
@@ -695,24 +688,12 @@ class PostParser
 
 	function smilie_length_sort($a, $b)
 	{
-		if (mb_strlen($a['typed']) == mb_strlen($b['typed']))
-		{
-			return 0;
-		}
-		return (mb_strlen($a['typed']) > mb_strlen($b['typed']))
-			? -1
-			: 1;
+		return mb_strlen($b['typed']) - mb_strlen($a['typed']);
 	}
 
 	function word_length_sort($a, $b)
 	{
-		if (mb_strlen($a['type']) == mb_strlen($b['type']))
-		{
-			return 0;
-		}
-		return (mb_strlen($a['type']) > mb_strlen($b['type']))
-			? -1
-			: 1;
+		return mb_strlen($b['type']) - mb_strlen($a['type']);
 	}
 
 	///////////////////////////////////////////////////////////
@@ -720,6 +701,10 @@ class PostParser
 	function __construct($load = 0)
 	{
 		global $ibforums;
+
+		if (!\Logs\Logger::isChannelRegistered('Parser')) {
+			\Logs\Logger::registerChannel('Parser');
+		}
 
 		$this->strip_quotes = $ibforums->vars['strip_quotes'];
 
@@ -753,8 +738,6 @@ class PostParser
 
 			// Pre-load the smilies
 			$this->emoticons = array();
-
-			// Song * smile skin
 
 			if (!$ibforums->member['id'])
 			{
@@ -936,7 +919,7 @@ class PostParser
 
 			!trim($text) && $text = $ibforums->lang['attached_file'];
 
-			$text = Ibf::app()->functions->load_template('skin_forum')->attach($text, $attach);
+			$text = View::make('forum.attach', ['text' => $text, 'attach' => $attach]);
 		}
 		return $text;
 	}
@@ -962,34 +945,40 @@ class PostParser
 
 		if ($attach->hasOption('img'))
 		{ //image as itself
-			$text = Ibf::app()->functions->load_template('skin_forum')->attachImageFull(
-				$text,
-				$alt,
-				$attach->getHref()
+			$text = View::make(
+				'forum.attachImageFull',
+				[
+					'text' => $text,
+					'alt'  => $alt,
+					'url'  => $attach->getHref()
+				]
 			);
 		} elseif ($show_reduced)
 		{
 			//image as reduced preview
-			$text = Ibf::app()->functions->load_template('skin_forum')
-				->attachImagePreviewReduced(
-				$text,
-				$alt,
-				$attach
+			$text = View::make(
+				'forum.attachImagePreviewReduced',
+				[
+					'text'   => $text,
+					'alt'    => $alt,
+					'attach' => $attach
+				]
 			);
 		} else
 		{
 			//image as preview
-			$text = Ibf::app()->functions->load_template('skin_forum')
-				->attachImagePreview(
-				$text,
-				$alt,
-				$attach
+			$text = View::make(
+				'forum.attachImagePreview',
+				[
+					'text'   => $text,
+					'alt'    => $alt,
+					'attach' => $attach
+				]
 			);
 		}
 		return $text;
 	}
 
-	// Song + Shaman * parse smiles, smile skin
 	function prepareIcons()
 	{
 		global $ibforums;
@@ -1001,8 +990,6 @@ class PostParser
 
 		if (!is_array($this->emoticons))
 		{
-
-			// Song * smile skin
 
 			if (!$ibforums->member['id'])
 			{
@@ -1021,8 +1008,6 @@ class PostParser
 				clickable
 			    FROM ibf_emoticons
 			    WHERE skid='" . $id . "'");
-
-			// /Song * smile skin
 
 			$this->emoticons = array();
 
@@ -1064,8 +1049,12 @@ class PostParser
 				$image = $row['image'];
 
 				// Make safe for regex
-				$code = preg_quote($code, "/");
-				$txt  = preg_replace("!(?<=[^\w&;])$code(?=.\W|\W.|\W$)!e", "\$this->convert_emoticon('$code', '$image')", $txt);
+				$code = preg_quote($code, "#");
+				$txt  = preg_replace_callback("#(?<=[^\w&;])$code(?=.\W|\W.|\W$)#u", function($a) use ($image) {
+							return $this->convert_emoticon($a[0], $image);
+						},
+						$txt
+					);
 			}
 		}
 
@@ -1073,10 +1062,9 @@ class PostParser
 
 	}
 
-	// Song * message for moderator only, 03.11.2004
 	function regex_moderator_message($message)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$message or !$ibforums->member['id'])
 		{
@@ -1087,13 +1075,13 @@ class PostParser
 			return "";
 		}
 
-		return $skin_universal->renderTagMM($message);
+		return View::make("tags.MM", ['text' => $message]);
 
 	}
 
 	function regex_global_moderator_message($message, $mid = 0)
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$ibforums->member['id'] or !$message)
 		{
@@ -1113,15 +1101,13 @@ class PostParser
 			}
 		}
 
-		return $skin_universal->renderTagGM($message);
+		return View::make("tags.GM", ['text' => $message]);
 
 	}
 
 	// *******************************************************************
 	// *********************** Main Draw Function ************************
 	// *******************************************************************
-
-	// Shaman * Main Draw Function
 
 	function prepare($in = array(
 		'TEXT'      => "",
@@ -1135,7 +1121,9 @@ class PostParser
 	))
 	{
 
-		global $ibforums, $skin_universal;
+		global $ibforums;
+
+		Logs::debug('Parser', 'PostParser::prepare called', ['in' => $in]);
 
 		if (!isset($in['CODE']))
 		{
@@ -1176,7 +1164,7 @@ class PostParser
 		// text we are processing?
 		//--------------------------------------
 
-		// Song * do not parse message if "[" is absent in it's body,
+		// do not parse message if "[" is absent in it's body,
 		// but parse smiles
 
 		if (mb_strpos($txt, "[") === FALSE)
@@ -1214,16 +1202,14 @@ class PostParser
 		$txt = preg_replace("#\[hr\]#is", "<hr>", $txt);
 
 
-		// Song * time tag
 		$txt = preg_replace_callback(
 			"#\[mergetime\](\d+)\[/mergetime\]#is",
 			function($m) {
-				global $skin_universal;
 				$ibf = Ibf::app();
 
 				return ($ibf->vars['plg_offline_client'] || $ibf->member['rss']) //todo !!!!??!!!!
 					? $ibf->functions->old_get_date($m[1])
-					: $skin_universal->renderTime($m[1], 'tag-mergetime');
+					: View::make("global.time", ['unixtime' => $m[1], 'class' => 'tag-mergetime']);
 			},
 			$txt);
 
@@ -1336,7 +1322,6 @@ class PostParser
 			$txt = preg_replace("#\[s\](.*?)\[/s\]#is", "<s class='tag-s'>\\1</s>", $txt);
 			$txt = preg_replace("#\[o\](.*?)\[/o\]#is", "<span class='tag-o'>\\1</span>", $txt);
 
-			// vot: SUBscript & SUPERscript
 			$txt = preg_replace("#\[sub\](.*?)\[/sub\]#is", "<sub class='tag-sub'>\\1</sub>", $txt);
 			$txt = preg_replace("#\[sup\](.*?)\[/sup\]#is", "<sup class='tag-sup'>\\1</sup>", $txt);
 
@@ -1347,14 +1332,6 @@ class PostParser
 
 			// email tags
 			// [email]matt@index.com[/email]   [email=matt@index.com]Email me[/email]
-
-			// ******************************************** COMMENTED BY SONG **********************************************
-
-			//		$txt = preg_replace( "#\[email\](\S+?)\[/email\]#i"                                                                , "<a href='mailto:\\1'>\\1</a>", $txt );
-			//		$txt = preg_replace( "#\[email\s*=\s*\&quot\;([\.\w\-]+\@[\.\w\-]+\.[\.\w\-]+)\s*\&quot\;\s*\](.*?)\[\/email\]#i"  , "<a href='mailto:\\1'>\\2</a>", $txt );
-			//		$txt = preg_replace( "#\[email\s*=\s*([\.\w\-]+\@[\.\w\-]+\.[\w\-]+)\s*\](.*?)\[\/email\]#i"                       , "<a href='mailto:\\1'>\\2</a>", $txt );
-
-			// ******************************************** COMMENTED BY SONG **********************************************
 
 			// font size, colour and font style
 			// [font=courier]Text here[/font]  [size=6]Text here[/size]  [color=red]Text here[/color]
@@ -1388,19 +1365,8 @@ class PostParser
 
 		}
 
-		// Swop \n back to <br>
-		//negram	$txt = preg_replace( "/\n/", "<br>", $txt );
-		/*
-	 * очистить от переносов строки внутри структуры таблиц
-	 * чтоб не получилось такого:
-	 * <table><br>
-	 * <tr><br><td></td>
-	 * </tr>
-	 * </table>
-	 */
-
 		//--------------------------------------
-		// Tables by vot (Convert)
+		// Tables
 		//--------------------------------------
 
 		$txt = preg_replace_callback(
@@ -1441,8 +1407,6 @@ class PostParser
 		// and each signature when viewing a topic, not something that we really want to do.
 		//+---------------------------------------------------------------------------------------------------
 
-		// Shaman * noHTML + Song * smile skin
-
 		if ($in['SMILIES'] != 0 and $in['SIGNATURE'] == 0 and $ibforums->member['view_img'])
 		{
 			$txt = $this->parse_smiles($txt);
@@ -1476,7 +1440,7 @@ class PostParser
 			$txt
 		);
 
-		// Leprecon * return &shy; back to ''
+		// return &shy; back to ''
 
 		$txt = preg_replace("#&shy;#", "", $txt);
 
@@ -1486,7 +1450,6 @@ class PostParser
 
 	/**************************************************/
 	// regex_table: Table generation
-	// (c) vot
 	/**************************************************/
 
 	function regex_table($txt = "")
@@ -1497,9 +1460,6 @@ class PostParser
 		$txt = preg_replace("#\[th\](.*?)\[/th\]#is", "<th>\\1</th>", $txt);
 		return "<table class='post_table tag-table'>" . $txt . "</table>";
 	}
-
-	//---------------------------------------------------
-	// Song * safe html text in code tag text, 03.11.2004
 
 	function cut_code_tag_text($code, $syntax)
 	{
@@ -1523,7 +1483,6 @@ class PostParser
 
 	}
 
-	// Song * moderator messages check, 03.11.2004
 	//todo придумать что с этим делать, ибо простое удаление тега - не вариант
 	function mod_messages_check($message)
 	{
@@ -1542,7 +1501,6 @@ class PostParser
 
 	}
 
-	// Song * moderator messages check, 03.11.2004
 	function global_mod_messages_check($message)
 	{
 		global $ibforums;
@@ -1570,6 +1528,8 @@ class PostParser
 	), $fid = "0")
 	{
 		global $ibforums, $std;
+
+		Logs::debug('Parser', 'PostParser::convert called.', ['in' => $in]);
 
 		$txt = $in['TEXT'];
 
@@ -1647,15 +1607,7 @@ class PostParser
 
 		// **************************** moderators tags *************************************************************
 
-		// Song * cut code tag text before macro replacing, 03.11.2004
-
-		// Song * macros replace
-
 		$txt = $this->macro($txt, $fid);
-
-		// Song * macros replace
-
-		// Song * restore code tag text after html text parsing, 03.11.2004
 
 		if ($this->code_counter)
 		{
@@ -1665,11 +1617,11 @@ class PostParser
 			}
 		}
 
-		// Song * restore code tag text after html text parsing, 03.11.2004
+		// restore code tag text after html text parsing
 
 		$txt = $this->bad_words($txt);
 
-		// vot: REMOVE/REPLACE disabled characters to spaces:
+		// REMOVE/REPLACE disabled characters to spaces:
 
 		$txt = str_replace("\r", "", $txt); // \015 = 13 = 0x0D
 		$txt = preg_replace('#[\000-\010]#', " ", $txt);
@@ -1681,8 +1633,6 @@ class PostParser
 
 	}
 
-	// Song * mod tags to upper, 26.11.04
-
 	function regex_mod_tag_convert($the_tag, $txt)
 	{
 
@@ -1690,9 +1640,7 @@ class PostParser
 		return "[" . $the_tag . "]" . $txt . "[/" . $the_tag . "]";
 	}
 
-	// Song * mod tags to upper, 26.11.04
-
-	// Song * macro hacks
+	// macro hacks
 	function macro($txt, $fid = "0")
 	{
 
@@ -1787,8 +1735,6 @@ class PostParser
 
 	}
 
-	// Song * parse rules and search
-
 	function regex_word_search($word, $type, $search_in, $fid = "")
 	{
 		global $ibforums;
@@ -1842,7 +1788,6 @@ class PostParser
 
 	}
 
-	// Vot & Song * parse rules and search
 	function wordreplacer($word, $type, $fid = "")
 	{
 		global $ibforums;
@@ -2250,8 +2195,6 @@ class PostParser
 
 		$this->emoticon_count++;
 
-		// Song * smile skin
-
 		if (!$ibforums->member['id'])
 		{
 			$sskin = 'Main';
@@ -2266,8 +2209,6 @@ class PostParser
 
 		//		return "<img src='".( ( $ibforums->vars['plg_offline_client'] or $ibforums->vars['pre_board_url'] ) ? $ibforums->vars['board_url']."/" : "" )."smiles/$sskin/$image' border='0' alt='$code'>";
 		return "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/$image' border='0' alt='$code'>";
-
-		// /Song * smile skin
 
 	}
 
@@ -2312,8 +2253,6 @@ class PostParser
 		{
 			$label = "<span class='tag-quote-prefix'>{$possible_use[ $in['STYLE'] ]['title']}</span>";
 
-			// Song * quote with post link, 26.11.04
-
 			if ($in['TID'] and $in['PID'] and
 			                   !$ibforums->vars['plg_offline_client'] and
 			                   !$this->cache_posts[$in['PID']]
@@ -2338,8 +2277,6 @@ class PostParser
 			{
 				$style .= 'color:' . self::color($in['FCOLOR']) . ';';
 			}
-
-			// vot: BAD MESSAGE. Require language file
 
 			if (!$ibforums->member['id'])
 			{
@@ -2436,8 +2373,6 @@ class PostParser
 
 	function regex_list($txt = "", $type = "")
 	{
-		global $skin_universal;
-
 		if ($txt == "")
 		{
 			return;
@@ -2446,8 +2381,8 @@ class PostParser
 		//$txt = str_replace( "\n", "", str_replace( "\r\n", "\n", $txt ) );
 
 		return $type == ""
-			? $skin_universal->renderTagListUnordered($this->regex_list_item($txt))
-			: $skin_universal->renderTagListOrdered($this->regex_list_item($txt), $type);
+			? View::make("tags.ListUnordered", ['text' => $this->regex_list_item($txt)])
+			: View::make("tags.ListOrdered", ['text' => $this->regex_list_item($txt), 'type' => $type]);
 	}
 
 	function regex_list_item($txt)
@@ -2466,7 +2401,7 @@ class PostParser
 
 	function regex_mod_tag($txt = "")
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$txt)
 		{
@@ -2489,7 +2424,7 @@ class PostParser
 		// Ensure that spacing is preserved
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
-		$html = $skin_universal->renderTagMod($txt);
+		$html = View::make("tags.Mod", ['text' => $txt]);
 
 
 		return $html;
@@ -2502,7 +2437,7 @@ class PostParser
 
 	function regex_exclaime_tag($txt = "")
 	{
-		global $ibforums, $skin_universal;
+		global $ibforums;
 
 		if (!$txt)
 		{
@@ -2526,7 +2461,7 @@ class PostParser
 
 		$txt = preg_replace("#\s{2}#", "&nbsp; ", $txt);
 
-		$html = $skin_universal->renderTagEx($txt);
+		$html = View::make("tags.Ex", ['text' => $txt]);
 
 		return $html;
 	}
@@ -2553,15 +2488,12 @@ class PostParser
 
 		$txt = preg_replace_callback('#\[quote\]#i', [$this,'regex_simple_quote_tag'], $txt);
 
-		// Song * quote with post link, 26.11.04
-
 		// for old date quote format: Wes,22.03.04, 22:24
 		$txt = preg_replace_callback('#\[quote\s*=([^\],]+?),(\d{2,4}\.\d{2}\.\d{2},\s*\d{2}:\d{2}(?:\d{2})?)(?:,(\d+))?\]#i', [$this,'regex_quote_tag'], $txt);
 
 		// for new date quote format: negram,1364666527,2642750
 		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?),(\d+?),(\d+?)\]#i', [$this,'regex_quote_tag'], $txt);
 
-		// Song * quote with post link, 26.11.04
 		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?),(\d+?)\]#i', [$this, 'regex_quote_tag'], $txt);
 
 		$txt = preg_replace_callback('#\[quote\s*=([^\]]+?)\]#i', [$this,'regex_quote_tag'], $txt);
@@ -2633,7 +2565,7 @@ class PostParser
 
 	function regex_quote_tag($matches)
 	{
-		global $ibforums, $std, $skin_universal;
+		global $ibforums, $std;
 
 		$name = $matches[1];
 		$date = $matches[2];
@@ -2664,7 +2596,7 @@ class PostParser
 			{
 				$date = ($ibforums->vars['plg_offline_client'] or $ibforums->member['rss'])
 					? $std->old_get_date($date)
-					: $skin_universal->renderTime($date, 'tag-quote__quoted-time');
+					: View::make("global.time", ['unixtime' => $date, 'class' => 'tag-quote__quoted-time']);
 			}
 
 			$html = $this->wrap_style(array(
@@ -2781,8 +2713,6 @@ class PostParser
 
 	function regex_font_attr($IN)
 	{
-		global $skin_universal;
-
 		if (!is_array($IN))
 		{
 			return "";
@@ -2809,21 +2739,21 @@ class PostParser
 				$IN['1'] = 30;
 			}
 
-			return $skin_universal->renderTagSize($IN['1'], $IN['2']);
+			return View::make("tags.Size", ['value' => $IN['1'], 'text' => $IN['2']]);
 
 		} elseif ($IN['s'] == 'col')
 		{
 			$IN[1] = strtolower(preg_replace("/[^\d\w\#\s]/s", "", $IN[1]));
 
 			return preg_match('!^([0-9a-f]{6}|[0-9a-f]{3})$!i', $IN['1'])
-				? $skin_universal->renderTagColor($IN['1'], $IN['2'])
-				: $skin_universal->renderTagColorNamed($IN['1'], $IN['2']);
+				? View::make("tags.Color", ['value' => $IN['1'], 'text' => $IN['2']])
+				: View::make("tags.ColorNamed", ['value' => $IN['1'], 'text' => $IN['2']]);
 
 		} elseif ($IN['s'] == 'font')
 		{
 			$IN['1'] = preg_replace("/[^\d\w\#\-\_\s]/s", "", $IN['1']);
 
-			return $skin_universal->renderTagFont($IN['1'], $IN['2']);
+			return View::make("tags.Font", ['value' => $IN['1'], 'text' => $IN['2']]);
 		}
 	}
 
@@ -2842,14 +2772,7 @@ class PostParser
 			$url['end'] = '';
 		}
 		$matches = null;
-		//look for ascii symbols and html version of forbidden ones (<>"{}~) and break url
-		//on the first of them.
-		if(preg_match('/&#\d+;|&quot;|&lt;|&gt;/', $url['html'], $matches, PREG_OFFSET_CAPTURE))
-		{
-			$pos = $matches[0][1];
-			$url['end'] = mb_substr($url['html'], $pos) . $url['end'];
-			$url['html'] = mb_substr($url['html'], 0, $pos);
-		}
+
 		if (!trim($url['show']))
 		{
 			$url['show'] = $url['html'];
@@ -2996,8 +2919,16 @@ class PostParser
 		// Make sure we don't have a JS link
 		$url['html'] = preg_replace("/javascript:/i", "java script&#58; ", $url['html']);
 
-		// Do we have http:// at the front?
+		//заменяем всякие &#..; удобно предоставленные нам предыдущими парсерами на percent-encoding
+		$url['html'] = preg_replace_callback(
+			'/&#(\d+);/',
+			function ($data) {
+				return '%' . dechex($data[1]);
+			},
+			$url['html']
+		);
 
+		// Do we have http:// at the front?
 		if (!preg_match("#^(http|news|https|ftp|aim)://#", $url['html']))
 		{
 			$url['html'] = 'http://' . $url['html'];
@@ -3031,7 +2962,6 @@ class PostParser
 
 		//url auto parser begin
 
-		//vot	if ( stristr($show, "forum.sources.ru") )
 		if (stristr($show, $ibforums->vars['board_url']))
 		{
 			if (preg_match("/showtopic=(\d+)/", $show, $find) || preg_match("/&t=(\d+)/", $show, $find))
@@ -3105,6 +3035,15 @@ class PostParser
 			return $url['html'];
 		}
 
+		//заменяем всякие &#..; удобно предоставленные нам предыдущими парсерами на percent-encoding
+		$url['html'] = preg_replace_callback(
+			'/&#(\d+);/',
+			function ($data) {
+				return '%' . dechex($data[1]);
+			},
+			$url['html']
+		);
+
 		// clean up the ampersands
 		$url['html'] = preg_replace("/&amp;/", "&", $url['html']);
 
@@ -3122,7 +3061,6 @@ class PostParser
 
 		//url auto parser begin
 
-		//vot	if ( stristr($show, "forum.sources.ru") )
 		if (stristr($show, $ibforums->vars['board_url']))
 		{
 			if (preg_match("/showtopic=(\d+)/", $show, $find) || preg_match("/&t=(\d+)/", $show, $find))

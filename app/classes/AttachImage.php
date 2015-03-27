@@ -1,4 +1,5 @@
 <?php
+// use finfo;
 
 class AttachImage extends Attachment
 {
@@ -98,16 +99,16 @@ class AttachImage extends Attachment
 	{
 		global $ibforums, $std;
 		$filename = $ibforums->vars['upload_dir'] . "/" . $this->realFilename();
-		$ext      = pathinfo($filename, PATHINFO_EXTENSION);
+		$finfo    = new finfo(FILEINFO_MIME);
+		$mime     = $finfo->file($filename);
 
-		switch ($ext)
+		switch ($mime)
 		{
-			case 'jpg':
-			case 'jpeg':
+			case 'image/jpeg':
 				return imagecreatefromjpeg($filename);
-			case 'png':
+			case 'image/png':
 				return imagecreatefrompng($filename);
-			case 'gif':
+			case 'image/gif':
 				//return @imagecreatefromgif($filename);
 		}
 
@@ -117,16 +118,16 @@ class AttachImage extends Attachment
 	private function saveImage($img)
 	{
 		$filename = $this->previewPath();
-		$ext      = pathinfo($filename, PATHINFO_EXTENSION);
+		$finfo    = new finfo(FILEINFO_MIME);
+		$mime     = $finfo->file($filename);
 
-		switch ($ext)
+		switch ($mime)
 		{
-			case 'jpg':
-			case 'jpeg':
+			case 'image/jpeg':
 				return imagejpeg($img, $filename);
-			case 'png':
+			case 'image/png':
 				return imagepng($img, $filename);
-			case 'gif':
+			case 'image/gif':
 				// return imagegif($img, $filename);
 		}
 		return false;

@@ -21,6 +21,8 @@
 +--------------------------------------------------------------------------
 */
 
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -215,8 +217,6 @@ class post_functions extends Post
 		// Build the master array
 		//-------------------------------------------------
 
-		// Song * club tool
-
 		if ($ibforums->input['club_only'] and
 		    $std->check_perms($ibforums->member['club_perms']) == FALSE
 		)
@@ -255,8 +255,6 @@ class post_functions extends Post
 			'hidden'           => $hidden,
 		);
 
-		// Song * new pinned
-
 		if ($pinned)
 		{
 			$this->topic['pinned_date'] = time();
@@ -279,7 +277,6 @@ class post_functions extends Post
 			$draft->delete();
 		}
 		//----------------------------------------------------
-		// vot:
 		// Index the Topic Title for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -302,8 +299,6 @@ class post_functions extends Post
 		{
 			$this->post['queued'] = 0;
 		}
-
-		// Song * delayed post deleting, 19.04.05
 
 		$this->post['delete_after'] = 0;
 
@@ -330,7 +325,6 @@ class post_functions extends Post
 		}
 
 		//----------------------------------------------------
-		// vot:
 		// Index the Post body for the Indexed Search Engine
 		//----------------------------------------------------
 
@@ -346,7 +340,6 @@ class post_functions extends Post
 				    SET has_mod_posts=1
 				    WHERE id='" . $class->forum['id'] . "'");
 
-			// Song * favorite checkbox in the new topic, 18.03.05
 			$this->add_to_fav();
 
 			$print->redirect_screen($ibforums->lang['moderate_topic'], "act=SF&f={$class->forum['id']}");
@@ -358,8 +351,6 @@ class post_functions extends Post
 		//-------------------------------------------------
 
 		$class->forum['topics']++;
-
-		// Song * club tool
 
 		if (!$ibforums->input['club_only'])
 		{
@@ -470,11 +461,7 @@ class post_functions extends Post
 					last_post='{$ibforums->member['last_post']}'
 				    WHERE id='{$ibforums->member['id']}'");
 
-			// Song * favorite checkbox in the new topic, 18.03.05
-
 			$this->add_to_fav();
-
-			// Song * additional flood control
 
 		} else
 		{
@@ -490,9 +477,6 @@ class post_functions extends Post
 		$std->boink_it($class->base_url . "act=ST&amp;f={$class->forum['id']}&amp;t={$this->topic['tid']}");
 
 	}
-
-	//-----------------------------------------------------
-	// Song * favorite checkbox in the new topic, 18.03.05
 
 	function add_to_fav()
 	{
@@ -538,13 +522,13 @@ class post_functions extends Post
 				$ibforums->lang[$class->obj['post_errors']] = sprintf($ibforums->lang[$class->obj['post_errors']], $ibforums->member['disable_mail_reason']);
 			}
 
-			$class->output .= $class->html->errors($ibforums->lang[$class->obj['post_errors']]);
+			$class->output .= View::make("post.errors", ['data' => $ibforums->lang[$class->obj['post_errors']]]);
 		}
 		if ($class->upload_errors)
 		{
 			foreach ($class->upload_errors as $error_message)
 			{
-				$class->output .= $class->html->errors($error_message);
+				$class->output .= View::make("post.errors", ['data' => $error_message]);
 			}
 		}
 
@@ -581,7 +565,7 @@ class post_functions extends Post
 				$class->process_edituploads($this->upload, Attachment::ITEM_TYPE_TOPIC_DRAFT);
 			}
 
-			$class->output .= $class->html->preview($this->post['post']);
+			$class->output .= View::make("post.preview", ['data' => $this->post['post']]);
 		} else
 		{
 
@@ -616,24 +600,30 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$topic_title = $class->html->topictitle_fields(array(
-		                                                    'TITLE' => $topic_title,
-		                                                    'DESC'  => $topic_desc
-		                                               ));
+		$topic_title = View::make(
+			'post.topictitle_fields',
+			[
+				'data' => [
+					'TITLE' => $topic_title,
+					'DESC'  => $topic_desc
+				]
+			]
+		);
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_new']} {$class->forum['name']}");
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_new']} {$class->forum['name']}"]
+		);
 
 		$name_fields = $class->html_name_field();
 
 		$post_box = $class->html_post_body($raw_post);
 
 		$mod_options = $class->mod_options();
-
-		// Song * club tool
 
 		if ($std->check_perms($ibforums->member['club_perms']) == TRUE and
 		    $ibforums->member['club_perms'] != $class->forum['read_perms']
@@ -644,10 +634,10 @@ class post_functions extends Post
 				$checked = 'checked';
 			}
 
-			$rights_options = $class->html->rights_options($checked);
+			$rights_options = View::make("post.rights_options", ['checked' => $checked]);
 		}
 
-		$end_form = $class->html->EndForm($ibforums->lang['submit_new']);
+		$end_form = View::make("post.EndForm", ['data' => $ibforums->lang['submit_new']]);
 
 		$post_icons = $class->html_post_icons();
 
@@ -656,11 +646,17 @@ class post_functions extends Post
 
 			if ($this->upload)
 			{
-				$upload_field .= $class->html->edit_upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024), $this->upload);
+				$upload_field .= View::make(
+					"post.edit_upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024), 'files' => $this->upload]
+				);
 
 			} else
 			{
-				$upload_field = $class->html->Upload_field($std->size_format($ibforums->member['g_attach_max'] * 1024));
+				$upload_field = View::make(
+					"post.Upload_field",
+					['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]
+				);
 			}
 		}
 
@@ -675,8 +671,6 @@ class post_functions extends Post
 		$class->output = preg_replace("/<!--MOD OPTIONS-->/", "$mod_options", $class->output);
 		$class->output = preg_replace("/<!--END TABLE-->/", "$end_form", $class->output);
 		$class->output = preg_replace("/<!--TOPIC TITLE-->/", "$topic_title", $class->output);
-
-		// Song * IBF forum rules
 
 		if ($class->forum['show_rules'])
 		{

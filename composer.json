@@ -15,7 +15,12 @@
             "app/classes",
             "app/models",
             "app/helpers"
-        ]
+        ],
+        "psr-4": {
+            "Views\\": [
+                "app/views"
+            ]
+        }
     },
     "minimum-stability": "stable"
 }

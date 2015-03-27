@@ -2,9 +2,9 @@
 
 $lang = array (
 
-'moderators' => "Moderators: ", // vot
-'ipicture_title' => "Upload your image to iPicture.ru", // vot
-'fine' => "Charges", //Jureth
+'moderators' => "Moderators: ",
+'ipicture_title' => "Upload your image to iPicture.ru",
+'fine' => "Charges",
 'pm_email_subject' => "Private Message from <#POSTER#>",
 
 //rc1
@@ -202,5 +202,6 @@ M_12			=>	"December",
 'hours_ago' => "hour%s ago",
 'hours_ending1' => "s",
 'hours_ending2' => "s",
-
+'topic_not_decided' => 'Topic is not decided',
+'topic_decided' => 'Topic is decided',
 );

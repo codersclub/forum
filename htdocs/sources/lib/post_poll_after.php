@@ -19,6 +19,8 @@
 +--------------------------------------------------------------------------
 */
 
+use Views\View;
+
 class post_functions extends Post
 {
 
@@ -233,29 +235,24 @@ class post_functions extends Post
 
 		$class->output .= $warning;
 
-		$class->output .= $class->html->table_structure();
+		$class->output .= View::make("post.table_structure");
 
 		//---------------------------------------
 
-		$start_table = $class->html->table_top("{$ibforums->lang['top_txt_poll']}: {$class->forum['name']} -> " . $this->topic['title']);
+		$start_table = View::make(
+			"post.table_top",
+			['data' => "{$ibforums->lang['top_txt_poll']}: {$class->forum['name']} -> " . $this->topic['title']]
+		);
 
-		$poll_box = $class->html->poll_box($poll, $extra);
+		$poll_box = View::make("post.poll_box", ['data' => $poll, 'extra' => $extra]);
 
-		$end_form = $class->html->poll_end_form($ibforums->lang['submit_poll']);
+		$end_form = View::make("post.poll_end_form", ['data' => $ibforums->lang['submit_poll']]);
 
 		//---------------------------------------
 
 		$class->output = preg_replace("/<!--START TABLE-->/", "$start_table", $class->output);
-		//$class->output = preg_replace( "/<!--NAME FIELDS-->/" , "$name_fields"  , $class->output );
-		//$class->output = preg_replace( "/<!--POST BOX-->/"    , "$post_box"     , $class->output );
-		//$class->output = preg_replace( "/<!--POST ICONS-->/"  , "$post_icons"   , $class->output );
-		//$class->output = preg_replace( "/<!--UPLOAD FIELD-->/", "$upload_field" , $class->output );
-		//$class->output = preg_replace( "/<!--MOD OPTIONS-->/" , "$mod_options"  , $class->output );
 		$class->output = preg_replace("/<!--END TABLE-->/", "$end_form", $class->output);
-		//$class->output = preg_replace( "/<!--TOPIC TITLE-->/" , "$topic_title"  , $class->output );
 		$class->output = preg_replace("/<!--POLL BOX-->/", "$poll_box", $class->output);
-
-		// Song * IBF forum rules
 
 		if ($class->forum['show_rules'])
 		{
@@ -280,8 +277,6 @@ class post_functions extends Post
 				$class->forum['rules_text'] = str_replace(";&lt;br&gt;", "<br>", $class->forum['rules_text']);
 			}
 		}
-
-		// Song * IBF forum rules
 
 		$class->output = str_replace("<!--FORUM RULES-->", $std->print_forum_rules($class->forum), $class->output);
 
