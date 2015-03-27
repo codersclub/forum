@@ -178,11 +178,29 @@ class Profile
 		// Prepare Query...
 		//--------------------------------------------
 
-		$sql = "SELECT forum_id, _sph_count as counter, f.name AS forum_name, f.inc_postcount 
-				FROM ibf_sph_search_posts t1 
-				INNER JOIN ibf_forums f ON (t1.forum_id = f.id) 
-				WHERE t1.query='filter=author_id,$id;limit=10000;groupby=attr:forum_id;groupsort=@count desc;mode=extended'";
-
+		if ($ibforums->vars['search_sql_method'] == 'sphinx') {
+			$sql = "SELECT forum_id, _sph_count as counter, f.name AS forum_name, f.inc_postcount 
+					FROM ibf_sph_search_posts t1 
+					INNER JOIN ibf_forums f ON (t1.forum_id = f.id) 
+					WHERE t1.query='filter=author_id,$id;limit=10000;groupby=attr:forum_id;groupsort=@count desc;mode=extended'";
+		} else {
+			$sql = "SELECT
+					p.forum_id,
+					COUNT(p.pid) as counter,
+					f.name as forum_name,
+					f.inc_postcount,
+					p.author_name
+				FROM
+					ibf_posts p,
+					ibf_forums f
+				WHERE
+					p.queued=0
+					AND	p.author_id='" . $id . "'
+					AND	f.id=p.forum_id
+				GROUP BY p.forum_id
+				ORDER BY counter DESC";
+		}
+	
 		$stmt = $ibforums->db->query($sql);
 
 		/*-----------------------------
