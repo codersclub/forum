@@ -518,7 +518,7 @@ h3, .pformstrip {
   border: 1px solid #aab;
   padding: 7px 10px;
   border-radius: 3px;
-  word-break: break-all;
+  word-break: break-word;
   white-space: normal;
   box-shadow: 0 1px 0 rgba(#fff, .3);
   margin-top: 4px;
@@ -560,6 +560,7 @@ h3, .pformstrip {
       padding: 3px 10px;
       border-left: 1px solid #6b7f9a;
       box-shadow: -40px 0 0 #fafafa;
+      line-height: 1.3em !important;
     }
   }
 }
@@ -930,10 +931,6 @@ th.b-column {
 
 .b-post__info {
   @extend .row4;
-}
-
-.b-post__body {
-  padding: 5px 10px;
 }
 
 .b-topic-decided-btn {
