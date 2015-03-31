@@ -156,35 +156,56 @@ class Profile
 			                 'MSG'   => 'incorrect_use'
 			            ));
 		}
+		
+		$stmt = $ibforums->db->query ( "SELECT m.*, s.id as s_id, g.g_id, g.g_title AS group_title
+            FROM (ibf_members m, ibf_groups g )
+	    LEFT JOIN ibf_sessions s ON (s.member_id=m.id and s.login_type<>1)
+	    WHERE m.id='$id' and m.mgroup=g.g_id" );
+		
+		$member = $stmt->fetch ();
 
+		if (empty($member['id']))
+		{
+			$std->Error(array(
+			                 'LEVEL' => 1,
+			                 'MSG'   => 'incorrect_use'
+			            ));
+		}
 		$info['member_id'] = $id;
+		$info['member_name'] = $member['name'];
 
 		//--------------------------------------------
 		// Prepare Query...
 		//--------------------------------------------
 
-		$sql = "SELECT
-			p.forum_id,
-			COUNT(p.pid) as counter,
-			f.name as forum_name,
-			f.inc_postcount,
-			p.author_name
-		FROM
-			ibf_posts p,
-			ibf_forums f
-		WHERE
-			p.queued=0
-			AND	p.author_id='" . $id . "'
-			AND	f.id=p.forum_id
-		GROUP BY p.forum_id
-		ORDER BY counter DESC";
-
+		if ($ibforums->vars['search_sql_method'] == 'sphinx') {
+			$sql = "SELECT forum_id, _sph_count as counter, f.name AS forum_name, f.inc_postcount 
+					FROM ibf_sph_search_posts t1 
+					INNER JOIN ibf_forums f ON (t1.forum_id = f.id) 
+					WHERE t1.query='filter=author_id,$id;limit=10000;groupby=attr:forum_id;groupsort=@count desc;mode=extended'";
+		} else {
+			$sql = "SELECT
+					p.forum_id,
+					COUNT(p.pid) as counter,
+					f.name as forum_name,
+					f.inc_postcount,
+					p.author_name
+				FROM
+					ibf_posts p,
+					ibf_forums f
+				WHERE
+					p.queued=0
+					AND	p.author_id='" . $id . "'
+					AND	f.id=p.forum_id
+				GROUP BY p.forum_id
+				ORDER BY counter DESC";
+		}
+	
 		$stmt = $ibforums->db->query($sql);
 
 		/*-----------------------------
 		Count user postings statistics
 		------------------------------*/
-		$info['member_name'] = "";
 		$info['stat']        = array();
 		$TotalPosts          = 0;
 		$TotalThematic       = 0;
@@ -198,11 +219,6 @@ class Profile
 				'COUNT'  => $row['counter'],
 				'STATUS' => $row['inc_postcount']
 			);
-			if ($i == 0)
-			{
-				$info['member_name'] = $row['author_name'];
-			}
-
 			$TotalPosts += $row['counter'];
 
 			if ($row['inc_postcount'])
@@ -210,7 +226,6 @@ class Profile
 				$TotalThematic += $row['counter'];
 			}
 
-			//echo $row['forum_id']." ".$row['forum_name']." ".$row['counter']." ".$row['inc_postcount']." ".$row['author_name']." ".$TotalPosts."<br>\n";
 			$i++;
 		}
 
@@ -573,13 +588,12 @@ class Profile
 
 		$percent = 0;
 
-		$stmt = $ibforums->db->query("SELECT DISTINCT(p.forum_id), f.name, COUNT(p.author_id) AS f_posts
-		    FROM ibf_posts p, ibf_forums f
-    		    WHERE p.forum_id IN ($forum_id_str)
-			AND p.author_id='" . $member['id'] . "'
-			AND p.forum_id=f.id
-		    GROUP BY p.forum_id
-		    ORDER BY f_posts DESC");
+		$stmt = \Ibf::app()->db->query(
+				'SELECT forum_id, f.name, _sph_count as f_posts 
+				FROM ibf_sph_search_posts t1
+				INNER JOIN ibf_forums f ON (t1.forum_id = f.id) 
+				WHERE t1.query=\'filter=forum_id,' . $forum_id_str .';filter=author_id,'.$member['id'].';limit=1;groupby=attr:forum_id;groupsort=@count desc;mode=extended\''
+			);
 
 		$favourite = $stmt->fetch();
 
