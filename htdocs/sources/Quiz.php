@@ -2227,9 +2227,9 @@ class quiz
 						: "<span style='color:green'>+</span>";
 
 					$link = "<a href='{$ibforums->base_url}act=rep&amp;CODE=03&amp;type={$rep_suffix}&amp;mid=" . $stuff['mid'] . "' target='_blank'>" . $rep_link . "</a>: ";
-					$link .= "<a href='{$ibforums->base_url}act=rep&amp;CODE=02&amp;mid=$stuff[mid]&amp;f=$stuff[f]&amp;t=$stuff[t]&amp;p=$stuff[p]' style='text-decoration:none' target='_blank'>" . $down . "</a>";
+					$link .= "<a href='{$ibforums->base_url}act=rep&amp;CODE=02&amp;mid=$stuff[mid]&amp;f=$stuff[f]&amp;t=$stuff[t]&amp;p=$stuff[p]' style='text-decoration:none' class='b-post__author-rep-minus' target='_blank'>" . $down . "</a>";
 					$link .= " [ " . $rep . " ] ";
-					$link .= "<a href='{$ibforums->base_url}act=rep&amp;CODE=01&amp;mid=$stuff[mid]&amp;f=$stuff[f]&amp;t=$stuff[t]&amp;p=$stuff[p]' style='text-decoration:none' target='_blank'>" . $up . "</a>";
+					$link .= "<a href='{$ibforums->base_url}act=rep&amp;CODE=01&amp;mid=$stuff[mid]&amp;f=$stuff[f]&amp;t=$stuff[t]&amp;p=$stuff[p]' style='text-decoration:none' class='b-post__author-rep-plus' target='_blank'>" . $up . "</a>";
 
 					$rep = $link;
 				}
