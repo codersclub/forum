@@ -918,8 +918,6 @@ th.b-column {
   }
 }
 
-
-
 .b-post__author-name {
   @extend .row4;
 }
@@ -943,4 +941,8 @@ th.b-column {
 
 .b-topics-list__title {
   color: #fff;
+}
+
+.b-post__author-avatar img {
+  @include transform(rotate(180deg));
 }
