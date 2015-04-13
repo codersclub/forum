@@ -29,17 +29,7 @@ $body .= "Start time:  ".timetostr($time)."\n";
 #############################################################
 # Connect to the DataBase....
 
-$body .= "Connecting to the DataBase... ";
-/*
-my $dbh = DBI->connect("DBI:mysql:database=$db_name;
-host=$db_host;
-port=$db_port",
-$db_user,
-$db_password,
-{'RaiseError'=>1 }
-);
- */
-$body .= "ok\n";
+$body .= "Working with database '" . Config::get('database')['dsn'] . "'\n";
 $body .= "---------------------------------------------------------\n";
 
 
@@ -83,13 +73,13 @@ $task_list = [
 	[
 		'TITLE'		=> "6.2 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_g_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 3000',
+		'DELETE'	=> 'DELETE FROM ibf_g_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 5000',
 		'DTL'		=> 28
 	],
 	[
 		'TITLE'		=> "6.3 Remove topic visits logs:\n",
 		'SELECT'	=> '',
-		'DELETE'	=> 'DELETE FROM ibf_b_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 3000',
+		'DELETE'	=> 'DELETE FROM ibf_b_visitors WHERE `month` = month(current_timestamp - interval 2 month) LIMIT 5000',
 		'DTL'		=> 28
 	],
 	[
