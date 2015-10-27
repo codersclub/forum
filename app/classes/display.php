@@ -626,7 +626,9 @@ class display
 		//-----------------------------------
 		// bottom XAP banner
 		$replace[] = "<% XAP BANNER %>";
-		$change[]  = $this->xap_banner();
+//		$change[]  = $this->xap_banner();
+		$change[]  = '';
+
 		//+--------------------------------------------
 		// Stick in banner?
 		//+--------------------------------------------
