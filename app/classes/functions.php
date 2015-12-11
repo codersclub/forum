@@ -1474,7 +1474,7 @@ class functions
 			9 => 'R0lGODlhCAANAJEAAAAAAP////4BAgAAACH5BAQUAP8ALAAAAAAIAA0AAAIVDA6hyJabnnISnsnybXdS73hcZlUFADs=',
 		);
 
-		flush();
+		//flush();
 		header("Content-type: image/gif");
 		echo base64_decode($numbers[$this_number]);
 		exit();
@@ -1491,7 +1491,7 @@ class functions
 	{
 		$ibforums = Ibf::app();
 
-		flush();
+		//flush();
 
 		@header("Content-Type: image/jpeg");
 
