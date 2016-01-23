@@ -62,7 +62,7 @@ class Register
 		}
 
 		// don't check for flood for second steps, for example
-		$floodcheck_off = in_array($ibforums->input['CODE'], array('11'));
+		$floodcheck_off = in_array($ibforums->input['CODE'], array('11', 'image'));
 
 		if (!$floodcheck_off)
 		{
