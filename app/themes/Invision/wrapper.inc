@@ -18,6 +18,7 @@
 <div id="ipbwrapper">
     <% JAVASCRIPT_TOP %>
     <% BOARD HEADER %>
+    <% GLOBAL MESSAGE %>
     <% NAVIGATION %>
     <% BOARD %>
     <% STATS %>

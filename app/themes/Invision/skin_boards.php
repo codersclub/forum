@@ -76,7 +76,6 @@ function PageTop($show_all = "") {
 global $ibforums;
 return <<<EOF
 
-<!--GLOBAL.MESSAGE-->
 <table id="QuickLinks" class="b-news-wrapper">
 <tr id="SecondNewsRow" class="b-news-row">
  <td class="news-wrapper news-second-wrapper"><!--IBF.SECONDNEWSLINK--></td>

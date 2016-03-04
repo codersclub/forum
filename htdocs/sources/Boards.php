@@ -724,13 +724,6 @@ class Boards {
 		{
 			$this->output = str_replace("<!--IBF.QUICK_LOG_IN-->", View::make("boards.quick_log_in"), $this->output);
 		}
-		if ($ibf->vars['global_message_on'])
-		{
-			$message = preg_replace("/\n/", "<br>", stripslashes($ibf->vars['global_message']));
-
-			$this->output = str_replace("<!--GLOBAL.MESSAGE-->",
-				View::make('boards.globalMessage', ['message' => $message]), $this->output);
-		}
 
 		$print->add_output("$this->output");
 
