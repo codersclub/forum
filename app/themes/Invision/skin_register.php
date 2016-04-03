@@ -250,7 +250,8 @@ global $ibforums;
 return <<<EOF
 <div class="tableborder">
   <table class="tablebasic">
-	 <td class='row1'>
+	<td class='pformleft'>Простите, у нас развелись спамеры. Пройдите, пожалуйста, капчу</td>
+  	<td class='pformright'>
 	   <input type='hidden' name='regid' value='$regid'>
 	 		<div class="g-recaptcha" data-sitekey="{$ibforums->vars['recaptcha_site_key']}"></div>
 	 </td>
