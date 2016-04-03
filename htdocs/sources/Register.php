@@ -389,13 +389,12 @@ class Register
 		{
 			$this->output = str_replace("<!--{REG.ANTISPAM}-->",
 				View::make("register.bot_antispam_gd", ['regid' => $regid]), $this->output);
-		} else {
-			if ($ibforums->vars['bot_antispam'] == 'gif')
-			{
-				$this->output = str_replace("<!--{REG.ANTISPAM}-->",
-					View::make("register.bot_antispam", ['regid' => $regid]), $this->output);
-			}
+		} elseif ($ibforums->vars['bot_antispam'] == 'gif')	{
+			$this->output = str_replace("<!--{REG.ANTISPAM}-->",
+				View::make("register.bot_antispam", ['regid' => $regid]), $this->output);
 		}
+		// TODO: add recaptcha
+		
 	}
 
 	function lost_password_end()
@@ -687,13 +686,14 @@ class Register
 		{
 			$this->output = str_replace("<!--{REG.ANTISPAM}-->",
 				View::make("register.bot_antispam_gd", ['regid' => $regid]), $this->output);
-		} else {
-			if ($ibforums->vars['bot_antispam'] == 'gif')
-			{
-				$this->output = str_replace("<!--{REG.ANTISPAM}-->",
-					View::make("register.bot_antispam", ['regid' => $regid]), $this->output);
-			}
+		} elseif ($ibforums->vars['bot_antispam'] == 'gif') {
+			$this->output = str_replace("<!--{REG.ANTISPAM}-->",
+				View::make("register.bot_antispam", ['regid' => $regid]), $this->output);
+		} elseif ($ibforums->vars['bot_antispam'] == 'recaptcha') {
+			$this->output = str_replace("<!--{REG.ANTISPAM}-->",
+					View::make("register.bot_antispam_recapthca", ['regid' => $regid]), $this->output);
 		}
+	
 
 		if ($required_output != "")
 		{
@@ -949,23 +949,6 @@ class Register
 			            ));
 		}
 
-		//    if ( $ibforums->vars['ban_ip'] )
-		//	{
-		//		$ips = explode( "|", $ibforums->vars['ban_ip'] );
-		//
-		//		foreach ($ips as $ip)
-		//		{
-		//			$ip = preg_replace( "/\*/", '.*' , $ip );
-		//
-		//			if ( !$ip ) continue;
-		//
-		//			if ( preg_match( "/$ip/", $ibforums->input['IP_ADDRESS'] ) )
-		//			{
-		//				$std->Error( array( 'LEVEL' => 1, 'MSG' => 'wrong_member_name' ) );
-		//			}
-		//		}
-		//	}
-
 		if ($ibforums->vars['ban_email'])
 		{
 			$ips = explode("|", $ibforums->vars['ban_email']);
@@ -1007,8 +990,12 @@ class Register
 				return;
 			}
 
-			if (trim(intval($ibforums->input['reg_code'])) != $row['regcode'])
-			{
+			if ($ibforums->vars['bot_antispam'] === "recaptcha") {
+				if (!$this->validate_recaptcha()) {
+					$this->show_reg_form('err_reg_code');
+					return;
+				}
+			} elseif (trim(intval($ibforums->input['reg_code'])) != $row['regcode']) {
 				$this->show_reg_form('err_reg_code');
 				return;
 			}
@@ -1470,6 +1457,36 @@ class Register
 				}
 			}
 		}
+	}
+	
+	function validate_recaptcha()
+	{
+		global $ibforums;
+		$recaptcha_response = $ibforums->input['g-recaptcha-response'];
+		
+		$c = curl_init("https://www.google.com/recaptcha/api/siteverify");
+		curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 100);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($c, CURLOPT_TIMEOUT, 100);
+		curl_setopt($c, CURLOPT_POST, 1);
+		
+		$request_fields = [
+			'secret' => $ibforums->vars['recaptcha_secret'],
+			'response' => $recaptcha_response								
+		];
+		$encoded = '';
+		foreach($request_fields as $name => $value) {
+			$encoded .= urlencode($name).'='.urlencode($value).'&';
+		}
+		// chop off last ampersand
+		$encoded = substr($encoded, 0, strlen($encoded)-1);
+		curl_setopt($c, CURLOPT_POSTFIELDS,  $encoded);
+		
+		$response = json_decode(curl_exec($c), true);
+		
+		curl_close($c);
+				
+		return $response['success'];
 	}
 
 	/*	 * ************************************************** */

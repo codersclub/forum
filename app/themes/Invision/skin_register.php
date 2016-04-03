@@ -91,6 +91,8 @@ EOF;
 function ShowForm($data) {
 global $ibforums;
 return <<<EOF
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
 <form action="{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}" method="post" name='REG' onsubmit='return Validate()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='02'>
@@ -240,6 +242,22 @@ return <<<EOF
   </table>
 </div>
 
+EOF;
+}
+
+function bot_antispam_recapthca($regid) {
+global $ibforums;
+return <<<EOF
+<div class="tableborder">
+  <table class="tablebasic">
+	<td class='pformleft'>Простите, у нас развелись спамеры. Пройдите, пожалуйста, капчу</td>
+  	<td class='pformright'>
+	   <input type='hidden' name='regid' value='$regid'>
+	 		<div class="g-recaptcha" data-sitekey="{$ibforums->vars['recaptcha_site_key']}"></div>
+	 </td>
+	 </tr>
+  </table>
+</div>
 EOF;
 }
 
