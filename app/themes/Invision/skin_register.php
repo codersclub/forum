@@ -127,10 +127,10 @@ return <<<EOF
   <!--{REQUIRED.FIELDS}-->
   <!--{OPTIONAL.FIELDS}-->
   <!--IBF.MODULES.EXTRA-->
+  <!--{REG.ANTISPAM}-->
   </table>
 </div>
 <br>
-<!--{REG.ANTISPAM}-->
 <br>
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['terms_service']}</div>
@@ -180,10 +180,6 @@ function bot_antispam_gd($regid) {
 global $ibforums;
 return <<<EOF
 
-<br>
-<div class="tableborder">
-  <div class="pformstrip">{$ibforums->lang['las_title']}</div>
-  <table class="tablebasic">
    <tr>
 	 <td class='row1' width='40%'>{$ibforums->lang['las_numbers']}</td>
 	 <td class='row1'>
@@ -195,8 +191,6 @@ return <<<EOF
 	 <td class='row1' width='40%'>{$ibforums->lang['las_text']}</td>
 	 <td class='row1'><input type='text' size='32' maxlength='32' name='reg_code' class='forminput'></td>
 	 </tr>
-  </table>
-</div>
 
 EOF;
 }
@@ -220,11 +214,8 @@ function bot_antispam($regid) {
 global $ibforums;
 return <<<EOF
 
-<br>
-<div class="tableborder">
-  <div class="pformstrip">{$ibforums->lang['las_title']}</div>
-  <table class="tablebasic">
-	 <td class='row1' width='40%'>{$ibforums->lang['las_numbers']}</td>
+	 </tr>
+     <td class='row1' width='40%'>{$ibforums->lang['las_numbers']}</td>
 	 <td class='row1'>
 	   <input type='hidden' name='regid' value='$regid'>
 	   <img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=1' border='0' alt='Code Bit'>
@@ -239,8 +230,6 @@ return <<<EOF
 	 <td class='row1' width='40%'>{$ibforums->lang['las_text']}</td>
 	 <td class='row1'><input type='text' size='32' maxlength='32' name='reg_code' class='forminput'></td>
 	 </tr>
-  </table>
-</div>
 
 EOF;
 }
@@ -248,16 +237,13 @@ EOF;
 function bot_antispam_recapthca($regid) {
 global $ibforums;
 return <<<EOF
-<div class="tableborder">
-  <table class="tablebasic">
-	<td class='pformleft'>Простите, у нас развелись спамеры. Пройдите, пожалуйста, капчу</td>
+  	<tr>
+	<td class='pformleft'>Простите, нас одолели спамеры. Жмакните, пожалуйста "я не робот".</td>
   	<td class='pformright'>
 	   <input type='hidden' name='regid' value='$regid'>
 	 		<div class="g-recaptcha" data-sitekey="{$ibforums->vars['recaptcha_site_key']}"></div>
-	 </td>
-	 </tr>
-  </table>
-</div>
+	</td>
+	</tr>
 EOF;
 }
 
