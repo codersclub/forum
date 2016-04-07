@@ -687,7 +687,7 @@ class  warn
 			}
 
 			// admins only
-			if ($ibforums->member['g_is_supmod'] and $ibforums->input['ban'])
+			if (($ibforums->member['g_is_supmod'] || $this->can_ban) and $ibforums->input['ban'])
 			{
 				$group = $ibforums->vars['ban_group'];
 			}
@@ -1121,7 +1121,7 @@ class  warn
 			}
 		}
 
-		if ($ibforums->member['g_is_supmod'])
+		if ($ibforums->member['g_is_supmod'] || $this->can_ban)
 		{
 			$ban = ($this->warn_member['mgroup'] == $ibforums->vars['ban_group'])
 				? " checked='checked'"

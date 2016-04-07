@@ -353,6 +353,15 @@ class display
 			['fav_active' => $ibforums->member['id'] && $this->is_new_fav_exists()]
 		);
 
+		// Board Global Message
+
+		$message = '';
+		if ($ibforums->vars['global_message_on'])
+		{
+			$message = preg_replace("/\n/", "<br>", stripslashes($ibforums->vars['global_message']));
+			$message = View::make('boards.globalMessage', ['message' => $message]);
+		}
+
 		// Show rules link?
 
 		if ($ibforums->vars['gl_show'] and $ibforums->vars['gl_title'])
@@ -515,6 +524,9 @@ class display
 		$replace[] = "<% BOARD HEADER %>";
 		$change[]  = $this_header;
 
+		$replace[] = "<% GLOBAL MESSAGE %>";
+		$change[]  = $message;
+
 		$replace[] = "<% NAVIGATION %>";
 		$change[]  = $nav;
 
@@ -626,7 +638,9 @@ class display
 		//-----------------------------------
 		// bottom XAP banner
 		$replace[] = "<% XAP BANNER %>";
-		$change[]  = $this->xap_banner();
+//		$change[]  = $this->xap_banner();
+		$change[]  = '';
+
 		//+--------------------------------------------
 		// Stick in banner?
 		//+--------------------------------------------
