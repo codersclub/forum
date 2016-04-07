@@ -580,7 +580,7 @@ return <<<EOF
  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['w_modq']}</strong></td>
   <td class='pformright'>
-    <input type='checkbox' name='mod_indef' class='forminput' value='1' $mod_tick> {$ibforums->lang['w_modq_i']}
+    <label><input type='checkbox' name='mod_indef' class='forminput' value='1' $mod_tick> {$ibforums->lang['w_modq_i']}</label>
     <br><strong>{$ibforums->lang['w_orfor']}</strong>
     <input type='input' name='mod_value' class='forminput' value='{$mod_array['timespan']}' size='5'> <select name='mod_unit' class='forminput'><option value='d' {$mod_array['days']}>{$ibforums->lang['w_day']}</option><option value='h' {$mod_array['hours']}>{$ibforums->lang['w_hour']}</option></select>
  	$mod_extra
@@ -613,7 +613,7 @@ return <<<EOF
  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['w_resposts']}</strong></td>
   <td class='pformright'>
-    <input type='checkbox' name='post_indef' class='forminput' value='1' $post_tick> {$ibforums->lang['w_resposts_i']}
+    <label><input type='checkbox' name='post_indef' class='forminput' value='1' $post_tick> {$ibforums->lang['w_resposts_i']}</label>
     <br><strong>{$ibforums->lang['w_orfor']}</strong>
     <input type='input' name='post_value' class='forminput' value='{$post_array['timespan']}' size='5'>
     <select name='post_unit' class='forminput'>
@@ -633,7 +633,7 @@ return <<<EOF
  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['w_suspend']}</strong></td>
   <td class='pformright'>
-    <input type='checkbox' name='ban_indef' class='forminput' value='1' $ban_tick> {$ibforums->lang['w_banposts_i']}
+    <label><input type='checkbox' name='ban_indef' class='forminput' value='1' $ban_tick> {$ibforums->lang['w_banposts_i']}</label>
     <br><strong>{$ibforums->lang['w_orfor']}</strong>
      {$ibforums->lang['w_susfor']}  <input type='input' name='susp_value' class='forminput' value='{$susp_array['timespan']}' size='5'> <select name='susp_unit' class='forminput'><option value='d' {$susp_array['days']}>{$ibforums->lang['w_day']}</option><option value='h' {$susp_array['hours']}>{$ibforums->lang['w_hour']}</option></select>
  	  $susp_extra
@@ -647,7 +647,7 @@ return <<<EOF
 
  <tr>
   <td class='pformleftw'>{$ibforums->lang['w_ban']}</td>
-  <td class='pformright'><input type='checkbox' name='ban' class='forminput' value='1'$checked> {$ibforums->lang['w_group_ban']}
+  <td class='pformright'><label><input type='checkbox' name='ban' class='forminput' value='1'$checked> {$ibforums->lang['w_group_ban']}</label>
   <td class='pformright'>&nbsp;</td>
  </tr>
 
