@@ -238,7 +238,7 @@ function bot_antispam_recapthca($regid) {
 global $ibforums;
 return <<<EOF
   	<tr>
-	<td class='pformleft'>Простите, нас одолели спамеры. Жмакните, пожалуйста "я не робот".</td>
+	<td class='pformleft'>Вы же не робот?</td>
   	<td class='pformright'>
 	   <input type='hidden' name='regid' value='$regid'>
 	 		<div class="g-recaptcha" data-sitekey="{$ibforums->vars['recaptcha_site_key']}"></div>
