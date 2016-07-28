@@ -33,8 +33,14 @@ class BaseView
      */
     public function render()
     {
+	global $SKIN;
+
+	if(empty($SKIN)) {
+	    $SKIN = \Ibf::app()->skin;
+	}
+
         if ($this->beforeRender()){
-            $text = ThemesFactory::create(\Ibf::app()->skin->getThemeName())
+            $text = ThemesFactory::create($SKIN->getThemeName())
                 ->render($this->path, $this->data);
             $this->afterRender($text);
         }else {

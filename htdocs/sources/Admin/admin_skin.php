@@ -37,8 +37,17 @@ class admin_skin
 
 		$this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
 		$this->img_url  = $INFO['html_url'] . '/sys-img';
-
+		$this->theme = 'admin';
 	}
+
+    /**
+     * Возвращает имя темы
+     * @return string
+     */
+    public function getThemeName()
+    {
+        return $this->theme;
+    }
 
 	//+--------------------------------------------------------------------
 	//+--------------------------------------------------------------------
