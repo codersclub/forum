@@ -38,6 +38,9 @@ class ad_forums
 		$this->img_url  = $INFO['html_url'] . '/sys-img';
 		$this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
 
+		$ibforums->lang_id = 'en';
+		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $ibforums->lang_id);
+
 		//--------------------------------------------
 		// Get the sync module
 		//--------------------------------------------
