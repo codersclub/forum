@@ -65,8 +65,6 @@
         <!--/Rating@Mail.ru COUNTER-->
 
 
-        <!--Rambler--><a rel="nofollow" href="http://counter.rambler.ru/top100/"><img
-                src="http://counter.rambler.ru/top100.cnt?163871" alt="Rambler's Top100" width=1 height=1 border=0></a>
     </noindex>
 
 </div>
