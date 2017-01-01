@@ -324,6 +324,26 @@ arVideoPlayers.add('rutube3', function()
         }
     }
 });
+// coub
+arVideoPlayers.add('coub', function()
+{
+    this.urlRegexp = /coub.com\/view\/[^\/\?]+/i,
+    this._player = function(url)
+    {   
+        this.url = this.filterUrl(url);
+        this.customEmbed = function(container)
+        {   
+            id = /coub.com\/view\/([^\/\?]+)/i.exec(this.url)[1];
+            $('<iframe></iframe>')
+                .attr('width', this.width)
+                .attr('height', this.height)
+                .attr('src', 'http://coub.com/embed/'+ id + '?muted=false&autostart=false&originalSize=false&startWithHD=false')
+                .attr('frameborder', '0')
+                .attr('allowfullscreen', 'true')
+                .appendTo(container);
+        }   
+    }   
+});
 delete arVideoPlayers['add'];//заметаем следы
 
 // IE hack
