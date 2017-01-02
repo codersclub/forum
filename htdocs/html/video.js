@@ -336,7 +336,7 @@ arVideoPlayers.add('coub', function()
             id = /coub.com\/view\/([^\/\?]+)/i.exec(this.url)[1];
             $('<iframe></iframe>')
                 .attr('width', this.width)
-                .attr('height', this.height)
+                .attr('height', this.width * 0.56)
                 .attr('src', 'http://coub.com/embed/'+ id + '?muted=false&autostart=false&originalSize=false&startWithHD=false')
                 .attr('frameborder', '0')
                 .attr('allowfullscreen', 'true')
