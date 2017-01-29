@@ -352,7 +352,10 @@ class emailer
 
 		// Swap the words
 
-		$this->subject = preg_replace("/<#(.+?)#>/e", "\$subwords[\\1]", $this->subject);
+		$this->subject = preg_replace_callback("/<#(.+?)#>/",
+		    function($m) use ($subwords) { return $subwords[$m[1]];}, 
+		    $this->subject
+		);
 
 	}
 

@@ -198,9 +198,10 @@ class functions
 		return $days;
 	}
 
-	function regex_moderator_message($message)
+	function regex_moderator_message($matches)
 	{
 		global $ibforums;
+		$message = $matches[1];
 
 		if (!$message or !$ibforums->member['id'])
 		{
@@ -214,9 +215,10 @@ class functions
 		return "[MM]{$message}[/MM]";
 	}
 
-	function regex_global_moderator_message($message)
+	function regex_global_moderator_message($matches)
 	{
 		global $ibforums;
+		$message = $matches[1];
 
 		if (!$ibforums->member['g_is_supmod'] or !$message)
 		{
@@ -234,8 +236,8 @@ class functions
 			return "";
 		}
 
-		$post = preg_replace("#\[mm\](.+?)\[/mm\]#ies", "\$this->regex_moderator_message('\\1')", $post);
-		$post = preg_replace("#\[gm\](.+?)\[/gm\]#ies", "\$this->regex_global_moderator_message('\\1')", $post);
+		$post = preg_replace_callback("#\[mm\](.+?)\[/mm\]#is", [$this, 'regex_moderator_message'], $post);
+		$post = preg_replace_callback("#\[gm\](.+?)\[/gm\]#is", [$this, 'regex_global_moderator_message'], $post);
 
 		return $post;
 	}
