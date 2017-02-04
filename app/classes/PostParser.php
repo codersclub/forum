@@ -2039,10 +2039,10 @@ class PostParser
 
 			$txt = preg_replace("#<!--emo&(.+?)-->.+?<!--endemo-->#", "\\1", $txt);
 
-			$txt = preg_replace("#<!--sql-->(.+?)<!--sql1-->(.+?)<!--sql2-->(.+?)<!--sql3-->#eis", "\$this->unconvert_sql(\"\\2\")", $txt);
-			$txt = preg_replace("#<!--html-->(.+?)<!--html1-->(.+?)<!--html2-->(.+?)<!--html3-->#e", "\$this->unconvert_htm(\"\\2\")", $txt);
+			$txt = preg_replace_callback("#<!--sql-->(.+?)<!--sql1-->(.+?)<!--sql2-->(.+?)<!--sql3-->#is", [$this, 'unconvert_sql'], $txt);
+			$txt = preg_replace_callback("#<!--html-->(.+?)<!--html1-->(.+?)<!--html2-->(.+?)<!--html3-->#", [$this, 'unconvert_htm'], $txt);
 
-			$txt = preg_replace("#<!--Flash (.+?)-->.+?<!--End Flash-->#e", "\$this->unconvert_flash('\\1')", $txt);
+			// TODO: uncomment me and fix $txt = preg_replace("#<!--Flash (.+?)-->.+?<!--End Flash-->#e", "\$this->unconvert_flash('\\1')", $txt);
 			$txt = preg_replace("#<img src=[\"'](\S+?)['\"].+?" . ">#", "\[IMG\]\\1\[/IMG\]", $txt);
 
 			$txt = preg_replace("#<a href=[\"']mailto:(.+?)['\"]>(.+?)</a>#", "\[EMAIL=\\1\]\\2\[/EMAIL\]", $txt);
@@ -2074,9 +2074,9 @@ class PostParser
 			$txt = preg_replace("#(\n){0,}</ul>(\n){0,}#", "\n\[/LIST\]\\2", $txt);
 			$txt = preg_replace("#(\n){0,}</ol>(\n){0,}#", "\n\[/LIST\]\\2", $txt);
 
-			$txt = preg_replace("#<!--me&(.+?)-->(.+?)<!--e--me-->#e", "\$this->unconvert_me('\\1', '\\2')", $txt);
+			$txt = preg_replace_callback("#<!--me&(.+?)-->(.+?)<!--e--me-->#", [$this, 'unconvert_me'], $txt);
 
-			$txt = preg_replace("#<span style=['\"]font-size:(.+?)pt;line-height:100%['\"]>(.+?)</span>#e", "\$this->unconvert_size('\\1', '\\2')", $txt);
+			$txt = preg_replace_callback("#<span style=['\"]font-size:(.+?)pt;line-height:100%['\"]>(.+?)</span>#", [$this, 'unconvert_size'], $txt);
 
 			while (preg_match("#<span style=['\"]color:(.+?)['\"]>(.+?)</span>#is", $txt))
 			{
@@ -2112,8 +2112,10 @@ class PostParser
 	//+-----------------------------------------------------------------------------------------
 	//+-----------------------------------------------------------------------------------------
 
-	function unconvert_size($size = "", $text = "")
+	function unconvert_size($matches)
 	{
+		$size = $matches[1];
+		$text = $matches[2];
 
 		$size -= 7;
 
@@ -2130,8 +2132,10 @@ class PostParser
 
 	}
 
-	function unconvert_me($name = "", $text = "")
+	function unconvert_me($matches)
 	{
+		$name = $matches[1];
+		$text = $matches[2];
 
 		$text = preg_replace("#<span class='ME'><center>(.+?)</center></span>#", "\\1", $text);
 		$text = preg_replace("#$name#", "", $text);
@@ -2140,8 +2144,9 @@ class PostParser
 
 	}
 
-	function unconvert_sql($sql = "")
+	function unconvert_sql($matches)
 	{
+		$sql = $matches[2];
 		$sql = stripslashes($sql);
 
 		while (preg_match("#<span style='.+?'>(.+?)</span>#is", $sql))
@@ -2155,8 +2160,9 @@ class PostParser
 
 	}
 
-	function unconvert_htm($html = "")
+	function unconvert_htm($matches)
 	{
+		$html = $matches[2];
 		$html = stripslashes($html);
 
 		while (preg_match("#<span style='.+?'>(.+?)</span>#is", $html))

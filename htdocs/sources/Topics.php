@@ -173,9 +173,10 @@ class Topics
 
 	// safe code tag withing wrapping long lines, 03.11.2004
 
-	function cut_html_tag_text($code)
+	function cut_html_tag_text($matches)
 	{
 
+		$code = $matches[1];
 		$this->code_text[$this->code_counter] = "<" . $code . ">";
 
 		//	$this->code_counter++;
@@ -400,7 +401,7 @@ class Topics
 			$this->code_text = array();
 
 			// collect html tag text to array and remove it
-			$row['post'] = preg_replace("#<(.*?)>#ies", "\$this->cut_html_tag_text('\\1')", $row['post']);
+			$row['post'] = preg_replace_callback("#<(.*?)>#is", [$this, 'cut_html_tag_text'], $row['post']);
 
 			$keywords = str_replace("+", " ", $ibforums->input['hl']);
 

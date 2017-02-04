@@ -116,7 +116,7 @@ class post_functions extends Post
 
 		$this->poll_choices = str_replace('<br><br>', '<br>', $this->poll_choices);
 
-		$this->poll_choices = preg_replace('/<br>/e', '$this->regex_count_choices()', $this->poll_choices);
+		$this->poll_choices = preg_replace_callback('/<br>/', [$this, 'regex_count_choices'], $this->poll_choices);
 
 		if ($this->poll_count > $ibforums->vars['max_poll_choices'])
 		{

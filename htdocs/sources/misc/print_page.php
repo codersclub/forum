@@ -413,7 +413,7 @@ class Printable
 		//$message = preg_replace( "#<!--QuoteBegin--(.+?)\+(.+?)-->(.+?)<!--QuoteEBegin-->#"         , "\n\n------------ QUOTE ----------\n" , $message );
 		//$message = preg_replace( "#<!--QuoteEnd-->(.+?)<!--QuoteEEnd-->#"                           , "\n-----------------------------\n\n" , $message );
 
-		$message = preg_replace("#<!--Flash (.+?)-->.+?<!--End Flash-->#e", "(FLASH MOVIE)", $message);
+		$message = preg_replace("#<!--Flash (.+?)-->.+?<!--End Flash-->#", "(FLASH MOVIE)", $message);
 		//$message = preg_replace( "#<img src=[\"'](\S+?)['\"].+"."?".">#"                            , "(IMAGE: \\1)"   , $message );
 		$message = preg_replace("#<a href=[\"'](http|https|ftp|news)://(\S+?)['\"].+?" . ">(.+?)</a>#", "\\1://\\2", $message);
 		//$message = preg_replace( "#<a href=[\"']mailto:(.+?)['\"]>(.+?)</a>#"                       , "(EMAIL: \\2)"   , $message );

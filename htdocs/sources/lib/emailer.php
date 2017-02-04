@@ -317,7 +317,7 @@ class emailer
 		// Swop the words
 
 		$this->message = preg_replace_callback(
-		    "/<#(.+?)#>/e", 
+		    "/<#(.+?)#>/", 
 		    function($m) use ($words) { return $words[$m[1]]; }, 
 		    $this->message
 		);
