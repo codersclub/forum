@@ -1654,23 +1654,14 @@ class UserCP
 			? "<option value='1' selected='selected'>" . $ibforums->lang['yes'] . "</option>\n<option value='0'>" . $ibforums->lang['no'] . "</option>"
 			: "<option value='1'>" . $ibforums->lang['yes'] . "</option>\n<option value='0' selected='selected'>" . $ibforums->lang['no'] . "</option>";
 
-		if ($this->member['syntax'] == "client")
-		{
-			$syntax_method .= "<option value='client' selected='selected'>" . $ibforums->lang['syntax_client'] . "</option>\n";
-			$syntax_method .= "<option value='server'>" . $ibforums->lang['syntax_server'] . "</option>\n";
-			$syntax_method .= "<option value='none'>" . $ibforums->lang['syntax_none'] . "</option>\n";
+		$methods = ['client', 'server', 'prism', 'none'];
 
-		} elseif ($this->member['syntax'] == "server")
-		{
-			$syntax_method .= "<option value='client'>" . $ibforums->lang['syntax_client'] . "</option>\n";
-			$syntax_method .= "<option value='server' selected='selected'>" . $ibforums->lang['syntax_server'] . "</option>\n";
-			$syntax_method .= "<option value='none'>" . $ibforums->lang['syntax_none'] . "</option>\n";
-		} else
-		{
-			$syntax_method .= "<option value='client'>" . $ibforums->lang['syntax_client'] . "</option>\n";
-			$syntax_method .= "<option value='server'>" . $ibforums->lang['syntax_server'] . "</option>\n";
-			$syntax_method .= "<option value='none' selected='selected'>" . $ibforums->lang['syntax_none'] . "</option>\n";
-		}
+		foreach ($methods as $m) {
+		    $lang_string = "syntax_$m";
+		    $selected = ($this->member['syntax'] == $m) ? "selected='selected'" : '';
+            $syntax_method .= "<option value='$m' $selected>{$ibforums->lang[$lang_string]}</option>\n";
+        }
+
 		$lines_count = $this->member['syntax_lines_count'] !== NULL
 			? $this->member['syntax_lines_count']
 			: 10;
