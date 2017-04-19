@@ -445,87 +445,87 @@ class PostParser
 		{
 			$code = $this->prepare_code_tabs($code, $cfg->tab_length);
 
-			if ($temp == 'server')
-			{
-				$view = '';
+			if ($temp == 'server') {
+                $view = '';
 
-				$pos    = 0;
-				$match  = array();
-				$length = mb_strlen($code);
+                $pos = 0;
+                $match = array();
+                $length = mb_strlen($code);
 
-				while ($pos < $length)
-				{
-					$result = false;
+                while ($pos < $length) {
+                    $result = false;
 
-					foreach ($cfg->rules as $rule)
-					{
-						$result = preg_match($rule->reg_exp, $code, $match);
+                    foreach ($cfg->rules as $rule) {
+                        $result = preg_match($rule->reg_exp, $code, $match);
 
-						if ($result)
-						{
-							break;
-						}
-					}
+                        if ($result) {
+                            break;
+                        }
+                    }
 
-					if ($result)
-					{
-						$l = 0;
+                    if ($result) {
+                        $l = 0;
 
-						for ($n = 0; $n < 10; $n++)
-						{
-							if ($rule->actions[$n] == 'tag')
-							{
-								$txt = $this->syntax_code_to_view($match[$n]);
+                        for ($n = 0; $n < 10; $n++) {
+                            if ($rule->actions[$n] == 'tag') {
+                                $txt = $this->syntax_code_to_view($match[$n]);
 
-								$txt = $rule->tags[$n] . str_replace("\n", $rule->tags[($n + 1) % 10] . "**[*]**" . $rule->tags[$n], $txt) . $rule->tags[($n + 1) % 10];
+                                $txt = $rule->tags[$n] . str_replace("\n", $rule->tags[($n + 1) % 10] . "**[*]**" . $rule->tags[$n], $txt) . $rule->tags[($n + 1) % 10];
 
-								// пустой текст не надо подсвечивать
-								$view .= str_replace($rule->tags[$n] . $rule->tags[($n + 1) % 10], '', $txt);
+                                // пустой текст не надо подсвечивать
+                                $view .= str_replace($rule->tags[$n] . $rule->tags[($n + 1) % 10], '', $txt);
 
-								$l += mb_strlen($match[$n]);
-							}
+                                $l += mb_strlen($match[$n]);
+                            }
 
-							if ($rule->actions[$n] == 'none')
-							{
-								$view .= $rule->tags[$n] . $rule->tags[($n + 1) % 10];
-								$l += mb_strlen($match[$n]);
-							}
+                            if ($rule->actions[$n] == 'none') {
+                                $view .= $rule->tags[$n] . $rule->tags[($n + 1) % 10];
+                                $l += mb_strlen($match[$n]);
+                            }
 
-							if ($rule->actions[$n] == 'value')
-							{
-								$view .= $match[$n];
-								$l += mb_strlen($match[$n]);
-							}
+                            if ($rule->actions[$n] == 'value') {
+                                $view .= $match[$n];
+                                $l += mb_strlen($match[$n]);
+                            }
 
-							if ($rule->actions[$n] == 'count')
-							{
-								$l += mb_strlen($match[$n]);
-							}
-						}
+                            if ($rule->actions[$n] == 'count') {
+                                $l += mb_strlen($match[$n]);
+                            }
+                        }
 
-						$pos += $l;
-						$code = mb_substr($code, $l);
-					} else
-					{
-						$view .= $this->syntax_code_to_view(mb_substr($code, 0, 1));
+                        $pos += $l;
+                        $code = mb_substr($code, $l);
+                    } else {
+                        $view .= $this->syntax_code_to_view(mb_substr($code, 0, 1));
 
-						$pos++;
-						$code = mb_substr($code, 1);
-					}
-				}
+                        $pos++;
+                        $code = mb_substr($code, 1);
+                    }
+                }
 
-				$view = $this->regex_clean_code($view);
+                $view = $this->regex_clean_code($view);
 
-				$view = str_replace(array("<br>", '**[*]**'), "</li><li>", $view);
-				$view = "<ol type=\"1\"><li>{$view}</li></ol>";
+                $view = str_replace(array("<br>", '**[*]**'), "</li><li>", $view);
+                $view = "<ol type=\"1\"><li>{$view}</li></ol>";
 
-				$view = str_replace('<li></li>', '<li>&nbsp;</li>', $view);
-				$view = str_replace('<li> ', '<li>&nbsp;', $view);
-				// server highlight form
-				$view = sprintf('<div style=\'color:%s; background-color:%s\'>%s</div>', self::color($cfg->fore_color), self::color($cfg->back_color), $view);
-				//
-			} else
-			{
+                $view = str_replace('<li></li>', '<li>&nbsp;</li>', $view);
+                $view = str_replace('<li> ', '<li>&nbsp;', $view);
+                // server highlight form
+                $view = sprintf('<div style=\'color:%s; background-color:%s\'>%s</div>', self::color($cfg->fore_color), self::color($cfg->back_color), $view);
+                //
+            } elseif ($temp = 'prism') {
+                $code = $this->syntax_code_to_view($code);
+                // $code = $this->regex_clean_code($code);
+
+                $view = sprintf(
+                    '<div style=\'color:%s; background-color:%s\' id=\'code_%d\'><pre><code class="language-%s">%s</code></pre></div>',
+                    self::color($cfg->fore_color),
+                    self::color($cfg->back_color),
+                    $this->code_count,
+                    $syntax,
+                    $code
+                );
+			} else {
 				$code = $this->syntax_code_to_view($code);
 				$code = $this->regex_clean_code($code);
 
@@ -537,7 +537,13 @@ class PostParser
 					$print->syntax[$syntax] = $cfg->version;
 				}
 
-				$view = sprintf('<div style=\'color:%s; background-color:%s\' id=\'code_%d\'>%s</div>', self::color($cfg->fore_color), self::color($cfg->back_color), $this->code_count, $code);
+				$view = sprintf(
+				    '<div style=\'color:%s; background-color:%s\' id=\'code_%d\'>%s</div>',
+                    self::color($cfg->fore_color),
+                    self::color($cfg->back_color),
+                    $this->code_count,
+                    $code
+                );
 			}
 		} else
 		{
@@ -563,7 +569,9 @@ class PostParser
 		                               'CODE_ID' => $this->code_count
 		                          ));
 
-		$view = "{$html['START']}<div>$view</div>{$html['END']}";
+		if ($code != 'prism') {
+		    $view = "{$html['START']}<div>$view</div>{$html['END']}";
+        }
 		if ($temp == 'client' && $cfg)
 		{
 			$use_line_numbering = $use_line_numbering

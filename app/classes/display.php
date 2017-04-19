@@ -257,6 +257,7 @@ class display
 		// CSS
 		//---------------------------------------------------------
 		$css = View::make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
+		$css .= View::make("global.css_external", ['css' => 'assets/stylesheets/prism.css']) . "\n";
 
 		//---------------------------------------------------------
 
@@ -288,6 +289,8 @@ class display
 				$this->js->addLocal("h_core.js");
 			}
 		}
+
+        $this->js->addLocal('prism.js');
 
 		if ($output_array['JS'])
 		{

@@ -730,6 +730,9 @@ class Register
 	{
 		global $ibforums, $std, $print;
 
+		echo '<!-- xxxx';
+		var_dump($ibforums->vars['bot_antispam'] );
+	echo '-->';	ob_flush();
 		if ($_POST['act'] == "")
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'complete_form'));
@@ -1469,6 +1472,8 @@ class Register
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($c, CURLOPT_TIMEOUT, 100);
 		curl_setopt($c, CURLOPT_POST, 1);
+	 curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, 0);
 		
 		$request_fields = [
 			'secret' => $ibforums->vars['recaptcha_secret'],
@@ -1481,9 +1486,11 @@ class Register
 		// chop off last ampersand
 		$encoded = substr($encoded, 0, strlen($encoded)-1);
 		curl_setopt($c, CURLOPT_POSTFIELDS,  $encoded);
-		
-		$response = json_decode(curl_exec($c), true);
-		
+	$res = curl_exec($c);	
+		$response = json_decode($res, true);
+		echo '<!-- xxxx';
+		var_dump($res, $response, curl_error($c));
+	echo '-->';	ob_flush();
 		curl_close($c);
 				
 		return $response['success'];
