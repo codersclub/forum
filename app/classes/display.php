@@ -257,8 +257,11 @@ class display
 		// CSS
 		//---------------------------------------------------------
 		$css = View::make("global.css_external", ['css' => $ibforums->skin->getCSSFile()]) . "\n";
-		$css .= View::make("global.css_external", ['css' => 'assets/stylesheets/prism.css']) . "\n";
-
+		if ($ibforums->member['syntax'] == "prism-coy") {
+		$css .= View::make("global.css_external", ['css' => 'assets/stylesheets/prism-theme-coy.css']) . "\n";
+		} elseif ($ibforums->member['syntax'] == "prism-twilight") {
+		$css .= View::make("global.css_external", ['css' => 'assets/stylesheets/prism-theme-twilight.css']) . "\n";
+		}
 		//---------------------------------------------------------
 
 		$extra = "";
@@ -291,6 +294,7 @@ class display
 		}
 
         $this->js->addLocal('prism.js');
+        $this->js->addLocal('prism-bcb-cmake.js');
 
 		if ($output_array['JS'])
 		{

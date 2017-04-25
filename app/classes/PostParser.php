@@ -308,6 +308,14 @@ class PostParser
 	///////////////////////////////////////////////////////////////////////////
 	function syntax_find_by_code($syntax, $method)
 	{
+		if ($method == 'prism') {
+			$cfg = new syntax_cfg;
+			$cfg->syntax = 'syntax';
+			$cfg->back_color = 'white';
+			$cfg->fore_color = 'black';
+			$cfg->tab_length = 4;
+			return $cfg;
+		}
 		foreach ($this->syntax as $cfg)
 		{
 			if ($cfg->syntax == $syntax)
@@ -397,6 +405,9 @@ class PostParser
 			if ($ibforums->member['syntax'] != 'none')
 			{
 				$temp = $ibforums->member['syntax'];
+				if (strncmp($temp, 'prism', 5) === 0) {
+					$temp = 'prism';
+				}
 
 				// server highlight for forumizer
 				if ($ibforums->vars['plg_offline_client'])
@@ -409,11 +420,6 @@ class PostParser
 				// Client highlight is very slow for large text,
 				// so, reset highlight to server if current browser
 				// Opera and length of code tag is more than 10 kb.
-
-				if ($temp == 'client' && $length > 10 * 1024 && mb_strpos($sess->user_agent, 'Opera') !== FALSE)
-				{
-					$temp = 'server';
-				}
 
 				// highlight code tag only if length code tag text is less than 50 kb
 				if ($length < 50 * 1024 or $temp == 'client')
@@ -441,7 +447,7 @@ class PostParser
 			}
 		}
 
-		if ($cfg)
+		if ($cfg || $temp == 'prism')
 		{
 			$code = $this->prepare_code_tabs($code, $cfg->tab_length);
 
@@ -513,7 +519,7 @@ class PostParser
                 // server highlight form
                 $view = sprintf('<div style=\'color:%s; background-color:%s\'>%s</div>', self::color($cfg->fore_color), self::color($cfg->back_color), $view);
                 //
-            } elseif ($temp = 'prism') {
+            } elseif ($temp == 'prism') {
                 $code = $this->syntax_code_to_view($code);
                 // $code = $this->regex_clean_code($code);
 

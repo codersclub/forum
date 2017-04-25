@@ -1654,7 +1654,7 @@ class UserCP
 			? "<option value='1' selected='selected'>" . $ibforums->lang['yes'] . "</option>\n<option value='0'>" . $ibforums->lang['no'] . "</option>"
 			: "<option value='1'>" . $ibforums->lang['yes'] . "</option>\n<option value='0' selected='selected'>" . $ibforums->lang['no'] . "</option>";
 
-		$methods = ['client', 'server', 'prism', 'none'];
+		$methods = ['client', 'server', 'prism-coy', 'prism-twilight', 'none'];
 
 		foreach ($methods as $m) {
 		    $lang_string = "syntax_$m";
