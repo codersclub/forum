@@ -45,7 +45,7 @@ class modfunctions
 	var $last_id = 0;
 	var $cache_syntax = array();
 
-	function modfunctions()
+	function __construct()
 	{
 		global $ibforums;
 
@@ -728,8 +728,10 @@ class modfunctions
 
 		while ($post = $stmt->fetch())
 		{
-			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies",
-				"\$this->regex_code_syntax('\\3', '\\2', " . $source[$post['topic_id']] . ")", $post['post']) and
+			if ($txt = preg_replace_callback("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#is",
+				function($m) use ($source, $post) { return $this->regex_code_syntax($m[3], $m[2], $source[$post['topic_id']]); },
+			        $post['post'])
+				and
 			    $txt != $post['post']
 			)
 			{
