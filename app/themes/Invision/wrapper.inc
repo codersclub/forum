@@ -50,14 +50,14 @@
         <script language="JavaScript1.3" type="text/javascript"><!--
             js = 13//--></script>
         <script language="JavaScript" type="text/javascript"><!--
-            d.write('<a href="http://top.mail.ru/jump?from=89876"' +
-            ' target="_top"><img src="http://df.c5.b1.a0.top.mail.ru/counter' +
-            '?id=89876;t=57;js=' + js + a + ';rand=' + Math.random() +
-            '" alt="Rating@Mail.ru"' + ' border="0" height="1" width="1"/></a>')
+            d.write('<a href="https://top.mail.ru/jump?from=89876"' +
+                ' target="_top"><img src="https://df.c5.b1.a0.top.mail.ru/counter' +
+                '?id=89876;t=57;js=' + js + a + ';rand=' + Math.random() +
+                '" alt="Rating@Mail.ru"' + ' border="0" height="1" width="1"/></a>');
             if (11 < js)d.write('<' + '!-- ')//--></script>
         <noscript><a
-                target="_top" href="http://top.mail.ru/jump?from=89876"><img
-                    src="http://df.c5.b1.a0.top.mail.ru/counter?js=na;id=89876;t=57"
+                target="_top" href="https://top.mail.ru/jump?from=89876"><img
+                    src="https://df.c5.b1.a0.top.mail.ru/counter?js=na;id=89876;t=57"
                     border="0" height="1" width="1"
                     alt="Rating@Mail.ru"/></a></noscript>
         <script language="JavaScript" type="text/javascript"><!--
