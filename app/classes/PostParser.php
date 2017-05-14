@@ -522,7 +522,7 @@ class PostParser
             } elseif ($temp == 'prism') {
                 $code = $this->syntax_code_to_view($code);
                 // $code = $this->regex_clean_code($code);
-
+				$code = htmlspecialchars($code);
                 $view = sprintf(
                     '<div style=\'color:%s; background-color:%s\' id=\'code_%d\'><pre><code class="language-%s">%s</code></pre></div>',
                     self::color($cfg->fore_color),
