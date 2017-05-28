@@ -45,7 +45,7 @@ _tmr.push({id: "89876", type: "pageView", start: (new Date()).getTime()});
         <!-- Rating@Mail.ru logo -->
         <noindex>
         <a href="http://top.mail.ru/jump?from=89876">
-        <img src="//top-fwz1.mail.ru/counter?id=89876;t=602;l=1" 
+        <img src="//top-fwz1.mail.ru/counter?id=89876;t=8;l=1" 
         style="border:0;" height="40" width="88" alt="Рейтинг@Mail.ru" /></a>
         </noindex>
         <!-- //Rating@Mail.ru logo -->
