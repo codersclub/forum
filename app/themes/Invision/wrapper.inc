@@ -15,12 +15,42 @@
     <% JAVASCRIPT_HEAD %>
 </head>
 <body <% BODY_DATA_TAGS %> >
+
+<!-- Rating@Mail.ru counter -->
+<noindex>
+<script type="text/javascript">
+var _tmr = window._tmr || (window._tmr = []);
+_tmr.push({id: "89876", type: "pageView", start: (new Date()).getTime()});
+(function (d, w, id) {
+  if (d.getElementById(id)) return;
+  var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+  ts.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//top-fwz1.mail.ru/js/code.js";
+  var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+  if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window, "topmailru-code");
+</script><noscript><div>
+<img src="//top-fwz1.mail.ru/counter?id=89876;js=na" style="border:0;position:absolute;left:-9999px;" alt="" />
+</div></noscript>
+</noindex>
+<!-- //Rating@Mail.ru counter -->
+
 <div id="ipbwrapper">
     <% JAVASCRIPT_TOP %>
     <% BOARD HEADER %>
     <% GLOBAL MESSAGE %>
     <% NAVIGATION %>
     <% BOARD %>
+
+    <span style="float: right;">
+        <!-- Rating@Mail.ru logo -->
+        <noindex>
+        <a href="http://top.mail.ru/jump?from=89876">
+        <img src="//top-fwz1.mail.ru/counter?id=89876;t=602;l=1" 
+        style="border:0;" height="40" width="88" alt="Рейтинг@Mail.ru" /></a>
+        </noindex>
+        <!-- //Rating@Mail.ru logo -->
+    </span>
+
     <% STATS %>
 
     <noindex><% COPYRIGHT %></noindex>
@@ -30,42 +60,6 @@
             <td align="center"><% XAP BANNER %></td>
         </tr>
     </table>
-
-    <noindex>
-
-        <!--Rating@Mail.ru COUNTER-->
-        <script language="JavaScript" type="text/javascript"><!--
-            d = document;
-            var a = '';
-            a += ';r=' + escape(d.referrer)
-            js = 10//--></script>
-        <script language="JavaScript1.1" type="text/javascript"><!--
-            a += ';j=' + navigator.javaEnabled()
-            js = 11//--></script>
-        <script language="JavaScript1.2" type="text/javascript"><!--
-            s = screen;
-            a += ';s=' + s.width + '*' + s.height
-            a += ';d=' + (s.colorDepth ? s.colorDepth : s.pixelDepth)
-            js = 12//--></script>
-        <script language="JavaScript1.3" type="text/javascript"><!--
-            js = 13//--></script>
-        <script language="JavaScript" type="text/javascript"><!--
-            d.write('<a href="https://top.mail.ru/jump?from=89876"' +
-                ' target="_top"><img src="https://df.c5.b1.a0.top.mail.ru/counter' +
-                '?id=89876;t=57;js=' + js + a + ';rand=' + Math.random() +
-                '" alt="Rating@Mail.ru"' + ' border="0" height="1" width="1"/></a>');
-            if (11 < js)d.write('<' + '!-- ')//--></script>
-        <noscript><a
-                target="_top" href="https://top.mail.ru/jump?from=89876"><img
-                    src="https://df.c5.b1.a0.top.mail.ru/counter?js=na;id=89876;t=57"
-                    border="0" height="1" width="1"
-                    alt="Rating@Mail.ru"/></a></noscript>
-        <script language="JavaScript" type="text/javascript"><!--
-            if (11 < js)d.write('--' + '>')//--></script>
-        <!--/Rating@Mail.ru COUNTER-->
-
-
-    </noindex>
 
 </div>
 <!-- <script type='text/javascript'>if(window.comboInit)setTimeout('comboInit()',10)</script> -->
