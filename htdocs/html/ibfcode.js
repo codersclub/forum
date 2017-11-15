@@ -379,7 +379,7 @@ function tag_url()
   var selection=getSelectedText(document.REPLIER.Post);
   var url='http://';
   var name='';
-  if (/^http:\/\//i.test(selection)) 
+  if (/^https?:\/\//i.test(selection)) 
   {
     var for_focus="url_url_name";
     url=selection;
