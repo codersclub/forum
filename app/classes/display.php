@@ -350,9 +350,9 @@ class display
 		        'error_no_email_name',
 		        'text_enter_spoiler',
 		        'text_enter_quote',
-		        'list_numbered',
-		        'list_numbered_rome',
-		        'list_marked',
+		        'tag_list_numbered',
+		        'tag_list_numbered_rome',
+		        'tag_list_marked',
 		        'tpl_q1'
 			]);
 		$this_header = View::make(
