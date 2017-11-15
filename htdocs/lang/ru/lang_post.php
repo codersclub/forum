@@ -32,6 +32,8 @@ $lang['tag_list']		= "Вводите элементы списка по очер
 $lang['tag_list_numbered']	   = "Нумерованный (1, 2, 3, ...)";
 $lang['tag_list_numbered_rome'] = "Нумерованный (I, II, III, ...)";
 $lang['tag_list_marked']	   = "Маркированный";
+$lang['list_prompt'] = 'Сюда пункт списка. Оставьте пустой элемент, чтобы закончить ввод';
+
 $lang['js_text_to_format']	= "Введите текст для форматирования";
 $lang['js_used']		= "Вами использовано";
 $lang['js_max_length']		= "Максимальная длина";

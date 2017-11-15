@@ -35,6 +35,7 @@ $lang['tag_list']  = "Enter the list items one by one";
 $lang['tag_list_numbered']  = "Numbered (1, 2, 3, ...)";
 $lang['tag_list_numbered_rome']  = "Numbered (I, II, III, ...)";
 $lang['tag_list_marked']  = "Marked";
+$lang['list_prompt'] = "Enter a list item. Click 'cancel' or leave blank to end the list";
 $lang['bbcode_guided']  = "Guided Mode";
 $lang['bbcode_normal']  = "Normal Mode";
 $lang['hb_start']  = "Hint: Use Guided Mode for helpful prompts";

@@ -240,7 +240,7 @@ function tag_list()
 {
   if (last=document.getElementById('list_dialog')) document.body.removeChild(last);
   if (document.selection) var selection_range=document.selection.createRange();
-  text = "<div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'><form name=list_form onSubmit='return false'><br><select name='list_type' id='list_type' size=1 class='codebuttons' style='margin:0px 0px 4px'><option selected value=''>"+list_marked+"<option value='=1'>"+list_numbered+"<option value='=I'>"+list_numbered_rome+"</select><br>"+list_prompt+"<br><input type='text' style='width:98%; margin:4px 0px 0px' name='list_field0' id='list_field0' value='' class='forminput'><br id='list_field0_br'></form></div></div></div>";
+  text = "<div class='jqcd_dialog'><div class='jqcd_content_layer'><div class='jqcd_content' style='padding-left: 10px; padding-right: 10px;'><form name=list_form onSubmit='return false'><br><select name='list_type' id='list_type' size=1 class='codebuttons' style='margin:0px 0px 4px'><option selected value=''>"+tag_list_marked+"<option value='=1'>"+tag_list_numbered+"<option value='=I'>"+tag_list_numbered_rome+"</select><br>"+list_prompt+"<br><input type='text' style='width:98%; margin:4px 0px 0px' name='list_field0' id='list_field0' value='' class='forminput'><br id='list_field0_br'></form></div></div></div>";
   var newDiv = document.createElement('div');
   newDiv.id='list_dialog';
   newDiv.innerHTML = text;
@@ -379,7 +379,7 @@ function tag_url()
   var selection=getSelectedText(document.REPLIER.Post);
   var url='http://';
   var name='';
-  if (/^http:\/\//i.test(selection)) 
+  if (/^https?:\/\//i.test(selection)) 
   {
     var for_focus="url_url_name";
     url=selection;
