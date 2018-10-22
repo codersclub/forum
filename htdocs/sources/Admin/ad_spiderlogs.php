@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -25,10 +24,9 @@ $idx = new ad_spiderlogs();
 
 class ad_spiderlogs
 {
-
 	var $base_url;
 
-	function ad_spiderlogs()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
@@ -263,5 +261,3 @@ class ad_spiderlogs
 	}
 
 }
-
-?>

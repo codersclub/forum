@@ -93,7 +93,7 @@ return <<<EOF
 <form action='{$ibforums->base_url}' method='post'>
 <input type='hidden' name='act' value='Members'>
 <input type='hidden' name='s'   value='{$ibforums->session_id}'>
-<div align="left">{$links[SHOW_PAGES]}</div>
+<div align="left">{$links['SHOW_PAGES']}</div>
 <br>
 <div class='tableborder'>
  <div class="maintitle">{$ibforums->lang['page_title']}</div>

@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -37,7 +36,7 @@ class ad_mysql
 	var $true_version = "";
 	var $str_gzip_header = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
 
-	function ad_mysql()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

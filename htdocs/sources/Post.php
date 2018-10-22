@@ -54,7 +54,7 @@ class Post
 	//
 	/*	 * ******************************************************************************** */
 
-	function Post()
+	function __construct()
 	{
 		global $ibforums, $std, $sess;
 

@@ -161,6 +161,3 @@ $DESC = array(
 	12 => "IBStore Settings, Add Items, quiz ect",
 	14 => "Import RSS-News from Internet",
 );
-
-
-?>

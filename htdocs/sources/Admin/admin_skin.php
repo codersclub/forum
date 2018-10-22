@@ -30,7 +30,7 @@ class admin_skin
 	var $td_header = array();
 	var $td_colspan;
 
-	function admin_skin()
+	function __construct()
 	{
 		global $INFO, $IN;
 		$ibforums = Ibf::app();

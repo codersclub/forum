@@ -51,7 +51,7 @@ class UserCP
 
 	var $lib;
 
-	function UserCP()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

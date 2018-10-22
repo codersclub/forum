@@ -26,7 +26,7 @@ class usercp_functions
 
 	var $class;
 
-	function usercp_functions($class)
+	function __construct($class)
 	{
 
 		$this->class = $class;

@@ -254,19 +254,19 @@ return <<<EOF
 	  <table width='100%' border="0" cellspacing="0" cellpadding="4">
 		<tr>
 		  <td width="40%">{$ibforums->lang['email_address']}</td>
-		  <td width="60%">{$member[MEMBER_EMAIL]}</td>
+		  <td width="60%">{$member['MEMBER_EMAIL']}</td>
 		</tr>
 		<tr>
 		  <td width="40%">{$ibforums->lang['number_posts']}</td>
-		  <td width="60%">{$member[MEMBER_POSTS]}</td>
+		  <td width="60%">{$member['MEMBER_POSTS']}</td>
 		</tr>
 		<tr>
 		  <td width="40%">{$ibforums->lang['registered']}</td>
-		  <td width="60%">{$member[DATE_REGISTERED]}</td>
+		  <td width="60%">{$member['DATE_REGISTERED']}</td>
 		</tr>
 		<tr>
 		  <td width="40%">{$ibforums->lang['daily_average']}</td>
-		  <td width="60%">{$member[DAILY_AVERAGE]}</td>
+		  <td width="60%">{$member['DAILY_AVERAGE']}</td>
 		</tr>
 	  </table>
 	  <h3>{$ibforums->lang['messenger_summary']}</h3>

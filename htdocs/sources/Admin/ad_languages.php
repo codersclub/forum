@@ -28,7 +28,7 @@ class ad_langs
 
 	var $base_url;
 
-	function ad_langs()
+	function __construct()
 	{
 		global $IN;
 

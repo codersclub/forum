@@ -286,11 +286,11 @@ return <<<EOF
 <table>
 <tr>
   <td class='pformleft'>{$ibforums->lang['topic_title']}</td>
-  <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicTitle' value='{$data[TITLE]}' tabindex='1' class='forminput'></td>
+  <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicTitle' value='{$data['TITLE']}' tabindex='1' class='forminput'></td>
 </tr>
 <tr>
    <td class='pformleft'>{$ibforums->lang['topic_desc']}</td>
-   <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicDesc' value='{$data[DESC]}' tabindex='2' class='forminput'></td>
+   <td class='pformright'><input type='text' size='100%' maxlength='255' name='TopicDesc' value='{$data['DESC']}' tabindex='2' class='forminput'></td>
 </tr>
 </table>
 

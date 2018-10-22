@@ -28,7 +28,7 @@ class ad_forums
 
 	var $base_url;
 
-	function ad_forums()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -27,11 +26,10 @@ $root_path = "";
 
 class ad_forums
 {
-
 	var $base_url;
 	var $modules = "";
 
-	function ad_forums()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
