@@ -25,10 +25,9 @@ $idx = new ad_fields();
 
 class ad_fields
 {
-
 	var $base_url;
 
-	function ad_fields()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

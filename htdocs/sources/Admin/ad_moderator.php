@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -25,10 +24,9 @@ $idx = new ad_mod();
 
 class ad_mod
 {
-
 	var $base_url;
 
-	function ad_mod()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

@@ -25,10 +25,9 @@ $idx = new ad_prefs();
 
 class ad_prefs
 {
-
 	var $base_url;
 
-	function ad_prefs()
+	function __construct()
 	{
 		global $IN, $std;
 

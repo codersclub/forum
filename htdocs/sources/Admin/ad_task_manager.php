@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v2.0.0
@@ -31,7 +30,6 @@ if (!defined('IN_ACP'))
 
 class ad_task_manager
 {
-
 	var $functions = "";
 
 	function auto_run()
@@ -872,5 +870,3 @@ class ad_task_manager
 	}
 
 }
-
-?>

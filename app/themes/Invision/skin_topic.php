@@ -608,15 +608,15 @@ return <<<EOF
 <!--IBF.TOPIC_ACTIVE-->
 <div class="activeuserstrip b-topic-bottom-navigation-buttons-wrapper">
 <ul class="b-topic-bottom-navigation-buttons b-action-buttons b-action-buttons-vline">
-<li class="b-action-button b-topic-navigation-previous"><a href="{$ibforums->base_url}showtopic={$data[TOPIC]["tid"]}&amp;view=old">{$ibforums->lang["t_old"]}</a></li>
-<li class="b-action-button b-topic-navigation-current"><a href="{$ibforums->base_url}showforum={$data[FORUM]["id"]}">{$data[FORUM]["name"]}</a></li>
-<li class="b-action-button b-topic-navigation-next"><a href="{$ibforums->base_url}showtopic={$data[TOPIC]["tid"]}&amp;view=new">{$ibforums->lang["t_new"]}</a></li>
+<li class="b-action-button b-topic-navigation-previous"><a href="{$ibforums->base_url}showtopic={$data['TOPIC']["tid"]}&amp;view=old">{$ibforums->lang["t_old"]}</a></li>
+<li class="b-action-button b-topic-navigation-current"><a href="{$ibforums->base_url}showforum={$data['FORUM']["id"]}">{$data['FORUM']["name"]}</a></li>
+<li class="b-action-button b-topic-navigation-next"><a href="{$ibforums->base_url}showtopic={$data['TOPIC']["tid"]}&amp;view=new">{$ibforums->lang["t_new"]}</a></li>
 </ul>
 </div></div>
 <div class="b-posts-bottom-row clearfix">
 	<div class="b-bottom-breadcrumbs-wrapper"><!--IBF.NAVIGATION--></div>
 	<div class="b-report-wrapper b-block-right">$report_link</div>
-	<div class="b-bottom-pages-wrapper">{$data[TOPIC][SHOW_PAGES]}</div>
+	<div class="b-bottom-pages-wrapper">{$data['TOPIC']['SHOW_PAGES']}</div>
 	<div class="b-bottom-topic-actions-wrapper"><!--IBF.TOPIC_BOTTOM_BUTTONS--></div>
 </div>
 <div id="bottom-close-reason-wrapper" class="b-close-reason-wrapper">{$data["TOPIC"]["why_close"]}</div>
@@ -625,7 +625,7 @@ return <<<EOF
 {$data["TOPIC"]["modform_close"]}
 <!--IBF.QUICK_REPLY_OPEN-->
 <br>
-<div align="right">{$data[FORUM]["JUMP"]}</div>
+<div align="right">{$data['FORUM']["JUMP"]}</div>
 <br>
 EOF;
 }

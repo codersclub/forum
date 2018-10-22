@@ -114,7 +114,7 @@ class quick_help
 
 	}
 
-	function quick_help()
+	function __construct()
 	{
 		global $IN, $INFO, $ADMIN, $SKIN, $std;
 

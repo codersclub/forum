@@ -42,7 +42,7 @@ return <<<EOF
     <tr class="b-topics-list-row {$topic_classes}" data-topic-updated="{$data["last_post_std"]}">
       <td class="row4 b-column b-column_status"><a href="{$ibforums->base_url}act=fav&topic={$data["tid"]}" style="text-decoration:none" class="topic-status-link">{$data["folder_img"]}</a></td>
       <td class="row2 b-column b-column_icon">{$data["topic_icon"]}</td>
-      <td class="row4 b-column b-column_title">{$data["go_new_post"]}{$data["prefix"]} <a class="topic-link" href="{$ibforums->base_url}showtopic={$data["tid"]}"{$data["forum_title"]}>{$data["title"]}</a> {$data[PAGES]}
+      <td class="row4 b-column b-column_title">{$data["go_new_post"]}{$data["prefix"]} <a class="topic-link" href="{$ibforums->base_url}showtopic={$data["tid"]}"{$data["forum_title"]}>{$data["title"]}</a> {$data['PAGES']}
       <div class="desc">{$data["description"]}</span>{$data["queued_link"]}</td>
       <td class="row2 b-column b-column_author">{$data["starter"]}</td>
       <td class="row4 b-column b-column_posts-num">{$data["posts"]}</td>
@@ -245,7 +245,7 @@ return <<<EOF
 <table class="b-topics-list-actions-wrapper b-list-actions-row">
 <tr>
  <td class="b-list-pages-wrapper b-forum-list-pages b-forum-list-pages-top">{$data["SHOW_PAGES"]}{$data["show_all_topics"]}</td>
- <td class="b-list-actions-wrapper b-topics-list-actions-wrapper new-buttons-wrapper"><span class="new-topic-button">{$data[TOPIC_BUTTON]}</span><span class="new-poll-button">{$data[POLL_BUTTON]}</span></td>
+ <td class="b-list-actions-wrapper b-topics-list-actions-wrapper new-buttons-wrapper"><span class="new-topic-button">{$data['TOPIC_BUTTON']}</span><span class="new-poll-button">{$data['POLL_BUTTON']}</span></td>
 </tr>
 </table>
 <div id="forum-subscribtion-buttons" class="b-forum-subscribtion-buttons">{$data["mark_read"]} <!--IBF.SUB_FORUM_LINK--></div>
@@ -346,7 +346,7 @@ return <<<EOF
 <table class="b-topics-list-actions-row b-list-actions-row">
 <tr>
  <td class="b-list-pages-wrapper b-forum-list-pages b-forum-list-pages-bottom">{$data["SHOW_PAGES"]}</td>
- <td class="b-list-actions-wrapper">{$data[TOPIC_BUTTON]}{$data[POLL_BUTTON]}</td>
+ <td class="b-list-actions-wrapper">{$data['TOPIC_BUTTON']}{$data['POLL_BUTTON']}</td>
 </tr>
 </table>
 
@@ -354,7 +354,7 @@ return <<<EOF
 <!--IBF.NAVIGATION-->
 <div class="b-legend-row-wrapper clearfix">
 {$legend}
-<div class="b-forum_jump-wrapper">{$data[FORUM_JUMP]}</div>
+<div class="b-forum_jump-wrapper">{$data['FORUM_JUMP']}</div>
 </div>
 <div class="b-forum-subscribtion-buttons"><a href="{$ibforums->base_url}act=Login&CODE=04&f={$data["id"]}">{$ibforums->lang["mark_as_read"]}</a> <!--IBF.SUB_FORUM_LINK--></div>
 

@@ -41,7 +41,11 @@ class IBPDO extends PDOWrapper
 				$key = mb_substr($key, 1);
 			}
 			$keys[]             = "$key = :$key";
-			$values[':' . $key] = $item;
+			if (is_bool($item)) {
+			   $values[':' . $key] = intval($item);
+			} else {
+			    $values[':' . $key] = $item;
+			}
 		}
 		$params = $values;
 		return implode(',', $keys);

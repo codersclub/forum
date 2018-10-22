@@ -43,7 +43,7 @@ class Messenger
 	var $parser = "";
 	var $cp_html = "";
 
-	function Messenger()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

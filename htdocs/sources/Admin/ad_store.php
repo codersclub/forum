@@ -44,7 +44,7 @@ class ad_store
 	// Get are update mirror :D
 	var $mirror_update = "http://www.outlaw.ipbhost.com/store/";
 
-	function ad_store()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN;
 		$ibforums       = Ibf::app();

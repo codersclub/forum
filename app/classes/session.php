@@ -1125,7 +1125,7 @@ class session
 				'r_in_forum'   => intval($ibforums->input['f']),
 				'in_topic'     => $in_topic,
 				'r_in_topic'   => intval($ibforums->input['t']),
-				'login_type'   => $ibforums->input['Privacy'],
+			    'login_type'   => $ibforums->input['Privacy'] ?: 0,
 				'running_time' => $this->time_now,
 				'location'     => $locasion,
 				'r_location'   => $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE'],

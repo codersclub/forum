@@ -40,7 +40,7 @@ class Online
 
 	var $seen_name = array();
 
-	function Online()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

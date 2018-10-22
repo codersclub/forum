@@ -7,10 +7,9 @@ $idx = new ad_sskins();
 
 class ad_sskins
 {
-
 	var $base_url;
 
-	function ad_sskins()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
@@ -636,5 +635,3 @@ class ad_sskins
 	}
 
 }
-
-?>

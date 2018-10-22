@@ -28,7 +28,7 @@ class ad_settings
 
 	var $base_url;
 
-	function ad_settings()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

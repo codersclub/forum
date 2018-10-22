@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -28,10 +27,9 @@ $idx = new ad_dfields();
 
 class ad_dfields
 {
-
 	var $base_url;
 
-	function ad_dfields()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

@@ -36,7 +36,7 @@ class ad_ips
 
 	var $version = "1.1";
 
-	function ad_ips()
+	function __construct()
 	{
 		global $IN;
 

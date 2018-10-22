@@ -84,8 +84,8 @@ return <<<EOF
 <form action="{$ibforums->base_url}" name='jump' method="post">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='01'>
-{$ibforums->lang[goto_folder]}:</b>&nbsp; {$data['jump']}
-<input type='submit' name='submit' value='{$ibforums->lang[goto_submit]}' class='forminput'>
+{$ibforums->lang['goto_folder']}:</b>&nbsp; {$data['jump']}
+<input type='submit' name='submit' value='{$ibforums->lang['goto_submit']}' class='forminput'>
 </form>
 </div>
 <div align="right" style="padding:6px;font-weight:bold">
@@ -129,11 +129,11 @@ return <<<EOF
 <table class="b-receiver">
 <tr>
   <td class='b-receiver__select-user__title pformleft'><label>{$ibforums->lang['address_list']}</label></td>
-  <td class='b-receiver__select-user pformright'>{$data[CONTACTS]}</td>
+  <td class='b-receiver__select-user pformright'>{$data['CONTACTS']}</td>
 </tr>
 <tr>
   <td class='pformleft b-receiver__username__title'><label>{$ibforums->lang['enter_name']}</label></td>
-  <td class='pformright b-receiver__username'><input type='text' name='entered_name' size='50' value='{$data[N_ENTER]}' tabindex="1" class='forminput'></td>
+  <td class='pformright b-receiver__username'><input type='text' name='entered_name' size='50' value='{$data['N_ENTER']}' tabindex="1" class='forminput'></td>
 </tr>
 </table>
 <!--IBF.MASS_PM_BOX-->
@@ -142,7 +142,7 @@ return <<<EOF
 <table class="b-message-title">
 <tr>
   <td class='pformleft b-message-title__title'><label>{$ibforums->lang['msg_title']}</label></td>
-  <td class='pformright b-message-title'><input type='text' name='msg_title' size='90' tabindex="2" maxlength='128' value='{$data[O_TITLE]}' class='forminput'></td>
+  <td class='pformright b-message-title'><input type='text' name='msg_title' size='90' tabindex="2" maxlength='128' value='{$data['O_TITLE']}' class='forminput'></td>
 </tr>
 </table>
 EOF;
