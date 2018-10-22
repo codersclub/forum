@@ -62,4 +62,3 @@ $lang = array (
 'event_date'  => "Event Date:",
 
 );
-?>

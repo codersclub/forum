@@ -1,7 +1,7 @@
 <?php
 $lang = array (
  
-WHERE_Statistics => "Viewing Statistics", 
+'WHERE_Statistics' => "Viewing Statistics", 
 
 
 	);
