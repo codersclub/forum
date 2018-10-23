@@ -33,7 +33,7 @@ class admin_functions
 	var $jump_menu = "";
 	var $no_jump = 0;
 
-	function admin_functions()
+	function __construct()
 	{
 		global $INFO, $IN;
 		$ibforums = Ibf::app();
@@ -82,7 +82,7 @@ class admin_functions
 		}
 
 		$this->time_offset = (($MEMBER['time_offset'] != "")
-			? $MEMBER['time_offset']
+		    ? intval($MEMBER['time_offset'])
 			: $INFO['time_offset']) * 3600;
 
 		if ($INFO['time_adjust'] != "" and $INFO['time_adjust'] != 0)

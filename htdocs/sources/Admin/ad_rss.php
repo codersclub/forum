@@ -23,7 +23,7 @@ class ad_rss
 	var $colours = array();
 
 	//---------------------------------------
-	function ad_rss()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

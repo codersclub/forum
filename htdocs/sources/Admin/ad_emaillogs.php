@@ -31,7 +31,7 @@ class ad_emaillogs
 	var $base_url;
 	var $colours = array();
 
-	function ad_emaillogs()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

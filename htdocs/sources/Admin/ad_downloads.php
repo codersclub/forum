@@ -38,7 +38,7 @@ class ad_downloads
 
 	var $base_url;
 
-	function ad_downloads()
+	function __construct()
 	{
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();

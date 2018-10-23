@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -25,11 +24,10 @@ $idx = new ad_stats();
 
 class ad_stats
 {
-
 	var $base_url;
 	var $month_names = array();
 
-	function ad_stats()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
@@ -586,5 +584,3 @@ class ad_stats
 	}
 
 }
-
-?>

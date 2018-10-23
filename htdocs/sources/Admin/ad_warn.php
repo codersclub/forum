@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -27,10 +26,9 @@ $root_path = "";
 
 class ad_warning
 {
-
 	var $base_url;
 
-	function ad_warning()
+	function __construct()
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 

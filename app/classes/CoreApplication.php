@@ -32,7 +32,7 @@ class CoreApplication
 	 *
 	 */
 	public $lang_id;
-	public $lang = "";
+	public $lang = array();
 
 	public function __construct()
 	{

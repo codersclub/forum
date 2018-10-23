@@ -28,7 +28,7 @@ class index_page
 
 	var $mysql_version = "";
 
-	function index_page()
+	function __construct()
 	{
 		global $IN, $INFO, $ADMIN, $MEMBER, $SKIN, $std, $ibforums;
 

@@ -1,5 +1,4 @@
 <?php
-
 /*
 +--------------------------------------------------------------------------
 |   Invision Power Board v1.2
@@ -27,7 +26,7 @@ class ad_syntax
 {
 	var $base_url;
 
-	function ad_syntax()
+	function __construct()
 	{
 		global $IN;
 
@@ -615,5 +614,3 @@ class ad_syntax
 		$ADMIN->output();
 	}
 }
-
-?>

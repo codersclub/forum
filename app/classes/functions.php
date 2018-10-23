@@ -1929,7 +1929,7 @@ class functions
 			return "<{B_NORM" . $dot . "}>";
 		}
 
-		if ($topic['posts'] + 1 >= $ibforums->vars['hot_topic'])
+		if (intval($topic['posts']) + 1 >= $ibforums->vars['hot_topic'])
 		{
 			if ($topic['last_post'] > $last_time)
 			{
@@ -2740,7 +2740,7 @@ class functions
 
 		if (is_array($_GET))
 		{
-			while (list($k, $v) = each($_GET))
+		    foreach ($_GET as $k => $v)
 			{
 				if ($k == 'INFO')
 				{
@@ -2763,8 +2763,8 @@ class functions
 
 		if (is_array($_POST))
 		{
-			while (list($k, $v) = each($_POST))
-			{
+		    foreach ($_POST as $k => $v)
+		    {
 				if (is_array($_POST[$k]))
 				{
 					while (list($k2, $v2) = each($_POST[$k]))

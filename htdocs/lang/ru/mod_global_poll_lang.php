@@ -11,5 +11,3 @@ $lang['poll_null_vote']  = "Посмотреть результаты (не го
 $lang['poll_topic']  = "Тема опроса";
 $lang['by']  = "от";
 $lang['pv_total_votes']  = "Всего голосов";
-
-?>

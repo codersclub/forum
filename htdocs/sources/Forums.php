@@ -415,7 +415,7 @@ class Forums
 			forum_id, post_q, topic_q, hide_topic
 		    FROM ibf_moderators WHERE forum_id" . $this->ids);
 
-		$modlist = "";
+		$modlist = [];
 
 		while ($mod = $stmt->fetch())
 		{

@@ -35,7 +35,7 @@ class post_functions extends Post
 
 	var $m_group = "";
 
-	function post_functions($class)
+	function __construct($class)
 	{
 
 		global $ibforums, $std;
@@ -286,9 +286,9 @@ class post_functions extends Post
 		// Update the post info with the upload array info
 		//-------------------------------------------------
 
-		$this->post['attach_exists'] = is_array($this->upload)
+		$this->post['attach_exists'] = intval(is_array($this->upload)
 			? (bool)count($this->upload)
-			: false;
+			: false);
 		$this->post['new_topic']     = 1;
 
 		//-------------------------------------------------

@@ -745,9 +745,15 @@ class Moderate
 
 		foreach ($posts as $post)
 		{
-			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->modfunc->regex_code_syntax('\\3', '\\2', " . $post['forum_id'] . ")", $post['post']) and
-			    $txt != $post['post']
-			)
+		    $self = $this;
+		    $txt = preg_replace_callback(
+                "#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#is",
+                function ($args) use ($self, $post) {
+                    return $self->modfunc->regex_code_syntax($args[3], $args[2], $post['forum_id']);
+                },
+                $post['post']
+            );
+			if ($txt and ($txt != $post['post']))
 			{
 				$updated_query
 					->bindParam(':post', $txt, PDO::PARAM_STR)
@@ -3877,11 +3883,18 @@ class Moderate
 			->prepare("UPDATE ibf_posts
 				SET post=:post
 				WHERE pid=:pid");
-		foreach ($posts as $post)
-		{
-			if ($txt = preg_replace("#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#ies", "\$this->modfunc->regex_code_syntax('\\3', '\\2', " . $post['forum_id'] . ")", $post['post']) and
-			    $txt != $post['post']
-			)
+        $self = $this;
+        foreach ($posts as $post)
+        {
+            $txt = preg_replace_callback(
+                "#\[code\s*?(=\s*?(.*?)|)\s*\](.*?)\[/code\]#is",
+                function ($args) use ($self, $post) {
+                    return $self->modfunc->regex_code_syntax($args[3], $args[2], $post['forum_id']);
+                },
+                $post['post']
+            );
+
+            if ($txt && ($txt != $post['post']))
 			{
 				$update_query
 					->bindParam(':post', $txt, PDO::PARAM_STR)

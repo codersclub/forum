@@ -100,5 +100,3 @@ $lang = array (
 'multi_approve_redirect' => "All Selected Files Have Been Approved.",
 
 );
-
-?>

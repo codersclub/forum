@@ -369,6 +369,3 @@ $EMAIL['complete_reg'] = <<<EOF
 и получить полный доступ к <#BOARD_ADDRESS#>
 
 EOF;
-
-
-?>

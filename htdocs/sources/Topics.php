@@ -791,7 +791,7 @@ class Topics
 		$this->mod_tags .= "[" . $the_tag . "]" . $txt . "[/" . $the_tag . "]";
 	}
 
-	function Topics()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 
