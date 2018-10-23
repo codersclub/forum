@@ -363,5 +363,3 @@ your chosen details and access your full user account at <#BOARD_ADDRESS#>
 
 EOF;
 
-
-?>

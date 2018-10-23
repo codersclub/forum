@@ -19,4 +19,3 @@ $lang = array (
 'back_topic'            =>  "Back to the topic",
 'topic_here'            =>  "Click here to view this topic in its original format",
 );
-?>
