@@ -8,25 +8,20 @@
  * @link       http://code.google.com/p/mysql-php-migrations/
  */
 
-if (file_exists(MPM_PATH . '/config/db_config.php'))
-{
-	/**
-	 * Include the database connection info.
-	 */
-	require_once(MPM_PATH . '/config/db_config.php');
+if (file_exists(MPM_PATH . '/config/db_config.php')) {
+    /**
+     * Include the database connection info.
+     */
+    require_once(MPM_PATH . '/config/db_config.php');
 }
 
-if (!defined('MPM_DB_PATH'))
-{
-    if (isset($db_config->db_path) && strlen($db_config->db_path) > 0)
-    {
+if (! defined('MPM_DB_PATH')) {
+    if (isset($db_config->db_path) && strlen($db_config->db_path) > 0) {
         /**
          * Defines the MPM_DB_PATH if specified.  Allows this to be outside of the main migration script library.
          */
         define('MPM_DB_PATH', $db_config->db_path);
-    }
-    else
-    {
+    } else {
         /**
          * @ignore
          */
@@ -34,28 +29,25 @@ if (!defined('MPM_DB_PATH'))
     }
 }
 
-if (!defined('MPM_METHOD_PDO'))
-{
+if (! defined('MPM_METHOD_PDO')) {
     /**
      * Flag to use PDO to talk to the database.
      */
     define('MPM_METHOD_PDO', 1);
 }
 
-if (!defined('MPM_METHOD_MYSQLI'))
-{
+if (! defined('MPM_METHOD_MYSQLI')) {
     /**
      * Flag to use MySQLi to talk to the database.
      */
     define('MPM_METHOD_MYSQLI', 2);
 }
 
-if (!defined('STDIN'))
-{
+if (! defined('STDIN')) {
     /**
      * In some cases STDIN built-in can be undefined
      */
-    define('STDIN', fopen("php://stdin","r"));
+    define('STDIN', fopen("php://stdin", "r"));
 }
 
 /**
@@ -63,19 +55,18 @@ if (!defined('STDIN'))
  */
 require_once(MPM_PATH . '/lib/exceptions/class_undefined_exception.php');
 
-/** 
+/**
  * Include the MpmStringHelper class.
  */
 require_once(MPM_PATH . '/lib/helpers/string_helper.php');
 
-/** 
+/**
  * Include the MpmAutoloadHelper class.
  */
 require_once(MPM_PATH . '/lib/helpers/autoload_helper.php');
 
 // add default autoloader function to the autoload stack
-if (function_exists('__autoload'))
-{
+if (function_exists('__autoload')) {
     spl_autoload_register('__autoload');
 }
 

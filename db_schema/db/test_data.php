@@ -19,15 +19,15 @@
 class MpmTestData extends MpmSchema
 {
 
-	public function build()
- 	{
-		/* Add the queries needed to insert test data into the initial build of your database.
-		*
-		* EX:
-		*
-		* $this->dbObj->exec("INSERT INTO `testing` (id, username, password) VALUES (1, 'my_username', 'my_password')");
-		*/
-	}
+    public function build()
+    {
+        /* Add the queries needed to insert test data into the initial build of your database.
+        *
+        * EX:
+        *
+        * $this->dbObj->exec("INSERT INTO `testing` (id, username, password) VALUES (1, 'my_username', 'my_password')");
+        */
+    }
 
 }
 

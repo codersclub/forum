@@ -1,7 +1,12 @@
 {
+    "name": "sources/forum",
+    "type": "project",
+    "description": "Sources.RU forum",
+    "license": "MIT",
     "require": {
-        "openid/php-openid": "dev-master",
-        "filp/whoops": "1.1.*@stable",
+        "php": ">=5.6",
+        "openid/php-openid": "~2.3",
+        "filp/whoops": "1.1.*",
         "serafim/asset": "0.*",
         "monolog/monolog": "1.10.0",
         "leafo/scssphp": "0.0.12"
@@ -22,5 +27,6 @@
             ]
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

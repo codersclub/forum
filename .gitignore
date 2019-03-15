@@ -1,15 +1,19 @@
-.gitignore
-.*
-*.bak
+# IntelliJ platform
+/.idea
+*.iml
+
+# Configuration
 conf_global.php
 ip_table.php
-/htdocs/download/
-/htdocs/uploads/
-/htdocs/sources/lib/TNX-something-long-random-string-324sd54ywey/*.txt
-/logs/
-/vendor
-/composer.lock
-/*.iml
 app/config/app.php
 app/config/database.php
 app/config/logs.php
+
+# Storage
+/htdocs/sources/lib/TNX-something-long-random-string-324sd54ywey/*.txt
+/logs/
+/htdocs/download/
+/htdocs/uploads/
+
+# Composer dependencies
+/vendor

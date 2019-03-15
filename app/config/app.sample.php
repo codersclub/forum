@@ -7,7 +7,7 @@ return [
     'debug' => false,
     'skins' => [
         'default' => 0,
-        'hidden' => [
+        'hidden'  => [
             2,//faq
         ]
     ]

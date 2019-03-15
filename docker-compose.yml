@@ -1,0 +1,58 @@
+version: "2.0"
+
+services:
+    php:
+        image: sources_ru
+        container_name: sources_ru
+        command: /bootstrap.sh
+        build:
+            context: ./docker/php
+            args:
+                INSTALL_OPCACHE: "true"
+                INSTALL_INTL: "true"
+                INSTALL_IMAGEMAGICK: "true"
+        volumes:
+            - ./:/var/www/sources.ru
+        links:
+            - mysql
+        depends_on:
+            - mysql
+
+    nginx:
+        container_name: sources_ru_nginx
+        build:
+            context: ./docker/nginx
+            args:
+                PHP_UPSTREAM: php
+        volumes_from: [php]
+        volumes:
+            - ./docker/nginx/sites-available/:/etc/nginx/sites-available
+        ports:
+            - 80:80
+            - 443:443
+        links:
+            - php
+
+    mysql:
+        container_name: sources_ru_database
+        build:
+            context: ./docker/mysql
+        environment:
+            MYSQL_DATABASE: invision
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
+            TZ: UTC
+        volumes:
+            - mysql:/var/lib/mysql
+            - ./docker/mysql:/docker-entrypoint-initdb.d
+        ports:
+            - 3306:3306
+
+volumes:
+    mysql:
+        driver: local
+    sentry:
+        driver: local
+    sessions:
+        driver: local

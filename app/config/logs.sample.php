@@ -2,6 +2,7 @@
 /**
  * @file Sample config for logging system
  */
+
 use Monolog\Logger;
 
 //Attention: Most of keys here are case-sensitive. Edit with caution.

@@ -35,12 +35,12 @@ s/#PATH#/$RBASEDIR\/db\//"
 
 $sed -e "$COMMANDS" $BASEDIR/config/db_config.init > $BASEDIR/config/db_config.php
 
-mysqle="$mysql -u $USER -p$PASS $DB_NAME"
+mysqle="$mysql -u $USER -p$PASS -hmysql $DB_NAME"
 if [[ $SKIPDB_CREATION != 1 ]]
 then
     echo "Initializing database..."
     #creating our database
-    $sed -e "s/#DB#/$DB_NAME/"  $BASEDIR/db/initial/db_create.sql | $mysql -u $USER -p$PASS
+    $mysqle < $BASEDIR/db/initial/db_create.sql
     $mysqle < $BASEDIR/db/initial/db_struct.sql
     $mysqle < $BASEDIR/db/initial/db_insert.sql
 fi
