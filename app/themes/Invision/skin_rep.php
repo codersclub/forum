@@ -1,12 +1,14 @@
 <?php
 
-class skin_rep {
+class skin_rep
+{
 
 
 
-function ShowHeader() {
-global $ibforums;
-return <<<EOF
+    function ShowHeader()
+    {
+        global $ibforums;
+        return <<<EOF
 	<th align='center' class='pformstrip' width='15%'>{$ibforums->lang['who']}</th>
 	<th align='center' class='pformstrip'>{$ibforums->lang['where']}</th>
 	<th align='center' class='pformstrip'>{$ibforums->lang['where_forum']}</th>
@@ -16,12 +18,13 @@ return <<<EOF
 	</tr>
 
 EOF;
-}
+    }
 
 
-function ShowTitle($i) {
-global $ibforums;
-return <<<EOF
+    function ShowTitle($i)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class="maintitle" align='center'>
@@ -32,12 +35,13 @@ return <<<EOF
   <tr>
 
 EOF;
-}
+    }
 
 
-function ShowRow($i) {
-global $ibforums;
-return <<<EOF
+    function ShowRow($i)
+    {
+        global $ibforums;
+        return <<<EOF
 	<tr>
 		<td class='row2' width='15%' align='center'>{$i['name']}</td>
 		<td class='row2' width='25%'>{$i['title']}</td>
@@ -48,12 +52,13 @@ return <<<EOF
 	</tr>
 
 EOF;
-}
+    }
 
 
-function ShowSelfHeader() {
-global $ibforums;
-return <<<EOF
+    function ShowSelfHeader()
+    {
+        global $ibforums;
+        return <<<EOF
 
 		<th align='center' class='pformstrip' width='15%'>{$ibforums->lang['whom']}</th>
 		<th align='center' class='pformstrip'>{$ibforums->lang['where']}</th>
@@ -64,12 +69,13 @@ return <<<EOF
 	</tr>
 
 EOF;
-}
+    }
 
 
-function Page_end() {
-global $ibforums;
-return <<<EOF
+    function Page_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<form action='{$ibforums->base_url}act=rep&CODE=totals' method='POST'>
         <tr> 
@@ -79,12 +85,13 @@ return <<<EOF
 	</form>
 
 EOF;
-}
+    }
 
 
-function ShowTotalsRow($i) {
-global $ibforums;
-return <<<EOF
+    function ShowTotalsRow($i)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<tr>
 		<td class='row2' align='center' width='50%'>{$i['name']}</td>
@@ -93,34 +100,37 @@ return <<<EOF
 	</tr>
 
 EOF;
-}
+    }
 
 
-function ShowNone() {
-global $ibforums;
-return <<<EOF
+    function ShowNone()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
 	<td align='center' colspan='7' class='row4'>{$ibforums->lang['no_changes']}</td>
 </tr>
 
 EOF;
-}
+    }
 
 
-function Links($links) {
-global $ibforums;
-return <<<EOF
+    function Links($links)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align="left">{$links}</div>
 
 EOF;
-}
+    }
 
 
-function ShowForm($i) {
-global $ibforums;
-return <<<EOF
+    function ShowForm($i)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language="javascript">
 <!--
@@ -179,12 +189,13 @@ return <<<EOF
     </form>
 
 EOF;
-}
+    }
 
 
-function ShowSelfTitle($i) {
-global $ibforums;
-return <<<EOF
+    function ShowSelfTitle($i)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class="maintitle" align='center'>
@@ -195,12 +206,13 @@ return <<<EOF
   <tr>
 
 EOF;
-}
+    }
 
 
-function ShowFooter($link) {
-global $ibforums;
-return <<<EOF
+    function ShowFooter($link)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<tr>
 		<td align='center' colspan='7' class='darkrow1'><a href='$link'>{$ibforums->lang['back']}</a></td>
@@ -209,12 +221,13 @@ return <<<EOF
      </div>
 
 EOF;
-}
+    }
 
 
-function StatsLinks() {
-global $ibforums;
-return <<<EOF
+    function StatsLinks()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class="maintitle" align='center'>
@@ -228,7 +241,5 @@ return <<<EOF
   </tr>
 
 EOF;
-}
-
-
+    }
 }

@@ -59,4 +59,3 @@ $lang['siggie']  = "Signature";
 $lang['last_activity']  = "Last forum activity";
 $lang['mod_forums']  = "Moderated forums";
 $lang['mod_all_forums'] = "All Forums";
-

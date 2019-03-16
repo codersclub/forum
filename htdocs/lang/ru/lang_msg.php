@@ -180,4 +180,3 @@ $lang['show_online']  = "Показывать в списке друзей";
 $lang['contact_status'] = "Статус контакта";
 $lang['contact_friend'] = "Друг";
 $lang['contact_enemy']  = "Враг";
-

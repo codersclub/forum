@@ -17,7 +17,7 @@
 |   > Module written by Matt Mecham
 |   > Date started: 22nd May 2003
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
@@ -25,104 +25,89 @@ $idx = new ad_prefs();
 
 class ad_prefs
 {
-	var $base_url;
+    var $base_url;
 
-	function __construct()
-	{
-		global $IN, $std;
+    function __construct()
+    {
+        global $IN, $std;
 
-		//---------------------------------------
-		// Kill globals - globals bad, Homer good.
-		//---------------------------------------
+        //---------------------------------------
+        // Kill globals - globals bad, Homer good.
+        //---------------------------------------
 
-		$tmp_in = array_merge($_GET, $_POST, $_COOKIE);
+        $tmp_in = array_merge($_GET, $_POST, $_COOKIE);
 
-		foreach ($tmp_in as $k => $v)
-		{
-			unset($$k);
-		}
+        foreach ($tmp_in as $k => $v) {
+            unset($$k);
+        }
 
-		//---------------------------------------
-		// Show the wee form
-		//---------------------------------------
+        //---------------------------------------
+        // Show the wee form
+        //---------------------------------------
 
-		if ($IN['set'] == 1)
-		{
-			$this->msg = 'Savings set';
+        if ($IN['set'] == 1) {
+            $this->msg = 'Savings set';
 
-			if ($IN['tx'] == "" or $IN['ty'] == "")
-			{
-				$this->msg = 'Please complete the form';
+            if ($IN['tx'] == "" or $IN['ty'] == "") {
+                $this->msg = 'Please complete the form';
 
-				print $this->get_html();
-			} else
-			{
-				$std->my_setcookie('acpprefs', $IN['menu'] . ',' . $IN['tx'] . ',' . $IN['ty'] . ',' . $IN['preview']);
+                print $this->get_html();
+            } else {
+                $std->my_setcookie('acpprefs', $IN['menu'] . ',' . $IN['tx'] . ',' . $IN['ty'] . ',' . $IN['preview']);
 
-				$this->msg = 'Settings saved';
+                $this->msg = 'Settings saved';
 
-				$this->tx = $IN['tx'];
-				$this->ty = $IN['ty'];
+                $this->tx = $IN['tx'];
+                $this->ty = $IN['ty'];
 
-				if ($IN['menu'])
-				{
-					$this->s_yes = 'selected';
-					$this->s_no  = '';
-				} else
-				{
-					$this->s_yes = '';
-					$this->s_no  = 'selected';
-				}
+                if ($IN['menu']) {
+                    $this->s_yes = 'selected';
+                    $this->s_no  = '';
+                } else {
+                    $this->s_yes = '';
+                    $this->s_no  = 'selected';
+                }
 
-				print $this->get_html();
-			}
+                print $this->get_html();
+            }
+        } else {
+            $state = 0;
+            $tx    = 80;
+            $ty    = 40;
 
-		} else
-		{
-			$state = 0;
-			$tx    = 80;
-			$ty    = 40;
+            if ($cookie = $std->my_getcookie('acpprefs')) {
+                list($state, $tx, $ty, $prev_show) = explode(",", $cookie);
+            }
 
-			if ($cookie = $std->my_getcookie('acpprefs'))
-			{
-				list($state, $tx, $ty, $prev_show) = explode(",", $cookie);
-			}
+            $this->tx = $tx;
+            $this->ty = $ty;
 
-			$this->tx = $tx;
-			$this->ty = $ty;
+            if ($state) {
+                $this->s_yes = 'selected';
+                $this->s_no  = '';
+            } else {
+                $this->s_yes = '';
+                $this->s_no  = 'selected';
+            }
 
-			if ($state)
-			{
-				$this->s_yes = 'selected';
-				$this->s_no  = '';
-			} else
-			{
-				$this->s_yes = '';
-				$this->s_no  = 'selected';
-			}
+            if ($prev_show or $prev_show == "") {
+                $this->p_yes = 'selected';
+                $this->p_no  = '';
+            } else {
+                $this->p_yes = '';
+                $this->p_no  = 'selected';
+            }
 
-			if ($prev_show or $prev_show == "")
-			{
-				$this->p_yes = 'selected';
-				$this->p_no  = '';
-			} else
-			{
-				$this->p_yes = '';
-				$this->p_no  = 'selected';
-			}
+            print $this->get_html();
+        }
+    }
 
-			print $this->get_html();
+    function get_html()
+    {
+        global $SKIN;
+        $ibforums = Ibf::app();
 
-		}
-
-	}
-
-	function get_html()
-	{
-		global $SKIN;
-		$ibforums = Ibf::app();
-
-		$hit_muhl = <<<EOF
+        $hit_muhl = <<<EOF
 <html>
  <head>
    <title>IPB-ACP Prefs</title>
@@ -174,7 +159,6 @@ class ad_prefs
   </html>
 EOF;
 
-		return $hit_muhl;
-	}
-
+        return $hit_muhl;
+    }
 }

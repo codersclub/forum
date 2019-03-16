@@ -1,12 +1,14 @@
 <?php
 
-class skin_emails {
+class skin_emails
+{
 
 
 
-function sent_screen($member_name) {
-global $ibforums;
-return <<<EOF
+    function sent_screen($member_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
   <div class='maintitle'>{$ibforums->lang['email_sent']}</div>
@@ -14,12 +16,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function forum_jump($data) {
-global $ibforums;
-return <<<EOF
+    function forum_jump($data)
+    {
+        global $ibforums;
+        return <<<EOF
       <table cellpadding='0' cellspacing='1' border='0' width='95%' align='center'>
         <tr>
             <td align='right'>$data</td>
@@ -27,12 +30,13 @@ return <<<EOF
        </table>
 
 EOF;
-}
+    }
 
 
-function pager_header($data) {
-global $ibforums;
-return <<<EOF
+    function pager_header($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
        <table cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#999999' align='center'>
         <tr>
@@ -42,12 +46,13 @@ return <<<EOF
                    <td colspan='2' align='center' class='titlemedium'>{$data[TITLE]}</td>
 
 EOF;
-}
+    }
 
 
-function board_rules($title="", $body="") {
-global $ibforums;
-return <<<EOF
+    function board_rules($title = "", $body = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
  <div class="pformstrip">$title</div>
@@ -55,12 +60,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function errors($data) {
-global $ibforums;
-return <<<EOF
+    function errors($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['errors_found']}</div>
@@ -69,12 +75,13 @@ return <<<EOF
 <br>
 
 EOF;
-}
+    }
 
 
-function chat_inline($acc_no, $lang, $w, $h, $user="",$pass="") {
-global $ibforums;
-return <<<EOF
+    function chat_inline($acc_no, $lang, $w, $h, $user = "", $pass = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['chat_title']}</div>
@@ -101,12 +108,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function chat_pop($acc_no, $lang, $w, $h, $user="",$pass="") {
-global $ibforums;
-return <<<EOF
+    function chat_pop($acc_no, $lang, $w, $h, $user = "", $pass = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align='center'>
  <applet
@@ -123,12 +131,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function report_form($fid, $tid, $pid, $st, $topic_title) {
-global $ibforums;
-return <<<EOF
+    function report_form($fid, $tid, $pid, $st, $topic_title)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name='REPLIER' action="{$ibforums->base_url}act=report&amp;send=1&amp;f=$fid&amp;t=$tid&amp;p=$pid&amp;st=$st" method="post">
 <div class='tableborder'>
@@ -154,12 +163,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function msn_body($msnname) {
-global $ibforums;
-return <<<EOF
+    function msn_body($msnname)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 			  <object classid='clsid:F3A614DC-ABE0-11d2-A441-00C04F795683' codebase='#Version=2,0,0,83' codetype='application/x-oleobject' id='MsgrObj' name='MsgrApp' width='0' height='0'></object>
@@ -177,12 +187,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function yahoo_body($yahoo) {
-global $ibforums;
-return <<<EOF
+    function yahoo_body($yahoo)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 			  <tr>
@@ -202,12 +213,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function icq_body($data) {
-global $ibforums;
-return <<<EOF
+    function icq_body($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
               <form action="http://msg.mirabilis.com/scripts/WWPMsg.dll" METHOD="POST" name="frmPager">
 			      <INPUT TYPE="hidden" NAME="subject" VALUE="From WebPager Panel">
@@ -230,12 +242,13 @@ return <<<EOF
               </form>
 
 EOF;
-}
+    }
 
 
-function send_form($data) {
-global $ibforums;
-return <<<EOF
+    function send_form($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name='REPLIER' action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Mail'>
@@ -261,22 +274,24 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function aol_body($data) {
-global $ibforums;
-return <<<EOF
+    function aol_body($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table width='140' align='center'>
 <tr align='right'><td><a href="http://www.aol.co.uk/aim/index.html"><img src="http://www.aol.co.uk/aim/remote/gr/aimver_man.gif" width=44 height=55 border=0 alt="Download AIM"></a><img src="http://www.aol.co.uk/aim/remote/gr/aimver_topsm.gif" width=73 height=55 border=0 alt="AIM Remote"><br><a href="aim:goim?screenname={$data['AOLNAME']}&amp;message=Hi.+Are+you+there?"><img src="http://www.aol.co.uk/aim/remote/gr/aimver_im.gif" width=117 height=39 border=0 alt="Send me an Instant Message"></a><br><a href="aim:addbuddy?screenname={$data['AOLNAME']}"><img src="http://www.aol.co.uk/aim/remote/gr/aimver_bud.gif" width=117 height=39 border=0 alt="Add me to Your Buddy List"></a><br><a href="http://www.aol.co.uk/aim/remote.html"><img src="http://www.aol.co.uk/aim/remote/gr/aimver_botadd.gif" width=117 height=23 border=0 alt="Add Remote to Your Page"></a><br><a href="http://www.aol.co.uk/aim/index.html"><img src="http://www.aol.co.uk/aim/remote/gr/aimver_botdow.gif" width=117 height=29 border=0 alt="Download AOL Instant Messenger"></a><br><br></td></tr></table>
 EOF;
-}
+    }
 
 
-function forward_form($title, $text, $lang) {
-global $ibforums;
-return <<<EOF
+    function forward_form($title, $text, $lang)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name='REPLIER' action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act'  value='Forward'>
@@ -315,12 +330,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function show_address($data) {
-global $ibforums;
-return <<<EOF
+    function show_address($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
   <div class='maintitle'>{$ibforums->lang['send_email_to']} {$data[NAME]}</div>
@@ -331,12 +347,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function end_table() {
-global $ibforums;
-return <<<EOF
+    function end_table()
+    {
+        global $ibforums;
+        return <<<EOF
 
             </table>
             </td>
@@ -347,8 +364,5 @@ return <<<EOF
             </table>
 
 EOF;
+    }
 }
-
-
-}
-?>

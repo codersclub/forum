@@ -17,7 +17,7 @@
 |   > Module written by Matt Mecham
 |   > Date started: 1st march 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
@@ -26,15 +26,15 @@ $idx = new quick_help();
 class quick_help
 {
 
-	var $help_text = array();
+    var $help_text = array();
 
-	function init_help_array()
-	{
+    function init_help_array()
+    {
 
-		return array(
-			'mg_dohtml'      => array(
-				'title' => "[doHTML] Tag Usage",
-				'body'  => "The [doHTML] tag will allow all members of the group to post pure HTML in forums that have the ability to parse the [doHTML] tag. You can turn this on and off
+        return array(
+            'mg_dohtml'      => array(
+                'title' => "[doHTML] Tag Usage",
+                'body'  => "The [doHTML] tag will allow all members of the group to post pure HTML in forums that have the ability to parse the [doHTML] tag. You can turn this on and off
 											  			  for each forum via the edit forum settings function.<br />
 											  			  <br /><b>Warning!</b><br />
 											  			  Allowing a member to post HTML is a very dangerous thing, you should not enable this functionality on any group that will use it maliciously. Although IPB tries
@@ -42,17 +42,17 @@ class quick_help
 											  			  <br />Invision Power Board and Invision Power Services will not be held responsible for any misfortune that occurs from the usage of this tag.
 											  			  <br /><br /><b>Use it wisely!</b>
 														 ",
-			),
-			'mod_mmod'       => array(
-				'title' => "Moderations and Topic Multi-Moderation",
-				'body'  => "If you allow your moderators access to the forums' multi-moderation then you must be aware that they have full use.
+            ),
+            'mod_mmod'       => array(
+                'title' => "Moderations and Topic Multi-Moderation",
+                'body'  => "If you allow your moderators access to the forums' multi-moderation then you must be aware that they have full use.
 											  			  <br />For example, if one of your multi-moderation actions allowed the topic to be moved and you do not allow move permissions the
 											  			  moderator will still be able to use the topic multi-moderation and move the topic.
 														 ",
-			),
-			'set_spider'     => array(
-				'title' => "What are Search Engine Spiders?",
-				'body'  => "Search engines such as Google 'spider' the web by using special programs to find and add links to the search engine
+            ),
+            'set_spider'     => array(
+                'title' => "What are Search Engine Spiders?",
+                'body'  => "Search engines such as Google 'spider' the web by using special programs to find and add links to the search engine
 											  			  database.<br />Invision Power can take advantage of separating the bots from the real users and you can then
 											  			  ensure that they are getting adequate information to help with search engine ranking.
 											  			  <br />
@@ -66,10 +66,10 @@ class quick_help
 											  			  <br /><br />Also keep in mind that most search engines do NOT search dynamically generated website for fear
 											  			  of crashing the server with the constant reading of topics.
 														 ",
-			),
-			'mg_upload'      => array(
-				'title' => "Upload Permissions",
-				'body'  => "If you wish to allow this group to attach files (upload) when posting, you will have to ensure you have completed the following:
+            ),
+            'mg_upload'      => array(
+                'title' => "Upload Permissions",
+                'body'  => "If you wish to allow this group to attach files (upload) when posting, you will have to ensure you have completed the following:
 											  			  <ul>
 											  			  <li>You have entered a reasonable numerical figure in the groups 'Max upload file size' field.
 											  			  <li>You have edited the forum permissions for this group and checked the 'Upload' checkbox.
@@ -77,10 +77,10 @@ class quick_help
 											  			  This allows you to control in which forums this group can upload to.
 														  <br><br><b>Warning!</b><br>If, when posting, no post is made and you are returned back to the board index, disable this groups upload by entering 0 into this field. This will turn off the mutli-part form the uploads use.
 														 ",
-			),
-			'mg_promote'     => array(
-				'title' => "Group Promotion",
-				'body'  => "If enabled (by choosing a member group to promote your members to and by entering a number of posts to achieve this)
+            ),
+            'mg_promote'     => array(
+                'title' => "Group Promotion",
+                'body'  => "If enabled (by choosing a member group to promote your members to and by entering a number of posts to achieve this)
 											    		   when your members meet or exceed the number of posts set they will be 'promoted' to the specified group.
 											    		   <br><br>
 											    		   Many administrators use this feature to set up a 'Senior Members' group with more functionality (such as a longer edit time, larger post uploads) and even
@@ -88,17 +88,17 @@ class quick_help
 											    		   allow for a more restrictive set of permissions for newcomers.
 											    		   <br><br><b>Warning!</b><br>Use this feature carefully and always check the information before proceeding.<br>It is possible to advance to an Admin group - you have been warned.
 											   			  ",
-			),
-			's_reg_antispam' => array(
-				'title' => "Registration AntiSpam",
-				'body'  => "To prevent robots from registering (such as a malicious denial of service attack registering thousands of new accounts and forcing thousands of emails to be sent from your server)
+            ),
+            's_reg_antispam' => array(
+                'title' => "Registration AntiSpam",
+                'body'  => "To prevent robots from registering (such as a malicious denial of service attack registering thousands of new accounts and forcing thousands of emails to be sent from your server)
 													            you can enable this option.
 													            <br><br>When enabled, a random 6 digit numerical string is generated and shown in a graphical format (to prevent advanced bots from reading the source page). The user must enter
 													            this string exactly when registering or the account will not be created.",
-			),
-			'm_bulkemail'    => array(
-				'title' => "Bulk Emailing",
-				'body'  => "<b>Overview</b><br>Bulk emailing allows you to target a specific section of your community or email all your registered members.
+            ),
+            'm_bulkemail'    => array(
+                'title' => "Bulk Emailing",
+                'body'  => "<b>Overview</b><br>Bulk emailing allows you to target a specific section of your community or email all your registered members.
 												    <br><br><b>Settings</b><br>You can choose which user groups will receive the email and elect to override the user set 'Allow Admin Emails' function. It is NOT recommended that you do override this
 												    however.<hr>
 												    <b>Allowed Tags</b><br>Although the email system sends the mail via BCC to preserve system resources, you can add in dynamic content with the following tags.
@@ -109,25 +109,23 @@ class quick_help
 													<br>{busy_time} will return the date of the most online users
 													<br>{board_url} will return the URL to the board
 													<br><br>As the email is sent via BCC, it is not possible to include the members username, password or other user profile data.",
-			),
-		);
+            ),
+        );
+    }
 
-	}
+    function __construct()
+    {
+        global $IN, $INFO, $ADMIN, $SKIN, $std;
 
-	function __construct()
-	{
-		global $IN, $INFO, $ADMIN, $SKIN, $std;
+        $id = $IN['id'];
 
-		$id = $IN['id'];
+        $this->help_text = $this->init_help_array();
 
-		$this->help_text = $this->init_help_array();
+        if ($this->help_text[$id]['title'] == "") {
+            $ADMIN->error("No help information is available for this function at present");
+        }
 
-		if ($this->help_text[$id]['title'] == "")
-		{
-			$ADMIN->error("No help information is available for this function at present");
-		}
-
-		print "<html>
+        print "<html>
 				<head>
 				 <title>Quick Help</title>
 				</head>
@@ -143,10 +141,6 @@ class quick_help
 				</body>
 				</html>";
 
-		exit();
-
-	}
-
+        exit();
+    }
 }
-
-?>

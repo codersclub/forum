@@ -2,42 +2,54 @@
 
 use Views\View;
 
-class skin_forum {
+class skin_forum
+{
 
 
 
-function show_sub_link($fid) {
-global $ibforums;
-return <<<EOF
+    function show_sub_link($fid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 &#0124; <a href="{$ibforums->base_url}act=Track&f=$fid&type=forum">{$ibforums->lang["ft_title"]}</a>
 
 
 EOF;
-}
+    }
 
-function mod_checkbox($tid) {
-global $ibforums;
-return <<<EOF
+    function mod_checkbox($tid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <td class="row4 b-column b-column_checkbox" align="center"><input type="checkbox" name="TID_$tid" value="1" class="forminput"></td>
 
 EOF;
-}
+    }
 
-function RenderRow($data) {
-global $ibforums;
-$topic_classes = "topic-id-{$data["tid"]} topic-author-{$data["starter_id"]}";
+    function RenderRow($data)
+    {
+        global $ibforums;
+        $topic_classes = "topic-id-{$data["tid"]} topic-author-{$data["starter_id"]}";
 
-foreach(["pinned", "hidden", "decided", "club", "closed", "has_mirror", "is_mirror", "has_new", "deleted", "has_my_posts", "mine", "favorite", "queued", "has_queued_posts"] as $key)
-	if ($data[$key])
-		$topic_classes .= " topic-" . $key;
-if ($data["state"] == "moved" || $data["state"] == "link") $topic_classes .= " topic-moved";
-if ($data["state"] == "closed") $topic_classes .= " topic-closed";
-if ($data["poll_state"]) $topic_classes .= " topic-is_poll";
+        foreach (["pinned", "hidden", "decided", "club", "closed", "has_mirror", "is_mirror", "has_new", "deleted", "has_my_posts", "mine", "favorite", "queued", "has_queued_posts"] as $key) {
+            if ($data[$key]) {
+                $topic_classes .= " topic-" . $key;
+            }
+        }
+        if ($data["state"] == "moved" || $data["state"] == "link") {
+            $topic_classes .= " topic-moved";
+        }
+        if ($data["state"] == "closed") {
+            $topic_classes .= " topic-closed";
+        }
+        if ($data["poll_state"]) {
+            $topic_classes .= " topic-is_poll";
+        }
 
-return <<<EOF
+        return <<<EOF
 
     <tr class="b-topics-list-row {$topic_classes}" data-topic-updated="{$data["last_post_std"]}">
       <td class="row4 b-column b-column_status"><a href="{$ibforums->base_url}act=fav&topic={$data["tid"]}" style="text-decoration:none" class="topic-status-link">{$data["folder_img"]}</a></td>
@@ -52,21 +64,23 @@ return <<<EOF
     </tr>
 
 EOF;
-}
+    }
 
-function who_link($tid, $posts) {
-global $ibforums;
-return <<<EOF
+    function who_link($tid, $posts)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a href="javascript:who_posted($tid);">$posts</a>
 
 EOF;
-}
+    }
 
 
-function show_no_matches() {
-global $ibforums;
-return <<<EOF
+    function show_no_matches()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
 <td class="row4" colspan="7" align="center"><br>
@@ -75,12 +89,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function render_pinned_end() {
-global $ibforums;
-return <<<EOF
+    function render_pinned_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
     <tr>
       <td align="center" class="darkrow1">&nbsp;</td>
@@ -89,12 +104,13 @@ return <<<EOF
     </tr>
 
 EOF;
-}
+    }
 
 
-function show_rules($rules) {
-global $ibforums;
-return <<<EOF
+    function show_rules($rules)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <div class="tableborder">
@@ -105,24 +121,26 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function page_title($title="", $pages="") {
-global $ibforums;
-return <<<EOF
+    function page_title($title = "", $pages = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <div><span class="pagetitle">$title</span>$pages</div>
 
 
 EOF;
-}
+    }
 
 
-function forum_active_users($active=array()) {
-global $ibforums;
-return <<<EOF
+    function forum_active_users($active = array())
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <div class="darkrow2" style="padding:6px">{$ibforums->lang["active_users_title"]} ({$ibforums->lang["active_users_detail"]})</div>
@@ -130,13 +148,14 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
 
-function quick_search($data) {
-global $ibforums;
-return <<<EOF
+    function quick_search($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align="right">
 	<form action="{$ibforums->base_url}" method="post" name="search">
@@ -153,13 +172,14 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
 
-function Forum_log_in($data) {
-global $ibforums;
-return <<<EOF
+    function Forum_log_in($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <form action="{$ibforums->base_url}act=SF&f=$data" method="post">
@@ -181,62 +201,68 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function show_page_jump($total, $pp, $qe) {
-global $ibforums;
-return <<<EOF
+    function show_page_jump($total, $pp, $qe)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <a href="javascript:multi_page_jump( $total, $pp, "$qe" )" title="{$ibforums->lang["tpl_jump"]}">{$ibforums->lang["multi_page_forum"]}</a>
 
 
 EOF;
-}
+    }
 
 
-function who_no_link($posts) {
-global $ibforums;
-return <<<EOF
+    function who_no_link($posts)
+    {
+        global $ibforums;
+        return <<<EOF
 
 {$posts}
 
 EOF;
-}
+    }
 
-function mark_forum_read($data) {
-global $ibforums;
-return <<<EOF
+    function mark_forum_read($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a href="{$ibforums->base_url}act=Login&CODE=04&f={$data["id"]}">{$ibforums->lang["mark_as_read"]}</a>
 
 EOF;
-}
+    }
 
-function last_mod_column() {
-global $ibforums;
-return <<<EOF
+    function last_mod_column()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <th class="b-column b-column_last-post">{$ibforums->lang["h_last_action"]}</th>
 <th width="4%" class="b-column b-column_checkbox">{$ibforums->lang["h_mod_checkbox"]}</th>
 
 EOF;
-}
+    }
 
-function last_column() {
-global $ibforums;
-return <<<EOF
+    function last_column()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <th class="b-column b-column_last-post">{$ibforums->lang["h_last_action"]}</th>
 
 EOF;
-}
+    }
 
 
-function PageTop($data) {
-global $ibforums;
-return <<<EOF
+    function PageTop($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <table style="b-moderators-row" border=0 width="100%"><tr>
 <td class="moderators" align="left"><span class="moderators-title title">Модераторы:</span> <span class="moderators-list">{$data["moderators"]}</span></td>
 <td class="quick-search" align="right">{$data["quick_search"]}</td></tr></table>
@@ -266,31 +292,34 @@ return <<<EOF
     </tr>
 	</thead>
 EOF;
-}
+    }
 
 
-function show_mod_link($fid) {
-global $ibforums;
-return <<<EOF
+    function show_mod_link($fid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <strong>{$ibforums->lang["post_modq"]} <a href="{$ibforums->base_url}act=modcp">{$ibforums->lang["post_click"]}</a></strong>
 
 EOF;
-}
+    }
 
 
-function modform_open($data) {
-global $ibforums;
-return <<<EOF
+    function modform_open($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name="topic" action="{$ibforums->base_url}act=modcp&f={$data["id"]}&view={$ibforums->input["view"]}&prune_day={$ibforums->input["prune_day"]}&sort_by={$ibforums->input["sort_by"]}&sort_key={$ibforums->input["sort_key"]}&st={$ibforums->input["st"]}&CODE=topicchoice" method="post" onsubmit="return checkdelete("{$ibforums->lang["cp_js_delete"]}");">
 
 EOF;
-}
+    }
 
-function modform_close() {
-global $ibforums;
-return <<<EOF
+    function modform_close()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="topics-mod-actions">
 <td class="darkrow3 topic-actions" colspan="3">{$ibforums->lang["t_w_selected"]}
@@ -320,14 +349,15 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
 
-function TableEnd($data) {
-global $ibforums;
-$legend = View::make('global.topicsListLegend');
-return <<<EOF
+    function TableEnd($data)
+    {
+        global $ibforums;
+        $legend = View::make('global.topicsListLegend');
+        return <<<EOF
 <tfoot>
 {$data["modform_close"]}
 </tfoot>
@@ -359,14 +389,15 @@ return <<<EOF
 <div class="b-forum-subscribtion-buttons"><a href="{$ibforums->base_url}act=Login&CODE=04&f={$data["id"]}">{$ibforums->lang["mark_as_read"]}</a> <!--IBF.SUB_FORUM_LINK--></div>
 
 EOF;
-}
+    }
 
 
 
 
-function render_pinned_start() {
-global $ibforums;
-return <<<EOF
+    function render_pinned_start()
+    {
+        global $ibforums;
+        return <<<EOF
 
     <tr>
       <td align="center" class="darkrow1">&nbsp;</td>
@@ -375,35 +406,40 @@ return <<<EOF
     </tr>
 
 EOF;
-}
+    }
 
-function renderGoNewPostLink($topic){
-	$ibf = Ibf::app();
-	return <<<EOF
+    function renderGoNewPostLink($topic)
+    {
+        $ibf = Ibf::app();
+        return <<<EOF
 	<a class="b-go-new-post__link" href="{$ibf->base_url}showtopic={$topic["tid"]}&amp;view=getnewpost"><{NEW_POST}></a>
 EOF;
-}
+    }
 
-function renderPinnedTopicPrefix() {
-	return '<span class="pinnedprefix">' . Ibf::app()->vars["pre_pinned"] . '</span> ';
-}
+    function renderPinnedTopicPrefix()
+    {
+        return '<span class="pinnedprefix">' . Ibf::app()->vars["pre_pinned"] . '</span> ';
+    }
 
-function renderClubTopicPrefix() {
-	return '<span class="clubprefix">' . Ibf::app()->vars["pre_club"] . '</span> ';
-}
+    function renderClubTopicPrefix()
+    {
+        return '<span class="clubprefix">' . Ibf::app()->vars["pre_club"] . '</span> ';
+    }
 
-function renderMarkSubforumRead($id) {
-	$ibf = Ibf::app();
-	return <<<EOF
+    function renderMarkSubforumRead($id)
+    {
+        $ibf = Ibf::app();
+        return <<<EOF
 	<div class="b-subforum__subscribtion-buttons">
 		<a class="b-mark-as-read__button" href="{$ibf->base_url}act=Login&amp;CODE=04&amp;f={$id}&amp;i=1">{$ibf->lang["mark_as_read"]}</a>
 	</div>
 EOF;
-}
+    }
 
-function queuedTopicButtons($fid, $tid){
-	$ibf = Ibf::app();
-	return <<<EOF
+    function queuedTopicButtons($fid, $tid)
+    {
+        $ibf = Ibf::app();
+        return <<<EOF
 			<div class="b-queued-topic-actions">
 			<span class="b-queued-topic-actions__title">{$ibf->lang["waiting_topics"]}</span>
 			<ul class="b-action-buttons b-queued_topic-actions">
@@ -412,20 +448,20 @@ function queuedTopicButtons($fid, $tid){
 			</ul>
 
 EOF;
+    }
 
-}
-
-function needModApproveButton($tid, $pid){
-	$ibf = Ibf::app();
-	return <<<EOF
+    function needModApproveButton($tid, $pid)
+    {
+        $ibf = Ibf::app();
+        return <<<EOF
 	<div class="b-posts-need-approve-button"><a href='{$ibf->base_url}showtopic={$tid}&amp;view=findpost&amp;p={$pid}'>{$ibf->lang['waiting_messages']}</a></div>
 EOF;
+    }
 
-}
-
-function attachImagePreviewReduced($text, $alt, AttachImage $attach) {
-	$size = $attach->getPreviewSizes();
-	return <<<EOF
+    function attachImagePreviewReduced($text, $alt, AttachImage $attach)
+    {
+        $size = $attach->getPreviewSizes();
+        return <<<EOF
 	<span class="b-attached-image" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}" data-reduced="1">
 		<div class="b-attach__title">{$text}</div>
 		<a class="b-attached-image__link" href="{$attach->getHref()}" title="{$alt}" target="_blank">
@@ -433,31 +469,33 @@ function attachImagePreviewReduced($text, $alt, AttachImage $attach) {
 		</a>
 	</span>
 EOF;
-}
+    }
 
-function attachImagePreview($text, $alt, AttachImage $attach){
-	$ibf = Ibf::app();
-	return <<<EOF
+    function attachImagePreview($text, $alt, AttachImage $attach)
+    {
+        $ibf = Ibf::app();
+        return <<<EOF
 	<span class="b-attached-image" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}"  data-reduced="0">
 		<div class="b-attach__title">{$text}</div>
 		<img class="b-attached-image__image" src="{$ibf->base_url}act=Attach&amp;type={$attach->itemType()}&amp;id={$attach->itemId()}&amp;attach_id={$attach->attachId()}" alt="{$alt}">
 	</span>
 EOF;
-	}
+    }
 
-function attachImageFull($text, $alt, $url) {
-	return <<<EOF
+    function attachImageFull($text, $alt, $url)
+    {
+        return <<<EOF
 		<img class="b-embedded-image" src="{$url}" border="0" alt="{$alt}" title="{$text}">
 EOF;
-}
+    }
 
-function attach($text, Attachment $attach){
-	$ibf = Ibf::app();
-	return <<<EOF
+    function attach($text, Attachment $attach)
+    {
+        $ibf = Ibf::app();
+        return <<<EOF
 		<span class="b-attach" data-size="{$attach->size()}" data-hits="{$attach->hits()}" data-attach-id="{$attach->attachId()}" data-attach-post-id="{$attach->postId()}">
 			<span class="b-attach__title">{$text}</span>{$attach->getLink()} ({$attach->sizeAsString()}, {$ibf->lang["attach_hits"]}: {$attach->hits()})
 		</span>
 EOF;
-
-}
+    }
 }

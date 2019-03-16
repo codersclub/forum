@@ -44,34 +44,29 @@ $use_gzip = 1;
 // Enable module usage?
 // (Vital for some mods and IPB enhancements)
 
-define ( 'USE_MODULES', 1 );
-if(!defined("IN_ACP")) define("IN_ACP",1);
+define('USE_MODULES', 1);
+if (!defined("IN_ACP")) {
+    define("IN_ACP", 1);
+}
 
 /*-----------------------------------------------
   NO USER EDITABLE SECTIONS BELOW
  ------------------------------------------------*/
 
-if ( $is_on_tripod != 1 )
-{
-	if (function_exists('ini_get'))
-	{
-		$safe_switch = @ini_get("safe_mode") ? 1 : 0;
-	}
-	else
-	{
-		$safe_switch = 1;
-	}
-}
-else
-{
-	$safe_switch = 1;
+if ($is_on_tripod != 1) {
+    if (function_exists('ini_get')) {
+        $safe_switch = @ini_get("safe_mode") ? 1 : 0;
+    } else {
+        $safe_switch = 1;
+    }
+} else {
+    $safe_switch = 1;
 }
 
-define( 'SAFE_MODE_ON', $safe_switch );
+define('SAFE_MODE_ON', $safe_switch);
 
-if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0)
-{
-  @set_time_limit(0);
+if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0) {
+    @set_time_limit(0);
 }
 
 require __DIR__ . '/../app/bootstrap.php';
@@ -84,10 +79,10 @@ require __DIR__ . '/../app/bootstrap.php';
 
 
 $INFO['mm_groups'] = array(
-	$INFO['admin_group'],
-	$INFO['supermoderator_group'],
-	$INFO['moderator_group'],
-	$INFO['comoderator_group']
+    $INFO['admin_group'],
+    $INFO['supermoderator_group'],
+    $INFO['moderator_group'],
+    $INFO['comoderator_group']
 );
 
 $Debug = Debug::instance();
@@ -128,19 +123,19 @@ $IN = $std->parse_incoming();
 
 $IN['AD_SESS'] = $_POST['adsess'] ? $_POST['adsess'] : $_GET['adsess'];
 
-$IN['AD_SESS'] = $std->clean_value( $IN['AD_SESS'] );
+$IN['AD_SESS'] = $std->clean_value($IN['AD_SESS']);
 
 /*-----------------------------------------------
   Import $PAGES and $CATS
  ------------------------------------------------*/
 
-require ROOT_PATH."sources/Admin/admin_pages.php";
+require ROOT_PATH . "sources/Admin/admin_pages.php";
 
 
 /*-----------------------------------------------
   Import Skinable elements
  ------------------------------------------------*/
-require ROOT_PATH."sources/Admin/admin_skin.php";
+require ROOT_PATH . "sources/Admin/admin_skin.php";
 
 $SKIN = new admin_skin();
 
@@ -148,7 +143,7 @@ $SKIN = new admin_skin();
   Import Admin Functions
  ------------------------------------------------*/
 
-require ROOT_PATH."sources/Admin/admin_functions.php";
+require ROOT_PATH . "sources/Admin/admin_functions.php";
 
 $ADMIN = new admin_functions();
 
@@ -158,51 +153,49 @@ $ADMIN = new admin_functions();
 
 $ips_file = "../ip_table.php";
 
-if ( file_exists( $ips_file ) )
-{
-	$log = 0;
+if (file_exists($ips_file)) {
+    $log = 0;
 
-	$FH = fopen( $ips_file, 'r' );
-	$ips = fread( $FH, filesize($ips_file) );
-	fclose($FH);
+    $FH = fopen($ips_file, 'r');
+    $ips = fread($FH, filesize($ips_file));
+    fclose($FH);
 
-	if ( $ips and $IN['IP_ADDRESS'] )
-	{
-		$ips = str_replace( "\r", "", $ips);
-		$ips = explode( "\n", $ips );
+    if ($ips and $IN['IP_ADDRESS']) {
+        $ips = str_replace("\r", "", $ips);
+        $ips = explode("\n", $ips);
 
-		foreach ($ips as $ip)
-		{
-			$ip = preg_replace( "/\n/", '' ,$ip );
-			$ip = preg_replace( "/\#(.+?)$/", '' ,$ip );
-			$ip = preg_replace( "/\s*$/", '' ,$ip );
+        foreach ($ips as $ip) {
+            $ip = preg_replace("/\n/", '', $ip);
+            $ip = preg_replace("/\#(.+?)$/", '', $ip);
+            $ip = preg_replace("/\s*$/", '', $ip);
 
-			if ( $ip ) {
-				// New IP algorithm by archimed7592
-				$ip = preg_quote($ip, "/");
-				$ip = preg_replace( "/\\\\\\*/", '[0-9]{1,3}' , $ip );
-				if ( preg_match( '/^'.$ip.'/', $IN['IP_ADDRESS'] ) )
-        			{
-        				$log = 1;
-        				break;
-        			}
-			}
-		}
-	}
+            if ($ip) {
+                // New IP algorithm by archimed7592
+                $ip = preg_quote($ip, "/");
+                $ip = preg_replace("/\\\\\\*/", '[0-9]{1,3}', $ip);
+                if (preg_match('/^' . $ip . '/', $IN['IP_ADDRESS'])) {
+                        $log = 1;
+                        break;
+                }
+            }
+        }
+    }
 
-	if ( !$log )
-	{
-		$env = "";
-		foreach( $IN as $name => $line ) $env .= $name."=".$line."<br>";
+    if (!$log) {
+        $env = "";
+        foreach ($IN as $name => $line) {
+            $env .= $name . "=" . $line . "<br>";
+        }
 
-		$stmt = Ibf::app()->db->prepare(
-			"INSERT INTO ibf_admin_foreign_visits (dt,ip_address,content) VALUES (CURRENT_TIMESTAMP, :ip, :env)")
-			->bindParam(':ip', $IN['IP_ADDRESS'])
-			->bindParam(':env', $env)
-			->execute();
+        $stmt = Ibf::app()->db->prepare(
+            "INSERT INTO ibf_admin_foreign_visits (dt,ip_address,content) VALUES (CURRENT_TIMESTAMP, :ip, :env)"
+        )
+            ->bindParam(':ip', $IN['IP_ADDRESS'])
+            ->bindParam(':env', $env)
+            ->execute();
 
-		fatal_error("You do not have access to the administrative CP");
-	}
+        fatal_error("You do not have access to the administrative CP");
+    }
 }
 
 //------------------------------------------------
@@ -225,39 +218,31 @@ $INFO['tx']      = 80;
 $INFO['ty']      = 40;
 $INFO['preview'] = "";
 
-if ( $cookie = $std->my_getcookie('acpprefs') )
-{
-	list( $INFO['menu'], $INFO['tx'], $INFO['ty'], $INFO['preview'] ) = explode( ",", $cookie );
+if ($cookie = $std->my_getcookie('acpprefs')) {
+    list( $INFO['menu'], $INFO['tx'], $INFO['ty'], $INFO['preview'] ) = explode(",", $cookie);
 }
 
 //------------------------------------------------
 // ME 'N U!
 //------------------------------------------------
 
-if ( ! isset($IN['show']) )
-{
-	$IN['show'] = $std->my_getcookie('acpmenu');
+if (! isset($IN['show'])) {
+    $IN['show'] = $std->my_getcookie('acpmenu');
 }
 
-if ($IN['show'] == 'none')
-{
-	$IN['show'] = "";
-}
-else if ($IN['show'] == 'all')
-{
-	$IN['show']     = "";
+if ($IN['show'] == 'none') {
+    $IN['show'] = "";
+} elseif ($IN['show'] == 'all') {
+    $IN['show']     = "";
 
-	foreach($CATS as $cid => $name)
-	{
-		$IN['show'] .= $cid.',';
-	}
-}
-else
-{
-	$IN['show'] = preg_replace( "/(?:^|,)".$IN['out']."(?:,|$)/", ",", $IN['show'] );
-	$IN['show'] = preg_replace( "/,,/" , "" , $IN['show'] );
-	$IN['show'] = preg_replace( "/,$/" , "" , $IN['show'] );
-	$IN['show'] = preg_replace( "/^,/" , "" , $IN['show'] );
+    foreach ($CATS as $cid => $name) {
+        $IN['show'] .= $cid . ',';
+    }
+} else {
+    $IN['show'] = preg_replace("/(?:^|,)" . $IN['out'] . "(?:,|$)/", ",", $IN['show']);
+    $IN['show'] = preg_replace("/,,/", "", $IN['show']);
+    $IN['show'] = preg_replace("/,$/", "", $IN['show']);
+    $IN['show'] = preg_replace("/^,/", "", $IN['show']);
 }
 
 
@@ -290,189 +275,151 @@ $this_session      = array();
 $validate_login = 0;
 
 if ($IN['login'] != 'yes') {
+    if ((!$IN['adsess']) or (empty($IN['adsess'])) or (!isset($IN['adsess'])) or ($IN['adsess'] == "")) {
+        //----------------------------------
+        // No URL adsess found, lets log in.
+        //----------------------------------
 
-	if ( (!$IN['adsess']) or (empty($IN['adsess'])) or (!isset($IN['adsess'])) or ($IN['adsess'] == "") )
-	{
-		//----------------------------------
-		// No URL adsess found, lets log in.
-		//----------------------------------
+        do_login("No administration session found");
+    } else {
+        //----------------------------------
+        // We have a URL adsess, lets verify...
+        //----------------------------------
 
-		do_login("No administration session found");
-	}
-	else
-	{
-		//----------------------------------
-		// We have a URL adsess, lets verify...
-		//----------------------------------
+        $stmt = $ibforums->db->query("SELECT * FROM ibf_admin_sessions WHERE ID='" . $IN['adsess'] . "'");
+        $row = $stmt->fetch();
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_admin_sessions WHERE ID='".$IN['adsess']."'");
-		$row = $stmt->fetch();
+        if ($row['ID'] == "") {
+            //----------------------------------
+            // Fail-safe, no DB record found, lets log in..
+            //----------------------------------
 
-		if ($row['ID'] == "")
-		{
-			//----------------------------------
-			// Fail-safe, no DB record found, lets log in..
-			//----------------------------------
+            do_login("Could not retrieve session record");
+        } elseif ($row['MEMBER_ID'] == "") {
+            //----------------------------------
+            // No member ID is stored, log in!
+            //----------------------------------
 
-			do_login("Could not retrieve session record");
-		}
-		else if ($row['MEMBER_ID'] == "")
-		{
+            do_login("Could not retrieve a valid member id");
+        } else {
+            //----------------------------------
+            // Key is good, check the member details
+            //----------------------------------
 
-			//----------------------------------
-			// No member ID is stored, log in!
-			//----------------------------------
+            $stmt = $ibforums->db->query("SELECT * FROM ibf_members WHERE id='" . $row['MEMBER_ID'] . "'");
+            $MEMBER = $stmt->fetch();
 
-			do_login("Could not retrieve a valid member id");
+            if ($MEMBER['id'] == "") {
+                //----------------------------------
+                // Ut-oh, no such member, log in!
+                //----------------------------------
 
-		}
-		else
-		{
-			//----------------------------------
-			// Key is good, check the member details
-			//----------------------------------
+                do_login("Member ID invalid");
+            } else {
+                //----------------------------------
+                // Member found, check passy
+                //----------------------------------
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_members WHERE id='".$row['MEMBER_ID']."'");
-			$MEMBER = $stmt->fetch();
+                if ($row['SESSION_KEY'] != $MEMBER['password']) {
+                    //----------------------------------
+                    // Passys don't match..
+                    //----------------------------------
 
-			if ($MEMBER['id'] == "")
-			{
+                    do_login("Session member password mismatch");
+                } else {
+                    //----------------------------------
+                    // Do we have admin access?
+                    //----------------------------------
 
-				//----------------------------------
-				// Ut-oh, no such member, log in!
-				//----------------------------------
+                    $stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='" . $MEMBER['mgroup'] . "'");
 
-				do_login("Member ID invalid");
+                    $GROUP = $stmt->fetch();
 
-			}
-			else
-			{
-				//----------------------------------
-				// Member found, check passy
-				//----------------------------------
+                    if ($GROUP['g_access_cp'] != 1) {
+                        do_login("You do not have access to the administrative CP");
+                    } else {
+                        $session_validated = 1;
+                        $this_session      = $row;
+                    }
+                }
+            }
+        }
+    }
+} else {
+    //----------------------------------
+    // We must have submitted the form
+    // time to check some details.
+    //----------------------------------
 
-				if ($row['SESSION_KEY'] != $MEMBER['password'])
-				{
-					//----------------------------------
-					// Passys don't match..
-					//----------------------------------
+    if (empty($IN['username'])) {
+        do_login("You must enter a username before proceeding");
+    }
 
-					do_login("Session member password mismatch");
+    if (empty($IN['password'])) {
+        do_login("You must enter a password before proceeding");
+    }
 
-				}
-				else
-				{
-					//----------------------------------
-					// Do we have admin access?
-					//----------------------------------
+    //----------------------------------
+    // Attempt to get the details from the
+    // DB
+    //----------------------------------
 
-					$stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='".$MEMBER['mgroup']."'");
+    $stmt = $ibforums->db->query("SELECT name, password, id, mgroup FROM ibf_members WHERE LOWER(name)='" . mb_strtolower($IN['username']) . "'");
+    $mem = $stmt->fetch();
 
-					$GROUP = $stmt->fetch();
+    if (empty($mem['id'])) {
+        do_login("Could not find a record matching that username, please check the spelling");
+    }
 
-					if ($GROUP['g_access_cp'] != 1)
-					{
-						do_login("You do not have access to the administrative CP");
-					}
-					else
-					{
-						$session_validated = 1;
-						$this_session      = $row;
-					}
-				}
-			}
-		}
-	}
-}
-else
-{
-	//----------------------------------
-	// We must have submitted the form
-	// time to check some details.
-	//----------------------------------
+    $pass    = md5($IN['password']);
 
-	if ( empty($IN['username']) )
-	{
-		do_login("You must enter a username before proceeding");
-	}
+    if ($pass != $mem['password']) {
+        do_login("The password entered did not match the one in our records");
+    } else {
+        $stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='" . $mem['mgroup'] . "'");
 
-	if ( empty($IN['password']) )
-	{
-		do_login("You must enter a password before proceeding");
-	}
+        $GROUP = $stmt->fetch();
 
-	//----------------------------------
-	// Attempt to get the details from the
-	// DB
-	//----------------------------------
+        if ($GROUP['g_access_cp'] != 1) {
+            do_login("You do not have access to the administrative CP");
+        } else {
+            //----------------------------------
+            // All is good, rejoice as we set a
+            // session for this user
+            //----------------------------------
 
-	$stmt = $ibforums->db->query("SELECT name, password, id, mgroup FROM ibf_members WHERE LOWER(name)='".mb_strtolower($IN['username'])."'");
-	$mem = $stmt->fetch();
+            $sess_id = md5(uniqid(microtime()));
 
-	if ( empty($mem['id']) )
-	{
-		do_login("Could not find a record matching that username, please check the spelling");
-	}
+            $db_string = [
+                    'ID'           => $sess_id,
+                    'IP_ADDRESS'   => $IN['IP_ADDRESS'],
+                    'MEMBER_NAME'  => $mem['name'],
+                    'MEMBER_ID'    => $mem['id'],
+                    'SESSION_KEY'  => $pass,
+                    'LOCATION'     => 'index',
+                    'LOG_IN_TIME'  => time(),
+                    'RUNNING_TIME' => time(),
+            ];
 
-	$pass    = md5( $IN['password'] );
+            $stmt = $ibforums->db->insertRow("ibf_admin_sessions", $db_string);
 
-	if ($pass != $mem['password'])
-	{
-		do_login("The password entered did not match the one in our records");
-	}
-	else
-	{
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='".$mem['mgroup']."'");
+            $IN['AD_SESS'] = $sess_id;
 
-		$GROUP = $stmt->fetch();
+            // Print the "well done page"
 
-		if ($GROUP['g_access_cp'] != 1)
-		{
-			do_login("You do not have access to the administrative CP");
-		}
-		else
-		{
+            $ADMIN->page_title = "Log in successful";
 
-			//----------------------------------
-			// All is good, rejoice as we set a
-			// session for this user
-			//----------------------------------
+            $ADMIN->page_detail = "Taking you to the administrative control panel";
 
-			$sess_id = md5( uniqid( microtime() ) );
+            $ADMIN->html .= $SKIN->start_table("Proceed");
 
-			$db_string = [
-					'ID'           => $sess_id,
-					'IP_ADDRESS'   => $IN['IP_ADDRESS'],
-					'MEMBER_NAME'  => $mem['name'],
-					'MEMBER_ID'    => $mem['id'],
-					'SESSION_KEY'  => $pass,
-					'LOCATION'     => 'index',
-					'LOG_IN_TIME'  => time(),
-					'RUNNING_TIME' => time(),
-			];
+            $ADMIN->html .= "<tr><td id='tdrow1'><meta http-equiv='refresh' content='2; url=" . $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'] . "'><a href='" . $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'] . "'>( Click here if you do not wish to wait )</a></td></tr>";
 
-			$stmt = $ibforums->db->insertRow("ibf_admin_sessions", $db_string);
+            $ADMIN->html .= $SKIN->end_table();
 
-			$IN['AD_SESS'] = $sess_id;
-
-			// Print the "well done page"
-
-			$ADMIN->page_title = "Log in successful";
-
-			$ADMIN->page_detail = "Taking you to the administrative control panel";
-
-			$ADMIN->html .= $SKIN->start_table("Proceed");
-
-			$ADMIN->html .= "<tr><td id='tdrow1'><meta http-equiv='refresh' content='2; url=".$INFO['board_url']."/admin.".$INFO['php_ext']."?adsess=".$IN['AD_SESS']."'><a href='".$INFO['board_url']."/admin.".$INFO['php_ext']."?adsess=".$IN['AD_SESS']."'>( Click here if you do not wish to wait )</a></td></tr>";
-
-			$ADMIN->html .= $SKIN->end_table();
-
-			$ADMIN->output();
-
-		}
-
-	}
-
+            $ADMIN->output();
+        }
+    }
 }
 
 
@@ -484,190 +431,176 @@ else
 //----------------------------------
 
 
-if ($session_validated == 1)
-{
-	if ($this_session['RUNNING_TIME'] < ( time() - 60*60*2) )
-	{
-		$session_validated = 0;
-		do_login("This administration session has expired");
-	}
+if ($session_validated == 1) {
+    if ($this_session['RUNNING_TIME'] < ( time() - 60 * 60 * 2)) {
+        $session_validated = 0;
+        do_login("This administration session has expired");
+    }
 
-	//------------------------------
-	// Are we checking IP's?
-	//------------------------------
+    //------------------------------
+    // Are we checking IP's?
+    //------------------------------
 
-	else if ($check_ip == 1)
-	{
-		if ($this_session['IP_ADDRESS'] != $IN['IP_ADDRESS'])
-		{
-			$session_validated = 0;
-			do_login("Your current IP address does not match the one in our records");
-		}
-	}
+    elseif ($check_ip == 1) {
+        if ($this_session['IP_ADDRESS'] != $IN['IP_ADDRESS']) {
+            $session_validated = 0;
+            do_login("Your current IP address does not match the one in our records");
+        }
+    }
 }
 
-if ($session_validated == 1 )
-{
-	//------------------------------
-	// If we get this far, we're good to go..
-	//------------------------------
+if ($session_validated == 1) {
+    //------------------------------
+    // If we get this far, we're good to go..
+    //------------------------------
 
-	$IN['AD_SESS'] = $IN['adsess'];
+    $IN['AD_SESS'] = $IN['adsess'];
 
-	//------------------------------
-	// Lets update the sessions table:
-	//------------------------------
+    //------------------------------
+    // Lets update the sessions table:
+    //------------------------------
 
-	$ibforums->db->exec("UPDATE ibf_admin_sessions SET RUNNING_TIME='".time()."', LOCATION='".$IN['act']."' WHERE MEMBER_ID='".$MEMBER['id']."' AND ID='".$IN['AD_SESS']."'");
+    $ibforums->db->exec("UPDATE ibf_admin_sessions SET RUNNING_TIME='" . time() . "', LOCATION='" . $IN['act'] . "' WHERE MEMBER_ID='" . $MEMBER['id'] . "' AND ID='" . $IN['AD_SESS'] . "'");
 
-	do_admin_stuff();
+    do_admin_stuff();
+} else {
+    //------------------------------
+    // Session is not validated...
+    //------------------------------
 
-}
-else
-{
-	//------------------------------
-	// Session is not validated...
-	//------------------------------
-
-	do_login("Session not validated - please attempt to log in again");
-
+    do_login("Session not validated - please attempt to log in again");
 }
 
 
 
-function do_login($message="") {
-	global $IN, $ADMIN, $SKIN, $std;
+function do_login($message = "")
+{
+    global $IN, $ADMIN, $SKIN, $std;
 
-	$ibforums = Ibf::app();
+    $ibforums = Ibf::app();
 
-	//-------------------------------------------------------
-	// Remove all out of date sessions, like a good boy. Woof.
-	//-------------------------------------------------------
+    //-------------------------------------------------------
+    // Remove all out of date sessions, like a good boy. Woof.
+    //-------------------------------------------------------
 
-	$cut_off_stamp = time() - 60*60*2;
+    $cut_off_stamp = time() - 60 * 60 * 2;
 
-	$ibforums->db->exec("DELETE FROM ibf_admin_sessions WHERE RUNNING_TIME < $cut_off_stamp");
+    $ibforums->db->exec("DELETE FROM ibf_admin_sessions WHERE RUNNING_TIME < $cut_off_stamp");
 
-	//+------------------------------------------------------
+    //+------------------------------------------------------
 
-	$ADMIN->page_detail = "You must have administrative access to successfully log into the Invision Board Admin CP.<br>Please enter your forums username and password below";
+    $ADMIN->page_detail = "You must have administrative access to successfully log into the Invision Board Admin CP.<br>Please enter your forums username and password below";
 
-	if ($message != "")
-	{
-		$ADMIN->page_detail .= "<br><br><span style='color:red;font-weight:bold'>$message</span>";
-	}
+    if ($message != "") {
+        $ADMIN->page_detail .= "<br><br><span style='color:red;font-weight:bold'>$message</span>";
+    }
 
-	$ADMIN->html .= "<script language='javascript'>
+    $ADMIN->html .= "<script language='javascript'>
 					  <!--
 					  	if (top.location != self.location) { top.location = self.location }
 					  //-->
 					 </script>
 					 ";
-	//+------------------------------------------------------
-	//| SEMI-AUTO Log in ma-thingy?
-	//+------------------------------------------------------
+    //+------------------------------------------------------
+    //| SEMI-AUTO Log in ma-thingy?
+    //+------------------------------------------------------
 
-	$name  = "";
-	$extra = "";
+    $name  = "";
+    $extra = "";
 
-	$mid = intval( $std->my_getcookie('member_id') );
+    $mid = intval($std->my_getcookie('member_id'));
 
-	if ( $mid > 0 )
-	{
-		$stmt = $ibforums->db->query("SELECT m.id, m.name, m.mgroup, g.g_access_cp FROM ibf_members m, ibf_groups g WHERE m.id=$mid AND g.g_id=m.mgroup AND g.g_access_cp=1");
+    if ($mid > 0) {
+        $stmt = $ibforums->db->query("SELECT m.id, m.name, m.mgroup, g.g_access_cp FROM ibf_members m, ibf_groups g WHERE m.id=$mid AND g.g_id=m.mgroup AND g.g_access_cp=1");
 
-		if ( $r = $stmt->fetch() )
-		{
-			$name  = $r['name'];
-			$extra = 'onload="document.theAdminForm.password.focus();"';
-		}
-	}
+        if ($r = $stmt->fetch()) {
+            $name  = $r['name'];
+            $extra = 'onload="document.theAdminForm.password.focus();"';
+        }
+    }
 
-	//+------------------------------------------------------
-	//| SHW DA FRM (txt msg stylee)
-	//+------------------------------------------------------
+    //+------------------------------------------------------
+    //| SHW DA FRM (txt msg stylee)
+    //+------------------------------------------------------
 
-	$ADMIN->html .= $SKIN->start_form( array( 1 => array('login', 'yes') ) );
+    $ADMIN->html .= $SKIN->start_form(array( 1 => array('login', 'yes') ));
 
-	$SKIN->td_header[] = array( "&nbsp;"  , "40%" );
-	$SKIN->td_header[] = array( "&nbsp;"  , "60%" );
+    $SKIN->td_header[] = array( "&nbsp;"  , "40%" );
+    $SKIN->td_header[] = array( "&nbsp;"  , "60%" );
 
-	$ADMIN->html .= $SKIN->start_table( "Verification Required" );
+    $ADMIN->html .= $SKIN->start_table("Verification Required");
 
-	$ADMIN->html .= $SKIN->add_td_row( array( "Your Forums Username:",
-						  "<input type='text' style='width:100%' name='username' value='$name'>",
-						 )      );
+    $ADMIN->html .= $SKIN->add_td_row(array( "Your Forums Username:",
+                          "<input type='text' style='width:100%' name='username' value='$name'>",
+                         ));
 
-	$ADMIN->html .= $SKIN->add_td_row( array( "Your Forums Password:",
-						  "<input type='password' style='width:100%' name='password' value=''>",
-						 )      );
+    $ADMIN->html .= $SKIN->add_td_row(array( "Your Forums Password:",
+                          "<input type='password' style='width:100%' name='password' value=''>",
+                         ));
 
-	$ADMIN->html .= $SKIN->end_form("Log in");
+    $ADMIN->html .= $SKIN->end_form("Log in");
 
-	$ADMIN->html .= $SKIN->end_table();
+    $ADMIN->html .= $SKIN->end_table();
 
-	$SKIN->top_extra = $extra;
+    $SKIN->top_extra = $extra;
 
-	$ADMIN->no_jump = 1;
+    $ADMIN->no_jump = 1;
 
-	$ADMIN->output();
-
+    $ADMIN->output();
 }
 
 
 
 
 
-function do_admin_stuff() {
-	global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
+function do_admin_stuff()
+{
+    global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
-	if ( $INFO['ipb_reg_number'] )
-	{
-		list( $a, $b, $c, $d, $e ) = explode( '-', $INFO['ipb_reg_number'] );
+    if ($INFO['ipb_reg_number']) {
+        list( $a, $b, $c, $d, $e ) = explode('-', $INFO['ipb_reg_number']);
 
-		if ( mb_strlen($e) > 9 )
-		{
-			if ( time() > $e )
-			{
-				$ADMIN->rebuild_config( array( 'ipb_reg_number' => '' ) );
-			}
-		}
-	}
+        if (mb_strlen($e) > 9) {
+            if (time() > $e) {
+                $ADMIN->rebuild_config(array( 'ipb_reg_number' => '' ));
+            }
+        }
+    }
 
 
-	/*----------------------------------
-	  What do you want to require today?
-	------------------------------------*/
+    /*----------------------------------
+      What do you want to require today?
+    ------------------------------------*/
 
-	$choice = array(
-			 "idx"      => "doframes",
-			 "menu"     => "menu",
-			 "index"    => "index",
-			 "cat"      => "categories",
-			 "forum"    => "forums",
-			 "mem"      => "member",
-			 'group'    => "groups",
-			 'mod'      => 'moderator',
-			 'op'       => 'settings',
-			 'help'     => 'help',
-			 'lang'     => 'languages',
-			 'modlog'   => 'modlogs',
-			 'field'   => 'profilefields',
-			 'stats'   => "statistics",
-			 'quickhelp' => "quickhelp",
-			 'adminlog'  => "adminlogs",
-			 'ips'       => 'ips',
-			 'mysql'     => 'mysql',
-			 'pin'       => 'plugins',
-			 'emaillog'  => 'emaillogs',
-			 'multimod'  => 'multi_moderate',
-			 'prefs'     => "prefs",
-			 'spiderlog' => "spiderlogs",
-			 'warnlog'      => "warnlogs",
-			 'msubs'     => 'subsmanager',
-			 'store'     => 'store',
-			 'syntax'   => 'syntax',
-			 'sskin'    => 'sskin',
+    $choice = array(
+             "idx"      => "doframes",
+             "menu"     => "menu",
+             "index"    => "index",
+             "cat"      => "categories",
+             "forum"    => "forums",
+             "mem"      => "member",
+             'group'    => "groups",
+             'mod'      => 'moderator',
+             'op'       => 'settings',
+             'help'     => 'help',
+             'lang'     => 'languages',
+             'modlog'   => 'modlogs',
+             'field'   => 'profilefields',
+             'stats'   => "statistics",
+             'quickhelp' => "quickhelp",
+             'adminlog'  => "adminlogs",
+             'ips'       => 'ips',
+             'mysql'     => 'mysql',
+             'pin'       => 'plugins',
+             'emaillog'  => 'emaillogs',
+             'multimod'  => 'multi_moderate',
+             'prefs'     => "prefs",
+             'spiderlog' => "spiderlogs",
+             'warnlog'      => "warnlogs",
+             'msubs'     => 'subsmanager',
+             'store'     => 'store',
+             'syntax'   => 'syntax',
+             'sskin'    => 'sskin',
                         'rss_sources'      => 'rss',
                         'rss_add_source'   => 'rss',
                         'rss_edit_source'  => 'rss',
@@ -680,35 +613,28 @@ function do_admin_stuff() {
                         'rss_del_channel'  => 'rss',
                         'rss_logs'         => 'rss',
                         'rss_del_log'      => 'rss',
-			   );
+               );
 
 
-	/***************************************************/
+    /***************************************************/
 
-	$IN['act'] = $IN['act'] == '' ? "idx" : $IN['act'];
+    $IN['act'] = $IN['act'] == '' ? "idx" : $IN['act'];
 
-	// Check to make sure the array key exits..
-	if (! isset($choice[$IN['act']]) )
-	{
-		$IN['act'] = 'idx';
-	}
+    // Check to make sure the array key exits..
+    if (! isset($choice[$IN['act']])) {
+        $IN['act'] = 'idx';
+    }
 
-	// Require and run
+    // Require and run
 
-	if ($IN['act'] == 'idx')
-	{
-		print $SKIN->frame_set();
-		exit;
-	}
-	else if ($IN['act'] == 'menu')
-	{
-		$ADMIN->menu();
-	}
-	else
-	{
-		require ROOT_PATH."sources/Admin/ad_".$choice[$IN['act']].".php";
-	}
-
+    if ($IN['act'] == 'idx') {
+        print $SKIN->frame_set();
+        exit;
+    } elseif ($IN['act'] == 'menu') {
+        $ADMIN->menu();
+    } else {
+        require ROOT_PATH . "sources/Admin/ad_" . $choice[$IN['act']] . ".php";
+    }
 }
 
 
@@ -717,7 +643,8 @@ function do_admin_stuff() {
 // GLOBAL ROUTINES
 //+-------------------------------------------------
 
-function fatal_error($message="", $help="") {
-	echo("$message<br><br>$help");
-	exit;
+function fatal_error($message = "", $help = "")
+{
+    echo("$message<br><br>$help");
+    exit;
 }

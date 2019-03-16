@@ -16,7 +16,5 @@
  */
 class MpmDatabaseConnectionException extends Exception
 {
-	
+    
 }
-
-?>

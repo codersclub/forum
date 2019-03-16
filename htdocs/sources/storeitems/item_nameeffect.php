@@ -1,173 +1,153 @@
-<?
+<?php
 //---------------------------------------------------
 // IBStore Name Effects
 //---------------------------------------------------
 class item
 {
-	var $name = "Name Effect";
-	var $desc = "Get a new name look.";
-	var $extra_one = "1";
-	var $extra_two = "6";
-	var $extra_three = "";
+    var $name = "Name Effect";
+    var $desc = "Get a new name look.";
+    var $extra_one = "1";
+    var $extra_two = "6";
+    var $extra_three = "";
 
-	function on_add($EXTRA)
-	{
-		global $IN, $SKIN, $ADMIN;
-		$ibforums = Ibf::app();
-		$ADMIN->HTML .= $SKIN->add_td_row(array(
-		                                       "<b>Name Effect?</b><br>Name effect this item will carry.",
-		                                       $SKIN->form_dropdown("extra_one", array(
-		                                                                              0 => array(0, 'Bold Name'),
-		                                                                              1 => array(1, 'Italic Name'),
-		                                                                              2 => array(2, 'Drop Shadow Name'),
-		                                                                              3 => array(3, 'Shadow Name'),
-		                                                                              4 => array(4, 'Blur Name'),
-		                                                                              5 => array(5, 'Glow Name'),
-		                                                                              6 => array(
-			                                                                              6,
-			                                                                              'Remove Name Effects'
-		                                                                              ),
-		                                                                         ), $EXTRA['extra_one'])
-		                                  ));
-		$ADMIN->HTML .= $SKIN->add_td_row(array(
-		                                       "<b>Name Strength</b><br>Effect strength of it.",
-		                                       $SKIN->form_input("extra_two", $EXTRA['extra_two'], $extra_two)
-		                                  ));
+    function on_add($EXTRA)
+    {
+        global $IN, $SKIN, $ADMIN;
+        $ibforums = Ibf::app();
+        $ADMIN->HTML .= $SKIN->add_td_row(array(
+                                               "<b>Name Effect?</b><br>Name effect this item will carry.",
+                                               $SKIN->form_dropdown("extra_one", array(
+                                                                                      0 => array(0, 'Bold Name'),
+                                                                                      1 => array(1, 'Italic Name'),
+                                                                                      2 => array(2, 'Drop Shadow Name'),
+                                                                                      3 => array(3, 'Shadow Name'),
+                                                                                      4 => array(4, 'Blur Name'),
+                                                                                      5 => array(5, 'Glow Name'),
+                                                                                      6 => array(
+                                                                                          6,
+                                                                                          'Remove Name Effects'
+                                                                                      ),
+                                                                                 ), $EXTRA['extra_one'])
+                                          ));
+        $ADMIN->HTML .= $SKIN->add_td_row(array(
+                                               "<b>Name Strength</b><br>Effect strength of it.",
+                                               $SKIN->form_input("extra_two", $EXTRA['extra_two'], $extra_two)
+                                          ));
 
-		return $ADMIN->HTML;
-	}
+        return $ADMIN->HTML;
+    }
 
-	function on_add_edits($admin)
-	{
-		global $IN, $INFO, $SKIN, $ADMIN;
-		$ibforums = Ibf::app();
-		require_once($INFO['base_dir'] . "sources/store/edit_check.php");
-		$prefix = row_check($INFO['sql_tbl_prefix'] . "members", "name_prefix");
-		$suffix = row_check($INFO['sql_tbl_prefix'] . "members", "name_suffix");
+    function on_add_edits($admin)
+    {
+        global $IN, $INFO, $SKIN, $ADMIN;
+        $ibforums = Ibf::app();
+        require_once($INFO['base_dir'] . "sources/store/edit_check.php");
+        $prefix = row_check($INFO['sql_tbl_prefix'] . "members", "name_prefix");
+        $suffix = row_check($INFO['sql_tbl_prefix'] . "members", "name_suffix");
 
-		if (!$prefix)
-		{
-			$stmt = $ibforums->db->query("ALTER TABLE ibf_members ADD name_prefix TEXT NOT NULL");
-		}
-		if (!$suffix)
-		{
-			$stmt = $ibforums->db->query("ALTER TABLE ibf_members ADD name_suffix TEXT NOT NULL");
-		}
-		$istheir      = file_check("sources/Topics.php", "m.name_prefix,m.name_suffix,");
-		$is_their     = file_check("Skin/s1/skin_topic.php", "name_prefix", 0);
-		$is_their_two = file_check("Skin/s1/skin_topic.php", "name_suffix", 0);
-		$ADMIN->Html .= $SKIN->add_td_row(array(
-		                                       "Before you can add this item you have to make the following edit.<br>"
-		                                  ));
-		if (!$is_their && !$is_their_two)
-		{
-			$ADMIN->Html .= $SKIN->add_td_row(array(
-			                                       "Open ./Skin/s#/skin_topics.php<br>"
-			                                  ));
-			$ADMIN->Html .= $SKIN->add_td_row(array(
-			                                       "Find: " . $admin->code_edit('<span class="{$post[\'name_css\']}">{$author[\'name\']}</span>')
-			                                  ));
-			$ADMIN->Html .= $SKIN->add_td_row(array(
-			                                       "Replace With: " . $admin->code_edit('{$author[\'name_prefix\']}<span class="{$post[\'name_css\']}">{$author[\'name\']}</span>{$author[\'name_suffix\']}')
-			                                  ));
-		}
-		if (!$istheir)
-		{
-			$ADMIN->Html .= $SKIN->add_td_row(array(
-			                                       "Open ./sources/Topics.php<br>"
-			                                  ));
-			$ADMIN->Html .= $SKIN->add_td_row(array(
-			                                       "Find: " . $admin->code_edit("m.signature, m.website,")
-			                                  ));
-			$ADMIN->Html .= $SKIN->add_td_row(array(
-			                                       "Replace With: " . $admin->code_edit("m.signature, m.website,m.name_prefix,m.name_suffix,")
-			                                  ));
-		}
-		if ($istheir && $is_their && $is_their_two)
-		{
-			return false;
-		} else
-		{
-			$ADMIN->Html .= $SKIN->add_td_row(array(
-			                                       "After that you may continue on with adding this item.<br><br>"
-			                                  ));
-			return $ADMIN->Html;
-		}
-	}
+        if (!$prefix) {
+            $stmt = $ibforums->db->query("ALTER TABLE ibf_members ADD name_prefix TEXT NOT NULL");
+        }
+        if (!$suffix) {
+            $stmt = $ibforums->db->query("ALTER TABLE ibf_members ADD name_suffix TEXT NOT NULL");
+        }
+        $istheir      = file_check("sources/Topics.php", "m.name_prefix,m.name_suffix,");
+        $is_their     = file_check("Skin/s1/skin_topic.php", "name_prefix", 0);
+        $is_their_two = file_check("Skin/s1/skin_topic.php", "name_suffix", 0);
+        $ADMIN->Html .= $SKIN->add_td_row(array(
+                                               "Before you can add this item you have to make the following edit.<br>"
+                                          ));
+        if (!$is_their && !$is_their_two) {
+            $ADMIN->Html .= $SKIN->add_td_row(array(
+                                                   "Open ./Skin/s#/skin_topics.php<br>"
+                                              ));
+            $ADMIN->Html .= $SKIN->add_td_row(array(
+                                                   "Find: " . $admin->code_edit('<span class="{$post[\'name_css\']}">{$author[\'name\']}</span>')
+                                              ));
+            $ADMIN->Html .= $SKIN->add_td_row(array(
+                                                   "Replace With: " . $admin->code_edit('{$author[\'name_prefix\']}<span class="{$post[\'name_css\']}">{$author[\'name\']}</span>{$author[\'name_suffix\']}')
+                                              ));
+        }
+        if (!$istheir) {
+            $ADMIN->Html .= $SKIN->add_td_row(array(
+                                                   "Open ./sources/Topics.php<br>"
+                                              ));
+            $ADMIN->Html .= $SKIN->add_td_row(array(
+                                                   "Find: " . $admin->code_edit("m.signature, m.website,")
+                                              ));
+            $ADMIN->Html .= $SKIN->add_td_row(array(
+                                                   "Replace With: " . $admin->code_edit("m.signature, m.website,m.name_prefix,m.name_suffix,")
+                                              ));
+        }
+        if ($istheir && $is_their && $is_their_two) {
+            return false;
+        } else {
+            $ADMIN->Html .= $SKIN->add_td_row(array(
+                                                   "After that you may continue on with adding this item.<br><br>"
+                                              ));
+            return $ADMIN->Html;
+        }
+    }
 
-	function on_add_extra()
-	{
-	}
+    function on_add_extra()
+    {
+    }
 
-	function on_buy()
-	{
-	}
+    function on_buy()
+    {
+    }
 
-	function on_use($itemid = "")
-	{
-		global $ibforums, $lib;
-		$itemid       = $ibforums->input['itemid'];
-		$extra        = $lib->load_extra($itemid);
-		$extra['one'] = (int)$extra['extra_one'];
-		$continue     = array(0, 1, 6);
-		$type         = $extra['one'];
-		if ($type == 0)
-		{
-			$prefix = "<b>";
-			$suffix = "</b>";
-			$type   = "Bold";
-		} else
-		{
-			if ($type == 1)
-			{
-				$prefix = "<i>";
-				$suffix = "</i>";
-				$type   = "Italic";
-			} else
-			{
-				if ($type == 2)
-				{
-					$prefix = "<div style='FILTER: DropShadow(Color=#000000, OffX=5, OffY=-3, Positive=1);width:100%;' id='xDiv'>";
-					$suffix = "</div>";
-					$type   = "Drop Shadow";
-				} else
-				{
-					if ($type == 3)
-					{
-						$prefix = "<div style='FILTER: Shadow(Color=#000000, Direction=45);width:100%;' id='xDiv'>";
-						$suffix = "</div>";
-						$type   = "Shadow";
-					} else
-					{
-						if ($type == 4)
-						{
-							$prefix = "<div style='filter: blur(add=false, direction=140, strength=6); width:100%;' id='xDiv'>";
-							$suffix = "</div>";
-							$type   = "Blur";
-						} else
-						{
-							if ($type == 5)
-							{
-								$prefix = "<div style='FILTER: Glow(Color=#000000, Strength=8); width:100%;' id='xDiv'>";
-								$suffix = "</div>";
-								$type   = "Glow";
-							} else
-							{
-								if ($type == 6)
-								{
-									$type = "Removed Effect";
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		if (in_array($extra['one'], $continue))
-		{
-			return;
-		}
-		return <<<EOF
+    function on_use($itemid = "")
+    {
+        global $ibforums, $lib;
+        $itemid       = $ibforums->input['itemid'];
+        $extra        = $lib->load_extra($itemid);
+        $extra['one'] = (int)$extra['extra_one'];
+        $continue     = array(0, 1, 6);
+        $type         = $extra['one'];
+        if ($type == 0) {
+            $prefix = "<b>";
+            $suffix = "</b>";
+            $type   = "Bold";
+        } else {
+            if ($type == 1) {
+                $prefix = "<i>";
+                $suffix = "</i>";
+                $type   = "Italic";
+            } else {
+                if ($type == 2) {
+                    $prefix = "<div style='FILTER: DropShadow(Color=#000000, OffX=5, OffY=-3, Positive=1);width:100%;' id='xDiv'>";
+                    $suffix = "</div>";
+                    $type   = "Drop Shadow";
+                } else {
+                    if ($type == 3) {
+                        $prefix = "<div style='FILTER: Shadow(Color=#000000, Direction=45);width:100%;' id='xDiv'>";
+                        $suffix = "</div>";
+                        $type   = "Shadow";
+                    } else {
+                        if ($type == 4) {
+                            $prefix = "<div style='filter: blur(add=false, direction=140, strength=6); width:100%;' id='xDiv'>";
+                            $suffix = "</div>";
+                            $type   = "Blur";
+                        } else {
+                            if ($type == 5) {
+                                $prefix = "<div style='FILTER: Glow(Color=#000000, Strength=8); width:100%;' id='xDiv'>";
+                                $suffix = "</div>";
+                                $type   = "Glow";
+                            } else {
+                                if ($type == 6) {
+                                    $type = "Removed Effect";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (in_array($extra['one'], $continue)) {
+            return;
+        }
+        return <<<EOF
 			  <tr>
 				<td class='pformstrip' width='100%' colspan='4'>{$type} Name Effect</td>
 			</tr>
@@ -439,81 +419,65 @@ class item
 			</form>
 			<?
 EOF;
-	}
+    }
 
-	function run_job()
-	{
-	}
+    function run_job()
+    {
+    }
 
-	function do_on_use($type, $overwrite, $blank)
-	{
-		global $ibforums, $print, $lib;
-		if (!$ibforums->input['color'] && !preg_match("#(0|1|4|6)#", $type))
-		{
-			$lib->itemerror("You did not enter a color to use");
-		}
-		if ($type == 0)
-		{
-			$prefix = "<b>";
-			$suffix = "</b>";
-			$type   = "Bold";
-		} else
-		{
-			if ($type == 1)
-			{
-				$prefix = "<i>";
-				$suffix = "</i>";
-				$type   = "Italic";
-			} else
-			{
-				if ($type == 2)
-				{
-					$prefix = "<div style='FILTER: DropShadow(Color={$ibforums->input['color']}, OffX=5, OffY=-3, Positive=1);width:100%;'>";
-					$suffix = "</div>";
-					$type   = "Drop Shadow";
-				} else
-				{
-					if ($type == 3)
-					{
-						$prefix = "<div style='FILTER: Shadow(Color={$ibforums->input['color']}, Direction=45);width:100%;'>";
-						$suffix = "</div>";
-						$type   = "Shadow";
-					} else
-					{
-						if ($type == 4)
-						{
-							$prefix = "<div style='filter: blur(add=false, direction=140, strength=6); width:100%;'>";
-							$suffix = "</div>";
-							$type   = "Blur";
-						} else
-						{
-							if ($type == 5)
-							{
-								$prefix = "<div style='FILTER: Glow(Color={$ibforums->input['color']}, Strength=8); width:100%;'>";
-								$suffix = "</div>";
-								$type   = "Glow";
-							} else
-							{
-								if ($type == 6)
-								{
-									$prefix = "";
-									$suffix = "";
-									$type   = "Removed Effect";
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		$prefix = addslashes($prefix);
-		$suffix = addslashes($suffix);
-		$ibforums->db->exec("UPDATE ibf_members SET name_prefix='" . $prefix . "',name_suffix='" . $suffix . "' WHERE id='{$ibforums->member['id']}' LIMIT 1");
-		$lib->delete_item($ibforums->input['itemid']);
-		$lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "Name Effect {$type} applyed!", "", "item");
-		$lib->redirect("Name Effect {$type} applyed!", "act=store", "1");
-		return "";
-	}
+    function do_on_use($type, $overwrite, $blank)
+    {
+        global $ibforums, $print, $lib;
+        if (!$ibforums->input['color'] && !preg_match("#(0|1|4|6)#", $type)) {
+            $lib->itemerror("You did not enter a color to use");
+        }
+        if ($type == 0) {
+            $prefix = "<b>";
+            $suffix = "</b>";
+            $type   = "Bold";
+        } else {
+            if ($type == 1) {
+                $prefix = "<i>";
+                $suffix = "</i>";
+                $type   = "Italic";
+            } else {
+                if ($type == 2) {
+                    $prefix = "<div style='FILTER: DropShadow(Color={$ibforums->input['color']}, OffX=5, OffY=-3, Positive=1);width:100%;'>";
+                    $suffix = "</div>";
+                    $type   = "Drop Shadow";
+                } else {
+                    if ($type == 3) {
+                        $prefix = "<div style='FILTER: Shadow(Color={$ibforums->input['color']}, Direction=45);width:100%;'>";
+                        $suffix = "</div>";
+                        $type   = "Shadow";
+                    } else {
+                        if ($type == 4) {
+                            $prefix = "<div style='filter: blur(add=false, direction=140, strength=6); width:100%;'>";
+                            $suffix = "</div>";
+                            $type   = "Blur";
+                        } else {
+                            if ($type == 5) {
+                                $prefix = "<div style='FILTER: Glow(Color={$ibforums->input['color']}, Strength=8); width:100%;'>";
+                                $suffix = "</div>";
+                                $type   = "Glow";
+                            } else {
+                                if ($type == 6) {
+                                    $prefix = "";
+                                    $suffix = "";
+                                    $type   = "Removed Effect";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $prefix = addslashes($prefix);
+        $suffix = addslashes($suffix);
+        $ibforums->db->exec("UPDATE ibf_members SET name_prefix='" . $prefix . "',name_suffix='" . $suffix . "' WHERE id='{$ibforums->member['id']}' LIMIT 1");
+        $lib->delete_item($ibforums->input['itemid']);
+        $lib->write_log($ibforums->member['id'], $ibforums->member['name'], $ibforums->member['id'], $ibforums->member['name'], 0, "Name Effect {$type} applyed!", "", "item");
+        $lib->redirect("Name Effect {$type} applyed!", "act=store", "1");
+        return "";
+    }
 }
-
-?>

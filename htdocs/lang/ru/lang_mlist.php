@@ -34,4 +34,3 @@ $lang['sort_by_joined']  = "дате регистрации";
 $lang['sort_by_level']  = "Уровень пользователя";
 $lang['show_staff']  = "Администрация форума";
 $lang['page_title']  = "Пользователи";
-

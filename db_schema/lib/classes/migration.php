@@ -16,24 +16,21 @@
  */
 abstract class MpmMigration
 {
-	/**
-	 * Migrates the database up.
-	 * 
-	 * @param PDO $pdo a PDO object
-	 *
-	 * @return void
-	 */
-	abstract public function up(PDO &$pdo);
-	
-	/** 
-	 * Migrates down (reverses changes made by the up method).
-	 *
-	 * @param PDO $pdo a PDO object
-	 *
-	 * @return void
-	 */
-	abstract public function down(PDO &$pdo);
+    /**
+     * Migrates the database up.
+     *
+     * @param PDO $pdo a PDO object
+     *
+     * @return void
+     */
+    abstract public function up(PDO &$pdo);
+    
+    /**
+     * Migrates down (reverses changes made by the up method).
+     *
+     * @param PDO $pdo a PDO object
+     *
+     * @return void
+     */
+    abstract public function down(PDO &$pdo);
 }
-
-
-?>

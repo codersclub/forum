@@ -26,5 +26,4 @@ class Main extends BaseTheme
     {
         $text = trim($text);
     }
-
 }

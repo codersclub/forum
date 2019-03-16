@@ -238,7 +238,6 @@ $lang['cannot_remove_dir']  = "Невозможно удалить эту дир
 $lang['email_exists']  = "Данный e-mail адрес не может быть использован, так как такой e-mail уже существует";
 $lang['openid_exists']  = "Данный OpenID не может быть использован, так как он уже присутствует в нашей базе";
 $lang['openid_not_valid'] = "Введён некорректный OpenID";
-
 $lang['please_complete_form']  = "Заполните все поля, перед подачей запроса";
 $lang['invite_no_email_f']  = "Вы должны ввести e-mail адрес друга";
 $lang['move_no_source']  = "Не выбран исходящий форум";

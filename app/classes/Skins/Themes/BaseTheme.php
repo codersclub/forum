@@ -45,7 +45,7 @@ class BaseTheme extends AbstractTheme
     /**
      * Хелпер для отмены обработки шаблона. Имеет смысл только в методах предобработки beforeSmth()
      */
-    protected final function skipRendering()
+    final protected function skipRendering()
     {
         $this->skipRendering = true;
     }

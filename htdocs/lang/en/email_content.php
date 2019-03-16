@@ -32,7 +32,7 @@ EOF;
 
 
 
-$EMAIL['send_text']	= <<<EOF
+$EMAIL['send_text'] = <<<EOF
 I thought you might be interested in reading this web page: <#THE LINK#>
 
 From,
@@ -362,4 +362,3 @@ An administrator has accepted your registration request or email address change 
 your chosen details and access your full user account at <#BOARD_ADDRESS#>
 
 EOF;
-

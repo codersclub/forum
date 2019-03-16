@@ -17,7 +17,7 @@
 |   > Module written by Matt Mecham
 |   > Date started: 22nd April 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
@@ -26,1057 +26,938 @@ $idx = new ad_langs();
 class ad_langs
 {
 
-	var $base_url;
+    var $base_url;
 
-	function __construct()
-	{
-		global $IN;
+    function __construct()
+    {
+        global $IN;
 
-		//---------------------------------------
-		// Kill globals - globals bad, Homer good.
-		//---------------------------------------
+        //---------------------------------------
+        // Kill globals - globals bad, Homer good.
+        //---------------------------------------
 
-		$tmp_in = array_merge($_GET, $_POST, $_COOKIE);
+        $tmp_in = array_merge($_GET, $_POST, $_COOKIE);
 
-		foreach ($tmp_in as $k => $v)
-		{
-			unset($$k);
-		}
+        foreach ($tmp_in as $k => $v) {
+            unset($$k);
+        }
 
-		//---------------------------------------
+        //---------------------------------------
 
-		switch ($IN['code'])
-		{
+        switch ($IN['code']) {
+            case 'add':
+                $this->add_language();
+                break;
 
-			case 'add':
-				$this->add_language();
-				break;
+            case 'edit':
+                $this->do_form('edit');
+                break;
 
-			case 'edit':
-				$this->do_form('edit');
-				break;
+            case 'edit2':
+                $this->show_file();
+                break;
 
-			case 'edit2':
-				$this->show_file();
-				break;
+            case 'doadd':
+                $this->save_wrapper('add');
+                break;
 
-			case 'doadd':
-				$this->save_wrapper('add');
-				break;
+            case 'doedit':
+                $this->save_langfile();
+                break;
 
-			case 'doedit':
-				$this->save_langfile();
-				break;
+            case 'remove':
+                $this->remove();
+                break;
 
-			case 'remove':
-				$this->remove();
-				break;
+            case 'editinfo':
+                $this->edit_info();
+                break;
 
-			case 'editinfo':
-				$this->edit_info();
-				break;
+            case 'export':
+                $this->export();
+                break;
 
-			case 'export':
-				$this->export();
-				break;
+            case 'import':
+                $this->import();
+                break;
 
-			case 'import':
-				$this->import();
-				break;
+            case 'doimport':
+                $this->doimport();
+                break;
 
-			case 'doimport':
-				$this->doimport();
-				break;
+            case 'makedefault':
+                $this->make_default();
+                break;
 
-			case 'makedefault':
-				$this->make_default();
-				break;
+            //-------------------------
+            default:
+                $this->list_current();
+                break;
+        }
+    }
 
-			//-------------------------
-			default:
-				$this->list_current();
-				break;
-		}
+    //--------------------------------------------
 
-	}
+    function make_default()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	//--------------------------------------------
+        $new_dir = stripslashes(urldecode(trim($_GET['id'])));
 
-	function make_default()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        if ($new_dir == "") {
+            $ADMIN->error("Could not resolve the new ID for the default lang pack stuff thingy thanks");
+        }
 
-		$new_dir = stripslashes(urldecode(trim($_GET['id'])));
+        // Update conf file
 
-		if ($new_dir == "")
-		{
-			$ADMIN->error("Could not resolve the new ID for the default lang pack stuff thingy thanks");
-		}
+        $ADMIN->rebuild_config(array('default_language' => $new_dir));
 
-		// Update conf file
+        // Bring it all back to yoooo!
 
-		$ADMIN->rebuild_config(array('default_language' => $new_dir));
+        $std->boink_it($SKIN->base_url . "&act=lang");
+    }
 
-		// Bring it all back to yoooo!
+    //--------------------------------------------
 
-		$std->boink_it($SKIN->base_url . "&act=lang");
+    function doimport()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	}
+        if ($IN['tarball'] == "") {
+            $ADMIN->error("You did not select a tar-chive to import!");
+        }
 
-	//--------------------------------------------
+        require ROOT_PATH . "sources/lib/tar.php";
 
-	function doimport()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $to_dir = $INFO['base_dir'] . "lang";
 
-		if ($IN['tarball'] == "")
-		{
-			$ADMIN->error("You did not select a tar-chive to import!");
-		}
+        $tarname = $IN['tarball'];
 
-		require ROOT_PATH . "sources/lib/tar.php";
+        $from_dir = $INFO['base_dir'] . "archive_in";
 
-		$to_dir = $INFO['base_dir'] . "lang";
+        $tar = new tar();
 
-		$tarname = $IN['tarball'];
+        //------------------------------
 
-		$from_dir = $INFO['base_dir'] . "archive_in";
+        $real_name = preg_replace("/^lang-(\S+)\.tar$/", "\\1", $IN['tarball']);
 
-		$tar = new tar();
+        $real_name = preg_replace("/_/", " ", $real_name);
 
-		//------------------------------
+        //------------------------------
 
-		$real_name = preg_replace("/^lang-(\S+)\.tar$/", "\\1", $IN['tarball']);
+        $tar->new_tar($from_dir, $tarname);
 
-		$real_name = preg_replace("/_/", " ", $real_name);
+        $files = $tar->list_files();
 
-		//------------------------------
+        if (count($files) > 0) {
+            foreach ($files as $giles) {
+                if (!preg_match("/^(?:[\.\w\d\+\-\_\/]+)$/", $giles)) {
+                    $ADMIN->error("$tarname is possibly corrupted, please re-upload in binary");
+                }
+            }
+        } else {
+            $ADMIN->error("$tarname is not a valid tar-chive");
+        }
 
-		$tar->new_tar($from_dir, $tarname);
+        $ibforums->db->exec("INSERT INTO ibf_languages (ldir, lname) VALUES('temp', '$real_name (Import)')");
 
-		$files = $tar->list_files();
+        $new_id = $ibforums->db->lastInsertId();
 
-		if (count($files) > 0)
-		{
-			foreach ($files as $giles)
-			{
-				if (!preg_match("/^(?:[\.\w\d\+\-\_\/]+)$/", $giles))
-				{
-					$ADMIN->error("$tarname is possibly corrupted, please re-upload in binary");
-				}
-			}
-		} else
-		{
-			$ADMIN->error("$tarname is not a valid tar-chive");
-		}
+        //-------------------------
+        // attempt to make new dir
+        //-------------------------
 
-		$ibforums->db->exec("INSERT INTO ibf_languages (ldir, lname) VALUES('temp', '$real_name (Import)')");
+        $dest = $to_dir . "/" . $new_id;
 
-		$new_id = $ibforums->db->lastInsertId();
+        if (!mkdir($dest, 0777)) {
+            $ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
 
-		//-------------------------
-		// attempt to make new dir
-		//-------------------------
+            $ADMIN->error("Could not create a new directory in $to_dir, please give sufficient CHMOD permissions to allow this");
+        }
 
-		$dest = $to_dir . "/" . $new_id;
+        //------------------------------
+        // Extract the tarball
+        //------------------------------
 
-		if (!mkdir($dest, 0777))
-		{
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
+        $tar->extract_files($dest);
 
-			$ADMIN->error("Could not create a new directory in $to_dir, please give sufficient CHMOD permissions to allow this");
-		}
+        if ($tar->error != "") {
+            $ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
 
-		//------------------------------
-		// Extract the tarball
-		//------------------------------
+            $ADMIN->error($tar->error);
+        }
 
-		$tar->extract_files($dest);
+        $extra = array('lauthor' => "", 'lemail' => "");
 
-		if ($tar->error != "")
-		{
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
+        if (file_exists($dest . "/conf.inc")) {
+            require $dest . "/conf.inc";
 
-			$ADMIN->error($tar->error);
-		}
+            $extra['lauthor'] = stripslashes($config['lauthor']);
+            $extra['lemail']  = stripslashes($config['lemail']);
+        }
 
-		$extra = array('lauthor' => "", 'lemail' => "");
+        $extra['ldir'] = $new_id;
 
-		if (file_exists($dest . "/conf.inc"))
-		{
-			require $dest . "/conf.inc";
+        $ibforums->db->updateRow("ibf_languages", array_map([$ibforums->db, 'quote'], $extra), "lid='$new_id'");
 
-			$extra['lauthor'] = stripslashes($config['lauthor']);
-			$extra['lemail']  = stripslashes($config['lemail']);
+        $ADMIN->done_screen("Language Pack Export Imported", "Manage Language Sets", "act=lang");
+    }
 
-		}
+    //--------------------------------------------
 
-		$extra['ldir'] = $new_id;
+    function import()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		$ibforums->db->updateRow("ibf_languages", array_map([$ibforums->db, 'quote'], $extra), "lid='$new_id'");
+        $ADMIN->page_detail = "The tar-chive that you wish to import must reside in 'archive_in' and be a valid tar-chive uploaded in binary format.";
+        $ADMIN->page_title  = "Language Pack Import";
 
-		$ADMIN->done_screen("Language Pack Export Imported", "Manage Language Sets", "act=lang");
+        //+-------------------------------
 
-	}
+        $ADMIN->html .= $SKIN->start_form(array(
+                                               1 => array('code', 'doimport'),
+                                               2 => array('act', 'lang'),
+                                          ));
 
-	//--------------------------------------------
+        //+-------------------------------
 
-	function import()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $SKIN->td_header[] = array("&nbsp;", "50%");
+        $SKIN->td_header[] = array("&nbsp;", "50%");
 
-		$ADMIN->page_detail = "The tar-chive that you wish to import must reside in 'archive_in' and be a valid tar-chive uploaded in binary format.";
-		$ADMIN->page_title  = "Language Pack Import";
+        //+-------------------------------
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->start_table("Choose a tar-chive to import");
 
-		$ADMIN->html .= $SKIN->start_form(array(
-		                                       1 => array('code', 'doimport'),
-		                                       2 => array('act', 'lang'),
-		                                  ));
+        $files = $ADMIN->get_tar_names("lang-");
 
-		//+-------------------------------
+        $form_array = array();
 
-		$SKIN->td_header[] = array("&nbsp;", "50%");
-		$SKIN->td_header[] = array("&nbsp;", "50%");
+        if (count($files) > 0) {
+            foreach ($files as $piles) {
+                $form_array[] = array($piles, $piles);
+            }
+        }
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<b>Tar-chive to import...</b>",
+                                               $SKIN->form_dropdown("tarball", $form_array)
+                                          ));
 
-		$ADMIN->html .= $SKIN->start_table("Choose a tar-chive to import");
+        $ADMIN->html .= $SKIN->end_form("Import!");
 
-		$files = $ADMIN->get_tar_names("lang-");
+        $ADMIN->html .= $SKIN->end_table();
 
-		$form_array = array();
+        $ADMIN->output();
+    }
 
-		if (count($files) > 0)
-		{
-			foreach ($files as $piles)
-			{
-				$form_array[] = array($piles, $piles);
-			}
-		}
+    //--------------------------------------------
 
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Tar-chive to import...</b>",
-		                                       $SKIN->form_dropdown("tarball", $form_array)
-		                                  ));
+    function export()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		$ADMIN->html .= $SKIN->end_form("Import!");
+        if ($IN['id'] == "") {
+            $ADMIN->error("You must specify an existing language set ID, go back and try again");
+        }
 
-		$ADMIN->html .= $SKIN->end_table();
+        //+-------------------------------
 
-		$ADMIN->output();
+        $stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-	}
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not query the information from the database");
+        }
 
-	//--------------------------------------------
+        //+-------------------------------
 
-	function export()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $archive_dir = $INFO['base_dir'] . "/archive_out";
+        $lang_dir    = $INFO['base_dir'] . "/lang/" . $row['ldir'];
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing language set ID, go back and try again");
-		}
+        require ROOT_PATH . "sources/lib/tar.php";
 
-		//+-------------------------------
+        if (!is_dir($archive_dir)) {
+            $ADMIN->error("Could not locate $archive_dir, is the directory there?");
+        }
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+        if (!is_writeable($archive_dir)) {
+            $ADMIN->error("Cannot write in $archive_dir, CHMOD via FTP to 0755 or 0777 to enable this script to write into it. IBF cannot do this for you");
+        }
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
+        if (!is_dir($lang_dir)) {
+            $ADMIN->error("Could not locate $lang_dir, is the directory there?");
+        }
 
-		//+-------------------------------
+        //+-------------------------------
+        // Attempt to copy the files to the
+        // working directory...
+        //+-------------------------------
 
-		$archive_dir = $INFO['base_dir'] . "/archive_out";
-		$lang_dir    = $INFO['base_dir'] . "/lang/" . $row['ldir'];
+        $l_name = preg_replace("/\s{1,}/", "_", $row['lname']);
 
-		require ROOT_PATH . "sources/lib/tar.php";
+        $new_dir = "lang-" . $l_name;
 
-		if (!is_dir($archive_dir))
-		{
-			$ADMIN->error("Could not locate $archive_dir, is the directory there?");
-		}
+        if (!$ADMIN->copy_dir($lang_dir, $archive_dir . "/" . $new_dir)) {
+            $ADMIN->error($ADMIN->errors);
+        }
 
-		if (!is_writeable($archive_dir))
-		{
-			$ADMIN->error("Cannot write in $archive_dir, CHMOD via FTP to 0755 or 0777 to enable this script to write into it. IBF cannot do this for you");
-		}
+        // Generate the config file..
 
-		if (!is_dir($lang_dir))
-		{
-			$ADMIN->error("Could not locate $lang_dir, is the directory there?");
-		}
+        $file_content = "<?php\n\n\$config=array('lauthor' => \"" . addslashes($row['lauthor']) . "\", 'lemail'=>\"" . addslashes($row['lemail']) . "\")\n\n?" . ">";
 
-		//+-------------------------------
-		// Attempt to copy the files to the
-		// working directory...
-		//+-------------------------------
+        $FH = fopen($archive_dir . "/" . $new_dir . "/" . "conf.inc", 'w');
+        fwrite($FH, $file_content);
+        fclose($FH);
 
-		$l_name = preg_replace("/\s{1,}/", "_", $row['lname']);
+        // Add files and write tarball
 
-		$new_dir = "lang-" . $l_name;
+        $tar = new tar();
 
-		if (!$ADMIN->copy_dir($lang_dir, $archive_dir . "/" . $new_dir))
-		{
-			$ADMIN->error($ADMIN->errors);
-		}
+        $tar->new_tar($archive_dir, $new_dir . ".tar");
+        $tar->add_directory($archive_dir . "/" . $new_dir);
+        $tar->write_tar();
 
-		// Generate the config file..
+        // Check for errors.
 
-		$file_content = "<?php\n\n\$config=array('lauthor' => \"" . addslashes($row['lauthor']) . "\", 'lemail'=>\"" . addslashes($row['lemail']) . "\")\n\n?" . ">";
+        if ($tar->error != "") {
+            $ADMIN->error($tar->error);
+        }
 
-		$FH = fopen($archive_dir . "/" . $new_dir . "/" . "conf.inc", 'w');
-		fwrite($FH, $file_content);
-		fclose($FH);
+        // remove original unarchived directory
 
-		// Add files and write tarball
+        $ADMIN->rm_dir($archive_dir . "/" . $new_dir);
 
-		$tar = new tar();
+        $ADMIN->done_screen("Language Pack Export Created<br><br>You can download the tar-chive <a href='archive_out/{$new_dir}.tar'>here</a>", "Manage Language Sets", "act=lang");
+    }
 
-		$tar->new_tar($archive_dir, $new_dir . ".tar");
-		$tar->add_directory($archive_dir . "/" . $new_dir);
-		$tar->write_tar();
+    function show_file()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		// Check for errors.
+        if ($IN['id'] == "") {
+            $ADMIN->error("You must specify an existing language set ID, go back and try again");
+        }
 
-		if ($tar->error != "")
-		{
-			$ADMIN->error($tar->error);
-		}
+        //+-------------------------------
 
-		// remove original unarchived directory
+        $stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-		$ADMIN->rm_dir($archive_dir . "/" . $new_dir);
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not query the information from the database");
+        }
 
-		$ADMIN->done_screen("Language Pack Export Created<br><br>You can download the tar-chive <a href='archive_out/{$new_dir}.tar'>here</a>", "Manage Language Sets", "act=lang");
+        //+-------------------------------
 
-	}
+        $lang_dir = $INFO['base_dir'] . "lang/" . $row['ldir'];
 
-	function show_file()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $form_array = array();
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing language set ID, go back and try again");
-		}
+        $lang_file = $lang_dir . "/" . $IN['lang_file'];
 
-		//+-------------------------------
+        if (!is_writeable($lang_dir)) {
+            $ADMIN->error("Cannot write into '$lang_dir', please check the CHMOD value, and if needed, CHMOD to 0777 via FTP. IBF cannot do this for you.");
+        }
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+        if (!file_exists($lang_file)) {
+            $ADMIN->error("Cannot locate {$IN['lang_file']} in '$lang_dir', please go back and check the input");
+        } else {
+            require $lang_file;
+        }
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
+        if ($IN['lang_file'] == 'email_content.php') {
+            $lang     = $EMAIL;
+            $is_email = 1;
+        }
 
-		//+-------------------------------
+        if (!is_writeable($lang_file)) {
+            $ADMIN->error("Cannot write to '$lang_file', please check the CHMOD value, and if needed, CHMOD to 0777 via FTP. IBF cannot do this for you.");
+        }
 
-		$lang_dir = $INFO['base_dir'] . "lang/" . $row['ldir'];
+        $ADMIN->page_detail = "You may edit any of the language information below.";
+        $ADMIN->page_title  = "Edit Language set: " . $row['lname'];
 
-		$form_array = array();
+        //+-------------------------------
 
-		$lang_file = $lang_dir . "/" . $IN['lang_file'];
+        $ADMIN->html .= $SKIN->start_form(array(
+                                               1 => array('code', 'doedit'),
+                                               2 => array('act', 'lang'),
+                                               3 => array('id', $IN['id']),
+                                               4 => array('lang_file', $IN['lang_file']),
+                                          ));
 
-		if (!is_writeable($lang_dir))
-		{
-			$ADMIN->error("Cannot write into '$lang_dir', please check the CHMOD value, and if needed, CHMOD to 0777 via FTP. IBF cannot do this for you.");
-		}
+        //+-------------------------------
 
-		if (!file_exists($lang_file))
-		{
-			$ADMIN->error("Cannot locate {$IN['lang_file']} in '$lang_dir', please go back and check the input");
-		} else
-		{
-			require $lang_file;
-		}
+        $SKIN->td_header[] = array("Block Name", "20%");
+        $SKIN->td_header[] = array("Content", "80%");
 
-		if ($IN['lang_file'] == 'email_content.php')
-		{
-			$lang     = $EMAIL;
-			$is_email = 1;
-		}
+        //+-------------------------------
 
-		if (!is_writeable($lang_file))
-		{
-			$ADMIN->error("Cannot write to '$lang_file', please check the CHMOD value, and if needed, CHMOD to 0777 via FTP. IBF cannot do this for you.");
-		}
+        $ADMIN->html .= $SKIN->start_table("Language Text: " . $IN['lang_file']);
 
-		$ADMIN->page_detail = "You may edit any of the language information below.";
-		$ADMIN->page_title  = "Edit Language set: " . $row['lname'];
+        foreach ($lang as $k => $v) {
+            //+-------------------------------
+            // Swop < and > into ascii entities
+            // to prevent textarea breaking html
+            //+-------------------------------
 
-		//+-------------------------------
+            $v = stripslashes($v);
 
-		$ADMIN->html .= $SKIN->start_form(array(
-		                                       1 => array('code', 'doedit'),
-		                                       2 => array('act', 'lang'),
-		                                       3 => array('id', $IN['id']),
-		                                       4 => array('lang_file', $IN['lang_file']),
-		                                  ));
+            $v = preg_replace("/&/", "&#38;", $v);
+            $v = preg_replace("/</", "&#60;", $v);
+            $v = preg_replace("/>/", "&#62;", $v);
+            $v = preg_replace("/'/", "&#39;", $v);
 
-		//+-------------------------------
+            if ($IN['lang_file'] == 'email_content.php') {
+                $rows = 15;
 
-		$SKIN->td_header[] = array("Block Name", "20%");
-		$SKIN->td_header[] = array("Content", "80%");
+                $cols = 70;
 
-		//+-------------------------------
+                if (isset($SUBJECT[$k])) {
+                    $subj = "Subject: &nbsp;" . $SKIN->form_input('SS_' . $k, $SUBJECT[$k]) . "<br />";
+                } else {
+                    $subj = "";
+                }
 
-		$ADMIN->html .= $SKIN->start_table("Language Text: " . $IN['lang_file']);
+                $ADMIN->html .= $SKIN->add_td_row(array(
+                                                       "&lt;ibf.lang.<b>" . $k . "</b>&gt;",
+                                                       $subj . $SKIN->form_textarea('XX_' . $k, $v, $cols, $rows),
+                                                  ));
+            } else {
+                $ADMIN->html .= $SKIN->add_td_row(array(
+                                                       "&lt;ibf.lang.<b>" . $k . "</b>&gt;",
+                                                       $SKIN->form_input('XX_' . $k, $v, 'text', "", 100),
+                                                  ));
+            }
+        }
 
-		foreach ($lang as $k => $v)
-		{
+        $ADMIN->html .= $SKIN->end_form("Edit this file");
 
-			//+-------------------------------
-			// Swop < and > into ascii entities
-			// to prevent textarea breaking html
-			//+-------------------------------
+        $ADMIN->html .= $SKIN->end_table();
 
-			$v = stripslashes($v);
+        //+-------------------------------
+        //+-------------------------------
 
-			$v = preg_replace("/&/", "&#38;", $v);
-			$v = preg_replace("/</", "&#60;", $v);
-			$v = preg_replace("/>/", "&#62;", $v);
-			$v = preg_replace("/'/", "&#39;", $v);
+        $ADMIN->output();
+    }
 
-			if ($IN['lang_file'] == 'email_content.php')
-			{
-				$rows = 15;
+    //-------------------------------------------------------------
+    // Edit language pack information
+    //-------------------------------------------------------------
 
-				$cols = 70;
+    function edit_info()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-				if (isset($SUBJECT[$k]))
-				{
-					$subj = "Subject: &nbsp;" . $SKIN->form_input('SS_' . $k, $SUBJECT[$k]) . "<br />";
-				} else
-				{
-					$subj = "";
-				}
+        if ($IN['id'] == "") {
+            $ADMIN->error("You must specify an existing language set ID, go back and try again");
+        }
 
-				$ADMIN->html .= $SKIN->add_td_row(array(
-				                                       "&lt;ibf.lang.<b>" . $k . "</b>&gt;",
-				                                       $subj . $SKIN->form_textarea('XX_' . $k, $v, $cols, $rows),
-				                                  ));
-			} else
-			{
-				$ADMIN->html .= $SKIN->add_td_row(array(
-				                                       "&lt;ibf.lang.<b>" . $k . "</b>&gt;",
-				                                       $SKIN->form_input('XX_' . $k, $v, 'text', "", 100),
-				                                  ));
-			}
+        //+-------------------------------
 
-		}
+        $stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-		$ADMIN->html .= $SKIN->end_form("Edit this file");
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not query the information from the database");
+        }
 
-		$ADMIN->html .= $SKIN->end_table();
+        $final['lname'] = stripslashes($_POST['lname']);
 
-		//+-------------------------------
-		//+-------------------------------
+        if (isset($_POST['lname'])) {
+            $final['lauthor'] = stripslashes($_POST['lauthor']);
+            $final['lemail']  = stripslashes($_POST['lemail']);
+        }
 
-		$ADMIN->output();
+        $ibforums->db->updateRow("ibf_languages", array_map([$ibforums->db, 'quote'], $final), "lid='" . $IN['id'] . "'");
 
-	}
+        $ADMIN->done_screen("Language pack information updated", "Manage language sets", "act=lang");
+    }
 
-	//-------------------------------------------------------------
-	// Edit language pack information
-	//-------------------------------------------------------------
+    //-------------------------------------------------------------
+    // Add language pack
+    //-------------------------------------------------------------
 
-	function edit_info()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+    function add_language()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing language set ID, go back and try again");
-		}
+        if ($IN['id'] == "") {
+            $ADMIN->error("You must specify an existing language set ID, go back and try again");
+        }
 
-		//+-------------------------------
+        $stmt = $ibforums->db->query("SELECT * FROM ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+        //-------------------------------------
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not query that language set from the DB, so there");
+        }
 
-		$final['lname'] = stripslashes($_POST['lname']);
+        //-------------------------------------
 
-		if (isset($_POST['lname']))
-		{
-			$final['lauthor'] = stripslashes($_POST['lauthor']);
-			$final['lemail']  = stripslashes($_POST['lemail']);
-		}
+        //-------------------------------------
 
-		$ibforums->db->updateRow("ibf_languages", array_map([$ibforums->db, 'quote'], $final), "lid='" . $IN['id'] . "'");
+        if (!is_writeable(ROOT_PATH . 'lang')) {
+            $ADMIN->error("The directory 'lang' is not writeable by this script. Please check the permissions on that directory. CHMOD to 0777 if in doubt and try again");
+        }
 
-		$ADMIN->done_screen("Language pack information updated", "Manage language sets", "act=lang");
+        //-------------------------------------
 
-	}
+        if (!is_dir(ROOT_PATH . 'lang/' . $row['ldir'])) {
+            $ADMIN->error("Could not locate the original language set to copy, please check and try again");
+        }
 
-	//-------------------------------------------------------------
-	// Add language pack
-	//-------------------------------------------------------------
+        //-------------------------------------
 
-	function add_language()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $row['lname'] = $row['lname'] . ".2";
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing language set ID, go back and try again");
-		}
+        // Insert a new row into the DB...
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_languages WHERE lid='" . $IN['id'] . "'");
+        $final = array();
 
-		//-------------------------------------
+        foreach ($row as $k => $v) {
+            if ($k == 'lid') {
+                continue;
+            } else {
+                $final[$k] = $v;
+            }
+        }
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query that language set from the DB, so there");
-		}
+        $ibforums->db->insertRow("ibf_languages", $final);
 
-		//-------------------------------------
+        $new_id = $ibforums->db->lastInsertId();
 
-		//-------------------------------------
+        //-------------------------------------
 
-		if (!is_writeable(ROOT_PATH . 'lang'))
-		{
-			$ADMIN->error("The directory 'lang' is not writeable by this script. Please check the permissions on that directory. CHMOD to 0777 if in doubt and try again");
-		}
+        if (!$ADMIN->copy_dir($INFO['base_dir'] . 'lang/' . $row['ldir'], $INFO['base_dir'] . 'lang/' . $new_id)) {
+            $ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
 
-		//-------------------------------------
+            $ADMIN->error($ADMIN->errors);
+        } else {
+            $ibforums->db->exec("UPDATE ibf_languages SET ldir='$new_id' WHERE lid='$new_id'");
+        }
 
-		if (!is_dir(ROOT_PATH . 'lang/' . $row['ldir']))
-		{
-			$ADMIN->error("Could not locate the original language set to copy, please check and try again");
-		}
+        //-------------------------------------
+        // Pass to edit / add form...
+        //-------------------------------------
 
-		//-------------------------------------
+        $this->do_form('add', $new_id);
+    }
 
-		$row['lname'] = $row['lname'] . ".2";
+    //-------------------------------------------------------------
+    // REMOVE WRAPPERS
+    //-------------------------------------------------------------
 
-		// Insert a new row into the DB...
+    function remove()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		$final = array();
+        //+-------------------------------
 
-		foreach ($row as $k => $v)
-		{
-			if ($k == 'lid')
-			{
-				continue;
-			} else
-			{
-				$final[$k] = $v;
-			}
-		}
+        if ($IN['id'] == "") {
+            $ADMIN->error("You must specify an existing image set ID, go back and try again");
+        }
 
-		$ibforums->db->insertRow("ibf_languages", $final);
+        if ($IN['id'] == 1) {
+            $ADMIN->error("You cannot remove this language pack.");
+        }
 
-		$new_id = $ibforums->db->lastInsertId();
+        $stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-		//-------------------------------------
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not query the language information from the database");
+        }
 
-		if (!$ADMIN->copy_dir($INFO['base_dir'] . 'lang/' . $row['ldir'], $INFO['base_dir'] . 'lang/' . $new_id))
-		{
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
+        // Is it default??????????????? ok enuff
 
-			$ADMIN->error($ADMIN->errors);
-		} else
-		{
-			$ibforums->db->exec("UPDATE ibf_languages SET ldir='$new_id' WHERE lid='$new_id'");
-		}
+        if ($INFO['default_language'] == "") {
+            $INFO['default_language'] = 'en';
+        }
 
-		//-------------------------------------
-		// Pass to edit / add form...
-		//-------------------------------------
+        if ($row['ldir'] == $INFO['default_language']) {
+            $ADMIN->error("You cannot remove this language pack while it is the default language directory. Please select another pack to be the default and try again");
+        }
 
-		$this->do_form('add', $new_id);
+        $ibforums->db->exec("UPDATE ibf_members SET language='{$INFO['default_language']}' WHERE language='{$row['ldir']}'");
 
-	}
+        if ($ADMIN->rm_dir($INFO['base_dir'] . "lang/" . $row['ldir'])) {
+            $ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-	//-------------------------------------------------------------
-	// REMOVE WRAPPERS
-	//-------------------------------------------------------------
+            $std->boink_it($SKIN->base_url . "&act=lang");
+            exit();
+        } else {
+            $ADMIN->error("Could not remove the language pack files, please check the CHMOD permissions to ensure that this script has the correct permissions to allow this");
+        }
+    }
 
-	function remove()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+    //-------------------------------------------------------------
+    // ADD / EDIT IMAGE SETS
+    //-------------------------------------------------------------
 
-		//+-------------------------------
+    function save_langfile()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing image set ID, go back and try again");
-		}
+        //+-------------------------------
 
-		if ($IN['id'] == 1)
-		{
-			$ADMIN->error("You cannot remove this language pack.");
-		}
+        if ($IN['id'] == "") {
+            $ADMIN->error("You must specify an existing language set ID, go back and try again");
+        }
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+        if ($IN['lang_file'] == "") {
+            $ADMIN->error("You must specify an existing language filename, go back and try again");
+        }
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the language information from the database");
-		}
+        $stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-		// Is it default??????????????? ok enuff
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not query the language information from the database");
+        }
 
-		if ($INFO['default_language'] == "")
-		{
-			$INFO['default_language'] = 'en';
-		}
+        $lang_file = ROOT_PATH . "lang/" . $row['ldir'] . "/" . $IN['lang_file'];
 
-		if ($row['ldir'] == $INFO['default_language'])
-		{
-			$ADMIN->error("You cannot remove this language pack while it is the default language directory. Please select another pack to be the default and try again");
-		}
+        if (!file_exists($lang_file)) {
+            $ADMIN->error("Could not locate $lang_file, is it there?");
+        }
 
-		$ibforums->db->exec("UPDATE ibf_members SET language='{$INFO['default_language']}' WHERE language='{$row['ldir']}'");
+        if (!is_writeable($lang_file)) {
+            $ADMIN->error("Cannot write to $lang_file, please chmod to 0666 or better and try again");
+        }
 
-		if ($ADMIN->rm_dir($INFO['base_dir'] . "lang/" . $row['ldir']))
-		{
+        $barney = array();
 
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='" . $IN['id'] . "'");
+        foreach ($IN as $k => $v) {
+            if (preg_match("/^XX_(\S+)$/", $k, $match)) {
+                if (isset($IN[$match[0]])) {
+                    $v = preg_replace("/&#39;/", "'", stripslashes($_POST[$match[0]]));
+                    $v = preg_replace("/&#60;/", "<", $v);
+                    $v = preg_replace("/&#62;/", ">", $v);
+                    $v = preg_replace("/&#38;/", "&", $v);
+                    $v = preg_replace("/\r/", "", $v);
 
-			$std->boink_it($SKIN->base_url . "&act=lang");
-			exit();
-		} else
-		{
-			$ADMIN->error("Could not remove the language pack files, please check the CHMOD permissions to ensure that this script has the correct permissions to allow this");
-		}
-	}
+                    $barney[$match[1]] = $v;
+                }
+            }
+        }
 
-	//-------------------------------------------------------------
-	// ADD / EDIT IMAGE SETS
-	//-------------------------------------------------------------
+        if (count($barney) < 1) {
+            $ADMIN->error("Oopsie, something has gone wrong - did you leave all the fields blank?");
+        }
 
-	function save_langfile()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $start = "<?php\n\n";
 
-		//+-------------------------------
+        if ($IN['lang_file'] == 'email_content.php') {
+            foreach ($barney as $key => $text) {
+                $text = preg_replace("/n{1,}$/", "", $text);
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing language set ID, go back and try again");
-		}
+                if ($IN['SS_' . $key] != "") {
+                    $start .= "\n" . '$SUBJECT[' . "'$key'" . '] = "' . str_replace('"', "&quot;", stripslashes($_POST['SS_' . $key])) . "\";\n";
+                }
+                $start .= "\n" . '$EMAIL[' . "'$key'" . '] = <<<EOF' . "\n" . $text . "\nEOF;\n";
+            }
+        } else {
+            foreach ($barney as $key => $text) {
+                $start .= "\n" . '$lang[' . "'$key'" . ']  = "' . addslashes($text) . '";';
+            }
+        }
 
-		if ($IN['lang_file'] == "")
-		{
-			$ADMIN->error("You must specify an existing language filename, go back and try again");
-		}
+        $start .= "\n\n?" . ">";
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+        if ($fh = fopen($lang_file, 'w')) {
+            fwrite($fh, $start);
+            fclose($fh);
+        } else {
+            $ADMIN->error("Could not write back to $lang_file");
+        }
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the language information from the database");
-		}
+        $ADMIN->done_screen("Set updated", "Manage Language Sets", "act=lang");
+    }
 
-		$lang_file = ROOT_PATH . "lang/" . $row['ldir'] . "/" . $IN['lang_file'];
+    //-------------------------------------------------------------
+    // EDIT SPLASH
+    //-------------------------------------------------------------
 
-		if (!file_exists($lang_file))
-		{
-			$ADMIN->error("Could not locate $lang_file, is it there?");
-		}
+    function do_form($method = 'add', $id = "")
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		if (!is_writeable($lang_file))
-		{
-			$ADMIN->error("Cannot write to $lang_file, please chmod to 0666 or better and try again");
-		}
+        //+-------------------------------
 
-		$barney = array();
+        if ($id != "") {
+            $IN['id'] = $id;
+        }
 
-		foreach ($IN as $k => $v)
-		{
-			if (preg_match("/^XX_(\S+)$/", $k, $match))
-			{
-				if (isset($IN[$match[0]]))
-				{
-					$v = preg_replace("/&#39;/", "'", stripslashes($_POST[$match[0]]));
-					$v = preg_replace("/&#60;/", "<", $v);
-					$v = preg_replace("/&#62;/", ">", $v);
-					$v = preg_replace("/&#38;/", "&", $v);
-					$v = preg_replace("/\r/", "", $v);
+        //+-------------------------------
 
-					$barney[$match[1]] = $v;
-				}
-			}
-		}
+        if ($IN['id'] == "") {
+            $ADMIN->error("You must specify an existing language set ID, go back and try again");
+        }
 
-		if (count($barney) < 1)
-		{
-			$ADMIN->error("Oopsie, something has gone wrong - did you leave all the fields blank?");
-		}
+        //+-------------------------------
 
-		$start = "<?php\n\n";
+        $stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
 
-		if ($IN['lang_file'] == 'email_content.php')
-		{
-			foreach ($barney as $key => $text)
-			{
-				$text = preg_replace("/n{1,}$/", "", $text);
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not query the information from the database");
+        }
 
-				if ($IN['SS_' . $key] != "")
-				{
-					$start .= "\n" . '$SUBJECT[' . "'$key'" . '] = "' . str_replace('"', "&quot;", stripslashes($_POST['SS_' . $key])) . "\";\n";
-				}
-				$start .= "\n" . '$EMAIL[' . "'$key'" . '] = <<<EOF' . "\n" . $text . "\nEOF;\n";
-			}
-		} else
-		{
-			foreach ($barney as $key => $text)
-			{
-				$start .= "\n" . '$lang[' . "'$key'" . ']  = "' . addslashes($text) . '";';
-			}
-		}
+        //+-------------------------------
 
-		$start .= "\n\n?" . ">";
+        $lang_dir = $INFO['base_dir'] . "lang/" . $row['ldir'];
 
-		if ($fh = fopen($lang_file, 'w'))
-		{
-			fwrite($fh, $start);
-			fclose($fh);
-		} else
-		{
-			$ADMIN->error("Could not write back to $lang_file");
-		}
+        $form_array = array();
 
-		$ADMIN->done_screen("Set updated", "Manage Language Sets", "act=lang");
+        if ($method != 'add') {
+            if (!is_writeable($lang_dir)) {
+                $ADMIN->error("Cannot write into '$lang_dir', please check the CHMOD value, and if needed, CHMOD to 0777 via FTP. IBF cannot do this for you.");
+            }
+        }
 
-	}
+        //+-------------------------------
 
-	//-------------------------------------------------------------
-	// EDIT SPLASH
-	//-------------------------------------------------------------
+        if (is_dir($lang_dir)) {
+            $handle = opendir($lang_dir);
 
-	function do_form($method = 'add', $id = "")
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+            while (($filename = readdir($handle)) !== false) {
+                if (($filename != ".") && ($filename != "..")) {
+                    if (preg_match("/^index/", $filename)) {
+                        continue;
+                    }
 
-		//+-------------------------------
+                    if (preg_match("/\.php$/", $filename)) {
+                        $form_array[] = array($filename, preg_replace("/\.php$/", "", $filename));
+                    }
+                }
+            }
 
-		if ($id != "")
-		{
-			$IN['id'] = $id;
-		}
+            closedir($handle);
+        }
 
-		//+-------------------------------
+        if ($row['lauthor'] and $row['lemail']) {
+            $author = "<br><br>This language set <b>'{$row['lname']}'</b> was created by <a href='mailto:{$row['lemail']}' target='_blank'>{$row['lauthor']}</a>";
+        } else {
+            if ($row['lauthor']) {
+                $author = "<br><br>This language set <b>'{$row['lname']}'</b> was created by {$row['lauthor']}";
+            }
+        }
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("You must specify an existing language set ID, go back and try again");
-		}
+        //+-------------------------------
 
-		//+-------------------------------
+        $ADMIN->page_detail = "Please choose which language section you wish to edit below.$author $url";
+        $ADMIN->page_title  = "Edit Language set";
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+        //+-------------------------------
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not query the information from the database");
-		}
+        //+-------------------------------
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->start_form(array(
+                                               1 => array('code', 'editinfo'),
+                                               2 => array('act', 'lang'),
+                                               3 => array('id', $IN['id']),
+                                          ));
 
-		$lang_dir = $INFO['base_dir'] . "lang/" . $row['ldir'];
+        //+-------------------------------
 
-		$form_array = array();
+        $SKIN->td_header[] = array("&nbsp;", "60%");
+        $SKIN->td_header[] = array("&nbsp;", "40%");
 
-		if ($method != 'add')
-		{
-			if (!is_writeable($lang_dir))
-			{
-				$ADMIN->error("Cannot write into '$lang_dir', please check the CHMOD value, and if needed, CHMOD to 0777 via FTP. IBF cannot do this for you.");
-			}
-		}
+        //+-------------------------------
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->start_table("Edit language set information");
 
-		if (is_dir($lang_dir))
-		{
-			$handle = opendir($lang_dir);
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<b>Language Set Name</b>",
+                                               $SKIN->form_input('lname', $row['lname']),
+                                          ));
 
-			while (($filename = readdir($handle)) !== false)
-			{
-				if (($filename != ".") && ($filename != ".."))
-				{
-					if (preg_match("/^index/", $filename))
-					{
-						continue;
-					}
+        if ($method == 'add') {
+            $ADMIN->html .= $SKIN->add_td_row(array(
+                                                   "<b>Language set author name:</b>",
+                                                   $SKIN->form_input('lauthor', $row['lauthor']),
+                                              ));
 
-					if (preg_match("/\.php$/", $filename))
-					{
-						$form_array[] = array($filename, preg_replace("/\.php$/", "", $filename));
-					}
-				}
-			}
+            $ADMIN->html .= $SKIN->add_td_row(array(
+                                                   "<b>Language set author email:</b>",
+                                                   $SKIN->form_input('lemail', $row['lemail']),
+                                              ));
+        }
 
-			closedir($handle);
-		}
+        $ADMIN->html .= $SKIN->end_form("Edit language set details");
 
-		if ($row['lauthor'] and $row['lemail'])
-		{
-			$author = "<br><br>This language set <b>'{$row['lname']}'</b> was created by <a href='mailto:{$row['lemail']}' target='_blank'>{$row['lauthor']}</a>";
-		} else
-		{
-			if ($row['lauthor'])
-			{
-				$author = "<br><br>This language set <b>'{$row['lname']}'</b> was created by {$row['lauthor']}";
-			}
-		}
+        $ADMIN->html .= $SKIN->end_table();
 
-		//+-------------------------------
+        //+-------------------------------
+        //+-------------------------------
 
-		$ADMIN->page_detail = "Please choose which language section you wish to edit below.$author $url";
-		$ADMIN->page_title  = "Edit Language set";
+        $ADMIN->html .= $SKIN->start_form(array(
+                                               1 => array('code', 'edit2'),
+                                               2 => array('act', 'lang'),
+                                               3 => array('id', $IN['id']),
+                                          ));
 
-		//+-------------------------------
+        //+-------------------------------
 
-		//+-------------------------------
+        $SKIN->td_header[] = array("&nbsp;", "60%");
+        $SKIN->td_header[] = array("&nbsp;", "40%");
 
-		$ADMIN->html .= $SKIN->start_form(array(
-		                                       1 => array('code', 'editinfo'),
-		                                       2 => array('act', 'lang'),
-		                                       3 => array('id', $IN['id']),
-		                                  ));
+        //+-------------------------------
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->start_table("Edit language files in set '" . $row['lname'] . "'");
 
-		$SKIN->td_header[] = array("&nbsp;", "60%");
-		$SKIN->td_header[] = array("&nbsp;", "40%");
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<b>Please select a language file to edit</b>",
+                                               $SKIN->form_dropdown('lang_file', $form_array),
+                                          ));
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->end_form("Edit this language file");
 
-		$ADMIN->html .= $SKIN->start_table("Edit language set information");
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Language Set Name</b>",
-		                                       $SKIN->form_input('lname', $row['lname']),
-		                                  ));
+        //+-------------------------------
+        //+-------------------------------
 
-		if ($method == 'add')
-		{
+        $ADMIN->output();
+    }
 
-			$ADMIN->html .= $SKIN->add_td_row(array(
-			                                       "<b>Language set author name:</b>",
-			                                       $SKIN->form_input('lauthor', $row['lauthor']),
-			                                  ));
+    //-------------------------------------------------------------
+    // SHOW ALL LANGUAGE PACKS
+    //-------------------------------------------------------------
 
-			$ADMIN->html .= $SKIN->add_td_row(array(
-			                                       "<b>Language set author email:</b>",
-			                                       $SKIN->form_input('lemail', $row['lemail']),
-			                                  ));
+    function list_current()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		}
+        if ($INFO['default_language'] == "") {
+            $INFO['default_language'] = 'en';
+        }
 
-		$ADMIN->html .= $SKIN->end_form("Edit language set details");
+        $form_array = array();
 
-		$ADMIN->html .= $SKIN->end_table();
+        $ADMIN->page_detail = "You can edit, remove and create new language packs from this section";
+        $ADMIN->page_title  = "Manage Language Sets";
 
-		//+-------------------------------
-		//+-------------------------------
+        //+-------------------------------
 
-		$ADMIN->html .= $SKIN->start_form(array(
-		                                       1 => array('code', 'edit2'),
-		                                       2 => array('act', 'lang'),
-		                                       3 => array('id', $IN['id']),
-		                                  ));
-
-		//+-------------------------------
-
-		$SKIN->td_header[] = array("&nbsp;", "60%");
-		$SKIN->td_header[] = array("&nbsp;", "40%");
-
-		//+-------------------------------
-
-		$ADMIN->html .= $SKIN->start_table("Edit language files in set '" . $row['lname'] . "'");
-
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Please select a language file to edit</b>",
-		                                       $SKIN->form_dropdown('lang_file', $form_array),
-		                                  ));
-
-		$ADMIN->html .= $SKIN->end_form("Edit this language file");
-
-		$ADMIN->html .= $SKIN->end_table();
-
-		//+-------------------------------
-		//+-------------------------------
-
-		$ADMIN->output();
-
-	}
-
-	//-------------------------------------------------------------
-	// SHOW ALL LANGUAGE PACKS
-	//-------------------------------------------------------------
-
-	function list_current()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
-
-		if ($INFO['default_language'] == "")
-		{
-			$INFO['default_language'] = 'en';
-		}
-
-		$form_array = array();
-
-		$ADMIN->page_detail = "You can edit, remove and create new language packs from this section";
-		$ADMIN->page_title  = "Manage Language Sets";
-
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("select ibf_languages.*, count(ibf_members.id) as mcount
+        $stmt = $ibforums->db->query("select ibf_languages.*, count(ibf_members.id) as mcount
 			    from ibf_languages
 			     left join ibf_members on(ibf_members.language=ibf_languages.ldir)
 			     where (ibf_members.language is not null or ibf_members.language = 'en')
 			     group by ibf_languages.ldir
 			     order by ibf_languages.lname");
 
-		$used_ids   = array();
-		$show_array = array();
+        $used_ids   = array();
+        $show_array = array();
 
-		$ADMIN->html .= $SKIN->js_checkdelete();
+        $ADMIN->html .= $SKIN->js_checkdelete();
 
-		if ($stmt->rowCount())
-		{
+        if ($stmt->rowCount()) {
+            $SKIN->td_header[] = array("Title", "40%");
+            $SKIN->td_header[] = array("Members", "30%");
+            $SKIN->td_header[] = array("Export", "10%");
+            $SKIN->td_header[] = array("Edit", "10%");
+            $SKIN->td_header[] = array("Remove", "10%");
 
-			$SKIN->td_header[] = array("Title", "40%");
-			$SKIN->td_header[] = array("Members", "30%");
-			$SKIN->td_header[] = array("Export", "10%");
-			$SKIN->td_header[] = array("Edit", "10%");
-			$SKIN->td_header[] = array("Remove", "10%");
+            $ADMIN->html .= $SKIN->start_table("Current Language Packs In Use");
 
-			$ADMIN->html .= $SKIN->start_table("Current Language Packs In Use");
+            while ($r = $stmt->fetch()) {
+                if ($INFO['default_language'] == $r['ldir']) {
+                    $root = "<span style='color:red;font-weight:bold'> (Default Language)</span>";
+                } else {
+                    $root = " ( <a href='{$SKIN->base_url}&act=lang&code=makedefault&id=" . urlencode($r['ldir']) . "'>Make Default Language</a> )";
+                }
 
-			while ($r = $stmt->fetch())
-			{
+                $show_array[$r['lid']] .= stripslashes($r['lname']) . "<br>";
 
-				if ($INFO['default_language'] == $r['ldir'])
-				{
-					$root = "<span style='color:red;font-weight:bold'> (Default Language)</span>";
-				} else
-				{
-					$root = " ( <a href='{$SKIN->base_url}&act=lang&code=makedefault&id=" . urlencode($r['ldir']) . "'>Make Default Language</a> )";
-				}
+                if (in_array($r['lid'], $used_ids)) {
+                    continue;
+                }
 
-				$show_array[$r['lid']] .= stripslashes($r['lname']) . "<br>";
+                $ADMIN->html .= $SKIN->add_td_row(array(
+                                                       "<b>" . stripslashes($r['lname']) . "</b> $root",
+                                                       "<center>{$r['mcount']}</center>",
+                                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=export&id={$r['lid']}'>Export</a></center>",
+                                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=edit&id={$r['lid']}'>Edit</a></center>",
+                                                       "<center><a href='javascript:checkdelete(\"act=lang&code=remove&id={$r['lid']}\")'>Remove</a></center>",
+                                                  ));
 
-				if (in_array($r['lid'], $used_ids))
-				{
-					continue;
-				}
+                $used_ids[] = $r['lid'];
 
-				$ADMIN->html .= $SKIN->add_td_row(array(
-				                                       "<b>" . stripslashes($r['lname']) . "</b> $root",
-				                                       "<center>{$r['mcount']}</center>",
-				                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=export&id={$r['lid']}'>Export</a></center>",
-				                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=edit&id={$r['lid']}'>Edit</a></center>",
-				                                       "<center><a href='javascript:checkdelete(\"act=lang&code=remove&id={$r['lid']}\")'>Remove</a></center>",
-				                                  ));
+                $form_array[] = array($r['lid'], $r['lname']);
+            }
 
-				$used_ids[] = $r['lid'];
+            $ADMIN->html .= $SKIN->end_table();
+        }
 
-				$form_array[] = array($r['lid'], $r['lname']);
+        if (count($used_ids) < 1) {
+            $used_ids[] = '0';
+        }
+        $stmt = $ibforums->db->query("SELECT lid, ldir, lname FROM ibf_languages WHERE lid NOT IN(" . implode(",", $used_ids) . ")");
 
-			}
+        if ($stmt->rowCount()) {
+            $SKIN->td_header[] = array("Title", "40%");
+            $SKIN->td_header[] = array("Export", "10%");
+            $SKIN->td_header[] = array("Edit", "30%");
+            $SKIN->td_header[] = array("Remove", "20%");
 
-			$ADMIN->html .= $SKIN->end_table();
-		}
+            $ADMIN->html .= $SKIN->start_table("Current Unallocated Language Packs");
 
-		if (count($used_ids) < 1)
-		{
-			$used_ids[] = '0';
-		}
-		$stmt = $ibforums->db->query("SELECT lid, ldir, lname FROM ibf_languages WHERE lid NOT IN(" . implode(",", $used_ids) . ")");
+            while ($r = $stmt->fetch()) {
+                if ($INFO['default_language'] == $r['ldir']) {
+                    $root = "<span style='color:red;font-weight:bold'> (Default Language)</span>";
+                } else {
+                    $root = " ( <a href='{$SKIN->base_url}&act=lang&code=makedefault&id=" . urlencode($r['ldir']) . "'>Make Default Language</a> )";
+                }
 
-		if ($stmt->rowCount())
-		{
+                $ADMIN->html .= $SKIN->add_td_row(array(
+                                                       "<b>" . stripslashes($r['lname']) . "</b> $root",
+                                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=export&id={$r['lid']}'>Export</a></center>",
+                                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=edit&id={$r['lid']}'>Edit</a></center>",
+                                                       "<center><a href='javascript:checkdelete(\"act=lang&code=remove&id={$r['lid']}\")'>Remove</a></center>",
+                                                  ));
 
-			$SKIN->td_header[] = array("Title", "40%");
-			$SKIN->td_header[] = array("Export", "10%");
-			$SKIN->td_header[] = array("Edit", "30%");
-			$SKIN->td_header[] = array("Remove", "20%");
+                $form_array[] = array($r['lid'], $r['lname']);
+            }
 
-			$ADMIN->html .= $SKIN->start_table("Current Unallocated Language Packs");
+            $ADMIN->html .= $SKIN->end_table();
+        }
+        //}
 
-			while ($r = $stmt->fetch())
-			{
+        //+-------------------------------
+        //+-------------------------------
 
-				if ($INFO['default_language'] == $r['ldir'])
-				{
-					$root = "<span style='color:red;font-weight:bold'> (Default Language)</span>";
-				} else
-				{
-					$root = " ( <a href='{$SKIN->base_url}&act=lang&code=makedefault&id=" . urlencode($r['ldir']) . "'>Make Default Language</a> )";
-				}
+        $ADMIN->html .= $SKIN->start_form(array(
+                                               1 => array('code', 'add'),
+                                               2 => array('act', 'lang'),
+                                          ));
 
-				$ADMIN->html .= $SKIN->add_td_row(array(
-				                                       "<b>" . stripslashes($r['lname']) . "</b> $root",
-				                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=export&id={$r['lid']}'>Export</a></center>",
-				                                       "<center><a href='" . $SKIN->base_url . "&act=lang&code=edit&id={$r['lid']}'>Edit</a></center>",
-				                                       "<center><a href='javascript:checkdelete(\"act=lang&code=remove&id={$r['lid']}\")'>Remove</a></center>",
-				                                  ));
+        $SKIN->td_header[] = array("&nbsp;", "40%");
+        $SKIN->td_header[] = array("&nbsp;", "60%");
 
-				$form_array[] = array($r['lid'], $r['lname']);
+        $ADMIN->html .= $SKIN->start_table("Create Language Set");
 
-			}
+        //+-------------------------------
 
-			$ADMIN->html .= $SKIN->end_table();
-		}
-		//}
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<b>Base new language set on...</b>",
+                                               $SKIN->form_dropdown("id", $form_array)
+                                          ));
 
-		//+-------------------------------
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->end_form("Create new Language set");
 
-		$ADMIN->html .= $SKIN->start_form(array(
-		                                       1 => array('code', 'add'),
-		                                       2 => array('act', 'lang'),
-		                                  ));
+        $ADMIN->html .= $SKIN->end_table();
 
-		$SKIN->td_header[] = array("&nbsp;", "40%");
-		$SKIN->td_header[] = array("&nbsp;", "60%");
+        //+-------------------------------
+        //+-------------------------------
 
-		$ADMIN->html .= $SKIN->start_table("Create Language Set");
-
-		//+-------------------------------
-
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Base new language set on...</b>",
-		                                       $SKIN->form_dropdown("id", $form_array)
-		                                  ));
-
-		$ADMIN->html .= $SKIN->end_form("Create new Language set");
-
-		$ADMIN->html .= $SKIN->end_table();
-
-		//+-------------------------------
-		//+-------------------------------
-
-		$ADMIN->output();
-
-	}
-
+        $ADMIN->output();
+    }
 }
-
-?>

@@ -3,7 +3,8 @@
  * @file
  */
 
-class TestApplication extends CoreApplication {
+class TestApplication extends CoreApplication
+{
 
     public function __construct($initOptions = [])
     {

@@ -54,5 +54,3 @@ $lang['len_current']  = " symbols. So far you have used ";
 $lang['len_symbols']  = " symbols";
 $lang['rep_t']  = "Thematic";
 $lang['rep_f']  = "Flame";
-
-?>

@@ -1,12 +1,14 @@
 <?php
 
-class skin_ucp {
+class skin_ucp
+{
 
 
 
-function subs_row($data) {
-global $ibforums;
-return <<<EOF
+    function subs_row($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
   <td class='row3' align='center' width='5%'>{$data['folder_icon']}</td>
@@ -18,37 +20,40 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function subs_forum_row($fid, $fname) {
-global $ibforums;
-return <<<EOF
+    function subs_forum_row($fid, $fname)
+    {
+        global $ibforums;
+        return <<<EOF
 
                  <tr>
                    <td colspan='6' class='darkrow3' align='left'><b><a href='{$ibforums->base_url}act=SF&amp;f=$fid'>$fname</a></b></td>
                  </tr>
 
 EOF;
-}
+    }
 
 
-function subs_none() {
-global $ibforums;
-return <<<EOF
+    function subs_none()
+    {
+        global $ibforums;
+        return <<<EOF
 
                  <tr>
                    <td class='row3' align='center' colspan='6'>{$ibforums->lang['subs_none']}</td>
                  </tr>
 
 EOF;
-}
+    }
 
 
 
-function settings_end($data) {
-global $ibforums;
-return <<<EOF
+    function settings_end($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <h3>{$ibforums->lang['user_settings_display']}</h3>
 <table width="100%" cellpadding="4">
 <tr>
@@ -171,53 +176,58 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function avatar_gallery_start_row() {
-global $ibforums;
-return <<<EOF
+    function avatar_gallery_start_row()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
 
 EOF;
-}
+    }
 
 
-function avatar_gallery_cell_row($img, $txt, $form) {
-global $ibforums;
-return <<<EOF
+    function avatar_gallery_cell_row($img, $txt, $form)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <td align="center"><img src="html/avatars{$img}" border="0" alt="txt"><br><input type="radio" class="radiobutton" name="avatar" value="$form" id="$form">&nbsp;<strong><label for="$form">$txt</label></strong></td>
 
 EOF;
-}
+    }
 
 
-function avatar_gallery_blank_row() {
-global $ibforums;
-return <<<EOF
+    function avatar_gallery_blank_row()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <td>&nbsp;</td>
 
 EOF;
-}
+    }
 
 
-function avatar_gallery_end_row() {
-global $ibforums;
-return <<<EOF
+    function avatar_gallery_end_row()
+    {
+        global $ibforums;
+        return <<<EOF
 
 </tr>
 
 EOF;
-}
+    }
 
 
-function photo_page($cur_photo, $cur_type, $url_photo, $show_size, $key="") {
-global $ibforums, $print;
-  $print->js->addVariable('url_input', $url_photo);
-return <<<EOF
+    function photo_page($cur_photo, $cur_type, $url_photo, $show_size, $key = "")
+    {
+        global $ibforums, $print;
+        $print->js->addVariable('url_input', $url_photo);
+        return <<<EOF
 <form action="{$ibforums->base_url}auth_key=$key" enctype='multipart/form-data' method="post" name="bob" onsubmit="return checkform();">
 <input type='hidden' name='act' value='UserCP'>
 <input type='hidden' name='CODE' value='dophoto'>
@@ -243,12 +253,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function splash($member) {
-global $ibforums;
-return <<<EOF
+    function splash($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
      <h3>{$ibforums->lang['stats_header']}</h3>
 	  <table width='100%' border="0" cellspacing="0" cellpadding="4">
@@ -297,30 +308,30 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
-function personal_panel_username($name="")
-{
-  global $ibforums;
-  $ret = "<tr>
+    function personal_panel_username($name = "")
+    {
+        global $ibforums;
+        $ret = "<tr>
     <td class='pformleft' width='40%'><b>{$ibforums->lang['name']}</b></td>
     <td class='pformright' width='60%'>$name</td>
   </tr>\n";
 
-  if($ibforums->vars['allow_user_rename'])
-  {
-    $ret .= "<tr>
+        if ($ibforums->vars['allow_user_rename']) {
+            $ret .= "<tr>
     <td class='pformleft' width='40%'>{$ibforums->lang['m_title']}</td>
     <td class='pformright' width='60%'><input type='text' size='40' maxlength='20' name='MemberName' value='' class='forminput'></td>
   </tr>\n";
-  }
-  return $ret;
-}
+        }
+        return $ret;
+    }
 
-function personal_panel($Profile) {
-global $ibforums;
+    function personal_panel($Profile)
+    {
+        global $ibforums;
 
-return <<<EOF
+        return <<<EOF
 
 <form action="{$ibforums->base_url}auth_key={$Profile['key']}" method="post" name='theForm' onsubmit='return ValidateProfile()'>
 <input type='hidden' name='act' value='UserCP'>
@@ -372,33 +383,36 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function required_end() {
-global $ibforums;
-return <<<EOF
+    function required_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 </table>
 
 EOF;
-}
+    }
 
 
-function required_title() {
-global $ibforums;
-return <<<EOF
+    function required_title()
+    {
+        global $ibforums;
+        return <<<EOF
 
  <h3>{$ibforums->lang['cf_required']}</h3>
  <table width='100%'>
 
 EOF;
-}
+    }
 
 
-function subs_end($text="", $days="") {
-global $ibforums;
-return <<<EOF
+    function subs_end($text = "", $days = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td align='center' class='titlemedium' valign='middle' colspan='6'><input type='submit' class='forminput' value='{$ibforums->lang['subs_delete']}'>&nbsp;&nbsp;{$ibforums->lang['with_selected']}</td>
@@ -415,14 +429,15 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function avatar_main($data, $formextra="", $hidden_field="", $key="") {
-global $ibforums, $print;
-  $print->js->addVariable('url_input2', $data['current_url_avatar']);
+    function avatar_main($data, $formextra = "", $hidden_field = "", $key = "")
+    {
+        global $ibforums, $print;
+        $print->js->addVariable('url_input2', $data['current_url_avatar']);
 
-return <<<EOF
+        return <<<EOF
 <!--IBF.LIMITS_AVATAR-->
 <h3>{$ibforums->lang['av_current']}</h3>
 <div class="tablepad" align="center">{$data['current_avatar_image']}<br>{$data['current_avatar_type']} {$data['current_avatar_dims']}</div>
@@ -450,12 +465,13 @@ $hidden_field
 </form>
 
 EOF;
-}
+    }
 
 
-function photo_page_mansize() {
-global $ibforums;
-return <<<EOF
+    function photo_page_mansize()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class='pformleft'>&nbsp;</td>
@@ -463,12 +479,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function field_entry($title, $desc="", $content) {
-global $ibforums;
-return <<<EOF
+    function field_entry($title, $desc = "", $content)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
   <td class='pformleft' valign='top' width='40%'><b>$title</b><br>$desc</td>
@@ -476,12 +493,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function forum_subs_row($data) {
-global $ibforums;
-return <<<EOF
+    function forum_subs_row($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
    <tr>
 	 <td class='row1' align='center' width='5%'>{$data['folder_icon']}</td>
@@ -496,12 +514,13 @@ return <<<EOF
    </tr>
 
 EOF;
-}
+    }
 
 
-function member_title($title) {
-global $ibforums;
-return <<<EOF
+    function member_title($title)
+    {
+        global $ibforums;
+        return <<<EOF
 
    <tr>
    <td class='pformleft'><b>{$ibforums->lang['member_title']}</b></td>
@@ -509,12 +528,13 @@ return <<<EOF
    </tr>
 
 EOF;
-}
+    }
 
 
-function birthday($day,$month,$year) {
-global $ibforums;
-return <<<EOF
+    function birthday($day, $month, $year)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
   <td class='pformleft'><b>{$ibforums->lang['birthday']}</b></td>
@@ -526,16 +546,17 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function gender($gender) {
-global $ibforums;
+    function gender($gender)
+    {
+        global $ibforums;
 
-$set_male   = ($gender=='m') ? "checked='checked'" : '';
-$set_female = ($gender=='f') ? "checked='checked'" : '';
+        $set_male   = ($gender == 'm') ? "checked='checked'" : '';
+        $set_female = ($gender == 'f') ? "checked='checked'" : '';
 
-return <<<EOF
+        return <<<EOF
 
   <tr>
     <td class='pformleft'><b>{$ibforums->lang['gender']}</b></td>
@@ -547,60 +568,66 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function field_textinput($name, $value="") {
-global $ibforums;
-return <<<EOF
+    function field_textinput($name, $value = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
             <input type='text' size='50' name='$name' value='$value' class='forminput'>
 
 EOF;
-}
+    }
 
 
-function field_dropdown($name, $options) {
-global $ibforums;
-return <<<EOF
+    function field_dropdown($name, $options)
+    {
+        global $ibforums;
+        return <<<EOF
 
             <select name='$name' class='forminput'>$options</select>
 
 EOF;
-}
+    }
 
 
-function field_textarea($name, $value) {
-global $ibforums;
-return <<<EOF
+    function field_textarea($name, $value)
+    {
+        global $ibforums;
+        return <<<EOF
 
             <textarea cols='60' rows='5' wrap='soft' name='$name' class='forminput'>$value</textarea>
 
 EOF;
-}
+    }
 
-function delete_account() {
-global $ibforums;
-return <<<EOF
+    function delete_account()
+    {
+        global $ibforums;
+        return <<<EOF
 <li class="usercp-menu-item__delete_account"><a href='{$ibforums->base_url}act=UserCP&amp;CODE=31'>{$ibforums->lang['m_delete_account']}</a></li>
 EOF;
-}
+    }
 
-function delete_cancel($days = 0) {
-global $ibforums;
-return <<<EOF
+    function delete_cancel($days = 0)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <li class="usercp-menu-item__delete_info" data-num-days="{$days}"><div class="usercp-menu-item__delete_info-text"><div class="delete_info__warning">{$ibforums->lang['m_delete_account_days']}</div>
 <span class="delete_info__description">{$ibforums->lang['subs_left']}: <span class="delete_info__num_days">{$days}</span></span></div></li>
 <li class="usercp-menu-item__cancel_delete_account"><a href='{$ibforums->base_url}act=UserCP&amp;CODE=33'>{$ibforums->lang['m_delete_cancel_account']}</a></li>
 
 EOF;
-}
+    }
 
 
-function Menu_bar($base_url, $delete = "") {
-global $ibforums, $print;
-  $print->exportJSLang([
+    function Menu_bar($base_url, $delete = "")
+    {
+        global $ibforums, $print;
+        $print->exportJSLang([
         'pp_confirm',
         'js_location',
         'js_max',
@@ -611,13 +638,13 @@ global $ibforums, $print;
         'av_confirm',
         'js_max_length',
         'js_current',
-      ]);
-  $print->js->addVariable('max_location_length', (int)$ibforums->vars['max_location_length']);
-  $print->js->addVariable('max_interest_length', (int)$ibforums->vars['max_interest_length']);
-  $print->js->addVariable('MessageMax', (int)$ibforums->lang['the_max_length']);
-  $print->js->addVariable('Override', $ibforums->lang['override']);
-  $print->js->addLocal('usercp.js');
-return <<<EOF
+        ]);
+        $print->js->addVariable('max_location_length', (int)$ibforums->vars['max_location_length']);
+        $print->js->addVariable('max_interest_length', (int)$ibforums->vars['max_interest_length']);
+        $print->js->addVariable('MessageMax', (int)$ibforums->lang['the_max_length']);
+        $print->js->addVariable('Override', $ibforums->lang['override']);
+        $print->js->addLocal('usercp.js');
+        return <<<EOF
 
 <!--
 TABLE TO FIX IE/6 ISSUE
@@ -680,12 +707,13 @@ The one where 23% margin + 100% table = 123% in IE6 o_O
   <h2 class='maintitle usercp-content-title'>{$ibforums->lang['welcome']}</h2>
 
 EOF;
-}
+    }
 
 
-function forum_subs_end() {
-global $ibforums;
-return <<<EOF
+    function forum_subs_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td align='right' class='titlemedium' valign='middle' colspan='5'><a href='{$ibforums->base_url}act=UserCP&amp;CODE=51&amp;f=all'>{$ibforums->lang['ft_unsub_all']}</a></td>
@@ -694,13 +722,14 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function signature($sig, $t_sig, $key, $select_syntax = "") {
-global $ibforums, $print;
-  $print->js->addLocal('ibfcode.js');
-return <<<EOF
+    function signature($sig, $t_sig, $key, $select_syntax = "")
+    {
+        global $ibforums, $print;
+        $print->js->addLocal('ibfcode.js');
+        return <<<EOF
 
 <form name='REPLIER' action='{$ibforums->base_url}' method='post'>
 <input type='hidden' name='act' value='UserCP'>
@@ -762,12 +791,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function settings_skin($skin) {
-global $ibforums;
-return <<<EOF
+    function settings_skin($skin)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['settings_skin']}</h3>
 <table width="100%"
@@ -778,12 +808,13 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function photo_page_autosize() {
-global $ibforums;
-return <<<EOF
+    function photo_page_autosize()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class='pformleft'>&nbsp;</td>
@@ -791,12 +822,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function email_change_gd($regid="") {
-global $ibforums;
-return <<<EOF
+    function email_change_gd($regid = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['ras_title']}</h3>
 <table width="100%" style="padding:6px">
@@ -814,12 +846,13 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function email_change_img($regid="") {
-global $ibforums;
-return <<<EOF
+    function email_change_img($regid = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['ras_title']}</h3>
 <table width="100%" style="padding:6px">
@@ -842,15 +875,16 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
 
 
 
-function boardlay_start() {
-global $ibforums;
-return <<<EOF
+    function boardlay_start()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<h3>{$ibforums->lang['boardlay_title']}</h3><br>
 	{$ibforums->lang['layout_descr']}<br>
@@ -865,24 +899,26 @@ return <<<EOF
 		</tr>
 
 EOF;
-}
+    }
 
 
 
 
 
-function checkbox($data) {
-global $ibforums;
-return <<<EOF
+    function checkbox($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <input type='checkbox' name='{$data['qid']}{$data['id']}' value='1' {$data['sh']}>
 
 EOF;
-}
+    }
 
-function boardlay_between($data,$checkbox = "") {
-global $ibforums;
-return <<<EOF
+    function boardlay_between($data, $checkbox = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class='{$data['css']}'>{$checkbox}</td>
@@ -890,20 +926,22 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function menu_bar_msg_folder_link($id, $real) {
-global $ibforums;
-return <<<EOF
+    function menu_bar_msg_folder_link($id, $real)
+    {
+        global $ibforums;
+        return <<<EOF
 <li><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID=$id'>$real</a></li>
 EOF;
-}
+    }
 
 
-function photo_page_upload($max_filesize) {
-global $ibforums;
-return <<<EOF
+    function photo_page_upload($max_filesize)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class='pformleft'>{$ibforums->lang['pph_upload']}</td>
@@ -911,33 +949,36 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function avatar_external_title() {
-global $ibforums;
-return <<<EOF
+    function avatar_external_title()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['avatar_url_title']}</h3>
 
 EOF;
-}
+    }
 
 
-function skin_lang_end() {
-global $ibforums;
-return <<<EOF
+    function skin_lang_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3 align="center"><input type='submit' name='submit' value='{$ibforums->lang['settings_submit']}' class='forminput'></h3>
 </form>
 
 EOF;
-}
+    }
 
 
-function avatar_gallery_end_table() {
-global $ibforums;
-return <<<EOF
+    function avatar_gallery_end_table()
+    {
+        global $ibforums;
+        return <<<EOF
 
 </table>
 <h3 align="center">
@@ -947,23 +988,25 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function avatar_limits() {
-global $ibforums;
-return <<<EOF
+    function avatar_limits()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['av_settings']}</h3>
 <p>{$ibforums->lang['av_text_url']} {$ibforums->lang['av_text_upload']}<br>{$ibforums->lang['av_allowed_files']}</p>
 
 EOF;
-}
+    }
 
 
-function avatar_upload_field() {
-global $ibforums;
-return <<<EOF
+    function avatar_upload_field()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table class='tablebasic' cellpadding='4'>
 <tr>
@@ -973,12 +1016,13 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function avatar_url_field($avatar) {
-global $ibforums;
-return <<<EOF
+    function avatar_url_field($avatar)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table class='tablebasic' cellpadding='4'>
 <tr>
@@ -988,12 +1032,13 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function settings_header($Profile, $time_select, $time, $dst_check, $key="") {
-global $ibforums;
-return <<<EOF
+    function settings_header($Profile, $time_select, $time, $dst_check, $key = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='auth_key' value='$key'>
@@ -1009,12 +1054,13 @@ $time_select
 </p>
 
 EOF;
-}
+    }
 
 
-function dead_section() {
-global $ibforums;
-return <<<EOF
+    function dead_section()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['dead_section_title']}</h3>
 <p>
@@ -1022,12 +1068,13 @@ return <<<EOF
 </p>
 
 EOF;
-}
+    }
 
 
-function avatar_gallery_start_table($title="", $av_gals="", $current_folder, $key="") {
-global $ibforums;
-return <<<EOF
+    function avatar_gallery_start_table($title = "", $av_gals = "", $current_folder, $key = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['av_gallery_title']} $title</h3>
 <form action='{$ibforums->base_url}act=UserCP&amp;CODE=getgallery' method='post'>
@@ -1040,12 +1087,13 @@ return <<<EOF
 <table class='tablebasic' cellpadding='4'>
 
 EOF;
-}
+    }
 
 
-function forum_subs_header() {
-global $ibforums;
-return <<<EOF
+    function forum_subs_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['forum_subs_header']}</h3>
 <br>
@@ -1060,12 +1108,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function email($Profile) {
-global $ibforums;
-return <<<EOF
+    function email($Profile)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}auth_key={$Profile['key']}" method="post">
 <input type='hidden' name='act' value='UserCP'>
@@ -1104,12 +1153,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function skin_lang_header($lang_select, $smile_select, $key="") {
-global $ibforums;
-return <<<EOF
+    function skin_lang_header($lang_select, $smile_select, $key = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}auth_key=$key" method="post" name='prefs'>
 <input type='hidden' name='act' value='UserCP'>
@@ -1132,24 +1182,26 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function forum_subs_none() {
-global $ibforums;
-return <<<EOF
+    function forum_subs_none()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<tr>
 	  <td class='row1' align='center' colspan='5'>{$ibforums->lang['forum_subs_none']}</td>
 	</tr>
 
 EOF;
-}
+    }
 
 
-function subs_header() {
-global $ibforums;
-return <<<EOF
+    function subs_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['subs_header']}</h3>
 <form action="{$ibforums->base_url}" name='mutliact' method="post">
@@ -1168,22 +1220,24 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function forum_jump($data, $menu_extra="") {
-global $ibforums;
-return <<<EOF
+    function forum_jump($data, $menu_extra = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align='right'>{$data}</div>
 
 EOF;
-}
+    }
 
 
-function avatar_mansize() {
-global $ibforums;
-return <<<EOF
+    function avatar_mansize()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table class='tablebasic' cellpadding='4'>
 <tr>
@@ -1193,24 +1247,26 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function delete_self() {
-global $ibforums;
-return <<<EOF
+    function delete_self()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['m_delete_finished']}</h3>
 {$ibforums->lang['m_deleted']}
 
 EOF;
-}
+    }
 
 
-function delete_self_check( $check = "") {
-global $ibforums;
-	//todo end of h3?
-return <<<EOF
+    function delete_self_check($check = "")
+    {
+        global $ibforums;
+        //todo end of h3?
+        return <<<EOF
 
 <h3>{$ibforums->lang['m_delete_warning']}</h3>{$ibforums->lang['m_delete_self']}
 <br> <br> <br>
@@ -1222,12 +1278,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function avatar_autosize() {
-global $ibforums;
-return <<<EOF
+    function avatar_autosize()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table class='tablebasic' cellpadding='4'>
 <tr>
@@ -1237,12 +1294,13 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function email_change($txt="", $msg="") {
-global $ibforums;
-return <<<EOF
+    function email_change($txt = "", $msg = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type="text/javascript">
   do_msg('{$msg}');
@@ -1271,10 +1329,11 @@ return <<<EOF
 </form>
 
 EOF;
-}
-function openid_change($txt="", $msg="") {
-global $ibforums;
-return <<<EOF
+    }
+    function openid_change($txt = "", $msg = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type="text/javascript">
   do_msg('{$msg}');
@@ -1299,23 +1358,25 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function CP_end() {
-return <<<EOF
+    function CP_end()
+    {
+        return <<<EOF
 
  </td>
 </tr>
 </table>
 
 EOF;
-}
+    }
 
 
-function pass_change() {
-global $ibforums;
-return <<<EOF
+    function pass_change()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}" method="post" name='form1'>
 <input type='hidden' name='act' value='UserCP'>
@@ -1340,12 +1401,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function boardlay_end() {
-global $ibforums;
-return <<<EOF
+    function boardlay_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 		<tr><td class='pformstrip' colspan='2' align='center'><input type='submit' class='forminput' value='{$ibforums->lang['jmp_go']}'></td></tr>
 		</table>
@@ -1353,12 +1415,12 @@ return <<<EOF
 	</div>
 
 EOF;
-}
+    }
 
-function renderInboxFolderLinks($links_html) {
-	return <<<EOF
+    function renderInboxFolderLinks($links_html)
+    {
+        return <<<EOF
 	<ul class="usercp-menu-item__inbox-subfolders">{$links_html}</ul>
 EOF;
-
-}
+    }
 }

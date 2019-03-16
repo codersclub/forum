@@ -16,7 +16,7 @@
 |   > Module written by Matt Mecham
 |   > Date started: 28th May 2003
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
@@ -24,240 +24,220 @@ $idx = new ad_spiderlogs();
 
 class ad_spiderlogs
 {
-	var $base_url;
+    var $base_url;
 
-	function __construct()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+    function __construct()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		//---------------------------------------
-		// Kill globals - globals bad, Homer good.
-		//---------------------------------------
+        //---------------------------------------
+        // Kill globals - globals bad, Homer good.
+        //---------------------------------------
 
-		$tmp_in = array_merge($_GET, $_POST, $_COOKIE);
+        $tmp_in = array_merge($_GET, $_POST, $_COOKIE);
 
-		foreach ($tmp_in as $k => $v)
-		{
-			unset($$k);
-		}
+        foreach ($tmp_in as $k => $v) {
+            unset($$k);
+        }
 
-		$ADMIN->nav[] = array('act=spiderlog', 'Search Engine Spider Logs');
+        $ADMIN->nav[] = array('act=spiderlog', 'Search Engine Spider Logs');
 
-		//---------------------------------------
+        //---------------------------------------
 
-		switch ($IN['code'])
-		{
+        switch ($IN['code']) {
+            case 'view':
+                $this->view();
+                break;
 
-			case 'view':
-				$this->view();
-				break;
+            case 'remove':
+                $this->remove();
+                break;
 
-			case 'remove':
-				$this->remove();
-				break;
+            //-------------------------
+            default:
+                $this->list_current();
+                break;
+        }
+    }
 
-			//-------------------------
-			default:
-				$this->list_current();
-				break;
-		}
+    //---------------------------------------------
+    // Remove archived files
+    //---------------------------------------------
 
-	}
+    function view()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	//---------------------------------------------
-	// Remove archived files
-	//---------------------------------------------
+        $start = $IN['st']
+            ? $IN['st']
+            : 0;
 
-	function view()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $ADMIN->page_detail = "Viewing all actions by a search engine spider";
+        $ADMIN->page_title  = "Search Engine Logs Manager";
 
-		$start = $IN['st']
-			? $IN['st']
-			: 0;
+        $botty = urldecode($IN['bid']);
 
-		$ADMIN->page_detail = "Viewing all actions by a search engine spider";
-		$ADMIN->page_title  = "Search Engine Logs Manager";
+        if ($IN['search_string'] == "") {
+            $stmt = $ibforums->db->query("SELECT COUNT(sid) as count FROM ibf_spider_logs WHERE bot='$botty'");
 
-		$botty = urldecode($IN['bid']);
+            $row = $stmt->fetch();
 
-		if ($IN['search_string'] == "")
-		{
-			$stmt = $ibforums->db->query("SELECT COUNT(sid) as count FROM ibf_spider_logs WHERE bot='$botty'");
+            $row_count = $row['count'];
 
-			$row = $stmt->fetch();
+            $query = "&act=spiderlog&bid={$IN['bid']}&code=view";
 
-			$row_count = $row['count'];
+            $stmt = $ibforums->db->query("SELECT * FROM ibf_spider_logs WHERE bot='$botty' ORDER BY entry_date DESC LIMIT $start, 20");
+        } else {
+            $IN['search_string'] = urldecode($IN['search_string']);
 
-			$query = "&act=spiderlog&bid={$IN['bid']}&code=view";
+            $stmt = $ibforums->db->query("SELECT COUNT(sid) as count FROM ibf_spider_logs WHERE query_string LIKE '%{$IN['search_string']}%'");
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_spider_logs WHERE bot='$botty' ORDER BY entry_date DESC LIMIT $start, 20");
+            $row = $stmt->fetch();
 
-		} else
-		{
-			$IN['search_string'] = urldecode($IN['search_string']);
+            $row_count = $row['count'];
 
-			$stmt = $ibforums->db->query("SELECT COUNT(sid) as count FROM ibf_spider_logs WHERE query_string LIKE '%{$IN['search_string']}%'");
+            $query = "&act=spiderlog&code=view&search_string=" . urlencode($IN['search_string']);
 
-			$row = $stmt->fetch();
+            $stmt = $ibforums->db->query("SELECT * FROM ibf_spider_logs WHERE query_string LIKE '%{$IN['search_string']}%' ORDER BY entry_date DESC LIMIT $start, 20");
+        }
 
-			$row_count = $row['count'];
+        $links = $std->build_pagelinks(array(
+                                            'TOTAL_POSS' => $row_count,
+                                            'PER_PAGE'   => 20,
+                                            'CUR_ST_VAL' => $start,
+                                            'L_SINGLE'   => "Single Page",
+                                            'L_MULTI'    => "Pages: ",
+                                            'BASE_URL'   => $ADMIN->base_url . $query,
+                                       ));
 
-			$query = "&act=spiderlog&code=view&search_string=" . urlencode($IN['search_string']);
+        $ADMIN->page_detail = "You may view and remove actions performed by a search engine bot";
+        $ADMIN->page_title  = "Search Engine Logs Manager";
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_spider_logs WHERE query_string LIKE '%{$IN['search_string']}%' ORDER BY entry_date DESC LIMIT $start, 20");
+        //+-------------------------------
 
-		}
+        $SKIN->td_header[] = array("Bot Name", "15%");
+        $SKIN->td_header[] = array("Query String", "15%");
+        $SKIN->td_header[] = array("Time of action", "20%");
+        $SKIN->td_header[] = array("IP address", "10%");
 
-		$links = $std->build_pagelinks(array(
-		                                    'TOTAL_POSS' => $row_count,
-		                                    'PER_PAGE'   => 20,
-		                                    'CUR_ST_VAL' => $start,
-		                                    'L_SINGLE'   => "Single Page",
-		                                    'L_MULTI'    => "Pages: ",
-		                                    'BASE_URL'   => $ADMIN->base_url . $query,
-		                               ));
+        $ADMIN->html .= $SKIN->start_table("Saved Search Engine Logs");
+        $ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
 
-		$ADMIN->page_detail = "You may view and remove actions performed by a search engine bot";
-		$ADMIN->page_title  = "Search Engine Logs Manager";
+        if ($stmt->rowCount()) {
+            while ($row = $stmt->fetch()) {
+                $ADMIN->html .= $SKIN->add_td_row(array(
+                                                       "<b>" . $INFO['sp_' . $row['bot']] . "</b>",
+                                                       "<a href='{$INFO['board_url']}/index.{$INFO['php_ext']}?{$row['query_string']}' target='_blank'>{$row['query_string']}</a>",
+                                                       $ADMIN->get_date($row['entry_date'], 'LONG'),
+                                                       "{$row['ip_address']}",
+                                                  ));
+            }
+        } else {
+            $ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
+        }
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
 
-		$SKIN->td_header[] = array("Bot Name", "15%");
-		$SKIN->td_header[] = array("Query String", "15%");
-		$SKIN->td_header[] = array("Time of action", "20%");
-		$SKIN->td_header[] = array("IP address", "10%");
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->html .= $SKIN->start_table("Saved Search Engine Logs");
-		$ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
+        //+-------------------------------
+        //+-------------------------------
 
-		if ($stmt->rowCount())
-		{
-			while ($row = $stmt->fetch())
-			{
+        $ADMIN->output();
+    }
 
-				$ADMIN->html .= $SKIN->add_td_row(array(
-				                                       "<b>" . $INFO['sp_' . $row['bot']] . "</b>",
-				                                       "<a href='{$INFO['board_url']}/index.{$INFO['php_ext']}?{$row['query_string']}' target='_blank'>{$row['query_string']}</a>",
-				                                       $ADMIN->get_date($row['entry_date'], 'LONG'),
-				                                       "{$row['ip_address']}",
-				                                  ));
+    //---------------------------------------------
+    // Remove archived files
+    //---------------------------------------------
 
-			}
-		} else
-		{
-			$ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
-		}
+    function remove()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		$ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
+        if ($IN['bid'] == "") {
+            $ADMIN->error("You did not select a bot to remove by!");
+        }
 
-		$ADMIN->html .= $SKIN->end_table();
+        $botty = urldecode($IN['bid']);
 
-		//+-------------------------------
-		//+-------------------------------
+        $ibforums->db->exec("DELETE FROM ibf_spider_logs WHERE bot='$botty'");
 
-		$ADMIN->output();
+        $ADMIN->save_log("Removed Search Engine Logs");
 
-	}
+        $std->boink_it($ADMIN->base_url . "&act=spiderlog");
+        exit();
+    }
 
-	//---------------------------------------------
-	// Remove archived files
-	//---------------------------------------------
+    //-------------------------------------------------------------
+    // SHOW ALL LANGUAGE PACKS
+    //-------------------------------------------------------------
 
-	function remove()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+    function list_current()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		if ($IN['bid'] == "")
-		{
-			$ADMIN->error("You did not select a bot to remove by!");
-		}
+        $form_array = array();
 
-		$botty = urldecode($IN['bid']);
+        $ADMIN->page_detail = "You may view and remove entries in your spider engine logs";
+        $ADMIN->page_title  = "Search Engine Logs Manager";
 
-		$ibforums->db->exec("DELETE FROM ibf_spider_logs WHERE bot='$botty'");
+        //+-------------------------------
 
-		$ADMIN->save_log("Removed Search Engine Logs");
+        $SKIN->td_header[] = array("Bot Name", "20%");
+        $SKIN->td_header[] = array("Hits", "20%");
+        $SKIN->td_header[] = array("Started", "20%");
+        $SKIN->td_header[] = array("View all by bot", "20%");
+        $SKIN->td_header[] = array("Remove all by bot", "20%");
 
-		$std->boink_it($ADMIN->base_url . "&act=spiderlog");
-		exit();
+        $ADMIN->html .= $SKIN->start_table("Saved Search Engine Spider Logs");
 
-	}
+        $stmt = $ibforums->db->query("SELECT count(*) as cnt, bot, entry_date, query_string FROM `ibf_spider_logs` group by bot order by entry_date DESC");
 
-	//-------------------------------------------------------------
-	// SHOW ALL LANGUAGE PACKS
-	//-------------------------------------------------------------
+        while ($r = $stmt->fetch()) {
+            $url_butt = urlencode($r['bot']);
 
-	function list_current()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+            $ADMIN->html .= $SKIN->add_td_row(array(
+                                                   $INFO['sp_' . $r['bot']],
+                                                   "<center>{$r['cnt']}</center>",
+                                                   $ADMIN->get_date($r['entry_date'], 'SHORT'),
+                                                   "<center><a href='" . $SKIN->base_url . "&act=spiderlog&code=view&bid={$url_butt}'>View</a></center>",
+                                                   "<center><a href='" . $SKIN->base_url . "&act=spiderlog&code=remove&bid={$url_butt}'>Remove</a></center>",
+                                              ));
+        }
 
-		$form_array = array();
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->page_detail = "You may view and remove entries in your spider engine logs";
-		$ADMIN->page_title  = "Search Engine Logs Manager";
+        //+-------------------------------
+        //+-------------------------------
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->start_form(array(
+                                               1 => array('code', 'view'),
+                                               2 => array('act', 'spiderlog'),
+                                          ));
 
-		$SKIN->td_header[] = array("Bot Name", "20%");
-		$SKIN->td_header[] = array("Hits", "20%");
-		$SKIN->td_header[] = array("Started", "20%");
-		$SKIN->td_header[] = array("View all by bot", "20%");
-		$SKIN->td_header[] = array("Remove all by bot", "20%");
+        $SKIN->td_header[] = array("&nbsp;", "40%");
+        $SKIN->td_header[] = array("&nbsp;", "60%");
 
-		$ADMIN->html .= $SKIN->start_table("Saved Search Engine Spider Logs");
+        $ADMIN->html .= $SKIN->start_table("Search Search Engine Logs");
 
-		$stmt = $ibforums->db->query("SELECT count(*) as cnt, bot, entry_date, query_string FROM `ibf_spider_logs` group by bot order by entry_date DESC");
+        //+-------------------------------
 
-		while ($r = $stmt->fetch())
-		{
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<b>Search for...</b>",
+                                               $SKIN->form_input("search_string") . '... in the query string'
+                                          ));
 
-			$url_butt = urlencode($r['bot']);
+        $ADMIN->html .= $SKIN->end_form("Search");
 
-			$ADMIN->html .= $SKIN->add_td_row(array(
-			                                       $INFO['sp_' . $r['bot']],
-			                                       "<center>{$r['cnt']}</center>",
-			                                       $ADMIN->get_date($r['entry_date'], 'SHORT'),
-			                                       "<center><a href='" . $SKIN->base_url . "&act=spiderlog&code=view&bid={$url_butt}'>View</a></center>",
-			                                       "<center><a href='" . $SKIN->base_url . "&act=spiderlog&code=remove&bid={$url_butt}'>Remove</a></center>",
-			                                  ));
-		}
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->html .= $SKIN->end_table();
+        //+-------------------------------
+        //+-------------------------------
 
-		//+-------------------------------
-		//+-------------------------------
-
-		$ADMIN->html .= $SKIN->start_form(array(
-		                                       1 => array('code', 'view'),
-		                                       2 => array('act', 'spiderlog'),
-		                                  ));
-
-		$SKIN->td_header[] = array("&nbsp;", "40%");
-		$SKIN->td_header[] = array("&nbsp;", "60%");
-
-		$ADMIN->html .= $SKIN->start_table("Search Search Engine Logs");
-
-		//+-------------------------------
-
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Search for...</b>",
-		                                       $SKIN->form_input("search_string") . '... in the query string'
-		                                  ));
-
-		$ADMIN->html .= $SKIN->end_form("Search");
-
-		$ADMIN->html .= $SKIN->end_table();
-
-		//+-------------------------------
-		//+-------------------------------
-
-		$ADMIN->output();
-
-	}
-
+        $ADMIN->output();
+    }
 }

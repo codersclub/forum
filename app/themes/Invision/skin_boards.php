@@ -1,34 +1,39 @@
 <?php
 
-class skin_boards {
+class skin_boards
+{
 
 
 
-function bottom_links() {
-global $ibforums;
-return <<<EOF
+    function bottom_links()
+    {
+        global $ibforums;
+        return <<<EOF
    <div id="BottomLinks"><a id="DeleteCookiesButtons" href="{$ibforums->base_url}act=Login&amp;CODE=06">{$ibforums->lang['d_delete_cookies']}</a> &middot; <a id="MarkReadAllButton" href="{$ibforums->base_url}act=Login&amp;CODE=05">{$ibforums->lang['d_post_read']}</a></div>
 
 EOF;
-}
+    }
 
-function CatPlus($id) {
-global $ibforums;
-return <<<EOF
+    function CatPlus($id)
+    {
+        global $ibforums;
+        return <<<EOF
 <a class="category-expand-button" data-id="$id" href={$ibforums->base_url}expcat={$id}><{C_PLUS}></a>
 EOF;
-}
+    }
 
-function CatMinus($id) {
-global $ibforums;
-return <<<EOF
+    function CatMinus($id)
+    {
+        global $ibforums;
+        return <<<EOF
 <a class="category-collapse-button" data-id="$id" href={$ibforums->base_url}colcat={$id}><{C_MINUS}></a>
 EOF;
-}
+    }
 
-function CatHeader_Collapsed($info,$plus = "") {
-global $ibforums;
-return <<<EOF
+    function CatHeader_Collapsed($info, $plus = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="b-category" data-category-id="{$info['id']}" data-status="collapsed">
 	<h2>{$plus}<a class="b-category-title-link" href="{$ibforums->base_url}c={$info['id']}">{$info['name']}</a></h2>
@@ -36,11 +41,12 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
-function CatHeader_Expanded($Data,$minus = "") {
-global $ibforums;
-return <<<EOF
+    function CatHeader_Expanded($Data, $minus = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
  <div class="tableborder b-category b-category-{$Data['id']} b-category-expanded" data-category-id="{$Data['id']}" >
   <h2>{$minus}<a class="b-category-title-link" href="{$ibforums->base_url}c={$Data['id']}">{$Data['name']}</a></h2>
@@ -56,25 +62,27 @@ return <<<EOF
 	    </thead>
 
 EOF;
-}
+    }
 
-function ShowAllLink() {
-global $ibforums;
-return <<<EOF
+    function ShowAllLink()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a id="ShowAllLink" class="b-show-all-link" href="{$ibforums->base_url}&show=all">{$ibforums->lang['show_all_forums']}</a>
 
 EOF;
-}
+    }
 
     /**
      * @deprecated
      * @param string $show_all
      * @return string
      */
-function PageTop($show_all = "") {
-global $ibforums;
-return <<<EOF
+    function PageTop($show_all = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table id="QuickLinks" class="b-news-wrapper">
 <tr id="SecondNewsRow" class="b-news-row">
@@ -92,11 +100,12 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
-function quick_log_in() {
-global $ibforums;
-return <<<EOF
+    function quick_log_in()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align="right" id="QuickLogin"><span id="QuickLoginTitle" class="title"><strong>{$ibforums->lang["qli_title"]}</strong></span>
 <form id="QuickLoginForm" style="display:inline" action="{$ibforums->base_url}" method="post">
@@ -110,11 +119,12 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
-function birthdays($birthusers="", $total="", $birth_lang="") {
-global $ibforums;
-return <<<EOF
+    function birthdays($birthusers = "", $total = "", $birth_lang = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<tr id="BirthsdaysTitleRow">
 		<td class="pformstrip" id="BirthsdaysTitle" colspan="2">{$ibforums->lang['birthday_header']}</td>
@@ -125,11 +135,12 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
-function stats_header() {
-global $ibforums;
-return <<<EOF
+    function stats_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<div class="stats-links">
 		<a class="administration-link" href="{$ibforums->base_url}act=Stats&amp;CODE=leaders">{$ibforums->lang["sm_forum_leaders"]}</a> |
@@ -142,11 +153,12 @@ return <<<EOF
 		<table cellpadding="4" cellspacing="1" border="0" width="100%">
 
 EOF;
-}
+    }
 
-function ActiveFriends($active) {
-global $ibforums;
-return <<<EOF
+    function ActiveFriends($active)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div id="FriendsOnline" class="friends-online">
 <span class="friends-title">{$ibforums->lang['your_friends']}</span>
@@ -154,12 +166,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
-function ActiveUsers($active, $friends = "") {
-global $ibforums;
+    function ActiveUsers($active, $friends = "")
+    {
+        global $ibforums;
 
-return <<<EOF
+        return <<<EOF
 	<tr class="online-summary-row">
 		<td class="pformstrip online-summary" colspan="2">{$active['TOTAL']} {$ibforums->lang['active_users']}</td>
   </tr>
@@ -173,32 +186,34 @@ return <<<EOF
     </td>
   </tr>
 EOF;
-}
+    }
 
-function renderMemberGroupsList($groups, $add_offenders = TRUE) {
-	$output = '<ul class="members-groups-list">';
-	foreach($groups as $group) {
-		$output .= '<li>' . $this->renderMemberGroup($group) . '</li>';
-	}
-	if($add_offenders)
-		{
-			$output .= '<li><span class="group-offenders">' . Ibf::app()->lang['group_offenders'] . '</span></li>';
-		}
-	$output .= '</ul>';
-	return $output;
-EOF;
-}
+    function renderMemberGroupsList($groups, $add_offenders = true)
+    {
+        $output = '<ul class="members-groups-list">';
+        foreach ($groups as $group) {
+            $output .= '<li>' . $this->renderMemberGroup($group) . '</li>';
+        }
+        if ($add_offenders) {
+            $output .= '<li><span class="group-offenders">' . Ibf::app()->lang['group_offenders'] . '</span></li>';
+        }
+        $output .= '</ul>';
+        return $output;
+        EOF;
+    }
 
-function renderMemberGroup($group) {
-	$ibforums = Ibf::app();
-	return <<<EOF
+    function renderMemberGroup($group)
+    {
+        $ibforums = Ibf::app();
+        return <<<EOF
 	<a href="{$ibforums->base_url}act=Members&max_results=30&filter={$group['g_id']}&sort_order=asc&sort_key=name&st=0">{$group['prefix']}{$group['g_title']}{$group['suffix']}</a>
 EOF;
-}
+    }
 
-function active_user_links() {
-global $ibforums;
-return <<<EOF
+    function active_user_links()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="online-detailed-more-links" id="OnlineShowMoreWrapper">
 <span id="OnlineShowMoreTitle" class="title online-show-more-title">{$ibforums->lang['oul_show_more']}</span>
@@ -207,11 +222,12 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
-function stats_footer() {
-global $ibforums;
-return <<<EOF
+    function stats_footer()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <TR>
     <TD class=tablefooter colspan=2><!-- -->
@@ -222,11 +238,12 @@ return <<<EOF
  </div>
 
 EOF;
-}
+    }
 
-function forum_redirect_row($info) {
-global $ibforums;
-return <<<EOF
+    function forum_redirect_row($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
        <tr class="b-forums-list-row forum-{$info['id']} forum-redirect" data-forum-id="{$info['id']}" data-category-id="{$info['category']}">
          <td {$info[colspan]}class="row4 b-column b-column_icon"><{BR_REDIRECT}></td>
@@ -237,22 +254,24 @@ return <<<EOF
        </tr>
 
 EOF;
-}
+    }
 
     /**
      * @deprecated
      * @param $message
      * @return string
      */
-function renderGlobalMessage($message) {
-return <<<EOF
+    function renderGlobalMessage($message)
+    {
+        return <<<EOF
 <div id="GlobalMessage">{$message}</div>
 EOF;
-}
+    }
 
-function ForumRow($info) {
-global $ibforums;
-return <<<EOF
+    function ForumRow($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="b-forums-list-row" data-forum-id="{$info['id']}" data-category-id="{$info['category']}" data-allow-poll="{$info['allow_poll']}" data-allow-topics="{$info['sub_can_post']}">
  {$info['tree']}
@@ -263,46 +282,51 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
-function newslink($fid="", $title="", $tid="") {
-global $ibforums;
-return <<<EOF
+    function newslink($fid = "", $title = "", $tid = "")
+    {
+        global $ibforums;
+        return <<<EOF
 <div class="news news-first"><span class="news-header news-first-header">{$ibforums->lang['newslink']}</span> <a class="news-link news-first-link" href="{$ibforums->base_url}showtopic=$tid&view=getnewpost"><span class="voteprefix">$title</span></a></div>
 
 EOF;
-}
+    }
 
-function secondnewslink($fid="", $title="", $tid="") {
-global $ibforums;
-return <<<EOF
+    function secondnewslink($fid = "", $title = "", $tid = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="news news-second"><span class="news-header news-second-header">{$ibforums->lang["secondnewslink"]}</span> <a class="news-link news-second-link" href="{$ibforums->base_url}showtopic=$tid&view=getnewpost"><span style="color:blue">$title</span></a></div>
 
 EOF;
-}
+    }
 
-function our_poll_link($fid="", $title="", $tid="") {
-global $ibforums;
-return <<<EOF
+    function our_poll_link($fid = "", $title = "", $tid = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="poll"><span class="poll-header">{$ibforums->lang['our_polls_link']}</span> <a class="poll-link" href="{$ibforums->base_url}showtopic=$tid&view=getnewpost"><span style="color:blue">$title</span></a></div>
 
 EOF;
-}
+    }
 
-function forum_img_with_link($img, $id) {
-global $ibforums;
-return <<<EOF
+    function forum_img_with_link($img, $id)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a class="forum-mark-read-link" href="{$ibforums->base_url}act=Login&amp;CODE=04&amp;f={$id}" title="{$ibforums->lang["bi_markread"]}" style="text-decoration:none">{$img}</a>
 
 EOF;
-}
+    }
 
-function calendar_events($events = "") {
-global $ibforums;
-return <<<EOF
+    function calendar_events($events = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="calendar-events-title-row">
     <td class="pformstrip calendar-events-title" colspan="2">{$ibforums->lang["calender_f_title"]}</td>
@@ -313,12 +337,13 @@ return <<<EOF
         </tr>
 
 EOF;
-}
+    }
 
 //looks like unused
-function ShowStats($text) {
-global $ibforums;
-return <<<EOF
+    function ShowStats($text)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="stats-title-row">
   <td class="pformstrip stats-title-row" colspan="2">{$ibforums->lang["board_stats"]}</td>
@@ -329,11 +354,12 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
-function TodayOnline($activity) {
-global $ibforums;
-return <<<EOF
+    function TodayOnline($activity)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="online-stats-title-row">
   <td class="pformstrip online-stats-title" colspan="2">{$ibforums->lang["today_online"]}</td>
@@ -347,41 +373,45 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
-function forumrow_lastunread_link($fid, $tid) {
-global $ibforums;
-return <<<EOF
+    function forumrow_lastunread_link($fid, $tid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a class="forum-last-unread-link" href="{$ibforums->base_url}showtopic=$tid&amp;view=getlastpost" title="{$ibforums->lang["tt_golast"]}"><{LAST_POST}></a>
 
 EOF;
-}
+    }
 
-function end_all_cats() {
-global $ibforums;
-return <<<EOF
+    function end_all_cats()
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 
 EOF;
-}
+    }
 
 /**
  * @todo achtung Результат этой функции идёт в preg_replace в качестве регулярки
  */
-function active_list_sep() {
-global $ibforums;
-return <<<EOF
+    function active_list_sep()
+    {
+        global $ibforums;
+        return <<<EOF
 
 ,
 
 EOF;
-}
+    }
 
-function end_this_cat() {
-global $ibforums;
-return <<<EOF
+    function end_this_cat()
+    {
+        global $ibforums;
+        return <<<EOF
 	  <tfoot>
 		  <TR class="b-forum-list-footer">
 		    <TD class="tablefooter" colspan=6><!-- -->
@@ -393,21 +423,23 @@ return <<<EOF
     </div>
 
 EOF;
-}
+    }
 
-function subforum_img_with_link($img, $id) {
-global $ibforums;
-return <<<EOF
+    function subforum_img_with_link($img, $id)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a class="forum-mark-all-read-link" href="{$ibforums->base_url}act=Login&amp;CODE=04&amp;f={$id}&amp;i=1" title="{$ibforums->lang["bi_markallread"]}" style="text-decoration:none">{$img}</a>
 
 EOF;
-}
+    }
 
-function subheader($fid) {
-global $ibforums;
-    //todo добавить название головного форума, если темы в нём запрещены и есть только подразделы
-return <<<EOF
+    function subheader($fid)
+    {
+        global $ibforums;
+        //todo добавить название головного форума, если темы в нём запрещены и есть только подразделы
+        return <<<EOF
 
 {$fid}
  <div class="tableborder b-subforums-list-wrapper">
@@ -423,7 +455,5 @@ return <<<EOF
    </thead>
 
 EOF;
-}
-
-
+    }
 }

@@ -60,5 +60,3 @@ $lang['siggie']  = "Подпись";
 $lang['last_activity']  = "Последняя активность на форуме";
 $lang['mod_forums']  = "Модерируемые разделы";
 $lang['mod_all_forums'] = "Все разделы";
-
-

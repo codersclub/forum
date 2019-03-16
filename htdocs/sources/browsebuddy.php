@@ -17,15 +17,16 @@
 |   > Module written by Matt Mecham
 |   > Date started: 2nd July 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
 use Views\View;
 
-$idx = new buddy;
+$idx = new buddy();
 
-class buddy {
+class buddy
+{
 
     var $output     = "";
     var $page_title = "";
@@ -33,119 +34,105 @@ class buddy {
 
 
 
-    function buddy() {
-    	global $std, $print;
+    function buddy()
+    {
+        global $std, $print;
 
-		$ibforums = Ibf::app();
+        $ibforums = Ibf::app();
 
-    	//--------------------------------------------
-    	// Require the HTML and language modules
-    	//--------------------------------------------
+        //--------------------------------------------
+        // Require the HTML and language modules
+        //--------------------------------------------
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_buddy', $ibforums->lang_id );
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_buddy', $ibforums->lang_id);
 
-    	//--------------------------------------------
-    	// What to do?
-    	//--------------------------------------------
+        //--------------------------------------------
+        // What to do?
+        //--------------------------------------------
 
-    	switch($ibforums->input['code']) {
+        switch ($ibforums->input['code']) {
+            default:
+                $this->splash();
+                break;
+        }
 
-    		default:
-    			$this->splash();
-    			break;
-    	}
+        // If we have any HTML to print, do so...
 
-    	// If we have any HTML to print, do so...
+        $this->output = str_replace("<!--CLOSE.LINK-->", View::make("buddy.closelink"), $this->output);
+        $print->js->addLocal('buddy.js');
+        $print->pop_up_window($ibforums->lang['page_title'], $this->output);
+    }
 
-    	$this->output = str_replace( "<!--CLOSE.LINK-->", View::make("buddy.closelink"), $this->output );
-	    $print->js->addLocal('buddy.js');
-    	$print->pop_up_window($ibforums->lang['page_title'], $this->output);
+    function splash()
+    {
+        global $std;
 
+        $ibforums = Ibf::app();
 
- 	}
+        //--------------------------------------------
+        // Is this a guest? If so, get 'em to log in.
+        //--------------------------------------------
 
- 	function splash() {
- 		global $std;
+        if (! $ibforums->member['id']) {
+            $this->output = View::make("buddy.login");
+            return;
+        } else {
+            //--------------------------------------------
+            // Get the forums we're allowed to search in
+            //--------------------------------------------
 
-		$ibforums = Ibf::app();
+            $allow_forums   = array();
 
- 		//--------------------------------------------
- 		// Is this a guest? If so, get 'em to log in.
- 		//--------------------------------------------
+            $allow_forums[] = '0';
 
- 		if ( ! $ibforums->member['id'] )
- 		{
- 			$this->output = View::make("buddy.login");
- 			return;
- 		}
- 		else
- 		{
+            $result = $ibforums->db->query("SELECT id, read_perms, password FROM ibf_forums");
 
- 			//--------------------------------------------
- 			// Get the forums we're allowed to search in
- 			//--------------------------------------------
+            foreach ($result as $i) {
+                $pass = 1;
 
- 			$allow_forums   = array();
+                if ($i['password'] != "") {
+                    if (! $c_pass = $std->my_getcookie('iBForum' . $i['id'])) {
+                        $pass = 0;
+                    }
 
- 			$allow_forums[] = '0';
+                    if ($c_pass == $i['password']) {
+                        $pass = 1;
+                    } else {
+                        $pass = 0;
+                    }
+                }
 
- 			$result = $ibforums->db->query("SELECT id, read_perms, password FROM ibf_forums");
+                if ($pass == 1) {
+                    if ($std->check_perms($i['read_perms']) == true) {
+                        $allow_forums[] = $i['id'];
+                    }
+                }
+            }
 
- 			foreach($result as $i)
- 			{
- 				$pass = 1;
+            $forum_string = implode(",", $allow_forums);
+            $q_string = IBPDO::placeholders($allow_forums);
+            $params = $allow_forums;
 
-				if ($i['password'] != "")
-				{
-					if ( ! $c_pass = $std->my_getcookie('iBForum'.$i['id']) )
-					{
-						$pass = 0;
-					}
+            //--------------------------------------------
+            // Get the number of posts since the last visit.
+            //--------------------------------------------
 
-					if ( $c_pass == $i['password'] )
-					{
-						$pass = 1;
-					}
-					else
-					{
-						$pass = 0;
-					}
-				}
+            if (! $ibforums->member['last_visit']) {
+                $ibforums->member['last_visit'] = time() - 3600;
+            }
+            $params[] = $ibforums->member['last_visit'];
 
-				if ($pass == 1)
-				{
-					if ( $std->check_perms($i['read_perms']) == TRUE )
-					{
-						$allow_forums[] = $i['id'];
-					}
-				}
- 			}
+            $stmt = $ibforums->db->prepare("SELECT COUNT(pid) as posts FROM ibf_posts WHERE forum_id IN(" . $q_string . ") AND post_date > ? AND queued <> 1 ");
+            $stmt->execute($params);
+            $posts = $stmt->fetchColumn();
 
- 			$forum_string = implode( ",", $allow_forums );
-			$q_string = IBPDO::placeholders($allow_forums);
-			$params = $allow_forums;
+            $posts_total = ($posts < 1) ? 0 : $posts;
 
- 			//--------------------------------------------
- 			// Get the number of posts since the last visit.
- 			//--------------------------------------------
+            //-----------------------------------------------------------------------
+            // Get the number of posts since the last visit to topics we've started.
+            //-----------------------------------------------------------------------
 
- 			if (! $ibforums->member['last_visit'] )
- 			{
- 				$ibforums->member['last_visit'] = time() - 3600;
- 			}
-			$params[] = $ibforums->member['last_visit'];
-
- 			$stmt = $ibforums->db->prepare("SELECT COUNT(pid) as posts FROM ibf_posts WHERE forum_id IN(" . $q_string . ") AND post_date > ? AND queued <> 1 ");
-			$stmt->execute($params);
- 			$posts = $stmt->fetchColumn();
-
- 			$posts_total = ($posts < 1) ? 0 : $posts;
-
- 			//-----------------------------------------------------------------------
- 			// Get the number of posts since the last visit to topics we've started.
- 			//-----------------------------------------------------------------------
-
- 			$stmt = $ibforums->db->prepare("SELECT COUNT(tid) as replies
+            $stmt = $ibforums->db->prepare("SELECT COUNT(tid) as replies
  						FROM ibf_topics WHERE
 						forum_id IN($q_string)
 						AND last_post > ?
@@ -153,42 +140,33 @@ class buddy {
  						AND posts > 0
  						AND starter_id= ?
 						");
- 			$stmt->execute(array_merge($allow_forums, [$ibforums->member['last_visit']], [$ibforums->member['id']]));
+            $stmt->execute(array_merge($allow_forums, [$ibforums->member['last_visit']], [$ibforums->member['id']]));
 
- 			$topic = $stmt->fetchColumn();
+            $topic = $stmt->fetchColumn();
 
- 			$topics_total = ($topic < 1) ? 0 : $topic;
+            $topics_total = ($topic < 1) ? 0 : $topic;
 
- 			$text = $ibforums->lang['no_new_posts'];
+            $text = $ibforums->lang['no_new_posts'];
 
- 			if ($posts_total > 0)
- 			{
- 				$ibforums->lang['new_posts']  = sprintf($ibforums->lang['new_posts'] , $posts_total  );
- 				$ibforums->lang['my_replies'] = sprintf($ibforums->lang['my_replies'], $topics_total );
+            if ($posts_total > 0) {
+                $ibforums->lang['new_posts']  = sprintf($ibforums->lang['new_posts'], $posts_total);
+                $ibforums->lang['my_replies'] = sprintf($ibforums->lang['my_replies'], $topics_total);
 
-// 				$ibforums->lang['new_posts'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
- 				$ibforums->lang['new_posts'] .= View::make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
+//              $ibforums->lang['new_posts'] .= View::Make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
+                $ibforums->lang['new_posts'] .= View::make("buddy.append_view", ['url' => '&act=Select&CODE=getnew']);
 
- 				if ($topic > 0)
- 				{
- 					$ibforums->lang['my_replies'] .= View::make(
-					    "buddy.append_view",
-					    ['url' => '&act=Select&CODE=getreplied']
-				    );
- 				}
+                if ($topic > 0) {
+                    $ibforums->lang['my_replies'] .= View::make(
+                        "buddy.append_view",
+                        ['url' => '&act=Select&CODE=getreplied']
+                    );
+                }
 
- 				$text = View::make("buddy.build_away_msg");
- 			}
+                $text = View::make("buddy.build_away_msg");
+            }
 
 
- 			$this->output = View::make("buddy.main", ['away_text' => $text]);
- 		}
-
-
- 	}
-
-
-
+            $this->output = View::make("buddy.main", ['away_text' => $text]);
+        }
+    }
 }
-
-?>

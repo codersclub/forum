@@ -1,10 +1,10 @@
 <?php
 
 // Poll Additions
-$lang['poll_life_descr3']	= "Note: The poll is limited by time. Time left before closing: %s days.";
-$lang['poll_life_descr2']	= "After this time the poll (not the topic!) will be closed automatically.";
-$lang['poll_life_descr1']	= "<b>Do you want to limit the poll by time (days)?</b><br>(Maximum - 365 days. Leave the field empty for no time limit)";
-$lang['added_post']			= "Added";
+$lang['poll_life_descr3']   = "Note: The poll is limited by time. Time left before closing: %s days.";
+$lang['poll_life_descr2']   = "After this time the poll (not the topic!) will be closed automatically.";
+$lang['poll_life_descr1']   = "<b>Do you want to limit the poll by time (days)?</b><br>(Maximum - 365 days. Leave the field empty for no time limit)";
+$lang['added_post']         = "Added";
 
 $lang['multi_poll_min_error'] = "You set the Minimum choices higher than the total number of poll options.";
 $lang['multi_poll_max_error'] = "You set the Maximum choices higher than the total number of poll options.";

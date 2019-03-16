@@ -1,21 +1,24 @@
 <?php
 
-class skin_calendar {
+class skin_calendar
+{
 
-function table_top($data) {
-global $ibforums;
-return <<<EOF
+    function table_top($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <table class='tableborder' cellpadding="0" cellspacing="0" width="100%">
 <tr>
  <td class='maintitle' colspan="2">&nbsp;&nbsp;$data</td>
 </tr>
 
 EOF;
-}
+    }
 
-function calendar_end_form($data) {
-global $ibforums;
-return <<<EOF
+    function calendar_end_form($data)
+    {
+        global $ibforums;
+        return <<<EOF
  <tr>
   <td class='pformstrip' align='center' style='text-align:center' colspan="2"><input type="submit" name="submit" value="$data" tabindex='4' class='forminput'></td>
 </tr>
@@ -24,49 +27,54 @@ return <<<EOF
 <br>
 <br clear="all">
 EOF;
-}
+    }
 
-function calendar_start_form() {
-global $ibforums;
-return <<<EOF
+    function calendar_start_form()
+    {
+        global $ibforums;
+        return <<<EOF
 <form name='REPLIER' action='{$ibforums->base_url}act=calendar&amp;code=addnewevent' method='post' onSubmit='return ValidateForm()'>
 EOF;
-}
+    }
 
 
-function calendar_start_edit_form($eventid) {
-global $ibforums;
-return <<<EOF
+    function calendar_start_edit_form($eventid)
+    {
+        global $ibforums;
+        return <<<EOF
 <form name='REPLIER' action='{$ibforums->base_url}act=calendar&amp;code=doedit&amp;eventid=$eventid' method='post' onsubmit='return ValidateForm()'>
 EOF;
-}
+    }
 
 
-function calendar_event_title($data="") {
-global $ibforums;
-return <<<EOF
+    function calendar_event_title($data = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
           <td class="pformleft"><strong>{$ibforums->lang['calendar_title']}</strong></td>
           <td class="pformright"><input type='text' size='40' maxlength='40' name='event_title' class='forminput' value='$data'></td>
         </tr>
 EOF;
-}
+    }
 
 
-function calendar_delete_box() {
-global $ibforums;
-return <<<EOF
+    function calendar_delete_box()
+    {
+        global $ibforums;
+        return <<<EOF
 <tr>
           <td class="row1" width="100%" colspan='2' style='height:40px;border:1px solid black'><input type='checkbox' name='event_delete' value='1'>&nbsp;{$ibforums->lang['calendar_delete_box']}</td>
         </tr>
 EOF;
-}
+    }
 
 
-function calendar_choose_date($days, $months, $years, $end_days, $end_months, $end_years, $recur_days, $recur_unit, $div, $checked, $cols, $recend) {
-global $ibforums;
-return <<<EOF
+    function calendar_choose_date($days, $months, $years, $end_days, $end_months, $end_years, $recur_days, $recur_unit, $div, $checked, $cols, $recend)
+    {
+        global $ibforums;
+        return <<<EOF
 <tr>
           <td class="pformleft" valign='top'><strong>{$ibforums->lang['calendar_event_date']}</strong></td>
           <td class="pformright">
@@ -111,45 +119,49 @@ return <<<EOF
           </td>
         </tr>
 EOF;
-}
+    }
 
 
-function calendar_event_type($pub_select="", $priv_select="") {
-global $ibforums;
-return <<<EOF
+    function calendar_event_type($pub_select = "", $priv_select = "")
+    {
+        global $ibforums;
+        return <<<EOF
 <tr>
           <td class="pformleft"><strong>{$ibforums->lang['calendar_event_type']}</strong></td>
           <td class="pformright"><select name='e_type' class='forminput'><option value='public'$pub_select>{$ibforums->lang['calendar_type_public']}</option><option value='private'$priv_select>{$ibforums->lang['calendar_type_private']}</option></select></td>
         </tr>
 EOF;
-}
+    }
 
 
-function calendar_admin_group_box($groups) {
-global $ibforums;
-return <<<EOF
+    function calendar_admin_group_box($groups)
+    {
+        global $ibforums;
+        return <<<EOF
 <tr>
           <td class="pformleft">{$ibforums->lang['calendar_group_filter']}</td>
           <td class="pformright"><select name='e_groups[]' class='forminput' size='5' multiple>$groups</select></td>
         </tr>
 EOF;
-}
+    }
 
 
 
-function cal_edit_del_button($id) {
-global $ibforums;
+    function cal_edit_del_button($id)
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 	<div align='right'><a href='javascript:deleteEvent($id)'><{P_DELETE}></a>&nbsp;<a href='{$ibforums->base_url}act=calendar&amp;code=edit&amp;eventid=$id'><{P_EDIT}></a></div>
 HTML;
-}
+    }
 
 
-function cal_show_event($event, $member, $event_type, $edit_button="", $type, $date_ends="") {
-global $ibforums;
+    function cal_show_event($event, $member, $event_type, $edit_button = "", $type, $date_ends = "")
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
   <div class='pformstrip'>{$event['title']} ($event_type)</div>
   <table width="100%" border="0" cellspacing="1" cellpadding="3">
   <tr>
@@ -162,60 +174,66 @@ return <<<HTML
   </tr>
   </table>
 HTML;
-}
+    }
 
-function cal_page_events_start() {
-global $ibforums;
+    function cal_page_events_start()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 <div class='tableborder'>
   <div class='maintitle'>{$ibforums->lang['cal_title_events']}</div>
 HTML;
-}
+    }
 
-function cal_page_events_end() {
-global $ibforums;
+    function cal_page_events_end()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
   <div align='center' class='pformstrip'>&lt;&lt; <a href='{$ibforums->base_url}act=calendar&amp;d={$ibforums->input['d']}&amp;m={$ibforums->input['m']}&amp;y={$ibforums->input['y']}'>{$ibforums->lang['back']}</a></div>
 </div>
 HTML;
-}
+    }
 
-function cal_birthday_start() {
-global $ibforums;
+    function cal_birthday_start()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
   <div class='pformstrip'>{$ibforums->lang['cal_birthdays']}</div>
   <div class='tablepad'>
    <ul>
 HTML;
-}
+    }
 
-function cal_birthday_entry($uid, $uname, $age="") {
-global $ibforums;
+    function cal_birthday_entry($uid, $uname, $age = "")
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 		<li><a href='{$ibforums->base_url}showuser=$uid'>$uname</a> ($age)</li>
 HTML;
-}
+    }
 
 
-function cal_birthday_end() {
-global $ibforums;
+    function cal_birthday_end()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
    </ul>
   </div>
 HTML;
-}
+    }
 
 
 
-function cal_main_content($month, $year, $prev, $next) {
-global $ibforums;
+    function cal_main_content($month, $year, $prev, $next)
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 
 <form action='{$ibforums->base_url}act=calendar' method='post'>
 <div align='left' id='calendarname'><a href='{$ibforums->base_url}act=calendar&amp;code=newevent' title='{$ibforums->lang['post_new_event']}'><{CAL_NEWEVENT}></a> <span style='position:relative;top:3px'>$month $year</span></div>
@@ -245,56 +263,61 @@ return <<<HTML
 </div>
 </form>
 HTML;
-}
+    }
 
-function cal_day_bit($day) {
-global $ibforums;
+    function cal_day_bit($day)
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 
 	<td width='14%' class='pformstrip'>$day</td>
 HTML;
-}
+    }
 
 
-function cal_new_row() {
-global $ibforums;
+    function cal_new_row()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 
 	</tr>
 	<tr>
 
 HTML;
-}
+    }
 
-function cal_blank_cell() {
-global $ibforums;
+    function cal_blank_cell()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 
 	<td style='height:100px' class='darkrow1'><br></td>
 
 HTML;
-}
+    }
 
 
-function cal_date_cell($month_day, $events="") {
-global $ibforums;
+    function cal_date_cell($month_day, $events = "")
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 
 	<td style='height:100px' valign='top' class='row3'>
 	<div class='caldate'>$month_day</div>$events
 	</td>
 
 HTML;
-}
+    }
 
-function cal_date_cell_today($month_day, $events="") {
-global $ibforums;
+    function cal_date_cell_today($month_day, $events = "")
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 
 	<td style='height:100px;border:2px;border-style:outset' valign='top' class='row1'>
 	<div class='caldate'>$month_day</div>
@@ -302,49 +325,52 @@ return <<<HTML
 	</td>
 
 HTML;
-}
+    }
 
 
-function cal_events_start() {
-global $ibforums;
+    function cal_events_start()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 <div style='padding:2px'>
 
 HTML;
-}
+    }
 
-function cal_events_wrap($link, $text) {
-global $ibforums;
+    function cal_events_wrap($link, $text)
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 &middot;<strong><a href='{$ibforums->base_url}act=calendar&amp;$link'>$text</a></strong><br>
 HTML;
-}
+    }
 
-function cal_events_wrap_range($link, $text, $ft="", $bg="") {
-global $ibforums;
+    function cal_events_wrap_range($link, $text, $ft = "", $bg = "")
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 <div style='background-color:$bg;color:$ft;padding:3px;border-top:3px outset $bg;border-bottom:3px outset $bg;'><a href='{$ibforums->base_url}act=calendar&amp;$link' style='color:$ft'>$text</a></div>
 HTML;
-}
+    }
 
-function cal_events_wrap_recurring($link, $text) {
-global $ibforums;
+    function cal_events_wrap_recurring($link, $text)
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 &middot; <a href='{$ibforums->base_url}act=calendar&amp;$link' title='{$ibforums->lang['tbt_recur']}'>$text</a><br>
 HTML;
-}
+    }
 
-function cal_events_end() {
-global $ibforums;
+    function cal_events_end()
+    {
+        global $ibforums;
 
-return <<<HTML
+        return <<<HTML
 </div>
 HTML;
+    }
 }
-
-}
-?>

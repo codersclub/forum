@@ -35,5 +35,4 @@ class ErrorHandlerTest extends TestCase
         $this->assertFalse($handler->hasWarningRecords());
         error_reporting($old_errreporting);
     }
-
 }

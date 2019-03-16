@@ -16,4 +16,3 @@ $lang['error_has_not'] = "User %s has no attachments!";
 $lang[''] = "";
 $lang[''] = "";
 $lang[''] = "";*/
-

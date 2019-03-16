@@ -1,12 +1,14 @@
 <?php
 
-class skin_legends {
+class skin_legends
+{
 
 
 
-function text_emoticons_row($code, $image, $in="'", $out="'") {
-global $ibforums;
-return <<<EOF
+    function text_emoticons_row($code, $image, $in = "'", $out = "'")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td align='center' class='row1' valign='middle'><a href={$out}javascript:add_smilie({$in}$code{$in}){$out}>$code</a></td>
@@ -14,11 +16,12 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
-function emoticons_row($code, $image, $sskin, $in="'", $out="'") {
-global $ibforums;
-return <<<EOF
+    function emoticons_row($code, $image, $sskin, $in = "'", $out = "'")
+    {
+        global $ibforums;
+        return <<<EOF
 
    <tr>
 	  <td align='center' class='row1' valign='middle'><a href={$out}javascript:add_smilie({$in}$code{$in}){$out}>$code</a></td>
@@ -27,23 +30,25 @@ return <<<EOF
    </tr>
 
 EOF;
-}
+    }
 
 
-function page_footer() {
-global $ibforums;
-return <<<EOF
+    function page_footer()
+    {
+        global $ibforums;
+        return <<<EOF
 
   </table>
 </div>
 
 EOF;
-}
+    }
 
 
-function find_user_error($msg) {
-global $ibforums;
-return <<<EOF
+    function find_user_error($msg)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name='finduser' method='post' action='{$ibforums->base_url}entry=$entry&amp;name=$name&amp;sep=$sep&amp;CODE=finduser_two'>
 <table cellspacing='1' cellpadding='10' width='100%' height='100%' align='center' class='row1'>
@@ -60,11 +65,12 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function page_header($title, $row1, $row2) {
-return <<<EOF
+    function page_header($title, $row1, $row2)
+    {
+        return <<<EOF
 <div class='tableborder'>
   <div class='maintitle'>$title</div>
   <table class='tablebasic' cellspacing='1' cellpadding='4'>
@@ -74,23 +80,25 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function bbcode_header() {
-global $ibforums;
-return <<<EOF
+    function bbcode_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div style='padding:6px'>{$ibforums->lang['bbc_intro']}</div>
 <br>
 
 EOF;
-}
+    }
 
 
-function bbcode_row($before, $after) {
-global $ibforums;
-return <<<EOF
+    function bbcode_row($before, $after)
+    {
+        global $ibforums;
+        return <<<EOF
 
    <tr>
 	  <td align='left' class='row1' valign='middle'>$before</td>
@@ -98,23 +106,26 @@ return <<<EOF
    </tr>
 
 EOF;
-}
+    }
 
 
-function wrap_tag($tag) {
-  global $ibforums;
-  return "<span style='color:#F00;font-weight:bold;'>$tag</span>";
-}
+    function wrap_tag($tag)
+    {
+        global $ibforums;
+        return "<span style='color:#F00;font-weight:bold;'>$tag</span>";
+    }
 
 //highlight all tags
-function highlight_tags($txt='') {
-  $txt = preg_replace("/(\[[^\]]+\])/","<span style='color:#F00;font-weight:bold;'>\\1</span>",$txt);
-  return $txt;
-}
+    function highlight_tags($txt = '')
+    {
+        $txt = preg_replace("/(\[[^\]]+\])/", "<span style='color:#F00;font-weight:bold;'>\\1</span>", $txt);
+        return $txt;
+    }
 
-function find_user_final($names="",$entry="", $name="", $sep="line") {
-global $ibforums;
-return <<<EOF
+    function find_user_final($names = "", $entry = "", $name = "", $sep = "line")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='javascript'>
 <!--
@@ -200,12 +211,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function find_user_one($entry="", $name="", $sep="comma") {
-global $ibforums;
-return <<<EOF
+    function find_user_one($entry = "", $name = "", $sep = "comma")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name='finduser' method='post' action='{$ibforums->base_url}act=legends&amp;entry=$entry&amp;name=$name&amp;sep=$sep&amp;CODE=finduser_two'>
 <table cellspacing='1' cellpadding='10' width='100%' height='100%' align='center' class='row1'>
@@ -222,8 +234,5 @@ return <<<EOF
 </form>
 
 EOF;
+    }
 }
-
-
-}
-

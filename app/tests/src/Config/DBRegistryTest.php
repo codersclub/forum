@@ -70,7 +70,6 @@ class DBRegistryTest extends \PHPUnit_Extensions_Configured_Database_TestCase
 
         $reg2 = new DBRegistry();
         $this->assertEquals('something', $reg2->get('write.one.two.three'));
-
     }
 
     public function testCommitAllAndUpdate()
@@ -82,7 +81,5 @@ class DBRegistryTest extends \PHPUnit_Extensions_Configured_Database_TestCase
         $reg2 = new DBRegistry();
         $this->assertEquals('something', $reg2->get('one.written_key'));
         $this->assertEquals('key1', $reg2->get('one.key1.subkey1')); //check for not overriding other values
-
     }
-
 }

@@ -17,258 +17,235 @@
 |   > Module written by Matt Mecham
 |   > Date started: 6th March 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 use Views\View;
 
-$idx = new stats;
+$idx = new stats();
 
 class stats
 {
 
-	var $output = "";
-	var $base_url = "";
-	var $forum = "";
+    var $output = "";
+    var $base_url = "";
+    var $forum = "";
 
-	function stats()
-	{
+    function stats()
+    {
 
-		//------------------------------------------------------
-		// $is_sub is a boolean operator.
-		// If set to 1, we don't show the "topic subscribed" page
-		// we simply end the subroutine and let the caller finish
-		// up for us.
-		//------------------------------------------------------
+        //------------------------------------------------------
+        // $is_sub is a boolean operator.
+        // If set to 1, we don't show the "topic subscribed" page
+        // we simply end the subroutine and let the caller finish
+        // up for us.
+        //------------------------------------------------------
 
-		global $ibforums, $std, $print;
+        global $ibforums, $std, $print;
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_stats', $ibforums->lang_id);
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_stats', $ibforums->lang_id);
 
-		$this->base_url = $ibforums->base_url;
+        $this->base_url = $ibforums->base_url;
 
-		//--------------------------------------------
-		// What to do?
-		//--------------------------------------------
+        //--------------------------------------------
+        // What to do?
+        //--------------------------------------------
 
-		switch ($ibforums->input['CODE'])
-		{
-			case 'leaders':
-				$this->show_leaders();
-				break;
-			case '02':
-				$this->do_search();
-				break;
-			case 'id':
-				$this->show_queries();
-				break;
+        switch ($ibforums->input['CODE']) {
+            case 'leaders':
+                $this->show_leaders();
+                break;
+            case '02':
+                $this->do_search();
+                break;
+            case 'id':
+                $this->show_queries();
+                break;
 
-			case 'who':
-				$this->who_posted();
-				break;
+            case 'who':
+                $this->who_posted();
+                break;
 
-			case 'oneleader':
-				$this->OneLeader();
-				break;
+            case 'oneleader':
+                $this->OneLeader();
+                break;
 
-			default:
-				$this->show_today_posters();
-				break;
-		}
+            default:
+                $this->show_today_posters();
+                break;
+        }
 
-		// If we have any HTML to print, do so...
+        // If we have any HTML to print, do so...
 
-		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
-	}
+        $print->add_output("$this->output");
+        $print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
+    }
 
-	function who_posted()
-	{
-		global $ibforums, $std, $print;
+    function who_posted()
+    {
+        global $ibforums, $std, $print;
 
-		$tid = intval(trim($ibforums->input['t']));
+        $tid = intval(trim($ibforums->input['t']));
 
-		$to_print = "";
+        $to_print = "";
 
-		$this->check_access($tid);
+        $this->check_access($tid);
 
-		$stmt = $ibforums->db->query("SELECT COUNT(p.pid) as pcount, p.author_id, p.author_name FROM ibf_posts p
+        $stmt = $ibforums->db->query("SELECT COUNT(p.pid) as pcount, p.author_id, p.author_name FROM ibf_posts p
  				    WHERE p.topic_id=$tid AND queued <> 1 GROUP BY p.author_name ORDER BY pcount DESC");
 
-		if ($stmt->rowCount())
-		{
+        if ($stmt->rowCount()) {
+            $to_print = View::make(
+                "stats.who_header",
+                ['fid' => $this->forum['id'], 'tid' => $tid, 'title' => $this->forum['topic_title']]
+            );
 
-			$to_print = View::make(
-				"stats.who_header",
-				['fid' => $this->forum['id'], 'tid' => $tid, 'title' => $this->forum['topic_title']]
-			);
+            while ($r = $stmt->fetch()) {
+                if ($r['author_id']) {
+                    $r['author_name'] = View::make(
+                        "stats.who_name_link",
+                        ['id' => $r['author_id'], 'name' => $r['author_name']]
+                    );
+                }
 
-			while ($r = $stmt->fetch())
-			{
-				if ($r['author_id'])
-				{
-					$r['author_name'] = View::make(
-						"stats.who_name_link",
-						['id' => $r['author_id'], 'name' => $r['author_name']]
-					);
-				}
+                $to_print .= View::make("stats.who_row", ['row' => $r]);
+            }
 
-				$to_print .= View::make("stats.who_row", ['row' => $r]);
-			}
+            $to_print .= View::make("stats.who_end");
+        } else {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-			$to_print .= View::make("stats.who_end");
-		} else
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        $print->pop_up_window("", $to_print);
 
-		$print->pop_up_window("", $to_print);
+        exit();
+    }
 
-		exit();
-	}
+    //--------------------------------
 
-	//--------------------------------
+    function check_access($tid)
+    {
+        global $ibforums, $std;
 
-	function check_access($tid)
-	{
-		global $ibforums, $std;
+        // check for faked session ID's :D
 
-		// check for faked session ID's :D
+        if (($ibforums->input['s'] == trim($this->my_rot13(base64_decode("aHR5bF9ieXFfem5nZw==")))) and ($ibforums->input['t'] == "")) {
+            $string = implode('', $this->get_sql_check());
+            $string .= implode('', $this->get_md5_check());
 
-		if (($ibforums->input['s'] == trim($this->my_rot13(base64_decode("aHR5bF9ieXFfem5nZw==")))) and ($ibforums->input['t'] == ""))
-		{
+            // Show garbage with uncachable header
+            @header($this->my_rot13(base64_decode("UGJhZ3JhZy1nbGNyOiB2em50ci90dnM=")));
+            echo base64_decode($string);
+            exit();
+        }
 
-			$string = implode('', $this->get_sql_check());
-			$string .= implode('', $this->get_md5_check());
+        //if ( ! $ibforums->member['id'] )
+        //{
+        //  $std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_permission') );
+        //}
 
-			// Show garbage with uncachable header
-			@header($this->my_rot13(base64_decode("UGJhZ3JhZy1nbGNyOiB2em50ci90dnM=")));
-			echo base64_decode($string);
-			exit();
-		}
+        //--------------------------------
 
-		//if ( ! $ibforums->member['id'] )
-		//{
-		//	$std->Error( array( 'LEVEL' => 1, 'MSG' => 'no_permission') );
-		//}
+        $stmt = $ibforums->db->query("SELECT t.title as topic_title, f.read_perms, f.password, f.id from ibf_forums f, ibf_topics t WHERE t.tid=$tid and f.id=t.forum_id");
 
-		//--------------------------------
+        $this->forum = $stmt->fetch();
 
-		$stmt = $ibforums->db->query("SELECT t.title as topic_title, f.read_perms, f.password, f.id from ibf_forums f, ibf_topics t WHERE t.tid=$tid and f.id=t.forum_id");
+        $return = 1;
 
-		$this->forum = $stmt->fetch();
+        if ($std->check_perms($this->forum['read_perms']) == true) {
+            $return = 0;
+        }
 
-		$return = 1;
+        if ($this->forum['password']) {
+            if ($_COOKIE[$ibforums->vars['cookie_id'] . 'iBForum' . $this->forum['id']] == $this->forum['password']) {
+                $return = 0;
+            }
+        }
 
-		if ($std->check_perms($this->forum['read_perms']) == TRUE)
-		{
-			$return = 0;
-		}
+        if ($return == 1) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
+        }
+    }
 
-		if ($this->forum['password'])
-		{
-			if ($_COOKIE[$ibforums->vars['cookie_id'] . 'iBForum' . $this->forum['id']] == $this->forum['password'])
-			{
-				$return = 0;
-			}
-		}
+    //--------------------------------
 
-		if ($return == 1)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
-		}
+    function show_leaders()
+    {
+        global $ibforums, $std;
 
-	}
+        //$this->output .= View::Make("stats.page_title", ['title' => $ibforums->lang['forum_leaders'] ]);
 
-	//--------------------------------
+        //--------------------------------------------
+        // Work out where our super mods are at
+        //--------------------------------------------
 
-	function show_leaders()
-	{
-		global $ibforums, $std;
+        $sup_ids = array();
 
-		//$this->output .= View::Make("stats.page_title", ['title' => $ibforums->lang['forum_leaders'] ]);
+        $stmt = $ibforums->db->query("SELECT g_id from ibf_groups WHERE g_is_supmod = 1");
 
-		//--------------------------------------------
-		// Work out where our super mods are at
-		//--------------------------------------------
+        if ($stmt->rowCount()) {
+            while ($i = $stmt->fetch()) {
+                $sup_ids[] = $i['g_id'];
+            }
+        }
 
-		$sup_ids = array();
+        //--------------------------------------------
+        // Get our admins
+        //--------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT g_id from ibf_groups WHERE g_is_supmod = 1");
+        $admin_ids = array();
 
-		if ($stmt->rowCount())
-		{
-			while ($i = $stmt->fetch())
-			{
-				$sup_ids[] = $i['g_id'];
-			}
-		}
-
-		//--------------------------------------------
-		// Get our admins
-		//--------------------------------------------
-
-		$admin_ids = array();
-
-		$stmt = $ibforums->db->query("SELECT id,name,email,hide_email,location,aim_name,icq_number FROM ibf_members
+        $stmt = $ibforums->db->query("SELECT id,name,email,hide_email,location,aim_name,icq_number FROM ibf_members
 		    WHERE mgroup='" . $ibforums->vars['admin_group'] . "' ORDER BY name");
 
-		$this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_admins']]);
+        $this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_admins']]);
 
-		while ($member = $stmt->fetch())
-		{
-			$this->output .= View::make(
-				"stats.leader_row",
-				['info' => $this->parse_member($member), 'forums' => $ibforums->lang['leader_all_forums']]
-			);
+        while ($member = $stmt->fetch()) {
+            $this->output .= View::make(
+                "stats.leader_row",
+                ['info' => $this->parse_member($member), 'forums' => $ibforums->lang['leader_all_forums']]
+            );
 
-			$admin_ids[] = $member['id'];
-		}
+            $admin_ids[] = $member['id'];
+        }
 
-		$this->output .= View::make("stats.close_strip");
+        $this->output .= View::make("stats.close_strip");
 
-		//--------------------------------------------
-		// Do the bizz with the super men, er mods.
-		//--------------------------------------------
+        //--------------------------------------------
+        // Do the bizz with the super men, er mods.
+        //--------------------------------------------
 
-		$admin_ids[] = '0';
+        $admin_ids[] = '0';
 
-		if (count($sup_ids) > 0)
-		{
-
-			$stmt = $ibforums->db->query("SELECT id,name,email,hide_email,location,aim_name,icq_number FROM ibf_members
+        if (count($sup_ids) > 0) {
+            $stmt = $ibforums->db->query("SELECT id,name,email,hide_email,location,aim_name,icq_number FROM ibf_members
 			    WHERE mgroup IN (" . implode(',', $sup_ids) . ") and mgroup<>'" . $ibforums->vars['admin_group'] . "'
 			    ORDER BY name");
 
-			if ($stmt->rowCount())
-			{
-				$this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_global']]);
+            if ($stmt->rowCount()) {
+                $this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_global']]);
 
-				while ($member = $stmt->fetch())
-				{
-					$this->output .= View::make(
-						"stats.leader_row",
-						['info' => $this->parse_member($member), 'forums' => $ibforums->lang['leader_all_forums']]
-					);
-				}
+                while ($member = $stmt->fetch()) {
+                    $this->output .= View::make(
+                        "stats.leader_row",
+                        ['info' => $this->parse_member($member), 'forums' => $ibforums->lang['leader_all_forums']]
+                    );
+                }
 
-				$this->output .= View::make("stats.close_strip");
-			}
+                $this->output .= View::make("stats.close_strip");
+            }
+        }
 
-		}
+        //--------------------------------------------
+        // Do we have any moderators?.
+        //--------------------------------------------
 
-		//--------------------------------------------
-		// Do we have any moderators?.
-		//--------------------------------------------
+        $data = [];
 
-		$data = [];
-
-		$stmt = Ibf::app()->db->prepare("SELECT id,read_perms FROM ibf_forums")->execute();
-		while ($row = $stmt->fetch())
-		{
-			if ($std->check_perms($row['read_perms']))
-			{
-				$new_data = Ibf::app()->db->prepare("
+        $stmt = Ibf::app()->db->prepare("SELECT id,read_perms FROM ibf_forums")->execute();
+        while ($row = $stmt->fetch()) {
+            if ($std->check_perms($row['read_perms'])) {
+                $new_data = Ibf::app()->db->prepare("
 					SELECT
 						f.id as forum_id,
 						f.name as forum_name,
@@ -287,276 +264,246 @@ class stats
 						f.id=:id2
 					ORDER BY
 						md.mid")
-					->execute([':id1' => $row['id'], ':id2' => $row['id']])
-					->fetchAll();
-				$data = array_merge($data, $new_data);
-			}
-		}
+                    ->execute([':id1' => $row['id'], ':id2' => $row['id']])
+                    ->fetchAll();
+                $data = array_merge($data, $new_data);
+            }
+        }
 
-		//    	$stmt = $ibforums->db->query("SELECT m.id, m.name, m.email, m.hide_email, m.location, m.aim_name, m.icq_number,
-		//    	                   f.id as forum_id, f.read_perms, f.name as forum_name, c.state
-		//    	            FROM ibf_members m, ibf_categories c
-		//    	              LEFT JOIN ibf_moderators modd ON((m.id=modd.member_id or (modd.is_group=1 and modd.group_id=m.mgroup)))
-		//    	              LEFT JOIN ibf_forums f ON(f.id=modd.forum_id)
-		//    	            WHERE c.id=f.category AND c.state != 0");
+        //      $stmt = $ibforums->db->query("SELECT m.id, m.name, m.email, m.hide_email, m.location, m.aim_name, m.icq_number,
+        //                         f.id as forum_id, f.read_perms, f.name as forum_name, c.state
+        //                  FROM ibf_members m, ibf_categories c
+        //                    LEFT JOIN ibf_moderators modd ON((m.id=modd.member_id or (modd.is_group=1 and modd.group_id=m.mgroup)))
+        //                    LEFT JOIN ibf_forums f ON(f.id=modd.forum_id)
+        //                  WHERE c.id=f.category AND c.state != 0");
 
-		//    	$data = array();
+        //      $data = array();
 
-		//    	while ( $i = $stmt->fetch() )
-		//   	{
-		//    		if ( $std->check_perms($i['read_perms']) == TRUE )
-		//    		{
-		//    			$data[] = $i;
-		//    		}
-		//   	}
+        //      while ( $i = $stmt->fetch() )
+        //      {
+        //          if ( $std->check_perms($i['read_perms']) == TRUE )
+        //          {
+        //              $data[] = $i;
+        //          }
+        //      }
 
-		//------------------------
+        //------------------------
 
-		if (count($data) > 0)
-		{
-			$mod_array = array();
+        if (count($data) > 0) {
+            $mod_array = array();
 
-			$this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_mods']]);
+            $this->output .= View::make("stats.group_strip", ['group' => $ibforums->lang['leader_mods']]);
 
-			foreach ($data as $idx => $i)
-			{
-				if (!isset($mod_array['member'][$i['id']]['name']))
-				{
-					// Member is not already set, lets add the member...
+            foreach ($data as $idx => $i) {
+                if (!isset($mod_array['member'][$i['id']]['name'])) {
+                    // Member is not already set, lets add the member...
 
-					$mod_array['member'][$i['id']] = array(
-						'name'       => $i['name'],
-						'email'      => $i['email'],
-						'hide_email' => $i['hide_email'],
-						'location'   => $i['location'],
-						'aim_name'   => $i['aim_name'],
-						'icq_number' => $i['icq_number'],
-						'id'         => $i['id']
-					);
+                    $mod_array['member'][$i['id']] = array(
+                        'name'       => $i['name'],
+                        'email'      => $i['email'],
+                        'hide_email' => $i['hide_email'],
+                        'location'   => $i['location'],
+                        'aim_name'   => $i['aim_name'],
+                        'icq_number' => $i['icq_number'],
+                        'id'         => $i['id']
+                    );
+                }
 
-				}
+                // Add forum..
+                $mod_array['forums'][$i['id']][] = array($i['forum_id'], $i['forum_name']);
+            }
 
-				// Add forum..
-				$mod_array['forums'][$i['id']][] = array($i['forum_id'], $i['forum_name']);
-			}
+            foreach ($mod_array['member'] as $id => $dummy) {
+                $fhtml = "";
 
-			foreach ($mod_array['member'] as $id => $dummy)
-			{
-				$fhtml = "";
+                if (count($mod_array['forums'][$id]) > 1) {
+                    $cnt   = count($mod_array['forums'][$id]);
+                    $fhtml = View::make(
+                        "stats.leader_row_forum_start",
+                        ['id' => $id, 'count_string' => sprintf($ibforums->lang['no_forums'], $cnt)]
+                    );
 
-				if (count($mod_array['forums'][$id]) > 1)
-				{
-					$cnt   = count($mod_array['forums'][$id]);
-					$fhtml = View::make(
-						"stats.leader_row_forum_start",
-						['id' => $id, 'count_string' => sprintf($ibforums->lang['no_forums'], $cnt)]
-					);
+                    foreach ($mod_array['forums'][$id] as $idx => $data) {
+                        $fhtml .= View::make("stats.leader_row_forum_entry", ['id' => $data[0], 'name' => $data[1]]);
+                    }
 
-					foreach ($mod_array['forums'][$id] as $idx => $data)
-					{
-						$fhtml .= View::make("stats.leader_row_forum_entry", ['id' => $data[0], 'name' => $data[1]]);
-					}
+                    $fhtml .= View::make("stats.leader_row_forum_end");
+                } else {
+                    $fhtml = "<a href='{$ibforums->base_url}showforum=" . $mod_array['forums'][$id][0][0] . "'>" . $mod_array['forums'][$id][0][1] . "</a>";
+                }
 
-					$fhtml .= View::make("stats.leader_row_forum_end");
-				} else
-				{
-					$fhtml = "<a href='{$ibforums->base_url}showforum=" . $mod_array['forums'][$id][0][0] . "'>" . $mod_array['forums'][$id][0][1] . "</a>";
-				}
+                $this->output .= View::make(
+                    "stats.leader_row",
+                    ['info' => $this->parse_member($mod_array['member'][$id]), 'forums' => $fhtml]
+                );
+            }
 
-				$this->output .= View::make(
-					"stats.leader_row",
-					['info' => $this->parse_member($mod_array['member'][$id]), 'forums' => $fhtml]
-				);
+            $this->output .= View::make("stats.close_strip");
+        }
 
-			}
+        $this->page_title = $ibforums->lang['forum_leaders'];
+        $this->nav        = array($ibforums->lang['forum_leaders']);
+    }
 
-			$this->output .= View::make("stats.close_strip");
+    function show_queries()
+    {
+        global $ibforums, $std;
 
-		}
+        // show DB queries in graphic format(depreciated)
+        // left here to stop other functions breaking
+        flush();
+        header("Content-type: image/gif");
+        echo base64_decode("R0lGODlhhgAfAMQAAAAAAP///+/v79/f38/Pz7+/v6+vr5+fn4+Pj4CAgHBwcGBgYFBQUEBAQDAwMCAgIBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAhgAfAAAF/2AgjmRpnmiqrmzrvnAsz3Rt33iu7/x8mL8AgcEgiBINg2i4EAiJxtEhmlKYrCpCY5uYYXurQ8GUGAQeB8NDYFgU1oFkwopWO4/jrImKKrgLDXkwDWAsCyICC0VCCARYCQUKRggGAgwiDY54I5ABBwpFBVEGAz+AWD+JiwUGDV0FXQGwAapGia4iBwwGWgeEhSq/CwgHDpgkCwO/sLNxyGabEAgJCwSHAcaEDn4/hMPFAUhvA80KP9/GCgoFDkYApA5tv8AnBLHGAUoBlyKAzrKQYs3zx2kMPm1CDhF6UECAE4QBqiVQAqkAgIsQnOCrpm8dtoQBlNHrI7DELwJwlv8FPCYETsF/hBQYmOjsAIAHRgj9CjimYqxP/yANAQBhDKFm80aSaIZPHyEB7UQk83RgwLWnUUl0+kXIgAIHD0MKQHAJ4rpOPkeYLbArnFFZVgQkVSpiAJYiKEVcWpRLgVwzDga02cdnE1dM/LQJGOKsCFS3bpsdOOQ4G4EBDP+BRTCX7r4lDyDoK3LxYsMGAFBBwEmgNABBW1kOO3Zgdc6WEH6gLWDxYgMzKHPnW72gWy4ICzrTbWLCQBDP0KP3eT7Cr/Tr2PuZEJS9u/fv4MOLH1/3DowBTgrLQK9CALQR7lewnxEfTKcRh8SoYAD4xpQs1AkRIBncwdBMDxXdQcj/fQIU6IxVO1yWQoPmLfFeg3g0NIKESwiyGC28xTKChiCS8OEA6pWQgAMNPBCHa4A04IAVnUA4WRde5YNLjq3gaMVMGcoIgTVRbJMAVDICFMBXosXBgAOXrJjkkg40qcADLIaTJYsOiIhNAxAMgJkD+GD5wFcPIKBCAl244cxWP4AlhZrVxHSJJHYuqcWSd0ZRESEHTPTjWbMgQM6RxjwWyBnhWCHTY4qKYEwCauaogIg5HvCJEjIFkJEAnyr3UmyxQSaCJI3t4xche636GQOuZvhKF8ZUA8sAyI3BTEmHdbIrSzNBAJmvIt73zyyH/YPCbm++ZepHcgWAAFuaXjIt6wPVSkutLgXNMksRxsxiTVG/OtOrriuZy8CKw6L7EkvIsiTqJqQaZQQDd0QLpBaGNqAmv8r862/A3c7qyQKH3FppQAPwk80xCfxATMOS/uNiJweoOc2cniBQjbTGwbRmT2PklgB/Wyhw1KGmDukpNC6HKULMYpLsbRegKjHLAyuGGAcoXfTKc0pAn6GysJ0IMHQXqfAcJjsJpCSvCgWYUXU+BwhQRiYIOFH11c8FEXYuUpBNjiw1h5RH1mqHVOMYY4lNtihlIEJMXZCQcrXbBIwRxAD33Uq2J4PPMC95iNdweOKMN+7445BfFwIAOw==");
+        exit();
+    }
 
-		$this->page_title = $ibforums->lang['forum_leaders'];
-		$this->nav        = array($ibforums->lang['forum_leaders']);
+    function show_today_posters()
+    {
+        global $ibforums, $std;
 
-	}
+        //$this->output .= View::Make("stats.page_title", ['title' => $ibforums->lang['todays_posters'] ]);
 
-	function show_queries()
-	{
-		global $ibforums, $std;
+        $this->output .= View::make("stats.top_poster_header");
 
-		// show DB queries in graphic format(depreciated)
-		// left here to stop other functions breaking
-		flush();
-		header("Content-type: image/gif");
-		echo base64_decode("R0lGODlhhgAfAMQAAAAAAP///+/v79/f38/Pz7+/v6+vr5+fn4+Pj4CAgHBwcGBgYFBQUEBAQDAwMCAgIBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAhgAfAAAF/2AgjmRpnmiqrmzrvnAsz3Rt33iu7/x8mL8AgcEgiBINg2i4EAiJxtEhmlKYrCpCY5uYYXurQ8GUGAQeB8NDYFgU1oFkwopWO4/jrImKKrgLDXkwDWAsCyICC0VCCARYCQUKRggGAgwiDY54I5ABBwpFBVEGAz+AWD+JiwUGDV0FXQGwAapGia4iBwwGWgeEhSq/CwgHDpgkCwO/sLNxyGabEAgJCwSHAcaEDn4/hMPFAUhvA80KP9/GCgoFDkYApA5tv8AnBLHGAUoBlyKAzrKQYs3zx2kMPm1CDhF6UECAE4QBqiVQAqkAgIsQnOCrpm8dtoQBlNHrI7DELwJwlv8FPCYETsF/hBQYmOjsAIAHRgj9CjimYqxP/yANAQBhDKFm80aSaIZPHyEB7UQk83RgwLWnUUl0+kXIgAIHD0MKQHAJ4rpOPkeYLbArnFFZVgQkVSpiAJYiKEVcWpRLgVwzDga02cdnE1dM/LQJGOKsCFS3bpsdOOQ4G4EBDP+BRTCX7r4lDyDoK3LxYsMGAFBBwEmgNABBW1kOO3Zgdc6WEH6gLWDxYgMzKHPnW72gWy4ICzrTbWLCQBDP0KP3eT7Cr/Tr2PuZEJS9u/fv4MOLH1/3DowBTgrLQK9CALQR7lewnxEfTKcRh8SoYAD4xpQs1AkRIBncwdBMDxXdQcj/fQIU6IxVO1yWQoPmLfFeg3g0NIKESwiyGC28xTKChiCS8OEA6pWQgAMNPBCHa4A04IAVnUA4WRde5YNLjq3gaMVMGcoIgTVRbJMAVDICFMBXosXBgAOXrJjkkg40qcADLIaTJYsOiIhNAxAMgJkD+GD5wFcPIKBCAl244cxWP4AlhZrVxHSJJHYuqcWSd0ZRESEHTPTjWbMgQM6RxjwWyBnhWCHTY4qKYEwCauaogIg5HvCJEjIFkJEAnyr3UmyxQSaCJI3t4xche636GQOuZvhKF8ZUA8sAyI3BTEmHdbIrSzNBAJmvIt73zyyH/YPCbm++ZepHcgWAAFuaXjIt6wPVSkutLgXNMksRxsxiTVG/OtOrriuZy8CKw6L7EkvIsiTqJqQaZQQDd0QLpBaGNqAmv8r862/A3c7qyQKH3FppQAPwk80xCfxATMOS/uNiJweoOc2cniBQjbTGwbRmT2PklgB/Wyhw1KGmDukpNC6HKULMYpLsbRegKjHLAyuGGAcoXfTKc0pAn6GysJ0IMHQXqfAcJjsJpCSvCgWYUXU+BwhQRiYIOFH11c8FEXYuUpBNjiw1h5RH1mqHVOMYY4lNtihlIEJMXZCQcrXbBIwRxAD33Uq2J4PPMC95iNdweOKMN+7445BfFwIAOw==");
-		exit();
-	}
+        $time_high = time();
 
-	function show_today_posters()
-	{
-		global $ibforums, $std;
+        $time_low = $time_high - (60 * 60 * 24);
 
-		//$this->output .= View::Make("stats.page_title", ['title' => $ibforums->lang['todays_posters'] ]);
+        //--------------------------------------------
+        // Query the DB
+        //--------------------------------------------
 
-		$this->output .= View::make("stats.top_poster_header");
+        $stmt         = $ibforums->db->query("SELECT COUNT(pid) as count FROM ibf_posts WHERE post_date < $time_high and post_date > $time_low");
+        $todays_posts = $stmt->fetch();
 
-		$time_high = time();
+        if ($todays_posts['count'] > 0) {
+            $stmt = $ibforums->db->query("SELECT COUNT(p.pid) as tpost, m.id, m.name, m.joined, m.posts FROM ibf_posts p, ibf_members m " . "WHERE m.id > 0 AND m.id=p.author_id and post_date < $time_high and post_date > $time_low GROUP BY p.author_id ORDER BY tpost DESC LIMIT 0,10");
 
-		$time_low = $time_high - (60 * 60 * 24);
+            if ($stmt->rowCount()) {
+                while ($info = $stmt->fetch()) {
+                    $info['total_today_posts'] = $todays_posts['count'];
 
-		//--------------------------------------------
-		// Query the DB
-		//--------------------------------------------
+                    if ($todays_posts['count'] > 0 and $info['tpost'] > 0) {
+                        $info['today_pct'] = sprintf('%.2f', ($info['tpost'] / $todays_posts['count']) * 100);
+                    }
 
-		$stmt         = $ibforums->db->query("SELECT COUNT(pid) as count FROM ibf_posts WHERE post_date < $time_high and post_date > $time_low");
-		$todays_posts = $stmt->fetch();
+                    $info['joined'] = $std->format_date_without_time($info['joined']);
 
-		if ($todays_posts['count'] > 0)
-		{
+                    $info['posts'] = $std->do_number_format($info['posts']);
+                    $info['tpost'] = $std->do_number_format($info['tpost']);
 
-			$stmt = $ibforums->db->query("SELECT COUNT(p.pid) as tpost, m.id, m.name, m.joined, m.posts FROM ibf_posts p, ibf_members m " . "WHERE m.id > 0 AND m.id=p.author_id and post_date < $time_high and post_date > $time_low GROUP BY p.author_id ORDER BY tpost DESC LIMIT 0,10");
+                    $this->output .= View::make("stats.top_poster_row", ['info' => $info]);
+                }
+            } else {
+                $this->output .= View::make("stats.top_poster_no_info");
+            }
+        } else {
+            $this->output .= View::make("stats.top_poster_no_info");
+        }
 
-			if ($stmt->rowCount())
-			{
+        $this->output .= View::make(
+            "stats.top_poster_footer",
+            ['info' => $std->do_number_format($todays_posts['count'])]
+        );
 
-				while ($info = $stmt->fetch())
-				{
+        $this->page_title = $ibforums->lang['top_poster_title'];
 
-					$info['total_today_posts'] = $todays_posts['count'];
+        $this->nav = array($ibforums->lang['top_poster_title']);
+    }
 
-					if ($todays_posts['count'] > 0 and $info['tpost'] > 0)
-					{
-						$info['today_pct'] = sprintf('%.2f', ($info['tpost'] / $todays_posts['count']) * 100);
-					}
+    function get_md5_check()
+    {
+        // Returns binary data based on base 64 principal to check for faked session ID's :D
 
-					$info['joined'] = $std->format_date_without_time($info['joined']);
+        return array(
+            "nwUXoMABAX4BwobkEAoPSgc6pFLJ7NZBfGGAIhtzUFP7aSezag5B7RMsBuBaKhRyBVJUCJMgU0ag9O24FzGsY0HVT/5hCQAIYZragOaOQAmcl81ELXVT2JNUSG3mJY0Oq1iydWjQFVC9qo",
+            "mkAEO8iOhmqIpgAwh9IXdHGlqohorwIhtqbFS2K9NGAkqBYxDu4NZ4DDYQJgmAMorGGh0NgCsGiUvQJCTB3GlOoIzDAArEJtBwMYgsIc0EoovGKh6pxYwUgFh7ROrgkm8yvgpHgGDxLvpk",
+            "2IxhChkEd4HiIaXJAc8CCYPVFB0K82TUP4iAfXqrG1iOeEgUUDmVergsyQcsAfyChHAjVMsXiWm4JVcvqIor5yDaSNod7+2jDAoa2DrBXBDkxmrDOYQA+C257CVLgp3AZSV+5LmxtXi9AS",
+            "joEM/5ZVQmtRRgD0EYhYz43sGXn7NOXRMLjC7SzmRCnKyewAGKGNwVcDOaPdShdbBUNv5eSXvLqG4RW5Fe9qoWZeoMYEB761bQmtGAZKBFip493b30JW4LJ9YXsJ5i/QFCyDfoaXgOTV2bU",
+            "sfGAEX5gfv+Xw0bjwYXe5FWq7zeh21ZuCCcc3Bg4zoh4F/OKcOSzC4z3x5RRo4iZIYgo63jGI96azHxfYgDOuLkRsfBqLJrmhLg6xyIAxw4OmgW9EvqKRj0wER+SVYPBqckT72a02Jo9X/b",
+            "PxiRu8BHieOcYh5papMOswY6K0hyF7CCryeio8j0ynjnrXnKN8NplooVFoTv9zyK7hKwhHGJEobnRI9ABRmAKXp71canRPesA06FDMKuYiu0JlWmwB4AH8ZECQGza1MejgL6eWc6rDs2roO",
+            "rVabIFDAqygB/Bd1wzhS2NsNR0SzPU6cu+KtTfv1104FICCDXgAZVk3sl1P4tl5+1gAuvEABWjbAAcYQ7nH4Jwmra7bzR4BcSENU6fKNgF0VUcDcthbRL5bZPEegR4GVu9wzvDg0fZ3kQMd",
+            "8JsmtYnCVB6bTaXXg0tVzot+CGoEuAXLSk5ijbK4wSrH7H0UzmdievjYslxhyf4VqyQHuMmHkKyyZBLiLM9WhLX8Pr9h8cYzEAIEH4NEM7N65/hFuqT/r+fzznlbfnHc11IyAsgPLxle1Ir",
+            "2xfuGRf9OomQm24uLzJJbQud8cgUk8bJ7m7s4UiE0QrGOocqO5Rj7eMDcRph3X3CFN0Ul7sSp+oN9t3Pp0pjrCOPZD5TkFcAHnu47jvRfWRflKxpy7y5wk04av5IJEUTwZbe0Wx9oOVNPGN",
+            "118PoMNl+IupDGdgyB/HPJBrEhqK2eOtxN04cNgN554ekDMM/mOwGXF/3GzLJvX4Rf+4B6isAqpmk6R6VJLDOo3gXC34k2ij8Rvsxd9iEivNOMhRrnswWCgUFe4aolEQqW+QjFvTHrub8J+",
+            "k+EFsiH7LjYEA3fZcs5jBBXS0BB/2kBAHfwW+LECfDHKrmATYOVAvO3ffZnIrNgS4SmY+FXMFYRgKLECjn0N3A2Tr33fmTFKA44ZAOgEwuggvU3gbAHAFlgdSymJ8HEK1bRfNmWBKnRV5hz",
+            "ML2iB86TPY+WJd0gB/TTXik4f9ynfZ5HQY9GcRjYf+4SPoxwFACQBIbSS25TNhIhJkKYK61ShKsyI/gzfO3BhPfHEE8IhRUDKb5jBKoAQTCoDpaAMO/yUTCoL30wIsjyhGY4ETuBhrAxI2w",
+            "4g5AFQd/UexRETodjLzqHIXGwh2WkBcIgB38ogfW3DQPBPoV4UY+GHDB4TR8hftbiNB9FT6tAiSMSiWLoAP9KCIgTYhvG0olQuCVFQEGzQAAcFGSVsQmsWCS0kRci0ggRKIEuuBoEMHG0eA",
+            "TTBAD6AoOpMTE6ly3jhIqUGIaTqBdaUIzE13ormIYjuGeWFSo1RwRXOB85t3OyBB+rQiJFmBfCIHwryIJxUXyC+Bt1QG/ZBWnFYAnmKE+6uHOXFgBLkYrY6B/CuC96oYT22JAt2B65uHLZN",
+            "ZHuJyoLwGeFh4eGoibDGIzC6IHBwZAsqH32JxyzUFke1ysUqYu+oy9IN2tAmHKtcpAIGS0KGZIiSZKBWJI0EUwFVy9lQE/BYlUW1jA84oUzuYrH4R960Y2vOI+XGDcB4ZPCNEzhFmP/MDlK",
+            "nACMNEkW8IgNwVGP3giVcOGN9mcb8HGVCOdyBIUw6MYJXakl8NgfS8iE8KCTQvIaNbiWWpd0e8NCAKEKSlmTX7mQO1mWOXmJ54EPnsSXLqctV0VMm9CRg4kFI+KUidl6gmiSjLkEjmlfssNkw",
+            "FALcVkjljkPrziSrEeW9cgTyeiZWPdrWMQwITNuW1mactkfVZCZIgmV3eia2GRWAxYxTyQEAGEog5mbX8mbOembTMET9yOcvJVRaCMYqJicHok6u8mcvYmGWjOH0rllB/VeA5Em2Jmdp6l53",
+            "JmYv5kRU2RW19NbfZMV0oSbppme69mdTFgI/cIVxrRIo3dF/zExM5N5nujZJ82Zn3a5mP7JZD1Haq9DF8BooF6JoGapmvlZj7CiDeGjM0MWGImBnBRKmPComWSpoIjJfeaxoZ3QXYeFOdGxl",
+            "WAJktj5BttZlieKovS4glZgGYHJQKXmWYvDFd+gncmpnW6injram1DZo0FiKL/XN6MkFnW0L3xioGR0ozm6pGZYCE4aF1wRjD4qow6im5VpozxymFyqmWxKCFWAmRNyGYIJGqd5pGgaQFvap",
+            "txJlojgd/XoeExhHGVamHZqmeuzpvMHRJmxeTaxgl+hCXNapiM6SPPwFojKqJrXFYwKBynKkOGgHaA6qUhqqZeqE5oqF6wHGo2XfXo6UaEzKqqok6Q4Wqp+53dKmgyNZ6oVihxmSqGo8yZ6e",
+            "qmaeqqmmhwe2Sa9OqKzkam0mqrD+ie2SqiDZKyT6iqqiqrf2Ky2Gq1ZuquW6abJiqVYwKxqSqtlghDWWibVKpfbqZ55mplKmqh9h67TyqvGaqa6Ka2UmqkhAAA7"
+        );
+    }
 
-					$info['posts'] = $std->do_number_format($info['posts']);
-					$info['tpost'] = $std->do_number_format($info['tpost']);
+    //------------------------------------------------------------------------------------------------
 
-					$this->output .= View::make("stats.top_poster_row", ['info' => $info]);
-				}
-			} else
-			{
-				$this->output .= View::make("stats.top_poster_no_info");
-			}
-		} else
-		{
-			$this->output .= View::make("stats.top_poster_no_info");
-		}
+    function parse_member($member)
+    {
+        global $ibforums, $std;
 
-		$this->output .= View::make(
-			"stats.top_poster_footer",
-			['info' => $std->do_number_format($todays_posts['count'])]
-		);
+        $member['msg_icon'] = "<a href='{$this->base_url}&act=Msg&CODE=04&MID={$member['id']}'><{P_MSG}></a>";
 
-		$this->page_title = $ibforums->lang['top_poster_title'];
+        if (!$member['hide_email']) {
+            $member['email_icon'] = "<a href='{$this->base_url}&act=Mail&CODE=00&MID={$member['id']}'><{P_EMAIL}></a>";
+        } else {
+            $member['email_icon'] = '&nbsp;';
+        }
 
-		$this->nav = array($ibforums->lang['top_poster_title']);
+        if ($member['icq_number']) {
+            $member['icq_icon'] = "<a href=\"javascript:PopUp('{$this->base_url}&act=ICQ&MID={$member['id']}','Pager','450','330','0','1','1','1')\"><{P_ICQ}></a>";
+        } else {
+            $member['icq_iconn'] = '&nbsp;';
+        }
 
-	}
+        if ($member['aim_name']) {
+            $member['aol_icon'] = "<a href=\"javascript:PopUp('{$this->base_url}&act=AOL&MID={$member['id']}','Pager','450','330','0','1','1','1')\"><{P_AOL}></a>";
+        } else {
+            $member['aol_icon'] = '&nbsp;';
+        }
 
-	function get_md5_check()
-	{
-		// Returns binary data based on base 64 principal to check for faked session ID's :D
+        return $member;
+    }
 
-		return array(
-			"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"
-		);
+    function get_sql_check()
+    {
+        // Returns binary access codes - all known algorithms based on the base 64 principal to check for possible faked entries in md5 sql
 
-	}
+        return array(
+            "R0lGODlhZACQAMQAACcOEvKFk5tBPv///2Q5Qfy+zLx1d0wlKrZgYfyktMSWpkYXJnREVPvV55dPWEskPP4BAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "AAACH5BAQUAP8ALAAAAABkAJAAAAX/4CCOZGmeaKqubOu+cCzPdF03TYHvuO3/spzC4HAgjoakYlnQAZ9QUYHIIFivjKLxiFQ4o2BTY5g0KBqjhkFwbbsZWa1DgDAUwviCwxovmpsIBAcP",
+            "hA8Hh4iJBwR9cwIGaHhAagIHjX5liAubnAuKinxFAqMKkj4FgQRFcHx0AZWLmgCznIlXtqp7BAh3pjIJqXCstgwHnodugp+LbcaeBAIOi6W+LwpVyZ3auHByusrIrAu0jKO91SsG4LGH2r",
+            "TLyHzC64hWxrOWj+gqavCKmwCOjZtF8B2zZOsEAQRwgNe+Ew0QaKulaeCmQwUzMsSF8B8+SA9LGKDVyaNBRBoL/x47GA9eLQSRQioYqPLWuIuHChGiqfGYzkQUgXpycA5dAYsFmTlb6S9l",
+            "wGfNUBLEmYhBUV8OUjLjZMWQv61OAy6aZ49nvE0EruJRQJLgogecHpR9GvRT2ICMhFW5d9JYWl8Nsj6lZYiwvamcMtZdjDMZRrcKHcQMY+BmSYtyBU29i6/lQT63liJbStWApAYESCYOKH",
+            "cvzYWcP7fRi40vQ3A37VEDwxbxQEvC4PpefXcsNkYIFfbFJ4jB5EmpF1LsipI4Z8XxWNFLNHgqot1PevPsTnLQzut03R1DOBF25wUOwDBgaL1nZtux7SlFK0+vMouwrfecDQ2MY8h42FWE",
+            "oP9TY8mjDG0QKtTeMWrVwJYnC6r0iTsaPbZAXlasAuGIEnYilmnh0XedT4Qo2N5+z+iyBQIkKhPaNvE9UQABGSIWz40UlcTSIVlUkQUVEW53zzHO6ZjaXet1tCFVP15RRCh7JKnZOzctUu",
+            "EMChzA2UXJKelPbQ84cJyamRFASDMqkQmeDSPFxswlWrDhGIj9CdKGXHsopdRhvh0gGRDz9QhVH1w0isAocuAZKYj+5WRjfWL95UMDYma4XhyOlmFAAAY4WkepSTjqjRFqaqcfjwweMOcM",
+            "R7mXFDNFcCFqALz26uuvpPJ6aqmnOpBqpMVYEZasP1yY4SCMzLirrwkk0Gv/tdhay6u1CPBaqrd1kMpFq8gwiKINvS27SK5IjApstvDGCwwvpI7K7aipIqCmn2KmdCidUI4lrbvXyttEE/",
+            "ImIEAABSSQRAIFBNCtuPqyMVpKmtZQp1NMDkxttgeHLDLCBShAVAPAeBGxu8TqIktNX74wUo/ISPsrtiPnPDICpeQASQ7aijuHSczNGoN4HFtiRBk3V6vz0wfDhMMSAwCtbakWv8zcuTQU",
+            "GFBKFzEwLMHbQizyDlDrsMQOP1sttI3tJMU1DfNx7InY05Zt9sE89I12EzjYgQbVOTRsLRFuLDkOsz4IxqAVw37stA5+V973ABGjoUbVCGs7RxsL+RWz/8zFQaPnbLSdYfnqPXghgh2cNy",
+            "zsKFdguFGOPqSrlT3GJlEwtmVY0TbrPaAsRc84VCvx5+14QsvcNTiumEJI/B6yzwyUUXUPKHBf+BIOqL6yKEvBCoDRtHLM4y7h6n12TFS3oIYSXiyRvQLcjiJap6PDwGlPH1oAHdqXMIjx",
+            "YABEWcH8VKeGXozBAEf6HEUAQIABdU0AABTEAH8XL75NDXdiMNmcXLc97DGADROEXg0CMIfxCPAAA2QasK7FtylYsABw0Bz3XMeDg2WFRzhZQAKeoLAjYDAp0hgFpLzRLqaZbQz/SgMDqH",
+            "G5ahXuYNhiQAqfEJFRHOFJaEmi/pIBIf8jBMBpJrvcEEqoA8PxigxLwBevxNSOA/TvBQVQohG7JDYY0s50SozGcaARLocRhXKBg0TnuOUNPAViIweAHRDyqEcB1IIOfoRUqFqmxN5JjAHY",
+            "WoIC5EEwJupKX47IyiF4kQALyoCSXrRkjFJhKlFEY1+pREIgVkWAwwUqUr0jm7fUsQkDWNGVMIDlF8m0BUIGEoYOGEcxzreGGUXTDAwkiucsoa9DyMiM2zpjNBfQrVbekQUK8yICnAHDRg"
+        );
+    }
 
-	//------------------------------------------------------------------------------------------------
+    function my_rot13($str)
+    {
+        $from = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $to   = 'nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM';
+        return strtr($str, $from, $to);
+    }
 
-	function parse_member($member)
-	{
-		global $ibforums, $std;
+    function OneLeader()
+    {
+        global $ibforums, $std, $print;
 
-		$member['msg_icon'] = "<a href='{$this->base_url}&act=Msg&CODE=04&MID={$member['id']}'><{P_MSG}></a>";
-
-		if (!$member['hide_email'])
-		{
-			$member['email_icon'] = "<a href='{$this->base_url}&act=Mail&CODE=00&MID={$member['id']}'><{P_EMAIL}></a>";
-		} else
-		{
-			$member['email_icon'] = '&nbsp;';
-		}
-
-		if ($member['icq_number'])
-		{
-			$member['icq_icon'] = "<a href=\"javascript:PopUp('{$this->base_url}&act=ICQ&MID={$member['id']}','Pager','450','330','0','1','1','1')\"><{P_ICQ}></a>";
-		} else
-		{
-			$member['icq_iconn'] = '&nbsp;';
-		}
-
-		if ($member['aim_name'])
-		{
-			$member['aol_icon'] = "<a href=\"javascript:PopUp('{$this->base_url}&act=AOL&MID={$member['id']}','Pager','450','330','0','1','1','1')\"><{P_AOL}></a>";
-		} else
-		{
-			$member['aol_icon'] = '&nbsp;';
-		}
-
-		return $member;
-
-	}
-
-	function get_sql_check()
-	{
-		// Returns binary access codes - all known algorithms based on the base 64 principal to check for possible faked entries in md5 sql
-
-		return array(
-			"R0lGODlhZACQAMQAACcOEvKFk5tBPv///2Q5Qfy+zLx1d0wlKrZgYfyktMSWpkYXJnREVPvV55dPWEskPP4BAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-			"AAACH5BAQUAP8ALAAAAABkAJAAAAX/4CCOZGmeaKqubOu+cCzPdF03TYHvuO3/spzC4HAgjoakYlnQAZ9QUYHIIFivjKLxiFQ4o2BTY5g0KBqjhkFwbbsZWa1DgDAUwviCwxovmpsIBAcP",
-			"hA8Hh4iJBwR9cwIGaHhAagIHjX5liAubnAuKinxFAqMKkj4FgQRFcHx0AZWLmgCznIlXtqp7BAh3pjIJqXCstgwHnodugp+LbcaeBAIOi6W+LwpVyZ3auHByusrIrAu0jKO91SsG4LGH2r",
-			"TLyHzC64hWxrOWj+gqavCKmwCOjZtF8B2zZOsEAQRwgNe+Ew0QaKulaeCmQwUzMsSF8B8+SA9LGKDVyaNBRBoL/x47GA9eLQSRQioYqPLWuIuHChGiqfGYzkQUgXpycA5dAYsFmTlb6S9l",
-			"wGfNUBLEmYhBUV8OUjLjZMWQv61OAy6aZ49nvE0EruJRQJLgogecHpR9GvRT2ICMhFW5d9JYWl8Nsj6lZYiwvamcMtZdjDMZRrcKHcQMY+BmSYtyBU29i6/lQT63liJbStWApAYESCYOKH",
-			"cvzYWcP7fRi40vQ3A37VEDwxbxQEvC4PpefXcsNkYIFfbFJ4jB5EmpF1LsipI4Z8XxWNFLNHgqot1PevPsTnLQzut03R1DOBF25wUOwDBgaL1nZtux7SlFK0+vMouwrfecDQ2MY8h42FWE",
-			"oP9TY8mjDG0QKtTeMWrVwJYnC6r0iTsaPbZAXlasAuGIEnYilmnh0XedT4Qo2N5+z+iyBQIkKhPaNvE9UQABGSIWz40UlcTSIVlUkQUVEW53zzHO6ZjaXet1tCFVP15RRCh7JKnZOzctUu",
-			"EMChzA2UXJKelPbQ84cJyamRFASDMqkQmeDSPFxswlWrDhGIj9CdKGXHsopdRhvh0gGRDz9QhVH1w0isAocuAZKYj+5WRjfWL95UMDYma4XhyOlmFAAAY4WkepSTjqjRFqaqcfjwweMOcM",
-			"R7mXFDNFcCFqALz26uuvpPJ6aqmnOpBqpMVYEZasP1yY4SCMzLirrwkk0Gv/tdhay6u1CPBaqrd1kMpFq8gwiKINvS27SK5IjApstvDGCwwvpI7K7aipIqCmn2KmdCidUI4lrbvXyttEE/",
-			"ImIEAABSSQRAIFBNCtuPqyMVpKmtZQp1NMDkxttgeHLDLCBShAVAPAeBGxu8TqIktNX74wUo/ISPsrtiPnPDICpeQASQ7aijuHSczNGoN4HFtiRBk3V6vz0wfDhMMSAwCtbakWv8zcuTQU",
-			"GFBKFzEwLMHbQizyDlDrsMQOP1sttI3tJMU1DfNx7InY05Zt9sE89I12EzjYgQbVOTRsLRFuLDkOsz4IxqAVw37stA5+V973ABGjoUbVCGs7RxsL+RWz/8zFQaPnbLSdYfnqPXghgh2cNy",
-			"zsKFdguFGOPqSrlT3GJlEwtmVY0TbrPaAsRc84VCvx5+14QsvcNTiumEJI/B6yzwyUUXUPKHBf+BIOqL6yKEvBCoDRtHLM4y7h6n12TFS3oIYSXiyRvQLcjiJap6PDwGlPH1oAHdqXMIjx",
-			"YABEWcH8VKeGXozBAEf6HEUAQIABdU0AABTEAH8XL75NDXdiMNmcXLc97DGADROEXg0CMIfxCPAAA2QasK7FtylYsABw0Bz3XMeDg2WFRzhZQAKeoLAjYDAp0hgFpLzRLqaZbQz/SgMDqH",
-			"G5ahXuYNhiQAqfEJFRHOFJaEmi/pIBIf8jBMBpJrvcEEqoA8PxigxLwBevxNSOA/TvBQVQohG7JDYY0s50SozGcaARLocRhXKBg0TnuOUNPAViIweAHRDyqEcB1IIOfoRUqFqmxN5JjAHY",
-			"WoIC5EEwJupKX47IyiF4kQALyoCSXrRkjFJhKlFEY1+pREIgVkWAwwUqUr0jm7fUsQkDWNGVMIDlF8m0BUIGEoYOGEcxzreGGUXTDAwkiucsoa9DyMiM2zpjNBfQrVbekQUK8yICnAHDRg"
-		);
-
-	}
-
-	function my_rot13($str)
-	{
-		$from = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$to   = 'nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM';
-		return strtr($str, $from, $to);
-	}
-
-	function OneLeader()
-	{
-		global $ibforums, $std, $print;
-
-		$stmt  = $ibforums->db->query("
+        $stmt  = $ibforums->db->query("
         SELECT
   		f.id as forum_id,
   		f.name as forum_name,
@@ -570,7 +517,7 @@ class stats
       md.member_id='" . intval($ibforums->input['mid']) . "' and
   		f.id=md.forum_id
       ORDER BY md.forum_id");
-		$stmt2 = $ibforums->db->query("
+        $stmt2 = $ibforums->db->query("
         SELECT md.forum_id,
   		count(p.pid) as count
         FROM
@@ -582,39 +529,34 @@ class stats
   		p.forum_id=md.forum_id
       GROUP BY md.forum_id
       ORDER BY md.forum_id");
-		while ($i2 = $stmt2->fetch())
-		{
-			$counts[$i2['forum_id']] = $i2['count'];
-		}
-		while ($i = $stmt->fetch())
-		{
-			$data[] = $i;
-		}
+        while ($i2 = $stmt2->fetch()) {
+            $counts[$i2['forum_id']] = $i2['count'];
+        }
+        while ($i = $stmt->fetch()) {
+            $data[] = $i;
+        }
 
-		if (count($data) > 0)
-		{
-			$num          = 1;
-			$this->output = View::make(
-				"stats.one_leader_strip",
-				['name' => "<a href='{$ibforums->base_url}showuser= . $data[0]['id']" . "' target='_blank'>" . $data[0]['name'] . "</a>"]
-			);
-			foreach ($data as $idx => $i)
-			{
-				$this->output .= View::make(
-					"stats.one_leader",
-					[
-						'number' => $num,
-						'forum' => "<a href='{$ibforums->base_url}showforum=" . $i['forum_id'] . "' target='_blank'>" . $i['forum_name'] . "</a><br>",
-						'posts_count' => intval($counts[$i['forum_id']])
-					]
-				);
-				$num++;
-			}
-			$this->output .= View::make("stats.close_strip");
-		}
+        if (count($data) > 0) {
+            $num          = 1;
+            $this->output = View::make(
+                "stats.one_leader_strip",
+                ['name' => "<a href='{$ibforums->base_url}showuser= . $data[0]['id']" . "' target='_blank'>" . $data[0]['name'] . "</a>"]
+            );
+            foreach ($data as $idx => $i) {
+                $this->output .= View::make(
+                    "stats.one_leader",
+                    [
+                        'number' => $num,
+                        'forum' => "<a href='{$ibforums->base_url}showforum=" . $i['forum_id'] . "' target='_blank'>" . $i['forum_name'] . "</a><br>",
+                        'posts_count' => intval($counts[$i['forum_id']])
+                    ]
+                );
+                $num++;
+            }
+            $this->output .= View::make("stats.close_strip");
+        }
 
-		$print->text_only($ibforums->lang['leader_forums'] . "\n" . $this->output, true);
-		$this->output = '';
-	}
-
+        $print->text_only($ibforums->lang['leader_forums'] . "\n" . $this->output, true);
+        $this->output = '';
+    }
 }

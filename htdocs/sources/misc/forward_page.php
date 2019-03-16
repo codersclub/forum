@@ -17,260 +17,232 @@
 |   > Module written by Matt Mecham
 |   > Date started: 21st March 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 use Views\View;
 
-$idx = new Forward;
+$idx = new Forward();
 
 class Forward
 {
 
-	var $output = "";
-	var $base_url = "";
+    var $output = "";
+    var $base_url = "";
 
-	var $forum = array();
-	var $topic = array();
-	var $category = array();
+    var $forum = array();
+    var $topic = array();
+    var $category = array();
 
-	/***********************************************************************************/
-	//
-	// Our constructor, load words, load skin, print the topic listing
-	//
-	/***********************************************************************************/
+    /***********************************************************************************/
+    //
+    // Our constructor, load words, load skin, print the topic listing
+    //
+    /***********************************************************************************/
 
-	function Forward()
-	{
+    function Forward()
+    {
 
-		global $ibforums, $std, $print;
+        global $ibforums, $std, $print;
 
-		//-------------------------------------
-		// Compile the language file
-		//-------------------------------------
+        //-------------------------------------
+        // Compile the language file
+        //-------------------------------------
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		//-------------------------------------
-		// Check the input
-		//-------------------------------------
+        //-------------------------------------
+        // Check the input
+        //-------------------------------------
 
-		$ibforums->input['t'] = $std->is_number($ibforums->input['t']);
-		$ibforums->input['f'] = $std->is_number($ibforums->input['f']);
+        $ibforums->input['t'] = $std->is_number($ibforums->input['t']);
+        $ibforums->input['f'] = $std->is_number($ibforums->input['f']);
 
-		if ($ibforums->input['t'] < 0 or $ibforums->input['f'] < 0)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        if ($ibforums->input['t'] < 0 or $ibforums->input['f'] < 0) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		//-------------------------------------
-		// Get the forum info based on the forum ID, get the category name, ID, and get the topic details
-		//-------------------------------------
+        //-------------------------------------
+        // Get the forum info based on the forum ID, get the category name, ID, and get the topic details
+        //-------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT t.*, f.name as forum_name, f.id as forum_id, f.read_perms, f.reply_perms, f.start_perms, f.allow_poll, f.posts as forum_posts, f.topics as forum_topics, c.name as cat_name, c.id as cat_id FROM ibf_topics t, ibf_forums f , ibf_categories c where t.tid='" . $ibforums->input['t'] . "' and f.id = t.forum_id and f.category=c.id");
+        $stmt = $ibforums->db->query("SELECT t.*, f.name as forum_name, f.id as forum_id, f.read_perms, f.reply_perms, f.start_perms, f.allow_poll, f.posts as forum_posts, f.topics as forum_topics, c.name as cat_name, c.id as cat_id FROM ibf_topics t, ibf_forums f , ibf_categories c where t.tid='" . $ibforums->input['t'] . "' and f.id = t.forum_id and f.category=c.id");
 
-		$this->topic = $stmt->fetch();
+        $this->topic = $stmt->fetch();
 
-		$this->forum = array(
-			'id'         => $this->topic['forum_id'],
-			'name'       => $this->topic['forum_name'],
-			'posts'      => $this->topic['forum_posts'],
-			'topics'     => $this->topic['forum_topics'],
-			'read_perms' => $this->topic['read_perms'],
-			'allow_poll' => $this->topic['allow_poll'],
-		);
+        $this->forum = array(
+            'id'         => $this->topic['forum_id'],
+            'name'       => $this->topic['forum_name'],
+            'posts'      => $this->topic['forum_posts'],
+            'topics'     => $this->topic['forum_topics'],
+            'read_perms' => $this->topic['read_perms'],
+            'allow_poll' => $this->topic['allow_poll'],
+        );
 
-		$this->category = array(
-			'name' => $this->topic['cat_name'],
-			'id'   => $this->topic['cat_id'],
-		);
+        $this->category = array(
+            'name' => $this->topic['cat_name'],
+            'id'   => $this->topic['cat_id'],
+        );
 
-		//-------------------------------------
-		// Error out if we can not find the forum
-		//-------------------------------------
+        //-------------------------------------
+        // Error out if we can not find the forum
+        //-------------------------------------
 
-		if (!$this->forum['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        if (!$this->forum['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		//-------------------------------------
-		// Error out if we can not find the topic
-		//-------------------------------------
+        //-------------------------------------
+        // Error out if we can not find the topic
+        //-------------------------------------
 
-		if (!$this->topic['tid'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        if (!$this->topic['tid']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		$this->base_url = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
+        $this->base_url = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?s={$ibforums->session_id}";
 
-		$this->base_url_NS = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}";
+        $this->base_url_NS = "{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}";
 
-		//-------------------------------------
-		// Check viewing permissions, private forums,
-		// password forums, etc
-		//-------------------------------------
+        //-------------------------------------
+        // Check viewing permissions, private forums,
+        // password forums, etc
+        //-------------------------------------
 
-		if (!$ibforums->member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
-		}
+        if (!$ibforums->member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
+        }
 
-		$bad_entry = $this->check_access();
+        $bad_entry = $this->check_access();
 
-		if ($bad_entry == 1)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_view_topic'));
-		}
+        if ($bad_entry == 1) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_view_topic'));
+        }
 
-		// What to do?
+        // What to do?
 
-		if ($ibforums->input['CODE'] == '01')
-		{
-			$this->send_email();
-		} else
-		{
-			$this->show_form();
-		}
+        if ($ibforums->input['CODE'] == '01') {
+            $this->send_email();
+        } else {
+            $this->show_form();
+        }
+    }
 
-	}
+    function send_email()
+    {
+        global $std, $ibforums, $print;
 
-	function send_email()
-	{
-		global $std, $ibforums, $print;
+        require_once ROOT_PATH . "/sources/lib/emailer.php";
 
-		require_once ROOT_PATH . "/sources/lib/emailer.php";
+        $this->email = new emailer();
 
-		$this->email = new emailer();
+        $lang_to_use = 'en';
 
-		$lang_to_use = 'en';
+        $stmt = $ibforums->db->query("SELECT lid, ldir, lname FROM ibf_languages");
 
-		$stmt = $ibforums->db->query("SELECT lid, ldir, lname FROM ibf_languages");
+        while ($l = $stmt->fetch()) {
+            if ($ibforums->input['lang'] == $l['ldir']) {
+                $lang_to_use = $l['ldir'];
+            }
+        }
 
-		while ($l = $stmt->fetch())
-		{
-			if ($ibforums->input['lang'] == $l['ldir'])
-			{
-				$lang_to_use = $l['ldir'];
-			}
-		}
+        $check_array = array(
+            'to_name'  => 'stf_no_name',
+            'to_email' => 'stf_no_email',
+            'message'  => 'stf_no_msg',
+            'subject'  => 'stf_no_subject'
+        );
 
-		$check_array = array(
-			'to_name'  => 'stf_no_name',
-			'to_email' => 'stf_no_email',
-			'message'  => 'stf_no_msg',
-			'subject'  => 'stf_no_subject'
-		);
+        foreach ($check_array as $input => $msg) {
+            if (empty($ibforums->input[$input])) {
+                $std->Error(array('LEVEL' => 1, 'MSG' => $msg));
+            }
+        }
 
-		foreach ($check_array as $input => $msg)
-		{
-			if (empty($ibforums->input[$input]))
-			{
-				$std->Error(array('LEVEL' => 1, 'MSG' => $msg));
-			}
-		}
+        $to_email = $std->clean_email($ibforums->input['to_email']);
 
-		$to_email = $std->clean_email($ibforums->input['to_email']);
+        if (!$to_email) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_email'));
+        }
 
-		if (!$to_email)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_email'));
-		}
+        $this->email->get_template("forward_page", $lang_to_use);
 
-		$this->email->get_template("forward_page", $lang_to_use);
+        $this->email->build_message(array(
+                                         'THE_MESSAGE' => str_replace("<br>", "\n", $ibforums->input['message']),
+                                         'TO_NAME'     => $ibforums->input['to_name'],
+                                         'FROM_NAME'   => $ibforums->member['name'],
+                                    ));
 
-		$this->email->build_message(array(
-		                                 'THE_MESSAGE' => str_replace("<br>", "\n", $ibforums->input['message']),
-		                                 'TO_NAME'     => $ibforums->input['to_name'],
-		                                 'FROM_NAME'   => $ibforums->member['name'],
-		                            ));
+        $this->email->subject = $ibforums->input['subject'];
+        $this->email->to      = $ibforums->input['to_email'];
+        $this->email->from    = $ibforums->member['email'];
+        $this->email->send_mail();
 
-		$this->email->subject = $ibforums->input['subject'];
-		$this->email->to      = $ibforums->input['to_email'];
-		$this->email->from    = $ibforums->member['email'];
-		$this->email->send_mail();
+        $print->redirect_screen($ibforums->lang['redirect'], "act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid'] . "&st=" . $ibforums->input['st']);
+    }
 
-		$print->redirect_screen($ibforums->lang['redirect'], "act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid'] . "&st=" . $ibforums->input['st']);
+    function show_form()
+    {
+        global $std, $ibforums, $print;
 
-	}
+        require ROOT_PATH . "lang/" . $ibforums->lang_id . "/email_content.php";
 
-	function show_form()
-	{
-		global $std, $ibforums, $print;
+        $ibforums->lang['send_text'] = $EMAIL['send_text'];
 
-		require ROOT_PATH . "lang/" . $ibforums->lang_id . "/email_content.php";
+        $lang_array = unserialize(stripslashes($ibforums->vars['languages']));
 
-		$ibforums->lang['send_text'] = $EMAIL['send_text'];
+        $lang_select = "<select name='lang' class='forminput'>\n";
 
-		$lang_array = unserialize(stripslashes($ibforums->vars['languages']));
+        $stmt = $ibforums->db->query("SELECT lid, ldir, lname FROM ibf_languages");
 
-		$lang_select = "<select name='lang' class='forminput'>\n";
+        while ($l = $stmt->fetch()) {
+            $lang_select .= $l['ldir'] == $ibforums->member['language']
+                ? "<option value='{$l['ldir']}' selected>{$l['lname']}</option>"
+                : "<option value='{$l['ldir']}'>{$l['lname']}</option>";
+        }
 
-		$stmt = $ibforums->db->query("SELECT lid, ldir, lname FROM ibf_languages");
+        $lang_select .= "</select>";
 
-		while ($l = $stmt->fetch())
-		{
-			$lang_select .= $l['ldir'] == $ibforums->member['language']
-				? "<option value='{$l['ldir']}' selected>{$l['lname']}</option>"
-				: "<option value='{$l['ldir']}'>{$l['lname']}</option>";
-		}
+        $ibforums->lang['send_text'] = preg_replace("/<#THE LINK#>/", $this->base_url_NS . "?act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid'], $ibforums->lang['send_text']);
+        $ibforums->lang['send_text'] = preg_replace("/<#USER NAME#>/", $ibforums->member['name'], $ibforums->lang['send_text']);
 
-		$lang_select .= "</select>";
+        $this->output = View::make(
+            "emails.forward_form",
+            ['title' => $this->topic['title'], 'text' => $ibforums->lang ['send_text'], 'lang' => $lang_select]
+        );
 
-		$ibforums->lang['send_text'] = preg_replace("/<#THE LINK#>/", $this->base_url_NS . "?act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid'], $ibforums->lang['send_text']);
-		$ibforums->lang['send_text'] = preg_replace("/<#USER NAME#>/", $ibforums->member['name'], $ibforums->lang['send_text']);
+        $this->page_title = $ibforums->lang['title'];
 
-		$this->output = View::make(
-			"emails.forward_form",
-			['title' => $this->topic['title'], 'text' => $ibforums->lang ['send_text'], 'lang' => $lang_select]
-		);
+        $this->nav = array(
+            "<a href='{$this->base_url}&act=SF&f={$this->forum['id']}'>{$this->forum['name']}</a>",
+            "<a href='" . $this->base_url . "act=ST&f={$this->forum['id']}&t={$this->topic['tid']}'>{$this->topic['title']}</a>",
+            $ibforums->lang['title']
+        );
 
-		$this->page_title = $ibforums->lang['title'];
+        $print->add_output("$this->output");
+        $print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
+    }
 
-		$this->nav = array(
-			"<a href='{$this->base_url}&act=SF&f={$this->forum['id']}'>{$this->forum['name']}</a>",
-			"<a href='" . $this->base_url . "act=ST&f={$this->forum['id']}&t={$this->topic['tid']}'>{$this->topic['title']}</a>",
-			$ibforums->lang['title']
-		);
+    //+----------------------------------------------------------------------------------
 
-		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
+    function check_access()
+    {
+        global $ibforums, $std;
 
-	}
+        $return = 1;
 
-	//+----------------------------------------------------------------------------------
+        if ($std->check_perms($this->forum['read_perms']) == true) {
+            $return = 0;
+        }
 
-	function check_access()
-	{
-		global $ibforums, $std;
+        if ($this->forum['password']) {
+            if ($_COOKIE[$ibforums->vars['cookie_id'] . 'iBForum' . $this->forum['id']] == $this->forum['password']) {
+                $return = 0;
+            } else {
+                $return = 1;
+            }
+        }
 
-		$return = 1;
-
-		if ($std->check_perms($this->forum['read_perms']) == TRUE)
-		{
-			$return = 0;
-		}
-
-		if ($this->forum['password'])
-		{
-			if ($_COOKIE[$ibforums->vars['cookie_id'] . 'iBForum' . $this->forum['id']] == $this->forum['password'])
-			{
-				$return = 0;
-			} else
-			{
-				$return = 1;
-			}
-		}
-
-		return $return;
-
-	}
+        return $return;
+    }
 }
-
-?>
-
-
-
-
-

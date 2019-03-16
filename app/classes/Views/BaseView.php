@@ -33,17 +33,17 @@ class BaseView
      */
     public function render()
     {
-	global $SKIN;
+        global $SKIN;
 
-	if(empty($SKIN)) {
-	    $SKIN = \Ibf::app()->skin;
-	}
+        if (empty($SKIN)) {
+            $SKIN = \Ibf::app()->skin;
+        }
 
-        if ($this->beforeRender()){
+        if ($this->beforeRender()) {
             $text = ThemesFactory::create($SKIN->getThemeName())
                 ->render($this->path, $this->data);
             $this->afterRender($text);
-        }else {
+        } else {
             $text = '';
         }
         return $text;
@@ -53,7 +53,7 @@ class BaseView
     {
         try {
             return (string)$this->render();
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             \Logs::critical('PHP', get_class($e) . ' raised with message:' . $e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine(), 'trace' =>  $e->getTraceAsString()]);
             return '';
         }

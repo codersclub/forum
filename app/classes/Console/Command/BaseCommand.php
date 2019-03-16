@@ -6,21 +6,25 @@
 namespace Console\Command;
 
 
-abstract class BaseCommand {
+abstract class BaseCommand
+{
     protected $options = [];
 
     abstract public function run($args);
 
 
-    public function help(){
+    public function help()
+    {
         return '';
     }
 
-    public function execute($args){
+    public function execute($args)
+    {
         $this->run($args);
     }
 
-    public function setOptions($options){
+    public function setOptions($options)
+    {
         $this->options = $options;
     }
 }

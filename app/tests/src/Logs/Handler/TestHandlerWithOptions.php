@@ -8,7 +8,8 @@ use Monolog\Handler\AbstractHandler;
      * Class HandlerWithOptions Needed for tests
      * @package Logs
      */
-class TestHandlerWithOptions extends AbstractHandler {
+class TestHandlerWithOptions extends AbstractHandler
+{
 
     protected $setterValue;
 

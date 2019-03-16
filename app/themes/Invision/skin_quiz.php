@@ -1,16 +1,17 @@
 <?php
 
-class skin_quiz {
+class skin_quiz
+{
 
 //---------------------------------------
-function quiz_edit_header($settings)
-{
-global $ibforums;
+    function quiz_edit_header($settings)
+    {
+        global $ibforums;
 
-$itemlist = $this->form_multiselect( "quiz_items[]", $settings['items'], $settings['items_won'],$settings['items_rows']);
+        $itemlist = $this->form_multiselect("quiz_items[]", $settings['items'], $settings['items_won'], $settings['items_rows']);
 
 
-return <<<EOF
+        return <<<EOF
 
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$settings['quizname']}</div>
@@ -128,14 +129,15 @@ return <<<EOF
 -->
 
 EOF;
-}
+    }
 
 
 //------------------------------------------
-function quiz_show($post,$author) {
-global $ibforums;
+    function quiz_show($post, $author)
+    {
+        global $ibforums;
 
-return <<<EOF
+        return <<<EOF
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$post['quizname']}</div>
    {$post['modform_open']}
@@ -177,14 +179,14 @@ return <<<EOF
       </td>
     </tr>
 EOF;
-}
+    }
 
 
 //-------------------------------------------
-function quiz_question_header($settings)
-{
-global $ibforums;
-return <<<EOF
+    function quiz_question_header($settings)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$settings['quizname']}</div>
@@ -205,28 +207,29 @@ return <<<EOF
   <input name='code' value='update_questions' type='hidden'>
 
 EOF;
-}
+    }
 
 
 
 
 //-------------------------------------
-function edit_question($nq=0,$quiz=array())
-{
-  $nq++;
-  $type = $this->form_dropdown('mid_'.$quiz['mid'].'_type',
-   			 array(
-      			0 => array('single','Single Answer [text field]'),
-      			1 => array('multiq','Multiple Correct Answers [text field]'),
-      			2 => array('dropdown','Drop Down Answers [1 or more correct]'),
-      			3 => array('radio','Radio-button Answers [1 or more correct]'),
-      			4 => array('checkbox','CheckBox Answers [1 or more correct]'),
-      			5 => array('opinion','NonChecked Answer')
-      			 ),
-      			$quiz['type']
-      			 );
+    function edit_question($nq = 0, $quiz = array())
+    {
+        $nq++;
+        $type = $this->form_dropdown(
+            'mid_' . $quiz['mid'] . '_type',
+            array(
+                0 => array('single','Single Answer [text field]'),
+                1 => array('multiq','Multiple Correct Answers [text field]'),
+                2 => array('dropdown','Drop Down Answers [1 or more correct]'),
+                3 => array('radio','Radio-button Answers [1 or more correct]'),
+                4 => array('checkbox','CheckBox Answers [1 or more correct]'),
+                5 => array('opinion','NonChecked Answer')
+                 ),
+            $quiz['type']
+        );
 
-  $html = "
+        $html = "
   <tr>
     <td class='titlemedium'>
       <big><b>Question&nbsp;{$nq}:</b></big>
@@ -243,9 +246,8 @@ function edit_question($nq=0,$quiz=array())
   </tr>
 ";
 
-  if($quiz['type'] == 'single')
-  {
-    $html .= "
+        if ($quiz['type'] == 'single') {
+            $html .= "
   <tr class='row2' valign='middle'>
     <input type='hidden' name='q_{$quiz['mid']}_1_correct' value='1'>
     <td><b>Answer:</b></td>
@@ -254,42 +256,33 @@ function edit_question($nq=0,$quiz=array())
     </td>
   </tr>
 ";
+        } elseif ($quiz['type'] == 'dropdown' ||
+        $quiz['type'] == 'multiq' ||
+        $quiz['type'] == 'radio' ||
+        $quiz['type'] == 'checkbox'
+            ) {
+            $answers = explode("||", $quiz['answer']);
 
-  }
-  else if($quiz['type'] == 'dropdown' ||
-      	$quiz['type'] == 'multiq' ||
-      	$quiz['type'] == 'radio' ||
-      	$quiz['type'] == 'checkbox'
-      	)
-  {
-    $answers = explode("||",$quiz['answer']);
+            for ($na = 0; $na < 9; $na++) {
+                $answer = $answers[$na];
+                $naw = $na + 1;
 
-    for($na=0; $na<9; $na++)
-    {
-      $answer = $answers[$na];
-      $naw = $na+1;
+                $z = preg_match("#{answer([1-9])_(0|1):(.+)}#is", $answer, $match);
 
-      $z= preg_match("#{answer([1-9])_(0|1):(.+)}#is",$answer,$match);
+                if ($quiz['type'] == 'multiq') {
+                    $html .= "<input type='hidden' name='q_{$quiz['mid']}_{$naw}_correct' value='1'>\n";
+                    $extra[$match[1]] = "";
+                } else {
+                    if ($match[2] == 1) {
+                        $checkbox = $this->form_checkbox("q_" . $quiz['mid'] . "_" . $naw . "_correct", 1);
+                    } else {
+                        $checkbox = $this->form_checkbox("q_" . $quiz['mid'] . "_" . $naw . "_correct", 0);
+                    }
 
-      if($quiz['type'] == 'multiq')
-      {
-        $html .= "<input type='hidden' name='q_{$quiz['mid']}_{$naw}_correct' value='1'>\n";
-        $extra[$match[1]] = "";
-      }
-      else
-      {
-        if($match[2] == 1)
-        {
-          $checkbox = $this->form_checkbox("q_".$quiz['mid']."_".$naw."_correct",1);
-        } else {
-          $checkbox = $this->form_checkbox("q_".$quiz['mid']."_".$naw."_correct",0);
-        }
+                    $extra[$naw] = "<br>Correct? " . $checkbox;
+                }
 
-        $extra[$naw] = "<br>Correct? ".$checkbox;
-
-      }
-
-      $html .= "
+                $html .= "
   <tr class='row2' valign='middle'>
     <td><b>Answer {$naw}:</b> {$extra[$naw]}</td>
     <td>
@@ -297,12 +290,9 @@ function edit_question($nq=0,$quiz=array())
     </td>
   </tr>
 ";
-    }
-  }
-
-  else if($quiz['type'] == 'opinion')
-  {
-    $html .= "
+            }
+        } elseif ($quiz['type'] == 'opinion') {
+            $html .= "
   <tr class='row2' valign='middle'>
     <td><b>Answer: </b></td>
     <td>
@@ -310,24 +300,26 @@ function edit_question($nq=0,$quiz=array())
     </td>
   </tr>
 ";
-  }
+        }
 
 
-  return $html;
-}
+        return $html;
+    }
 
 
 
 //--------------------------------------------
-function quiz_u_a_header($settings,$member)
-{
-global $ibforums;
+    function quiz_u_a_header($settings, $member)
+    {
+        global $ibforums;
 
-$correct_percent = round($member['amount_right']/$settings['real_questions'] * 100);
-if($correct_percent > 100) $correct_percent = 100;
+        $correct_percent = round($member['amount_right'] / $settings['real_questions'] * 100);
+        if ($correct_percent > 100) {
+            $correct_percent = 100;
+        }
 
 
-return <<<EOF
+        return <<<EOF
 
 <div class="tableborder">
 
@@ -395,18 +387,18 @@ return <<<EOF
     </tr>
 
 EOF;
-}
+    }
 
 
 
 //-----------------------------------
-function user_answer($info)
-{
-  global $ibforums;
+    function user_answer($info)
+    {
+        global $ibforums;
 
-  $info['user_answer']=str_replace("\n","<br>",$info['user_answer']);
+        $info['user_answer'] = str_replace("\n", "<br>", $info['user_answer']);
 
-  return <<<EOF
+        return <<<EOF
 
   <tr valign="top">
     <td class="row2"><b>{$info['question']}</b></td>
@@ -414,16 +406,17 @@ function user_answer($info)
   </tr>
 
 EOF;
-}
+    }
 
 
 
 
 
 //-----------------------------
-function end_page() {
-global $ibforums;
-return <<<EOF
+    function end_page()
+    {
+        global $ibforums;
+        return <<<EOF
 
 </table>
 <div class='darkrow1' style='height:5px'><!-- --></div>
@@ -431,37 +424,38 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
 //-------------------------------
-function plays_left_header() {
-global $ibforums;
-return <<<EOF
+    function plays_left_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
      <th class="titlemedium" width="5%">{$ibforums->lang['plays_left']}</th>
 
 EOF;
-}
+    }
 
 
 //--------------------------------------
-function plays_left_middle($plays)
-{
-  global $ibforums;
-  return <<<EOF
+    function plays_left_middle($plays)
+    {
+        global $ibforums;
+        return <<<EOF
 
       <td align='center' class='row2'>{$plays}</td>
 
 EOF;
-}
+    }
 
 
 //------------------------------------
-function quiz_header($data=array())
-{
-  global $ibforums;
-  return <<<EOF
+    function quiz_header($data = array())
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align='right'>{$data['QUIZ_BUTTON']}</div>
 
@@ -483,13 +477,14 @@ function quiz_header($data=array())
   </tr>
 
 EOF;
-}
+    }
 
 
 
-function list_quiz($data) {
-  global $ibforums;
-  return <<<EOF
+    function list_quiz($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
     <tr>
       <td align='center' class='row4'>{$data['img']}</td>
@@ -508,11 +503,12 @@ function list_quiz($data) {
     </tr>
 
 EOF;
-}
+    }
 
-function quiz_results_header($id=0,$title="") {
-global $ibforums;
-return <<<EOF
+    function quiz_results_header($id = 0, $title = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['results_nav']} &quot;<a href="{$ibforums->base_url}act=quiz&code=show&quiz_id={$id}">{$title}</a>&quot;</div>
@@ -529,30 +525,28 @@ return <<<EOF
     </tr>
 
 EOF;
-}
+    }
 
 
-function quiz_results_results($member,$place)
-{
-  global $ibforums,$std;
+    function quiz_results_results($member, $place)
+    {
+        global $ibforums,$std;
 
-  $qid = intval($ibforums->input['quiz_id']);
+        $qid = intval($ibforums->input['quiz_id']);
 
-  if($member['memberid'] > 0)
-  {
-    $member['name'] = "<a href='{$ibforums->base_url}showuser={$member['id']}'>{$member['name']}</a>";
-  } else {
-    $member['name'] = $ibforums->lang['guest_name'];
-  }
+        if ($member['memberid'] > 0) {
+            $member['name'] = "<a href='{$ibforums->base_url}showuser={$member['id']}'>{$member['name']}</a>";
+        } else {
+            $member['name'] = $ibforums->lang['guest_name'];
+        }
 
-  if ( $ibforums->member['g_is_supmod'] ||
-       ($ibforums->member['id'] == $member['memberid'])
-     )
-  {
-    $member['amount_right'] .= " &nbsp; <a href='{$ibforums->base_url}act=quiz&code=user_answers&quiz_id={$qid}&userid={$member['id']}'>{$ibforums->lang['answers']}</a>";
-  }
+        if ($ibforums->member['g_is_supmod'] ||
+        ($ibforums->member['id'] == $member['memberid'])
+         ) {
+                $member['amount_right'] .= " &nbsp; <a href='{$ibforums->base_url}act=quiz&code=user_answers&quiz_id={$qid}&userid={$member['id']}'>{$ibforums->lang['answers']}</a>";
+        }
 
-return <<<EOF
+        return <<<EOF
 
   <tr>
     <td align='center' class='row2'>{$place}</td>
@@ -564,14 +558,15 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
 
 
-function quiz_q_a_header($settings) {
-global $ibforums;
-return <<<EOF
+    function quiz_q_a_header($settings)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$settings['quizname']}</div>
@@ -609,12 +604,13 @@ function Dotimeout() {
     </tr>
 
 EOF;
-}
+    }
 
 
-function single_question($num,$info) {
-global $ibforums;
-return <<<EOF
+    function single_question($num, $info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr valign="top">
     <td class="row2">{$num}. <b>{$info['question']}</b></td>
@@ -622,12 +618,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function opinion_question($num,$info) {
-global $ibforums;
-return <<<EOF
+    function opinion_question($num, $info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr valign="top">
     <td class="row2">{$num}. <b>{$info['question']}</b></td>
@@ -635,12 +632,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function dropdown_question($num,$info) {
-global $ibforums;
-return <<<EOF
+    function dropdown_question($num, $info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr valign="top">
     <td class="row2">{$num}. <b>{$info['question']}</b></td>
@@ -648,119 +646,109 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function quiz_q_a_submit() {
-global $ibforums;
-return <<<EOF
+    function quiz_q_a_submit()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class="activeuserstrip" align="center" colspan="2"><input type="submit" name="take_quiz" value="{$ibforums->lang['quiz_qa_submit']}"></td>
   </tr>
 </form>
 EOF;
-}
-
-
-
-
-
-//+--------------------------------------------------------------------
-
-function form_checkbox( $name, $checked=0, $val=1, $js=array() )
-{
-  if ($checked == 1)
-  {
-    return "<input type='checkbox' name='$name' value='$val' checked='checked'>";
-  }
-  else
-  {
-    return "<input type='checkbox' name='$name' value='$val'>";
-  }
-}
-
-//+--------------------------------------------------------------------
-
-function form_multiselect($name,
-			  $list=array(),
-			  $default=array(),
-			  $size=5,
-			  $js="")
-{
-  if ($js != "")
-  {
-    $js = ' '.$js.' ';
-  }
-
-  //$html = "<select name='$name".'[]'."'".$js." id='dropdown' multiple='multiple' size='$size'>\n";
-  $html = "<select name='$name"."'".$js." class='dropdown' multiple='multiple' size='$size'>\n";
-  foreach ($list as $k => $v)
-  {
-    $selected = "";
-
-    if ( count($default) > 0 )
-    {
-      if ( in_array( $v[0], $default ) )
-      {
-	$selected = ' selected="selected"';
-      }
     }
 
-    $html .= "<option value='".$v[0]."'".$selected.">".$v[1]."</option>\n";
-  }
 
-  $html .= "</select>\n\n";
 
-  return $html;
-
-}
 
 
 //+--------------------------------------------------------------------
 
-function form_dropdown($name, $list=array(), $default_val="", $js="")
-{
-  if ($js != "")
-  {
-    $js = ' '.$js.' ';
-  }
-
-  $html = "<select name='$name'".$js." class='dropdown'>\n";
-
-  foreach ($list as $k => $v)
-  {
-    $selected = "";
-
-    if ( ($default_val != "") and ($v[0] == $default_val) )
+    function form_checkbox($name, $checked = 0, $val = 1, $js = array())
     {
-      $selected = ' selected';
+        if ($checked == 1) {
+            return "<input type='checkbox' name='$name' value='$val' checked='checked'>";
+        } else {
+            return "<input type='checkbox' name='$name' value='$val'>";
+        }
     }
 
-    $html .= "<option value='".$v[0]."'".$selected.">".$v[1]."</option>\n";
-  }
+//+--------------------------------------------------------------------
 
-  $html .= "</select>\n\n";
+    function form_multiselect(
+        $name,
+        $list = array(),
+        $default = array(),
+        $size = 5,
+        $js = ""
+    ) {
+        if ($js != "") {
+            $js = ' ' . $js . ' ';
+        }
 
-  return $html;
+      //$html = "<select name='$name".'[]'."'".$js." id='dropdown' multiple='multiple' size='$size'>\n";
+        $html = "<select name='$name" . "'" . $js . " class='dropdown' multiple='multiple' size='$size'>\n";
+        foreach ($list as $k => $v) {
+            $selected = "";
 
-}
+            if (count($default) > 0) {
+                if (in_array($v[0], $default)) {
+                    $selected = ' selected="selected"';
+                }
+            }
 
-function warn_title($id, $title)
-{
-  global $ibforums;
-  return <<<EOF
+            $html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
+        }
+
+        $html .= "</select>\n\n";
+
+        return $html;
+    }
+
+
+//+--------------------------------------------------------------------
+
+    function form_dropdown($name, $list = array(), $default_val = "", $js = "")
+    {
+        if ($js != "") {
+            $js = ' ' . $js . ' ';
+        }
+
+        $html = "<select name='$name'" . $js . " class='dropdown'>\n";
+
+        foreach ($list as $k => $v) {
+            $selected = "";
+
+            if (($default_val != "") and ($v[0] == $default_val)) {
+                $selected = ' selected';
+            }
+
+            $html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
+        }
+
+        $html .= "</select>\n\n";
+
+        return $html;
+    }
+
+    function warn_title($id, $title)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a href="javascript:PopUp('{$ibforums->base_url}act=warn&amp;mid={$id}&amp;CODE=view','Pager','500','450','0','1','1','1')">{$title}</a>:
 
 EOF;
-}
+    }
 
 //-----------------------------------------------------
-function error()
-{
-  global $ibforums;
-  return <<<EOF
+    function error()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
 
@@ -771,26 +759,26 @@ function error()
   </tr>
 
 EOF;
-}
+    }
 
 
-function error_row($message)
-{
-  global $ibforums;
-  return <<<EOF
+    function error_row($message)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" align="center">{$message}</td>
   </tr>
 
 EOF;
-}
+    }
 
 
-function check()
-{
-  global $ibforums;
-  return <<<EOF
+    function check()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type='text/javascript'>
 <!--
@@ -802,5 +790,5 @@ function check(type) {
 </script>
 
 EOF;
-}
+    }
 }

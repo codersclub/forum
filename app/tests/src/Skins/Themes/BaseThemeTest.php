@@ -9,14 +9,15 @@ class TestBaseTheme extends BaseTheme
         return MOCK_PATH . '/SkinsTestFiles/themes/base';
     }
 
-    public function beforeTstBefore($vars){
+    public function beforeTstBefore($vars)
+    {
         $this->skipRendering();
     }
 
-    public function afterTstAfter(&$text){
+    public function afterTstAfter(&$text)
+    {
         $text = 'some_text';
     }
-
 }
 
 class BaseThemeTest extends \PHPUnit_Framework_TestCase
@@ -33,7 +34,8 @@ class BaseThemeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('some_text', $test->getHtml('tst.after', []));
     }
 
-    public function testWrongPath(){
+    public function testWrongPath()
+    {
         $this->setExpectedException('Exception');
         $test = new TestBaseTheme();
         $test->getHtml('wrong.path', []);

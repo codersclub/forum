@@ -2,50 +2,56 @@
 
 use Views\View;
 
-class skin_search {
+class skin_search
+{
 
 /*
  * Mod functions in searchbox
 **/
-function mod_checkbox($class, $tid) {
-global $ibforums;
-return <<<EOF
+    function mod_checkbox($class, $tid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <td class="b-topics-list-column-mod_checkbox $class"><input type="checkbox" name="TID_$tid" value="1" class="forminput" onclick="cca(this,'darkrow2');"></td>
 
 EOF;
-}
+    }
 
-function mod_nocheckbox($class) {
-global $ibforums;
-return <<<EOF
+    function mod_nocheckbox($class)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <td class="$class b-topics-list-column-mod_checkbox">&nbsp;</td>
 
 EOF;
-}
+    }
 
-function mod_column_head() {
-global $ibforums;
-return <<<EOF
+    function mod_column_head()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <td width="4%" class="titlemedium b-topics-list-column-mod_checkbox">{$ibforums->lang["h_mod_checkbox"]}</th>
 
 EOF;
-}
+    }
 
-function modform_open($data) {
-global $ibforums;
-return <<<EOF
+    function modform_open($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name="topic" action="{$ibforums->base_url}act=modcp&old_act=search&searchid={$data["search_id"]}&search_in={$data["search_in"]}&result_type={$data["result_type"]}&highlite={$data["hl"]}&new={$ibforums->input["new"]}&CODE=topicchoice" method="post" onsubmit="return checkdelete("{$ibforums->lang["cp_js_delete"]}");">
 
 EOF;
-}
+    }
 
-function modform_close() {
-global $ibforums;
-return <<<EOF
+    function modform_close()
+    {
+        global $ibforums;
+        return <<<EOF
 <tfoot>
 <tr class="topics-mod-actions">
 <td class="darkrow3" colspan="3">{$ibforums->lang["t_w_selected"]}
@@ -70,11 +76,12 @@ return <<<EOF
 </form>
 </div>
 EOF;
-}
+    }
 
-function RenderRow($Data) {
-global $ibforums;
-return <<<EOF
+    function RenderRow($Data)
+    {
+        global $ibforums;
+        return <<<EOF
 
     <tr class="b-topics-list-row">
       <td class="row4 b-topics-list-column-status">{$Data["folder_img"]}</td>
@@ -90,22 +97,24 @@ return <<<EOF
     </tr>
 
 EOF;
-}
+    }
 
 
-function start_as_post($Data) {
-global $ibforums;
-return <<<EOF
+    function start_as_post($Data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="b-list-pages-wrapper b-found-posts-list-pages b-found-posts-pages-top">{$Data[SHOW_PAGES]}</div>
 
 EOF;
-}
+    }
 
 
-function RenderPostRow($Data) {
-global $ibforums;
-return <<<EOF
+    function RenderPostRow($Data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder b-post__wrapper b-found-posts-post-wrapper">
   <div class="maintitle b-found-posts-post_topic-title">{$Data["folder_img"]}&nbsp;{$Data["prefix"]} <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}" class="linkthru e-found-posts-post_topic-title-link">{$Data["title"]}</a></span></b>  {$Data[PAGES]}</div>
@@ -132,44 +141,48 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function result_simple_footer($data) {
-global $ibforums;
-return <<<EOF
+    function result_simple_footer($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <div class="pformstrip" align="left">{$ibforums->lang["search_pages"]} &nbsp;  &nbsp; &nbsp;<span class="googlepagelinks">{$data["links"]}</span></div>
 </div>
 
 EOF;
-}
+    }
 
 
-function boolean_explain_link() {
-global $ibforums;
-return <<<EOF
+    function boolean_explain_link()
+    {
+        global $ibforums;
+        return <<<EOF
 
 &#091; <a href="#" title="{$ibforums->lang["be_ttip"]}" onclick="win_pop()">{$ibforums->lang["be_link"]}</a> &#093;
 
 EOF;
-}
+    }
 
 
-function end_as_post($Data) {
-$legend = View::make('global.topicsListLegend');
-return <<<EOF
+    function end_as_post($Data)
+    {
+        $legend = View::make('global.topicsListLegend');
+        return <<<EOF
 <div class="b-list-pages-wrapper b-found-posts-list-pages b-found-posts-pages-bottom">{$Data[SHOW_PAGES]}</div>
 <div class="b-legend-row-wrapper clearfix">
 {$legend}
 </div>
 EOF;
-}
+    }
 
 
-function result_simple_entry($data) {
-global $ibforums;
-return <<<EOF
+    function result_simple_entry($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <div class="{$data["css_class"]}">
   <span class="googlish"><a href="{$ibforums->base_url}act=ST&amp;t={$data["tid"]}&amp;f={$data["id"]}&amp;view=findpost&amp;p={$data["pid"]}">{$data["title"]}</span></a>
@@ -188,12 +201,13 @@ return <<<EOF
   <br>
 
 EOF;
-}
+    }
 
 
-function result_simple_header($data) {
-global $ibforums;
-return <<<EOF
+    function result_simple_header($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="plainborder">
   <div class="maintitle"><{CAT_IMG}>&nbsp;{$ibforums->lang["search_results"]}</div>
@@ -207,12 +221,13 @@ return <<<EOF
   <br>
 
 EOF;
-}
+    }
 
 
-function RenderPinnedRow($Data) {
-global $ibforums;
-return <<<EOF
+    function RenderPinnedRow($Data)
+    {
+        global $ibforums;
+        return <<<EOF
 
     <tr>
       <td align="center" class="pinned_topic">{$Data["folder_img"]}</td>
@@ -228,47 +243,53 @@ return <<<EOF
     </tr>
 
 EOF;
-}
+    }
 
 
-function button() {
-global $ibforums;
-$action="Search";
-if(preg_match("/act\=Select/",$_SERVER['REQUEST_URI'])) $action="Select";
+    function button()
+    {
+        global $ibforums;
+        $action = "Search";
+        if (preg_match("/act\=Select/", $_SERVER['REQUEST_URI'])) {
+            $action = "Select";
+        }
 
-return <<<EOF
+        return <<<EOF
 <a href="{$ibforums->base_url}act={$action}&amp;CODE=02" target="_blank">{$ibforums->lang["select_button"]}</a>
 
 EOF;
-}
+    }
 
 
-function active_none() {
-global $ibforums;
-return <<<EOF
+    function active_none()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr><td colspan="8" class="row1" align="center"><strong>{$ibforums->lang["active_no_topics"]}</strong></td></tr>
 
 EOF;
-}
+    }
 
 
-function checkbox_where() {
-global $ibforums;
-return <<<EOF
+    function checkbox_where()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <br>
 <label><input type="checkbox" name="space_determine" value="1" class="checkbox">{$ibforums->lang["space_determine"]}</label>
 <label><br><input type="checkbox" name="space_determine" value="phrase" class="checkbox">{$ibforums->lang["space_determine_phrase"]}</label>
 
 EOF;
-}
+    }
 
-function Form($forums, $search_txt = "", $where = "") {
-global $ibforums, $print;
-	$print->js->addVariable('current_forum', Ibf::app()->input["f"]);
-	$print->js->addLocal('search.js');
-return <<<EOF
+    function Form($forums, $search_txt = "", $where = "")
+    {
+        global $ibforums, $print;
+        $print->js->addVariable('current_forum', Ibf::app()->input["f"]);
+        $print->js->addLocal('search.js');
+        return <<<EOF
 <form action="{$ibforums->base_url}" method="get" name="sForm">
 <input type="hidden" name="act" value="Search">
 <input type="hidden" name="CODE" value="01">
@@ -384,15 +405,16 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function end($Data) {
-if (!$Data["modform_close"]) {
-	$Data["modform_close"] = "</table>";
-}
-$legend = View::make('global.topicsListLegend');
-return <<<EOF
+    function end($Data)
+    {
+        if (!$Data["modform_close"]) {
+            $Data["modform_close"] = "</table>";
+        }
+        $legend = View::make('global.topicsListLegend');
+        return <<<EOF
 
 {$Data["modform_close"]}
 <div class="titlemedium b-search-topics-list-footer-row">&nbsp;</div>
@@ -402,12 +424,13 @@ return <<<EOF
 {$legend}
 </div>
 EOF;
-}
+    }
 
 
-function boolean_explain_page() {
-global $ibforums;
-return <<<EOF
+    function boolean_explain_page()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
  <div class="maintitle"><{CAT_IMG}>&nbsp;{$ibforums->lang["be_link"]}</div>
@@ -440,22 +463,24 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function checkbox($data) {
-global $ibforums;
-return <<<EOF
+    function checkbox($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <input type="checkbox" name="{$data["qid"]}{$data["id"]}" value="1" {$data["sh"]}>
 
 EOF;
-}
+    }
 
 
-function start($Data,$button = "") {
-global $ibforums;
-return <<<EOF
+    function start($Data, $button = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table class="b-forums-list-actions-row b-list-actions-row">
 {$Data[SEARCH_DAYS]}
@@ -482,14 +507,15 @@ return <<<EOF
   </tr>
   </thead>
 EOF;
-}
+    }
 
 
-function simple_form($forums, $search_txt = "", $where = "") {
-global $ibforums, $print;
-	$print->js->addLocal('search.js');
-	$print->js->addVariable('current_forum', Ibf::app()->input['f']);
-return <<<EOF
+    function simple_form($forums, $search_txt = "", $where = "")
+    {
+        global $ibforums, $print;
+        $print->js->addLocal('search.js');
+        $print->js->addVariable('current_forum', Ibf::app()->input['f']);
+        return <<<EOF
 <form action="{$ibforums->base_url}act=Search&amp;CODE=simpleresults&amp;mode=simple" method="post" name="sForm">
 <div class="tableborder">
   <div class="maintitle"  align="center">{$ibforums->lang["search_options"]}</div>
@@ -523,15 +549,16 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
 //------------------------------
 // Yandex and Google search form
 
-function alien_form($message = "") {
-global $ibforums;
-return <<<EOF
+    function alien_form($message = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
 <div class="maintitle"  align="center">{$ibforums->lang["search_form"]}</div>
@@ -574,14 +601,15 @@ return <<<EOF
 </div>
 <br>
 EOF;
-}
+    }
 
 
 
 
-function boardlay_between($data,$checkbox = "") {
-global $ibforums;
-return <<<EOF
+    function boardlay_between($data, $checkbox = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class="{$data["css"]}">{$checkbox}</td>
@@ -589,15 +617,18 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function boardlay_start() {
-global $ibforums;
-$action="Search";
-if(preg_match("/act\=Select/",$_SERVER["REQUEST_URI"])) $action="Select";
+    function boardlay_start()
+    {
+        global $ibforums;
+        $action = "Search";
+        if (preg_match("/act\=Select/", $_SERVER["REQUEST_URI"])) {
+            $action = "Select";
+        }
 
-return <<<EOF
+        return <<<EOF
 
 	<div class="pformstrip">{$ibforums->lang["boardlay_title"]}</div>
 	<div align="center" class="tableborder">
@@ -612,12 +643,13 @@ return <<<EOF
 		<tr><td colspan="2" id="submenu"><center>{$ibforums->lang["boardlay_note"]}</center></td></tr>
 
 EOF;
-}
+    }
 
 
-function boardlay_end() {
-global $ibforums;
-return <<<EOF
+    function boardlay_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 		<tr><td class="pformstrip" colspan="2" align="center"><input type="submit" class="forminput" value="{$ibforums->lang["submit"]}"></td></tr>
 		</table>
@@ -625,35 +657,38 @@ return <<<EOF
 	</div>
 
 EOF;
-}
+    }
 
 
-function boardlay_successful() {
-global $ibforums;
-return <<<EOF
+    function boardlay_successful()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div id="submenu"><center>{$ibforums->lang["boardlay_successful"]}</center></div>
 <center><a href="javascript:self.close();">Закрыть окно</a></center>
 
 
 EOF;
-}
+    }
 
 
-function form_simple_button() {
-global $ibforums;
-return <<<EOF
+    function form_simple_button()
+    {
+        global $ibforums;
+        return <<<EOF
 
 &nbsp;<input type="button" value="{$ibforums->lang["so_less_opts"]}" onclick="go_gadget_simple()" class="forminput">
 
 EOF;
-}
+    }
 
 
-function active_start($data) {
-global $ibforums, $print;
-$print->exportJSLang(['active_js_error']);
-return <<<EOF
+    function active_start($data)
+    {
+        global $ibforums, $print;
+        $print->exportJSLang(['active_js_error']);
+        return <<<EOF
 <br>
 <form action="{$ibforums->base_url}act=Search&amp;CODE=getactive" method="post" name="dateline" onsubmit="return checkvalues();">
 <div class="pagelinks">{$data["SHOW_PAGES"]}</div>
@@ -703,11 +738,12 @@ return <<<EOF
 	</tr>
 
 EOF;
-}
+    }
 
-function start_search_days() {
-global $ibforums;
-return <<<EOF
+    function start_search_days()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class="b-search-filter-wrapper">
@@ -718,11 +754,12 @@ return <<<EOF
   <select name="search_days" class="forminput">
 
 EOF;
-}
+    }
 
-function end_search_days() {
-global $ibforums;
-return <<<EOF
+    function end_search_days()
+    {
+        global $ibforums;
+        return <<<EOF
 
  </select>
  <input type="submit" value="{$ibforums->lang["do_search"]}" class="forminput form-submit">
@@ -731,14 +768,15 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function search_days($days, $title, $check = "") {
-return <<<EOF
+    function search_days($days, $title, $check = "")
+    {
+        return <<<EOF
 
 <option value="$days"$check>$title</option>
 
 EOF;
-}
+    }
 }

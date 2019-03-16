@@ -1,6 +1,7 @@
 <?PHP
-function vothtml() {
-return <<<EOF
+function vothtml()
+{
+    return <<<EOF
 
 
 EOF;

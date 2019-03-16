@@ -21,487 +21,438 @@
 +--------------------------------------------------------------------------
 */
 
-$idx = new SongFunc;
+$idx = new SongFunc();
 
 class SongFunc
 {
 
-	var $output = "";
+    var $output = "";
 
-	function SongFunc()
-	{
-		global $ibforums, $std, $print;
+    function SongFunc()
+    {
+        global $ibforums, $std, $print;
 
-		$ibforums->input['t'] = intval($ibforums->input['t']);
+        $ibforums->input['t'] = intval($ibforums->input['t']);
 
-		switch ($ibforums->input['CODE'])
-		{
-			case 'forums_recount':
-				$this->output = $this->all_forums_order_recount();
-				break;
+        switch ($ibforums->input['CODE']) {
+            case 'forums_recount':
+                $this->output = $this->all_forums_order_recount();
+                break;
 
-			case 'last_post_id':
-				$this->output = $this->check_new();
-				break;
+            case 'last_post_id':
+                $this->output = $this->check_new();
+                break;
 
-			case 'index_posts':
-				$this->output = $this->index_data_posts($ibforums->input['f']);
-				break;
+            case 'index_posts':
+                $this->output = $this->index_data_posts($ibforums->input['f']);
+                break;
 
-			case 'index_topics':
-				$this->output = $this->index_data_topics($ibforums->input['f']);
-				break;
+            case 'index_topics':
+                $this->output = $this->index_data_topics($ibforums->input['f']);
+                break;
 
-			case 'club_enable':
-				$this->club_member_enable($ibforums->input['mid']);
-				break;
-			default:
-				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-				break;
-		}
+            case 'club_enable':
+                $this->club_member_enable($ibforums->input['mid']);
+                break;
+            default:
+                $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+                break;
+        }
 
-		if ($ibforums->input['CODE'] == 'last_post_id')
-		{
-			//---------------------------------------
-			// Close this DB connection
-			//---------------------------------------
+        if ($ibforums->input['CODE'] == 'last_post_id') {
+            //---------------------------------------
+            // Close this DB connection
+            //---------------------------------------
 
-			//---------------------------------------
-			// Start GZIP compression
-			//---------------------------------------
+            //---------------------------------------
+            // Start GZIP compression
+            //---------------------------------------
 
-			if ($ibforums->vars['disable_gzip'] != 1)
-			{
-				$buffer = ob_get_contents();
-				ob_end_clean();
-				ob_start('ob_gzhandler');
-				print $buffer;
-			}
+            if ($ibforums->vars['disable_gzip'] != 1) {
+                $buffer = ob_get_contents();
+                ob_end_clean();
+                ob_start('ob_gzhandler');
+                print $buffer;
+            }
 
-			$print->do_headers();
-			print $this->output;
+            $print->do_headers();
+            print $this->output;
 
-			exit;
-		} else
-		{
-			$print->add_output("$this->output");
-			$print->do_output(array());
-		}
+            exit;
+        } else {
+            $print->add_output("$this->output");
+            $print->do_output(array());
+        }
+    }
 
-	}
+    function club_member_enable($mid = 0)
+    {
+        global $ibforums, $std;
 
-	function club_member_enable($mid = 0)
-	{
-		global $ibforums, $std;
+        $mid = intval($mid);
 
-		$mid = intval($mid);
+        if (!$ibforums->member['id'] or
+            !$mid or
+            !$ibforums->vars['club_boss'] or
+            !$ibforums->vars['club_group']
+        ) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		if (!$ibforums->member['id'] or
-		    !$mid or
-		    !$ibforums->vars['club_boss'] or
-		    !$ibforums->vars['club_group']
-		)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
-
-		if ($ibforums->member['g_is_supmod'] or
-		    $ibforums->member['id'] == $ibforums->vars['club_boss']
-		)
-		{
-			$stmt = $ibforums->db->query("SELECT name,mgroup
+        if ($ibforums->member['g_is_supmod'] or
+            $ibforums->member['id'] == $ibforums->vars['club_boss']
+        ) {
+            $stmt = $ibforums->db->query("SELECT name,mgroup
 			    FROM ibf_members WHERE id='" . $mid . "'");
 
-			if ($user = $stmt->fetch())
-			{
-				if ($user['mgroup'] != $ibforums->vars['member_group'])
-				{
-					$std->Error(array(
-					                 'LEVEL' => 1,
-					                 'MSG'   => 'no_permission'
-					            ));
-				}
+            if ($user = $stmt->fetch()) {
+                if ($user['mgroup'] != $ibforums->vars['member_group']) {
+                    $std->Error(array(
+                                     'LEVEL' => 1,
+                                     'MSG'   => 'no_permission'
+                                ));
+                }
 
-				$ibforums->db->exec("UPDATE ibf_members
+                $ibforums->db->exec("UPDATE ibf_members
 				    SET
 					mgroup='" . $ibforums->vars['club_group'] . "',
 					disable_group=0
 				    WHERE id='" . $mid . "'");
 
-				$message = "Уважаемый(ая), %s!\nМы имеем честь пригласить Вас в закрытый клуб Sources.Ru ";
+                $message = "Уважаемый(ая), %s!\nМы имеем честь пригласить Вас в закрытый клуб Sources.Ru ";
 
-				$message .= "([URL=http://forum.sources.ru/index.php?c=9]Клуб на Исходниках.RU[/URL]). ";
+                $message .= "([URL=http://forum.sources.ru/index.php?c=9]Клуб на Исходниках.RU[/URL]). ";
 
-				$message .= "Надеемся, что Вы станете завсегдатаем этого ";
+                $message .= "Надеемся, что Вы станете завсегдатаем этого ";
 
-				$message .= "приятного во всех отношениях заведения, и мы не раз сможем услышать ваш голос в его ";
+                $message .= "приятного во всех отношениях заведения, и мы не раз сможем услышать ваш голос в его ";
 
-				$message .= "виртуальых стенах.\n\n С уважением, члены клуба Sources.Ru";
+                $message .= "виртуальых стенах.\n\n С уважением, члены клуба Sources.Ru";
 
-				$title = "Приглашение в Клуб на Исходниках.RU";
+                $title = "Приглашение в Клуб на Исходниках.RU";
 
-				$std->sendpm($mid, sprintf($message, $user['name']), $title, $ibforums->vars['club_boss']);
+                $std->sendpm($mid, sprintf($message, $user['name']), $title, $ibforums->vars['club_boss']);
 
-				$std->boink_it($ibforums->base_url . "showuser=" . $mid);
-			} else
-			{
-				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-			}
-		} else
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
-		}
+                $std->boink_it($ibforums->base_url . "showuser=" . $mid);
+            } else {
+                $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+            }
+        } else {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
+        }
+    }
 
-	}
+    function check_new()
+    {
+        global $ibforums, $std;
 
-	function check_new()
-	{
-		global $ibforums, $std;
+        if (!$ibforums->input['t']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		if (!$ibforums->input['t'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        $stmt = $ibforums->db->query("SELECT max(pid) as pid FROM ibf_posts WHERE queued != 1 AND topic_id='" . $ibforums->input['t'] . "'");
 
-		$stmt = $ibforums->db->query("SELECT max(pid) as pid FROM ibf_posts WHERE queued != 1 AND topic_id='" . $ibforums->input['t'] . "'");
+        if (!$post = $stmt->fetch() or !$post['pid']) {
+            return "Error";
+        } else {
+            $stmt = $ibforums->db->query("SELECT Concat(posts,';',last_poster_name) as info FROM ibf_topics WHERE tid='" . $ibforums->input['t'] . "'");
 
-		if (!$post = $stmt->fetch() or !$post['pid'])
-		{
-			return "Error";
-		} else
-		{
-			$stmt = $ibforums->db->query("SELECT Concat(posts,';',last_poster_name) as info FROM ibf_topics WHERE tid='" . $ibforums->input['t'] . "'");
+            if ($info = $stmt->fetch()) {
+                $post['pid'] .= ";" . $info['info'];
+            }
 
-			if ($info = $stmt->fetch())
-			{
-				$post['pid'] .= ";" . $info['info'];
-			}
+            return $post['pid'];
+        }
+    }
 
-			return $post['pid'];
-		}
+    function all_forums_order_recount()
+    {
+        global $std;
+        $ibforums = Ibf::app();
 
-	}
+        $ibforums->db->query("TRUNCATE ibf_forums_order");
 
-	function all_forums_order_recount()
-	{
-		global $std;
-		$ibforums = Ibf::app();
+        $forums = array();
 
-		$ibforums->db->query("TRUNCATE ibf_forums_order");
+        $stmt = $ibforums->db->query("SELECT id, parent_id FROM ibf_forums");
 
-		$forums = array();
+        while ($row = $stmt->fetch()) {
+            $forums[$row['id']] = $row['parent_id'];
+        }
 
-		$stmt = $ibforums->db->query("SELECT id, parent_id FROM ibf_forums");
+        foreach ($forums as $id => $row) {
+            $std->update_forum_order_cache($id, $row);
+        }
 
-		while ($row = $stmt->fetch())
-		{
-			$forums[$row['id']] = $row['parent_id'];
-		}
+        return "Done!";
+    }
 
-		foreach ($forums as $id => $row)
-		{
-			$std->update_forum_order_cache($id, $row);
-		}
+    function clean_words(&$entry, &$stopword, &$synonym)
+    {
 
-		return "Done!";
+        static $drop_char_match = array(
+            '&quot;',
+            '^',
+            '$',
+            '&',
+            '(',
+            ')',
+            '<',
+            '>',
+            '`',
+            '\'',
+            '"',
+            '|',
+            ',',
+            '@',
+            '_',
+            '?',
+            '%',
+            '-',
+            '~',
+            '+',
+            '.',
+            '[',
+            ']',
+            '{',
+            '}',
+            ':',
+            '\\',
+            '/',
+            '=',
+            '#',
+            '\'',
+            ';',
+            '!'
+        );
+        static $drop_char_replace = array(
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            '',
+            '',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            '',
+            ' ',
+            ' ',
+            '',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' ',
+            ' '
+        );
 
-	}
+        $entry = " " . strip_tags($entry) . " ";
 
-	function clean_words(&$entry, &$stopword, &$synonym)
-	{
+        // Remove time tag
+        $entry = preg_replace("#\[mergetime\](\d+)\[/mergetime\]#is", "", $entry);
 
-		static $drop_char_match = array(
-			'&quot;',
-			'^',
-			'$',
-			'&',
-			'(',
-			')',
-			'<',
-			'>',
-			'`',
-			'\'',
-			'"',
-			'|',
-			',',
-			'@',
-			'_',
-			'?',
-			'%',
-			'-',
-			'~',
-			'+',
-			'.',
-			'[',
-			']',
-			'{',
-			'}',
-			':',
-			'\\',
-			'/',
-			'=',
-			'#',
-			'\'',
-			';',
-			'!'
-		);
-		static $drop_char_replace = array(
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			'',
-			'',
-			' ',
-			' ',
-			' ',
-			' ',
-			'',
-			' ',
-			' ',
-			'',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' ',
-			' '
-		);
+        // Replace line endings by a space
+        $entry = preg_replace("/[\n\r]/is", " ", $entry);
 
-		$entry = " " . strip_tags($entry) . " ";
+        // Quickly remove BBcode.
+        $entry = preg_replace("/\[\/?[a-zA-Z*]+[^\]]*\]/", " ", $entry);
+        $entry = preg_replace("#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#is", " ", $entry);
 
-		// Remove time tag
-		$entry = preg_replace("#\[mergetime\](\d+)\[/mergetime\]#is", "", $entry);
+        // HTML entities like &nbsp;
+        $entry = preg_replace("/\b&[a-z]+;\b/", " ", $entry);
 
-		// Replace line endings by a space
-		$entry = preg_replace("/[\n\r]/is", " ", $entry);
+        // Filter out strange characters like ^, $, &, change "it's" to "its"
+        $entry = str_replace($drop_char_match, $drop_char_replace, $entry);
 
-		// Quickly remove BBcode.
-		$entry = preg_replace("/\[\/?[a-zA-Z*]+[^\]]*\]/", " ", $entry);
-		$entry = preg_replace("#(^|\s)((http|https|news|ftp)://\w+[^\s\[\]]+)#is", " ", $entry);
+        if (!empty($stopword)) {
+            for ($j = 0; $j < count($stopword); $j++) {
+                $stopword = trim($stopword[$j]);
 
-		// HTML entities like &nbsp;
-		$entry = preg_replace("/\b&[a-z]+;\b/", " ", $entry);
+                if ($stopword != "not" && $stopword != "and" && $stopword != "or") {
+                    $entry = str_replace(" " . trim($stopword) . " ", " ", $entry);
+                }
+            }
+        }
 
-		// Filter out strange characters like ^, $, &, change "it's" to "its"
-		$entry = str_replace($drop_char_match, $drop_char_replace, $entry);
+        if (!empty($synonym)) {
+            for ($j = 0; $j < count($synonym); $j++) {
+                list($replace_synonym, $match_synonym) = preg_split("/ /", trim($synonym[$j]));
 
-		if (!empty($stopword))
-		{
-			for ($j = 0; $j < count($stopword); $j++)
-			{
-				$stopword = trim($stopword[$j]);
+                if ($match_synonym != "not" && $match_synonym != "and" && $match_synonym != "or") {
+                    $entry = str_replace(" " . trim($match_synonym) . " ", " " . trim($replace_synonym) . " ", $entry);
+                }
+            }
+        }
 
-				if ($stopword != "not" && $stopword != "and" && $stopword != "or")
-				{
-					$entry = str_replace(" " . trim($stopword) . " ", " ", $entry);
-				}
-			}
-		}
+        return $entry;
+    }
 
-		if (!empty($synonym))
-		{
-			for ($j = 0; $j < count($synonym); $j++)
-			{
-				list($replace_synonym, $match_synonym) = preg_split("/ /", trim($synonym[$j]));
+    function split_words(&$entry)
+    {
+        return explode(" ", trim(preg_replace("#\s+#", " ", $entry)));
+    }
 
-				if ($match_synonym != "not" && $match_synonym != "and" && $match_synonym != "or")
-				{
-					$entry = str_replace(" " . trim($match_synonym) . " ", " " . trim($replace_synonym) . " ", $entry);
-				}
-			}
-		}
+    function analyze_post($post_text)
+    {
 
-		return $entry;
+        if (!$post_text) {
+            return;
+        }
 
-	}
+        $stopword = array();
+        $synonym  = array();
 
-	function split_words(&$entry)
-	{
-		return explode(" ", trim(preg_replace("#\s+#", " ", $entry)));
-	}
+        // loading stop and synonym words to its array
 
-	function analyze_post($post_text)
-	{
+        $words = $this->split_words($this->clean_words($post_text, $stopword, $synonym));
 
-		if (!$post_text)
-		{
-			return;
-		}
+        if (count($words)) {
+            sort($words);
 
-		$stopword = array();
-		$synonym  = array();
+            $temp_words = array();
 
-		// loading stop and synonym words to its array
+            $prev_word = "";
 
-		$words = $this->split_words($this->clean_words($post_text, $stopword, $synonym));
+            for ($i = 0; $i < count($words); $i++) {
+                $words[$i] = trim($words[$i]);
 
-		if (count($words))
-		{
-			sort($words);
+                if ($words[$i] != $prev_word) {
+                    $temp_words[] = $words[$i];
+                }
 
-			$temp_words = array();
+                $prev_word = $words[$i];
+            }
 
-			$prev_word = "";
+            unset($words);
 
-			for ($i = 0; $i < count($words); $i++)
-			{
-				$words[$i] = trim($words[$i]);
+            for ($i = 0; $i < count($temp_words); $i++) {
+                $length = mb_strlen($temp_words[$i]);
 
-				if ($words[$i] != $prev_word)
-				{
-					$temp_words[] = $words[$i];
-				}
+                if ($length > 2 and $length < 50) {
+                    $words[] = $temp_words[$i];
+                }
+            }
 
-				$prev_word = $words[$i];
-			}
+            unset($temp_words);
+        }
 
-			unset($words);
+        return $words;
+    }
 
-			for ($i = 0; $i < count($temp_words); $i++)
-			{
-				$length = mb_strlen($temp_words[$i]);
+    function index_data_posts($fid = 0)
+    {
+        global $ibforums, $std;
 
-				if ($length > 2 and $length < 50)
-				{
-					$words[] = $temp_words[$i];
-				}
-			}
+        @set_time_limit(0);
 
-			unset($temp_words);
-		}
+        $fid = intval($fid);
 
-		return $words;
+        if (!$fid or $ibforums->member['mgroup'] != $ibforums->vars['admin_group']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-	}
-
-	function index_data_posts($fid = 0)
-	{
-		global $ibforums, $std;
-
-		@set_time_limit(0);
-
-		$fid = intval($fid);
-
-		if (!$fid or $ibforums->member['mgroup'] != $ibforums->vars['admin_group'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
-
-		$stmt = $ibforums->db->query("SELECT pid, LOWER(post) as post, topic_id, forum_id FROM ibf_posts
+        $stmt = $ibforums->db->query("SELECT pid, LOWER(post) as post, topic_id, forum_id FROM ibf_posts
 			     WHERE forum_id='" . $fid . "' and indexed=0");
 
-		while ($post = $stmt->fetch())
-		{
-			// at first delete indexed earlier words
-			$ibforums->db->exec("DELETE FROM ibf_search_post_words WHERE pid='" . $post['pid'] . "'");
+        while ($post = $stmt->fetch()) {
+            // at first delete indexed earlier words
+            $ibforums->db->exec("DELETE FROM ibf_search_post_words WHERE pid='" . $post['pid'] . "'");
 
-			// get words array
-			$words = $this->analyze_post($post['post']);
+            // get words array
+            $words = $this->analyze_post($post['post']);
 
-			if (count($words))
-			{
-				$insert = $ibforums->db->prepare("INSERT IGNORE INTO ibf_search_words (word) VALUES (:word)");
-				$select = $ibforums->db->prepare("SELECT id FROM ibf_search_words WHERE word=:word");
-				foreach ($words as $word)
-				{
-					$select->execute([$word]);
-					if ($select->rowCount()){
-					}else{
-						$insert->execute([$word]);
-					}
-				}
-			}
+            if (count($words)) {
+                $insert = $ibforums->db->prepare("INSERT IGNORE INTO ibf_search_words (word) VALUES (:word)");
+                $select = $ibforums->db->prepare("SELECT id FROM ibf_search_words WHERE word=:word");
+                foreach ($words as $word) {
+                    $select->execute([$word]);
+                    if ($select->rowCount()) {
+                    } else {
+                        $insert->execute([$word]);
+                    }
+                }
+            }
 
-			$ibforums->db->exec("UPDATE ibf_posts SET indexed=1 WHERE pid='" . $post['pid'] . "'");
-		}
+            $ibforums->db->exec("UPDATE ibf_posts SET indexed=1 WHERE pid='" . $post['pid'] . "'");
+        }
 
-		return "Done!";
+        return "Done!";
+    }
 
-	}
+    function index_data_topics($fid = 0)
+    {
+        global $ibforums, $std;
 
-	function index_data_topics($fid = 0)
-	{
-		global $ibforums, $std;
+        @set_time_limit(0);
 
-		@set_time_limit(0);
+        $fid = intval($fid);
 
-		$fid = intval($fid);
+        if (!$fid or $ibforums->member['mgroup'] != $ibforums->vars['admin_group']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		if (!$fid or $ibforums->member['mgroup'] != $ibforums->vars['admin_group'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
-
-		$stmt = $ibforums->db->query("SELECT tid, forum_id, LOWER(title) as title, LOWER(description) as description
+        $stmt = $ibforums->db->query("SELECT tid, forum_id, LOWER(title) as title, LOWER(description) as description
 			      FROM ibf_topics WHERE forum_id='" . $fid . "' and indexed=0");
 
-		while ($topic = $stmt->fetch())
-		{
-			// at first delete indexed earlier words
-			$ibforums->db->exec("DELETE FROM ibf_search_post_words WHERE tid='" . $topic['tid'] . "' and pid=0");
+        while ($topic = $stmt->fetch()) {
+            // at first delete indexed earlier words
+            $ibforums->db->exec("DELETE FROM ibf_search_post_words WHERE tid='" . $topic['tid'] . "' and pid=0");
 
-			// get words array
-			$words       = $this->analyze_post($topic['title']);
-			$description = $this->analyze_post($topic['description']);
+            // get words array
+            $words       = $this->analyze_post($topic['title']);
+            $description = $this->analyze_post($topic['description']);
 
-			// join both arrays to one
-			$words = array_merge($words, $description);
-			unset($description);
+            // join both arrays to one
+            $words = array_merge($words, $description);
+            unset($description);
 
-			if (count($words))
-			{
-				foreach ($words as $word)
-				{
-					// insert word
-					$cnt = $ibforums->db->exec("INSERT INTO ibf_search_words (word) VALUES ('" . addslashes($word) . "')");
+            if (count($words)) {
+                foreach ($words as $word) {
+                    // insert word
+                    $cnt = $ibforums->db->exec("INSERT INTO ibf_search_words (word) VALUES ('" . addslashes($word) . "')");
 
-					$id = 0;
+                    $id = 0;
 
-					// if word has been in a database
-					if ($cnt == 0)
-					{
-						// get id of existing word
-						$stmt = $ibforums->db->query("SELECT id FROM ibf_search_words WHERE word='" . addslashes($word) . "'");
+                    // if word has been in a database
+                    if ($cnt == 0) {
+                        // get id of existing word
+                        $stmt = $ibforums->db->query("SELECT id FROM ibf_search_words WHERE word='" . addslashes($word) . "'");
 
-						if ($row = $stmt->fetch())
-						{
-							$id = $row['id'];
-						}
-					} else
-					{
-						// else get id of inserted word
-						$id = $ibforums->db->lastInsertId();
-					}
+                        if ($row = $stmt->fetch()) {
+                            $id = $row['id'];
+                        }
+                    } else {
+                        // else get id of inserted word
+                        $id = $ibforums->db->lastInsertId();
+                    }
 
-					// add word record
-					if ($id)
-					{
-						$ibforums->db->exec("INSERT INTO ibf_search_post_words VALUES (0,
+                    // add word record
+                    if ($id) {
+                        $ibforums->db->exec("INSERT INTO ibf_search_post_words VALUES (0,
 					   " . $topic['tid'] . "," . $topic['forum_id'] . ",
 					    " . $id . ")");
-					}
-				}
-			}
+                    }
+                }
+            }
 
-			$ibforums->db->exec("UPDATE ibf_topics SET indexed=1 WHERE tid='" . $topic['tid'] . "'");
-		}
+            $ibforums->db->exec("UPDATE ibf_topics SET indexed=1 WHERE tid='" . $topic['tid'] . "'");
+        }
 
-		return "Done!";
-
-	}
-
+        return "Done!";
+    }
 }

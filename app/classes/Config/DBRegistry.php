@@ -60,5 +60,4 @@ class DBRegistry extends Registry
             }
         }
     }
-
 }

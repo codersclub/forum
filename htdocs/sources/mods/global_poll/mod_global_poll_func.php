@@ -21,184 +21,166 @@ use Views\View;
 class global_poll
 {
 
-	var $output = "";
-	var $lang = "";
-	var $parser = "";
+    var $output = "";
+    var $lang = "";
+    var $parser = "";
 
-	function getOutput()
-	{
+    function getOutput()
+    {
 
-		global $ibforums, $std, $root_path;
+        global $ibforums, $std, $root_path;
 
-		$this->parser = new PostParser();
+        $this->parser = new PostParser();
 
-		// We need the user's language:
-		$this->lang_id = $ibforums->member['language'] == ""
-			? ($ibforums->vars['default_language'] == ""
-				? 'en'
-				: $ibforums->vars['default_language'])
-			: $ibforums->member['language'];
-		if (file_exists($root_path . "lang/" . $this->lang_id . "/mod_global_poll_lang.php"))
-		{
-			$this->lang = $std->load_words($this->lang, 'mod_global_poll_lang', $this->lang_id);
-		} else
-		{
-			die("Could not load required language file 'lang/$this->lang_id/mod_global_poll.php'");
-		}
+        // We need the user's language:
+        $this->lang_id = $ibforums->member['language'] == ""
+            ? ($ibforums->vars['default_language'] == ""
+                ? 'en'
+                : $ibforums->vars['default_language'])
+            : $ibforums->member['language'];
+        if (file_exists($root_path . "lang/" . $this->lang_id . "/mod_global_poll_lang.php")) {
+            $this->lang = $std->load_words($this->lang, 'mod_global_poll_lang', $this->lang_id);
+        } else {
+            die("Could not load required language file 'lang/$this->lang_id/mod_global_poll.php'");
+        }
 
-		$stmt = $ibforums->db->query("SELECT starter_id, choices, votes, poll_question, tid
+        $stmt = $ibforums->db->query("SELECT starter_id, choices, votes, poll_question, tid
 		    FROM ibf_polls
 	            WHERE tid='" . $ibforums->vars['global_poll'] . "'");
 
-		if ($stmt->rowCount() > 0)
-		{
-			$poll_data = $stmt->fetch();
-			$this->output .= $this->get_poll($poll_data);
-		}
+        if ($stmt->rowCount() > 0) {
+            $poll_data = $stmt->fetch();
+            $this->output .= $this->get_poll($poll_data);
+        }
 
-		return $this->output;
+        return $this->output;
+    }
 
-	}
+    function get_poll($poll_data)
+    {
 
-	function get_poll($poll_data)
-	{
+        global $ibforums, $std;
 
-		global $ibforums, $std;
-
-		$stmt = $ibforums->db->query("SELECT p.author_id,p.author_name,p.post,p.use_emo,
+        $stmt = $ibforums->db->query("SELECT p.author_id,p.author_name,p.post,p.use_emo,
 			    post_date,t.title,t.icon_id
 		    FROM ibf_posts p
  		     LEFT JOIN ibf_topics t ON (t.tid=p.topic_id)
 		    WHERE p.topic_id='" . $poll_data["tid"] . "' and p.new_topic=1 LIMIT 1");
 
-		$poll_text = $stmt->fetch();
+        $poll_text = $stmt->fetch();
 
-		$emoticon                = $poll_text['icon_id']
-			? "<img src='" . $ibforums->skin->getImagesPath() . "/icon" . $poll_text['icon_id'] . ".gif' alt='' />&nbsp;"
-			: "";
-		$data                    = array(
-			'TEXT'      => $poll_text["post"],
-			'SMILIES'   => $poll_text['use_emo'],
-			'CODE'      => 1,
-			'SIGNATURE' => 0,
-			'HTML'      => 1,
-		);
-		$header["poll_text"]     = $this->parser->prepare($data);
-		$header["poll_question"] = $poll_data["poll_question"];
-		$header["global_poll"]   = $this->lang["global_poll"];
-		$header["header_text"]   = $emoticon . " " . $this->lang['poll_topic'] . " : <a href={$ibforums->base_url}showtopic=" . $poll_data["tid"] . "&view=getnewpost>" . $poll_text["title"] . "</a> " . $this->lang['by'] . " <a href={$ibforums->base_url}showuser=" . $poll_text['author_id'] . ">" . $poll_text['author_name'] . "</a>";
-		$header["form_url"]      = $ibforums->base_url . "act=Poll&amp;t=" . $poll_data["tid"];
+        $emoticon                = $poll_text['icon_id']
+            ? "<img src='" . $ibforums->skin->getImagesPath() . "/icon" . $poll_text['icon_id'] . ".gif' alt='' />&nbsp;"
+            : "";
+        $data                    = array(
+            'TEXT'      => $poll_text["post"],
+            'SMILIES'   => $poll_text['use_emo'],
+            'CODE'      => 1,
+            'SIGNATURE' => 0,
+            'HTML'      => 1,
+        );
+        $header["poll_text"]     = $this->parser->prepare($data);
+        $header["poll_question"] = $poll_data["poll_question"];
+        $header["global_poll"]   = $this->lang["global_poll"];
+        $header["header_text"]   = $emoticon . " " . $this->lang['poll_topic'] . " : <a href={$ibforums->base_url}showtopic=" . $poll_data["tid"] . "&view=getnewpost>" . $poll_text["title"] . "</a> " . $this->lang['by'] . " <a href={$ibforums->base_url}showuser=" . $poll_text['author_id'] . ">" . $poll_text['author_name'] . "</a>";
+        $header["form_url"]      = $ibforums->base_url . "act=Poll&amp;t=" . $poll_data["tid"];
 
-		$this->output .= View::make("mod_global_poll_skin.global_poll_table_header", ['data' => $header]);
+        $this->output .= View::make("mod_global_poll_skin.global_poll_table_header", ['data' => $header]);
 
-		// Have we voted in this poll?
+        // Have we voted in this poll?
 
-		$stmt  = $ibforums->db->query("SELECT member_id from ibf_voters WHERE member_id='" . $ibforums->member['id'] . "' and tid='" . $ibforums->vars['global_poll'] . "'");
-		$voter = $stmt->fetch();
+        $stmt  = $ibforums->db->query("SELECT member_id from ibf_voters WHERE member_id='" . $ibforums->member['id'] . "' and tid='" . $ibforums->vars['global_poll'] . "'");
+        $voter = $stmt->fetch();
 
-		if ($voter['member_id'] != 0)
-		{
-			$check       = 1;
-			$poll_footer = $this->lang['poll_you_voted'];
-		}
+        if ($voter['member_id'] != 0) {
+            $check       = 1;
+            $poll_footer = $this->lang['poll_you_voted'];
+        }
 
-		if (($poll_data['starter_id'] == $ibforums->member['id']) and ($ibforums->vars['allow_creator_vote'] != 1))
-		{
-			$check       = 1;
-			$poll_footer = $this->lang['poll_you_created'];
-		}
+        if (($poll_data['starter_id'] == $ibforums->member['id']) and ($ibforums->vars['allow_creator_vote'] != 1)) {
+            $check       = 1;
+            $poll_footer = $this->lang['poll_you_created'];
+        }
 
-		if (!$ibforums->member['id'])
-		{
-			$check       = 1;
-			$poll_footer = $this->lang['poll_no_guests'];
-		}
+        if (!$ibforums->member['id']) {
+            $check       = 1;
+            $poll_footer = $this->lang['poll_no_guests'];
+        }
 
-		// is the topic locked?
+        // is the topic locked?
 
-		if ($this->topic['state'] == 'closed')
-		{
-			$check       = 1;
-			$poll_footer = $this->lang['topic_locked'];
-		}
+        if ($this->topic['state'] == 'closed') {
+            $check       = 1;
+            $poll_footer = $this->lang['topic_locked'];
+        }
 
-		if ($check == 1)
-		{
-			// Show the results
+        if ($check == 1) {
+            // Show the results
 
-			$poll_answers = unserialize(stripslashes($poll_data['choices']));
-			reset($poll_answers);
+            $poll_answers = unserialize(stripslashes($poll_data['choices']));
+            reset($poll_answers);
 
-			$total_votes = 0;
+            $total_votes = 0;
 
-			foreach ($poll_answers as $entry)
-			{
-				$id     = $entry[0];
-				$choice = $entry[1];
-				$votes  = $entry[2];
+            foreach ($poll_answers as $entry) {
+                $id     = $entry[0];
+                $choice = $entry[1];
+                $votes  = $entry[2];
 
-				$total_votes += $votes;
+                $total_votes += $votes;
 
-				if (!$choice)
-				{
-					continue;
-				}
+                if (!$choice) {
+                    continue;
+                }
 
-				if ($ibforums->vars['poll_tags'])
-				{
-					$choice = $this->parser->parse_poll_tags($choice);
-				}
+                if ($ibforums->vars['poll_tags']) {
+                    $choice = $this->parser->parse_poll_tags($choice);
+                }
 
-				$percent = $votes == 0
-					? 0
-					: $votes / $poll_data['votes'] * 100;
-				$percent = sprintf('%.2f', $percent);
-				$width   = $percent > 0
-					? (int)$percent * 2
-					: 0;
-				$html .= View::make(
-					"mod_global_poll_skin.Render_row_results",
-					['votes' => $votes, 'id' => $id, 'answer' => $choice, 'percentage' => $percent, 'width' => $width]
-				);
-			}
-			$total_votes = $this->lang['pv_total_votes'] . ": " . $total_votes;
+                $percent = $votes == 0
+                    ? 0
+                    : $votes / $poll_data['votes'] * 100;
+                $percent = sprintf('%.2f', $percent);
+                $width   = $percent > 0
+                    ? (int)$percent * 2
+                    : 0;
+                $html .= View::make(
+                    "mod_global_poll_skin.Render_row_results",
+                    ['votes' => $votes, 'id' => $id, 'answer' => $choice, 'percentage' => $percent, 'width' => $width]
+                );
+            }
+            $total_votes = $this->lang['pv_total_votes'] . ": " . $total_votes;
 
-			$html .= View::make("mod_global_poll_skin.show_total_votes", ['total_votes' => $total_votes]);
+            $html .= View::make("mod_global_poll_skin.show_total_votes", ['total_votes' => $total_votes]);
+        } else {
+            $poll_answers = unserialize(stripslashes($poll_data['choices']));
+            reset($poll_answers);
 
-		} else
-		{
-			$poll_answers = unserialize(stripslashes($poll_data['choices']));
-			reset($poll_answers);
+            // Show poll form
 
-			// Show poll form
+            foreach ($poll_answers as $entry) {
+                $id     = $entry[0];
+                $choice = $entry[1];
+                $votes  = $entry[2];
 
-			foreach ($poll_answers as $entry)
-			{
-				$id     = $entry[0];
-				$choice = $entry[1];
-				$votes  = $entry[2];
+                if (!$choice) {
+                    continue;
+                }
 
-				if (!$choice)
-				{
-					continue;
-				}
+                if ($ibforums->vars['poll_tags']) {
+                    $choice = $this->parser->parse_poll_tags($choice);
+                }
 
-				if ($ibforums->vars['poll_tags'])
-				{
-					$choice = $this->parser->parse_poll_tags($choice);
-				}
+                $html .= View::make(
+                    "mod_global_poll_skin.Render_row_form",
+                    ['votes' => $votes, 'id' => $id, 'answer' => $choice]
+                );
+            }
+            $poll_footer = "<input type='submit' name='submit'   value='{$this->lang['poll_add_vote']}' class='forminput'>&nbsp;" . "<input type='submit' name='nullvote' value='{$this->lang['poll_null_vote']}' class='forminput'>";
+        }
 
-				$html .= View::make(
-					"mod_global_poll_skin.Render_row_form",
-					['votes' => $votes, 'id' => $id, 'answer' => $choice]
-				);
-			}
-			$poll_footer = "<input type='submit' name='submit'   value='{$this->lang['poll_add_vote']}' class='forminput'>&nbsp;" . "<input type='submit' name='nullvote' value='{$this->lang['poll_null_vote']}' class='forminput'>";
-		}
+        $html .= View::make("mod_global_poll_skin.global_poll_table_footer", ['footerText' => $poll_footer]);
 
-		$html .= View::make("mod_global_poll_skin.global_poll_table_footer", ['footerText' => $poll_footer]);
-
-		return $html;
-	}
-
+        return $html;
+    }
 }

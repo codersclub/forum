@@ -2,13 +2,13 @@
 
 $lang = array (
 
-'end'					=>	"end",
-'forum'					=>	"Forum",
-'on	'				    =>	"on",
-'title'					=>	"Printable Version of Topic",
-'by'				    =>	"Posted by",
-'start'					=>	"started by",
-'topic'					=>	"Topic",
+'end'                   =>  "end",
+'forum'                 =>  "Forum",
+'on	'                   =>  "on",
+'title'                 =>  "Printable Version of Topic",
+'by'                    =>  "Posted by",
+'start'                 =>  "started by",
+'topic'                 =>  "Topic",
 'tvo_title'             =>  "Topic View Options for:",
 'o_print_title'         =>  "Printer Friendly Version",
 'o_print_desc'          =>  "This will display the topic in a simple, printer friendly format on this page, no download is required.",

@@ -67,7 +67,6 @@ class Logger extends Registry
                         $method = 'set' . $option;
                         if (property_exists($handler_info['instance'], $option)) {
                             $handler_info['instance']->option = $value;
-
                         } elseif (method_exists($handler_info['instance'], $method)) {
                             $ref_method = new \ReflectionMethod($handler_info['instance'], $method);
                             self::invokeMethodWithOptions($handler_info['instance'], $ref_method, $value);
@@ -197,7 +196,6 @@ class Logger extends Registry
                 $args[] = isset($options[$param_name])
                     ? $options[$param_name]
                     : $ref_param->getDefaultValue();
-
             }
             unset($options[$param_name]);
         }
@@ -236,7 +234,6 @@ class Logger extends Registry
             $args = [];
         }
         return $class->newInstanceArgs($args);
-
     }
 
     /**

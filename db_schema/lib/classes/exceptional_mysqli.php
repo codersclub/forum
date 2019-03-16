@@ -32,8 +32,7 @@ class ExceptionalMysqli extends mysqli
     {
         $args = func_get_args();
         eval("parent::__construct(" . join(',', array_map('MpmStringHelper::addSingleQuotes', $args)) . ");");
-        if ($this->connect_errno)
-        {
+        if ($this->connect_errno) {
             throw new MpmDatabaseConnectionException($this->connect_error);
         }
     }
@@ -51,8 +50,7 @@ class ExceptionalMysqli extends mysqli
     public function query($query, $resultMode = MYSQLI_STORE_RESULT)
     {
         $result = parent::query($query, $resultMode);
-        if ($this->errno)
-        {
+        if ($this->errno) {
             throw new MpmMalformedQueryException($this->error);
         }
         return $result;
@@ -80,8 +78,4 @@ class ExceptionalMysqli extends mysqli
     {
         return $this->query($sql);
     }
-
 }
-
-
-?>

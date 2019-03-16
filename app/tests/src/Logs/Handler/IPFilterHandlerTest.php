@@ -96,7 +96,6 @@ class IPFilterHandlerTest extends \Monolog\TestCase
     {
         $_SERVER['REMOTE_ADDR'] = $ip;
         return $handler->handle($record);
-
     }
 
     public function testHandleWithCallback()

@@ -28,5 +28,4 @@ class MemberProcessor
         }
         return $record;
     }
-
 }

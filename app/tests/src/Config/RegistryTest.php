@@ -92,7 +92,6 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         //.....
         $this->reg->set('conf_not_overridden.....', 'o_O');
         $this->assertTrue($this->reg->get('conf_not_overridden.....') === 'o_O');
-
     }
 
     /**
@@ -121,4 +120,3 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

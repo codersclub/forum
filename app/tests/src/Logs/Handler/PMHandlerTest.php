@@ -53,7 +53,6 @@ class PMHandlerTest extends TestCase
 
         $handler = new PMHandler($header, [1, 3, 5], 15);
         $handler->handle($this->getRecord());
-
     }
 
     public function testHandleBatch()

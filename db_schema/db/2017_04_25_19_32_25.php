@@ -12,7 +12,4 @@ class Migration_2017_04_25_19_32_25 extends MpmMigration
     {
         $pdo->exec("alter table ibf_members modify `syntax` enum('client','server','none') NOT NULL DEFAULT 'client';");
     }
-
 }
-
-?>

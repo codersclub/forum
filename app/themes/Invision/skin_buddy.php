@@ -1,29 +1,33 @@
 <?php
 
-class skin_buddy {
+class skin_buddy
+{
 
-function build_away_msg() {
-global $ibforums;
-return <<<EOF
+    function build_away_msg()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	{$ibforums->lang['new_posts']}
 	<br>
 	{$ibforums->lang['my_replies']}
 
 EOF;
-}
+    }
 
-function append_view($url="") {
-global $ibforums;
-return <<<EOF
+    function append_view($url = "")
+    {
+        global $ibforums;
+        return <<<EOF
 	( <b><a href='javascript:redirect_to("$url", 0)'>{$ibforums->lang['view_link']}</a></b> )
 EOF;
-}
+    }
 
 
-function main($away_text="") {
-global $ibforums;
-return <<<EOF
+    function main($away_text = "")
+    {
+        global $ibforums;
+        return <<<EOF
 <div id="ucpcontent">
  <div class="titlemedium" align="center">{$ibforums->lang['page_title']}&nbsp;&nbsp;&nbsp;[ <a href='javascript:shrink()' style='text-decoration:none'>-</a>&nbsp;&nbsp;<a href='javascript:expand()' style='text-decoration:none'>+</a> ]</div>
  <div class="pformstrip" align="center">{$ibforums->lang['while_away']}</div>
@@ -56,13 +60,14 @@ return <<<EOF
 </div>
 <div align="center"><!--CLOSE.LINK--></div>
 EOF;
-}
+    }
 
 
 
-function login() {
-global $ibforums;
-return <<<EOF
+    function login()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}act=Login&amp;CODE=01&amp;CookieDate=1&amp;buddy=1" method="post" name='theForm' onSubmit='return check_form();'>
 <div class='tableborder'>
@@ -90,18 +95,17 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function closelink() {
-global $ibforums;
-return <<<EOF
+    function closelink()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align="center">
  [ <a href="javascript:window.location=window.location;">{$ibforums->lang['refresh']}</a> ] | [ <a href='javascript:self.close();'>{$ibforums->lang['close_win']}</a> ]
 </div>
 EOF;
+    }
 }
-
-}
-?>

@@ -39,311 +39,300 @@
 
 class ipb_member_sync
 {
-	var $class = "";
-
-	function ipb_member_sync()
-	{
-
-	}
-
-	//-----------------------------------------------
-	// register_class($class)
-	//
-	// Register a $this-> with this class
-	//
-	//-----------------------------------------------
-
-	function register_class(&$class)
-	{
-		$this->class = $class;
-	}
-
-	//-----------------------------------------------
-	// on_create_account($member)
-	//
-	// $member = array( 'id', 'name', 'email',
-	// 'password', 'mgroup'...etc)
-	//
-	//-----------------------------------------------
-
-	function on_create_account($member)
-	{
-		global $std, $ibforums;
-
-		//---- START
-
-		//---- END
-	}
-
-	//-----------------------------------------------
-	// on_register_form()
-	//
-	//
-	//-----------------------------------------------
-
-	function on_register_form()
-	{
-		global $std, $ibforums;
-
-		//---- START
-
-		//---- END
-	}
+    var $class = "";
+
+    function ipb_member_sync()
+    {
+    }
+
+    //-----------------------------------------------
+    // register_class($class)
+    //
+    // Register a $this-> with this class
+    //
+    //-----------------------------------------------
+
+    function register_class(&$class)
+    {
+        $this->class = $class;
+    }
+
+    //-----------------------------------------------
+    // on_create_account($member)
+    //
+    // $member = array( 'id', 'name', 'email',
+    // 'password', 'mgroup'...etc)
+    //
+    //-----------------------------------------------
+
+    function on_create_account($member)
+    {
+        global $std, $ibforums;
+
+        //---- START
+
+        //---- END
+    }
+
+    //-----------------------------------------------
+    // on_register_form()
+    //
+    //
+    //-----------------------------------------------
+
+    function on_register_form()
+    {
+        global $std, $ibforums;
+
+        //---- START
+
+        //---- END
+    }
+
+    //-----------------------------------------------
+    // on_login()
+    //
+    // $member = array( 'id', 'name', 'email', 'pass')
+    //           ...etc
+    //-----------------------------------------------
+
+    function on_login($member = array())
+    {
+        global $std, $ibforums;
+
+        //---- START
+
+        //---- END
+    }
+
+    //-----------------------------------------------
+    // on_delete($ids)
+    //
+    // $ids = array | integer
+    // If array, will contain list of ids
+    //-----------------------------------------------
+
+    function on_delete($ids = array())
+    {
+        global $std, $ibforums;
+
+        $type = "";
+
+        //---- START
+
+        if (is_array($ids) and count($ids) > 0) {
+            $type = 'arr';
+        } else {
+            $type = 'int';
+        }
+
+        //---- END
+    }
+
+    //-----------------------------------------------
+    // on_email_change($id, $new_email)
+    //
+    // $id        = int member_id
+    // $new_email = string new email address
+    //-----------------------------------------------
+
+    function on_email_change($id, $new_email)
+    {
+        global $std, $ibforums;
+
+        //---- START
 
-	//-----------------------------------------------
-	// on_login()
-	//
-	// $member = array( 'id', 'name', 'email', 'pass')
-	//           ...etc
-	//-----------------------------------------------
-
-	function on_login($member = array())
-	{
-		global $std, $ibforums;
-
-		//---- START
+        //---- END
+    }
 
-		//---- END
-	}
-
-	//-----------------------------------------------
-	// on_delete($ids)
-	//
-	// $ids = array | integer
-	// If array, will contain list of ids
-	//-----------------------------------------------
-
-	function on_delete($ids = array())
-	{
-		global $std, $ibforums;
-
-		$type = "";
-
-		//---- START
-
-		if (is_array($ids) and count($ids) > 0)
-		{
-			$type = 'arr';
-		} else
-		{
-			$type = 'int';
-		}
-
-		//---- END
-	}
-
-	//-----------------------------------------------
-	// on_email_change($id, $new_email)
-	//
-	// $id        = int member_id
-	// $new_email = string new email address
-	//-----------------------------------------------
-
-	function on_email_change($id, $new_email)
-	{
-		global $std, $ibforums;
+    //-----------------------------------------------
+    // on_pass_change($id, $new_raw)
+    //
+    // $id        = int member_id
+    // $new_raw   = string new plain text password
+    //-----------------------------------------------
 
-		//---- START
+    function on_pass_change($id, $new_raw)
+    {
+        global $std, $ibforums;
 
-		//---- END
-	}
+        //---- START
 
-	//-----------------------------------------------
-	// on_pass_change($id, $new_raw)
-	//
-	// $id        = int member_id
-	// $new_raw   = string new plain text password
-	//-----------------------------------------------
+        //---- END
+    }
 
-	function on_pass_change($id, $new_raw)
-	{
-		global $std, $ibforums;
+    //-----------------------------------------------
+    // on_profile_update($member)
+    //
+    // $member = array: avatar, avatar_size, aim_name
+    // icq_number, location, website, yahoo, interests
+    // integ_msg, msnname, id, name
+    //
+    //-----------------------------------------------
 
-		//---- START
+    function on_profile_update($member = array())
+    {
+        global $std, $ibforums;
 
-		//---- END
-	}
+        //---- START
 
-	//-----------------------------------------------
-	// on_profile_update($member)
-	//
-	// $member = array: avatar, avatar_size, aim_name
-	// icq_number, location, website, yahoo, interests
-	// integ_msg, msnname, id, name
-	//
-	//-----------------------------------------------
+        //---- END
+    }
 
-	function on_profile_update($member = array())
-	{
-		global $std, $ibforums;
+    function regex_count_choices()
+    {
+
+        ++$this->poll_count;
+
+        return "<br>";
+    }
 
-		//---- START
+    //-----------------------------------------------
+    // on_group_change()
+    //
+    // $id        = int member_id
+    // $new_group = new int() group id
+    //-----------------------------------------------
 
-		//---- END
-	}
+    function on_group_change($id, $new_group)
+    {
+        global $std, $ibforums;
 
-	function regex_count_choices()
-	{
-
-		++$this->poll_count;
-
-		return "<br>";
-
-	}
-
-	//-----------------------------------------------
-	// on_group_change()
-	//
-	// $id        = int member_id
-	// $new_group = new int() group id
-	//-----------------------------------------------
-
-	function on_group_change($id, $new_group)
-	{
-		global $std, $ibforums;
+        if ($new_group == $ibforums->vars['member_group'] and $ibforums->member['posts'] == 500) {
+            $topic = array(
+                'title'            => $ibforums->member['name'],
+                'description'      => "приём в Клуб",
+                'state'            => 'open',
+                'posts'            => 0,
+                'starter_id'       => 8617,
+                'starter_name'     => "Forum_Bot",
+                'start_date'       => time(),
+                'last_poster_id'   => 8617,
+                'last_poster_name' => "Forum_Bot",
+                'last_post'        => time(),
+                'icon_id'          => 0,
+                'author_mode'      => 1,
+                'poll_state'       => "open",
+                'last_vote'        => 0,
+                'views'            => 0,
+                'forum_id'         => $ibforums->vars['club'],
+                'approved'         => 1,
+                'pinned'           => 0
+            );
 
-		if ($new_group == $ibforums->vars['member_group'] and $ibforums->member['posts'] == 500)
-		{
-			$topic = array(
-				'title'            => $ibforums->member['name'],
-				'description'      => "приём в Клуб",
-				'state'            => 'open',
-				'posts'            => 0,
-				'starter_id'       => 8617,
-				'starter_name'     => "Forum_Bot",
-				'start_date'       => time(),
-				'last_poster_id'   => 8617,
-				'last_poster_name' => "Forum_Bot",
-				'last_post'        => time(),
-				'icon_id'          => 0,
-				'author_mode'      => 1,
-				'poll_state'       => "open",
-				'last_vote'        => 0,
-				'views'            => 0,
-				'forum_id'         => $ibforums->vars['club'],
-				'approved'         => 1,
-				'pinned'           => 0
-			);
+            $ibforums->db->insertRow("ibf_topics", $topic);
 
-			$ibforums->db->insertRow("ibf_topics", $topic);
+            $tid = $ibforums->db->lastInsertId();
 
-			$tid = $ibforums->db->lastInsertId();
+            $message = "Профиль: [URL={$ibforums->base_url}showuser={$ibforums->member['id']}]{$ibforums->member['name']}[/URL]\n";
 
-			$message = "Профиль: [URL={$ibforums->base_url}showuser={$ibforums->member['id']}]{$ibforums->member['name']}[/URL]\n";
+            $message .= "Посещемость в разделах: [URL={$ibforums->base_url}act=Profile&CODE=show_stat&MID={$ibforums->member['id']}]нажмите ссылку[/URL]\n";
 
-			$message .= "Посещемость в разделах: [URL={$ibforums->base_url}act=Profile&CODE=show_stat&MID={$ibforums->member['id']}]нажмите ссылку[/URL]\n";
+            $message .= "Рейтинги:[List]";
 
-			$message .= "Рейтинги:[List]";
+            $message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=t&mid={$ibforums->member['id']}]полезный[/URL]: [b]" . intval($ibforums->member['rep']) . "[/b]\n";
 
-			$message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=t&mid={$ibforums->member['id']}]полезный[/URL]: [b]" . intval($ibforums->member['rep']) . "[/b]\n";
+            $message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=f&mid={$ibforums->member['id']}]флеймовый[/URL]: [b]" . intval($ibforums->member['ratting']) . "[/b][/List]\n";
 
-			$message .= "[*][URL={$ibforums->base_url}act=rep&CODE=03&type=f&mid={$ibforums->member['id']}]флеймовый[/URL]: [b]" . intval($ibforums->member['ratting']) . "[/b][/List]\n";
+            $message .= "Зарегистрирован на Форуме с " . $std->format_date_without_time($ibforums->member['joined']) . "\n";
 
-			$message .= "Зарегистрирован на Форуме с " . $std->format_date_without_time($ibforums->member['joined']) . "\n";
-
-			$message .= "Дата рождения: ";
+            $message .= "Дата рождения: ";
 
-			if ($ibforums->member['bday_month'])
-			{
-				$message .= $ibforums->member['bday_day'] . "." . $ibforums->member['bday_month'] . "." . $ibforums->member['bday_year'] . "\n";
-			} else
-			{
-				$message .= "(нет информации)\n";
-			}
+            if ($ibforums->member['bday_month']) {
+                $message .= $ibforums->member['bday_day'] . "." . $ibforums->member['bday_month'] . "." . $ibforums->member['bday_year'] . "\n";
+            } else {
+                $message .= "(нет информации)\n";
+            }
 
-			$message .= "Взыскания: ";
+            $message .= "Взыскания: ";
 
-			$stmt = $ibforums->db->query("SELECT COUNT(wlog_id) as cnt FROM ibf_warn_logs WHERE wlog_mid='" . $ibforums->member['id'] . "' and wlog_type='neg'");
+            $stmt = $ibforums->db->query("SELECT COUNT(wlog_id) as cnt FROM ibf_warn_logs WHERE wlog_mid='" . $ibforums->member['id'] . "' and wlog_type='neg'");
 
-			$row = $stmt->fetch();
+            $row = $stmt->fetch();
 
-			if ($row['cnt'] == "0")
-			{
-				$message .= "нет\n";
-			} else
-			{
-				$message .= "[URL={$ibforums->base_url}act=warn&CODE=view&mid={$ibforums->member['id']}]";
-				$message .= "да, " . $row['cnt'] . " раз.";
-				$message .= "[/URL]\n";
-			}
+            if ($row['cnt'] == "0") {
+                $message .= "нет\n";
+            } else {
+                $message .= "[URL={$ibforums->base_url}act=warn&CODE=view&mid={$ibforums->member['id']}]";
+                $message .= "да, " . $row['cnt'] . " раз.";
+                $message .= "[/URL]\n";
+            }
 
-			$message .= "\n[GM][URL={$ibforums->base_url}act=checker&CODE=club_enable&mid={$ibforums->member['id']}]Принять данного участника в группу &quot;Клуб&quot;![/URL]\n";
+            $message .= "\n[GM][URL={$ibforums->base_url}act=checker&CODE=club_enable&mid={$ibforums->member['id']}]Принять данного участника в группу &quot;Клуб&quot;![/URL]\n";
 
-			$message .= "[b]Примечание[/b]: сообщение добавлено от имени председателя, с целью, чтобы последний мог видеть вышеприведённую ссылку.[/GM]\n";
+            $message .= "[b]Примечание[/b]: сообщение добавлено от имени председателя, с целью, чтобы последний мог видеть вышеприведённую ссылку.[/GM]\n";
 
-			$message .= "The topic was created by [b]Forum_Bot[/b]\n";
+            $message .= "The topic was created by [b]Forum_Bot[/b]\n";
 
-			//		$message .= "\nI apologise for any inconvenience.";
+            //      $message .= "\nI apologise for any inconvenience.";
 
-			$post = array(
-				'author_id'   => $ibforums->vars['club_boss'],
-				'use_emo'     => 0,
-				'ip_address'  => $ibforums->input['IP_ADDRESS'],
-				'post_date'   => time(),
-				'edit_time'   => time(),
-				'icon_id'     => 0,
-				'post'        => $message,
-				'author_name' => "Forum_Bot",
-				'forum_id'    => $ibforums->vars['club'],
-				'topic_id'    => $tid,
-				'queued'      => 0,
-				'attach_id'   => "",
-				'attach_hits' => "",
-				'attach_type' => "",
-				'new_topic'   => 1,
-			);
+            $post = array(
+                'author_id'   => $ibforums->vars['club_boss'],
+                'use_emo'     => 0,
+                'ip_address'  => $ibforums->input['IP_ADDRESS'],
+                'post_date'   => time(),
+                'edit_time'   => time(),
+                'icon_id'     => 0,
+                'post'        => $message,
+                'author_name' => "Forum_Bot",
+                'forum_id'    => $ibforums->vars['club'],
+                'topic_id'    => $tid,
+                'queued'      => 0,
+                'attach_id'   => "",
+                'attach_hits' => "",
+                'attach_type' => "",
+                'new_topic'   => 1,
+            );
 
-			$ibforums->db->insertRow("ibf_posts", $post);
+            $ibforums->db->insertRow("ibf_posts", $post);
 
-			$poll_choices = "За<br>Против<br>Воздержался<br>";
+            $poll_choices = "За<br>Против<br>Воздержался<br>";
 
-			$poll_choices = preg_replace("/<br><br>/", "", $poll_choices);
+            $poll_choices = preg_replace("/<br><br>/", "", $poll_choices);
 
-			$poll_choices = preg_replace("/<br>/e", "\$this->regex_count_choices()", $poll_choices);
+            $poll_choices = preg_replace("/<br>/e", "\$this->regex_count_choices()", $poll_choices);
 
-			$poll_array = array();
+            $poll_array = array();
 
-			$count = 0;
+            $count = 0;
 
-			$polls = explode("<br>", $poll_choices);
+            $polls = explode("<br>", $poll_choices);
 
-			foreach ($polls as $polling)
-			{
-				if (!$polling)
-				{
-					continue;
-				}
+            foreach ($polls as $polling) {
+                if (!$polling) {
+                    continue;
+                }
 
-				$poll_array[] = array($count, $polling, 0);
+                $poll_array[] = array($count, $polling, 0);
 
-				$count++;
-			}
+                $count++;
+            }
 
-			$life = 7;
+            $life = 7;
 
-			$life = time() + 60 * 60 * 24 * $life;
+            $life = time() + 60 * 60 * 24 * $life;
 
-			$question = $ibforums->member['name'] . ": Согласны ли вы принять в Клуб данного участника Форума?";
+            $question = $ibforums->member['name'] . ": Согласны ли вы принять в Клуб данного участника Форума?";
 
-			$poll = array(
-				'tid'                  => $tid,
-				'forum_id'             => $ibforums->vars['club'],
-				'start_date'           => time(),
-				'choices'              => addslashes(serialize($poll_array)),
-				'starter_id'           => 8617,
-				'votes'                => 0,
-				'poll_question'        => $question,
-				'is_multi_poll'        => 0,
-				'multi_poll_min'       => 0,
-				'multi_poll_max'       => 0,
-				'is_weighted_poll'     => 0,
-				'weighted_poll_places' => 0,
-				'live_before'          => $life,
-			);
+            $poll = array(
+                'tid'                  => $tid,
+                'forum_id'             => $ibforums->vars['club'],
+                'start_date'           => time(),
+                'choices'              => addslashes(serialize($poll_array)),
+                'starter_id'           => 8617,
+                'votes'                => 0,
+                'poll_question'        => $question,
+                'is_multi_poll'        => 0,
+                'multi_poll_min'       => 0,
+                'multi_poll_max'       => 0,
+                'is_weighted_poll'     => 0,
+                'weighted_poll_places' => 0,
+                'live_before'          => $life,
+            );
 
-			$ibforums->db->insertRow("ibf_polls", $poll);
+            $ibforums->db->insertRow("ibf_polls", $poll);
 
-			$ibforums->db->exec("UPDATE ibf_forums SET last_title='" . addslashes($topic['title']) . "',
+            $ibforums->db->exec("UPDATE ibf_forums SET last_title='" . addslashes($topic['title']) . "',
 						  last_id='" . $tid . "',
 						  last_post='" . time() . "',
 						  last_poster_name='Forum_Bot',
@@ -351,29 +340,25 @@ class ipb_member_sync
 						  topics=topics+1
 			    WHERE id='" . $ibforums->vars['club'] . "'");
 
-			$ibforums->db->exec("UPDATE ibf_stats SET TOTAL_TOPICS=TOTAL_TOPICS+1");
+            $ibforums->db->exec("UPDATE ibf_stats SET TOTAL_TOPICS=TOTAL_TOPICS+1");
 
-			$ibforums->db->exec("UPDATE ibf_members SET disable_group=1 WHERE id='" . $ibforums->member['id'] . "'");
-		}
+            $ibforums->db->exec("UPDATE ibf_members SET disable_group=1 WHERE id='" . $ibforums->member['id'] . "'");
+        }
+    }
 
-	}
+    //-----------------------------------------------
+    // on_name_change()
+    //
+    // $id        = int member_id
+    // $new_group = new name
+    //-----------------------------------------------
 
-	//-----------------------------------------------
-	// on_name_change()
-	//
-	// $id        = int member_id
-	// $new_group = new name
-	//-----------------------------------------------
+    function on_name_change($id, $new_name)
+    {
+        global $std, $ibforums;
 
-	function on_name_change($id, $new_name)
-	{
-		global $std, $ibforums;
+        //---- START
 
-		//---- START
-
-		//---- END
-	}
-
+        //---- END
+    }
 }
-
-

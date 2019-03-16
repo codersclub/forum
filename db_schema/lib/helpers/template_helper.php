@@ -17,61 +17,51 @@
 class MpmTemplateHelper
 {
 
-	/**
-	 * Returns the requested template file as an array, each item in that array is a single line from the file.
-	 *
-	 * @uses MpmTemplateHelpger::getTemplate()
-	 *
-	 * @param string $file the filename of the template being requested
-	 * @param array	 $vars an array of key value pairs that correspond to variables that should be replaced in the template file
-	 *
-	 * @return array
-	 */
-	static public function getTemplateAsArrayOfLines($file, $vars = array())
-	{
-		$contents = MpmTemplateHelper::getTemplate($file, $vars);
-		$arr = explode("\n", $contents);
-		return $arr;
-	}
+    /**
+     * Returns the requested template file as an array, each item in that array is a single line from the file.
+     *
+     * @uses MpmTemplateHelpger::getTemplate()
+     *
+     * @param string $file the filename of the template being requested
+     * @param array  $vars an array of key value pairs that correspond to variables that should be replaced in the template file
+     *
+     * @return array
+     */
+    public static function getTemplateAsArrayOfLines($file, $vars = array())
+    {
+        $contents = MpmTemplateHelper::getTemplate($file, $vars);
+        $arr = explode("\n", $contents);
+        return $arr;
+    }
 
-	/**
-	 * Returns the requested template file as a string
-	 *
-	 * @uses MPM_PATH
-	 *
-	 * @param string $file the filename of the template being requested
-	 * @param array	 $vars an array of key value pairs that correspond to variables that should be replaced in the template file
-	 *
-	 * @return string
-	 */
-	static public function getTemplate($file, $vars = array())
-	{
-		if (isset($GLOBALS['db_config']))
-		{
-			$db_config = $GLOBALS['db_config'];
-		}
-		else
-		{
-			$db_config = new stdClass();
-			$db_config->db_path = MPM_PATH . '/lib/templates/';
-		}
+    /**
+     * Returns the requested template file as a string
+     *
+     * @uses MPM_PATH
+     *
+     * @param string $file the filename of the template being requested
+     * @param array  $vars an array of key value pairs that correspond to variables that should be replaced in the template file
+     *
+     * @return string
+     */
+    public static function getTemplate($file, $vars = array())
+    {
+        if (isset($GLOBALS['db_config'])) {
+            $db_config = $GLOBALS['db_config'];
+        } else {
+            $db_config = new stdClass();
+            $db_config->db_path = MPM_PATH . '/lib/templates/';
+        }
 
-		// has the file been customized?
-		if (file_exists($db_config->db_path . $file))
-		{
-			$contents = file_get_contents($db_config->db_path . $file);
-		}
-		else
-		{
-			$contents = file_get_contents(MPM_PATH . '/lib/templates/' . $file);
-		}
-		foreach ($vars as $key => $val)
-		{
-			$contents = str_replace('@@' . $key . '@@', $val, $contents);
-		}
-		return $contents;
-	}
-
+        // has the file been customized?
+        if (file_exists($db_config->db_path . $file)) {
+            $contents = file_get_contents($db_config->db_path . $file);
+        } else {
+            $contents = file_get_contents(MPM_PATH . '/lib/templates/' . $file);
+        }
+        foreach ($vars as $key => $val) {
+            $contents = str_replace('@@' . $key . '@@', $val, $contents);
+        }
+        return $contents;
+    }
 }
-
-?>

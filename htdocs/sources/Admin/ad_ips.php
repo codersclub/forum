@@ -17,7 +17,7 @@
 |   > Module written by Matt Mecham
 |   > Date started: 17th October 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
@@ -28,101 +28,96 @@ $idx = new ad_ips();
 class ad_ips
 {
 
-	var $base_url;
+    var $base_url;
 
-	var $colours = array();
+    var $colours = array();
 
-	var $url = "http://www.invisionboard.com/acp/";
+    var $url = "http://www.invisionboard.com/acp/";
 
-	var $version = "1.1";
+    var $version = "1.1";
 
-	function __construct()
-	{
-		global $IN;
+    function __construct()
+    {
+        global $IN;
 
-		//---------------------------------------
-		// Kill globals - globals bad, Homer good.
-		//---------------------------------------
+        //---------------------------------------
+        // Kill globals - globals bad, Homer good.
+        //---------------------------------------
 
-		$tmp_in = array_merge($_GET, $_POST, $_COOKIE);
+        $tmp_in = array_merge($_GET, $_POST, $_COOKIE);
 
-		foreach ($tmp_in as $k => $v)
-		{
-			unset($$k);
-		}
+        foreach ($tmp_in as $k => $v) {
+            unset($$k);
+        }
 
-		//---------------------------------------
+        //---------------------------------------
 
-		switch ($IN['code'])
-		{
+        switch ($IN['code']) {
+            case 'news':
+                $this->news();
+                break;
 
-			case 'news':
-				$this->news();
-				break;
+            case 'updates':
+                $this->updates();
+                break;
 
-			case 'updates':
-				$this->updates();
-				break;
+            case 'docs':
+                $this->docs();
+                break;
 
-			case 'docs':
-				$this->docs();
-				break;
+            case 'support':
+                $this->support();
+                break;
 
-			case 'support':
-				$this->support();
-				break;
+            case 'host':
+                $this->host();
+                break;
 
-			case 'host':
-				$this->host();
-				break;
+            case 'purchase':
+                $this->purchase();
+                break;
 
-			case 'purchase':
-				$this->purchase();
-				break;
+            //-------------------------
+            default:
+                exit();
+                break;
+        }
+    }
 
-			//-------------------------
-			default:
-				exit();
-				break;
-		}
+    function news()
+    {
+        @header("Location: " . $this->url . "?news");
+        exit();
+    }
 
-	}
+    function updates()
+    {
+        //@header("Location: ".$this->url."?updates&version=".$this->version);
+        @header("Location: " . $this->url . "?updates");
+        exit();
+    }
 
-	function news()
-	{
-		@header("Location: " . $this->url . "?news");
-		exit();
-	}
+    function docs()
+    {
+        @header("Location: " . $this->url . "?docs");
+        exit();
+    }
 
-	function updates()
-	{
-		//@header("Location: ".$this->url."?updates&version=".$this->version);
-		@header("Location: " . $this->url . "?updates");
-		exit();
-	}
+    function support()
+    {
+        @header("Location: " . $this->url . "?support");
+        exit();
+    }
 
-	function docs()
-	{
-		@header("Location: " . $this->url . "?docs");
-		exit();
-	}
+    function host()
+    {
+        @header("Location: " . $this->url . "?host");
+        exit();
+    }
 
-	function support()
-	{
-		@header("Location: " . $this->url . "?support");
-		exit();
-	}
-
-	function host()
-	{
-		@header("Location: " . $this->url . "?host");
-		exit();
-	}
-
-	function purchase()
-	{
-		@header("Location: " . $this->url . "?purchase");
-		exit();
-	}
-
+    function purchase()
+    {
+        @header("Location: " . $this->url . "?purchase");
+        exit();
+    }
 }

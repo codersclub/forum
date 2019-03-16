@@ -54,7 +54,8 @@ class IPFilterHandler extends AbstractHandler
         $this->cacheResult = $cache_result;
     }
 
-    public function getIP(){
+    public function getIP()
+    {
         return $this->ip;
     }
 
@@ -70,8 +71,8 @@ class IPFilterHandler extends AbstractHandler
         if (!$this->handler instanceof HandlerInterface) {
             if (!is_callable($this->handler)) {
                 throw new \RuntimeException("The given handler (" . json_encode(
-                        $this->handler
-                    ) . ") is not a callable nor a Monolog\\Handler\\HandlerInterface object");
+                    $this->handler
+                ) . ") is not a callable nor a Monolog\\Handler\\HandlerInterface object");
             }
             $this->handler = call_user_func($this->handler, $record, $this);
             if (!$this->handler instanceof HandlerInterface) {

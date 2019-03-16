@@ -28,4 +28,3 @@ $lang['leader_forums']  = "Разделы";
 $lang['leader_all_forums']  = "Все разделы";
 $lang['mod_posts']  = "Сообщений модератора в разделе";
 $lang['mod_number']  = "№";
-

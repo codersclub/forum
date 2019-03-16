@@ -29,7 +29,6 @@ class TestAbstractTheme2 extends AbstractTheme
     {
         return $this->_parent;
     }
-
 }
 
 class AbstractThemeTest extends \PHPUnit_Framework_TestCase
@@ -47,7 +46,6 @@ class AbstractThemeTest extends \PHPUnit_Framework_TestCase
         $test = new TestAbstractTheme2();
         $test->_parent = 'TestAbstractTheme';
         $this->assertInstanceOf('Skins\Themes\TestAbstractTheme', $test->getParent());
-
     }
 
     public function testRender()
@@ -58,10 +56,10 @@ class AbstractThemeTest extends \PHPUnit_Framework_TestCase
         $test2 = new TestAbstractTheme2();
         $test2->_parent = 'TestAbstractTheme';
         $this->assertEquals('some.path', $test2->render('some.path', []));
-
     }
 
-    public function testWrongPath(){
+    public function testWrongPath()
+    {
         $test2 = new TestAbstractTheme2();
         $this->setExpectedException('Exception');
         echo $test2->render('some.wrong.path', []);

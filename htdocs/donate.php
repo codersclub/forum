@@ -333,7 +333,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (@mail($to, $subject, $message, $headers, '-f' . $from)) {
             $tMessage = "Thank you for your report!<br><br>Your report is successfully delivered to the server admin.";
         } else {
-
             // Report error if can't send email
             $error = 'mailerror';
             $tMessage = "Sorry, an error occured!<br><br>Could not send the email.";

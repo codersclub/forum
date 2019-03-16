@@ -86,7 +86,6 @@ class Registry
                 return $defaultValue;
             }
             $conf = $conf[$elem];
-
         }
         return $conf;
     }

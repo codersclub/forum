@@ -1,18 +1,20 @@
 <?php
 
-class skin_profile {
+class skin_profile
+{
 
 
 
-function show_forum_stat($info) {
-global $ibforums;
+    function show_forum_stat($info)
+    {
+        global $ibforums;
 
-// NEED TO require LANG FILE !
+    // NEED TO require LANG FILE !
 
-$TotalThematic = 0;
-$TotalFlame = 0;
+        $TotalThematic = 0;
+        $TotalFlame = 0;
 
-$html = "<div class=tableborder>
+        $html = "<div class=tableborder>
 <div class=maintitle>
 <b>{$ibforums->lang['active_stats']} <a style='text-decoration:underline' href='index.php?showuser={$info[member_id]}'>{$info[member_name]}</a> {$ibforums->lang['by_forums']}</b></td>
 </div>
@@ -25,38 +27,35 @@ $html = "<div class=tableborder>
 </tr>
 ";
 
-//$html .= $info[member_id]." ".$info[member_name]." ".$info[total]."<br>\n";
+    //$html .= $info[member_id]." ".$info[member_name]." ".$info[total]."<br>\n";
 
-$forums = $info['stat'];
+        $forums = $info['stat'];
 
-foreach ( $forums as $row )
-{
+        foreach ($forums as $row) {
+            if ($row['STATUS']) {
+                $TotalThematic += $row['COUNT'];
+                $stat = 'Thematic';
+            } else {
+                $TotalFlame += $row['COUNT'];
+                $stat = 'Flame';
+            }
 
-  if($row['STATUS']) {
-    $TotalThematic += $row['COUNT'];
-    $stat ='Thematic';
-  } else {
-    $TotalFlame += $row['COUNT'];
-    $stat ='Flame';
-  }
+            $per = round(100 * ($row['COUNT'] / $info['total']), 2);
 
-  $per = round(100*($row['COUNT']/$info['total']),2);
+    //  if ($per>10) $vydelit="forum1";
+    //  else $vydelit="forum2";
 
-//  if ($per>10) $vydelit="forum1";
-//  else $vydelit="forum2";
+    //  echo('<tr class='.$vydelit.' align=center><td><a target=_blank href=\'index.php?showforum='.$row['FID'].'\'>'.$row['FNAME'].'</a></td><td>'.$row['COUNT'].'</td><td>'.$per.'%</td><td>'.$row['STATUS'].'</td></tr>');
 
-//  echo('<tr class='.$vydelit.' align=center><td><a target=_blank href=\'index.php?showforum='.$row['FID'].'\'>'.$row['FNAME'].'</a></td><td>'.$row['COUNT'].'</td><td>'.$per.'%</td><td>'.$row['STATUS'].'</td></tr>');
-
-  $html .= "<tr align=center>
+            $html .= "<tr align=center>
   <td class='row4' align=left><a target=_blank href='index.php?act=Select&CODE=getalluser&mid={$info[member_id]}&fid={$row['FID']}'>{$row['FNAME']}</a></td>
   <td class='row4'>{$row['COUNT']}</td>
   <td class='row4'>{$per}%</td>
   <td class='row4'>{$stat}</td>
 </tr>";
+        }
 
-}
-
-$html .= "<tr class=plainborder align=center>
+        $html .= "<tr class=plainborder align=center>
   <td class='row2'><b>Total</b></a></td>
   <td class='row2'><b>{$info['total']}</b></td>
   <td class='row2'><b>100%</b></td>
@@ -64,11 +63,13 @@ $html .= "<tr class=plainborder align=center>
 </tr>
 ";
 
-$per = 0;
-if($info['total']) $per = round(100*($TotalThematic/$info['total']),2);
+        $per = 0;
+        if ($info['total']) {
+            $per = round(100 * ($TotalThematic / $info['total']), 2);
+        }
 
 
-$html .= "<tr align=center>
+        $html .= "<tr align=center>
   <td class='row4'>{$ibforums->lang['total_posts']}</a></td>
   <td class='row4'>$TotalThematic</td>
   <td class='row4'>{$per}%</td>
@@ -76,11 +77,13 @@ $html .= "<tr align=center>
 </tr>
 ";
 
-$per = 100 - $per;
+        $per = 100 - $per;
 
-if(!$TotalFlame) $per = 0;
+        if (!$TotalFlame) {
+            $per = 0;
+        }
 
-$html .= "<tr align=center>
+        $html .= "<tr align=center>
   <td class='row4'>{$ibforums->lang['total_flame']}</a></td>
   <td class='row4'>$TotalFlame</td>
   <td class='row4'>{$per}%</td>
@@ -88,10 +91,9 @@ $html .= "<tr align=center>
 </tr>
 ";
 
-if ( $ibforums->member['g_is_supmod'] ||
-     ($info[member_id] == $ibforums->member['id']))
-{
-$html .= "
+        if ($ibforums->member['g_is_supmod'] ||
+        ($info[member_id] == $ibforums->member['id'])) {
+            $html .= "
 <form action='{$ibforums->base_url}act=Profile&amp;CODE=save_stat&amp;MID={$info[member_id]}' name='sForm' method='POST'>
 <TR>
   <TD class=row3 align=center colspan=4>
@@ -100,11 +102,11 @@ $html .= "
 </TR>
 </form>
 ";
-}
+        }
 
-//<BR>{$ibforums->member['g_is_supmod']} = {$ibforums->member['id']} = {$info[member_id]}
+    //<BR>{$ibforums->member['g_is_supmod']} = {$ibforums->member['id']} = {$info[member_id]}
 
-$html .= "<TR>
+        $html .= "<TR>
   <TD class=tablefooter colspan=4><!-- -->
   </td>
 </TR>
@@ -113,10 +115,8 @@ $html .= "<TR>
 ";
 
 
-  return $html;
-
-}
-
+        return $html;
+    }
 
 
 
@@ -126,9 +126,11 @@ $html .= "<TR>
 
 
 
-function warn_level_rating_no_mod($mid, $level,$min=0,$max=10) {
-global $ibforums;
-return <<<EOF
+
+    function warn_level_rating_no_mod($mid, $level, $min = 0, $max = 10)
+    {
+        global $ibforums;
+        return <<<EOF
 
  <tr>
 	<td class="row3" valign='top'><b>{$ibforums->lang['rating_level']}</b></td>
@@ -136,11 +138,12 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
-function show_rep($info) {
-global $ibforums;
-return <<<EOF
+    function show_rep($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class="row3" valign='top'><b>{$ibforums->lang['rep_t_name']}:</b></td>
@@ -148,11 +151,12 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
-function show_ratting($info) {
-global $ibforums;
-return <<<EOF
+    function show_ratting($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class="row3" valign='top'><b>{$ibforums->lang['rep_f_name']}:</b></td>
@@ -160,26 +164,30 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
-function show_fines($info){
-global $ibforums;
-return <<<EOF
+    function show_fines($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class="row3" valign='top'><b>{$ibforums->lang['fine']}:</b></td>
     <td align='left' class='row1'>{$info['fines']} {$ibforums->vars['currency_name']} <a href='{$ibforums->vars['board_url']}/index.php?act=store&code=showfine&id={$info['mid']}'>{$ibforums->lang['rep_details']}</a></td>
   </tr>
 EOF;
-}
+    }
 
-function show_profile($info) {
-global $ibforums;
-if ($info['mod_forums']) $mod_forums = "	  <tr>
+    function show_profile($info)
+    {
+        global $ibforums;
+        if ($info['mod_forums']) {
+            $mod_forums = "	  <tr>
 		<td class=\"row3\" valign='top'><b>{$ibforums->lang['mod_forums']}</b></td>
 		<td align='left' class='row1'>{$info['mod_forums']}</td>
 	  </tr>";
-return <<<EOF
+        }
+        return <<<EOF
 <table class='tablebasic' cellspacing='0' cellpadding='2'>
 <tr>
  <td>{$info['photo']}</td>
@@ -340,15 +348,16 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
 
 
 
-function custom_field($title, $value="") {
-global $ibforums;
-return <<<EOF
+    function custom_field($title, $value = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<tr>
               <td class="row3" valign='top'><b>$title</b></td>
@@ -356,12 +365,13 @@ return <<<EOF
         </tr>
 
 EOF;
-}
+    }
 
 
-function warn_level_no_mod($mid, $img, $percent) {
-global $ibforums;
-return <<<EOF
+    function warn_level_no_mod($mid, $img, $percent)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="row3" valign='top'><b>{$ibforums->lang['warn_level']}</b></td>
@@ -369,12 +379,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function show_photo($name, $photo) {
-global $ibforums;
-return <<<EOF
+    function show_photo($name, $photo)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div id="photowrap">
  <div id="phototitle">$name</div>
@@ -382,12 +393,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function show_card_download($name, $photo, $info) {
-global $ibforums;
-return <<<EOF
+    function show_card_download($name, $photo, $info)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <html>
  <head>
@@ -466,12 +478,13 @@ return <<<EOF
 </html>
 
 EOF;
-}
+    }
 
 
-function show_card($name, $photo, $info) {
-global $ibforums;
-return <<<EOF
+    function show_card($name, $photo, $info)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div id="photowrap">
  <div id="phototitle">$name</div>
@@ -522,34 +535,37 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function user_edit($info) {
-global $ibforums;
-return <<<EOF
+    function user_edit($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
 &middot; <a href='{$info['base_url']}act=UserCP&amp;CODE=22'>{$ibforums->lang['edit_my_sig']}</a> &middot;
 <a href='{$info['base_url']}act=UserCP&amp;CODE=24'>{$ibforums->lang['edit_avatar']}</a> &middot;
 <a href='{$info['base_url']}act=UserCP&amp;CODE=01'>{$ibforums->lang['edit_profile']}</a>
 
 EOF;
-}
+    }
 
 
-function get_photo($show_photo, $show_width, $show_height) {
-global $ibforums;
-return <<<EOF
+    function get_photo($show_photo, $show_width, $show_height)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <img src="$show_photo" border="0" alt="User Photo" $show_width $show_height>
 
 EOF;
-}
+    }
 
 
-function warn_level_rating($mid, $level,$min=0,$max=10) {
-global $ibforums;
-return <<<EOF
+    function warn_level_rating($mid, $level, $min = 0, $max = 10)
+    {
+        global $ibforums;
+        return <<<EOF
 
  <tr>
 	<td class="row3" valign='top'><b>{$ibforums->lang['rating_level']}</b></td>
@@ -557,12 +573,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function warn_level($mid, $img, $percent) {
-global $ibforums;
-return <<<EOF
+    function warn_level($mid, $img, $percent)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="row3" valign='top'><b>{$ibforums->lang['warn_level']}</b></td>
@@ -570,7 +587,5 @@ return <<<EOF
   </tr>
 
 EOF;
-}
-
-
+    }
 }

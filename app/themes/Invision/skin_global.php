@@ -1,26 +1,30 @@
 <?php
 
-class skin_global {
+class skin_global
+{
 
 
-function rss($param = "") {
-global $ibforums;
-return <<<EOF
+    function rss($param = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <link class="rss-link" rel="alternate" type="application/rss+xml" title="RSS" href="{$ibforums->vars['board_url']}/yandex.php{$param}">
 
 EOF;
-}
+    }
 
-function signature_separator($sig="") {
-return <<<EOF
+    function signature_separator($sig = "")
+    {
+        return <<<EOF
 <div class='b-signature'>$sig</div>
 EOF;
-}
+    }
 
-function Error($message, $ad_email_one="", $ad_email_two="") {
-global $ibforums;
-return <<<EOF
+    function Error($message, $ad_email_one = "", $ad_email_two = "")
+    {
+        global $ibforums;
+        return <<<EOF
 <div class="tableborder">
  <h2><img src='{$ibforums->skin['ImagesPath']}/nav_m.gif' alt=''>&nbsp;{$ibforums->lang['error_title']}</h2>
 </div>
@@ -43,11 +47,12 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
-function Redirect($Text, $Url, $css) {
-global $ibforums;
-return <<<EOF
+    function Redirect($Text, $Url, $css)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <html>
 <head><title>{$ibforums->lang['stand_by']}</title><meta http-equiv='refresh' content='2; url=$Url'></head>
@@ -75,36 +80,40 @@ return <<<EOF
 </html>
 
 EOF;
-}
+    }
 
 
-function warn_window($message) {
-return <<<EOF
+    function warn_window($message)
+    {
+        return <<<EOF
 
 <div class='warning-message'>
 {$message}
 </div>
 
 EOF;
-}
+    }
 
-function css_external($css) {
-    return Assets::make($css)->toLink();
-}
+    function css_external($css)
+    {
+        return Assets::make($css)->toLink();
+    }
 
-function action_button_wrapper($html, $name) {
-	return (empty($html))
-		? $html
-		: "<li class=\"b-action-button {$name}\">{$html}</li>";
-}
+    function action_button_wrapper($html, $name)
+    {
+        return (empty($html))
+        ? $html
+        : "<li class=\"b-action-button {$name}\">{$html}</li>";
+    }
 
-function Member_bar($msg, $ad_link, $mod_link, $val_link) {
-global $ibforums;
-$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
-$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
-$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
+    function Member_bar($msg, $ad_link, $mod_link, $val_link)
+    {
+        global $ibforums;
+        $ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+        $mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+        $val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
 
-return <<<EOF
+        return <<<EOF
 
 <table width="100%" id="userlinks" class='b-user-links' cellspacing="0">
   <tr>
@@ -127,7 +136,7 @@ return <<<EOF
   </tr>
 </table>
 EOF;
-}
+    }
 
 
 
@@ -136,12 +145,13 @@ EOF;
 
 
 
-function Member_no_usepm_bar($ad_link, $mod_link, $val_link) {
-global $ibforums;
-	$ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
-	$mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
-	$val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
-return <<<EOF
+    function Member_no_usepm_bar($ad_link, $mod_link, $val_link)
+    {
+        global $ibforums;
+        $ad_link  = $this->action_button_wrapper($ad_link, 'b-user-admin_cp-button');
+        $mod_link = $this->action_button_wrapper($mod_link, 'b-user-mod_cp-button');
+        $val_link = $this->action_button_wrapper($val_link, 'b-user-validate-button');
+        return <<<EOF
 
 <table id="userlinks" class="b-user-links">
   <tr>
@@ -164,14 +174,15 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
 
 
-function member_bar_disabled() {
-global $ibforums;
-return <<<EOF
+    function member_bar_disabled()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table width="100%" id="userlinks" cellspacing="6">
   <tr align='center'>
@@ -180,14 +191,15 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
 
 
-function Guest_bar() {
-global $ibforums;
-return <<<EOF
+    function Guest_bar()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table id="userlinks" class="b-user-links">
   <tr>
@@ -205,15 +217,16 @@ return <<<EOF
   </tr>
 </table>
 EOF;
-}
+    }
 
 
 
 
 
-function error_log_in($q_string) {
-global $ibforums;
-return <<<EOF
+    function error_log_in($q_string)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action='{$ibforums->base_url}' method='post'>
 <input type='hidden' name='act' value='Login'>
@@ -238,11 +251,12 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
-function member_valid_warning() {
-global $ibforums;
-return <<<EOF
+    function member_valid_warning()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div style="width:50%; position:fixed; left:25%; top:35%; border:8px solid red; z-index:2; cursor:default; padding:30px 0px" class="row1">
   <a onclick="this.parentNode.style.visibility='hidden'" style='position:absolute; right:5px; top:1px'><b>X</b></a>
@@ -250,21 +264,23 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
-function validating_link() {
-global $ibforums;
-return <<<EOF
+    function validating_link()
+    {
+        global $ibforums;
+        return <<<EOF
 
 &nbsp;&middot; <a href='{$ibforums->base_url}act=Reg&amp;CODE=reval'>{$ibforums->lang['ml_revalidate']}</a>
 
 EOF;
-}
+    }
 
 
-function error_post_textarea($post="") {
-global $ibforums;
-return <<<EOF
+    function error_post_textarea($post = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <br>
 <div>
@@ -282,12 +298,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function pop_up_window($title, $js, $css, $text) {
-global $ibforums;
-return <<<EOF
+    function pop_up_window($title, $js, $css, $text)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -305,55 +322,61 @@ return <<<EOF
 </html>
 
 EOF;
-}
+    }
 
 
-function forum_show_rules_full($rules) {
-global $ibforums;
-return <<<EOF
+    function forum_show_rules_full($rules)
+    {
+        global $ibforums;
+        return <<<EOF
 
     <div class='rules-wrapper'><div class='rules-title'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<span class='rules-title-text'><b>{$rules['title']}</b></span></div><div class='rules-text'>{$rules['body']}</div></div>
 
 EOF;
-}
+    }
 
 
-function rules_link($url="", $title="") {
-global $ibforums;
-return <<<EOF
+    function rules_link($url = "", $title = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a href="$url" target="blank_" class='rules-link'>$title</a>
 
 EOF;
-}
+    }
 
 
-function admin_link() {
-global $ibforums;
-return <<<EOF
+    function admin_link()
+    {
+        global $ibforums;
+        return <<<EOF
 <a class='b-action-button' href='{$ibforums->vars['board_url']}/admin.{$ibforums->vars['php_ext']}' target='_blank'>{$ibforums->lang['admin_cp']}</a>
 EOF;
-}
+    }
 
 
-function mod_link() {
-global $ibforums;
-return <<<EOF
+    function mod_link()
+    {
+        global $ibforums;
+        return <<<EOF
 <a class='b-action-button' href='{$ibforums->base_url}act=modcp&amp;forum={$ibforums->input['f']}'>{$ibforums->lang['mod_cp']}</a>&nbsp;&middot;
 EOF;
-}
+    }
 
-function show_chat_link_popup() {
-global $ibforums;
-return <<<EOF
+    function show_chat_link_popup()
+    {
+        global $ibforums;
+        return <<<EOF
 <a href="javascript:chat_pop({$ibforums->vars['chat_width']}, {$ibforums->vars['chat_height']});"><img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" border="0" alt=""> {$ibforums->lang['live_chat']}</a>
 EOF;
-}
+    }
 
 
-function board_offline($message = "") {
-global $ibforums;
-return <<<EOF
+    function board_offline($message = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action='{$ibforums->base_url}' method='post'>
 <input type='hidden' name='act' value='Login'>
@@ -379,39 +402,42 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function make_page_jump($tp="", $pp="", $ub="") {
-global $ibforums;
-return <<<EOF
+    function make_page_jump($tp = "", $pp = "", $ub = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a title="{$ibforums->lang['tpl_jump']}" href="javascript:multi_page_jump('$ub',$tp,$pp);">{$ibforums->lang['tpl_pages']}</a>
 
 EOF;
-}
+    }
 
 
-function show_chat_link_inline() {
-global $ibforums;
-return <<<EOF
+    function show_chat_link_inline()
+    {
+        global $ibforums;
+        return <<<EOF
 
 &nbsp; &nbsp;&nbsp;<img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" border="0" alt="">&nbsp;<a href='{$ibforums->base_url}act=chat'>{$ibforums->lang['live_chat']}</a>
 
 EOF;
-}
+    }
 
-function BoardHeader($fav_active) {
-global $ibforums;
-	if ($fav_active) {
-		$image = '<{atb_favs_new}>';
-		$fav_class = 'has-new-favorites';
-	}else{
-		$image = '<{atb_favs}>';
-		$fav_class = '';
-	}
+    function BoardHeader($fav_active)
+    {
+        global $ibforums;
+        if ($fav_active) {
+            $image = '<{atb_favs_new}>';
+            $fav_class = 'has-new-favorites';
+        } else {
+            $image = '<{atb_favs}>';
+            $fav_class = '';
+        }
 
-return <<<EOF
+        return <<<EOF
 <table id='b-header'>
 <tr id='logostrip'>
 <td class='b-logo-wrapper'><a class='b-logo_link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='b-logo_img' src='{$ibforums->skin['ImagesPath']}/logo4.gif' alt='На главную' border='0'></a></td>
@@ -465,36 +491,42 @@ return <<<EOF
 <% MEMBER BAR %>
 
 EOF;
-}
+    }
 
-function bottomBreadcrumbs($items){
-	$output = '<ul class="b-breadcrumbs b-breadcrumbs-bottom    ">';
-	foreach($items as $item)
-		$output .= '<li class="b-breadcrumbs-element">' . $item . '</li>';
-	$output .= '</ul>';
-	return $output;
-}
+    function bottomBreadcrumbs($items)
+    {
+        $output = '<ul class="b-breadcrumbs b-breadcrumbs-bottom    ">';
+        foreach ($items as $item) {
+            $output .= '<li class="b-breadcrumbs-element">' . $item . '</li>';
+        }
+        $output .= '</ul>';
+        return $output;
+    }
 
-function topBreadcrumbs($items){
-	$output = '<ul class="b-breadcrumbs b-breadcrumbs-top">';
-	foreach($items as $item)
-		$output .= '<li class="b-breadcrumbs-element">' . $item . '</li>';
-	$output .= '</ul>';
-	return $output;
-}
+    function topBreadcrumbs($items)
+    {
+        $output = '<ul class="b-breadcrumbs b-breadcrumbs-top">';
+        foreach ($items as $item) {
+            $output .= '<li class="b-breadcrumbs-element">' . $item . '</li>';
+        }
+        $output .= '</ul>';
+        return $output;
+    }
 
-function start_nav($NEW="") {
-global $ibforums;
-return <<<EOF
+    function start_nav($NEW = "")
+    {
+        global $ibforums;
+        return <<<EOF
 <table id='top-navigation' class='b-top-navigation-row' border=0 width="100%" cellspacing=0 cellpadding=0>
 <tr>
 <td class='b-navigation-wrapper'>
 EOF;
-}
+    }
 
-function end_nav() {
-global $ibforums, $std;
-return <<<EOF
+    function end_nav()
+    {
+        global $ibforums, $std;
+        return <<<EOF
 </td>
 <td class='b-top-nav-banner-wrapper'>
 <!-- TOP NAV BANNER -->
@@ -525,42 +557,46 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
-function mod_buttons_label() {
-global $ibforums;
-return <<<EOF
+    function mod_buttons_label()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div style="height:3px"><!-- --></div><b>Модераторские</b>:
 
 EOF;
-}
+    }
 
-function global_mod_buttons() {
-global $ibforums;
-return <<<EOF
+    function global_mod_buttons()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <input type='button' name='GM' value='GM' onclick="simpletag('GM')" class='codebuttons'>
 <input type='button' name='USER' value='USER' onclick="simpletag('USER')" class='codebuttons'>
 &nbsp;
 
 EOF;
-}
+    }
 
-function mod_buttons() {
-global $ibforums;
-return <<<EOF
+    function mod_buttons()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <input type='button' name='MOD' value='MOD' onclick="simpletag('MOD')" class='codebuttons'>
 <input type='button' name='EX' value='EX' onclick="simpletag('EX')" class='codebuttons'>
 &nbsp;
 
 EOF;
-}
+    }
 
-function common_mod_buttons() {
-global $ibforums;
-return <<<EOF
+    function common_mod_buttons()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <input type='button' name='MM' value='MM' onclick="simpletag('MM')" class='codebuttons'>
 <input type='button' name='SF' value='SF' onclick="simpletag('SF')" class='codebuttons'>
@@ -591,31 +627,34 @@ return <<<EOF
 &nbsp;
 
 EOF;
-}
+    }
 
-function forum_show_rules_link($rules) {
-global $ibforums;
-return <<<EOF
+    function forum_show_rules_link($rules)
+    {
+        global $ibforums;
+        return <<<EOF
 
     <div align='left' class='rules-link-wrapper'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<b><a class='rules-link' href='{$ibforums->base_url}act=SR&amp;f={$rules['fid']}'><span class='rules-title-text'>{$rules['title']}</span></a></b></div>
 
 EOF;
-}
+    }
 
-function forum_filter($data) {
-global $ibforums;
-return <<<EOF
+    function forum_filter($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='b-forum-filter-wrapper tableborder'><div class='maintitle b-forum-filter'>
 {$ibforums->lang['filter_text']}&nbsp;{$data}
 </div></div>
 
 EOF;
-}
+    }
 
-function topic_decided() {
-global $ibforums;
-return <<<EOF
+    function topic_decided()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr><td class='pformstrip' colspan='2'>{$ibforums->lang['topic_decided_1']}</td></tr>
 <tr>
@@ -624,35 +663,40 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
-function RenderDeletedRow($delete_level = 1 ) {
-global $ibforums;
-if ($delete_level == 2) {
-return <<<EOF
+    function RenderDeletedRow($delete_level = 1)
+    {
+        global $ibforums;
+        if ($delete_level == 2) {
+            return <<<EOF
 {$ibforums->lang['del_by_user']}
 EOF;
-} else {
-return <<<EOF
+        } else {
+            return <<<EOF
 <span class='movedprefix' style='font-size:10pt;line-height:100%'>{$ibforums->lang['mod_del']}</span>
 EOF;
-}
-}
+        }
+    }
 
-function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
-return <<<EOF
+    function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload)
+    {
+        return <<<EOF
   <div class="b-script-execution-stats">[ Script Execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
 EOF;
-}
+    }
 
-function renderActionButtons($actions, $list_classes = "", $item_classes = ""){
-	$output = '<ul class="b-action-buttons ' . $list_classes . '">';
-	foreach($actions as $class => $action)
-		if(!empty($action))
-			$output .= '<li class="b-action-button ' . (is_string($class) ? $class . ' ' : '' ) . $item_classes . '">' . $action . '</li>';
-	$output .= "</ul>";
-	return $output;
-}
+    function renderActionButtons($actions, $list_classes = "", $item_classes = "")
+    {
+        $output = '<ul class="b-action-buttons ' . $list_classes . '">';
+        foreach ($actions as $class => $action) {
+            if (!empty($action)) {
+                $output .= '<li class="b-action-button ' . (is_string($class) ? $class . ' ' : '' ) . $item_classes . '">' . $action . '</li>';
+            }
+        }
+        $output .= "</ul>";
+        return $output;
+    }
 
     /**
      * @deprecated
@@ -660,13 +704,15 @@ function renderActionButtons($actions, $list_classes = "", $item_classes = ""){
      * @param string $class
      * @return string
      */
-function renderTime($unixtime, $class = '') {
-	return '<time class="' . $class . '" datetime="' . date('c', $unixtime) . '">' . Ibf::app()->functions->get_date($unixtime) . '</time>';
-}
+    function renderTime($unixtime, $class = '')
+    {
+        return '<time class="' . $class . '" datetime="' . date('c', $unixtime) . '">' . Ibf::app()->functions->get_date($unixtime) . '</time>';
+    }
 
-function topicsListLegend(){
-	$ibforums = Ibf::app();
-	return <<<EOF
+    function topicsListLegend()
+    {
+        $ibforums = Ibf::app();
+        return <<<EOF
 <div class="b-legend">
 <div class="b-legend-block-wrapper">
 	<ul class="b-legend-block">
@@ -690,97 +736,111 @@ function topicsListLegend(){
 </div>
 </div>
 EOF;
+    }
 
-}
-
-function tags_MM($text){
-	$title = Ibf::app()->lang['mod_mes'];
-	return <<<EOF
+    function tags_MM($text)
+    {
+        $title = Ibf::app()->lang['mod_mes'];
+        return <<<EOF
 <div class="tag-mm"><div class="tag-mm-header">{$title}</div><div class="tag-mm-body">{$text}</div></div>
 EOF;
-}
+    }
 
-function tags_GM($text) {
-	$title = Ibf::app()->lang['glob_mod_mes'];
-	return <<<EOF
+    function tags_GM($text)
+    {
+        $title = Ibf::app()->lang['glob_mod_mes'];
+        return <<<EOF
 <div class="tag-gm"><div class='tag-gm-header'>{$title}</div><div class='tag-gm-body'>{$text}</div></div>
 EOF;
+    }
 
-}
-
-function tags_ListUnordered($text){
-	return <<<EOF
+    function tags_ListUnordered($text)
+    {
+        return <<<EOF
 <ul class="tag-list">{$text}</ul>
 EOF;
-}
+    }
 
-function tags_ListOrdered($text, $type){
-return <<<EOF
+    function tags_ListOrdered($text, $type)
+    {
+        return <<<EOF
 <ol class="tag-list" type="{$type}">{$text}</ol>
 EOF;
-}
+    }
 
-function tags_Mod($text) {
-	return <<<EOF
+    function tags_Mod($text)
+    {
+        return <<<EOF
 <div class="tag-mod"><div class="tag-mod__prefix">M</div><div class="tag-mod__body">{$text}</div></div>
 EOF;
-}
+    }
 
-function tags_Ex($text) {
-	return <<<EOF
+    function tags_Ex($text)
+    {
+        return <<<EOF
 <div class="tag-ex"><div class="tag-ex__prefix">!</div><div class="tag-ex__body">{$text}</div></div>
 EOF;
-}
+    }
 
-function tags_Size($value, $text) {
-	return <<<EOF
+    function tags_Size($value, $text)
+    {
+        return <<<EOF
 <span class='tag-size' data-value='{$value}' style='font-size:{$value}pt;'>{$text}</span>
 EOF;
-}
+    }
 
-function tags_Color($value, $text) {
-	return <<<EOF
+    function tags_Color($value, $text)
+    {
+        return <<<EOF
 <span class="tag-color" data-value="{$value}" style="color: #{$value}">{$text}</span>
 EOF;
-}
+    }
 
-function tags_ColorNamed($value, $text) {
-	return <<<EOF
+    function tags_ColorNamed($value, $text)
+    {
+        return <<<EOF
 <span class="tag-color tag-color-named" data-value="{$value}" style="color: {$value}">{$text}</span>
 EOF;
-}
+    }
 
-function tags_Font($value, $text) {
-	return <<<EOF
+    function tags_Font($value, $text)
+    {
+        return <<<EOF
 <span class="tag-font" data-value="{$value}" style="font-family:{$value}">{$text}</span>
 EOF;
-}
+    }
 
-function tags_spoiler_top($header) {
-	return <<<EOF
+    function tags_spoiler_top($header)
+    {
+        return <<<EOF
 <div class="tag-spoiler spoiler closed"><div class="spoiler_header" onclick="openCloseParent(this)">{$header}</div><div class="body">
 EOF;
-}
+    }
 
-function tags_spoiler_bottom(){
-	return <<<EOF
+    function tags_spoiler_bottom()
+    {
+        return <<<EOF
 </div></div>
 EOF;
-}
-
-function renderSelect($items, $selected, $attributes = []){
-    array_walk($attributes, function(&$item, $key){ $item = sprintf('%s="%s"', $key, htmlentities($item)); });
-    $output = '<select ' . implode(' ', $attributes) . '>';
-    foreach($items as $value => $title) {
-        $output .= sprintf('<option value="%s" %s>%s</option>', $value, $selected == $value ? 'selected' : '', $title);
     }
-    $output .= '</selected>';
-    return $output;
-}
 
-function wrapper(){
-    ob_start();
-    require __DIR__ . '/wrapper.inc';
-    return ob_get_clean();
-}
+    function renderSelect($items, $selected, $attributes = [])
+    {
+        array_walk($attributes, function (&$item, $key) {
+            $item = sprintf('%s="%s"', $key, htmlentities($item));
+        });
+        $output = '<select ' . implode(' ', $attributes) . '>';
+        foreach ($items as $value => $title) {
+            $output .= sprintf('<option value="%s" %s>%s</option>', $value, $selected == $value ? 'selected' : '', $title);
+        }
+        $output .= '</selected>';
+        return $output;
+    }
+
+    function wrapper()
+    {
+        ob_start();
+        require __DIR__ . '/wrapper.inc';
+        return ob_get_clean();
+    }
 }

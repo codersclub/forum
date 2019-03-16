@@ -42,4 +42,3 @@ $lang['time']  = "Время";
 $lang['where']  = "Последнее действие";
 $lang['user_ops']  = "Опции";
 $lang['page_title']  = "Кто в Онлайн";
-

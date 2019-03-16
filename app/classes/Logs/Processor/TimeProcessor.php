@@ -16,5 +16,4 @@ class TimeProcessor
         $record['extra']['time'] = microtime(true) - $this->startTime;
         return $record;
     }
-
 }

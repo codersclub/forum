@@ -25,5 +25,4 @@ class Help extends BaseCommand
     {
         return 'Usage: ' . SCRIPT_NAME . ' help <command>';
     }
-
 }

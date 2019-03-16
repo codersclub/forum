@@ -1,12 +1,14 @@
 <?php
 
-class skin_store {
+class skin_store
+{
 
 
 
-function edit_users_points() {
-global $ibforums;
-return <<<EOF
+    function edit_users_points()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type='text/javascript'>
 <!--
@@ -29,12 +31,13 @@ function check_edit(message) {
 </form>
 
 EOF;
-}
+    }
 
 
-function do_edit_users_points($member) {
-global $ibforums;
-return <<<EOF
+    function do_edit_users_points($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type='text/javascript'>
 <!--
@@ -66,12 +69,13 @@ function check_edit(message) {
 </form>
 
 EOF;
-}
+    }
 
 
-function edit_inventory_submit() {
-global $ibforums;
-return <<<EOF
+    function edit_inventory_submit()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" width="100%" colspan="6"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_inventory_submit']}"></center></td>
@@ -79,22 +83,24 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function useitem($code) {
-global $ibforums;
-return <<<EOF
+    function useitem($code)
+    {
+        global $ibforums;
+        return <<<EOF
 
 {$code}
 
 EOF;
-}
+    }
 
 
-function end_page() {
-global $ibforums;
-return <<<EOF
+    function end_page()
+    {
+        global $ibforums;
+        return <<<EOF
 
   </table>
   </td>
@@ -104,12 +110,13 @@ return <<<EOF
 <!--IBS.Copyright-->
 
 EOF;
-}
+    }
 
 
-function show_users_inventory($inventory) {
-global $ibforums;
-return <<<EOF
+    function show_users_inventory($inventory)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" align="center" width="10%"><img src="./html/store/icons/{$inventory['icon']}"></td>
@@ -122,12 +129,13 @@ return <<<EOF
  </tr>
 
 EOF;
-}
+    }
 
 
-function fine_users() {
-global $ibforums;
-return <<<EOF
+    function fine_users()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type='text/javascript'>
 <!--
@@ -158,12 +166,13 @@ function check_fine(message) {
 </form>
 
 EOF;
-}
+    }
 
 
-function fine_header() {
-global $ibforums;
-return <<<EOF
+    function fine_header()
+    {
+        global $ibforums;
+        return <<<EOF
   <tr>
 	<td class="titlemedium">{$ibforums->lang['fine_date']}</td>
 	<td class="titlemedium">{$ibforums->lang['fine_amount']}</td>
@@ -172,12 +181,13 @@ return <<<EOF
 	<td class="titlemedium">{$ibforums->lang['fine_user']}</td>
   </tr>
 EOF;
-}
+    }
 
 
-function fine_middle($charges) {
-global $ibforums;
-return <<<EOF
+    function fine_middle($charges)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
         <td class="pformleft" align="center">{$charges['time']}</td>
@@ -188,25 +198,27 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function fine_stats($stats) {
-global $ibforums;
-return <<<EOF
+    function fine_stats($stats)
+    {
+        global $ibforums;
+        return <<<EOF
   <tr>
 	<td class="pformleft" colspan="2">{$ibforums->lang['totalmoney']}</td>
 	<td class="pformleft" colspan="3">{$stats['total_value']} {$ibforums->vars['currency_name']}</td>
   </tr>
 EOF;
-}
+    }
 
 
 
 
-function show_users_inventory_header($user) {
-global $ibforums;
-return <<<EOF
+    function show_users_inventory_header($user)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}act=store&code=do_do_staff_inventory" name="edit" method="post">
   <tr>
@@ -219,12 +231,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function overall_stats_header() {
-global $ibforums;
-return <<<EOF
+    function overall_stats_header()
+    {
+        global $ibforums;
+        return <<<EOF
   <tr>
 	<td class="pformstrip" width="100%" colspan="4">{$ibforums->lang['stats_global']}</td>
   </tr>
@@ -237,12 +250,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function output_overall_stats($member) {
-global $ibforums;
-return <<<EOF
+    function output_overall_stats($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" width="25%"><a href="{$ibforums->base_url}showuser={$member['id']}">{$member['name']}</a></td>
@@ -253,12 +267,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function edit_users_inventory() {
-global $ibforums;
-return <<<EOF
+    function edit_users_inventory()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type='text/javascript'>
 <!--
@@ -286,24 +301,26 @@ function check_edit(message) {
 </form>
 
 EOF;
-}
+    }
 
 
-function output_stats_end() {
-global $ibforums;
-return <<<EOF
+    function output_stats_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" width="100%" colspan="4">&nbsp;</td>
   </tr>
 
 EOF;
-}
+    }
 
 
-function view_inventory_middle($user_inventory) {
-global $ibforums;
-return <<<EOF
+    function view_inventory_middle($user_inventory)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" align="center" width="10%"><img src="./html/store/icons/{$user_inventory['icon']}"></td>
@@ -315,12 +332,13 @@ return <<<EOF
  </tr>
 
 EOF;
-}
+    }
 
 
-function show_middle($info) {
-global $ibforums;
-return <<<EOF
+    function show_middle($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" align="center" colspan="2">{$info['welcome_line']}</td>
@@ -330,12 +348,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function category($categorys) {
-global $ibforums;
-return <<<EOF
+    function category($categorys)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr valign="top">
 	<td class="pformleft" align="center">{$categorys['cat_name']}</td>
@@ -343,12 +362,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function error() {
-global $ibforums;
-return <<<EOF
+    function error()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
 
@@ -359,24 +379,26 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function error_row($message) {
-global $ibforums;
-return <<<EOF
+    function error_row($message)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" align="center">{$message}</td>
   </tr>
 
 EOF;
-}
+    }
 
 
-function check() {
-global $ibforums;
-return <<<EOF
+    function check()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type='text/javascript'>
 <!--
@@ -388,12 +410,13 @@ function check(type) {
 </script>
 
 EOF;
-}
+    }
 
 
-function inventory_stats($stats) {
-global $ibforums;
-return <<<EOF
+    function inventory_stats($stats)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <!--IBS.CHECK-->
   <tr>
@@ -414,12 +437,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function category_header() {
-global $ibforums;
-return <<<EOF
+    function category_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" align="center">{$ibforums->lang['cat_name']}</td>
@@ -427,12 +451,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function quiz_header() {
-global $ibforums;
-return <<<EOF
+    function quiz_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" width="10%">{$ibforums->lang['quiz_name']}</td>
@@ -446,12 +471,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function noinventory() {
-global $ibforums;
-return <<<EOF
+    function noinventory()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" width="100%" colspan="6" align="center">{$ibforums->lang['noinventory']}</td>
@@ -461,12 +487,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function nocharges() {
-global $ibforums;
-return <<<EOF
+    function nocharges()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" width="100%" colspan="6" align="center">{$ibforums->lang['nocharges']}</td>
@@ -476,12 +503,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function inventory_middle($user_inventory) {
-global $ibforums;
-return <<<EOF
+    function inventory_middle($user_inventory)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" align="center" width="10%"><img src="./html/store/icons/{$user_inventory['icon']}"></td>
@@ -496,12 +524,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function view_inventory_stats($stats,$member) {
-global $ibforums;
-return <<<EOF
+    function view_inventory_stats($stats, $member)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" width="50%" colspan="3">{$ibforums->lang['viewinginventory']}</td>
@@ -520,12 +549,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function output_stats($member) {
-global $ibforums;
-return <<<EOF
+    function output_stats($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" width="50%"><a href="{$ibforums->base_url}showuser={$member['id']}">{$member['name']}</a></td>
@@ -533,12 +563,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function quiz_results_header() {
-global $ibforums;
-return <<<EOF
+    function quiz_results_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" width="25%">{$ibforums->lang['results_place']}</td>
@@ -549,12 +580,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function list_items($item) {
-global $ibforums;
-return <<<EOF
+    function list_items($item)
+    {
+        global $ibforums;
+        return <<<EOF
   <tr>
 	<td class="pformleft" align="center" valign="top">{$item['item_name']}<br><br><img src="./html/store/icons/{$item['icon']}"></td>
 	<td class="pformleft" align="justify" valign="top">{$item['item_desc']}</td>
@@ -565,22 +597,24 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function mass_buy_middle($mass_buy) {
-global $ibforums;
-return <<<EOF
+    function mass_buy_middle($mass_buy)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<td class="pformleft" align="center">{$mass_buy}</td>
 
 EOF;
-}
+    }
 
 
-function item_info() {
-global $ibforums;
-return <<<EOF
+    function item_info()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" align="center" width="10%">{$ibforums->lang['icon']}</td>
@@ -592,22 +626,24 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function mass_buy_header() {
-global $ibforums;
-return <<<EOF
+    function mass_buy_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<td class="pformstrip" align="center" width="10%">{$ibforums->lang['mass_buy']}</td>
 
 EOF;
-}
+    }
 
 
-function donateitem($options,$disable="") {
-global $ibforums;
-return <<<EOF
+    function donateitem($options, $disable = "")
+    {
+        global $ibforums;
+        return <<<EOF
 <!--IBS.CHECK-->
 
 <form action="{$ibforums->base_url}act=store&code=donate_item" method="post" onSubmit="return check('{$ibforums->lang['donate_check']}')">
@@ -628,12 +664,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function list_quiz($quiz) {
-global $ibforums;
-return <<<EOF
+    function list_quiz($quiz)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="row2" width="10%">{$quiz['quizname']}</td>
@@ -646,12 +683,13 @@ return <<<EOF
    </tr>
 
 EOF;
-}
+    }
 
 
-function quiz_q_a_header($settings) {
-global $ibforums;
-return <<<EOF
+    function quiz_q_a_header($settings)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <script language='Javascript' type='text/javascript'>
 <!--
@@ -674,12 +712,13 @@ function Dotimeout() {
   </tr>
 
 EOF;
-}
+    }
 
 
-function single_question($info) {
-global $ibforums;
-return <<<EOF
+    function single_question($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="row2" width="50%"><b>{$info['question']}</b></td>
@@ -687,12 +726,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function dropdown_question($info) {
-global $ibforums;
-return <<<EOF
+    function dropdown_question($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="row2" width="50%"><b>{$info['question']}</b></td>
@@ -700,12 +740,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function quiz_q_a_submit() {
-global $ibforums;
-return <<<EOF
+    function quiz_q_a_submit()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="row2" width="100%" colspan="2"><input type="submit" name="take_quiz" value="{$ibforums->lang[quiz_qa_submit]}"></td>
@@ -713,12 +754,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function bank($info,$collect_submit) {
-global $ibforums;
-return <<<EOF
+    function bank($info, $collect_submit)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" width="100%" colspan="4">{$ibforums->lang['welcome_bank']}</td>
@@ -753,12 +795,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function donatemoney($disable) {
-global $ibforums;
-return <<<EOF
+    function donatemoney($disable)
+    {
+        global $ibforums;
+        return <<<EOF
 <!--IBS.CHECK-->
 
 <form action="{$ibforums->base_url}act=store&code=dodonate_money" method="post" onSubmit="return check('{$ibforums->lang['donate_check']}')">
@@ -780,12 +823,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function quiz_results_results($member,$place) {
-global $ibforums;
-return <<<EOF
+    function quiz_results_results($member, $place)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class="pformleft" width="25%">{$place}</td>
@@ -795,12 +839,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function cannot_finditems() {
-global $ibforums;
-return <<<EOF
+    function cannot_finditems()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformleft" align="center" colspan="8"><b>{$ibforums->lang['cannot_find_items']}</b></td>
@@ -810,12 +855,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function next_lastlinks($info) {
-global $ibforums;
-return <<<EOF
+    function next_lastlinks($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" align="left" colspan="2"><a href="{$ibforums->base_url}act=store&code=shop{$info['category']}&page={$info['last']}">{$ibforums->lang['last']}</a></td>
@@ -824,12 +870,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function menu($links) {
-global $ibforums;
-return <<<EOF
+    function menu($links)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table cellspacing="0" cellpadding="0" width="100%">
   <tr>
@@ -858,12 +905,13 @@ return <<<EOF
 	</p>
 
 EOF;
-}
+    }
 
 
-function menu_mod($links) {
-global $ibforums;
-return <<<EOF
+    function menu_mod($links)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<div class="pformstrip">{$ibforums->lang['staff_links']}</div>
 	<p>
@@ -873,11 +921,12 @@ return <<<EOF
 	</p>
 
 EOF;
-}
+    }
 
-function menu_last($links) {
-global $ibforums;
-return <<<EOF
+    function menu_last($links)
+    {
+        global $ibforums;
+        return <<<EOF
 
   </td>
   <td style="padding:2px"><!-- --></td>
@@ -887,12 +936,13 @@ return <<<EOF
   <table width="100%" border="0" cellspacing="1" cellpadding="4">
 
 EOF;
-}
+    }
 
 
-function header_stats($name) {
-global $ibforums;
-return <<<EOF
+    function header_stats($name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="pformstrip" colspan="2">{$name}</td>
@@ -904,12 +954,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function misc_stats($stats) {
-global $ibforums;
-return <<<EOF
+    function misc_stats($stats)
+    {
+        global $ibforums;
+        return <<<EOF
  <tr>
 	<td class="pformstrip" width="100%" colspan="2">{$ibforums->lang['miscstats_info']}</td>
  </tr>
@@ -936,52 +987,57 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function make_url($address,$text,$prefix="<b>",$suffix="</b><br>") {
-global $ibforums;
-return <<<EOF
+    function make_url($address, $text, $prefix = "<b>", $suffix = "</b><br>")
+    {
+        global $ibforums;
+        return <<<EOF
 
 {$prefix}<a href='{$ibforums->base_url}{$address}'>{$text}</a>{$suffix}
 
 EOF;
-}
+    }
 
 
-function member_points() {
-global $ibforums;
-return <<<EOF
+    function member_points()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="row4" align="center"><b>{$ibforums->lang['yourpoints']} {$ibforums->vars['currency_name']}: {$ibforums->member['points']}</b></div>
 
 EOF;
-}
+    }
 
 
-function plays_left_header() {
-global $ibforums;
-return <<<EOF
+    function plays_left_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<td class="pformstrip" width="10%">{$ibforums->lang['plays_left']}</td>
 
 EOF;
-}
+    }
 
 
-function plays_left_middle($plays) {
-global $ibforums;
-return <<<EOF
+    function plays_left_middle($plays)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<td class="row2" width="10%">{$plays}</td>
 
 EOF;
-}
+    }
 
 
-function post_info() {
-global $ibforums;
-return <<<EOF
+    function post_info()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
 	<td class="titlemedium" width="90%">{$ibforums->lang['post_info']}</td>
@@ -1054,12 +1110,13 @@ return <<<EOF
 	<td class="pformleft">&nbsp;</td>
   </tr>
 EOF;
-}
+    }
 
 
-function convert_points($member) {
-global $ibforums;
-return <<<EOF
+    function convert_points($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}act=store&code=doconvertpoint" method="post">
   <tr>
@@ -1078,11 +1135,12 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
-function ShowTitle($i) {
-global $ibforums;
-return <<<EOF
+    function ShowTitle($i)
+    {
+        global $ibforums;
+        return <<<EOF
 <div class='tableborder'>
  <div class="maintitle" align='center'>
  {$ibforums->lang['rep_name']} {$ibforums->lang['user']} <b>{$i['name']}</b>: {$i['rep']} [ +{$i['ups']} | -{$i['downs']} ]
@@ -1090,11 +1148,12 @@ return <<<EOF
  <table width='100%' cellpadding='4' cellspacing='1' border='0'>
   <tr>
 EOF;
-}
+    }
 
-function ShowHeader() {
-global $ibforums;
-return <<<EOF
+    function ShowHeader()
+    {
+        global $ibforums;
+        return <<<EOF
 				<th align='center' class='pformstrip' width='15%'>{$ibforums->lang['who']}</td>
 				<th align='center' class='pformstrip'>{$ibforums->lang['where']}</td>
 				<th align='center' class='pformstrip'>{$ibforums->lang['why']}</td>
@@ -1102,22 +1161,24 @@ return <<<EOF
 				<th align='center' class='pformstrip' width='15%'>{$ibforums->lang['when']}</td>
 				</tr>
 EOF;
-}
+    }
 
-function ShowFooter($link) {
-global $ibforums;
-return <<<EOF
+    function ShowFooter($link)
+    {
+        global $ibforums;
+        return <<<EOF
                 <tr>
 			<td align='center' colspan='6' class='darkrow1'><a href='$link'>{$ibforums->lang['back']}</a></td>
                 </tr>
 	</table>
      </div>
 EOF;
-}
+    }
 
-function ShowRow($i) {
-global $ibforums;
-return <<<EOF
+    function ShowRow($i)
+    {
+        global $ibforums;
+        return <<<EOF
 				<tr>
 				<td class='row2' width='15%' align='center'>{$i['name']}</td>
 				<td class='row2' width='25%'><a href={$i['url']}>{$i['title']}</a></td>
@@ -1126,8 +1187,5 @@ return <<<EOF
 				<td align='center' class='row4' width='15%'>{$i['date']}{$i['admin_undo']}</td>
 				</tr>
 EOF;
+    }
 }
-
-
-}
-?>

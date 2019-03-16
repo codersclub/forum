@@ -26,7 +26,6 @@ class LoggerTest extends TestCase
         self::$oldEnv  = \Config::getEnvironment();
         self::$oldPath = \Config::setConfigPath(MOCK_PATH . '/LoggerTestEnvironment');
         \Config::setEnvironment(null);
-
     }
 
     public static function tearDownAfterClass()
@@ -190,7 +189,8 @@ class LoggerTest extends TestCase
         );
     }
 
-    public function testIsRegistered(){
+    public function testIsRegistered()
+    {
         Logger::registerChannel('TestingChannel');
         $this->assertTrue(Logger::isChannelRegistered('TestingChannel'));
         $this->assertFalse(Logger::isChannelRegistered('SecondTestingChannel'));

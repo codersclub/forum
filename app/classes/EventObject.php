@@ -12,10 +12,10 @@
  */
 class EventObject
 {
-	public $owner;
+    public $owner;
 
-	function __construct($owner)
-	{
-		$this->owner = $owner;
-	}
+    function __construct($owner)
+    {
+        $this->owner = $owner;
+    }
 }

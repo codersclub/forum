@@ -10,11 +10,11 @@ class Set extends BaseCommand
         if (count($args) < 2) {
             throw new \InvalidArgumentException('Missed required argument');
         }
-        if (isset($this->options['int'])){
+        if (isset($this->options['int'])) {
             $args[1] = (int)$args[1];
-        }elseif(isset($this->options['float'])){
+        } elseif (isset($this->options['float'])) {
             $args[1] = (float)$args[1];
-        }elseif(isset($this->options['comma-array'])){
+        } elseif (isset($this->options['comma-array'])) {
             $args[1] = explode(',', $args[1]);
         }
         \Variables::set($args[0], $args[1]);
@@ -25,5 +25,4 @@ class Set extends BaseCommand
     {
         return 'Usage: ' . SCRIPT_NAME . ' set [--int|--float|--comma-array] <variable.path> <value>';
     }
-
 }

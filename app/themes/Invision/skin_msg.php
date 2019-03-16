@@ -1,12 +1,14 @@
 <?php
 
-class skin_msg {
+class skin_msg
+{
 
 
 
-function address_add($mem_to_add) {
-global $ibforums;
-return <<<EOF
+    function address_add($mem_to_add)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form class="b-address-add-form" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
@@ -24,12 +26,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function Render_msg($data) {
-global $ibforums;
-return <<<EOF
+    function Render_msg($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <h3>{$data['msg']['title']}</h3>
 <div align="right" style="padding:6px;font-weight:bold">
   [ <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MSID={$data['msg']['msg_id']}&amp;MID={$data['member']['id']}&amp;fwd=1'>{$ibforums->lang['vm_forward_pm']}</a> | <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MID={$data['member']['id']}&amp;MSID={$data['msg']['msg_id']}'>{$ibforums->lang['pm_reply_link']}</a> ]
@@ -93,12 +96,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function mass_pm_box($names="") {
-global $ibforums;
-return <<<EOF
+    function mass_pm_box($names = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3 class="b-send_pm__cc-title">{$ibforums->lang['carbon_copy_title']}</h3>
 <table class="b-send_pm__cc">
@@ -112,12 +116,13 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function Send_form($data) {
-global $ibforums;
-return <<<EOF
+    function Send_form($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <form class="b-send-pm-form" name='REPLIER' action="{$ibforums->base_url}" method="post" onsubmit='return ValidateForm(1)'>
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='04'>
@@ -146,31 +151,33 @@ return <<<EOF
 </tr>
 </table>
 EOF;
-}
+    }
 
-	function renderAddToContactsBtn($id){
-		$ibforums = Ibf::app();
-		return <<<EOF
+    function renderAddToContactsBtn($id)
+    {
+        $ibforums = Ibf::app();
+        return <<<EOF
 [ <a class="b-button_add-to-contacts" href='{$ibforums->base_url}act=Msg&amp;CODE=02&amp;MID={$id}'>{$ibforums->lang['add_to_book']}</a> ]
 EOF;
-	}
+    }
 
-	function renderSenderLink($id, $name){
-		$ibf = Ibf::app();
-		return <<<EOF
+    function renderSenderLink($id, $name)
+    {
+        $ibf = Ibf::app();
+        return <<<EOF
 <a href='{$ibf->base_url}showuser={$id}'>$name</a>
 EOF;
+    }
 
-	}
-
-	function inbox_row($data) {
-		global $ibforums;
-		if ($data['msg']['member_deleted']){
-			$sender = $data['msg']['from_name'];
-		}else{
-			$sender = $this->renderSenderLink($data['msg']['from_id'], $data['msg']['from_name']) . ' ' . $this->renderAddToContactsBtn($data['msg']['from_id']);
-		}
-return <<<EOF
+    function inbox_row($data)
+    {
+        global $ibforums;
+        if ($data['msg']['member_deleted']) {
+            $sender = $data['msg']['from_name'];
+        } else {
+            $sender = $this->renderSenderLink($data['msg']['from_id'], $data['msg']['from_name']) . ' ' . $this->renderAddToContactsBtn($data['msg']['from_id']);
+        }
+        return <<<EOF
 
   <tr class="b-row" data-msg-id="{{$data['msg']['msg_id']}}" data-read="{$data['msg']['read_state']}" >
 	<td class="b-column_icon">{$data['msg']['icon']}</td>
@@ -181,12 +188,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function end_inbox($vdi_html, $amount_info="", $pages="") {
-global $ibforums;
-return <<<EOF
+    function end_inbox($vdi_html, $amount_info = "", $pages = "")
+    {
+        global $ibforums;
+        return <<<EOF
 </tbody>
 <tfoot>
 	<tr class="b-row">
@@ -202,12 +210,13 @@ return <<<EOF
 <div align="right" style="padding:6px"><div class="b-pm-list__pages-bottom-wrapper">$pages</div><br><div class="b-pm-list__amount-info-wrapper">$amount_info</div></div>
 
 EOF;
-}
+    }
 
 
-function send_form_footer() {
-global $ibforums;
-return <<<EOF
+    function send_form_footer()
+    {
+        global $ibforums;
+        return <<<EOF
 <h3>{$ibforums->lang['msg_options']}</h3>
 <table>
 <tr>
@@ -227,12 +236,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function unsent_end() {
-global $ibforums;
-return <<<EOF
+    function unsent_end()
+    {
+        global $ibforums;
+        return <<<EOF
 	</tbody>
 	<tfoot>
 		<tr class="b-footer-row">
@@ -245,12 +255,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function inbox_table_header($dirname, $info, $vdi_html="", $pages="") {
-global $ibforums;
-return <<<EOF
+    function inbox_table_header($dirname, $info, $vdi_html = "", $pages = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>$dirname</h3>
 <table class="b-pm-list__content-top" >
@@ -292,12 +303,13 @@ return <<<EOF
   </thead>
   <tbody>
 EOF;
-}
+    }
 
 
-function unsent_row($data) {
-global $ibforums;
-return <<<EOF
+    function unsent_row($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="b-row pm-unsent-list-row">
   <td class='row2 b-column_icon'>{$data['msg']['icon']}</td>
@@ -309,12 +321,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function trackUNread_end() {
-global $ibforums;
-return <<<EOF
+    function trackUNread_end()
+    {
+        global $ibforums;
+        return <<<EOF
 </tbody>
 <tfoot>
 <tr class="b-footer-row">
@@ -327,12 +340,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function unsent_table_header() {
-global $ibforums;
-return <<<EOF
+    function unsent_table_header()
+    {
+        global $ibforums;
+        return <<<EOF
 <form action="{$ibforums->base_url}CODE=06&amp;act=Msg&amp;saved=1" name='mutliact' method="post">
 <h3>{$ibforums->lang['pms_saved_title']}</h3>
 <div class="tableborder b-pm-list-wrapper pm-unsent-list-wrapper">
@@ -349,12 +363,13 @@ return <<<EOF
 </thead>
 <tbody>
 EOF;
-}
+    }
 
 
-function trackread_end() {
-global $ibforums;
-return <<<EOF
+    function trackread_end()
+    {
+        global $ibforums;
+        return <<<EOF
 </tbody>
 <tfoot>
 <tr>
@@ -367,12 +382,13 @@ return <<<EOF
 <br>
 
 EOF;
-}
+    }
 
 
-function trackUNread_table_header() {
-global $ibforums;
-return <<<EOF
+    function trackUNread_table_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form class="b-tracking-form b-tracking-form_unread" action="{$ibforums->base_url}CODE=32&amp;act=Msg" name='trackunread' method="post">
 <h3>{$ibforums->lang['tk_unread_messages']}</h3>
@@ -390,28 +406,13 @@ return <<<EOF
 </thead>
 <tbody>
 EOF;
-}
+    }
 
 
-function trackUNread_row($data) {
-global $ibforums;
-return <<<EOF
-
-<tr class="b-row">
-  <td class='b-column b-column_icon'>{$data['icon']}</td>
-  <td class='b-column b-column_title'>{$data['title']}</td>
-  <td class='b-column b-column_receiver'><a href='{$ibforums->base_url}showuser={$data['memid']}'>{$data['to_name']}</a></td>
-  <td class='b-column b-column_date'>{$data['date']}</td>
-  <td class='b-column b-column_checkbox'><input type='checkbox' name='msgid_{$data['msg_id']}' value='yes' class='forminput'></td>
-</tr>
-
-EOF;
-}
-
-
-function trackread_row($data) {
-global $ibforums;
-return <<<EOF
+    function trackUNread_row($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="b-row">
   <td class='b-column b-column_icon'>{$data['icon']}</td>
@@ -422,12 +423,30 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function trackread_table_header() {
-global $ibforums;
-return <<<EOF
+    function trackread_row($data)
+    {
+        global $ibforums;
+        return <<<EOF
+
+<tr class="b-row">
+  <td class='b-column b-column_icon'>{$data['icon']}</td>
+  <td class='b-column b-column_title'>{$data['title']}</td>
+  <td class='b-column b-column_receiver'><a href='{$ibforums->base_url}showuser={$data['memid']}'>{$data['to_name']}</a></td>
+  <td class='b-column b-column_date'>{$data['date']}</td>
+  <td class='b-column b-column_checkbox'><input type='checkbox' name='msgid_{$data['msg_id']}' value='yes' class='forminput'></td>
+</tr>
+
+EOF;
+    }
+
+
+    function trackread_table_header()
+    {
+        global $ibforums;
+        return <<<EOF
 <form class="b-tracking-form" action="{$ibforums->base_url}CODE=31&amp;act=Msg" name='trackread' method="post">
 <h3>{$ibforums->lang['tk_read_messages']}</h3>
 <p class="b-description">{$ibforums->lang['tk_read_desc']}</p>
@@ -444,30 +463,33 @@ return <<<EOF
 </thead>
 <tbody>
 EOF;
-}
+    }
 
 
-function Address_none() {
-global $ibforums;
-return <<<EOF
+    function Address_none()
+    {
+        global $ibforums;
+        return <<<EOF
 <p class="b-address-list__none">{$ibforums->lang['address_none']}</p>
 EOF;
-}
+    }
 
 
-function end_address_table() {
-return <<<EOF
+    function end_address_table()
+    {
+        return <<<EOF
 
 </table>
 </div>
 
 EOF;
-}
+    }
 
 
-function address_edit($data) {
-global $ibforums;
-return <<<EOF
+    function address_edit($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}" method="post" class="b-address-edit-form">
 <input type='hidden' name='act' value='Msg'>
@@ -486,22 +508,24 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function Address_header() {
-global $ibforums;
-return <<<EOF
+    function Address_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['address_current']}</h3>
 
 EOF;
-}
+    }
 
 
-function Address_table_header() {
-global $ibforums;
-return <<<EOF
+    function Address_table_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="b-address-list__wrapper tableborder">
 <table class="b-address-list">
@@ -513,12 +537,13 @@ return <<<EOF
 </thead>
 
 EOF;
-}
+    }
 
 
-function render_address_row($entry) {
-global $ibforums;
-return <<<EOF
+    function render_address_row($entry)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="b-address-list__row">
   <td class='b-address-list__column b-address-list__column_name row1'>
@@ -532,12 +557,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function empty_folder_footer() {
-global $ibforums;
-return <<<EOF
+    function empty_folder_footer()
+    {
+        global $ibforums;
+        return <<<EOF
 </tbody>
 </table>
 <div class="b-folder-clear__buttons pformstrip" ><input type='submit' value='{$ibforums->lang['fd_continue']}' class='forminput'></div>
@@ -545,24 +571,26 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function No_msg_inbox() {
-global $ibforums;
-return <<<EOF
+    function No_msg_inbox()
+    {
+        global $ibforums;
+        return <<<EOF
 
       <tr>
       <td class='row1' colspan='5' align='center'><b>{$ibforums->lang['inbox_no_msg']}</b></td>
       </tr>
 
 EOF;
-}
+    }
 
 
-function empty_folder_header() {
-global $ibforums;
-return <<<EOF
+    function empty_folder_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}" method="post" class="b-folder-clear">
 <input type='hidden' name='act' value='Msg'>
@@ -580,44 +608,48 @@ return <<<EOF
 </thead>
 <tbody>
 EOF;
-}
+    }
 
 
-function prefs_footer() {
-global $ibforums;
-return <<<EOF
+    function prefs_footer()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="b-folder-rename__buttons pformstrip"><input type='submit' value='{$ibforums->lang['prefs_submit']}' class='forminput'></div>
 </form>
 
 EOF;
-}
+    }
 
 
-function prefs_row($data) {
-global $ibforums;
-return <<<EOF
+    function prefs_row($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <p class="b-folder-rename__row"><input type='text' name='{$data[ID]}' value='{$data[REAL]}' class='forminput'>{$data[EXTRA]}</p>
 
 EOF;
-}
+    }
 
 
-function prefs_add_dirs() {
-global $ibforums;
-return <<<EOF
+    function prefs_add_dirs()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3 class="b-folder-rename__title_added">{$ibforums->lang['prefs_new']}</h3>
 <p class="b-folder-rename__description_added">{$ibforums->lang['prefs_text_b']}</p>
 
 EOF;
-}
+    }
 
 
-function prefs_header() {
-global $ibforums;
-return <<<EOF
+    function prefs_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form class="b-folder-rename" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
@@ -626,34 +658,37 @@ return <<<EOF
 <p class="b-folder-rename__description">{$ibforums->lang['prefs_text_a']}</p>
 
 EOF;
-}
+    }
 
 
-function preview($data) {
-global $ibforums;
-return <<<EOF
+    function preview($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <div class='tableborder'>
 <h3>{$ibforums->lang['pm_preview']}</h3>
 <p>$data</p>
 </div>
 EOF;
-}
+    }
 
 
-function pm_errors($data) {
-global $ibforums;
-return <<<EOF
+    function pm_errors($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['err_errors']}</h3>
 <span class='postcolor'><p>$data<br><br>{$ibforums->lang['pme_none_sent']}</p></span>
 
 EOF;
-}
+    }
 
 
-function pm_popup($text, $mid) {
-global $ibforums;
-return <<<EOF
+    function pm_popup($text, $mid)
+    {
+        global $ibforums;
+        return <<<EOF
 <table cellspacing='1' cellpadding='10' width='100%' height='100%' align='center' class='row1'>
 <tr>
    <td id='phototitle' align='center'>{$ibforums->lang['pmp_title']}</td>
@@ -670,12 +705,13 @@ return <<<EOF
 </table>
 
 EOF;
-}
+    }
 
 
-function archive_html_header() {
-global $ibforums;
-return <<<EOF
+    function archive_html_header()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <html>
  <head>
@@ -733,12 +769,13 @@ return <<<EOF
  <div id='ipbwrapper'>
 
 EOF;
-}
+    }
 
 
-function archive_html_entry($info) {
-global $ibforums;
-return <<<EOF
+    function archive_html_entry($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class='maintitle'><img src="{$ibforums->vars['board_url']}/style_images/<#IMG_DIR#>/f_norm.gif" alt='PM'>&nbsp;PM: {$info['msg_title']}</div>
@@ -748,12 +785,13 @@ return <<<EOF
 <br>
 
 EOF;
-}
+    }
 
 
-function archive_html_entry_sent($info) {
-global $ibforums;
-return <<<EOF
+    function archive_html_entry_sent($info)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class='maintitle'><img src="{$ibforums->vars['board_url']}/style_images/<#IMG_DIR#>/f_moved.gif" alt='PM'>&nbsp;PM: {$info['msg_title']}</div>
@@ -763,12 +801,13 @@ return <<<EOF
 <br>
 
 EOF;
-}
+    }
 
 
-function empty_folder_save_unread() {
-global $ibforums;
-return <<<EOF
+    function empty_folder_save_unread()
+    {
+        global $ibforums;
+        return <<<EOF
 </tbody>
 <tfoot>
 <tr class="b-row">
@@ -777,12 +816,13 @@ return <<<EOF
 </tfoot>
 
 EOF;
-}
+    }
 
 
-function empty_folder_row($real, $id, $cnt) {
-global $ibforums;
-return <<<EOF
+    function empty_folder_row($real, $id, $cnt)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr class="b-row">
   <td class="b-column b-column_title row1">$real</td>
@@ -791,35 +831,38 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function archive_html_footer() {
-global $ibforums;
-return <<<EOF
+    function archive_html_footer()
+    {
+        global $ibforums;
+        return <<<EOF
 
   </div>
  </body>
 </html>
 
 EOF;
-}
+    }
 
 
-function archive_complete() {
-global $ibforums;
-return <<<EOF
+    function archive_complete()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <h3>{$ibforums->lang['arc_comp_title']}</h3>
 <p>{$ibforums->lang['arc_complete']}</p>
 
 EOF;
-}
+    }
 
 
-function archive_form($jump_html="") {
-global $ibforums;
-return <<<EOF
+    function archive_form($jump_html = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form class="b-archive-form" action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Msg'>
@@ -864,8 +907,5 @@ return <<<EOF
 </form>
 
 EOF;
+    }
 }
-
-
-}
-?>

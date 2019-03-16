@@ -12,7 +12,9 @@ if (!function_exists('public_path')) {
     function public_path($postfix = '')
     {
         $path = Config::get('path.public');
-        if ($postfix) { $path .= '/' . $postfix; }
+        if ($postfix) {
+            $path .= '/' . $postfix;
+        }
         return $path;
     }
 }
@@ -21,7 +23,9 @@ if (!function_exists('app_path')) {
     function app_path($postfix = '')
     {
         $path = Config::get('path.app');
-        if ($postfix) { $path .= '/' . $postfix; }
+        if ($postfix) {
+            $path .= '/' . $postfix;
+        }
         return $path;
     }
 }
@@ -30,7 +34,9 @@ if (!function_exists('base_path')) {
     function base_path($postfix = '')
     {
         $path = Config::get('path.base');
-        if ($postfix) { $path .= '/' . $postfix; }
+        if ($postfix) {
+            $path .= '/' . $postfix;
+        }
         return $path;
     }
 }
@@ -39,7 +45,9 @@ if (!function_exists('storage_path')) {
     function storage_path($postfix = '')
     {
         $path = Config::get('path.storage');
-        if ($postfix) { $path .= '/' . $postfix; }
+        if ($postfix) {
+            $path .= '/' . $postfix;
+        }
         return $path;
     }
 }

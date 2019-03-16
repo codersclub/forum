@@ -1,12 +1,14 @@
 <?php
 
-class skin_online {
+class skin_online
+{
 
 
 
-function show_row($session) {
-global $ibforums;
-return <<<EOF
+    function show_row($session)
+    {
+        global $ibforums;
+        return <<<EOF
               <tr>
                 <td class='row2'>{$session['member_name']}</td>
                 <td class='row2'>{$session['where_line']}</td>
@@ -15,12 +17,13 @@ return <<<EOF
               </tr>
 
 EOF;
-}
+    }
 
 
-function Page_end($show_mem, $sort_order, $sort_key, $links) {
-global $ibforums;
-return <<<EOF
+    function Page_end($show_mem, $sort_order, $sort_key, $links)
+    {
+        global $ibforums;
+        return <<<EOF
 
             <tr>
             <td colspan='4' class='darkrow1' align='center' valign='middle'>
@@ -39,12 +42,13 @@ return <<<EOF
           <div align='left'>$links</div>
 
 EOF;
-}
+    }
 
 
-function Page_header($links) {
-global $ibforums;
-return <<<EOF
+    function Page_header($links)
+    {
+        global $ibforums;
+        return <<<EOF
     <div align='left'>$links</div>
     <br>
     <div class="tableborder">
@@ -57,7 +61,5 @@ return <<<EOF
 		   <th align='left' width='10%' class='titlemedium'>&nbsp;</th>
 		</tr>
 EOF;
-}
-
-
+    }
 }

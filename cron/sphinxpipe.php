@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-define('XMLPIPE_CONF_FILE', dirname(__FILE__).'/sphinx_xmlpipe_conf.ini');
+define('XMLPIPE_CONF_FILE', dirname(__FILE__) . '/sphinx_xmlpipe_conf.ini');
 
 
 /**
@@ -29,8 +29,7 @@ $index_section_name = $_SERVER['argv'][1];
 #    die();
 #}
 
-if (!file_exists(XMLPIPE_CONF_FILE))
-{
+if (!file_exists(XMLPIPE_CONF_FILE)) {
     fwrite($std_err_output, XMLPIPE_CONF_FILE . " file not found. \n");
     die();
 }
@@ -90,20 +89,14 @@ $config = parse_ini_file(XMLPIPE_CONF_FILE, true);
 
 // prepare replacements
 $replacements = array();
-if (isset($config['general']['simple_delete']))
-{
+if (isset($config['general']['simple_delete'])) {
     $replacements['simple_delete'] = $config['general']['simple_delete'];
-}
-else
-{
+} else {
     $replacements['simple_delete'] = array();
 }
-if (isset($config['general']['preg_delete']))
-{
+if (isset($config['general']['preg_delete'])) {
     $replacements['preg_delete'] = $config['general']['preg_delete'];
-}
-else
-{
+} else {
     $replacements['preg_delete'] = array();
 }
 
@@ -111,8 +104,7 @@ else
 // init index section info
 $index_section = prepare_index_section($config, $index_section_name);
 
-if (empty($index_section))
-{
+if (empty($index_section)) {
     throw new Exception('Index not found, check sphinx_xmlpipe_conf.ini');
 }
 
@@ -135,8 +127,7 @@ $doc->beginOutput();
  * Execute pre queries and get range
  */
 
-if (isset($index_section['sql_query_pre']) AND is_array($index_section['sql_query_pre']))
-{
+if (isset($index_section['sql_query_pre']) and is_array($index_section['sql_query_pre'])) {
     $args = array('{table_prefix}' => $table_prefix);
     execute_support_queries($mysqli, $index_section['sql_query_pre'], $args, 'Error in "execute pre_query" section: %s');
 }
@@ -145,15 +136,13 @@ $message_field = $index_section['message_field'];
 
 $query = str_replace('{table_prefix}', $table_prefix, $index_section['sql_query_range']);
 $mysqli_result = $mysqli->query($query);
-if (!$mysqli_result)
-{
+if (!$mysqli_result) {
     throw new Exception('Error in "get range" section:' . $mysqli->error);
 }
 list($first, $last) = $mysqli_result->fetch_row();
 $mysqli_result->free_result();
 
-if (!$first OR !$last)
-{
+if (!$first or !$last) {
     $doc->endOutput();
     die();
 }
@@ -176,8 +165,7 @@ $maxid = 0;
 
 
 $start = $first;
-while ($start <= $last)
-{
+while ($start <= $last) {
     $time_mysql_start = microtime(true);
     $result = array();
     $content = array();
@@ -187,19 +175,17 @@ while ($start <= $last)
     $query = str_replace($range_marks, array($start, $start + $index_section['sql_range_step'] - 1), $query_raw);
     $mysqli->query($query);
 
-    if (!$mysqli_result = $mysqli->query($query))
-    {
+    if (!$mysqli_result = $mysqli->query($query)) {
         throw new Exception('Error in "data processing" section:' . $mysqli->error . "\n$query\n");
     }
 
 
     // fetch results
-    while ($row = $mysqli_result->fetch_assoc())
-    {
+    while ($row = $mysqli_result->fetch_assoc()) {
         $id = $row['id'];
         unset($row['id']);
         $result[$id] = $row;
-		$maxid = max($id, $maxid);
+        $maxid = max($id, $maxid);
         // This array is need to optimize content processing
         $contents[$id] = $row[$message_field];
     }
@@ -209,8 +195,7 @@ while ($start <= $last)
     $content_processing_time_start = microtime(true);
     $mysql_fetch_total_time += ( $content_processing_time_start - $time_mysql_start);
 
-    if (count($result))
-    {
+    if (count($result)) {
         $total_count_processed_post += count($result);
         $contents = content_processing($contents, $replacements);
         $xml_generate_time_start = microtime(true);
@@ -219,12 +204,10 @@ while ($start <= $last)
 
 
         // generate documents
-        if (!isset($keys))
-        {
+        if (!isset($keys)) {
             $keys = array_keys(current($result));
         }
-        foreach ($contents as $id => $message)
-        {
+        foreach ($contents as $id => $message) {
             $row = $result[$id];
             $row[$message_field] = $message;
             $doc->addDocument($id, $row, $keys);
@@ -250,8 +233,7 @@ while ($start <= $last)
  * Execute sql_query_post_index
  */
 
-if (isset($index_section['sql_query_post_index']) AND is_array($index_section['sql_query_post_index']))
-{
+if (isset($index_section['sql_query_post_index']) and is_array($index_section['sql_query_post_index'])) {
     $args = array(
         '{table_prefix}' => $table_prefix,
         '$maxid' => $maxid,
@@ -265,18 +247,15 @@ if (isset($index_section['sql_query_post_index']) AND is_array($index_section['s
  * Print kill list
  */
 
-if (isset($index_section['sql_query_killlist']))
-{
+if (isset($index_section['sql_query_killlist'])) {
     $query = str_replace('{table_prefix}', $table_prefix, $index_section['sql_query_killlist']);
     $mysqli_result = $mysqli->query($query);
     
-    if (!$mysqli_result)
-    {
+    if (!$mysqli_result) {
         throw new Exception('Error in "get kill list" section:' . $mysqli->error);
     }
     $kill_list = array();
-    while ($row = $mysqli_result->fetch_row())
-    {
+    while ($row = $mysqli_result->fetch_row()) {
         $kill_list[] = $row[0];
     }
 
@@ -320,8 +299,7 @@ fclose($std_err_output);
  */
 function get_attrs($type, $values)
 {
-    foreach ($values as $name)
-    {
+    foreach ($values as $name) {
         $elements[] = array('name' => $name, 'type' => $type);
     }
     return $elements;
@@ -338,22 +316,21 @@ function get_attrs($type, $values)
 function get_link($db_conf)
 {
     static $link;
-    if (($link instanceof mysqli) AND !$link->errno())
-    {
+    if (($link instanceof mysqli) and !$link->errno()) {
         return $link;
     }
 
-    for ($i = 0; $i < 3; $i++)
-    {
+    for ($i = 0; $i < 3; $i++) {
         // ToDo optimize
-        $link = new mysqli($db_conf['host'],
-                $db_conf['user'],
-                $db_conf['pass'],
-                $db_conf['schema'],
-                $db_conf['port'],
-                $db_conf['socket']);
-        if (!mysqli_connect_error ())
-        {
+        $link = new mysqli(
+            $db_conf['host'],
+            $db_conf['user'],
+            $db_conf['pass'],
+            $db_conf['schema'],
+            $db_conf['port'],
+            $db_conf['socket']
+        );
+        if (!mysqli_connect_error()) {
             return $link;
         }
     }
@@ -370,27 +347,20 @@ function get_link($db_conf)
  * @param string $err_msg
  * @return bool
  */
-function execute_support_queries($mysqli, $queries, $args = NULL, $err_msg = '')
+function execute_support_queries($mysqli, $queries, $args = null, $err_msg = '')
 {
-    foreach ($queries as $query)
-    {
+    foreach ($queries as $query) {
         $query = trim($query);
-        if (empty($query))
-        {
+        if (empty($query)) {
             continue;
         }
-        if (!empty($args))
-        {
+        if (!empty($args)) {
             $query = str_ireplace(array_keys($args), $args, $query);
         }
-        if (!$mysqli->query($query))
-        {
-            if (!empty($err_msg))
-            {
+        if (!$mysqli->query($query)) {
+            if (!empty($err_msg)) {
                 $err_msg = sprintf($err_msg, $mysqli->error) . "\n$query\n";
-            }
-            else
-            {
+            } else {
                 $err_msg = $mysqli->error;
             }
             throw new Exception($err_msg);
@@ -409,13 +379,11 @@ function execute_support_queries($mysqli, $queries, $args = NULL, $err_msg = '')
  */
 function prepare_index_section($config, $index_section_name)
 {
-    if (!isset($config[$index_section_name]))
-    {
+    if (!isset($config[$index_section_name])) {
         throw new Exception('Invalid index name ' . $index_section_name);
     }
     $parent_section = array();
-    if (isset($config[$index_section_name]['parent_index']))
-    {
+    if (isset($config[$index_section_name]['parent_index'])) {
         $parent_section = prepare_index_section($config, $config[$index_section_name]['parent_index']);
     }
     return array_merge($parent_section, $config[$index_section_name]);
@@ -440,10 +408,8 @@ function prepare_attributes($index_section)
         'float' => 'xmlpipe_attr_float',
     );
     $xml_doc_attr_list = array();
-    foreach ($attr_map as $attr_type => $key_in_config)
-    {
-        if (isset($index_section[$key_in_config]))
-        {
+    foreach ($attr_map as $attr_type => $key_in_config) {
+        if (isset($index_section[$key_in_config])) {
             $xml_doc_attr_list = array_merge($xml_doc_attr_list, get_attrs($attr_type, $index_section[$key_in_config]));
         }
     }
@@ -489,8 +455,7 @@ class SphinxXMLFeed extends XMLWriter
         // Store the xml tree in memory
         $this->openMemory();
 
-        if ($options['indent'])
-        {
+        if ($options['indent']) {
             $this->setIndent(true);
         }
     }
@@ -528,8 +493,7 @@ class SphinxXMLFeed extends XMLWriter
 
 
         // add fields to the schema
-        foreach ($this->fields as $field)
-        {
+        foreach ($this->fields as $field) {
             $this->startElement('sphinx:field');
             $this->writeAttribute('name', $field);
             $this->endElement();
@@ -537,11 +501,9 @@ class SphinxXMLFeed extends XMLWriter
 
 
         // add attributes to the schema
-        foreach ($this->attributes as $attributes)
-        {
+        foreach ($this->attributes as $attributes) {
             $this->startElement('sphinx:attr');
-            foreach ($attributes as $key => $value)
-            {
+            foreach ($attributes as $key => $value) {
                 $this->writeAttribute($key, $value);
             }
             $this->endElement();
@@ -556,12 +518,9 @@ class SphinxXMLFeed extends XMLWriter
     public function endOutput()
     {
         // add kill list
-        if (!empty($this->kill_list))
-        {
-
+        if (!empty($this->kill_list)) {
             $this->startElement('sphinx:killlist');
-            foreach ($this->kill_list as $id)
-            {
+            foreach ($this->kill_list as $id) {
                 $this->writeElement("id", $id);
             }
             $this->endElement();
@@ -572,7 +531,6 @@ class SphinxXMLFeed extends XMLWriter
         $this->endElement();
         print $this->outputMemory();
     }
-
 }
 
 

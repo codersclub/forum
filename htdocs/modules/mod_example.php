@@ -26,71 +26,64 @@
 class module extends module_loader
 {
 
-	//=====================================
-	// Define vars if required
-	//=====================================
+    //=====================================
+    // Define vars if required
+    //=====================================
 
-	var $class = "";
-	var $module = "";
+    var $class = "";
+    var $module = "";
 
-	var $result = "";
+    var $result = "";
 
-	//=====================================
-	// Constructer, called and run by IPB
-	//=====================================
+    //=====================================
+    // Constructer, called and run by IPB
+    //=====================================
 
-	function module()
-	{
-		global $ibforums, $std;
+    function module()
+    {
+        global $ibforums, $std;
 
-		//=====================================
-		// Do any set up here, like load lang
-		// skin files, etc
-		//=====================================
+        //=====================================
+        // Do any set up here, like load lang
+        // skin files, etc
+        //=====================================
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_boards', $ibforums->lang_id);
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_boards', $ibforums->lang_id);
 
-		//=====================================
-		// Set up structure
-		//=====================================
+        //=====================================
+        // Set up structure
+        //=====================================
 
-		switch ($ibforums->input['cmd'])
-		{
-			case 'dosomething':
-				$this->do_something();
-				break;
+        switch ($ibforums->input['cmd']) {
+            case 'dosomething':
+                $this->do_something();
+                break;
 
-			default:
-				$this->do_something();
-				break;
-		}
+            default:
+                $this->do_something();
+                break;
+        }
 
-		print $this->result;
+        print $this->result;
 
-		exit();
+        exit();
+    }
 
-	}
+    //------------------------------------------
+    // do_something
+    //
+    // Test sub, show if admin or not..
+    //
+    //------------------------------------------
 
-	//------------------------------------------
-	// do_something
-	//
-	// Test sub, show if admin or not..
-	//
-	//------------------------------------------
+    function do_something()
+    {
+        global $ibforums;
 
-	function do_something()
-	{
-		global $ibforums;
-
-		if ($ibforums->member['mgroup'] == $ibforums->vars['admin_group'])
-		{
-			$this->result = "You're an admin!";
-		} else
-		{
-			$this->result = "You're not an admin!";
-		}
-	}
-
+        if ($ibforums->member['mgroup'] == $ibforums->vars['admin_group']) {
+            $this->result = "You're an admin!";
+        } else {
+            $this->result = "You're not an admin!";
+        }
+    }
 }
-
-?>

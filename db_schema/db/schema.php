@@ -45,7 +45,4 @@ class MpmInitialSchema extends MpmSchema
         * $this->dbObj->exec('CREATE TABLE `testing` ( `id` INT(11) AUTO_INCREMENT NOT NULL, `vals` INT(11) NOT NULL, PRIMARY KEY ( `id` ))');
         */
     }
-
 }
-
-?>

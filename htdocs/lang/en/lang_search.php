@@ -157,7 +157,7 @@ $lang = array (
 'all_posts'        => "all",
 'search_days'      => "For last %s days",
 'search_last_visit' => "Since last visit",
-'mod_mes'  	   => "A message for moderators",
+'mod_mes'      => "A message for moderators",
 'glob_mod_mes'     => "A message of super moderator",
 
 'use_fulltext_search' => "Fulltext search",

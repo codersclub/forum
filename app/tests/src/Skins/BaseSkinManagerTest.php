@@ -5,7 +5,8 @@
 
 namespace Skins;
 
-class TestBaseSkinManager extends BaseSkinManager {
+class TestBaseSkinManager extends BaseSkinManager
+{
 
     public function getName()
     {
@@ -66,7 +67,8 @@ class BaseSkinManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($skin->isHidden());
     }
 
-    public function testOffsetGetAndExists(){
+    public function testOffsetGetAndExists()
+    {
         $skin = new TestBaseSkinManager();
         $this->assertEquals('test', $skin['id']);
         $this->assertNull($skin['non_existing_value']);
@@ -77,7 +79,8 @@ class BaseSkinManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Exception
      */
-    public function testOffsetSet(){
+    public function testOffsetSet()
+    {
         $skin = new TestBaseSkinManager();
         $skin['views'] = null;
     }
@@ -85,9 +88,9 @@ class BaseSkinManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Exception
      */
-    public function testOffsetUnset(){
+    public function testOffsetUnset()
+    {
         $skin = new TestBaseSkinManager();
         unset($skin['views']);
     }
-
 }

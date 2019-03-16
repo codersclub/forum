@@ -34,68 +34,63 @@
 
 class module_loader
 {
-	var $class = "";
-	var $module = "";
+    var $class = "";
+    var $module = "";
 
-	function module_loader()
-	{
-		global $ibforums;
+    function module_loader()
+    {
+        global $ibforums;
 
-		$this->module = $this->_name_cleaner($ibforums->input['module']);
+        $this->module = $this->_name_cleaner($ibforums->input['module']);
 
-		if ($this->module == "")
-		{
-			$this->_return_dead();
-		}
+        if ($this->module == "") {
+            $this->_return_dead();
+        }
 
-		//----------------------------------
-		// Does module file exist?
-		//----------------------------------
+        //----------------------------------
+        // Does module file exist?
+        //----------------------------------
 
-		if (!@file_exists(ROOT_PATH . 'modules/mod_' . $this->module . '.php'))
-		{
-			$this->_return_dead();
-		}
+        if (!@file_exists(ROOT_PATH . 'modules/mod_' . $this->module . '.php')) {
+            $this->_return_dead();
+        }
 
-		//----------------------------------
-		// Require and run
-		//----------------------------------
+        //----------------------------------
+        // Require and run
+        //----------------------------------
 
-		require_once(ROOT_PATH . 'modules/mod_' . $this->module . '.php');
+        require_once(ROOT_PATH . 'modules/mod_' . $this->module . '.php');
 
-		$mod_run = new module();
+        $mod_run = new module();
 
-		exit();
-	}
+        exit();
+    }
 
-	//------------------------------------------
-	// _name_cleaner
-	//
-	// Remove everything bar a - z, 0 - 9  _ -
-	//
-	//------------------------------------------
+    //------------------------------------------
+    // _name_cleaner
+    //
+    // Remove everything bar a - z, 0 - 9  _ -
+    //
+    //------------------------------------------
 
-	function _name_cleaner($name)
-	{
-		return preg_replace("/\^([a-zA-Z0-9\-\_]+)$/", "\\1", $name);
-	}
+    function _name_cleaner($name)
+    {
+        return preg_replace("/\^([a-zA-Z0-9\-\_]+)$/", "\\1", $name);
+    }
 
-	//------------------------------------------
-	// _return_dead
-	//
-	// Return to board index
-	//
-	//------------------------------------------
+    //------------------------------------------
+    // _return_dead
+    //
+    // Return to board index
+    //
+    //------------------------------------------
 
-	function _return_dead()
-	{
-		global $ibforums;
+    function _return_dead()
+    {
+        global $ibforums;
 
-		header("Location: " . $ibforums->base_url);
+        header("Location: " . $ibforums->base_url);
 
-		exit();
-	}
-
+        exit();
+    }
 }
-
-?>

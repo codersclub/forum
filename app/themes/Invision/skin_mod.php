@@ -1,28 +1,32 @@
 <?php
 
-class skin_mod {
+class skin_mod
+{
 
 
 
-function poll_select_form_additions_multi($min,$max,$checked) {
-global $ibforums;
-return <<<EOF
-
-EOF;
-}
-
-
-function poll_select_form_additions_weighted($places, $checked) {
-global $ibforums;
-return <<<EOF
+    function poll_select_form_additions_multi($min, $max, $checked)
+    {
+        global $ibforums;
+        return <<<EOF
 
 EOF;
-}
+    }
 
 
-function split_row($row) {
-global $ibforums;
-return <<<EOF
+    function poll_select_form_additions_weighted($places, $checked)
+    {
+        global $ibforums;
+        return <<<EOF
+
+EOF;
+    }
+
+
+    function split_row($row)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <div class='pformstrip'>{$row['st_top_bit']}</div>
   <div class='tablepad'>
@@ -31,24 +35,26 @@ return <<<EOF
  </div>
 
 EOF;
-}
+    }
 
 
-function split_end_form($action) {
-global $ibforums;
-return <<<EOF
+    function split_end_form($action)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='pformstrip' align='center'> <input type="submit" name="submit" value="$action" class='forminput'></div>
 </div>
 </form>
 
 EOF;
-}
+    }
 
 
-function merge_body($title="", $desc="") {
-global $ibforums;
-return <<<EOF
+    function merge_body($title = "", $desc = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table cellspacing='1' width='100%'>
    <tr>
@@ -66,12 +72,13 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
 
-function mod_log_start() {
-global $ibforums;
-return <<<EOF
+    function mod_log_start()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <br>
 <div class='tableborder'>
@@ -84,24 +91,26 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function mod_log_none() {
-global $ibforums;
-return <<<EOF
+    function mod_log_none()
+    {
+        global $ibforums;
+        return <<<EOF
 
    <tr>
 	<td class='pformright' colspan='3' align='center'><i>{$ibforums->lang['ml_none']}</i></td>
    </tr>
 
 EOF;
-}
+    }
 
 
-function mod_log_row($data) {
-global $ibforums;
-return <<<EOF
+    function mod_log_row($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
    <tr>
 	<td class='pformright'>{$data['member']}</td>
@@ -110,35 +119,38 @@ return <<<EOF
    </tr>
 
 EOF;
-}
+    }
 
 
-function mod_log_end() {
-global $ibforums;
-return <<<EOF
+    function mod_log_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	 </table>
 </div>
 
 EOF;
-}
+    }
 
 
-function forum_jump($data, $menu_extra="") {
-global $ibforums;
-return <<<EOF
+    function forum_jump($data, $menu_extra = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <br>
 <div align='right'>{$data}</div>
 <br>
 
 EOF;
-}
+    }
 
 
-function split_body($jump="") {
-global $ibforums;
-return <<<EOF
+    function split_body($jump = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table cellspacing='1' width='100%'>
    <tr>
@@ -156,11 +168,12 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
-function topictitle_fields($title, $desc) {
-global $ibforums;
-return <<<EOF
+    function topictitle_fields($title, $desc)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
@@ -174,12 +187,13 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
 
-function poll_edit_new_entry($id) {
-global $ibforums;
-return <<<EOF
+    function poll_edit_new_entry($id)
+    {
+        global $ibforums;
+        return <<<EOF
 
 				<tr>
 				<td class='row1'><b>{$ibforums->lang['pe_option']} $id</b> <em>( {$ibforums->lang['pe_unused']} )</em></td>
@@ -188,12 +202,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function poll_select_form($poll_question="", $life = "") {
-global $ibforums;
-return <<<EOF
+    function poll_select_form($poll_question = "", $life = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class='row1'><b>{$ibforums->lang['pe_question']}</b></td>
@@ -215,12 +230,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function topic_history($data) {
-global $ibforums;
-return <<<EOF
+    function topic_history($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class='maintitle'>{$ibforums->lang['th_title']}</div>
@@ -258,35 +274,38 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function table_top($posting_title) {
-global $ibforums;
-return <<<EOF
+    function table_top($posting_title)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <h2>$posting_title</h2>
 
 EOF;
-}
+    }
 
 
-function end_form($action) {
-global $ibforums;
-return <<<EOF
+    function end_form($action)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <div class='pformstrip' align='center'><input type="submit" name="submit" value="$action" class='forminput'></div>
 </div>
 </form>
 
 EOF;
-}
+    }
 
 
-function move_form($jhtml, $forum_name) {
-global $ibforums;
-return <<<EOF
+    function move_form($jhtml, $forum_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
@@ -300,11 +319,12 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
-function mirror_form($jhtml, $forum_name) {
-global $ibforums;
-return <<<EOF
+    function mirror_form($jhtml, $forum_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
@@ -316,32 +336,34 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
-function delete_mirror_form($forums, $forum_name) {
-global $ibforums;
-$res = <<<EOF
+    function delete_mirror_form($forums, $forum_name)
+    {
+        global $ibforums;
+        $res = <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['delete_mirror_from']} </strong></td>
   <td class='pformright'>
 EOF;
-foreach ($forums as $id => $name) {
-	$res .= "<label><input type='checkbox' name='delete_from[]' value='{$id}'>$name</label><br>";
-}
-$res .= <<<EOF
+        foreach ($forums as $id => $name) {
+            $res .= "<label><input type='checkbox' name='delete_from[]' value='{$id}'>$name</label><br>";
+        }
+        $res .= <<<EOF
   </td>
   </tr>
   </table>
 
 EOF;
-return $res;
-}
+        return $res;
+    }
 
-function move_form2($jhtml, $forum_name) {
-global $ibforums;
-return <<<EOF
+    function move_form2($jhtml, $forum_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
@@ -351,11 +373,12 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
-function attach_form1($comment, $jhtml, $topic_name) {
-global $ibforums;
-return <<<EOF
+    function attach_form1($comment, $jhtml, $topic_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
@@ -365,12 +388,13 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
 
-function attach_form2() {
-global $ibforums;
-return <<<EOF
+    function attach_form2()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
@@ -380,27 +404,30 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
 
-function poll_edit_top() {
-global $ibforums;
-return <<<EOF
+    function poll_edit_top()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table width='100%' cellpadding='6' border='0' cellspacing='0'>
 
 EOF;
-}
+    }
 
-function poll_edit_bottom() {
-	return <<<EOF
+    function poll_edit_bottom()
+    {
+        return <<<EOF
 </table>
 EOF;
-}
+    }
 
-function poll_entry($id, $entry) {
-global $ibforums;
-return <<<EOF
+    function poll_entry($id, $entry)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
  <td class='row1'><b>{$ibforums->lang['pe_option']} $id</b></td>
@@ -408,12 +435,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function attach_form3() {
-global $ibforums;
-return <<<EOF
+    function attach_form3()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
@@ -427,32 +455,35 @@ return <<<EOF
   </table>
 
 EOF;
-}
+    }
 
 
-function warn_restricition_in_place() {
-global $ibforums;
-return <<<EOF
+    function warn_restricition_in_place()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <br><strong>{$ibforums->lang['w_restricted']}</strong>
 
 EOF;
-}
+    }
 
 
-function mod_exp($words) {
-global $ibforums;
-return <<<EOF
+    function mod_exp($words)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='pformstrip'>$words</div>
 
 EOF;
-}
+    }
 
 
-function warn_footer($lazy = "") {
-global $ibforums;
-return <<<EOF
+    function warn_footer($lazy = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
    <td class='pformleftw' valign='top'><strong>{$ibforums->lang['lazy_mod']}</strong></td>
@@ -483,12 +514,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function warn_time() {
-global $ibforums;
-return <<<EOF
+    function warn_time()
+    {
+        global $ibforums;
+        return <<<EOF
 
  <tr>
   <td class='pformleftw'><strong>Выберите время действия предупреждения</strong></td>
@@ -507,23 +539,25 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function warn_success_forum($fid, $fname, $tid, $pid = "", $tname) {
-global $ibforums;
-return <<<EOF
+    function warn_success_forum($fid, $fname, $tid, $pid = "", $tname)
+    {
+        global $ibforums;
+        return <<<EOF
 
    <li><a href='{$ibforums->base_url}showforum=$fid'>{$ibforums->lang['w_done_forum']} <strong>$fname</strong></a></li>
    <li><a href='{$ibforums->base_url}showtopic=$tid&amp;view=findpost&amp;p=$pid'>{$ibforums->lang['w_done_topic']} <strong>$tname</strong></a></li>
 
 EOF;
-}
+    }
 
 
-function warn_errors($data) {
-global $ibforums;
-return <<<EOF
+    function warn_errors($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['errors_found']}</div>
@@ -532,12 +566,13 @@ return <<<EOF
 <br>
 
 EOF;
-}
+    }
 
 
-function warn_header($mid, $name, $cur=0, $min = 0, $max=10, $key, $fid='', $tid='',$pid='', $st='', $type) {
-global $ibforums;
-return <<<EOF
+    function warn_header($mid, $name, $cur = 0, $min = 0, $max = 10, $key, $fid = '', $tid = '', $pid = '', $st = '', $type)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form name='WARN' method='post' action='{$ibforums->base_url}&amp;act=warn&amp;CODE=dowarn&amp;mid=$mid&amp;f=$fid&amp;t=$tid&amp;p=$pid&amp;st=$st&amp;type={$ibforums->input['type']}'>
 <input type='hidden' name='key' value='$key'>
@@ -556,12 +591,13 @@ return <<<EOF
   </td>
 
 EOF;
-}
+    }
 
 
-function add_radio_buttons($name,$forum) {
-global $ibforums;
-return <<<EOF
+    function add_radio_buttons($name, $forum)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <td class='pformright'>
    <input type="radio" name="{$name}" value="0" checked="checked">{$ibforums->lang['ip_select_forum']} {$forum}<br>
@@ -570,12 +606,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function warn_mod_posts($mod_tick, $mod_array, $mod_extra) {
-global $ibforums;
-return <<<EOF
+    function warn_mod_posts($mod_tick, $mod_array, $mod_extra)
+    {
+        global $ibforums;
+        return <<<EOF
 
  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['w_modq']}</strong></td>
@@ -586,11 +623,12 @@ return <<<EOF
  	$mod_extra
 
 EOF;
-}
+    }
 
 
-function lazy_combobox() {
-return <<<EOF
+    function lazy_combobox()
+    {
+        return <<<EOF
 <select name='lazy' class='codebuttons' onchange='doInsert(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'>
 <option value=-1>Выберите причину из списка или введите сами</option>
 <option>Нарушение п. 1 .Правил Форума</option>
@@ -603,12 +641,13 @@ return <<<EOF
 </select>
 
 EOF;
-}
+    }
 
 
-function warn_rem_posts($post_tick, $post_array, $post_extra) {
-global $ibforums;
-return <<<EOF
+    function warn_rem_posts($post_tick, $post_array, $post_extra)
+    {
+        global $ibforums;
+        return <<<EOF
 
  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['w_resposts']}</strong></td>
@@ -623,12 +662,13 @@ return <<<EOF
     $post_extra
 
 EOF;
-}
+    }
 
 
-function warn_suspend($ban_tick, $susp_array, $susp_extra) {
-global $ibforums;
-return <<<EOF
+    function warn_suspend($ban_tick, $susp_array, $susp_extra)
+    {
+        global $ibforums;
+        return <<<EOF
 
  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['w_suspend']}</strong></td>
@@ -639,11 +679,12 @@ return <<<EOF
  	  $susp_extra
 
 EOF;
-}
+    }
 
-function warn_ban_group($checked = "") {
-global $ibforums;
-return <<<EOF
+    function warn_ban_group($checked = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
  <tr>
   <td class='pformleftw'>{$ibforums->lang['w_ban']}</td>
@@ -652,22 +693,24 @@ return <<<EOF
  </tr>
 
 EOF;
-}
+    }
 
 
-function warn_view_footer() {
-global $ibforums;
-return <<<EOF
+    function warn_view_footer()
+    {
+        global $ibforums;
+        return <<<EOF
 
 </table>
 
 EOF;
-}
+    }
 
 
-function warn_success() {
-global $ibforums;
-return <<<EOF
+    function warn_success()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['w_done_t']}</div>
@@ -683,12 +726,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function warn_view_positive_row($date, $content, $puni_name) {
-global $ibforums;
-return <<<EOF
+    function warn_view_positive_row($date, $content, $puni_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class='row4' valign='top'><strong>$puni_name</strong></td>
@@ -700,12 +744,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function warn_view_negative_row($date, $content, $puni_name) {
-global $ibforums;
-return <<<EOF
+    function warn_view_negative_row($date, $content, $puni_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class='row4' valign='top'><strong>$puni_name</strong></td>
@@ -717,24 +762,26 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function warn_view_none() {
-global $ibforums;
-return <<<EOF
+    function warn_view_none()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class='row1' colspan='2' align='center'><strong>{$ibforums->lang['w_v_none']}</strong></td>
   </tr>
 
 EOF;
-}
+    }
 
 
-function warn_view_null_row($date, $content, $puni_name) {
-global $ibforums;
-return <<<EOF
+    function warn_view_null_row($date, $content, $puni_name)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class='row4' valign='top'><strong>$puni_name</strong></td>
@@ -746,12 +793,13 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function warn_view_header($id, $name, $links) {
-global $ibforums;
-return <<<EOF
+    function warn_view_header($id, $name, $links)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <table cellspacing='0' cellpadding='0' width='100%' border='0'>
 <tr>
@@ -769,7 +817,5 @@ return <<<EOF
  </tr>
 
 EOF;
-}
-
-
+    }
 }

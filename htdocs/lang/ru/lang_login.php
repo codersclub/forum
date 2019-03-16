@@ -40,5 +40,5 @@ $lang['openid_verification_cancelled'] = 'Операция отменена';
 $lang['openid_authentication_failed'] = 'Произошла ошибка: ';
 $lang['openid_url_forbidden'] = 'Этим OpenID возпользоваться невозможно';
 $lang['openid_url_is_empty'] = 'Вы не ввели URL';
-$lang['openid_not_valid'] ='Ошибка авторизации: некорректный OpenID.';
+$lang['openid_not_valid'] = 'Ошибка авторизации: некорректный OpenID.';
 $lang['openid_couldnt_redirect'] = 'Невозможно осуществить перенаправление: ';

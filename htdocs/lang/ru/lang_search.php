@@ -125,4 +125,3 @@ $lang['search_last_visit']  = "С последнего визита";
 $lang['mod_mes']  = "Сообщение для модераторов";
 $lang['glob_mod_mes']  = "Сообщение главного модератора";
 $lang['use_fulltext_search']  = "Полнотекстовый поиск";
-

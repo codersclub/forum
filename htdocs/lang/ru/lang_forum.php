@@ -106,4 +106,3 @@ $lang['h_mod_checkbox']  = "Мод";
 $lang['t_w_selected']  = "С выбранными темами:";
 $lang['other_funcs']  = "Другие функции:";
 $lang['no_moderators'] = "Нет";
-

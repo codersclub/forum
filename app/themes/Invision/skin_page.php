@@ -3,11 +3,13 @@
 //-------------------------
 use Views\View;
 
-class skin_page {
+class skin_page
+{
 
-function Show_attachments_img($aid) {
-global $ibforums;
-return <<<EOF
+    function Show_attachments_img($aid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <br>
@@ -17,34 +19,37 @@ return <<<EOF
 <img src='{$ibforums->base_url}act=Attach&amp;type=post&amp;id=$aid' class='attach' alt='{$ibforums->lang['pic_attach']}'>
 
 EOF;
-}
+    }
 
 
-function nameField_reg() {
-global $ibforums;
-return <<<EOF
+    function nameField_reg()
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 
 EOF;
-}
+    }
 
 
-function warn_level_warn($id, $percent) {
-global $ibforums;
-return <<<EOF
+    function warn_level_warn($id, $percent)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 {$ibforums->lang['tt_warn']} (<a href="javascript:PopUp('{$ibforums->base_url}act=warn&amp;mid={$id}&amp;CODE=view','Pager','500','450','0','1','1','1')">{$percent}</a>%)
 
 
 EOF;
-}
+    }
 
 
-function Show_attachments_img_thumb($file_name, $width, $height, $aid) {
-global $ibforums;
-return <<<EOF
+    function Show_attachments_img_thumb($file_name, $width, $height, $aid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <br>
@@ -54,75 +59,81 @@ return <<<EOF
 <a href='{$ibforums->base_url}act=Attach&amp;type=post&amp;id=$aid' title='{$ibforums->lang['pic_attach_thumb']}' target='_blank'><img src='{$ibforums->vars['upload_url']}/$file_name' width='$width' height='$height' class='attach' alt='{$ibforums->lang['pic_attach']}'></a>
 
 EOF;
-}
+    }
 
 
-function rep_options_links($stuff) {
-global $ibforums;
-return <<<EOF
+    function rep_options_links($stuff)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <a href='{$ibforums->base_url}act=rep&CODE=02&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]'><{WARN_MINUS}></a><a href='{$ibforums->base_url}act=rep&CODE=01&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]'><{WARN_ADD}></a>
 
 
 EOF;
-}
+    }
 
 
-function get_box_enableemo($checked) {
-global $ibforums;
-return <<<EOF
+    function get_box_enableemo($checked)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <input type='checkbox' name='enableemo' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_emo']}
 
 
 EOF;
-}
+    }
 
 
-function quick_reply_box_closed() {
-global $ibforums;
-return <<<EOF
+    function quick_reply_box_closed()
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<a href="javascript:ShowHide('qr_open','qr_closed');" title="{$ibforums->lang['qr_open']}" accesskey="f"><{T_QREPLY}></a> ·
 
 
 EOF;
-}
+    }
 
 
-function start_poll_link($fid, $tid) {
-global $ibforums;
-return <<<EOF
+    function start_poll_link($fid, $tid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <a href="{$ibforums->base_url}act=Post&amp;CODE=14&amp;f=$fid&amp;t=$tid">{$ibforums->lang['new_poll_link']}</a> &#124;&nbsp;
 
 
 EOF;
-}
+    }
 
 
-function mm_end() {
-global $ibforums;
-return <<<EOF
+    function mm_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 </select>&nbsp;<input type='submit' value='{$ibforums->lang['mm_submit']}' class='forminput'></form>
 
 
 EOF;
-}
+    }
 
 
 //-------------------------------------
-function PageTop($data) {
-global $ibforums, $print;
-$print->js->addLocal('keyb.js');
-$print->js->addLocal('video.js');
-$print->js->addLocal('topics.js');
-    $print->exportJSLang([
+    function PageTop($data)
+    {
+        global $ibforums, $print;
+        $print->js->addLocal('keyb.js');
+        $print->js->addLocal('video.js');
+        $print->js->addLocal('topics.js');
+        $print->exportJSLang([
             'error_no_url',
             'error_no_url',
             'error_no_title',
@@ -150,8 +161,8 @@ $print->js->addLocal('topics.js');
             'text_enter_image',
         ]);
 
-$print->js->addVariable('MessageMax', Ibf::app()->lang['the_max_length']);
-return <<<EOF
+        $print->js->addVariable('MessageMax', Ibf::app()->lang['the_max_length']);
+        return <<<EOF
 
 <script language='javascript' type='text/javascript'>
 var
@@ -212,14 +223,15 @@ scroll_to	    = {$ibforums->member['show_wp']},
 
 
 EOF;
-}
+    }
 
 
 
 //---------------------------------------------------------------
-function RenderRow($post, $author) {
-global $ibforums;
-return <<<EOF
+    function RenderRow($post, $author)
+    {
+        global $ibforums;
+        return <<<EOF
 
     {$post['checkbox']}
       {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']}</span>
@@ -257,24 +269,26 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function ip_show($data) {
-global $ibforums;
-return <<<EOF
+    function ip_show($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <span class='desc'><br>{$ibforums->lang['ip']}: $data</span>
 
 
 EOF;
-}
+    }
 
 
-function quick_reply_box_open($fid="",$tid="",$show="hide", $warning = "", $key="", $syntax_select = "", $mod_buttons = "", $topic_decided = "") {
-global $ibforums, $std;
-$out = <<<EOF
+    function quick_reply_box_open($fid = "", $tid = "", $show = "hide", $warning = "", $key = "", $syntax_select = "", $mod_buttons = "", $topic_decided = "")
+    {
+        global $ibforums, $std;
+        $out = <<<EOF
 {$warning}
 <div align='left' id='qr_open' style="display:$show;position:relative;">
 <form name='REPLIER' action="{$ibforums->base_url}" method='post' onsubmit='return ValidateForm()'>
@@ -288,62 +302,66 @@ $out = <<<EOF
 <table cellpadding="0" cellspacing="0" width="100%">
 <!--IBF.NAME_FIELD-->
 EOF;
-$out .= View::make(
-    'post.postbox_buttons',
-    ['data' => '', 'syntax_select' => $syntax_select, 'mod_buttons' => $mod_buttons, 'topic_decided' => $topic_decided]
-);
-$out .= View::make('post.Upload_field', ['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]);
-$out .= View::make('post.EndForm', ['data' => $ibforums->lang['submit_reply']]);
-$out .= <<<EOF
+        $out .= View::make(
+            'post.postbox_buttons',
+            ['data' => '', 'syntax_select' => $syntax_select, 'mod_buttons' => $mod_buttons, 'topic_decided' => $topic_decided]
+        );
+        $out .= View::make('post.Upload_field', ['data' => $std->size_format($ibforums->member['g_attach_max'] * 1024)]);
+        $out .= View::make('post.EndForm', ['data' => $ibforums->lang['submit_reply']]);
+        $out .= <<<EOF
 </div>
 </table>
 </form>
 </div>
 EOF;
-return $out;
-}
+        return $out;
+    }
 
 
 
-function mod_wrapper($id="", $text="") {
-global $ibforums;
-return <<<EOF
+    function mod_wrapper($id = "", $text = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <option value='$id'>$text</option>
 
 
 EOF;
-}
+    }
 
 
-function get_box_alreadytrack() {
-global $ibforums;
-return <<<EOF
+    function get_box_alreadytrack()
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <br>{$ibforums->lang['already_sub']}
 
 
 EOF;
-}
+    }
 
 
-function warn_title($id, $title) {
-global $ibforums;
-return <<<EOF
+    function warn_title($id, $title)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <a href="javascript:PopUp('{$ibforums->base_url}act=warn&amp;mid={$id}&amp;CODE=view','Pager','500','450','0','1','1','1')">{$title}</a>:
 
 
 EOF;
-}
+    }
 
 
-function mm_start($tid) {
-global $ibforums;
-return <<<EOF
+    function mm_start($tid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action='{$ibforums->base_url}act=mmod&amp;t=$tid' method='post'>
 <input type='hidden' name='check' value='1'>
@@ -352,22 +370,24 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function new_report_link($data) {
-global $ibforums;
-return <<<EOF
+    function new_report_link($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <a href='{$ibforums->base_url}act=report&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}&amp;st={$ibforums->input['st']}'>{$ibforums->lang['report_link']}</a>
 
 EOF;
-}
+    }
 
 
-function nameField_unreg($data) {
-global $ibforums;
-return <<<EOF
+    function nameField_unreg($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <tr>
@@ -380,12 +400,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function Mod_Panel($data, $fid, $tid, $key="") {
-global $ibforums;
-return <<<EOF
+    function Mod_Panel($data, $fid, $tid, $key = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div align='left' style='float:left;width:auto'>
 <form method='POST' style='display:inline' name='modform' action='{$ibforums->base_url}'>
@@ -430,12 +451,13 @@ $data
 </div>
 
 EOF;
-}
+    }
 
 
-function Show_attachments($data) {
-global $ibforums;
-return <<<EOF
+    function Show_attachments($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <br>
 <br>
@@ -446,12 +468,13 @@ return <<<EOF
 &nbsp;<span class='edit'>({$data['size']})</span>
 
 EOF;
-}
+    }
 
 
-function smilie_table() {
-global $ibforums;
-return <<<EOF
+    function smilie_table()
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <table class='tablefill' cellpadding='4' align='center'>
@@ -466,36 +489,39 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function warn_level_rating($id, $level,$min=0,$max=10) {
-global $ibforums;
-return <<<EOF
+    function warn_level_rating($id, $level, $min = 0, $max = 10)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 &nbsp;[ <a href="javascript:PopUp('{$ibforums->base_url}act=warn&amp;mid={$id}&amp;CODE=view','Pager','500','450','0','1','1','1')">{$level}</a> ]
 
 
 EOF;
-}
+    }
 
 
-function report_link($data) {
-global $ibforums;
-return <<<EOF
+    function report_link($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 &middot; <a href='{$ibforums->base_url}act=report&amp;f={$data['forum_id']}&amp;t={$data['topic_id']}&amp;p={$data['pid']}&amp;st={$ibforums->input['st']}'><{P_REPORT}></a>
 
 
 EOF;
-}
+    }
 
 
-function topic_active_users($active=array()) {
-global $ibforums;
-return <<<EOF
+    function topic_active_users($active = array())
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <div class="activeuserstrip">{$ibforums->lang['active_users_title']} ({$ibforums->lang['active_users_detail']})</div>
@@ -503,81 +529,88 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function gonewpost_link($fid, $tid) {
-global $ibforums;
-return <<<EOF
+    function gonewpost_link($fid, $tid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 ( <a href='{$ibforums->base_url}act=ST&amp;f=$fid&amp;t=$tid&amp;view=getnewpost'>{$ibforums->lang['go_new_post']}</a> )
 
 
 EOF;
-}
+    }
 
 
-function golastpost_link($fid, $tid) {
-global $ibforums;
-return <<<EOF
+    function golastpost_link($fid, $tid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 ( <a href='{$ibforums->base_url}showtopic={$tid}&amp;view=getlastpost'>{$ibforums->lang['go_last_post']}</a> )
 
 EOF;
-}
+    }
 
 
-function get_box_enabletrack($checked) {
-global $ibforums;
-return <<<EOF
+    function get_box_enabletrack($checked)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <br><input type='checkbox' name='enabletrack' class='checkbox' value='1' $checked>&nbsp;{$ibforums->lang['enable_track']}
 
 
 EOF;
-}
+    }
 
-function get_box_enable_offtop($checked) {
-global $ibforums;
-return <<<EOF
+    function get_box_enable_offtop($checked)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <br><input type='checkbox' name='offtop' class='checkbox' value='1' $checked>&nbsp;{$ibforums->lang['enable_offtop']}
 
 
 EOF;
-}
+    }
 
 
-function get_box_enablesig($checked) {
-global $ibforums;
-return <<<EOF
+    function get_box_enablesig($checked)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <br><input type='checkbox' name='enablesig' class='checkbox' value='yes' $checked>&nbsp;{$ibforums->lang['enable_sig']}
 
 
 EOF;
-}
+    }
 
 
-function mm_entry($id, $name) {
-global $ibforums;
-return <<<EOF
+    function mm_entry($id, $name)
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 <option value='$id'>$name</option>
 
 
 EOF;
-}
+    }
 
 
-function TableFooter($data, $report_link) {
-global $ibforums;
-return <<<EOF
+    function TableFooter($data, $report_link)
+    {
+        global $ibforums;
+        return <<<EOF
 <!--IBF.TOPIC_ACTIVE-->
 <div class='activeuserstrip' align='center'>&laquo;
 <a href='{$ibforums->base_url}showtopic={$data[TOPIC]['tid']}&amp;view=old'>{$ibforums->lang['t_old']}</a> |
@@ -612,7 +645,5 @@ skin_page used!
 
 
 EOF;
-}
-
-
+    }
 }

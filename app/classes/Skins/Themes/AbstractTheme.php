@@ -91,5 +91,4 @@ abstract class AbstractTheme
         }
         return $this->parent;
     }
-
 }

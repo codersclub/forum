@@ -1,31 +1,34 @@
 <?php
 
-class skin_login {
+class skin_login
+{
 
 
-function errors($data) {
-global $ibforums;
-return <<<EOF
+    function errors($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['errors_found']}</div>
   <div class="tablepad"><span class='postcolor'>$data</span></div>
 </div>
 <br>
 EOF;
-}
+    }
 
-function ShowForm($message, $referer="") {
-global $ibforums;
-$auth_methods = array(
-    'password' => 'Password',
-    'openid' => 'OpenId',
-);
-$methods = '';
-foreach($auth_methods as $name => $title) {
-    $selected = $ibforums->input['auth_method'] == $name ? ' selected' : '';
-    $methods .= "<option value='$name' $selected>$title</option>\n";
-}
-return <<<EOF
+    function ShowForm($message, $referer = "")
+    {
+        global $ibforums;
+        $auth_methods = array(
+        'password' => 'Password',
+        'openid' => 'OpenId',
+        );
+        $methods = '';
+        foreach ($auth_methods as $name => $title) {
+            $selected = $ibforums->input['auth_method'] == $name ? ' selected' : '';
+            $methods .= "<option value='$name' $selected>$title</option>\n";
+        }
+        return <<<EOF
 {$ibforums->lang['login_text']}
 <br>
 <br>
@@ -74,7 +77,5 @@ return <<<EOF
 </div>
 </form>
 EOF;
-}
-
-
+    }
 }

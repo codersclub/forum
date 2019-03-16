@@ -1,12 +1,14 @@
 <?php
 
-class skin_fav {
+class skin_fav
+{
 
 
 
-function main($html) {
-global $ibforums;
-return <<<EOF
+    function main($html)
+    {
+        global $ibforums;
+        return <<<EOF
 	<div class="tableborder">
 	<table width="100%" cellpadding="4" cellspacing="1">
     	<tr>
@@ -39,24 +41,26 @@ return <<<EOF
     </div>
 
 EOF;
-}
+    }
 
 
-function none() {
-global $ibforums;
-return <<<EOF
+    function none()
+    {
+        global $ibforums;
+        return <<<EOF
 
     <tr>
     	<td class="row1" style="text-align: center; padding: 5px; font-weight: 900;" colspan="6">Нет</td>
     </tr>
 
 EOF;
-}
+    }
 
 
-function error($e) {
-global $ibforums;
-return <<<EOF
+    function error($e)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<center>
     <div class="tableborder" style="width: 75%;">
@@ -72,12 +76,13 @@ return <<<EOF
     </center><br>
 
 EOF;
-}
+    }
 
 
-function topic_row($t) {
-global $ibforums;
-return <<<EOF
+    function topic_row($t)
+    {
+        global $ibforums;
+        return <<<EOF
     <tr align="center">
     	<td class="row1" align="left"><a href="{$ibforums->base_url}showtopic={$t['tid']}&view=getnewpost">{$t['title']}</td>
     	<td class="row1"><a href="{$ibforums->base_url}showuser={$t['starter_id']}">{$t['starter_name']}</a></td>
@@ -88,8 +93,5 @@ return <<<EOF
 	</tr>
 
 EOF;
+    }
 }
-
-
-}
-?>

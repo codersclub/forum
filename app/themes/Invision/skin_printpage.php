@@ -1,12 +1,14 @@
 <?php
 
-class skin_printpage {
+class skin_printpage
+{
 
 
 
-function pp_header($forum_name, $topic_title, $topic_starter,$fid, $tid) {
-global $ibforums;
-return <<<EOF
+    function pp_header($forum_name, $topic_title, $topic_starter, $fid, $tid)
+    {
+        global $ibforums;
+        return <<<EOF
 <!DOCTYPE html>
     <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -28,12 +30,13 @@ return <<<EOF
      <br>
 
 EOF;
-}
+    }
 
 
-function choose_form($fid, $tid, $title) {
-global $ibforums;
-return <<<EOF
+    function choose_form($fid, $tid, $title)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['tvo_title']}&nbsp;$title</div>
@@ -55,12 +58,13 @@ return <<<EOF
 <br>
 
 EOF;
-}
+    }
 
 
-function pp_postentry($poster, $entry) {
-global $ibforums;
-return <<<EOF
+    function pp_postentry($poster, $entry)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	<table width='90%' align='center' cellpadding='6' border='1'>
 	<tr>
@@ -73,17 +77,16 @@ return <<<EOF
 	<br>
 
 EOF;
-}
+    }
 
 
-function pp_end() {
-global $ibforums;
-return <<<EOF
+    function pp_end()
+    {
+        global $ibforums;
+        return <<<EOF
 
     <center><span style='font-family:arial; size:xx-small; color:#000000'>Powered by Invision Power Board (http://www.invisionboard.com)<br>&copy; Invision Power Services (http://www.invisionpower.com)</span></center>
 
 EOF;
-}
-
-
+    }
 }

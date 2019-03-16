@@ -72,5 +72,3 @@ if (function_exists('__autoload')) {
 
 // add custom library autoloader to the stack
 spl_autoload_register('MpmAutoloadHelper::load');
-
-?>

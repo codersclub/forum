@@ -1,12 +1,14 @@
 <?php
 
-class skin_Statistics {
+class skin_Statistics
+{
 
-function Statistics($data="") {
+    function Statistics($data = "")
+    {
 
-global $ibforums;
+        global $ibforums;
 
-return <<<EOF
+        return <<<EOF
 
 
 <table width=100%><TR><TD width=50%>
@@ -768,8 +770,5 @@ return <<<EOF
 
 
 EOF;
-
-	}
-
-
+    }
 }

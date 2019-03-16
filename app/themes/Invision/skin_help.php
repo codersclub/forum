@@ -1,47 +1,52 @@
 <?php
 
-class skin_help {
+class skin_help
+{
 
 
 
-function row($entry) {
-global $ibforums;
-return <<<EOF
+    function row($entry)
+    {
+        global $ibforums;
+        return <<<EOF
 <li class="helprow"><a href='{$ibforums->base_url}act=Help&amp;CODE=01&amp;HID={$entry['id']}'><b>{$entry['title']}</b></a><br>{$entry['description']}</li>
 
 EOF;
-}
+    }
 
 
 
-function display($text) {
-global $ibforums;
-return <<<EOF
+    function display($text)
+    {
+        global $ibforums;
+        return <<<EOF
 </div>
 <div class='row1' style='padding:4px'>$text</div>
 </div>
 EOF;
-}
+    }
 
 
 
-function end() {
-global $ibforums;
-return <<<EOF
+    function end()
+    {
+        global $ibforums;
+        return <<<EOF
   </ul>
  </div>
 </div>
 EOF;
-}
+    }
 
-function no_results() {
-global $ibforums;
-return <<<EOF
+    function no_results()
+    {
+        global $ibforums;
+        return <<<EOF
                 <tr>
                    <td class='row1' colspan='2'><b>{$ibforums->lang['no_results']}</b></td>
                  </tr>
 EOF;
-}
+    }
 
 
 
@@ -49,9 +54,10 @@ EOF;
 
 
 
-function start($one_text, $two_text, $three_text) {
-global $ibforums;
-return <<<EOF
+    function start($one_text, $two_text, $three_text)
+    {
+        global $ibforums;
+        return <<<EOF
 <div>$two_text</div>
 <br>
 <form action="{$ibforums->base_url}" method="post">
@@ -68,14 +74,5 @@ return <<<EOF
   <div class="tablepad">
   <ul id="help">
 EOF;
+    }
 }
-
-
-
-
-
-
-
-
-}
-?>

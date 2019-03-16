@@ -665,7 +665,6 @@ VALUES
 (1663,'P_EDIT_HISTORY','История изменений',1,17);"
             );//insert into ibf_macro
         } catch (Exception $e) {
-
         }
     }
 }

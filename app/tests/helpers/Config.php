@@ -37,7 +37,8 @@ class Config
         return self::$instance;
     }
 
-    public static function getConfigPath(){
+    public static function getConfigPath()
+    {
         return !empty(self::$configPath)
             ? self::$configPath
             : __DIR__ . '/../../config';

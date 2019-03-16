@@ -17,27 +17,25 @@
 |   > Module written by Matt Mecham
 |   > Date started: 10th March 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
-$idx = new attach;
+$idx = new attach();
 
 class attach
 {
 
-	function __construct()
-	{
-		global $ibforums, $std;
+    function __construct()
+    {
+        global $ibforums, $std;
 
-		$ibforums->input['id'] = intval($ibforums->input['id']);
+        $ibforums->input['id'] = intval($ibforums->input['id']);
 
-		if ($ibforums->input['type'] == 'post')
-		{
-			// Handle post attachments.
-			if (!$ibforums->input['attach_id'])
-			{
-				$stmt = $ibforums->db->query("SELECT
+        if ($ibforums->input['type'] == 'post') {
+            // Handle post attachments.
+            if (!$ibforums->input['attach_id']) {
+                $stmt = $ibforums->db->query("SELECT
 					pid,
 					attach_id,
 					attach_type,
@@ -46,64 +44,53 @@ class attach
 				    FROM ibf_posts
 				    WHERE pid='" . $ibforums->input['id'] . "'");
 
-				if (!$stmt->rowCount())
-				{
-					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-				}
+                if (!$stmt->rowCount()) {
+                    $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+                }
 
-				$post   = $stmt->fetch();
-				$attach = Attachment::createFromPostRow($post);
-			} else
-			{
-				$attach = Attachment::getById($ibforums->input['attach_id']);
-				if (!($attach instanceof Attachment))
-				{
-					$std->Error(array('LEVEL' => 1, 'MSG' => 'is_broken_link'));
-				}
-			}
+                $post   = $stmt->fetch();
+                $attach = Attachment::createFromPostRow($post);
+            } else {
+                $attach = Attachment::getById($ibforums->input['attach_id']);
+                if (!($attach instanceof Attachment)) {
+                    $std->Error(array('LEVEL' => 1, 'MSG' => 'is_broken_link'));
+                }
+            }
 
-			/**
-			 * check forum permissions
-			 */
-			if (!($attach instanceof Attachment))
-			{
-				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-			}
+            /**
+             * check forum permissions
+             */
+            if (!($attach instanceof Attachment)) {
+                $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+            }
 
-			if (!$attach->accessIsAllowed($ibforums->member))
-			{
-				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-			}
+            if (!$attach->accessIsAllowed($ibforums->member)) {
+                $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+            }
 
-			$file = $ibforums->vars['upload_dir'] . "/" . $attach->realFilename();
+            $file = $ibforums->vars['upload_dir'] . "/" . $attach->realFilename();
 
-			if (file_exists($file) and $attach->type())
-			{
-				// Update the "hits"..
-				if (!$ibforums->input['attach_id'])
-				{
-					$ibforums->db->exec("UPDATE ibf_posts
+            if (file_exists($file) and $attach->type()) {
+                // Update the "hits"..
+                if (!$ibforums->input['attach_id']) {
+                    $ibforums->db->exec("UPDATE ibf_posts
 					    SET attach_hits=attach_hits+1
 					    WHERE pid='" . $attach->postId() . "'");
-				} else
-				{
-					$attach->incHits();
-				}
+                } else {
+                    $attach->incHits();
+                }
 
-				header("Content-type: {$attach->type()}");
-				header("Content-Disposition: inline; filename=\"{$attach->filename()}\"");
-				header("Content-Length: " . (string)(filesize($file)));
+                header("Content-type: {$attach->type()}");
+                header("Content-Disposition: inline; filename=\"{$attach->filename()}\"");
+                header("Content-Length: " . (string)(filesize($file)));
 
-				readfile($file);
+                readfile($file);
 
-				exit();
-
-			} else
-			{
-				// File does not exist..
-				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-			}
-		}
-
-	}
+                exit();
+            } else {
+                // File does not exist..
+                $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+            }
+        }
+    }
 }

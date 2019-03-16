@@ -26,4 +26,3 @@ $lang['none']  = "нет";
 $lang['search_forums']  = "Поиск сообщений...";
 $lang['search_help']  = "Поиск помощи...";
 $lang['go']  = "Вперёд!";
-

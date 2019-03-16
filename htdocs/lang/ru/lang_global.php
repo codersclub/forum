@@ -142,8 +142,8 @@ $lang['code_word_wrap_button'] = 'Включить/выключить перен
 $lang['code_line_numbers_button'] = 'Включить/выключить нумерацию строк';
 $lang['valid_warning']     =   "Ваша учетная запись <b>НЕ активирована</b>, использование форума ограничено.<br>Инструкция по активации отправлена на <b>*EMAIL*</b>.<br>Для изменения e-mail адреса используйте <a href='?act=UserCP&CODE=08'>Панель управления</a>";
 // донат
-$lang['like_sources']	= "Нравится ресурс?";
-$lang['donate_5rub']	= "Дай пять";
+$lang['like_sources']   = "Нравится ресурс?";
+$lang['donate_5rub']    = "Дай пять";
 
 $lang['gender']         = "Пол";
 $lang['gender_male']    = "Муж.";

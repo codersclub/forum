@@ -17,978 +17,898 @@
 |   > Module written by Matt Mecham
 |   > Date started: 28th February 2002
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 use Views\View;
 
-$idx = new Contact;
+$idx = new Contact();
 
 class Contact
 {
 
-	var $output = "";
-	var $base_url = "";
-
-	var $nav = array();
-	var $page_title = "";
-	var $email = "";
-	var $forum = "";
-	#    var $email     = "";
-
-	var $int_error = "";
-	var $int_extra = "";
-
-	/***********************************************************************************/
-	//
-	// Our constructor, load words, load skin
-	//
-	/***********************************************************************************/
-
-	function Contact()
-	{
-
-		global $ibforums, $std, $print;
-
-		// What to do?
-
-		switch ($ibforums->input['act'])
-		{
-			case 'Mail':
-				$this->mail_member();
-				break;
-			case 'AOL':
-				$this->show_aim();
-				break;
-			case 'integ':
-				$this->show_integ();
-				break;
-			case 'ICQ':
-				$this->show_icq();
-				break;
-			case 'MSN':
-				$this->show_msn();
-				break;
-			case 'YAHOO':
-				$this->show_yahoo();
-				break;
-			case 'Invite':
-				$this->invite_member();
-				break;
-
-			case 'chat':
-				$this->chat_display();
-				break;
+    var $output = "";
+    var $base_url = "";
+
+    var $nav = array();
+    var $page_title = "";
+    var $email = "";
+    var $forum = "";
+    #    var $email     = "";
+
+    var $int_error = "";
+    var $int_extra = "";
+
+    /***********************************************************************************/
+    //
+    // Our constructor, load words, load skin
+    //
+    /***********************************************************************************/
+
+    function Contact()
+    {
+
+        global $ibforums, $std, $print;
+
+        // What to do?
+
+        switch ($ibforums->input['act']) {
+            case 'Mail':
+                $this->mail_member();
+                break;
+            case 'AOL':
+                $this->show_aim();
+                break;
+            case 'integ':
+                $this->show_integ();
+                break;
+            case 'ICQ':
+                $this->show_icq();
+                break;
+            case 'MSN':
+                $this->show_msn();
+                break;
+            case 'YAHOO':
+                $this->show_yahoo();
+                break;
+            case 'Invite':
+                $this->invite_member();
+                break;
 
-			case 'report':
-				if ($ibforums->input['send'] != 1)
-				{
-					$this->report_form();
-				} else
-				{
-					$this->send_report();
-				}
-				break;
+            case 'chat':
+                $this->chat_display();
+                break;
 
-			case 'boardrules':
-				$this->board_rules();
-				break;
+            case 'report':
+                if ($ibforums->input['send'] != 1) {
+                    $this->report_form();
+                } else {
+                    $this->send_report();
+                }
+                break;
 
-			default:
-				$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-				break;
-		}
+            case 'boardrules':
+                $this->board_rules();
+                break;
 
-		$print->add_output("$this->output");
-		$print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
+            default:
+                $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+                break;
+        }
 
-	}
+        $print->add_output("$this->output");
+        $print->do_output(array('TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav));
+    }
 
-	//****************************************************************/
-	// INTEGRITY MESSENGER
-	//
-	//****************************************************************/
-
-	function show_integ()
-	{
-		global $ibforums, $std, $print;
-
-		//----------------------------------
+    //****************************************************************/
+    // INTEGRITY MESSENGER
+    //
+    //****************************************************************/
+
+    function show_integ()
+    {
+        global $ibforums, $std, $print;
+
+        //----------------------------------
 
-		if (empty($ibforums->member['id']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
-		}
+        if (empty($ibforums->member['id'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
+        }
+
+        if (empty($ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
+
+        //----------------------------------
+
+        if (!preg_match("/^(\d+)$/", $ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
+
+        //----------------------------------
+
+        $stmt = $ibforums->db->query("SELECT name, id, integ_msg from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
 
-		if (empty($ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
-
-		//----------------------------------
-
-		if (!preg_match("/^(\d+)$/", $ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $member = $stmt->fetch();
 
-		//----------------------------------
+        //----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT name, id, integ_msg from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+        if (!$member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
+        }
+
+        //----------------------------------
+
+        if (!$member['integ_msg']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_integ'));
+        }
 
-		$member = $stmt->fetch();
+        //----------------------------------
+
+        $std->boink_it("http://www.integritymessenger.com/WebIM/send.php?to=" . urlencode($member['integ_msg']));
+        exit();
+    }
+
+    //****************************************************************/
+    // BOARD RULES
+    //
+    //****************************************************************/
+
+    function board_rules()
+    {
+        global $ibforums, $std, $print;
 
-		//----------------------------------
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		if (!$member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
-		}
+        $stmt = $ibforums->db->query("SELECT * FROM ibf_cache_store WHERE cs_key='boardrules'");
 
-		//----------------------------------
+        $row = $stmt->fetch();
 
-		if (!$member['integ_msg'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_integ'));
-		}
+        $row['cs_value'] = $std->my_nl2br(stripslashes($row['cs_value']));
 
-		//----------------------------------
-
-		$std->boink_it("http://www.integritymessenger.com/WebIM/send.php?to=" . urlencode($member['integ_msg']));
-		exit();
-
-	}
+        $this->nav[] = $ibforums->vars['gl_title'];
 
-	//****************************************************************/
-	// BOARD RULES
-	//
-	//****************************************************************/
+        $this->page_title = $ibforums->vars['gl_title'];
 
-	function board_rules()
-	{
-		global $ibforums, $std, $print;
+        $this->output .= View::make(
+            "emails.board_rules",
+            ['title' => $ibforums->vars['gl_title'], 'body' => $row['cs_value']]
+        );
+    }
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+    //****************************************************************/
+    // IP CHAT:
+    //
+    //****************************************************************/
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_cache_store WHERE cs_key='boardrules'");
+    function chat_display()
+    {
+        global $ibforums, $std, $print;
 
-		$row = $stmt->fetch();
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		$row['cs_value'] = $std->my_nl2br(stripslashes($row['cs_value']));
+        if (!$ibforums->vars['chat_account_no']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		$this->nav[] = $ibforums->vars['gl_title'];
+        $width  = $ibforums->vars['chat_width']
+            ? $ibforums->vars['chat_width']
+            : 600;
+        $height = $ibforums->vars['chat_height']
+            ? $ibforums->vars['chat_height']
+            : 350;
 
-		$this->page_title = $ibforums->vars['gl_title'];
+        $lang = $ibforums->vars['chat_language']
+            ? $ibforums->vars['chat_language']
+            : 'en';
 
-		$this->output .= View::make(
-			"emails.board_rules",
-			['title' => $ibforums->vars['gl_title'], 'body' => $row['cs_value']]
-		);
+        $user = "";
+        $pass = "";
 
-	}
+        if ($ibforums->member['id']) {
+            $user = $ibforums->member['name'];
+            $pass = $ibforums->member['password'];
+        }
 
-	//****************************************************************/
-	// IP CHAT:
-	//
-	//****************************************************************/
+        if ($ibforums->input['pop']) {
+            $html = View::make(
+                "emails.chat_pop",
+                [
+                    'acc_no' => $ibforums->vars['chat_account_no'],
+                    'lang'   => $lang,
+                    'w'      => $width,
+                    'h'      => $height,
+                    'user'   => $user,
+                    'pass'   => $pass
+                ]
+            );
 
-	function chat_display()
-	{
-		global $ibforums, $std, $print;
+            $print->pop_up_window("CHAT", $html);
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+            exit();
+        } else {
+            $this->output .= View::make(
+                "emails.chat_inline",
+                [
+                    'acc_no' => $ibforums->vars['chat_account_no'],
+                    'lang'   => $lang,
+                    'w'      => $width,
+                    'h'      => $height,
+                    'user'   => $user,
+                    'pass'   => $pass
+                ]
+            );
+        }
 
-		if (!$ibforums->vars['chat_account_no'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        $this->nav[] = $ibforums->lang['live_chat'];
 
-		$width  = $ibforums->vars['chat_width']
-			? $ibforums->vars['chat_width']
-			: 600;
-		$height = $ibforums->vars['chat_height']
-			? $ibforums->vars['chat_height']
-			: 350;
+        $this->page_title = $ibforums->lang['live_chat'];
+    }
 
-		$lang = $ibforums->vars['chat_language']
-			? $ibforums->vars['chat_language']
-			: 'en';
+    //****************************************************************/
+    // REPORT POST FORM:
+    //
+    //****************************************************************/
 
-		$user = "";
-		$pass = "";
+    function report_form()
+    {
+        global $ibforums, $std, $print;
 
-		if ($ibforums->member['id'])
-		{
-			$user = $ibforums->member['name'];
-			$pass = $ibforums->member['password'];
-		}
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		if ($ibforums->input['pop'])
-		{
-			$html = View::make(
-				"emails.chat_pop",
-				[
-					'acc_no' => $ibforums->vars['chat_account_no'],
-					'lang'   => $lang,
-					'w'      => $width,
-					'h'      => $height,
-					'user'   => $user,
-					'pass'   => $pass
-				]
-			);
+        $pid = intval($ibforums->input['p']);
+        $tid = intval($ibforums->input['t']);
+        $fid = intval($ibforums->input['f']);
+        $st  = intval($ibforums->input['st']);
 
-			$print->pop_up_window("CHAT", $html);
+        if ((!$pid) and (!$tid) and (!$fid)) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-			exit();
-		} else
-		{
-			$this->output .= View::make(
-				"emails.chat_inline",
-				[
-					'acc_no' => $ibforums->vars['chat_account_no'],
-					'lang'   => $lang,
-					'w'      => $width,
-					'h'      => $height,
-					'user'   => $user,
-					'pass'   => $pass
-				]
-			);
-		}
+        // Do we have permission to do stuff in this forum? Lets hope so eh?!
 
-		$this->nav[] = $ibforums->lang['live_chat'];
+        $this->check_access($fid, $tid);
+
+        $this->output .= View::make(
+            "emails.report_form",
+            ['fid' => $fid, 'tid' => $tid, 'pid' => $pid, 'st' => $st, 'topic_title' => $this->forum['topic_title']]
+        );
+
+        $this->nav[] = "<a href='" . $ibforums->base_url . "act=SC&c={$this->forum['cat_id']}'>{$this->forum['cat_name']}</a>";
+        $this->nav[] = "<a href='" . $ibforums->base_url . "act=SF&f={$this->forum['id']}'>{$this->forum['name']}</a>";
+        $this->nav[] = $ibforums->lang['report_title'];
 
-		$this->page_title = $ibforums->lang['live_chat'];
+        $this->page_title = $ibforums->lang['report_title'];
+    }
 
-	}
+    function send_report()
+    {
+        global $ibforums, $std, $print;
 
-	//****************************************************************/
-	// REPORT POST FORM:
-	//
-	//****************************************************************/
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-	function report_form()
-	{
-		global $ibforums, $std, $print;
+        $fid = intval($ibforums->input['f']);
+        $tid = intval($ibforums->input['t']);
+        $st  = intval($ibforums->input['st']);
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        if ((!$tid) and (!$fid)) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		$pid = intval($ibforums->input['p']);
-		$tid = intval($ibforums->input['t']);
-		$fid = intval($ibforums->input['f']);
-		$st  = intval($ibforums->input['st']);
+        //--------------------------------------------
+        // Make sure we came in via a form.
+        //--------------------------------------------
 
-		if ((!$pid) and (!$tid) and (!$fid))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        if ($_POST['message'] == "") {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'complete_form'));
+        }
 
-		// Do we have permission to do stuff in this forum? Lets hope so eh?!
+        //--------------------------------------------
+        // Get the topic title
+        //--------------------------------------------
 
-		$this->check_access($fid, $tid);
+        $stmt = $ibforums->db->query("SELECT title FROM ibf_topics WHERE tid='" . $tid . "'");
 
-		$this->output .= View::make(
-			"emails.report_form",
-			['fid' => $fid, 'tid' => $tid, 'pid' => $pid, 'st' => $st, 'topic_title' => $this->forum['topic_title']]
-		);
-
-		$this->nav[] = "<a href='" . $ibforums->base_url . "act=SC&c={$this->forum['cat_id']}'>{$this->forum['cat_name']}</a>";
-		$this->nav[] = "<a href='" . $ibforums->base_url . "act=SF&f={$this->forum['id']}'>{$this->forum['name']}</a>";
-		$this->nav[] = $ibforums->lang['report_title'];
-
-		$this->page_title = $ibforums->lang['report_title'];
-	}
+        $topic = $stmt->fetch();
 
-	function send_report()
-	{
-		global $ibforums, $std, $print;
+        if (!$topic['title']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
+        }
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        //--------------------------------------------
+        // Do we have permission to do stuff in this forum? Lets hope so eh?!
+        //--------------------------------------------
 
-		$fid = intval($ibforums->input['f']);
-		$tid = intval($ibforums->input['t']);
-		$st  = intval($ibforums->input['st']);
+        $this->check_access($fid, $tid);
 
-		if ((!$tid) and (!$fid))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+        $title = $ibforums->lang['report_subject'] . ' ' . $ibforums->vars['board_name'];
 
-		//--------------------------------------------
-		// Make sure we came in via a form.
-		//--------------------------------------------
+        require_once ROOT_PATH . "/sources/lib/emailer.php";
+        $this->email = new emailer();
 
-		if ($_POST['message'] == "")
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'complete_form'));
-		}
+        $report = trim(stripslashes($_POST['message']));
+        $report = str_replace("<!--", "", $report);
+        $report = str_replace("-->", "", $report);
+        $report = str_replace("<script", "", $report);
 
-		//--------------------------------------------
-		// Get the topic title
-		//--------------------------------------------
+        // Check for mods in this forum
+        $stmt = $ibforums->db->query("SELECT member_id as id, member_name as name FROM ibf_moderators WHERE forum_id='" . $fid . "'");
 
-		$stmt = $ibforums->db->query("SELECT title FROM ibf_topics WHERE tid='" . $tid . "'");
+        if (!$stmt->rowCount()) {
+            $stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE mgroup IN (" . $ibforums->vars['supermoderator_group'] . "," . $ibforums->vars['admin_group'] . ")");
+        }
+        //no mails are sent here, pm's only
+        while ($moderator = $stmt->fetch()) {
+            $this->email->get_template("report_post");
 
-		$topic = $stmt->fetch();
+            $this->email->build_message(
+                [
 
-		if (!$topic['title'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
-		}
+                    'MOD_NAME'     => $moderator['name'],
+                    'USERNAME'     => $ibforums->member['name'],
+                    'TOPIC'        => $topic['title'],
+                    'LINK_TO_POST' => "{$ibforums->vars['board_url']}/index.php?showtopic={$tid}&amp;st={$st}",
+                    'REPORT'       => $report,
 
-		//--------------------------------------------
-		// Do we have permission to do stuff in this forum? Lets hope so eh?!
-		//--------------------------------------------
+                ]
+            );
 
-		$this->check_access($fid, $tid);
+            Ibf::app()->functions->sendpm(
+                $moderator['id'],
+                (new PostParser(1))->convert(
+                    [
+                        'TEXT'      => $this->email->message,
+                        'SMILIES'   => 1,
+                        'CODE'      => 0,
+                        'SIGNATURE' => 0,
+                        'HTML'      => 0
+                    ]
+                ),
+                $title,
+                $ibforums->member['id'],
+                1,
+                1
+            );
+        }
 
-		$title = $ibforums->lang['report_subject'] . ' ' . $ibforums->vars['board_name'];
+        $print->redirect_screen($ibforums->lang['report_redirect'], "showtopic={$tid}&amp;st={$st}");
+    }
 
-		require_once ROOT_PATH . "/sources/lib/emailer.php";
-		$this->email = new emailer();
+    //--------------------------------------------
 
-		$report = trim(stripslashes($_POST['message']));
-		$report = str_replace("<!--", "", $report);
-		$report = str_replace("-->", "", $report);
-		$report = str_replace("<script", "", $report);
+    function check_access($fid, $tid)
+    {
+        global $ibforums, $std;
 
-		// Check for mods in this forum
-		$stmt = $ibforums->db->query("SELECT member_id as id, member_name as name FROM ibf_moderators WHERE forum_id='" . $fid . "'");
+        if (!$ibforums->member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
+        }
 
-		if (!$stmt->rowCount())
-		{
-			$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE mgroup IN (" . $ibforums->vars['supermoderator_group'] . "," . $ibforums->vars['admin_group'] . ")");
-		}
-		//no mails are sent here, pm's only
-		while ($moderator = $stmt->fetch())
-		{
-			$this->email->get_template("report_post");
+        //--------------------------------
 
-			$this->email->build_message(
-				[
+        $stmt = $ibforums->db->query("SELECT t.title as topic_title, f.*, c.id as cat_id, c.name as cat_name from ibf_forums f, ibf_categories c, ibf_topics t WHERE f.id=" . $fid . " and c.id=f.category and t.tid=$tid");
 
-					'MOD_NAME'     => $moderator['name'],
-					'USERNAME'     => $ibforums->member['name'],
-					'TOPIC'        => $topic['title'],
-					'LINK_TO_POST' => "{$ibforums->vars['board_url']}/index.php?showtopic={$tid}&amp;st={$st}",
-					'REPORT'       => $report,
+        $this->forum = $stmt->fetch();
 
-				]
-			);
+        $return = 1;
 
-			Ibf::app()->functions->sendpm(
-				$moderator['id'],
-				(new PostParser(1))->convert(
-					[
-						'TEXT'      => $this->email->message,
-						'SMILIES'   => 1,
-						'CODE'      => 0,
-						'SIGNATURE' => 0,
-						'HTML'      => 0
-					]
-				),
-				$title,
-				$ibforums->member['id'],
-				1,
-				1
-			);
-		}
+        if ($std->check_perms($this->forum['read_perms']) == true) {
+            $return = 0;
+        }
 
-		$print->redirect_screen($ibforums->lang['report_redirect'], "showtopic={$tid}&amp;st={$st}");
+        if ($this->forum['password']) {
+            if ($_COOKIE[$ibforums->vars['cookie_id'] . 'iBForum' . $this->forum['id']] == $this->forum['password']) {
+                $return = 0;
+            }
+        }
 
-	}
+        if ($return == 1) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
+        }
+    }
 
-	//--------------------------------------------
+    //****************************************************************/
+    // MSN CONSOLE:
+    //
+    //****************************************************************/
 
-	function check_access($fid, $tid)
-	{
-		global $ibforums, $std;
+    function show_msn()
+    {
+        global $ibforums, $std, $print;
 
-		if (!$ibforums->member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
-		}
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		//--------------------------------
+        //----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT t.title as topic_title, f.*, c.id as cat_id, c.name as cat_name from ibf_forums f, ibf_categories c, ibf_topics t WHERE f.id=" . $fid . " and c.id=f.category and t.tid=$tid");
+        if (empty($ibforums->member['id'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
+        }
 
-		$this->forum = $stmt->fetch();
+        if (empty($ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		$return = 1;
+        //----------------------------------
 
-		if ($std->check_perms($this->forum['read_perms']) == TRUE)
-		{
-			$return = 0;
-		}
+        if (!preg_match("/^(\d+)$/", $ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		if ($this->forum['password'])
-		{
-			if ($_COOKIE[$ibforums->vars['cookie_id'] . 'iBForum' . $this->forum['id']] == $this->forum['password'])
-			{
-				$return = 0;
-			}
-		}
+        //----------------------------------
 
-		if ($return == 1)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
-		}
+        $stmt = $ibforums->db->query("SELECT name, id, msnname from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
 
-	}
+        $member = $stmt->fetch();
 
-	//****************************************************************/
-	// MSN CONSOLE:
-	//
-	//****************************************************************/
+        //----------------------------------
 
-	function show_msn()
-	{
-		global $ibforums, $std, $print;
+        if (!$member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
+        }
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        //----------------------------------
 
-		//----------------------------------
+        if (!$member['msnname']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_msn'));
+        }
 
-		if (empty($ibforums->member['id']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
-		}
+        //----------------------------------
 
-		if (empty($ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $html = View::make("emails.pager_header", ['data' => array('TITLE' => 'MSN')]);
 
-		//----------------------------------
+        $html .= View::make("emails.msn_body", ['msnname' => $member['msnname']]);
 
-		if (!preg_match("/^(\d+)$/", $ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $html .= View::make("emails.end_table");
 
-		//----------------------------------
+        $print->pop_up_window("MSN CONSOLE", $html);
+    }
 
-		$stmt = $ibforums->db->query("SELECT name, id, msnname from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+    //****************************************************************/
+    // Yahoo! CONSOLE:
+    //
+    //****************************************************************/
 
-		$member = $stmt->fetch();
+    function show_yahoo()
+    {
+        global $ibforums, $std, $print;
 
-		//----------------------------------
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		if (!$member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
-		}
+        //----------------------------------
 
-		//----------------------------------
+        if (empty($ibforums->member['id'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
+        }
 
-		if (!$member['msnname'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_msn'));
-		}
+        if (empty($ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		//----------------------------------
+        //----------------------------------
 
-		$html = View::make("emails.pager_header", ['data' => array('TITLE' => 'MSN')]);
+        if (!preg_match("/^(\d+)$/", $ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		$html .= View::make("emails.msn_body", ['msnname' => $member['msnname']]);
+        //----------------------------------
 
-		$html .= View::make("emails.end_table");
+        $stmt = $ibforums->db->query("SELECT name, id, yahoo from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
 
-		$print->pop_up_window("MSN CONSOLE", $html);
+        $member = $stmt->fetch();
 
-	}
+        //----------------------------------
 
-	//****************************************************************/
-	// Yahoo! CONSOLE:
-	//
-	//****************************************************************/
+        if (!$member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
+        }
 
-	function show_yahoo()
-	{
-		global $ibforums, $std, $print;
+        //----------------------------------
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        if (!$member['yahoo']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_yahoo'));
+        }
 
-		//----------------------------------
+        //----------------------------------
 
-		if (empty($ibforums->member['id']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
-		}
+        $html = View::make("emails.pager_header", ['data' => array('TITLE' => "Yahoo!")]);
 
-		if (empty($ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $html .= View::make("emails.yahoo_body", ['yahoo' => $member['yahoo']]);
 
-		//----------------------------------
+        $html .= View::make("emails.end_table");
 
-		if (!preg_match("/^(\d+)$/", $ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $print->pop_up_window("YAHOO! CONSOLE", $html);
+    }
 
-		//----------------------------------
+    //****************************************************************/
+    // AOL CONSOLE:
+    //
+    //****************************************************************/
 
-		$stmt = $ibforums->db->query("SELECT name, id, yahoo from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+    function show_aim()
+    {
+        global $ibforums, $std, $print;
 
-		$member = $stmt->fetch();
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		//----------------------------------
+        //----------------------------------
 
-		if (!$member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
-		}
+        if (empty($ibforums->member['id'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
+        }
 
-		//----------------------------------
+        if (empty($ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		if (!$member['yahoo'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_yahoo'));
-		}
+        //----------------------------------
 
-		//----------------------------------
+        if (!preg_match("/^(\d+)$/", $ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		$html = View::make("emails.pager_header", ['data' => array('TITLE' => "Yahoo!")]);
+        //----------------------------------
 
-		$html .= View::make("emails.yahoo_body", ['yahoo' => $member['yahoo']]);
+        $stmt = $ibforums->db->query("SELECT name, id, aim_name from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
 
-		$html .= View::make("emails.end_table");
+        $member = $stmt->fetch();
 
-		$print->pop_up_window("YAHOO! CONSOLE", $html);
+        //----------------------------------
 
-	}
+        if (!$member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
+        }
 
-	//****************************************************************/
-	// AOL CONSOLE:
-	//
-	//****************************************************************/
+        //----------------------------------
 
-	function show_aim()
-	{
-		global $ibforums, $std, $print;
+        if (!$member['aim_name']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_aol'));
+        }
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        $member['aim_name'] = str_replace(" ", "", $member['aim_name']);
 
-		//----------------------------------
+        //----------------------------------
 
-		if (empty($ibforums->member['id']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
-		}
+        $print->pop_up_window(
+            "AOL CONSOLE",
+            View::make("emails.aol_body", ['data' => array('AOLNAME' => $member['aim_name'])])
+        );
+    }
 
-		if (empty($ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+    //****************************************************************/
+    // ICQ CONSOLE:
+    //
+    //****************************************************************/
 
-		//----------------------------------
+    function show_icq()
+    {
+        global $ibforums, $std, $print;
 
-		if (!preg_match("/^(\d+)$/", $ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		//----------------------------------
+        //----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT name, id, aim_name from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+        if (empty($ibforums->member['id'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
+        }
 
-		$member = $stmt->fetch();
+        if (empty($ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		//----------------------------------
+        //----------------------------------
 
-		if (!$member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
-		}
+        if (!preg_match("/^(\d+)$/", $ibforums->input['MID'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		//----------------------------------
+        //----------------------------------
 
-		if (!$member['aim_name'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_aol'));
-		}
+        $stmt = $ibforums->db->query("SELECT name, id, icq_number from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
 
-		$member['aim_name'] = str_replace(" ", "", $member['aim_name']);
+        $member = $stmt->fetch();
 
-		//----------------------------------
+        //----------------------------------
 
-		$print->pop_up_window("AOL CONSOLE",
-			View::make("emails.aol_body", ['data' => array('AOLNAME' => $member['aim_name'])])
-		);
+        if (!$member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
+        }
 
-	}
+        //----------------------------------
 
-	//****************************************************************/
-	// ICQ CONSOLE:
-	//
-	//****************************************************************/
+        if (!$member['icq_number']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_icq'));
+        }
 
-	function show_icq()
-	{
-		global $ibforums, $std, $print;
+        //----------------------------------
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        $html = View::make("emails.pager_header", ['data' => array($ibforums->lang['icq_title'])]);
 
-		//----------------------------------
+        $html .= View::make("emails.icq_body", ['data' => array('UIN' => $member['icq_number'])]);
 
-		if (empty($ibforums->member['id']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
-		}
+        $html .= View::make("emails.end_table");
 
-		if (empty($ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $print->pop_up_window("ICQ CONSOLE", $html);
+    }
 
-		//----------------------------------
+    //****************************************************************/
+    // MAIL MEMBER:
+    //
+    // Handles the routines called by clicking on the "email" button when
+    // reading topics
+    //****************************************************************/
 
-		if (!preg_match("/^(\d+)$/", $ibforums->input['MID']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+    function mail_member()
+    {
+        global $ibforums, $std, $print;
 
-		//----------------------------------
+        require_once ROOT_PATH . "/sources/lib/emailer.php";
+        $this->email = new emailer();
 
-		$stmt = $ibforums->db->query("SELECT name, id, icq_number from ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+        //----------------------------------
 
-		$member = $stmt->fetch();
+        $ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
-		//----------------------------------
+        //----------------------------------
 
-		if (!$member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
-		}
+        if ($ibforums->member['disable_mail']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail', 'EXTRA' => $ibforums->member['disable_mail_reason']));
+        }
 
-		//----------------------------------
+        if (empty($ibforums->member['id'])) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
+        }
 
-		if (!$member['icq_number'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_icq'));
-		}
+        if (!$ibforums->member['g_email_friend']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_member_mail'));
+        }
 
-		//----------------------------------
+        //----------------------------------
 
-		$html = View::make("emails.pager_header", ['data' => array($ibforums->lang['icq_title'])]);
+        if ($ibforums->input['CODE'] == '01') {
+            $this->mail_member_send();
+        } else {
+            // Show the form, booo...
+            $this->mail_member_form();
+        }
+    }
 
-		$html .= View::make("emails.icq_body", ['data' => array('UIN' => $member['icq_number'])]);
+    function mail_member_form($errors = "", $extra = "")
+    {
+        global $ibforums, $std, $print;
 
-		$html .= View::make("emails.end_table");
+        $ibforums->input['MID'] = intval($ibforums->input['MID']);
 
-		$print->pop_up_window("ICQ CONSOLE", $html);
+        if ($ibforums->input['MID'] < 1) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-	}
+        //----------------------------------
 
-	//****************************************************************/
-	// MAIL MEMBER:
-	//
-	// Handles the routines called by clicking on the "email" button when
-	// reading topics
-	//****************************************************************/
+        $stmt = $ibforums->db->query("SELECT name, id, email, hide_email, disable_mail FROM ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
 
-	function mail_member()
-	{
-		global $ibforums, $std, $print;
+        $member = $stmt->fetch();
 
-		require_once ROOT_PATH . "/sources/lib/emailer.php";
-		$this->email = new emailer();
+        //----------------------------------
 
-		//----------------------------------
+        if (!$member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
+        }
 
-		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
+        if ($member['disable_mail']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail_to'));
+        }
 
-		//----------------------------------
+        if ($member['hide_email'] == 1 and !$ibforums->member['g_is_supmod']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'private_email'));
+        }
 
-		if ($ibforums->member['disable_mail'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail', 'EXTRA' => $ibforums->member['disable_mail_reason']));
-		}
+        //----------------------------------
 
-		if (empty($ibforums->member['id']))
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
-		}
+        if ($errors != "") {
+            $msg = $ibforums->lang[$errors];
 
-		if (!$ibforums->member['g_email_friend'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_member_mail'));
-		}
+            if ($extra != "") {
+                $msg = str_replace("<#EXTRA#>", $extra, $msg);
+            }
 
-		//----------------------------------
+            $this->output .= View::make("emails.errors", ['data' => $msg]);
+        }
 
-		if ($ibforums->input['CODE'] == '01')
-		{
-			$this->mail_member_send();
-		} else
-		{
-			// Show the form, booo...
-			$this->mail_member_form();
-		}
+        //----------------------------------
 
-	}
+        $this->output .= $ibforums->vars['use_mail_form']
+            ? View::make(
+                'emails.send_form',
+                [
+                    'data' => array(
+                        'NAME'    => $member['name'],
+                        'TO'      => $member['id'],
+                        'subject' => $ibforums->input['subject'],
+                        'content' => stripslashes(htmlentities($_POST['message'])),
+                    )
+                ]
+            )
+            : View::make(
+                'emails.show_address',
+                [
+                    'data' => array(
+                        'NAME'    => $member['name'],
+                        'ADDRESS' => $member['email'],
+                    )
+                ]
+            );
 
-	function mail_member_form($errors = "", $extra = "")
-	{
-		global $ibforums, $std, $print;
+        $this->page_title = $ibforums->lang['member_address_title'];
+        $this->nav        = array($ibforums->lang['member_address_title']);
+    }
 
-		$ibforums->input['MID'] = intval($ibforums->input['MID']);
+    //----------------------------------
 
-		if ($ibforums->input['MID'] < 1)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+    function mail_member_send()
+    {
+        global $ibforums, $std, $print;
 
-		//----------------------------------
+        $ibforums->input['to'] = intval($ibforums->input['to']);
 
-		$stmt = $ibforums->db->query("SELECT name, id, email, hide_email, disable_mail FROM ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+        if ($ibforums->input['to'] == 0) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
+        }
 
-		$member = $stmt->fetch();
+        //----------------------------------
 
-		//----------------------------------
+        $stmt = $ibforums->db->query("SELECT name, id, email, hide_email, disable_mail FROM ibf_members WHERE id='" . $ibforums->input['to'] . "'");
 
-		if (!$member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
-		}
+        $member = $stmt->fetch();
 
-		if ($member['disable_mail'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail_to'));
-		}
+        //----------------------------------
+        // Check for schtuff
+        //----------------------------------
 
-		if ($member['hide_email'] == 1 and !$ibforums->member['g_is_supmod'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'private_email'));
-		}
+        if (!$member['id']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
+        }
 
-		//----------------------------------
+        if ($member['disable_mail']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail_to'));
+        }
 
-		if ($errors != "")
-		{
-			$msg = $ibforums->lang[$errors];
+        //----------------------------------
 
-			if ($extra != "")
-			{
-				$msg = str_replace("<#EXTRA#>", $extra, $msg);
-			}
+        if ($member['hide_email'] == 1 and !$ibforums->member['g_is_supmod']) {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'private_email'));
+        }
 
-			$this->output .= View::make("emails.errors", ['data' => $msg]);
-		}
+        //----------------------------------
+        // Check for blanks
+        //----------------------------------
 
-		//----------------------------------
+        $check_array = array(
+            'message' => 'no_message',
+            'subject' => 'no_subject'
+        );
 
-		$this->output .= $ibforums->vars['use_mail_form']
-			? View::make(
-				'emails.send_form',
-				[
-					'data' => array(
-						'NAME'    => $member['name'],
-						'TO'      => $member['id'],
-						'subject' => $ibforums->input['subject'],
-						'content' => stripslashes(htmlentities($_POST['message'])),
-					)
-				]
-			)
-			: View::make(
-				'emails.show_address',
-				[
-					'data' => array(
-						'NAME'    => $member['name'],
-						'ADDRESS' => $member['email'],
-					)
-				]
-			);
+        foreach ($check_array as $input => $msg) {
+            if (empty($ibforums->input[$input])) {
+                $ibforums->input['MID'] = $ibforums->input['to'];
+                $this->mail_member_form($msg);
+                return;
+            }
+        }
 
-		$this->page_title = $ibforums->lang['member_address_title'];
-		$this->nav        = array($ibforums->lang['member_address_title']);
+        //----------------------------------
+        // Check for spam / delays
+        //----------------------------------
 
-	}
+        $email_check = $this->_allow_to_email($ibforums->member['id'], $ibforums->member['g_email_limit']);
 
-	//----------------------------------
+        if ($email_check != true) {
+            $ibforums->input['MID'] = $ibforums->input['to'];
+            $this->mail_member_form($this->int_error, $this->int_extra);
+            return;
+        }
 
-	function mail_member_send()
-	{
-		global $ibforums, $std, $print;
+        //----------------------------------
+        // Send the email
+        //----------------------------------
 
-		$ibforums->input['to'] = intval($ibforums->input['to']);
+        $this->email->get_template("email_member");
 
-		if ($ibforums->input['to'] == 0)
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'invalid_use'));
-		}
+        $this->email->build_message(array(
+                                         'MESSAGE'     => str_replace("<br>", "\n", str_replace("\r", "", $ibforums->input['message'])),
+                                         'MEMBER_NAME' => $member['name'],
+                                         'FROM_NAME'   => $ibforums->member['name']
+                                    ));
 
-		//----------------------------------
+        $this->email->subject = $ibforums->input['subject'];
+        $this->email->to      = $member['email'];
+        $this->email->from    = $ibforums->member['email'];
+        $this->email->send_mail();
 
-		$stmt = $ibforums->db->query("SELECT name, id, email, hide_email, disable_mail FROM ibf_members WHERE id='" . $ibforums->input['to'] . "'");
+        //----------------------------------
+        // Store email in the database
+        //----------------------------------
 
-		$member = $stmt->fetch();
+        $dbs = array(
+            'email_subject'      => $ibforums->input['subject'],
+            'email_content'      => $ibforums->input['message'],
+            'email_date'         => time(),
+            'from_member_id'     => $ibforums->member['id'],
+            'from_email_address' => $ibforums->member['email'],
+            'from_ip_address'    => $ibforums->input['IP_ADDRESS'],
+            'to_member_id'       => $member['id'],
+            'to_email_address'   => $member['email'],
+        );
 
-		//----------------------------------
-		// Check for schtuff
-		//----------------------------------
+        $ibforums->db->insertRow("ibf_email_logs", $dbs);
 
-		if (!$member['id'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_such_user'));
-		}
+        //----------------------------------
+        // Print the success page
+        //----------------------------------
 
-		if ($member['disable_mail'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_mail_to'));
-		}
+        $forum_jump = $std->build_forum_jump();
 
-		//----------------------------------
+        $this->output = View::make("emails.sent_screen", ['member_name' => $member['name']]);
 
-		if ($member['hide_email'] == 1 and !$ibforums->member['g_is_supmod'])
-		{
-			$std->Error(array('LEVEL' => 1, 'MSG' => 'private_email'));
-		}
+        $this->output .= View::make("emails.forum_jump", ['data' => $forum_jump]);
 
-		//----------------------------------
-		// Check for blanks
-		//----------------------------------
+        $this->page_title = $ibforums->lang['email_sent'];
+        $this->nav        = array($ibforums->lang['email_sent']);
+    }
 
-		$check_array = array(
-			'message' => 'no_message',
-			'subject' => 'no_subject'
-		);
+    //----------------------------------
+    // CHECK FLOOD LIMIT
+    // Returns TRUE if able to email
+    // FALSE if not
+    //----------------------------------
 
-		foreach ($check_array as $input => $msg)
-		{
-			if (empty($ibforums->input[$input]))
-			{
-				$ibforums->input['MID'] = $ibforums->input['to'];
-				$this->mail_member_form($msg);
-				return;
-			}
-		}
+    function _allow_to_email($member_id, $email_limit)
+    {
+        global $ibforums, $std;
 
-		//----------------------------------
-		// Check for spam / delays
-		//----------------------------------
+        $member_id = intval($member_id);
 
-		$email_check = $this->_allow_to_email($ibforums->member['id'], $ibforums->member['g_email_limit']);
+        if (!$member_id) {
+            $this->int_error = 'gen_error';
+            return false;
+        }
 
-		if ($email_check != TRUE)
-		{
-			$ibforums->input['MID'] = $ibforums->input['to'];
-			$this->mail_member_form($this->int_error, $this->int_extra);
-			return;
-		}
+        list($limit, $flood) = explode(':', $email_limit);
 
-		//----------------------------------
-		// Send the email
-		//----------------------------------
+        if (!$limit and !$flood) {
+            return true;
+        }
 
-		$this->email->get_template("email_member");
+        //----------------------------------
+        // Get some stuff from the DB!
+        // 1) FLOOD?
+        //----------------------------------
 
-		$this->email->build_message(array(
-		                                 'MESSAGE'     => str_replace("<br>", "\n", str_replace("\r", "", $ibforums->input['message'])),
-		                                 'MEMBER_NAME' => $member['name'],
-		                                 'FROM_NAME'   => $ibforums->member['name']
-		                            ));
+        if ($flood) {
+            $stmt = $ibforums->db->query("SELECT * FROM ibf_email_logs WHERE from_member_id=$member_id ORDER BY email_date DESC LIMIT 0,1");
 
-		$this->email->subject = $ibforums->input['subject'];
-		$this->email->to      = $member['email'];
-		$this->email->from    = $ibforums->member['email'];
-		$this->email->send_mail();
+            $last_email = $stmt->fetch();
 
-		//----------------------------------
-		// Store email in the database
-		//----------------------------------
+            if ($last_email['email_date'] + ($flood * 60) > time()) {
+                $this->int_error = 'exceeded_flood';
+                $this->int_extra = $flood;
+                return false;
+            }
+        }
 
-		$dbs = array(
-			'email_subject'      => $ibforums->input['subject'],
-			'email_content'      => $ibforums->input['message'],
-			'email_date'         => time(),
-			'from_member_id'     => $ibforums->member['id'],
-			'from_email_address' => $ibforums->member['email'],
-			'from_ip_address'    => $ibforums->input['IP_ADDRESS'],
-			'to_member_id'       => $member['id'],
-			'to_email_address'   => $member['email'],
-		);
+        if ($limit) {
+            $time_range = time() - ($limit * 3600 * 24);
 
-		$ibforums->db->insertRow("ibf_email_logs", $dbs);
+            $stmt = $ibforums->db->query("SELECT count(email_id) as cnt FROM ibf_email_logs WHERE from_member_id=$member_id AND email_date > $time_range");
 
-		//----------------------------------
-		// Print the success page
-		//----------------------------------
+            $quota_sent = $stmt->fetch();
 
-		$forum_jump = $std->build_forum_jump();
+            if ($quota_sent['cnt'] + 1 > $limit) {
+                $this->int_error = 'exceeded_quota';
+                $this->int_extra = $limit;
+                return false;
+            }
+        }
 
-		$this->output = View::make("emails.sent_screen", ['member_name' => $member['name']]);
-
-		$this->output .= View::make("emails.forum_jump", ['data' => $forum_jump]);
-
-		$this->page_title = $ibforums->lang['email_sent'];
-		$this->nav        = array($ibforums->lang['email_sent']);
-	}
-
-	//----------------------------------
-	// CHECK FLOOD LIMIT
-	// Returns TRUE if able to email
-	// FALSE if not
-	//----------------------------------
-
-	function _allow_to_email($member_id, $email_limit)
-	{
-		global $ibforums, $std;
-
-		$member_id = intval($member_id);
-
-		if (!$member_id)
-		{
-			$this->int_error = 'gen_error';
-			return FALSE;
-		}
-
-		list($limit, $flood) = explode(':', $email_limit);
-
-		if (!$limit and !$flood)
-		{
-			return TRUE;
-		}
-
-		//----------------------------------
-		// Get some stuff from the DB!
-		// 1) FLOOD?
-		//----------------------------------
-
-		if ($flood)
-		{
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_email_logs WHERE from_member_id=$member_id ORDER BY email_date DESC LIMIT 0,1");
-
-			$last_email = $stmt->fetch();
-
-			if ($last_email['email_date'] + ($flood * 60) > time())
-			{
-				$this->int_error = 'exceeded_flood';
-				$this->int_extra = $flood;
-				return FALSE;
-			}
-		}
-
-		if ($limit)
-		{
-			$time_range = time() - ($limit * 3600 * 24);
-
-			$stmt = $ibforums->db->query("SELECT count(email_id) as cnt FROM ibf_email_logs WHERE from_member_id=$member_id AND email_date > $time_range");
-
-			$quota_sent = $stmt->fetch();
-
-			if ($quota_sent['cnt'] + 1 > $limit)
-			{
-				$this->int_error = 'exceeded_quota';
-				$this->int_extra = $limit;
-				return FALSE;
-			}
-		}
-
-		return TRUE; //If we get here...
-
-	}
-
+        return true; //If we get here...
+    }
 }

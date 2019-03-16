@@ -40,4 +40,3 @@ $lang['edit_event']  = "Редактировать событие:";
 $lang['edit_event_redirect']  = "событие отредактировано";
 $lang['delete_event_redirect']  = "событие <b>удалено</b>";
 $lang['event_date']  = "Дата события с:";
-

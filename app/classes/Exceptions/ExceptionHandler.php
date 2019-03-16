@@ -22,8 +22,8 @@ class ExceptionHandler
     {
         error_reporting($reporting);
 
-        $whoops = new Run;
-        $handler = new PrettyPageHandler;
+        $whoops = new Run();
+        $handler = new PrettyPageHandler();
 
         $whoops->pushHandler($handler);
         $whoops->register();

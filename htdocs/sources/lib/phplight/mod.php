@@ -1,47 +1,54 @@
-<?
-function fReadLine(&$fh,&$str)
+<?php
+function fReadLine(&$fh, &$str)
 {
-	$str='';
-	while(!feof($fh)&&($c=fgetc($fh))!="\n")if($c!="\r")$str.=$c;
-	$str=trim($str);
+    $str = '';
+    while (!feof($fh) && ($c = fgetc($fh)) != "\n") {
+        if ($c != "\r") {
+            $str .= $c;
+        }
+    }
+    $str = trim($str);
 
-	return !empty($c);
+    return !empty($c);
 }
 
 function quoteAll($str)
 {
-	$nstr='';
-	while(mb_strlen($str))
-	{
-		if(mb_strpos('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_',$str[0])===false)
-			$nstr.="\\".$str[0];
-		else $nstr.=$str[0];
+    $nstr = '';
+    while (mb_strlen($str)) {
+        if (mb_strpos('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_', $str[0]) === false) {
+            $nstr .= "\\" . $str[0];
+        } else {
+            $nstr .= $str[0];
+        }
 
-		$str=mb_substr($str,1);
-	}
-	return$nstr;
+        $str = mb_substr($str, 1);
+    }
+    return$nstr;
 }
 
-function strGetC(&$str,&$c)
+function strGetC(&$str, &$c)
 {
-	$c=$str[0];
-	$str=mb_substr($str,1);
-	return mb_strlen($c);
+    $c = $str[0];
+    $str = mb_substr($str, 1);
+    return mb_strlen($c);
 }
 
 function toUpperCase($str)
 {
-	return strtr(mb_strtoupper($str),'абвгдеёжзийклмнопрстуфхцчшщъыьэюя',
-									'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ');
+    return strtr(
+        mb_strtoupper($str),
+        'абвгдеёжзийклмнопрстуфхцчшщъыьэюя',
+        'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+    );
 }
 
-function CompareNoCase($a,$b)
+function CompareNoCase($a, $b)
 {
-	return !strcasecmp($a,$b)||toUpperCase($a)===toUpperCase($b);
+    return !strcasecmp($a, $b) || toUpperCase($a) === toUpperCase($b);
 }
 
-function CompareYesCase($a,$b)
+function CompareYesCase($a, $b)
 {
-	return $a===$b;
+    return $a === $b;
 }
-?>

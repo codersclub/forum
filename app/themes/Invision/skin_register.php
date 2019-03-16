@@ -1,24 +1,27 @@
 <?php
 
-class skin_register {
+class skin_register
+{
 
 
 
-function show_lostpass_form_auto($aid,$uid) {
-global $ibforums;
-return <<<EOF
+    function show_lostpass_form_auto($aid, $uid)
+    {
+        global $ibforums;
+        return <<<EOF
 
   <input type='hidden' name='uid' value='$uid' >
   <input type='hidden' name='aid' value='$aid' >
   <table class="tablebasic">
 
 EOF;
-}
+    }
 
 
-function show_dumb_form($type="reg") {
-global $ibforums;
-return <<<EOF
+    function show_dumb_form($type = "reg")
+    {
+        global $ibforums;
+        return <<<EOF
 <form action="{$ibforums->base_url}" method="post" name='REG' onsubmit='return Validate()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='03'>
@@ -42,42 +45,46 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function field_dropdown($name, $options) {
-global $ibforums;
-return <<<EOF
+    function field_dropdown($name, $options)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <select name='$name' class='forminput'>$options</select>
 
 EOF;
-}
+    }
 
 
-function field_textarea($name, $value) {
-global $ibforums;
-return <<<EOF
+    function field_textarea($name, $value)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <textarea cols='60' rows='5' name='$name' class='forminput'>$value</textarea>
 
 EOF;
-}
+    }
 
 
-function field_textinput($name, $value="") {
-global $ibforums;
-return <<<EOF
+    function field_textinput($name, $value = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <input type='text' size='30' name='$name' value='$value' class='forminput'>
 
 EOF;
-}
+    }
 
 
-function field_entry($title, $desc="", $content) {
-global $ibforums;
-return <<<EOF
+    function field_entry($title, $desc = "", $content)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
   <td class='pformleft' valign='top'><b>$title</b><br>$desc</td>
@@ -85,12 +92,13 @@ return <<<EOF
 </tr>
 
 EOF;
-}
+    }
 
 
-function ShowForm($data) {
-global $ibforums;
-return <<<EOF
+    function ShowForm($data)
+    {
+        global $ibforums;
+        return <<<EOF
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 <form action="{$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}" method="post" name='REG' onsubmit='return Validate()'>
@@ -142,12 +150,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function tmpl_form($action, $hidden, $title, $content) {
-global $ibforums;
-return <<<EOF
+    function tmpl_form($action, $hidden, $title, $content)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form method="post" action="$action">
 $hidden
@@ -161,24 +170,26 @@ $hidden
 </form>
 
 EOF;
-}
+    }
 
 
-function optional_title() {
-global $ibforums;
-return <<<EOF
+    function optional_title()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <tr>
   <td colspan='2' class='pformstrip'>{$ibforums->lang['cf_optional']}</td>
 </tr>
 
 EOF;
-}
+    }
 
 
-function bot_antispam_gd($regid) {
-global $ibforums;
-return <<<EOF
+    function bot_antispam_gd($regid)
+    {
+        global $ibforums;
+        return <<<EOF
 
    <tr>
 	 <td class='row1' width='40%'>{$ibforums->lang['las_numbers']}</td>
@@ -193,12 +204,13 @@ return <<<EOF
 	 </tr>
 
 EOF;
-}
+    }
 
 
-function errors($data) {
-global $ibforums;
-return <<<EOF
+    function errors($data)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['errors_found']}</div>
@@ -207,12 +219,13 @@ return <<<EOF
 <br>
 
 EOF;
-}
+    }
 
 
-function bot_antispam($regid) {
-global $ibforums;
-return <<<EOF
+    function bot_antispam($regid)
+    {
+        global $ibforums;
+        return <<<EOF
 
 	 </tr>
      <td class='row1' width='40%'>{$ibforums->lang['las_numbers']}</td>
@@ -232,11 +245,12 @@ return <<<EOF
 	 </tr>
 
 EOF;
-}
+    }
 
-function bot_antispam_recapthca($regid) {
-global $ibforums;
-return <<<EOF
+    function bot_antispam_recapthca($regid)
+    {
+        global $ibforums;
+        return <<<EOF
   	<tr>
 	<td class='pformleft'>Вы же не робот?</td>
   	<td class='pformright'>
@@ -245,12 +259,13 @@ return <<<EOF
 	</td>
 	</tr>
 EOF;
-}
+    }
 
 
-function show_preview($member) {
-global $ibforums;
-return <<<EOF
+    function show_preview($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="maintitle"><!-- --></div>
@@ -259,12 +274,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function show_revalidate_form($name="") {
-global $ibforums;
-return <<<EOF
+    function show_revalidate_form($name = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}" method="post" name='REG'>
 <input type='hidden' name='act' value='Reg'>
@@ -284,12 +300,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function show_lostpass_form() {
-global $ibforums;
-return <<<EOF
+    function show_lostpass_form()
+    {
+        global $ibforums;
+        return <<<EOF
 <form action="{$ibforums->base_url}" method="post" name='REG' onsubmit='return ValidateLostPass()'>
 <input type='hidden' name='act' value='Reg'>
 <input type='hidden' name='CODE' value='03'>
@@ -313,12 +330,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function show_lostpass_form_manual() {
-global $ibforums;
-return <<<EOF
+    function show_lostpass_form_manual()
+    {
+        global $ibforums;
+        return <<<EOF
 
   <div class="tablepad">{$ibforums->lang['dumb_text']}</div>
   <div class="pformstrip">{$ibforums->lang['complete_form']}</div>
@@ -334,12 +352,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function coppa_form() {
-global $ibforums;
-return <<<EOF
+    function coppa_form()
+    {
+        global $ibforums;
+        return <<<EOF
 
      <html>
       <head>
@@ -417,12 +436,13 @@ return <<<EOF
   </html>
 
 EOF;
-}
+    }
 
 
-function show_lostpasswait($member) {
-global $ibforums;
-return <<<EOF
+    function show_lostpasswait($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="maintitle"><{CAT_IMG}>&nbsp;{$ibforums->lang['lpf_title']}</div>
@@ -431,12 +451,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function show_revalidated() {
-global $ibforums;
-return <<<EOF
+    function show_revalidated()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="maintitle"><{CAT_IMG}>&nbsp;{$ibforums->lang['rv_title']}</div>
@@ -445,12 +466,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function show_authorise($member) {
-global $ibforums;
-return <<<EOF
+    function show_authorise($member)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="maintitle"><!-- --></div>
@@ -459,12 +481,13 @@ return <<<EOF
 </div>
 
 EOF;
-}
+    }
 
 
-function lost_pass_form($lasid="") {
-global $ibforums;
-return <<<EOF
+    function lost_pass_form($lasid = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action="{$ibforums->base_url}" method="post">
 <input type='hidden' name='act' value='Reg'>
@@ -489,12 +512,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function coppa_start($coppadate) {
-global $ibforums;
-return <<<EOF
+    function coppa_start($coppadate)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class="tableborder">
   <div class="maintitle"><{CAT_IMG}>&nbsp;{$ibforums->lang['registration_form']}</div>
@@ -515,12 +539,13 @@ return <<<EOF
 
 
 EOF;
-}
+    }
 
 
-function coppa_two() {
-global $ibforums;
-return <<<EOF
+    function coppa_two()
+    {
+        global $ibforums;
+        return <<<EOF
 
 <div class='tableborder'>
   <div class='maintitle'>{$ibforums->lang['cp2_title']}</div>
@@ -545,8 +570,5 @@ return <<<EOF
 </div>
 
 EOF;
+    }
 }
-
-
-}
-?>

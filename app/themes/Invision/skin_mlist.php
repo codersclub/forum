@@ -1,22 +1,25 @@
 <?php
 
-class skin_mlist {
+class skin_mlist
+{
 
 
 
-function no_results() {
-global $ibforums;
-return <<<EOF
+    function no_results()
+    {
+        global $ibforums;
+        return <<<EOF
 
 No results
 
 EOF;
-}
+    }
 
 
-function show_row($member) {
-global $ibforums;
-return <<<EOF
+    function show_row($member)
+    {
+        global $ibforums;
+        return <<<EOF
   <tr>
 	 <td class='row4'><strong><a href="{$ibforums->base_url}showuser={$member['id']}">{$member['name']}</a></strong></td>
 	 <td class='row4'>{$member['gicon']}{$member['title']}<br>{$member['sex']}{$member['pips']}</td>
@@ -31,33 +34,36 @@ return <<<EOF
   </tr>
 
 EOF;
-}
+    }
 
 
-function end($links) {
-global $ibforums;
-return <<<EOF
+    function end($links)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <br>
 <div align="left">{$links[SHOW_PAGES]}</div>
 
 EOF;
-}
+    }
 
 
-function start() {
-global $ibforums;
-return <<<EOF
+    function start()
+    {
+        global $ibforums;
+        return <<<EOF
 
 
 
 EOF;
-}
+    }
 
 
-function Page_end($checked="") {
-global $ibforums;
-return <<<EOF
+    function Page_end($checked = "")
+    {
+        global $ibforums;
+        return <<<EOF
 
   <tr>
     <td class='row3' colspan="10" align='center' valign='middle'>
@@ -83,12 +89,13 @@ return <<<EOF
 </form>
 
 EOF;
-}
+    }
 
 
-function Page_header($links) {
-global $ibforums;
-return <<<EOF
+    function Page_header($links)
+    {
+        global $ibforums;
+        return <<<EOF
 
 <form action='{$ibforums->base_url}' method='post'>
 <input type='hidden' name='act' value='Members'>
@@ -112,8 +119,5 @@ return <<<EOF
   </tr>
 
 EOF;
+    }
 }
-
-
-}
-?>

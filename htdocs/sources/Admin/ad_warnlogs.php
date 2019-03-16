@@ -16,7 +16,7 @@
 |   > Module written by Matt Mecham
 |   > Date started: 4th June 2003
 |
-|	> Module Version Number: 1.0.0
+|   > Module Version Number: 1.0.0
 +--------------------------------------------------------------------------
 */
 
@@ -26,503 +26,463 @@ $idx = new ad_warnlogs();
 
 class ad_warnlogs
 {
-	var $base_url;
+    var $base_url;
 
-	function __construct()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+    function __construct()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-		//---------------------------------------
-		// Kill globals - globals bad, Homer good.
-		//---------------------------------------
+        //---------------------------------------
+        // Kill globals - globals bad, Homer good.
+        //---------------------------------------
 
-		$tmp_in = array_merge($_GET, $_POST, $_COOKIE);
+        $tmp_in = array_merge($_GET, $_POST, $_COOKIE);
 
-		foreach ($tmp_in as $k => $v)
-		{
-			unset($$k);
-		}
+        foreach ($tmp_in as $k => $v) {
+            unset($$k);
+        }
 
-		//---------------------------------------
+        //---------------------------------------
 
-		switch ($IN['code'])
-		{
+        switch ($IN['code']) {
+            case 'view':
+                $this->view();
+                break;
 
-			case 'view':
-				$this->view();
-				break;
+            case 'viewcontact':
+                $this->view_contact();
+                break;
 
-			case 'viewcontact':
-				$this->view_contact();
-				break;
+            case 'viewnote':
+                $this->view_note();
+                break;
 
-			case 'viewnote':
-				$this->view_note();
-				break;
+            case 'remove':
+                $this->remove();
+                break;
 
-			case 'remove':
-				$this->remove();
-				break;
+            //-------------------------
+            default:
+                $this->list_current();
+                break;
+        }
+    }
 
-			//-------------------------
-			default:
-				$this->list_current();
-				break;
-		}
+    //---------------------------------------------
+    // View NOTE in da pop up innit
+    //---------------------------------------------
 
-	}
+    function view_note()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	//---------------------------------------------
-	// View NOTE in da pop up innit
-	//---------------------------------------------
+        if ($IN['id'] == "") {
+            $ADMIN->error("Could not resolve the email ID, please try again");
+        }
 
-	function view_note()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $this->parser = new PostParser(1);
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("Could not resolve the email ID, please try again");
-		}
+        $id = intval($IN['id']);
 
-		$this->parser = new PostParser(1);
-
-		$id = intval($IN['id']);
-
-		$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+        $stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
 						FROM ibf_warn_logs l
 						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
 						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
 					    WHERE l.wlog_id=$id");
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not resolve the email ID, please try again ($id)");
-		}
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not resolve the email ID, please try again ($id)");
+        }
 
-		$SKIN->td_header[] = array("&nbsp;", "100%");
+        $SKIN->td_header[] = array("&nbsp;", "100%");
 
-		$content = preg_match("#<content>(.+?)</content>#is", $row['wlog_notes'], $cont);
+        $content = preg_match("#<content>(.+?)</content>#is", $row['wlog_notes'], $cont);
 
-		$ADMIN->html .= $SKIN->start_table("Warn Notes");
+        $ADMIN->html .= $SKIN->start_table("Warn Notes");
 
-		$row['date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
+        $row['date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
 
-		$text = $this->parser->convert(array(
-		                                    'TEXT'    => $cont[1],
-		                                    'SMILIES' => 1,
-		                                    'CODE'    => 1,
-		                                    'HTML'    => 0
-		                               ));
+        $text = $this->parser->convert(array(
+                                            'TEXT'    => $cont[1],
+                                            'SMILIES' => 1,
+                                            'CODE'    => 1,
+                                            'HTML'    => 0
+                                       ));
 
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<strong>From:</strong> {$row['p_name']}
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<strong>From:</strong> {$row['p_name']}
 													<br /><strong>To:</strong> {$row['a_name']}
 													<br /><strong>Sent:</strong> {$row['date']}
 													<hr>
 													<br />$text
 												    "
-		                                  ));
+                                          ));
 
-		$ADMIN->html .= $SKIN->end_table();
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->print_popup();
+        $ADMIN->print_popup();
+    }
 
-	}
+    //---------------------------------------------
+    // View contact in da pop up innit
+    //---------------------------------------------
 
-	//---------------------------------------------
-	// View contact in da pop up innit
-	//---------------------------------------------
+    function view_contact()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	function view_contact()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        if ($IN['id'] == "") {
+            $ADMIN->error("Could not resolve the email ID, please try again");
+        }
 
-		if ($IN['id'] == "")
-		{
-			$ADMIN->error("Could not resolve the email ID, please try again");
-		}
+        $id = intval($IN['id']);
 
-		$id = intval($IN['id']);
-
-		$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+        $stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
 						FROM ibf_warn_logs l
 						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
 						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
 					    WHERE l.wlog_id=$id");
 
-		if (!$row = $stmt->fetch())
-		{
-			$ADMIN->error("Could not resolve the email ID, please try again ($id)");
-		}
+        if (!$row = $stmt->fetch()) {
+            $ADMIN->error("Could not resolve the email ID, please try again ($id)");
+        }
 
-		$type = $row['wlog_contact'] == 'pm'
-			? "PM"
-			: "EMAIL";
+        $type = $row['wlog_contact'] == 'pm'
+            ? "PM"
+            : "EMAIL";
 
-		$SKIN->td_header[] = array("&nbsp;", "100%");
+        $SKIN->td_header[] = array("&nbsp;", "100%");
 
-		$subject = preg_match("#<subject>(.+?)</subject>#is", $row['wlog_contact_content'], $subj);
-		$content = preg_match("#<content>(.+?)</content>#is", $row['wlog_contact_content'], $cont);
+        $subject = preg_match("#<subject>(.+?)</subject>#is", $row['wlog_contact_content'], $subj);
+        $content = preg_match("#<content>(.+?)</content>#is", $row['wlog_contact_content'], $cont);
 
-		$ADMIN->html .= $SKIN->start_table($type . ": " . $subj[1]);
+        $ADMIN->html .= $SKIN->start_table($type . ": " . $subj[1]);
 
-		$row['date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
+        $row['date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
 
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<strong>From:</strong> {$row['p_name']}
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<strong>From:</strong> {$row['p_name']}
 													<br /><strong>To:</strong> {$row['a_name']}
 													<br /><strong>Sent:</strong> {$row['date']}
 													<br /><strong>Subject:</strong> $subj[1]
 													<hr>
 													<br />$cont[1]
 												    "
-		                                  ));
+                                          ));
 
-		$ADMIN->html .= $SKIN->end_table();
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->print_popup();
+        $ADMIN->print_popup();
+    }
 
-	}
+    //---------------------------------------------
+    // Remove archived files
+    //---------------------------------------------
 
-	//---------------------------------------------
-	// Remove archived files
-	//---------------------------------------------
+    function view()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	function view()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $start = $IN['st']
+            ? $IN['st']
+            : 0;
 
-		$start = $IN['st']
-			? $IN['st']
-			: 0;
+        $ADMIN->html .= $SKIN->js_pop_win();
 
-		$ADMIN->html .= $SKIN->js_pop_win();
+        $ADMIN->page_detail = "Viewing all warn entries on a member";
+        $ADMIN->page_title  = "Warn Logs Manager";
 
-		$ADMIN->page_detail = "Viewing all warn entries on a member";
-		$ADMIN->page_title  = "Warn Logs Manager";
+        if ($IN['search_string'] == "") {
+            $stmt = $ibforums->db->query("SELECT COUNT(wlog_id) as count FROM ibf_warn_logs WHERE wlog_mid='" . $IN['mid'] . "'");
+            $row  = $stmt->fetch();
 
-		if ($IN['search_string'] == "")
-		{
-			$stmt = $ibforums->db->query("SELECT COUNT(wlog_id) as count FROM ibf_warn_logs WHERE wlog_mid='" . $IN['mid'] . "'");
-			$row  = $stmt->fetch();
+            $row_count = $row['count'];
 
-			$row_count = $row['count'];
+            $query = "&act=warnlog&mid={$IN['mid']}&code=view";
 
-			$query = "&act=warnlog&mid={$IN['mid']}&code=view";
-
-			$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+            $stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
 						FROM ibf_warn_logs l
 						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
 						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
 					    WHERE l.wlog_mid={$IN['mid']}
 					    ORDER BY l.wlog_date DESC LIMIT $start,30");
-		} else
-		{
-			$IN['search_string'] = urldecode($IN['search_string']);
+        } else {
+            $IN['search_string'] = urldecode($IN['search_string']);
 
-			if (($IN['search_type'] == 'notes'))
-			{
-				$dbq = "l.wlog_notes LIKE '%" . $IN['search_string'] . "%'";
-			} else
-			{
-				$dbq = "l.wlog_contact_content LIKE '%" . $IN['search_string'] . "%'";
-			}
+            if (($IN['search_type'] == 'notes')) {
+                $dbq = "l.wlog_notes LIKE '%" . $IN['search_string'] . "%'";
+            } else {
+                $dbq = "l.wlog_contact_content LIKE '%" . $IN['search_string'] . "%'";
+            }
 
-			$stmt = $ibforums->db->query("SELECT COUNT(l.wlog_id) as count FROM ibf_warn_logs l WHERE $dbq");
-			$row  = $stmt->fetch();
+            $stmt = $ibforums->db->query("SELECT COUNT(l.wlog_id) as count FROM ibf_warn_logs l WHERE $dbq");
+            $row  = $stmt->fetch();
 
-			$row_count = $row['count'];
+            $row_count = $row['count'];
 
-			$query = "&act=warnlog&code=view&search_type={$IN['search_type']}&search_string=" . urlencode($IN['search_string']);
+            $query = "&act=warnlog&code=view&search_type={$IN['search_type']}&search_string=" . urlencode($IN['search_string']);
 
-			$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+            $stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
 						FROM ibf_warn_logs l
 						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
 						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
 					    WHERE $dbq
 					    ORDER BY l.wlog_date DESC LIMIT $start,30");
-		}
+        }
 
-		$links = $std->build_pagelinks(array(
-		                                    'TOTAL_POSS' => $row_count,
-		                                    'PER_PAGE'   => 30,
-		                                    'CUR_ST_VAL' => $start,
-		                                    'L_SINGLE'   => "Single Page",
-		                                    'L_MULTI'    => "Pages: ",
-		                                    'BASE_URL'   => $ADMIN->base_url . $query,
-		                               ));
+        $links = $std->build_pagelinks(array(
+                                            'TOTAL_POSS' => $row_count,
+                                            'PER_PAGE'   => 30,
+                                            'CUR_ST_VAL' => $start,
+                                            'L_SINGLE'   => "Single Page",
+                                            'L_MULTI'    => "Pages: ",
+                                            'BASE_URL'   => $ADMIN->base_url . $query,
+                                       ));
 
-		$ADMIN->page_detail = "You may view warn entries added by your moderators";
-		$ADMIN->page_title  = "Warn Logs Manager";
+        $ADMIN->page_detail = "You may view warn entries added by your moderators";
+        $ADMIN->page_title  = "Warn Logs Manager";
 
-		//+-------------------------------
+        //+-------------------------------
 
-		$SKIN->td_header[] = array("Type", "5%");
-		$SKIN->td_header[] = array("Member Name", "15%");
-		$SKIN->td_header[] = array("Contacted", "5%");
-		$SKIN->td_header[] = array("MOD Q", "10%");
-		$SKIN->td_header[] = array("SUSP", "10%");
-		$SKIN->td_header[] = array("NO POST", "10%");
-		$SKIN->td_header[] = array("Date", "15%");
-		$SKIN->td_header[] = array("Warned By", "15%");
-		$SKIN->td_header[] = array("View Note", "10%");
+        $SKIN->td_header[] = array("Type", "5%");
+        $SKIN->td_header[] = array("Member Name", "15%");
+        $SKIN->td_header[] = array("Contacted", "5%");
+        $SKIN->td_header[] = array("MOD Q", "10%");
+        $SKIN->td_header[] = array("SUSP", "10%");
+        $SKIN->td_header[] = array("NO POST", "10%");
+        $SKIN->td_header[] = array("Date", "15%");
+        $SKIN->td_header[] = array("Warned By", "15%");
+        $SKIN->td_header[] = array("View Note", "10%");
 
-		$ADMIN->html .= $SKIN->start_table("Saved Warn Logs");
-		$ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
+        $ADMIN->html .= $SKIN->start_table("Saved Warn Logs");
+        $ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
 
-		$days = array('d' => "Days", 'h' => "Hours");
+        $days = array('d' => "Days", 'h' => "Hours");
 
-		if ($stmt->rowCount())
-		{
-			while ($row = $stmt->fetch())
-			{
+        if ($stmt->rowCount()) {
+            while ($row = $stmt->fetch()) {
+                $row['wlog_date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
 
-				$row['wlog_date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
+                $type = ($row['wlog_type'] == 'pos')
+                    ? '<span style="color:green;font-weight:bold">-</span>'
+                    : '<span style="color:red;font-weight:bold">+</span>';
+                $cont = ($row['wlog_contact'] != 'none')
+                    ? "<center><a href='javascript:pop_win(\"&act=warnlog&code=viewcontact&id={$row['wlog_id']}\",400,400)'>View</a></center>"
+                    : '&nbsp;';
 
-				$type = ($row['wlog_type'] == 'pos')
-					? '<span style="color:green;font-weight:bold">-</span>'
-					: '<span style="color:red;font-weight:bold">+</span>';
-				$cont = ($row['wlog_contact'] != 'none')
-					? "<center><a href='javascript:pop_win(\"&act=warnlog&code=viewcontact&id={$row['wlog_id']}\",400,400)'>View</a></center>"
-					: '&nbsp;';
+                $mod     = preg_match("#<mod>(.+?)</mod>#is", $row['wlog_notes'], $mm);
+                $post    = preg_match("#<post>(.+?)</post>#is", $row['wlog_notes'], $pm);
+                $susp    = preg_match("#<susp>(.+?)</susp>#is", $row['wlog_notes'], $sm);
+                $content = preg_match("#<content>(.+?)</content>#is", $row['wlog_notes'], $cm);
 
-				$mod     = preg_match("#<mod>(.+?)</mod>#is", $row['wlog_notes'], $mm);
-				$post    = preg_match("#<post>(.+?)</post>#is", $row['wlog_notes'], $pm);
-				$susp    = preg_match("#<susp>(.+?)</susp>#is", $row['wlog_notes'], $sm);
-				$content = preg_match("#<content>(.+?)</content>#is", $row['wlog_notes'], $cm);
+                $content = $cm[1];
 
-				$content = $cm[1];
+                $mod  = trim($mm[1]);
+                $post = trim($pm[1]);
+                $susp = trim($sm[1]);
 
-				$mod  = trim($mm[1]);
-				$post = trim($pm[1]);
-				$susp = trim($sm[1]);
+                list($v, $u, $i) = explode(',', $mod);
 
-				list($v, $u, $i) = explode(',', $mod);
+                if ($i == 1) {
+                    $mod = 'INDEF';
+                } else {
+                    if ($v == "") {
+                        $mod = 'None';
+                    } else {
+                        $mod = $v . ' ' . $days[$u];
+                    }
+                }
 
-				if ($i == 1)
-				{
-					$mod = 'INDEF';
-				} else
-				{
-					if ($v == "")
-					{
-						$mod = 'None';
-					} else
-					{
-						$mod = $v . ' ' . $days[$u];
-					}
-				}
+                //----------
 
-				//----------
+                list($v, $u, $i) = explode(',', $post);
 
-				list($v, $u, $i) = explode(',', $post);
+                if ($i == 1) {
+                    $post = 'INDEF';
+                } else {
+                    if ($v == "") {
+                        $post = 'None';
+                    } else {
+                        $post = $v . ' ' . $days[$u];
+                    }
+                }
 
-				if ($i == 1)
-				{
-					$post = 'INDEF';
-				} else
-				{
-					if ($v == "")
-					{
-						$post = 'None';
-					} else
-					{
-						$post = $v . ' ' . $days[$u];
-					}
-				}
+                list($v, $u) = explode(',', $susp);
 
-				list($v, $u) = explode(',', $susp);
+                if ($v == "") {
+                    $susp = 'None';
+                } else {
+                    $susp = $v . ' ' . $days[$u];
+                }
 
-				if ($v == "")
-				{
-					$susp = 'None';
-				} else
-				{
-					$susp = $v . ' ' . $days[$u];
-				}
+                //----------
 
-				//----------
+                $ADMIN->html .= $SKIN->add_td_row(array(
+                                                       "<center>$type</center>",
+                                                       "<b>{$row['a_name']}</b>",
+                                                       $cont,
+                                                       $mod,
+                                                       $susp,
+                                                       $post,
+                                                       "{$row['wlog_date']}",
+                                                       "<b>{$row['p_name']}</b>",
+                                                       "<center><a href='javascript:pop_win(\"&act=warnlog&code=viewnote&id={$row['wlog_id']}\",400,400)'>View</a></center>"
+                                                  ));
+            }
+        } else {
+            $ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
+        }
 
-				$ADMIN->html .= $SKIN->add_td_row(array(
-				                                       "<center>$type</center>",
-				                                       "<b>{$row['a_name']}</b>",
-				                                       $cont,
-				                                       $mod,
-				                                       $susp,
-				                                       $post,
-				                                       "{$row['wlog_date']}",
-				                                       "<b>{$row['p_name']}</b>",
-				                                       "<center><a href='javascript:pop_win(\"&act=warnlog&code=viewnote&id={$row['wlog_id']}\",400,400)'>View</a></center>"
-				                                  ));
-			}
-		} else
-		{
-			$ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
-		}
+        $ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
 
-		$ADMIN->html .= $SKIN->add_td_basic($links, 'right', 'pformstrip');
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->html .= $SKIN->end_table();
+        //+-------------------------------
+        //+-------------------------------
 
-		//+-------------------------------
-		//+-------------------------------
+        $ADMIN->output();
+    }
 
-		$ADMIN->output();
+    //---------------------------------------------
+    // Remove archived files
+    //---------------------------------------------
 
-	}
+    function remove()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	//---------------------------------------------
-	// Remove archived files
-	//---------------------------------------------
+        if ($IN['mid'] == "") {
+            $ADMIN->error("You did not select a member ID to remove by!");
+        }
 
-	function remove()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $ibforums->db->exec("DELETE FROM ibf_warn_logs WHERE wlog_mid={$IN['mid']}");
 
-		if ($IN['mid'] == "")
-		{
-			$ADMIN->error("You did not select a member ID to remove by!");
-		}
+        $ADMIN->save_log("Removed Warn Logs");
 
-		$ibforums->db->exec("DELETE FROM ibf_warn_logs WHERE wlog_mid={$IN['mid']}");
+        $std->boink_it($ADMIN->base_url . "&act=warnlog");
+    }
 
-		$ADMIN->save_log("Removed Warn Logs");
+    //-------------------------------------------------------------
+    // SHOW LOGS
+    //-------------------------------------------------------------
 
-		$std->boink_it($ADMIN->base_url . "&act=warnlog");
-	}
+    function list_current()
+    {
+        global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
+        $ibforums = Ibf::app();
 
-	//-------------------------------------------------------------
-	// SHOW LOGS
-	//-------------------------------------------------------------
+        $form_array = array();
 
-	function list_current()
-	{
-		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
-		$ibforums = Ibf::app();
+        $ADMIN->page_detail = "You may view and remove warn actions performed by your staff.<br />Note: Removing the logs does not decrease the member's warn level";
+        $ADMIN->page_title  = "Warn Logs Manager";
 
-		$form_array = array();
+        //+-------------------------------
+        // VIEW LAST 5
+        //+-------------------------------
 
-		$ADMIN->page_detail = "You may view and remove warn actions performed by your staff.<br />Note: Removing the logs does not decrease the member's warn level";
-		$ADMIN->page_title  = "Warn Logs Manager";
-
-		//+-------------------------------
-		// VIEW LAST 5
-		//+-------------------------------
-
-		$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+        $stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
 				     FROM ibf_warn_logs l
 				     LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
 				     LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
 				    ORDER BY l.wlog_date DESC LIMIT 0,10");
 
-		$SKIN->td_header[] = array("Type", "5%");
-		$SKIN->td_header[] = array("Warned Member", "25%");
-		$SKIN->td_header[] = array("Contacted?", "5%");
-		$SKIN->td_header[] = array("Date", "25%");
-		$SKIN->td_header[] = array("Warned By", "25%");
+        $SKIN->td_header[] = array("Type", "5%");
+        $SKIN->td_header[] = array("Warned Member", "25%");
+        $SKIN->td_header[] = array("Contacted?", "5%");
+        $SKIN->td_header[] = array("Date", "25%");
+        $SKIN->td_header[] = array("Warned By", "25%");
 
-		$ADMIN->html .= $SKIN->start_table("Last 10 Warn Entries");
+        $ADMIN->html .= $SKIN->start_table("Last 10 Warn Entries");
 
-		if ($stmt->rowCount())
-		{
-			while ($row = $stmt->fetch())
-			{
+        if ($stmt->rowCount()) {
+            while ($row = $stmt->fetch()) {
+                $row['wlog_date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
 
-				$row['wlog_date'] = $ADMIN->get_date($row['wlog_date'], 'LONG');
+                $type = ($row['wlog_type'] == 'pos')
+                    ? '<span style="color:green;font-weight:bold">-</span>'
+                    : '<span style="color:red;font-weight:bold">+</span>';
+                $cont = ($row['wlog_contact'] != 'none')
+                    ? "<center><img src='{$SKIN->img_url}/acp_check.gif' border='0' alt='X'></center>"
+                    : '&nbsp;';
 
-				$type = ($row['wlog_type'] == 'pos')
-					? '<span style="color:green;font-weight:bold">-</span>'
-					: '<span style="color:red;font-weight:bold">+</span>';
-				$cont = ($row['wlog_contact'] != 'none')
-					? "<center><img src='{$SKIN->img_url}/acp_check.gif' border='0' alt='X'></center>"
-					: '&nbsp;';
+                $ADMIN->html .= $SKIN->add_td_row(array(
+                                                       "<center>$type</center>",
+                                                       "<b>{$row['a_name']}</b>",
+                                                       $cont,
+                                                       "{$row['wlog_date']}",
+                                                       "<b>{$row['p_name']}</b>",
+                                                  ));
+            }
+        } else {
+            $ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
+        }
 
-				$ADMIN->html .= $SKIN->add_td_row(array(
-				                                       "<center>$type</center>",
-				                                       "<b>{$row['a_name']}</b>",
-				                                       $cont,
-				                                       "{$row['wlog_date']}",
-				                                       "<b>{$row['p_name']}</b>",
-				                                  ));
-			}
-		} else
-		{
-			$ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
-		}
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->html .= $SKIN->end_table();
+        //+-------------------------------
 
-		//+-------------------------------
+        $SKIN->td_header[] = array("Member Name", "30%");
+        $SKIN->td_header[] = array("Times Warned", "20%");
+        $SKIN->td_header[] = array("View all by member", "20%");
+        $SKIN->td_header[] = array("Remove all by member", "30%");
 
-		$SKIN->td_header[] = array("Member Name", "30%");
-		$SKIN->td_header[] = array("Times Warned", "20%");
-		$SKIN->td_header[] = array("View all by member", "20%");
-		$SKIN->td_header[] = array("Remove all by member", "30%");
+        $ADMIN->html .= $SKIN->start_table("Saved Warn Logs");
 
-		$ADMIN->html .= $SKIN->start_table("Saved Warn Logs");
+        $stmt = $ibforums->db->query("SELECT l.*, m.name, count(l.wlog_mid) as act_count from ibf_warn_logs l, ibf_members m WHERE m.id=l.wlog_mid GROUP BY l.wlog_mid ORDER BY act_count DESC");
 
-		$stmt = $ibforums->db->query("SELECT l.*, m.name, count(l.wlog_mid) as act_count from ibf_warn_logs l, ibf_members m WHERE m.id=l.wlog_mid GROUP BY l.wlog_mid ORDER BY act_count DESC");
+        while ($r = $stmt->fetch()) {
+            $ADMIN->html .= $SKIN->add_td_row(array(
+                                                   "<b>{$r['name']}</b>",
+                                                   "<center>{$r['act_count']}</center>",
+                                                   "<center><a href='" . $SKIN->base_url . "&act=warnlog&code=view&mid={$r['wlog_mid']}'>View</a></center>",
+                                                   "<center><a href='" . $SKIN->base_url . "&act=warnlog&code=remove&mid={$r['wlog_mid']}'>Remove</a></center>",
+                                              ));
+        }
 
-		while ($r = $stmt->fetch())
-		{
+        $ADMIN->html .= $SKIN->end_table();
 
-			$ADMIN->html .= $SKIN->add_td_row(array(
-			                                       "<b>{$r['name']}</b>",
-			                                       "<center>{$r['act_count']}</center>",
-			                                       "<center><a href='" . $SKIN->base_url . "&act=warnlog&code=view&mid={$r['wlog_mid']}'>View</a></center>",
-			                                       "<center><a href='" . $SKIN->base_url . "&act=warnlog&code=remove&mid={$r['wlog_mid']}'>Remove</a></center>",
-			                                  ));
-		}
+        //+-------------------------------
+        //+-------------------------------
 
-		$ADMIN->html .= $SKIN->end_table();
+        $ADMIN->html .= $SKIN->start_form(array(
+                                               1 => array('code', 'view'),
+                                               2 => array('act', 'warnlog'),
+                                          ));
 
-		//+-------------------------------
-		//+-------------------------------
+        $SKIN->td_header[] = array("&nbsp;", "40%");
+        $SKIN->td_header[] = array("&nbsp;", "60%");
 
-		$ADMIN->html .= $SKIN->start_form(array(
-		                                       1 => array('code', 'view'),
-		                                       2 => array('act', 'warnlog'),
-		                                  ));
+        $ADMIN->html .= $SKIN->start_table("Search Warn Logs");
 
-		$SKIN->td_header[] = array("&nbsp;", "40%");
-		$SKIN->td_header[] = array("&nbsp;", "60%");
+        $form_array = array(
+            0 => array('notes', 'Entry Notes'),
+            1 => array('contact', 'Email/PM Sent'),
+        );
 
-		$ADMIN->html .= $SKIN->start_table("Search Warn Logs");
+        //+-------------------------------
 
-		$form_array = array(
-			0 => array('notes', 'Entry Notes'),
-			1 => array('contact', 'Email/PM Sent'),
-		);
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<b>Search for...</b>",
+                                               $SKIN->form_input("search_string")
+                                          ));
 
-		//+-------------------------------
+        $ADMIN->html .= $SKIN->add_td_row(array(
+                                               "<b>Search in...</b>",
+                                               $SKIN->form_dropdown("search_type", $form_array)
+                                          ));
 
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Search for...</b>",
-		                                       $SKIN->form_input("search_string")
-		                                  ));
+        $ADMIN->html .= $SKIN->end_form("Search");
 
-		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Search in...</b>",
-		                                       $SKIN->form_dropdown("search_type", $form_array)
-		                                  ));
+        $ADMIN->html .= $SKIN->end_table();
 
-		$ADMIN->html .= $SKIN->end_form("Search");
+        //+-------------------------------
+        //+-------------------------------
 
-		$ADMIN->html .= $SKIN->end_table();
-
-		//+-------------------------------
-		//+-------------------------------
-
-		$ADMIN->output();
-
-	}
-
+        $ADMIN->output();
+    }
 }
-
-?>

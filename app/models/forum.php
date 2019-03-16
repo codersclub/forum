@@ -3,12 +3,12 @@
 class forum
 {
 
-	public $id;
+    public $id;
 
-	public function update_last_topic_time()
-	{
+    public function update_last_topic_time()
+    {
 
-		$last_topic = Ibf::app()->db->query("SELECT
+        $last_topic = Ibf::app()->db->query("SELECT
 				t.last_post,
 				t.last_poster_id,
 				t.last_poster_name,
@@ -19,9 +19,8 @@ class forum
 			    ORDER BY t.last_post DESC
 			    LIMIT 1")->fetch();
 
-		if ($last_topic)
-		{
-			Ibf::app()->db->exec("UPDATE ibf_forums f
+        if ($last_topic) {
+            Ibf::app()->db->exec("UPDATE ibf_forums f
 				    SET
 						f.last_post		= '{$last_topic['last_post']}',
 						f.last_poster_id= '{$last_topic['last_poster_id']}',
@@ -30,8 +29,6 @@ class forum
 						f.last_title	= '{$last_topic['title']}'
 
 				    WHERE (f.id='{$this->id}')");
-		}
-
-	}
-
+        }
+    }
 }

@@ -23,22 +23,22 @@
 class admin_skin
 {
 
-	var $base_url;
-	var $img_url;
-	var $has_title;
-	var $td_widths = array();
-	var $td_header = array();
-	var $td_colspan;
+    var $base_url;
+    var $img_url;
+    var $has_title;
+    var $td_widths = array();
+    var $td_header = array();
+    var $td_colspan;
 
-	function __construct()
-	{
-		global $INFO, $IN;
-		$ibforums = Ibf::app();
+    function __construct()
+    {
+        global $INFO, $IN;
+        $ibforums = Ibf::app();
 
-		$this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
-		$this->img_url  = $INFO['html_url'] . '/sys-img';
-		$this->theme = 'admin';
-	}
+        $this->base_url = $INFO['board_url'] . "/admin." . $INFO['php_ext'] . "?adsess=" . $IN['AD_SESS'];
+        $this->img_url  = $INFO['html_url'] . '/sys-img';
+        $this->theme = 'admin';
+    }
 
     /**
      * Возвращает имя темы
@@ -49,16 +49,16 @@ class admin_skin
         return $this->theme;
     }
 
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
-	// Javascript elements
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    // Javascript elements
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function js_pop_win()
-	{
+    function js_pop_win()
+    {
 
-		return "
+        return "
 				<script language='javascript'>
 				<!--
 					function pop_win(theUrl, winName, theWidth, theHeight)
@@ -73,19 +73,17 @@ class admin_skin
 				//-->
 				</script>
 				";
+    }
 
-	}
+    function js_help_link($help = "", $text = "Quick Help")
+    {
+        return "( <a href='#' onClick=\"window.open('{$this->base_url}&act=quickhelp&id=$help','Help','width=250,height=400,resizable=yes,scrollbars=yes'); return false;\">$text</a> )";
+    }
 
-	function js_help_link($help = "", $text = "Quick Help")
-	{
-		return "( <a href='#' onClick=\"window.open('{$this->base_url}&act=quickhelp&id=$help','Help','width=250,height=400,resizable=yes,scrollbars=yes'); return false;\">$text</a> )";
+    function js_template_tools()
+    {
 
-	}
-
-	function js_template_tools()
-	{
-
-		return "
+        return "
 				<script language='javascript'>
 				<!--
 
@@ -142,13 +140,12 @@ class admin_skin
 				//-->
 				</script>
 				";
+    }
 
-	}
+    function js_checkdelete()
+    {
 
-	function js_checkdelete()
-	{
-
-		return "
+        return "
 				<script language='javascript'>
 				<!--
 				function checkdelete(theURL) {
@@ -167,11 +164,11 @@ class admin_skin
 				//-->
 				</script>
 				";
-	}
+    }
 
-	function js_no_specialchars()
-	{
-		return "
+    function js_no_specialchars()
+    {
+        return "
 				<script language='javascript'>
 				<!--
 				function no_specialchars(type) {
@@ -230,290 +227,250 @@ class admin_skin
 				//-->
 				</script>
 				";
-	}
+    }
 
-	function make_page_jump($tp = "", $pp = "", $ub = "")
-	{
-		global $IN, $INFO;
-		$ibforums = Ibf::app();
-		return "<a href='#' title=\"Jump to a page...\" onclick=\"multi_page_jump('$ub',$tp,$pp);\">Pages:</a>";
-	}
+    function make_page_jump($tp = "", $pp = "", $ub = "")
+    {
+        global $IN, $INFO;
+        $ibforums = Ibf::app();
+        return "<a href='#' title=\"Jump to a page...\" onclick=\"multi_page_jump('$ub',$tp,$pp);\">Pages:</a>";
+    }
 
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
-	// FORM ELEMENTS
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    // FORM ELEMENTS
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function start_form($hiddens = "", $name = 'theAdminForm', $js = "")
-	{
-		global $IN, $INFO;
-		$ibforums = Ibf::app();
+    function start_form($hiddens = "", $name = 'theAdminForm', $js = "")
+    {
+        global $IN, $INFO;
+        $ibforums = Ibf::app();
 
-		$form = "<form action='{$this->base_url}' method='post' name='$name' $js>
+        $form = "<form action='{$this->base_url}' method='post' name='$name' $js>
 				 <input type='hidden' name='adsess' value='{$IN['AD_SESS']}'>";
 
-		if (is_array($hiddens))
-		{
-			foreach ($hiddens as $k => $v)
-			{
-				$form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
-			}
-		}
+        if (is_array($hiddens)) {
+            foreach ($hiddens as $k => $v) {
+                $form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
+            }
+        }
 
-		return $form;
+        return $form;
+    }
 
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function form_hidden($hiddens = "")
+    {
 
-	function form_hidden($hiddens = "")
-	{
+        if (is_array($hiddens)) {
+            foreach ($hiddens as $k => $v) {
+                $form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
+            }
+        }
 
-		if (is_array($hiddens))
-		{
-			foreach ($hiddens as $k => $v)
-			{
-				$form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
-			}
-		}
+        return $form;
+    }
 
-		return $form;
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function end_form($text = "", $js = "")
+    {
+        // If we have text, we print another row of TD elements with a submit button
 
-	function end_form($text = "", $js = "")
-	{
-		// If we have text, we print another row of TD elements with a submit button
+        $html    = "";
+        $colspan = "";
 
-		$html    = "";
-		$colspan = "";
+        if ($text != "") {
+            if ($this->td_colspan > 0) {
+                $colspan = " colspan='" . $this->td_colspan . "' ";
+            }
 
-		if ($text != "")
-		{
-			if ($this->td_colspan > 0)
-			{
-				$colspan = " colspan='" . $this->td_colspan . "' ";
-			}
+            $html .= "<tr><td align='center' class='pformstrip'" . $colspan . "><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></td></tr>\n";
+        }
 
-			$html .= "<tr><td align='center' class='pformstrip'" . $colspan . "><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></td></tr>\n";
-		}
+        $html .= "</form>";
 
-		$html .= "</form>";
+        return $html;
+    }
 
-		return $html;
+    function end_form_line($text = "", $js = "")
+    {
+        // If we have text, we print another row of TD elements with a submit button
 
-	}
+        $html    = "";
+        $colspan = "";
 
-	function end_form_line($text = "", $js = "")
-	{
-		// If we have text, we print another row of TD elements with a submit button
+        if ($text != "") {
+            if ($this->td_colspan > 0) {
+                $colspan = " colspan='" . $this->td_colspan . "' ";
+            }
 
-		$html    = "";
-		$colspan = "";
+            $html .= "<input type='submit' value='$text'" . $js . " id='button' accesskey='s'>\n";
+        }
 
-		if ($text != "")
-		{
-			if ($this->td_colspan > 0)
-			{
-				$colspan = " colspan='" . $this->td_colspan . "' ";
-			}
+        $html .= "</form>";
 
-			$html .= "<input type='submit' value='$text'" . $js . " id='button' accesskey='s'>\n";
-		}
+        return $html;
+    }
 
-		$html .= "</form>";
+    //+--------------------------------------------------------------------
 
-		return $html;
+    function end_form_standalone($text = "", $js = "")
+    {
 
-	}
+        $html    = "";
+        $colspan = "";
 
-	//+--------------------------------------------------------------------
+        if ($text != "") {
+            $html .= "<div class='tableborder'><div align='center' class='pformstrip'><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></div></div>\n";
+        }
 
-	function end_form_standalone($text = "", $js = "")
-	{
+        $html .= "</form>";
 
-		$html    = "";
-		$colspan = "";
+        return $html;
+    }
 
-		if ($text != "")
-		{
-			$html .= "<div class='tableborder'><div align='center' class='pformstrip'><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></div></div>\n";
-		}
+    //+--------------------------------------------------------------------
 
-		$html .= "</form>";
+    function form_upload($name = "FILE_UPLOAD", $js = "")
+    {
 
-		return $html;
+        if ($js != "") {
+            $js = ' ' . $js . ' ';
+        }
 
-	}
+        return "<input class='textinput' type='file' $js size='30' name='$name'>";
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_upload($name = "FILE_UPLOAD", $js = "")
-	{
+    function form_input($name, $value = "", $type = 'text', $js = "", $size = "30")
+    {
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+        if ($js != "") {
+            $js = ' ' . $js . ' ';
+        }
 
-		return "<input class='textinput' type='file' $js size='30' name='$name'>";
+        return "<input type='$type' name='$name' value='$value' size='$size'" . $js . " class='textinput'>";
+    }
 
-	}
+    function form_simple_input($name, $value = "", $size = '5')
+    {
 
-	//+--------------------------------------------------------------------
+        return "<input type='text' name='$name' value='$value' size='$size' class='textinput'>";
+    }
 
-	function form_input($name, $value = "", $type = 'text', $js = "", $size = "30")
-	{
+    //+--------------------------------------------------------------------
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+    function form_textarea($name, $value = "", $cols = '60', $rows = '5', $wrap = 'soft')
+    {
 
-		return "<input type='$type' name='$name' value='$value' size='$size'" . $js . " class='textinput'>";
+        return "<textarea name='$name' cols='$cols' rows='$rows' wrap='$wrap' class='multitext'>$value</textarea>";
+    }
 
-	}
+    //+--------------------------------------------------------------------
 
-	function form_simple_input($name, $value = "", $size = '5')
-	{
+    function form_dropdown($name, $list = array(), $default_val = "", $js = "")
+    {
 
-		return "<input type='text' name='$name' value='$value' size='$size' class='textinput'>";
+        if ($js != "") {
+            $js = ' ' . $js . ' ';
+        }
 
-	}
+        $html = "<select name='$name'" . $js . " class='dropdown'>\n";
 
-	//+--------------------------------------------------------------------
+        foreach ($list as $k => $v) {
+            $selected = "";
 
-	function form_textarea($name, $value = "", $cols = '60', $rows = '5', $wrap = 'soft')
-	{
+            if (($default_val != "") and ($v[0] == $default_val)) {
+                $selected = ' selected';
+            }
 
-		return "<textarea name='$name' cols='$cols' rows='$rows' wrap='$wrap' class='multitext'>$value</textarea>";
+            $html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
+        }
 
-	}
+        $html .= "</select>\n\n";
 
-	//+--------------------------------------------------------------------
+        return $html;
+    }
 
-	function form_dropdown($name, $list = array(), $default_val = "", $js = "")
-	{
+    //+--------------------------------------------------------------------
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+    function form_multiselect($name, $list = array(), $default = array(), $size = 5, $js = "")
+    {
 
-		$html = "<select name='$name'" . $js . " class='dropdown'>\n";
+        if ($js != "") {
+            $js = ' ' . $js . ' ';
+        }
 
-		foreach ($list as $k => $v)
-		{
+        //$html = "<select name='$name".'[]'."'".$js." id='dropdown' multiple='multiple' size='$size'>\n";
+        $html = "<select name='$name" . "'" . $js . " class='dropdown' multiple='multiple' size='$size'>\n";
+        foreach ($list as $k => $v) {
+            $selected = "";
 
-			$selected = "";
+            if (count($default) > 0) {
+                if (in_array($v[0], $default)) {
+                    $selected = ' selected="selected"';
+                }
+            }
 
-			if (($default_val != "") and ($v[0] == $default_val))
-			{
-				$selected = ' selected';
-			}
+            $html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
+        }
 
-			$html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
-		}
+        $html .= "</select>\n\n";
 
-		$html .= "</select>\n\n";
+        return $html;
+    }
 
-		return $html;
+    //+--------------------------------------------------------------------
 
-	}
+    function form_yes_no($name, $default_val = "", $js = array())
+    {
 
-	//+--------------------------------------------------------------------
+        $y_js = "";
+        $n_js = "";
 
-	function form_multiselect($name, $list = array(), $default = array(), $size = 5, $js = "")
-	{
+        if ($js['yes'] != "") {
+            $y_js = $js['yes'];
+        }
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+        if ($js['no'] != "") {
+            $n_js = $js['no'];
+        }
 
-		//$html = "<select name='$name".'[]'."'".$js." id='dropdown' multiple='multiple' size='$size'>\n";
-		$html = "<select name='$name" . "'" . $js . " class='dropdown' multiple='multiple' size='$size'>\n";
-		foreach ($list as $k => $v)
-		{
+        $yes = "Yes &nbsp; <input type='radio' name='$name' value='1' $y_js id='green'>";
+        $no  = "<input type='radio' name='$name' value='0' $n_js id='red'> &nbsp; No";
 
-			$selected = "";
+        if ($default_val == 1) {
+            $yes = "Yes &nbsp; <input type='radio' name='$name' value='1'$y_js checked id='green'>";
+        } else {
+            $no = "<input type='radio' name='$name' value='0' checked $n_js id='red'> &nbsp; No";
+        }
 
-			if (count($default) > 0)
-			{
-				if (in_array($v[0], $default))
-				{
-					$selected = ' selected="selected"';
-				}
-			}
+        return $yes . '&nbsp;&nbsp;&nbsp;' . $no;
+    }
 
-			$html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
-		}
+    //+--------------------------------------------------------------------
 
-		$html .= "</select>\n\n";
+    function form_checkbox($name, $checked = 0, $val = 1, $js = array())
+    {
 
-		return $html;
+        if ($checked == 1) {
+            return "<input type='checkbox' name='$name' value='$val' checked='checked'>";
+        } else {
+            return "<input type='checkbox' name='$name' value='$val'>";
+        }
+    }
 
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function build_group_perms($read = '*', $write = '*', $reply = '*', $upload = '*')
+    {
+        $ibforums = Ibf::app();
 
-	function form_yes_no($name, $default_val = "", $js = array())
-	{
-
-		$y_js = "";
-		$n_js = "";
-
-		if ($js['yes'] != "")
-		{
-			$y_js = $js['yes'];
-		}
-
-		if ($js['no'] != "")
-		{
-			$n_js = $js['no'];
-		}
-
-		$yes = "Yes &nbsp; <input type='radio' name='$name' value='1' $y_js id='green'>";
-		$no  = "<input type='radio' name='$name' value='0' $n_js id='red'> &nbsp; No";
-
-		if ($default_val == 1)
-		{
-
-			$yes = "Yes &nbsp; <input type='radio' name='$name' value='1'$y_js checked id='green'>";
-		} else
-		{
-			$no = "<input type='radio' name='$name' value='0' checked $n_js id='red'> &nbsp; No";
-		}
-
-		return $yes . '&nbsp;&nbsp;&nbsp;' . $no;
-
-	}
-
-	//+--------------------------------------------------------------------
-
-	function form_checkbox($name, $checked = 0, $val = 1, $js = array())
-	{
-
-		if ($checked == 1)
-		{
-
-			return "<input type='checkbox' name='$name' value='$val' checked='checked'>";
-		} else
-		{
-			return "<input type='checkbox' name='$name' value='$val'>";
-		}
-
-	}
-
-	//+--------------------------------------------------------------------
-
-	function build_group_perms($read = '*', $write = '*', $reply = '*', $upload = '*')
-	{
-		$ibforums = Ibf::app();
-
-		$html = "
+        $html = "
 
 				<script language='Javascript1.1'>
 				<!--
@@ -597,328 +554,274 @@ class admin_skin
 
 				";
 
-		$html .= $this->add_td_basic("GLOBAL: All current and future permission masks", "left", "pformstrip");
+        $html .= $this->add_td_basic("GLOBAL: All current and future permission masks", "left", "pformstrip");
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		if ($read == '*')
-		{
-			$html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1'>\n";
-		}
+        if ($read == '*') {
+            $html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1' checked>\n";
+        } else {
+            $html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1'>\n";
+        }
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		if ($reply == '*')
-		{
-			$html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1'>\n";
-		}
+        if ($reply == '*') {
+            $html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1' checked>\n";
+        } else {
+            $html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1'>\n";
+        }
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		if ($write == '*')
-		{
-			$html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1'>\n";
-		}
+        if ($write == '*') {
+            $html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1' checked>\n";
+        } else {
+            $html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1'>\n";
+        }
 
-		if ($upload == '*')
-		{
-			$html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1'>\n";
-		}
+        if ($upload == '*') {
+            $html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1' checked>\n";
+        } else {
+            $html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1'>\n";
+        }
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		$html .= $this->add_td_row(array(
-		                                "<b>All current and future permission masks</b>",
-		                                "<center id='mgblue'>$html_read</center>",
-		                                "<center id='mggreen'>$html_reply</center>",
-		                                "<center id='mgred'>$html_start</center>",
-		                                "<center id='memgroup'>$html_upload</center>",
-		                           ));
+        $html .= $this->add_td_row(array(
+                                        "<b>All current and future permission masks</b>",
+                                        "<center id='mgblue'>$html_read</center>",
+                                        "<center id='mggreen'>$html_reply</center>",
+                                        "<center id='mgred'>$html_start</center>",
+                                        "<center id='memgroup'>$html_upload</center>",
+                                   ));
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		$html .= $this->add_td_basic("OR: Adjust permissions per mask below", "left", "pformstrip");
+        $html .= $this->add_td_basic("OR: Adjust permissions per mask below", "left", "pformstrip");
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms ORDER BY perm_name ASC");
+        $stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms ORDER BY perm_name ASC");
 
-		while ($data = $stmt->fetch())
-		{
-			if ($read == '*')
-			{
-				$html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(1)\">";
-			} else
-			{
-				if (preg_match("/(^|,)" . $data['perm_id'] . "(,|$)/", $read))
-				{
-					$html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(1)\">";
-				} else
-				{
-					$html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' onclick=\"obj_checked(1)\">";
-				}
-			}
+        while ($data = $stmt->fetch()) {
+            if ($read == '*') {
+                $html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(1)\">";
+            } else {
+                if (preg_match("/(^|,)" . $data['perm_id'] . "(,|$)/", $read)) {
+                    $html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(1)\">";
+                } else {
+                    $html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' onclick=\"obj_checked(1)\">";
+                }
+            }
 
-			//+----------------------------------------------------------------------------------------
+            //+----------------------------------------------------------------------------------------
 
-			if ($reply == '*')
-			{
-				$html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(2)\">";
-			} else
-			{
-				if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $reply))
-				{
-					$html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' onclick=\"obj_checked(2)\" checked>";
-				} else
-				{
-					$html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' onclick=\"obj_checked(2)\">";
-				}
-			}
+            if ($reply == '*') {
+                $html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(2)\">";
+            } else {
+                if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $reply)) {
+                    $html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' onclick=\"obj_checked(2)\" checked>";
+                } else {
+                    $html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' onclick=\"obj_checked(2)\">";
+                }
+            }
 
-			//+----------------------------------------------------------------------------------------
+            //+----------------------------------------------------------------------------------------
 
-			if ($write == '*')
-			{
-				$html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(3)\">";
-			} else
-			{
-				if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $write))
-				{
-					$html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(3)\">";
-				} else
-				{
-					$html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' onclick=\"obj_checked(3)\">";
-				}
-			}
+            if ($write == '*') {
+                $html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(3)\">";
+            } else {
+                if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $write)) {
+                    $html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(3)\">";
+                } else {
+                    $html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' onclick=\"obj_checked(3)\">";
+                }
+            }
 
-			//+----------------------------------------------------------------------------------------
+            //+----------------------------------------------------------------------------------------
 
-			if ($upload == '*')
-			{
-				$html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(4)\">";
-			} else
-			{
-				if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $upload))
-				{
-					$html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(4)\">";
-				} else
-				{
-					$html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' onclick=\"obj_checked(4)\">";
-				}
-			}
+            if ($upload == '*') {
+                $html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(4)\">";
+            } else {
+                if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $upload)) {
+                    $html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(4)\">";
+                } else {
+                    $html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' onclick=\"obj_checked(4)\">";
+                }
+            }
 
-			$html .= $this->add_td_row(array(
-			                                "<div align='right' style='font-weight:bold'>{$data['perm_name']}</div>",
-			                                "<center id='mgblue'>$html_read</center>",
-			                                "<center id='mggreen'>$html_reply</center>",
-			                                "<center id='mgred'>$html_start</center>",
-			                                "<center id='memgroup'>$html_upload</center>",
-			                           ));
-		}
+            $html .= $this->add_td_row(array(
+                                            "<div align='right' style='font-weight:bold'>{$data['perm_name']}</div>",
+                                            "<center id='mgblue'>$html_read</center>",
+                                            "<center id='mggreen'>$html_reply</center>",
+                                            "<center id='mgred'>$html_start</center>",
+                                            "<center id='memgroup'>$html_upload</center>",
+                                       ));
+        }
 
-		return $html;
+        return $html;
+    }
 
-	}
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    // SCREEN ELEMENTS
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
-	// SCREEN ELEMENTS
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
+    function add_subtitle($title = "", $id = "subtitle", $colspan = "")
+    {
 
-	function add_subtitle($title = "", $id = "subtitle", $colspan = "")
-	{
+        if ($colspan != "") {
+            $colspan = " colspan='$colspan' ";
+        }
 
-		if ($colspan != "")
-		{
-			$colspan = " colspan='$colspan' ";
-		}
+        return "\n<tr><td id='$id'" . $colspan . ">$title</td><tr>\n";
+    }
 
-		return "\n<tr><td id='$id'" . $colspan . ">$title</td><tr>\n";
+    //+--------------------------------------------------------------------
 
-	}
+    function start_table($title = "", $desc = "")
+    {
 
-	//+--------------------------------------------------------------------
-
-	function start_table($title = "", $desc = "")
-	{
-
-		if ($title != "")
-		{
-			$this->has_title = 1;
-			$html .= "<div class='tableborder'>
+        if ($title != "") {
+            $this->has_title = 1;
+            $html .= "<div class='tableborder'>
 						<div class='maintitle'>$title</div>\n";
 
-			if ($desc != "")
-			{
-				$html .= "<div class='pformstrip'>$desc</div>\n";
-			}
-		}
+            if ($desc != "") {
+                $html .= "<div class='pformstrip'>$desc</div>\n";
+            }
+        }
 
-		$html .= "\n<table width='100%' cellspacing='0' cellpadding='5' align='center' border='0'>";
+        $html .= "\n<table width='100%' cellspacing='0' cellpadding='5' align='center' border='0'>";
 
-		if (isset($this->td_header[0]))
-		{
-			$html .= "<tr>\n";
+        if (isset($this->td_header[0])) {
+            $html .= "<tr>\n";
 
-			// Auto remove two &nbsp; only headers..
+            // Auto remove two &nbsp; only headers..
 
-			if ($this->td_header[0][0] == '&nbsp;' && $this->td_header[1][0] == '&nbsp;' && (!isset($this->td_header[2][0])))
-			{
-				$this->td_header[0][0] = '{none}';
-				$this->td_header[1][0] = '{none}';
-			}
+            if ($this->td_header[0][0] == '&nbsp;' && $this->td_header[1][0] == '&nbsp;' && (!isset($this->td_header[2][0]))) {
+                $this->td_header[0][0] = '{none}';
+                $this->td_header[1][0] = '{none}';
+            }
 
-			foreach ($this->td_header as $td)
-			{
-				if ($td[1] != "")
-				{
-					$width = " width='{$td[1]}' ";
-				} else
-				{
-					$width = "";
-				}
+            foreach ($this->td_header as $td) {
+                if ($td[1] != "") {
+                    $width = " width='{$td[1]}' ";
+                } else {
+                    $width = "";
+                }
 
-				if ($td[0] != '{none}')
-				{
-					$html .= "<td class='titlemedium'" . $width . "align='center'>{$td[0]}</td>\n";
-				}
+                if ($td[0] != '{none}') {
+                    $html .= "<td class='titlemedium'" . $width . "align='center'>{$td[0]}</td>\n";
+                }
 
-				$this->td_colspan++;
-			}
+                $this->td_colspan++;
+            }
 
-			$html .= "</tr>\n";
-		}
+            $html .= "</tr>\n";
+        }
 
-		return $html;
+        return $html;
+    }
 
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function add_td_row($array, $css = "", $align = 'middle')
+    {
 
-	function add_td_row($array, $css = "", $align = 'middle')
-	{
+        if (is_array($array)) {
+            $html = "<tr>\n";
 
-		if (is_array($array))
-		{
-			$html = "<tr>\n";
+            $count = count($array);
 
-			$count = count($array);
+            $this->td_colspan = $count;
 
-			$this->td_colspan = $count;
+            for ($i = 0; $i < $count; $i++) {
+                $td_col = $i % 2
+                    ? 'tdrow2'
+                    : 'tdrow1';
 
-			for ($i = 0; $i < $count; $i++)
-			{
+                if ($css != "") {
+                    $td_col = $css;
+                }
 
-				$td_col = $i % 2
-					? 'tdrow2'
-					: 'tdrow1';
+                if (is_array($array[$i])) {
+                    $text    = $array[$i][0];
+                    $colspan = $array[$i][1];
 
-				if ($css != "")
-				{
-					$td_col = $css;
-				}
+                    $html .= "<td class='$td_col' colspan='$colspan' valign='$align' class='$css'>" . $text . "</td>\n";
+                } else {
+                    if ($this->td_header[$i][1] != "") {
+                        $width = " width='{$this->td_header[$i][1]}' ";
+                    } else {
+                        $width = "";
+                    }
 
-				if (is_array($array[$i]))
-				{
-					$text    = $array[$i][0];
-					$colspan = $array[$i][1];
+                    $html .= "<td class='$td_col' $width valign='$align'>" . $array[$i] . "</td>\n";
+                }
+            }
 
-					$html .= "<td class='$td_col' colspan='$colspan' valign='$align' class='$css'>" . $text . "</td>\n";
-				} else
-				{
-					if ($this->td_header[$i][1] != "")
-					{
-						$width = " width='{$this->td_header[$i][1]}' ";
-					} else
-					{
-						$width = "";
-					}
+            $html .= "</tr>\n";
 
-					$html .= "<td class='$td_col' $width valign='$align'>" . $array[$i] . "</td>\n";
-				}
-			}
+            return $html;
+        }
+    }
 
-			$html .= "</tr>\n";
+    //+--------------------------------------------------------------------
 
-			return $html;
-		}
+    function add_td_basic($text = "", $align = "left", $id = "tdrow1")
+    {
 
-	}
+        $html    = "";
+        $colspan = "";
 
-	//+--------------------------------------------------------------------
+        if ($text != "") {
+            if ($this->td_colspan > 0) {
+                $colspan = " colspan='" . $this->td_colspan . "' ";
+            }
 
-	function add_td_basic($text = "", $align = "left", $id = "tdrow1")
-	{
+            $html .= "<tr><td align='$align' class='$id'" . $colspan . ">$text</td></tr>\n";
+        }
 
-		$html    = "";
-		$colspan = "";
+        return $html;
+    }
 
-		if ($text != "")
-		{
-			if ($this->td_colspan > 0)
-			{
-				$colspan = " colspan='" . $this->td_colspan . "' ";
-			}
+    //+--------------------------------------------------------------------
 
-			$html .= "<tr><td align='$align' class='$id'" . $colspan . ">$text</td></tr>\n";
-		}
+    function add_td_spacer()
+    {
 
-		return $html;
+        if ($this->td_colspan > 0) {
+            $colspan = " colspan='" . $this->td_colspan . "' ";
+        }
 
-	}
+        return "<tr><td" . $colspan . "><img src='html/sys-img/blank.gif' height='7' width='1'></td></tr>";
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function add_td_spacer()
-	{
+    function end_table()
+    {
 
-		if ($this->td_colspan > 0)
-		{
-			$colspan = " colspan='" . $this->td_colspan . "' ";
-		}
+        $this->td_header = array(); // Reset TD headers
 
-		return "<tr><td" . $colspan . "><img src='html/sys-img/blank.gif' height='7' width='1'></td></tr>";
+        if ($this->has_title == 1) {
+            $this->has_title = 0;
 
-	}
+            return "</table></div><br />\n\n";
+        } else {
+            return "</table>\n\n";
+        }
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function end_table()
-	{
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-		$this->td_header = array(); // Reset TD headers
-
-		if ($this->has_title == 1)
-		{
-			$this->has_title = 0;
-
-			return "</table></div><br />\n\n";
-		} else
-		{
-			return "</table>\n\n";
-		}
-
-	}
-
-	//+--------------------------------------------------------------------
-
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
-
-	function get_css()
-	{
-		return "<style type='text/css'>
+    function get_css()
+    {
+        return "<style type='text/css'>
 					BODY {
 							font-size: 10px;
 							font-family: Verdana, Arial, Sans-Serif;
@@ -1046,16 +949,16 @@ class admin_skin
 					#jwrap { border:1px solid #BCD0ED;background-color: #DFE6EF;font-size:10px;margin:3px 0px 3px 0px;color:#3A4F6C;font-weight:bold;padding:8px }
 
 				  </style>";
-	}
+    }
 
-	function print_top($title = "", $desc = "")
-	{
-		global $INFO;
-		$ibforums = Ibf::app();
+    function print_top($title = "", $desc = "")
+    {
+        global $INFO;
+        $ibforums = Ibf::app();
 
-		$css = $this->get_css();
+        $css = $this->get_css();
 
-		return "<html>
+        return "<html>
 		          <head><title>Menu</title>
 		          <meta http-equiv=\"content-type\" content=\"text/html; charset={$INFO['charset']}\">
 		          <meta HTTP-EQUIV=\"Pragma\"  CONTENT=\"no-cache\">
@@ -1126,39 +1029,38 @@ class admin_skin
 				 <!--NAV-->
 				 <div id='description'>$desc</div>
 				 <br />";
+    }
 
-	}
+    function wrap_nav($links)
+    {
+        return "\n<div id='nav'><img src='" . $this->img_url . "/nav.gif' border='0' title='ACP Navigation'>&nbsp;$links</div>\n";
+        //  return "\n<div id='nav'><img src='html/sys-img/nav.gif' border='0' title='ACP Navigation'>&nbsp;$links</div>\n";
+    }
 
-	function wrap_nav($links)
-	{
-		return "\n<div id='nav'><img src='" . $this->img_url . "/nav.gif' border='0' title='ACP Navigation'>&nbsp;$links</div>\n";
-		//	return "\n<div id='nav'><img src='html/sys-img/nav.gif' border='0' title='ACP Navigation'>&nbsp;$links</div>\n";
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function print_foot()
+    {
 
-	function print_foot()
-	{
-
-		return "<br />
+        return "<br />
 				<div align='right' id='jwrap'><strong>Quick Jump</strong> <!--JUMP--></div>
 				<div class='copy' align='center'>Invision Power Board &copy 2003 <a href='http://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>
 				 </body>
 				 </html>";
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	//{ background-color:#C2CFDF; font-weight:bold; font-size:12px; color:#000055 }
+    //{ background-color:#C2CFDF; font-weight:bold; font-size:12px; color:#000055 }
 
-	function menu_top()
-	{
-		global $INFO;
-		$ibforums = Ibf::app();
+    function menu_top()
+    {
+        global $INFO;
+        $ibforums = Ibf::app();
 
-		$pop_win = $this->js_pop_win();
+        $pop_win = $this->js_pop_win();
 
-		return "<html>
+        return "<html>
 		          <head><title>Menu</title>
 		          <style type='text/css'>
 		          	TABLE, TR, TD     { font-family:Verdana, Arial;font-size: 9px; color:#000 }
@@ -1221,27 +1123,26 @@ class admin_skin
 				 </div>
 				 <br />
 				";
+    }
 
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function menu_foot()
+    {
 
-	function menu_foot()
-	{
-
-		return "
+        return "
 				</body>
 				 </html>";
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function menu_cat_expanded($name = "", $links = "", $id = "")
-	{
-		global $IN;
-		$ibforums = Ibf::app();
+    function menu_cat_expanded($name = "", $links = "", $id = "")
+    {
+        global $IN;
+        $ibforums = Ibf::app();
 
-		return "<a name='cat$id'></a>
+        return "<a name='cat$id'></a>
 				<div class='tableborder'>
 				  <div class='cattitle'>
 				    <a href='{$this->base_url}&act=menu&show={$IN['show']}&out=$id' target='menu'><img src='{$this->img_url}/minus.gif' border='0' alt='Collapse Category' title='Collapse Category'></a>
@@ -1250,17 +1151,16 @@ class admin_skin
 				  <div class='plain'>$links</div>
 				</div>
 				<br />\n";
+    }
 
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function menu_cat_collapsed($name = "", $id = "", $desc = "")
+    {
+        global $IN;
+        $ibforums = Ibf::app();
 
-	function menu_cat_collapsed($name = "", $id = "", $desc = "")
-	{
-		global $IN;
-		$ibforums = Ibf::app();
-
-		return "<div class='tableborder'>
+        return "<div class='tableborder'>
 				  <div class='cattitle'>
 				    <a href='{$this->base_url}&act=menu&show=,{$IN['show']},$id#cat$id' target='menu'><img src='{$this->img_url}/plus.gif' border='0' alt='Collapse Category' title='Collapse Category'></a>
 				    <a href='{$this->base_url}&act=menu&show=,{$IN['show']},$id#cat$id' target='menu'>$name</a>
@@ -1268,35 +1168,31 @@ class admin_skin
 				  <div class='desc'>$desc</div>
 				</div>
 				<br />\n";
+    }
 
-	}
+    //+--------------------------------------------------------------------
 
-	//+--------------------------------------------------------------------
+    function menu_cat_link($url = "", $name = "", $urltype = 0)
+    {
+        global $INFO;
+        $ibforums = Ibf::app();
 
-	function menu_cat_link($url = "", $name = "", $urltype = 0)
-	{
-		global $INFO;
-		$ibforums = Ibf::app();
+        if ($urltype == 1) {
+            $theurl = $INFO['board_url'] . '/index.' . $INFO['php_ext'] . '?';
+        } else {
+            $theurl = $this->base_url;
+        }
 
-		if ($urltype == 1)
-		{
-			$theurl = $INFO['board_url'] . '/index.' . $INFO['php_ext'] . '?';
-		} else
-		{
-			$theurl = $this->base_url;
-		}
+        return "<img src='{$this->img_url}/item.gif' border='0' alt='' valign='absmiddle'>&nbsp;<a href='{$theurl}&$url' target='body' style='text-decoration:none'>$name</a><br />";
+    }
 
-		return "<img src='{$this->img_url}/item.gif' border='0' alt='' valign='absmiddle'>&nbsp;<a href='{$theurl}&$url' target='body' style='text-decoration:none'>$name</a><br />";
+    //+--------------------------------------------------------------------
 
-	}
+    function frame_set()
+    {
+        global $IN, $ibforums;
 
-	//+--------------------------------------------------------------------
-
-	function frame_set()
-	{
-		global $IN, $ibforums;
-
-		$frames = "<html>
+        $frames = "<html>
 		   			 <head><title>Invision Power Board Administration Center</title></head>
 					   <frameset cols='185, *' frameborder='no' border='0' framespacing='0'>
 					   	<frame name='menu' noresize scrolling='auto' src='{$this->base_url}&act=menu'>
@@ -1304,10 +1200,6 @@ class admin_skin
 					   </frameset>
 				   </html>";
 
-		return $frames;
-
-	}
-
+        return $frames;
+    }
 }
-
-?>

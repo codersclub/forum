@@ -2,7 +2,7 @@
 
 use Views\View;
 
-$fav = new fav;
+$fav = new fav();
 
 /**
  * Favorites controller
@@ -10,213 +10,177 @@ $fav = new fav;
  */
 class fav
 {
-	var $output = "";
-	var $nav = "";
+    var $output = "";
+    var $nav = "";
 
-	function __construct()
-	{
-		if (Ibf::app()->input['show'] or Ibf::app()->input['topic'])
-		{
-			$this->nav[] = Ibf::app()->lang['favorites'];
+    function __construct()
+    {
+        if (Ibf::app()->input['show'] or Ibf::app()->input['topic']) {
+            $this->nav[] = Ibf::app()->lang['favorites'];
 
-			if (!Ibf::app()->member['id'])
-			{
-				Ibf::app()->functions->Error(array('LEVEL' => 1, 'MSG' => 'fav_guest'));
-			}
+            if (!Ibf::app()->member['id']) {
+                Ibf::app()->functions->Error(array('LEVEL' => 1, 'MSG' => 'fav_guest'));
+            }
 
-			//topic actions
-			if (Ibf::app()->input['topic'])
-			{
-				$this->doTopic(Ibf::app()->input['topic']);
-			} else
-			{
-				$this->show();
-			}
-		} else
-		{
-			global $print;
-			$print->redirect_screen();
+            //topic actions
+            if (Ibf::app()->input['topic']) {
+                $this->doTopic(Ibf::app()->input['topic']);
+            } else {
+                $this->show();
+            }
+        } else {
+            global $print;
+            $print->redirect_screen();
+        }
+    }
 
-		}
-	}
+    private function doTopic($topic_id)
+    {
+        $topic = $this->getTopicInfo($topic_id);
 
-	private function doTopic($topic_id)
-	{
-		$topic = $this->getTopicInfo($topic_id);
+        //add or delete topic
+        if ($topic === null) {
+            if (in_array($topic_id, Ibf::app()->member['favorites']->getTopicIds())) { //delete from favorites?
+                Ibf::app()->member['favorites']->deleteTopic($topic_id);
+                $topic = [
+                    'topic_id' => (int)$topic_id,
+                    'result'   => 'deleted',
+                    'track'    => false, //missing topic can't be tracked
+                ];
+            } else {
+                Ibf::app()->functions->Error(array(LEVEL => 1, MSG => 'mt_no_topic'));
+            }
+        } elseif ($topic['is_favorite']) {
+            //delete it
+            Ibf::app()->member['favorites']->deleteTopic($topic['topic_id']);
+            $topic['result'] = 'deleted';
+            $topic['track']  = (bool)Ibf::app()->input['track'];
+        } else {
+            //add it
+            Ibf::app()->member['favorites']->addTopic($topic['topic_id']);
+            $topic['result'] = 'added';
+        }
+        $this->redirect($topic);
+    }
 
-		//add or delete topic
-		if ($topic === NULL)
-		{
-			if (in_array($topic_id, Ibf::app()->member['favorites']->getTopicIds()))
-			{ //delete from favorites?
-				Ibf::app()->member['favorites']->deleteTopic($topic_id);
-				$topic = [
-					'topic_id' => (int)$topic_id,
-					'result'   => 'deleted',
-					'track'    => FALSE, //missing topic can't be tracked
-				];
+    //End function fav()
 
-			} else
-			{
-				Ibf::app()->functions->Error(array(LEVEL => 1, MSG => 'mt_no_topic'));
-			}
-		} elseif ($topic['is_favorite'])
-		{
-			//delete it
-			Ibf::app()->member['favorites']->deleteTopic($topic['topic_id']);
-			$topic['result'] = 'deleted';
-			$topic['track']  = (bool)Ibf::app()->input['track'];
-		} else
-		{
-			//add it
-			Ibf::app()->member['favorites']->addTopic($topic['topic_id']);
-			$topic['result'] = 'added';
-		}
-		$this->redirect($topic);
-	}
+    /**
+     * @param $topic_id int Topic id
+     * @return array|null
+     */
+    protected function getTopicInfo($topic_id)
+    {
+        settype($topic_id, 'int');
+        $info = Ibf::app()->db
+            ->prepare("SELECT tid, forum_id FROM ibf_topics WHERE tid=:tid")
+            ->bindParam(':tid', $topic_id, PDO::PARAM_INT)
+            ->execute()
+            ->fetch();
+        if (!$info) {
+            return null;
+        } else {
+            return [
+                'topic_id'    => (int)$info['tid'],
+                'forum_id'    => (int)$info['forum_id'],
+                'is_favorite' => in_array($topic_id, Ibf::app()->member['favorites']->getTopicIds())
+            ];
+        }
+    }
 
-	//End function fav()
+    /**
+     * Redirects somewhere
+     * @param $topic array Topic info
+     */
+    protected function redirect($topic)
+    {
+        global $print;
 
-	/**
-	 * @param $topic_id int Topic id
-	 * @return array|null
-	 */
-	protected function getTopicInfo($topic_id)
-	{
-		settype($topic_id, 'int');
-		$info = Ibf::app()->db
-			->prepare("SELECT tid, forum_id FROM ibf_topics WHERE tid=:tid")
-			->bindParam(':tid', $topic_id, PDO::PARAM_INT)
-			->execute()
-			->fetch();
-		if (!$info)
-		{
-			return NULL;
-		} else
-		{
-			return [
-				'topic_id'    => (int)$info['tid'],
-				'forum_id'    => (int)$info['forum_id'],
-				'is_favorite' => in_array($topic_id, Ibf::app()->member['favorites']->getTopicIds())
-			];
-		}
-	}
+        if (Ibf::app()->input['js'] and Ibf::app()->input['linkID']) {
+            $fav = $topic['result'] === 'deleted'
+                ? "fav1"
+                : "fav2";
+            $print->redirect_js_screen(
+                Ibf::app()->input['linkID'],
+                $fav,
+                Ibf::app()->base_url . "act=fav&topic={$topic['topic_id']}&js=1"
+            );
+        } else {
+            $refer = $_SERVER['HTTP_REFERER'];
 
-	/**
-	 * Redirects somewhere
-	 * @param $topic array Topic info
-	 */
-	protected function redirect($topic)
-	{
-		global $print;
+            if (!preg_match("#" . Ibf::app()->base_url . "\?#", $refer)) {
+                $refer = "";
+            }
 
-		if (Ibf::app()->input['js'] and Ibf::app()->input['linkID'])
-		{
-			$fav = $topic['result'] === 'deleted'
-				? "fav1"
-				: "fav2";
-			$print->redirect_js_screen(
-				Ibf::app()->input['linkID'],
-				$fav,
-				Ibf::app()->base_url . "act=fav&topic={$topic['topic_id']}&js=1"
-			);
-		} else
-		{
-			$refer = $_SERVER['HTTP_REFERER'];
+            $refer = preg_replace("#" . Ibf::app()->base_url . "\?#", "", $refer);
 
-			if (!preg_match("#" . Ibf::app()->base_url . "\?#", $refer))
-			{
-				$refer = "";
-			}
+            if ($topic['track'] && isset($topic['forum_id'])) {
+                $refer = "act=Track&f={$topic['forum_id']}&t={$topic['topic_id']}";
+            }
+            $print->redirect_screen("", $refer);
+        }
+    }
 
-			$refer = preg_replace("#" . Ibf::app()->base_url . "\?#", "", $refer);
+    /**
+     * Displays favorite topics
+     */
+    function show()
+    {
+        global $print;
 
-			if ($topic['track'] && isset($topic['forum_id']))
-			{
-				$refer = "act=Track&f={$topic['forum_id']}&t={$topic['topic_id']}";
-			}
-			$print->redirect_screen("", $refer);
-		}
-	}
+        $data = Ibf::app()->member['favorites']->findAll();
+        if (empty($data)) {
+            Ibf::app()->lang = Ibf::app()->functions->load_words(Ibf::app()->lang, 'lang_global', Ibf::app()->lang_id);
+            $e               = Ibf::app()->lang['fav_nolinks'];
 
-	/**
-	 * Displays favorite topics
-	 */
-	function show()
-	{
-		global $print;
+            $this->output .= View::make("fav.error", ['e' => $e]);
+        } else {
+            foreach ($data as $topic) {
+                $last_time = $topic['logTime'];
 
-		$data = Ibf::app()->member['favorites']->findAll();
-		if (empty($data))
-		{
-			Ibf::app()->lang = Ibf::app()->functions->load_words(Ibf::app()->lang, 'lang_global', Ibf::app()->lang_id);
-			$e               = Ibf::app()->lang['fav_nolinks'];
+                if (intval($topic['topic_id'])) {
+                    if ($last_time && ($topic['last_post'] > $last_time)) {
+                        $new[] = $topic;
+                    } else {
+                        $nonew[] = $topic;
+                    }
+                } else {
+                    $remove[] = $topic['topic_id'];
+                }
+            }
 
-			$this->output .= View::make("fav.error", ['e' => $e]);
-		} else
-		{
-			foreach ($data as $topic)
-			{
-				$last_time = $topic['logTime'];
+            if (!empty($new)) {
+                $html['new'] = '';
+                foreach ($new as $topic) {
+                    $topic['last_post'] = Ibf::app()->functions->get_date($topic['last_post']);
+                    $html['new'] .= View::make("fav.topic_row", ['t' => $topic]);
+                }
+            } else {
+                $html['new'] = View::make("fav.none");
+            }
 
-				if (intval($topic['topic_id']))
-				{
-					if ($last_time && ($topic['last_post'] > $last_time))
-					{
-						$new[] = $topic;
-					} else
-					{
-						$nonew[] = $topic;
-					}
-				} else
-				{
-					$remove[] = $topic['topic_id'];
-				}
-			}
+            if (isset($nonew)) {
+                $html['nonew'] = '';
+                foreach ($nonew as $topic) {
+                    $topic['last_post'] = Ibf::app()->functions->get_date($topic['last_post']);
+                    $html['nonew'] .= View::make("fav.topic_row", ['t' => $topic]);
+                }
+            } else {
+                $html['nonew'] = View::make("fav.none");
+            }
 
-			if (!empty($new))
-			{
-				$html['new'] = '';
-				foreach ($new as $topic)
-				{
-					$topic['last_post'] = Ibf::app()->functions->get_date($topic['last_post']);
-					$html['new'] .= View::make("fav.topic_row", ['t' => $topic]);
-				}
+            //-------------------------------------
+            // Remove Deleted Topics from Favorites
 
-			} else
-			{
-				$html['new'] = View::make("fav.none");
-			}
+            if (!empty($remove)) {
+                Favorites::purgeTopics($remove);
+            }
 
-			if (isset($nonew))
-			{
-				$html['nonew'] = '';
-				foreach ($nonew as $topic)
-				{
-					$topic['last_post'] = Ibf::app()->functions->get_date($topic['last_post']);
-					$html['nonew'] .= View::make("fav.topic_row", ['t' => $topic]);
-				}
+            $this->output .= View::make("fav.main", ['html' => $html]);
+        }
 
-			} else
-			{
-				$html['nonew'] = View::make("fav.none");
-			}
+        $print->add_output($this->output);
 
-			//-------------------------------------
-			// Remove Deleted Topics from Favorites
-
-			if (!empty($remove))
-			{
-				Favorites::purgeTopics($remove);
-			}
-
-			$this->output .= View::make("fav.main", ['html' => $html]);
-		}
-
-		$print->add_output($this->output);
-
-		$print->do_output(array('TITLE' => Ibf::app()->vars['board_name'], 'JS' => 0, 'NAV' => $this->nav));
-
-	} //End of function show_favs()
-
+        $print->do_output(array('TITLE' => Ibf::app()->vars['board_name'], 'JS' => 0, 'NAV' => $this->nav));
+    } //End of function show_favs()
 }//End class fav

@@ -21,7 +21,4 @@ CREATE TABLE IF NOT EXISTS ibf_check_members (
 EOL
         );
     }
-
 }
-
-?>

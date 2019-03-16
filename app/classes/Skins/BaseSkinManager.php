@@ -52,7 +52,8 @@ abstract class BaseSkinManager implements \ArrayAccess
         return in_array($this->getId(), \Config::get('app.skins.hidden', []));
     }
 
-    public function getMacroValues(){
+    public function getMacroValues()
+    {
         return require \Config::get('path.data') . '/skin_macro/' . $this->getMacroId() . '.php';
     }
 

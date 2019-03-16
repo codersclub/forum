@@ -10,11 +10,11 @@ class Get extends BaseCommand
         if (count($args) < 1) {
             throw new \InvalidArgumentException('Missed required argument');
         }
-        if(isset($this->options['export'])){
+        if (isset($this->options['export'])) {
             $formatter = 'var_export';
-        }elseif(isset($this->options['dump'])){
+        } elseif (isset($this->options['dump'])) {
             $formatter = 'var_dump';
-        }else{
+        } else {
             $formatter = 'print_r';
         }
         return $formatter(\Variables::get($args[0]), true);

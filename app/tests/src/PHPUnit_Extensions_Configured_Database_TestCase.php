@@ -19,7 +19,9 @@ abstract class PHPUnit_Extensions_Configured_Database_TestCase extends \PHPUnit_
         if ($this->conn === null) {
             if (self::$pdo == null) {
                 self::$pdo = new \PDO(
-                    \Config::get('database.dsn'), \Config::get('database.user'), \Config::get(
+                    \Config::get('database.dsn'),
+                    \Config::get('database.user'),
+                    \Config::get(
                         'database.password'
                     )
                 );
@@ -42,5 +44,4 @@ abstract class PHPUnit_Extensions_Configured_Database_TestCase extends \PHPUnit_
         \Ibf::dropApplication();
         parent::tearDownAfterClass();
     }
-
 }

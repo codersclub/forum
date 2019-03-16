@@ -43,8 +43,7 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
            FROM  `information_schema`.`TABLES` t
            WHERE 1
            AND t.`TABLE_SCHEMA` =  '" . $tableName . "'
-           ORDER BY 1"
-        );
+           ORDER BY 1");
         $queries = 0;
         foreach ($tables as $table) {
             $query = end($table);
@@ -62,8 +61,8 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
     public function up(PDO &$db)
     {
         $this->convert($db, self::DOWN, self::UP);
-		$db->query('alter database ' . $this->getTableName() . ' default charset ' . self::UP);
-		$db->query("update ibf_templates SET template = REPLACE(template, 'windows-1251', 'UTF-8')");
+        $db->query('alter database ' . $this->getTableName() . ' default charset ' . self::UP);
+        $db->query("update ibf_templates SET template = REPLACE(template, 'windows-1251', 'UTF-8')");
     }
  
     /**
@@ -72,8 +71,7 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
     public function down(PDO &$db)
     {
         $this->convert($db, self::DOWN, self::UP);
-		$db->query('alter database ' . $this->getTableName() . ' default charset ' . self::DOWN);
-		$db->query("update ibf_templates SET template = REPLACE(template, 'UTF-8', 'windows-1251')");
+        $db->query('alter database ' . $this->getTableName() . ' default charset ' . self::DOWN);
+        $db->query("update ibf_templates SET template = REPLACE(template, 'UTF-8', 'windows-1251')");
     }
-
 }
