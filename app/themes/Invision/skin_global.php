@@ -442,7 +442,7 @@ return <<<EOF
 &middot;
 <a class='b-neighbor-link b-neighbor-link_drkb' href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
 &middot;
-<a class='b-neighbor-link b-neighbor-link_donate' href="http://forum.sources.ru/donate.php"><b>Помощь&nbsp;проекту</b></a>
+<a class='b-neighbor-link b-neighbor-link_donate' href="/donate.php"><b>Помощь&nbsp;проекту</b></a>
 </td>
 </tr>
 </table>
@@ -457,7 +457,9 @@ return <<<EOF
  <td class='b-menu-item b-menu-item-members'><a href='{$ibforums->base_url}act=Members'>{$ibforums->lang['tb_mlist']}</a></td>
  <td class='b-menu-item b-menu-item-calendar'><a href='{$ibforums->base_url}act=calendar'>{$ibforums->lang['tb_calendar']}</a></td>
  <td class='b-menu-item b-menu-item-favorites {$fav_class}'><a href='{$ibforums->base_url}act=fav&show=1'>Избранное</a></td>
+<!--
  <td class='b-menu-item b-menu-item-store'><a href='{$ibforums->base_url}act=store'>{$ibforums->lang['ibstore']}</a></td>
+-->
  <td class='b-menu-item b-menu-item-rss'><a href="index.php?showtopic=81342">RSS</a></td>
 </tr>
 </table>
@@ -503,23 +505,22 @@ return <<<EOF
 </td>
 <!-- DONATE 5rub FORM -->
 <td class='b-donate-wrapper'>
-	<form action="https://money.yandex.ru/donate.xml" method="post">
-		<input type="hidden" name="to" value="41001151000887"/>
-		<input type="hidden" name="s5" value="5rub"/>
-
 		<table class="donate">
 		<col align="right"><col width="50">
 		<tr>
 			<td class="donate_text">
 				<div>{$ibforums->lang['like_sources']}</div>
 			</td>
-			<td rowspan="2" class="donate_image"><input type="image" src="img/5rub/5rub_gold.png" title="Яндекс.Деньги"></td>
+			<td rowspan="2" class="donate_image">
+				<a href="/donate/"><img src="img/5rub/5rub_gold.png" title="Помоги проекту"></a>
+			</td>
 		</tr>
 		<tr>
-			<td class="donate_button"><input type="submit" title="Яндекс.Деньги" value="{$ibforums->lang['donate_5rub']}"/></td>
+			<td class="donate_button">
+				<a href="/donate/">Помоги проекту!</a>
+			</td>
 		</tr>
 		</table>
-	</form>
 </td>
 </tr>
 </table>
