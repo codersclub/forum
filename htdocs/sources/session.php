@@ -1399,7 +1399,7 @@ class session
 			'browser'      => $this->user_agent,
 		);
 
-		$ibforums->db->insertRow('ibf_sessions', $data, 'DELAYED');
+		$ibforums->db->insertRow('ibf_sessions', $data);
 		// Song * who was today online (bot)
 
 		$std->who_was_guest_or_bot('ibf_b_visitors', 'bots', $session_id, $this->ip_address);
