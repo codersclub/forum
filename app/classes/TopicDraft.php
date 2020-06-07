@@ -96,10 +96,10 @@ class TopicDraft
 		$fields = array(
 			'text'      => $this->text,
 			'created'   => time(),
-			'member_id' => $ibforums->member['id']
+			'member_id' => $ibforums->member['id'],
+			'topic_id'  => $this->topic_id ?: 0,
 		);
 		$this->id && $fields['id'] = $this->id;
-		$this->topic_id && $fields['topic_id'] = $this->topic_id;
 		$this->topic_title && $fields['topic_title'] = $this->topic_title;
 		$this->forum_id && $fields['forum_id'] = $this->forum_id;
 		$this->topic_description && $fields['topic_description'] = $this->topic_description;
