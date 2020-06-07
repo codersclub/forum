@@ -119,7 +119,7 @@ class IBPDO extends PDOWrapper
         } elseif ($string === null) {
             return 'NULL';
         }
-        parent::quote($string, $parameter_type);
+        return parent::quote($string, $parameter_type);
     }
 
     /**
