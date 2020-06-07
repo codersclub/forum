@@ -917,7 +917,7 @@ class Post
 			'use_emo'      => $ibforums->input['enableemo'],
 			'ip_address'   => $ibforums->input['IP_ADDRESS'],
 			'post_date'    => time(),
-			'icon_id'      => $ibforums->input['iconid'],
+			'icon_id'      => intval($ibforums->input['iconid']),
 			'post'         => $convert,
 			'author_name'  => $ibforums->member['id']
 				? $ibforums->member['name']

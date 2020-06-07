@@ -166,9 +166,7 @@ class post_functions extends Post
 		{
 			$attachments = array();
 		}
-		$this->post['attach_exists'] = is_array($this->upload)
-			? (bool)(count($this->upload) + count($attachments))
-			: false;
+		$this->post['attach_exists'] = (is_array($this->upload) && (bool)(count($this->upload) + count($attachments))) ? 1 : 0;
 		//-------------------------------------------------
 		// Insert the post into the database to get the
 		// last inserted value of the auto_increment field
@@ -730,9 +728,7 @@ class post_functions extends Post
 		}
 		if ($class->obj['preview_post'])
 		{
-			$attach_exists = is_array($this->upload)
-				? (bool)count($this->upload)
-				: false;
+			$attach_exists = (is_array($this->upload) && (bool)(count($this->upload))) ? 1 : 0;
 
 			$draft = TopicDraft::createDraft($this->topic['tid'], $this->post['post']);
 

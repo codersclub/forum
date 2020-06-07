@@ -738,6 +738,7 @@ class  warn
 		$save['wlog_notes'] .= "<mod>{$ibforums->input['mod_value']},{$ibforums->input['mod_unit']},{$ibforums->input['mod_indef']}</mod>";
 		$save['wlog_notes'] .= "<post>{$ibforums->input['post_value']},{$ibforums->input['post_unit']},{$ibforums->input['post_indef']} </post>";
 		$save['wlog_notes'] .= "<susp>{$ibforums->input['susp_value']},{$ibforums->input['susp_unit']}</susp>";
+		$save['wlog_contact_content'] = "<subject>{$ibforums->input['subject']}</subject><content>{$ibforums->input['contact']}</content>";
 
 		// update warn logs
 		$ibforums->db->insertRow("ibf_warn_logs", $save);

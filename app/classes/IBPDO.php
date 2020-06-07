@@ -68,7 +68,7 @@ class IBPDO extends PDOWrapper
 
 	/**
 	 * Returns values string for INSERT query
-	 * @param type $values
+	 * @param array $values
 	 * @param string $type Return type. Can be one of 'fields', 'questions' and 'values'
 	 */
 	public function compileInsertValues($values, $type = 'values')
@@ -80,7 +80,19 @@ class IBPDO extends PDOWrapper
 				$result = self::placeholders($values);
 				break;
 			case 'values':
-				$result = implode(',', array_map(array($this, 'quote'), $values));
+			    $values = array_map(
+					function ($v) {
+					    if (is_null($v)) {
+					        return $this->quote($v, \PDO::PARAM_NULL);
+					    } elseif (is_bool($v)) {
+					        return $this->quote($v, \PDO::PARAM_BOOL);
+					    } else {
+					        return $this->quote($v, \PDO::PARAM_STR);
+					    }
+					},
+					$values
+				);
+				$result = implode(',', $values);
 				break;
 			case 'fields':
 				$result = implode(
@@ -95,12 +107,22 @@ class IBPDO extends PDOWrapper
 				);
 				break;
 			default:
-				throw new PDOException('Wrong type for compileInsertValues');
+				throw new \PDOException('Wrong type for compileInsertValues');
 		}
 		return '(' . $result . ')';
 	}
 
-	/**
+	public function quote($string, $parameter_type = PDO::PARAM_STR)
+    {
+        if ($string === false) {
+            return parent::quote(0, $parameter_type);
+        } elseif ($string === null) {
+            return 'NULL';
+        }
+        parent::quote($string, $parameter_type);
+    }
+
+    /**
 	 * Adds a row into the table
 	 * @param string $table Table name
 	 * @param string $op Method
