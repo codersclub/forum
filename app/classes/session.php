@@ -920,7 +920,7 @@ class session
 				'ip_address'   => $this->ip_address,
 				'browser'      => $this->user_agent,
 				'running_time' => $this->time_now,
-				'login_type'   => $ibforums->input['Privacy'],
+				'login_type'   => $ibforums->input['Privacy'] ? 1: 0,
 				'member_group' => $this->member['mgroup'],
 				'org_perm_id'  => $this->member['org_perm_id'],
 				'r_location'   => $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE'],
@@ -1049,7 +1049,7 @@ class session
 			'member_group' => $ibforums->vars['spider_group'],
 			'in_forum'     => intval($ibforums->input['f']),
 			'in_topic'     => intval($ibforums->input['t']),
-			'login_type'   => $ibforums->vars['spider_anon'],
+			'login_type'   => $ibforums->vars['spider_anon'] ? 1 : 0,
 			'running_time' => $this->time_now,
 			'location'     => $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE'],
 			'ip_address'   => $this->ip_address,
@@ -1218,7 +1218,7 @@ class session
 			'member_group' => $ibforums->vars['spider_group'],
 			'in_forum'     => intval($ibforums->input['f']),
 			'in_topic'     => intval($ibforums->input['t']),
-			'login_type'   => $ibforums->vars['spider_anon'],
+			'login_type'   => $ibforums->vars['spider_anon'] ? 1: 0,
 			'running_time' => $this->time_now,
 			'location'     => $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE']
 		);
