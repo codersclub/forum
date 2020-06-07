@@ -1005,7 +1005,7 @@ class session
 			'member_group' => $ibforums->vars['guest_group'],
 		);
 
-		$ibforums->db->insertRow('ibf_sessions', $data);
+		$ibforums->db->insertRow('ibf_sessions', $data, \IBPDO::OPTION_IGNORE);
 
 		$std->who_was_guest_or_bot('ibf_g_visitors', 'guests', $this->session_id, $this->ip_address);
 	}

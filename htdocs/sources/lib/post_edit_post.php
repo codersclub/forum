@@ -232,7 +232,9 @@ class post_functions extends Post
 
 		global $ibforums, $std, $print;
 
-		$dbs = array();
+		$dbs = [
+		    'club' => 0
+        ];
 
 		$this->post['queued'] = $this->orig_post['queued'];
 
@@ -427,7 +429,7 @@ class post_functions extends Post
 				{
 					$dbs['title']       = $ibforums->input['TopicTitle'];
 					$dbs['description'] = $ibforums->input['TopicDesc'];
-					$dbs['club']        = $ibforums->input['club_only'];
+					$dbs['club']        = $ibforums->input['club_only'] ?: 0;
 
 					if (!$ibforums->input['club_only'] and
 					    (($ibforums->member['g_is_supmod'] or

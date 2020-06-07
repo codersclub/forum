@@ -625,7 +625,7 @@ class usercp_functions
 		                                            'cb_forumlist'              => $ibforums->input['CB_FORUMLIST'],
 		                                            'close_category'            => $ibforums->input['CATEGORY'],
 		                                            'quick_search'              => $ibforums->input['QUICK_SEARCH'],
-		                                            'highlight_topic'           => $ibforums->input['HIGHLIGHT'],
+		                                            'highlight_topic'           => $ibforums->input['HIGHLIGHT'] ?: 0,
 		                                            'hotclocks'                 => $ibforums->input['HOTCLOCKS'],
 		                                            'forum_icon'                => $ibforums->input['FORUM_ICON'],
 		                                            'show_history'              => $ibforums->input['HISTORY'],
@@ -648,7 +648,6 @@ class usercp_functions
 		$ibforums->db->updateRow("ibf_members", $data, "id='" . $this->class->member['id'] . "'");
 
 		$print->redirect_screen($ibforums->lang['set_updated'], "act=UserCP&CODE=04");
-
 	}
 
 	function do_email_settings()

@@ -2771,9 +2771,9 @@ class Moderate
 		global $ibforums;
 
 		$data = [
-			'forum_id'     => $ibforums->input['f'],
-			'topic_id'     => $ibforums->input['t'],
-			'post_id'      => $ibforums->input['p'],
+			'forum_id'     => $ibforums->input['f'] ?: 0,
+			'topic_id'     => $ibforums->input['t'] ?: 0,
+			'post_id'      => $ibforums->input['p'] ?: 0,
 			'member_id'    => $ibforums->member['id'],
 			'member_name'  => $ibforums->member['name'],
 			'ip_address'   => $ibforums->input['IP_ADDRESS'],

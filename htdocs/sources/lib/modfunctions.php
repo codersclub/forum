@@ -518,9 +518,9 @@ class modfunctions
 			'forum_id'     => $moveto,
 			'topic_id'     => $topic,
 			'queued'       => 0,
-			'attach_id'    => "",
-			'attach_hits'  => "",
-			'attach_type'  => "",
+			'attach_id'    => null,
+			'attach_hits'  => null,
+			'attach_type'  => null,
 			'delete_after' => $std->delayed_time("", $source_forum['days_off'], 1),
 		);
 
