@@ -5,6 +5,9 @@
  */
 class IBPDO extends PDOWrapper
 {
+    const OPTION_IGNORE = 'IGNORE';
+    const OPTION_DELAYED = 'DELAYED';
+
 	use MixinTrait;
 
 	function __construct()
@@ -135,7 +138,7 @@ class IBPDO extends PDOWrapper
 		assert(!empty($table));
 		assert(!empty($values));
 
-		if (!empty($options) && !in_array(mb_strtoupper($options), ['DELAYED', 'IGNORE']))
+		if (!empty($options) && !in_array(mb_strtoupper($options), [self::OPTION_DELAYED, self::OPTION_IGNORE]))
 		{
 			$options = '';
 		}
