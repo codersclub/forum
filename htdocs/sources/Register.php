@@ -1052,7 +1052,7 @@ class Register
 			'coppa_user'    => $coppa,
 			'language'      => $ibforums->vars['default_language'],
 			'quick_reply'   => 1,
-			'forums_read'   => null,
+			'forums_read'   => '',
 		);
 
 		$member['password'] = md5($member['password']);
@@ -1137,7 +1137,8 @@ class Register
 					'temp_group' => $ibforums->vars['auth_group'],
 					'entry_date' => $time,
 					'validate_type' => 'new_reg',
-					'ip_address' => $member['ip_address']
+					'ip_address' => $member['ip_address'],
+					'service'    => ''
 				];
 
 				$ibforums->db->insertRow("ibf_validating", $data);
