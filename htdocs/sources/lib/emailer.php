@@ -140,7 +140,7 @@ class emailer
 		$this->mail_headers .= "X-Mailer: IPB PHP Mailer\n";
 		$this->mail_headers .= "MIME-Version: 1.0\n";
 		$this->mail_headers .= "Content-Type: text/plain; charset=\"{$ibforums->vars['charset']}\"\n";
-		$this->mail_headers .= "Content-Transfer-Encoding: 8bit\n";
+		$this->mail_headers .= "Content-Transfer-Encoding: base64\n";
 
 		if (count($this->parts) > 0)
 		{
@@ -323,7 +323,7 @@ class emailer
 		);
 
 		$this->message = $this->clean_message($this->message);
-
+		$this->message = rtrim(chunk_split(base64_encode($this->message)));
 	}
 
 	//+--------------------------------------------------------------------------
@@ -824,4 +824,3 @@ class emailer
 
 }
 
-?>
