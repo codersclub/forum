@@ -1052,6 +1052,7 @@ class Register
 			'coppa_user'    => $coppa,
 			'language'      => $ibforums->vars['default_language'],
 			'quick_reply'   => 1,
+			'forums_read'   => null,
 		);
 
 		$member['password'] = md5($member['password']);

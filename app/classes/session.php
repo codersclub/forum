@@ -1193,6 +1193,9 @@ class session
 				'location'     => $locasion,
 				'r_location'   => $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE'],
 			);
+			if ($db_str['r_in_topic'] < 0) {
+				$db_str['r_in_topic'] = 0;
+			}
 
 			// Update the database
 			$stmt = $ibforums->db->prepare("UPDATE ibf_sessions
