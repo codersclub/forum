@@ -207,6 +207,8 @@ class emailer
 
 		$this->subject = $this->clean_message($this->subject);
 
+		$message = rtrim(chunk_split(base64_encode($this->message)));
+
 		if (($this->from) and ($this->subject))
 		{
 			$this->subject .= " ( " . $ibforums->vars['board_name'] . " )";
@@ -215,7 +217,7 @@ class emailer
 			//$this->temp_dump = 1;
 			if ($this->temp_dump == 1)
 			{
-				$blah = $this->subject . "\n------------\n" . $this->mail_headers . "\n\n" . $this->message;
+				$blah = $this->subject . "\n------------\n" . $this->mail_headers . "\n\n" . $message;
 
 				//echo $blah;
 				//				$pathy = '/Library/WebServer/Documents/mail/'.date("F.Y.h:i.A").".txt"; // OS X rules!
@@ -227,13 +229,13 @@ class emailer
 			{
 				if ($this->mail_method != 'smtp')
 				{
-					if (!@mail($this->to, $this->subject, $this->message, $this->mail_headers, '-f ' . $this->from))
+					if (!@mail($this->to, $this->subject, $message, $this->mail_headers, '-f ' . $this->from))
 					{
 						$this->fatal_error("Could not send the email", "Failed at 'mail' command");
 					}
 				} else
 				{
-					$this->smtp_send_mail();
+					$this->smtp_send_mail($message);
 				}
 			}
 		} else
@@ -323,7 +325,6 @@ class emailer
 		);
 
 		$this->message = $this->clean_message($this->message);
-		$this->message = rtrim(chunk_split(base64_encode($this->message)));
 	}
 
 	//+--------------------------------------------------------------------------
@@ -679,7 +680,7 @@ class emailer
 
 	//$this->to, $this->subject, $this->message, $this->mail_headers
 
-	function smtp_send_mail()
+	function smtp_send_mail($message)
 	{
 		$this->smtp_fp = fsockopen($this->smtp_host, intval($this->smtp_port), $errno, $errstr, 30);
 
@@ -694,7 +695,7 @@ class emailer
 
 		if ($this->smtp_code == 220)
 		{
-			$data = $this->smtp_crlf_encode($this->mail_headers . "\n" . $this->message);
+			$data = $this->smtp_crlf_encode($this->mail_headers . "\n" . $message);
 
 			//---------------------
 			// HELO!, er... HELLO!
