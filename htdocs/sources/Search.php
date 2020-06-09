@@ -652,7 +652,7 @@ class Search
 				'member_id'   => $ibforums->member['id'],
 				'ip_address'  => $ibforums->input['IP_ADDRESS'],
 				'post_id'     => $result['post_id'],
-				'post_max'    => $result['post_max'],
+				'post_max'    => $result['post_max'] ?: 0,
 			];
 
 			$ibforums->db->InsertRow("ibf_search_results", $data);
