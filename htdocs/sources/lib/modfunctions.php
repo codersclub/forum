@@ -1645,10 +1645,10 @@ class modfunctions
 		global $std, $ibforums;
 
 		$data = [
-			'forum_id'     => $fid,
-			'topic_id'     => $tid,
-			'post_id'      => $pid,
-			'member_id'    => $ibforums->member['id'],
+			'forum_id'     => intval($fid),
+			'topic_id'     => intval($tid),
+			'post_id'      => intval($pid),
+			'member_id'    => intval($ibforums->member['id']),
 			'member_name'  => $ibforums->member['name'],
 			'ip_address'   => $ibforums->input['IP_ADDRESS'],
 			'http_referer' => $_SERVER['HTTP_REFERER'],
