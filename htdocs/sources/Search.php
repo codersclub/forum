@@ -646,7 +646,7 @@ class Search
 				'id'          => $unique_id,
 				'search_date' => time(),
 				'topic_id'    => $result['topic_id'],
-				'topic_max'   => $result['topic_max'],
+				'topic_max'   => $result['topic_max'] ?: 0,
 				'sort_key'    => $this->sort_key,
 				'sort_order'  => $this->sort_order,
 				'member_id'   => $ibforums->member['id'],
