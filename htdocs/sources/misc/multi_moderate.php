@@ -270,6 +270,27 @@ class  multi_mod
 			}
 		}
 
+		if ($this->mm_data['ban_author'])
+		{
+			$ibforums->db->updateRow('ibf_members', [
+					'mgroup' => intval($ibforums->vars['ban_group']),
+					'warn_lastwarn' => time(),
+				],
+				"id = {$this->topic['starter_id']}"
+			);
+
+			$mes = "[color=red][b]Вы набрали максимальное количество предупреждений и переведены в группу БАН.[/b][/color]";
+
+
+			$save['wlog_mid']   = intval($this->topic['starter_id']);
+			$save['wlog_notes'] = "<content>$mes</content>";
+			$save['wlog_contact_content'] = "<subject>Ban message</subject><content>$mes</content>";
+			$save['wlog_addedby'] = intval($ibforums->member['id']);
+			$save['wlog_date'] = time();
+
+			// update warn logs
+			$ibforums->db->insertRow("ibf_warn_logs", $save);
+		}
 		//-------------------------------------
 		// Recount root forum
 		//-------------------------------------
