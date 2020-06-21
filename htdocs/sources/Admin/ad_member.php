@@ -3238,13 +3238,13 @@ class ad_forums
 
 		$member = array(
 			'restrict_post'       => $restrict_post,
-			'mgroup'              => $IN['mgroup'],
+			'mgroup'              => intval($IN['mgroup']),
 			'title'               => $IN['title'],
 			'language'            => $IN['language'],
-			'skin'                => $IN['skin'],
+			'skin'                => intval($IN['skin']),
 			'gender'              => $IN['gender'],
-			'hide_email'          => $IN['hide_email'],
-			'email_pm'            => $IN['email_pm'],
+			'hide_email'          => intval($IN['hide_email']),
+			'email_pm'            => intval($IN['email_pm']),
 			'email'               => $IN['email'],
 			'aim_name'            => $IN['aim_name'],
 			'icq_number'          => $IN['icq_number'],
@@ -3253,19 +3253,19 @@ class ad_forums
 			'website'             => $IN['website'],
 			'avatar'              => $IN['avatar'],
 			'avatar_size'         => $IN['avatar_size'],
-			'posts'               => $IN['posts'],
-			'points'              => $IN['points'],
+			'posts'               => intval($IN['posts']),
+			'points'              => intval($IN['points']),
 			'location'            => $IN['location'],
 			'interests'           => $IN['interests'],
 			'signature'           => $IN['signature'],
 			'mod_posts'           => $mod_queue,
 			'org_perm_id'         => $permid,
-			'warn_level'          => $IN['warn_level'],
-			'allow_anon'          => $IN['rep_anon'],
-			'allow_rep'           => $IN['rep_rep'],
-			'disable_mail'        => $IN['disable_mail'],
+			'warn_level'          => intval($IN['warn_level']),
+			'allow_anon'          => intval($IN['rep_anon']),
+			'allow_rep'           => intval($IN['rep_rep']),
+			'disable_mail'        => intval($IN['disable_mail']),
 			'disable_mail_reason' => $IN['disable_mail_reason'],
-			'disable_group'       => $IN['disable_group'],
+			'disable_group'       => intval($IN['disable_group']),
 		);
 		if ($IN['password'] != "")
 		{
@@ -3280,7 +3280,7 @@ class ad_forums
 		$ibforums->db->updateRow("ibf_members", array_map([
 		                                                  $ibforums->db,
 		                                                  'quote'
-		                                                  ], $member), "id='" . $IN['mid'] . "'");
+		                                                  ], $member), "id=" . intval($IN['mid']));
 
 		if ($IN['rep_recount'])
 		{
