@@ -1365,7 +1365,7 @@ class ad_groups
 							reply_perms='$reply',
 							start_perms='$start',
 							upload_perms='$upload'
-						   WHERE id='" . $row['id'] . "'")
+						   WHERE id=" . intval($row['id']))
 			)
 			{
 				die ("Update query failed on Forum ID " . $row['id']);
