@@ -434,10 +434,6 @@ return <<<EOF
 &middot;
 <a class='e-neighbor-link e-neighbor-link-discuz' href="http://discuz.ml/" title="Discuz! MultiLingual"><b>Discuz!ML</b></a>
 &middot;
-<a class='b-neighbor-link b-neighbor-link_alglib' href="http://alglib.sources.ru/"><b>Алгоритмы</b></a>
-&middot;
-<a class='b-neighbor-link b-neighbor-link_e-science' href="http://e-science.sources.ru/"><b>Естественные науки</b></a>
-&middot;
 <a class='b-neighbor-link b-neighbor-link_wiki' href="http://wiki.sources.ru/"><b>Wiki</b></a>
 &middot;
 <a class='b-neighbor-link b-neighbor-link_drkb' href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
