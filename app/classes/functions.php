@@ -2750,11 +2750,11 @@ class functions
 				{
 					while (list($k2, $v2) = each($_GET[$k]))
 					{
-						$return[$k][$this->clean_key($k2)] = $this->clean_value($v2);
+						$return[$k][$this->clean_key($k2)] = $this->clean_value($v2, true);
 					}
 				} else
 				{
-					$return[$k] = $this->clean_value($v);
+					$return[$k] = $this->clean_value($v, true);
 				}
 			}
 		}
@@ -2826,13 +2826,19 @@ class functions
 		return $key;
 	}
 
-	function clean_value($val)
+	function clean_value($val, $clean_apostroph=false)
 	{
 		global $ibforums;
 
 		if ($val == "")
 		{
 			return "";
+		}
+
+		if($clean_apostroph) {
+			 // Remove literal apostroph from GET parameters
+			$val = str_replace("\xBF\x27", '', $val);
+			$val = str_replace("'", '', $val);
 		}
 
 		$val = str_replace("&#032;", " ", $val);
