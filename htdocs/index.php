@@ -267,11 +267,19 @@ $choice = array(
 );
 
 /***************************************************/
-//
 // Check to make sure the array key exits..
-if (!isset($choice[$ibforums->input['act']]))
+//
+if (empty($ibforums->input['act']))
 {
 	$ibforums->input['act'] = 'idx';
+}
+
+if (!isset($choice[$ibforums->input['act']]))
+{
+	$std->Error(array(
+	                  'LEVEL' => 1,
+	                  'MSG'   => 'no_action' // Invalid Action!!!
+	             ));
 }
 
 if ($ibforums->input['act'] == 'home')
