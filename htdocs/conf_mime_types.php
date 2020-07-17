@@ -20,6 +20,7 @@ $mime_types = array(
   "image/tiff" 		=> array( 1, 'quicktime.gif' , 'TIFF Image'     ),
   "image/jpeg" 		=> array( 1, 'jpeg.gif'      , 'JPEG Image' ,1  ),
   "image/pjpeg" 	=> array( 1, 'jpeg.gif'      , 'JPEG Image' ,1  ),
+  "image/vnd.djvu" 	=> array( 1, 'djvu.gif'      , 'DJVU file'  ,1  ),
 
 // Multimedia
   "video/quicktime" 		=> array( 1, 'quicktime.gif' , 'QuickTime Movie'),
