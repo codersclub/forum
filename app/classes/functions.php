@@ -2836,9 +2836,10 @@ class functions
 		}
 
 		if($clean_apostroph) {
-			 // Remove literal apostroph from GET parameters
+			 // Clean dangerous characters (quote, apostroph, etc) from GET parameters
 			$val = str_replace("\xBF\x27", '', $val);
 			$val = str_replace("'", '', $val);
+			$val = str_replace('"', '', $val);
 		}
 
 		$val = str_replace("&#032;", " ", $val);
