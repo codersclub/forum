@@ -1190,8 +1190,8 @@ class session
 				'r_in_forum'   => intval($ibforums->input['f']),
 				'in_topic'     => $in_topic,
 				'r_in_topic'   => intval($ibforums->input['t']),
-				'location'     => $locasion,
-				'r_location'   => $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE'],
+				'location'     => substr($locasion, 0, 255),
+				'r_location'   => substr($ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE'], 0, 255),
 			);
 			if ($db_str['r_in_topic'] < 0) {
 				$db_str['r_in_topic'] = 0;
