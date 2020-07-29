@@ -72,6 +72,7 @@ $std  = & $ibforums->functions;
 $sess = & $ibforums->session;
 //
 $ibforums->init();
+
 //move to ibforums?
 $print = new display();
 
@@ -204,16 +205,46 @@ if ($ibforums->input['act'] != 'Login' and $ibforums->input['act'] != 'Reg' and 
 	}
 }
 
-//DEBUG
-//echo "<pre>";
-//print_r($_SERVER);
-//echo "<hr>";
-//print_r($ibforums);
-//echo "</pre>";
-//--------------------------------
-// Decide what to do
-//--------------------------------
+/***************************************************/
+// Check if parameters are valid
+//
+$str_params = [
+	'act'		=> $ibforums->input['act'],	// Action
+	'client'	=> $ibforums->input['client'],	// Client
+	'code'		=> $ibforums->input['code'],	// Code
+	'CODE'		=> $ibforums->input['CODE'],	// Code
+	'type'		=> $ibforums->input['type'],	// Type
+	's'		=> $ibforums->input['s'],	// Session
+];
 
+$int_params = [
+	'c'		=> $ibforums->input['c'], // Category
+	'f'		=> $ibforums->input['f'], // Forum
+	't'		=> $ibforums->input['t'], // Topic
+	'p'		=> $ibforums->input['p'], // Post
+];
+
+foreach ($str_params as $k=>$v) {
+	if(!empty($v) && !ctype_alpha($v)) {
+		$std->Error(array(
+	                  'LEVEL' => 1,
+	                  'MSG'   => 'no_action' // Invalid Action!!!
+		));
+	}
+}
+
+foreach ($int_params as $k=>$v) {
+	if(!empty($v) && !ctype_digit($v)) {
+		$std->Error(array(
+	                  'LEVEL' => 1,
+	                  'MSG'   => 'no_action' // Invalid Action!!!
+		));
+	}
+}
+
+/***************************************************/
+// Check to make sure the array key exits..
+//
 $choice = array(
 	"idx"        => "Boards",
 	"cms"        => "cms/cms",
@@ -282,6 +313,10 @@ if (!isset($choice[$ibforums->input['act']]))
 	             ));
 }
 
+
+//--------------------------------
+// Decide what to do
+//--------------------------------
 if ($ibforums->input['act'] == 'home')
 {
 	require ROOT_PATH . "sources/Boards.php";
@@ -306,6 +341,7 @@ if ($ibforums->input['act'] == 'home')
 	//echo "File: ".ROOT_PATH."sources/".$choice[ $ibforums->input['act'] ].".php Exists<br>";
 	//}
 	//}
+
 	require ROOT_PATH . "sources/" . $choice[$ibforums->input['act']] . ".php";
 }
 
