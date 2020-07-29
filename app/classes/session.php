@@ -1177,6 +1177,9 @@ class session
 			{
 				$locasion = mb_substr($locasion, 0, mb_strrpos($locasion, '|'));
 				$in_forum = mb_substr($in_forum, 0, mb_strrpos($in_forum, ','));
+
+				// Cut the too long topic list (128 characters)
+				$in_topic = mb_substr($in_topic, 0, 128);
 				$in_topic = mb_substr($in_topic, 0, mb_strrpos($in_topic, ','));
 			}
 
