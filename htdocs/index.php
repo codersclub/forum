@@ -209,12 +209,13 @@ if ($ibforums->input['act'] != 'Login' and $ibforums->input['act'] != 'Reg' and 
 // Check if parameters are valid
 //
 $str_params = [
+	's'		=> $ibforums->input['s'],	// Session
 	'act'		=> $ibforums->input['act'],	// Action
-	'client'	=> $ibforums->input['client'],	// Client
 	'code'		=> $ibforums->input['code'],	// Code
 	'CODE'		=> $ibforums->input['CODE'],	// Code
 	'type'		=> $ibforums->input['type'],	// Type
-	's'		=> $ibforums->input['s'],	// Session
+	'view'		=> $ibforums->input['view'],	// View
+	'client'	=> $ibforums->input['client'],	// Client
 ];
 
 $int_params = [
@@ -222,10 +223,15 @@ $int_params = [
 	'f'		=> $ibforums->input['f'], // Forum
 	't'		=> $ibforums->input['t'], // Topic
 	'p'		=> $ibforums->input['p'], // Post
+	'st'		=> $ibforums->input['st'], // Start Post
+	'showforum'	=> $ibforums->input['showforum'],	// Forum ID
+	'showtopic'	=> $ibforums->input['showtopic'],	// Topic ID
+	'showuser'	=> $ibforums->input['showuser'],	// User ID
+	'MID'		=> $ibforums->input['MID'],		// User ID
 ];
 
 foreach ($str_params as $k=>$v) {
-	if(!empty($v) && !ctype_alpha($v)) {
+	if(!empty($v) && !ctype_alnum($v)) {
 		$std->Error(array(
 	                  'LEVEL' => 1,
 	                  'MSG'   => 'no_action' // Invalid Action!!!
@@ -234,7 +240,7 @@ foreach ($str_params as $k=>$v) {
 }
 
 foreach ($int_params as $k=>$v) {
-	if(!empty($v) && !ctype_digit($v)) {
+	if(!empty($v) && !is_numeric($v)) {
 		$std->Error(array(
 	                  'LEVEL' => 1,
 	                  'MSG'   => 'no_action' // Invalid Action!!!
