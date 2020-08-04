@@ -231,7 +231,7 @@ $int_params = [
 ];
 
 foreach ($str_params as $k=>$v) {
-	if(!empty($v) && !ctype_alnum($v)) {
+	if(!empty($v) && preg_match("/\\W/", $v)) {
 		$std->Error(array(
 	                  'LEVEL' => 1,
 	                  'MSG'   => 'no_action' // Invalid Action!!!
