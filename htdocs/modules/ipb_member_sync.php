@@ -288,7 +288,7 @@ class ipb_member_sync
 				'topic_id'    => $tid,
 				'queued'      => 0,
 				'attach_id'   => "",
-				'attach_hits' => "",
+				'attach_hits' => 0,
 				'attach_type' => "",
 				'new_topic'   => 1,
 			);
