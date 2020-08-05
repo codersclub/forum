@@ -37,19 +37,21 @@ if (!file_exists(__DIR__ . '/../conf_global.php')) {
 }
 require __DIR__ . '/../conf_global.php';
 
-$source_url = 'http://' . $_SERVER['HTTP_HOST'];
-$rewritten_url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+if(@$_SERVER['HTTP_HOST'] && @$_SERVER['REQUEST_SCHEME']) {
+    $source_url = 'http://' . $_SERVER['HTTP_HOST'];
+    $rewritten_url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
 
-if ($source_url != $rewritten_url) {
-    $url_params = [
-        'auto_pm_message',
-        'board_url',
-        'gl_link',
-        'html_url',
-        'upload_url'
-    ];
+    if ($source_url != $rewritten_url) {
+        $url_params = [
+            'auto_pm_message',
+            'board_url',
+            'gl_link',
+            'html_url',
+            'upload_url'
+        ];
 
-    foreach ($url_params as $param) {
-        $INFO[$param] = str_replace($source_url, $rewritten_url, $INFO[$param]);
+        foreach ($url_params as $param) {
+            $INFO[$param] = str_replace($source_url, $rewritten_url, $INFO[$param]);
+        }
     }
 }
