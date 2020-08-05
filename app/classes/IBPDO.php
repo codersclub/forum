@@ -21,7 +21,7 @@ class IBPDO extends PDOWrapper
 		{
 			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = sprintf('SET NAMES "%s"', $config['charset']);
 		}
-		if ($config['persistent'])
+		if (@$config['persistent'])
 		{
 			$options[PDO::ATTR_PERSISTENT] = (bool)$config['persistent'];
 		}
