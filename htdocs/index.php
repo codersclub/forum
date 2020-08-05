@@ -234,7 +234,8 @@ foreach ($str_params as $k=>$v) {
 	if(!empty($v) && preg_match("/\\W/", $v)) {
 		$std->Error(array(
 	                  'LEVEL' => 1,
-	                  'MSG'   => 'no_action' // Invalid Action!!!
+	                  'MSG'   => 'no_action', // Invalid Action!!!
+			'EXTRA' => '<br>BAD PARAMETER: ' . $k . '=' . htmlspecialchars($v),
 		));
 	}
 }
@@ -243,7 +244,8 @@ foreach ($int_params as $k=>$v) {
 	if(!empty($v) && !is_numeric($v)) {
 		$std->Error(array(
 	                  'LEVEL' => 1,
-	                  'MSG'   => 'no_action' // Invalid Action!!!
+	                  'MSG'   => 'no_action', // Invalid Action!!!
+			'EXTRA' => '<br>BAD PARAMETER: ' . $k . '=' . htmlspecialchars($v),
 		));
 	}
 }
