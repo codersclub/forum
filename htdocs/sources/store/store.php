@@ -53,6 +53,7 @@ class store
 
 		switch ($ibforums->input['code'])
 		{
+			case NULL:
 			case 'show':
 				$this->show();
 				break;
@@ -132,7 +133,11 @@ class store
 				$this->do_forwhat();
 				break;
 			default:
-				$this->show();
+				$std->Error(array(
+	        	          'LEVEL' => 1,
+		                  'MSG'   => 'no_action', // Invalid Action!!!
+				  'EXTRA' => '<br>BAD PARAMETER: code=' . htmlspecialchars($ibforums->input['code']),
+				));
 				break;
 		}
 
@@ -1157,19 +1162,24 @@ class store
 		global $std, $ibforums;
 		$this->nav = array($ibforums->lang['stats_nav']);
 
-		if ($ibforums->input['type'] == 'member')
+		if (isset($ibforums->input['type']))
 		{
-			$header = $ibforums->lang['richestmember'];
-			$query  = "SELECT id,name,points FROM ibf_members WHERE id>'0' AND points>'0' ORDER BY points DESC LIMIT " . $ibforums->vars['richest_showamount'];
-		} else {
-			if ($ibforums->input['type'] == 'bank')
+			if ($ibforums->input['type'] == 'member')
+			{
+				$header = $ibforums->lang['richestmember'];
+				$query  = "SELECT id,name,points FROM ibf_members WHERE id>'0' AND points>'0' ORDER BY points DESC LIMIT " . $ibforums->vars['richest_showamount'];
+			} else if ($ibforums->input['type'] == 'bank')
 			{
 				$header = $ibforums->lang['richestbank'];
 				$query  = "SELECT id,name,deposited FROM ibf_members WHERE id>'0' AND deposited>'0' ORDER BY deposited DESC LIMIT " . $ibforums->vars['richest_showamount'];
+			} else {
+				$std->Error(array(
+	        	          'LEVEL' => 1,
+		                  'MSG'   => 'no_action', // Invalid Action!!!
+				  'EXTRA' => '<br>BAD PARAMETER: type=' . htmlspecialchars($ibforums->input['type']),
+				));
 			}
-		}
-		if (isset($ibforums->input['type']))
-		{
+
 			$this->output .= View::make("store.header_stats", ['name' => $header]);
 			$stmt = $ibforums->db->query($query);
 			while ($temp = $stmt->fetch())
@@ -1185,7 +1195,8 @@ class store
 		} else
 		{
 			$this->output .= View::make("store.overall_stats_header");
-			$stmt = $ibforums->db->query("SELECT id,name,points,deposited FROM ibf_members WHERE id>'0' AND points>'0' AND deposited>'0' ORDER BY points+deposited DESC LIMIT " . $ibforums->vars['richest_showamount']);
+			$query  = "SELECT id,name,points,deposited FROM ibf_members WHERE id>'0' AND points>'0' AND deposited>'0' ORDER BY points+deposited DESC LIMIT " . $ibforums->vars['richest_showamount'];
+			$stmt = $ibforums->db->query($query);
 			while ($temp = $stmt->fetch())
 			{
 				$temp['total_points'] = $std->do_number_format($temp['points'] + $temp['deposited']);
