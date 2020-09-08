@@ -334,35 +334,37 @@ return <<<EOF
 <!--{BIRTHDAY}-->
 <tr>
   <td class='pformleft'>{$ibforums->lang['website']}</td>
-  <td class='pformright'><input type='text' size='40' maxlength='1200' name='WebSite' value='{$Profile['website']}' class='forminput'></td>
+  <td class='pformright'><input type='text' maxlength='250' name='WebSite' value='{$Profile['website']}' class='forminput w100'></td>
 </tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['icq']}</td>
-  <td class='pformright'><input type='text' size='40' maxlength='20' name='ICQNumber' value='{$Profile['icq_number']}' class='forminput'></td>
+  <td class='pformright'><input type='text' maxlength='20' name='ICQNumber' value='{$Profile['icq_number']}' class='forminput w100'></td>
 </tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['aol']}</td>
-  <td class='pformright'><input type='text' size='40' maxlength='30' name='AOLName' value='{$Profile['aim_name']}' class='forminput'></td>
+  <td class='pformright'><input type='text' maxlength='64' name='AOLName' value='{$Profile['aim_name']}' class='forminput w100'></td>
 </tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['yahoo']}</td>
-  <td class='pformright'><input type='text' size='40' maxlength='30' name='YahooName' value='{$Profile['yahoo']}' class='forminput'></td>
+  <td class='pformright'><input type='text' maxlength='64' name='YahooName' value='{$Profile['yahoo']}' class='forminput w100'></td>
 </tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['msn']}</td>
-  <td class='pformright'><input type='text' size='40' maxlength='30' name='MSNName' value='{$Profile['msnname']}' class='forminput'></td>
+  <td class='pformright'><input type='text' maxlength='64' name='MSNName' value='{$Profile['msnname']}' class='forminput w100'></td>
 </tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['integ_msg']}</td>
-  <td class='pformright'><input type='text' size='40' maxlength='30' name='integ_msg' value='{$Profile['integ_msg']}' class='forminput'></td>
+  <td class='pformright'><input type='text' maxlength='64' name='integ_msg' value='{$Profile['integ_msg']}' class='forminput w100'></td>
 </tr>
 <tr>
   <td class='pformleft'>{$ibforums->lang['location']}<br>(<a href='javascript:CheckLength("location");'>{$ibforums->lang['check_length']}</a>)</td>
-  <td class='pformright'><input type='text' size='40' name='Location' value='{$Profile['location']}' class='forminput'></td>
+  <td class='pformright'><input type='text' maxlength='128' name='Location' value='{$Profile['location']}' class='forminput w100'></td>
 </tr>
 <tr>
   <td class='pformleft' valign='top'>{$ibforums->lang['interests']}<br>(<a href='javascript:CheckLength("interest");'>{$ibforums->lang['check_length']}</a>)</td>
-  <td class='pformright'><textarea cols='60' rows='10' wrap='soft' name='Interests' class='forminput'>{$Profile['interests']}</textarea></td>
+  <td class='pformright'>
+    <textarea rows='10' wrap='soft' name='Interests' class='forminput w100'>{$Profile['interests']}</textarea>
+  </td>
 </tr>
 <!--{OPTIONAL.FIELDS}-->
 <tr>
