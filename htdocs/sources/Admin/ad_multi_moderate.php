@@ -184,13 +184,13 @@ class ad_multimod
 			'mm_enabled'            => 1,
 			'topic_state'           => $IN['topic_state'],
 			'topic_pin'             => $IN['topic_pin'],
-			'topic_move'            => $IN['topic_move'],
-			'topic_move_link'       => $IN['topic_move_link'],
+			'topic_move'            => intval($IN['topic_move']),
+			'topic_move_link'       => intval($IN['topic_move_link']),
 			'topic_title_st'        => $ADMIN->make_safe($_POST['topic_title_st']),
 			'topic_title_end'       => $ADMIN->make_safe($_POST['topic_title_end']),
-			'topic_reply'           => $IN['topic_reply'],
+			'topic_reply'           => intval($IN['topic_reply']),
 			'topic_reply_content'   => $ADMIN->make_safe($_POST['topic_reply_content']),
-			'topic_reply_postcount' => $IN['topic_reply_postcount'],
+			'topic_reply_postcount' => intval($IN['topic_reply_postcount']),
 		);
 
 		if ($type == 'edit')
