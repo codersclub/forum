@@ -32,7 +32,7 @@ class ad_ips
 
 	var $colours = array();
 
-	var $url = "http://www.invisionboard.com/acp/";
+	var $url = "https://www.invisionboard.com/acp/";
 
 	var $version = "1.1";
 

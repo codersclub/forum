@@ -2060,7 +2060,7 @@ class PostParser
 			$txt = preg_replace("#<img src=[\"'](\S+?)['\"].+?" . ">#", "\[IMG\]\\1\[/IMG\]", $txt);
 
 			$txt = preg_replace("#<a href=[\"']mailto:(.+?)['\"]>(.+?)</a>#", "\[EMAIL=\\1\]\\2\[/EMAIL\]", $txt);
-			$txt = preg_replace("#<a href=[\"'](http://|https://|ftp://|news://)?(\S+?)['\"].+?" . ">(.+?)</a>#", "\[URL=\\1\\2\]\\3\[/URL\]", $txt);
+			$txt = preg_replace("#<a href=[\"'](https://|http://|ftp://|news://)?(\S+?)['\"].+?" . ">(.+?)</a>#", "\[URL=\\1\\2\]\\3\[/URL\]", $txt);
 
 			$txt = preg_replace("#<!--mod1-->(.+?)<!--emod1-->#", '[MOD]', $txt);
 			$txt = preg_replace("#<!--mod2-->(.+?)<!--emod2-->#", '[/MOD]', $txt);
@@ -2823,11 +2823,11 @@ class PostParser
 		// Make sure we don't have a JS link
 		$url['html'] = preg_replace("/javascript:/i", "java script&#58; ", $url['html']);
 
-		// Do we have http:// at the front?
+		// Do we have http[s]:// at the front?
 
-		if (!preg_match("#^(http|news|https|ftp|aim)://#", $url['html']))
+		if (!preg_match("#^(https|http|news|ftp|aim)://#", $url['html']))
 		{
-			$url['html'] = 'http://' . $url['html'];
+			$url['html'] = 'https://' . $url['html'];
 		}
 
 		//-------------------------
@@ -2948,10 +2948,10 @@ class PostParser
 			$url['html']
 		);
 
-		// Do we have http:// at the front?
-		if (!preg_match("#^(http|news|https|ftp|aim)://#", $url['html']))
+		// Do we have http[s]:// at the front?
+		if (!preg_match("#^(https|http|news|ftp|aim)://#", $url['html']))
 		{
-			$url['html'] = 'http://' . $url['html'];
+			$url['html'] = 'https://' . $url['html'];
 		}
 
 		//-------------------------

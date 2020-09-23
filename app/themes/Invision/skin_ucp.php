@@ -744,7 +744,7 @@ return <<<EOF
 	<option value='green' style='color:green'>{$ibforums->lang['ct_green']}</option>
 	</select>
 	<br>
-	<input type='button' accesskey='h' value=' http:// ' onclick='tag_url()' class='codebuttons' name='url'>
+	<input type='button' accesskey='h' value=' https:// ' onclick='tag_url()' class='codebuttons' name='url'>
 	<input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
 	<input type='button' accesskey='e' value='  @  ' onclick='tag_email()' class='codebuttons' name='email'>
 	<input type='button' accesskey='q' value=' QUOTE ' onclick='simpletag("QUOTE")' class='codebuttons' name='QUOTE'>

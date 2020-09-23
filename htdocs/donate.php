@@ -3,8 +3,8 @@
 require __DIR__ . '/../app/bootstrap.php';
 
 $tMessage = '';
-$right_referer = 'http://www.sources.ru/donate.php';
-$right_referer = 'http://sources/donate.php';
+$right_referer = 'https://www.sources.ru/donate.php';
+$right_referer = 'https://sources/donate.php';
 
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $referer = mb_strtolower($referer);
@@ -139,7 +139,7 @@ function encode_header($string, $charset = 'iso-8859-1')
             <br>
 
             <!--TopList COUNTER--><a target=_top
-                                     href="http://top.list.ru/jump?from=89876">
+                                     href="https://top.list.ru/jump?from=89876">
                 <script language="JavaScript"><!--
                     d = document;
                     a = '';
@@ -158,20 +158,20 @@ js=11//-->
 js=13//-->
                 </script>
                 <script language="JavaScript"><!--
-                    d.write('<img src="http://top.list.ru/counter' +
+                    d.write('<img src="https://top.list.ru/counter' +
                         '?id=89876;t=57;js=' + js + a + ';rand=' + Math.random() +
                         '" alt="TopList" ' + 'border=0 height=1 width=1>')
                     if (js > 11)d.write('<' + '!-- ')//--></script>
                 <noscript><img
-                        src="http://top.list.ru/counter?js=na;id=89876;t=57"
+                        src="https://top.list.ru/counter?js=na;id=89876;t=57"
                         border=0 height=1 width=1
                         alt="TopList"></noscript>
                 <script language="JavaScript"><!--
                     if (js > 11)d.write('--' + '>')//--></script>
             </a><!--TopList COUNTER-->
 
-            <!--Rambler--><a href="http://counter.rambler.ru/top100/"><img
-                    src="http://counter.rambler.ru/top100.cnt?163871" alt="Rambler's Top100" width=1 height=1 border=0></a>
+            <!--Rambler--><a href="https://counter.rambler.ru/top100/"><img
+                    src="https://counter.rambler.ru/top100.cnt?163871" alt="Rambler's Top100" width=1 height=1 border=0></a>
 
             <!-- SpyLOG f:0211 -->
             <script language="javascript">
@@ -185,8 +185,8 @@ js=13//-->
                 rn = Math.random();
                 z = "p=" + p + "&rn=" + rn;
                 y = "";
-                y += "<a href='http://" + u + "/cnt?f=3&p=" + p + "&rn=" + rn + "' target=_blank>";
-                y += "<img src='http://" + u + "/cnt?" + z +
+                y += "<a href='https://" + u + "/cnt?f=3&p=" + p + "&rn=" + rn + "' target=_blank>";
+                y += "<img src='https://" + u + "/cnt?" + z +
                     "&r=" + escape(d.referrer) + "&pg=" + escape(window.location.href) + "' border=0 width=1 height=1 alt='SpyLOG'>";
                 y += "</a>";
                 d.write(y);
@@ -194,8 +194,8 @@ js=13//-->
                     d.write("<" + "!--");
                 }//--></script>
             <noscript>
-                <a href="http://u1624.10.spylog.com/cnt?f=3&p=1" target=_blank>
-                    <img src="http://u1624.10.spylog.com/cnt?p=1" alt='SpyLOG' border='0' width=1 height=1>
+                <a href="https://u1624.10.spylog.com/cnt?f=3&p=1" target=_blank>
+                    <img src="https://u1624.10.spylog.com/cnt?p=1" alt='SpyLOG' border='0' width=1 height=1>
                 </a></noscript>
             <script language="javascript1.2"><!--
                 if (!n) {
@@ -225,8 +225,8 @@ hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")
                     hotlog_s.colorDepth : hotlog_s.pixelDepth)</script>
             <script language="javascript1.3">hotlog_js="1.3"</script>
             <script language="javascript">hotlog_r += "&js=" + hotlog_js;
-                hotlog_d.write("<img src='http://hit2.hotlog.ru/cgi-bin/hotlog/count?'+hotlog_r+'&' border=0 width=1 height=1>")</script>
-            <noscript><img src="http://hit2.hotlog.ru/cgi-bin/hotlog/count?s=14399" border=0
+                hotlog_d.write("<img src='https://hit2.hotlog.ru/cgi-bin/hotlog/count?'+hotlog_r+'&' border=0 width=1 height=1>")</script>
+            <noscript><img src="https://hit2.hotlog.ru/cgi-bin/hotlog/count?s=14399" border=0
                            width=1 height=1></noscript>
             <!-- /HotLog -->
 
@@ -389,7 +389,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <table border=0 cellpadding=8>
     <tr valign="top">
         <td>
-            <a target="_blank" href="http://www.webmoney.ru"><b>WebMoney:</b></a>
+            <a target="_blank" href="https://www.webmoney.ru"><b>WebMoney:</b></a>
             <br>
             <br>
             Z293399007548<br>
@@ -398,7 +398,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             U365486311204<br>
         </td>
         <td>
-            <a target="_blank" href="http://money.yandex.ru/"><b>Яндекс.Деньги:</b></a>
+            <a target="_blank" href="https://money.yandex.ru/"><b>Яндекс.Деньги:</b></a>
             <br>
             <br>
             41001151000887
@@ -418,7 +418,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     сообщите нам о произведенном Вами платеже!
     <br>
     Для этого укажите в пояснении к платежу Ваш ник на нашем форуме
-    <a href="http://forum.sources.ru/">forum.sources.ru</a>,
+    <a href="https://forum.sources.ru/">forum.sources.ru</a>,
     <br>
     либо воспользуйтесь нижеприведенной формой:
 </p>
@@ -512,8 +512,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <P>
     1) <b>Если у Вас есть электронный кошелек
         в одной из платежных систем:
-        <a target="_blank" href="http://www.webmoney.ru">WebMoney</a> или
-        <a target="_blank" href="http://money.yandex.ru/">Яндекс.Деньги</a></b>,
+        <a target="_blank" href="https://www.webmoney.ru">WebMoney</a> или
+        <a target="_blank" href="https://money.yandex.ru/">Яндекс.Деньги</a></b>,
     <br>
     то Вы просто перевести деньги на один из указанных выше кошельков
     либо через веб-интерфейс платежной системы, либо с помощью соответствующей
@@ -532,13 +532,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <BR>
     Приведем лишь несколько известных списков обменных пунктов:
 <UL type="square">
-    <LI><a target="_blank" href="http://webmoney.ru/rus/cooperation/exchange/onlinexchange/index.shtml">Шлюзы
+    <LI><a target="_blank" href="https://webmoney.ru/rus/cooperation/exchange/onlinexchange/index.shtml">Шлюзы
             ввода/вывода средств между WebMoney Transfer и другими системами</a></LI>
-    <LI><a target="_blank" href="http://top.owebmoney.ru/index.php?all=1&cid=1">Рейтинг обменных пунктов на
+    <LI><a target="_blank" href="https://top.owebmoney.ru/index.php?all=1&cid=1">Рейтинг обменных пунктов на
             owebmoney.ru</a></LI>
-    <LI><a target="_blank" href="http://obmenniki.com/">Лучшие обменники. Мониторинг обменных пунктов. Обмен всех
+    <LI><a target="_blank" href="https://obmenniki.com/">Лучшие обменники. Мониторинг обменных пунктов. Обмен всех
             валют</a></LI>
-    <LI><a target="_blank" href="http://cursov.net/">Мониторинг автоматических обменных пунктов. Обмен Яндекс.деньги,
+    <LI><a target="_blank" href="https://cursov.net/">Мониторинг автоматических обменных пунктов. Обмен Яндекс.деньги,
             webmoney - wmz, wmr и прочих систем.</a></LI>
 </UL>
 </P>
@@ -548,8 +548,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <BR>
     то при желании Вы можете легко завести себе такой кошелек!
     Для этого достаточно зарегистрироваться на сайте платежной
-    системы <a target="_blank" href="http://www.webmoney.ru">WebMoney</a> или
-    <a target="_blank" href="http://money.yandex.ru/">Яндекс.Деньги</a>.
+    системы <a target="_blank" href="https://www.webmoney.ru">WebMoney</a> или
+    <a target="_blank" href="https://money.yandex.ru/">Яндекс.Деньги</a>.
     Остается лишь пополнить свой кошелек, и Вы сможете проводить любые
     электронные платежи!
 </P>
@@ -565,9 +565,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <LI><a target="_blank" href="https://money.yandex.ru/help.xml">Что такое Яндекс.Деньги?</a></LI>
     <LI><a target="_blank" href="https://money.yandex.ru/prepaid.xml">Все способы пополнения кошелька Яндекс.деньги</a>
     </LI>
-    <LI><a target="_blank" href="http://webmoney.ru/rus/addfunds/">Как пополнить кошелек WebMoney</a></LI>
-    <LI><a target="_blank" href="http://webmoney.ru/rus/withdrawfunds/">Как вывести средства WebMoney</a></LI>
-    <LI><a target="_blank" href="http://geo.webmoney.ru/aspx/GeoMain.aspx">Территория WebMoney - перечень обменных
+    <LI><a target="_blank" href="https://webmoney.ru/rus/addfunds/">Как пополнить кошелек WebMoney</a></LI>
+    <LI><a target="_blank" href="https://webmoney.ru/rus/withdrawfunds/">Как вывести средства WebMoney</a></LI>
+    <LI><a target="_blank" href="https://geo.webmoney.ru/aspx/GeoMain.aspx">Территория WebMoney - перечень обменных
             пунктов в 57 странах мира</a></LI>
 </UL>
 </P>

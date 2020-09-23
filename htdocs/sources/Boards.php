@@ -1283,7 +1283,7 @@ class Boards {
 						  }
 						 */
 						// Collapse boards error correction:
-						// added by Лёха ( http://forum.sources.ru/index.php?showtopic=218110 )
+						// added by Лёха ( https://forum.sources.ru/index.php?showtopic=218110 )
 //				} elseif ( 0 == $level || (isset($this->fs[ $forum_data['parent_id'] ]) && $this->fs[ $forum_data['parent_id'] ] == 0) )
 					} elseif (0 == $level || (isset($this->fs[$forum_data['parent_id']]) && $this->fs[$forum_data['parent_id']] == 0 && $ibforums->input['show'] != 'all'))
 					{

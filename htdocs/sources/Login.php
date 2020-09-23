@@ -460,7 +460,7 @@ class Login
 			{
 				$return = urldecode($ibf->input['return']);
 
-				if (preg_match("#^http://#", $return))
+				if (preg_match("#^https?://#", $return))
 				{
 					$std->boink_it($return);
 				}
@@ -490,7 +490,7 @@ class Login
 		{
 			$return = urldecode($ibforums->input['return']);
 
-			if (preg_match("#^http://#", $return))
+			if (preg_match("#^https?://#", $return))
 			{
 				$std->boink_it($return);
 			}

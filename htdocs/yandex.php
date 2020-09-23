@@ -124,7 +124,7 @@ try {
       <rss version='2.0'>
       <channel>
       <title>Форум на Исходниках.RU</title>
-      <link>http://forum.sources.ru</link>
+      <link>https://forum.sources.ru</link>
       <description>Форум на Исходниках.RU</description>
       <generator>Форум на Исходниках.RU</generator>
   	";

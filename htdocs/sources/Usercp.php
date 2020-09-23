@@ -2117,7 +2117,7 @@ class UserCP
 		// Get the avatar gallery selected
 		//------------------------------------------
 
-		$url_avatar = "http://";
+		$url_avatar = "https://";
 
 		$avatar_type = "na";
 
@@ -2127,7 +2127,7 @@ class UserCP
 			{
 				$avatar_type = "upload";
 			} else {
-				if (!preg_match("/^http/i", $this->member['avatar']))
+				if (!preg_match("/^https?/i", $this->member['avatar']))
 				{
 					$avatar_type = "gallery";
 				} else

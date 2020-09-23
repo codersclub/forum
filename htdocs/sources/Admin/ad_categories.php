@@ -383,11 +383,11 @@ class ad_cat
 
 		$ADMIN->html .= $SKIN->start_table( "Optional" );
 
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Image</b><br>(Example: http://www.domain.com/image.gif)" ,
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Image</b><br>(Example: https://www.domain.com/image.gif)" ,
 												  $SKIN->form_input("IMAGE", $cat['image'])
 									     )      );
 
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Link</b><br>(Example: http://www.domain.com/)" ,
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Link</b><br>(Example: https://www.domain.com/)" ,
 												  $SKIN->form_input("URL", $cat['url'])
 									     )      );*/
 
@@ -619,11 +619,11 @@ class ad_cat
 
 		$ADMIN->html .= $SKIN->start_table( "Optional" );
 
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Image</b><br>(Example: http://www.domain.com/image.gif)" ,
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Image</b><br>(Example: https://www.domain.com/image.gif)" ,
 												  $SKIN->form_input("IMAGE")
 									     )      );
 
-		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Link</b><br>(Example: http://www.domain.com/)" ,
+		$ADMIN->html .= $SKIN->add_td_row( array( "<b>Category Sponsor Link</b><br>(Example: https://www.domain.com/)" ,
 												  $SKIN->form_input("URL")
 									     )      );*/
 

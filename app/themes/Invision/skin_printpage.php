@@ -80,7 +80,7 @@ function pp_end() {
 global $ibforums;
 return <<<EOF
 
-    <center><span style='font-family:arial; size:xx-small; color:#000000'>Powered by Invision Power Board (http://www.invisionboard.com)<br>&copy; Invision Power Services (http://www.invisionpower.com)</span></center>
+    <center><span style='font-family:arial; size:xx-small; color:#000000'>Powered by Invision Power Board (https://www.invisionboard.com)<br>&copy; Invision Power Services (https://www.invisionpower.com)</span></center>
 
 EOF;
 }

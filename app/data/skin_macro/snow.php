@@ -69,7 +69,7 @@ return array (
   'F_NAV_SEP' => '&nbsp;-&gt;&nbsp;',
   'F_PLUS' => '<img src=\'<#IMG_DIR#>/plus.gif\' border=\'0\' alt=\'+\'>',
   'F_RULES' => '<img src=\'<#IMG_DIR#>/forum_rules.gif\' border=\'0\'  alt=\'Forum Rules\'>',
-  'F_STATS' => '<a href=\'http://forum.sources.ru/index.php?act=Help&CODE=01&HID=21\'><img src=\'<#IMG_DIR#>/stats.gif\' border=\'0\'  alt=\'Board Stats\'></a>',
+  'F_STATS' => '<a href=\'https://forum.sources.ru/index.php?act=Help&CODE=01&HID=21\'><img src=\'<#IMG_DIR#>/stats.gif\' border=\'0\'  alt=\'Board Stats\'></a>',
   'home' => '<img src=\'<#IMG_DIR#>/mem_home.gif\' border=\'0\'  style=\'vertical-align: top;\'>',
   'INTEGRITY_MSGR' => '<img src=\'<#IMG_DIR#>/p_im.gif\' border=\'0\'  alt=\'Integrity Messenger IM\'>',
   'LAST_POST' => '<img src=\'<#IMG_DIR#>/lastpost.gif\' border=\'0\'  alt=\'Last Post\'>',

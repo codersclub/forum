@@ -310,7 +310,7 @@ class display
 		// will be terminated, requiring you to remove your board immediately.
 		// So, have a nice day.
 
-		$copyright = "<!-- Copyright Information -->\n\n<div align='center' class='copyright'>Powered by <a rel='nofollow' href=\"http://www.invisionboard.com\" target='_blank'>Invision Power Board</a>{$ur} {$ibforums->version} &copy; 2003 &nbsp;<a rel='nofollow' href='http://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>\n";
+		$copyright = "<!-- Copyright Information -->\n\n<div align='center' class='copyright'>Powered by <a rel='nofollow' href=\"https://www.invisionboard.com\" target='_blank'>Invision Power Board</a>{$ur} {$ibforums->version} &copy; 2003 &nbsp;<a rel='nofollow' href='https://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>\n";
 
 		if ($ibforums->vars['ips_cp_purchase'])
 		{

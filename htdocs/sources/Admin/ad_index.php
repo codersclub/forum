@@ -64,9 +64,9 @@ class index_page
 
 		$phpv = phpversion();
 
-		$ADMIN->page_detail .= "<br><br><b><a href='http://www.php.net' target='_blank'>PHP</a> VERSION:</b> $phpv, <b><a href='http://www.mysql.com' target='_blank'>MySQL</a> VERSION:</b> " . $this->mysql_version;
+		$ADMIN->page_detail .= "<br><br><b><a href='https://www.php.net' target='_blank'>PHP</a> VERSION:</b> $phpv, <b><a href='https://www.mysql.com' target='_blank'>MySQL</a> VERSION:</b> " . $this->mysql_version;
 
-		$ADMIN->page_detail .= ", <a href='http://forum.sources.ru/admin.php?adsess={$IN['AD_SESS']}&act=mysql&code=processes'><b>SHOW PROCESSLIST</b></a>";
+		$ADMIN->page_detail .= ", <a href='https://forum.sources.ru/admin.php?adsess={$IN['AD_SESS']}&act=mysql&code=processes'><b>SHOW PROCESSLIST</b></a>";
 
 		//---------------------------------
 

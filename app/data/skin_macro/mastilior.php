@@ -61,7 +61,7 @@ return array (
   'F_NAV_SEP' => '<img src=\'<#IMG_DIR#>/open.gif\' border=\'0\'  alt=\'\'>&nbsp;&nbsp;',
   'F_PLUS' => '<img src=\'<#IMG_DIR#>/plus.gif\' border=\'0\' alt=\'+\'>',
   'F_RULES' => '<img src=\'<#IMG_DIR#>/forum_rules.gif\' border=\'0\'  alt=\'!\'>',
-  'F_STATS' => '<a href=\'http://forum.sources.ru/index.php?act=Help&CODE=01&HID=21\'><img src=\'<#IMG_DIR#>/stats.gif\' border=\'0\'  alt=\'Статистика\'><a/>',
+  'F_STATS' => '<a href=\'https://forum.sources.ru/index.php?act=Help&CODE=01&HID=21\'><img src=\'<#IMG_DIR#>/stats.gif\' border=\'0\'  alt=\'Статистика\'><a/>',
   'INTEGRITY_MSGR' => '<img src=\'<#IMG_DIR#>/p_im.gif\' border=\'0\'  alt=\'IM\'>',
   'LAST_POST' => '<img src=\'<#IMG_DIR#>/lastpost.gif\' border=\'0\'  alt=\'Последнее\'>',
   'M_READ' => '<img src=\'<#IMG_DIR#>/f_norm_no.gif\' border=\'0\'  alt=\'Нет новых.\'>',

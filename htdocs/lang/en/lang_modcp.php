@@ -138,7 +138,7 @@ $lang = array (
 
 'cp_error_ip'  => "Please ensure that at least the first two IP address fields are completed and that the wildcard '*' is not in the middle of the IP address",
 'cp_error_resolveip' => "You must enter the complete IP address to use this tool",
-'ip_resolve_result' => "The host name for %s is <b>%s</b><br><br>Try visiting <a href='http://ip-lookup.net/index.php?ip=%s' target='_blank'>ip-lookup.net</a> to get more information by running this match via WHOIS.",
+'ip_resolve_result' => "The host name for %s is <b>%s</b><br><br>Try visiting <a href='https://ip-lookup.net/index.php?ip=%s' target='_blank'>ip-lookup.net</a> to get more information by running this match via WHOIS.",
 
 'cp_safe_fail' => "This operation failed or no data was returned. If you are running PHP in safe mode, you may not be able to use all the tools provided",
 

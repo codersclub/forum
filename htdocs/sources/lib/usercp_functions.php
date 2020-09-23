@@ -103,10 +103,10 @@ class usercp_functions
 
 		//-----------------------------------
 		// Check to make sure we don't just have
-		// http:// in the URL box..
+		// http[s]:// in the URL box..
 		//------------------------------------
 
-		if (preg_match("/^http:\/\/$/i", $ibforums->input['url_photo']))
+		if (preg_match("/^http:\s?/\/$/i", $ibforums->input['url_photo']))
 		{
 			$ibforums->input['url_photo'] = "";
 		}
@@ -843,10 +843,10 @@ class usercp_functions
 
 		//-----------------------------------
 		// Check to make sure we don't just have
-		// http:// in the URL box..
+		// http[s]:// in the URL box..
 		//------------------------------------
 
-		if (preg_match("/^http:\/\/$/i", $ibforums->input['url_avatar']))
+		if (preg_match("/^https?:\/\/$/i", $ibforums->input['url_avatar']))
 		{
 			$ibforums->input['url_avatar'] = "";
 		}
@@ -1268,9 +1268,9 @@ class usercp_functions
 			            ));
 		}
 
-		if (!preg_match("#^http://#", $ibforums->input['WebSite']))
+		if (!preg_match("#^https?://#", $ibforums->input['WebSite']))
 		{
-			$ibforums->input['WebSite'] = 'http://' . $ibforums->input['WebSite'];
+			$ibforums->input['WebSite'] = 'https://' . $ibforums->input['WebSite'];
 		}
 
 		if (!preg_match("#^[mf]$#", $ibforums->input['gender']))

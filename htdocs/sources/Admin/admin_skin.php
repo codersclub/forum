@@ -1142,7 +1142,7 @@ class admin_skin
 
 		return "<br />
 				<div align='right' id='jwrap'><strong>Quick Jump</strong> <!--JUMP--></div>
-				<div class='copy' align='center'>Invision Power Board &copy 2003 <a href='http://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>
+				<div class='copy' align='center'>Invision Power Board &copy 2003 <a href='https://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>
 				 </body>
 				 </html>";
 	}

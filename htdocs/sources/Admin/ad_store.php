@@ -42,7 +42,7 @@ class ad_store
 	);
 	var $trailingslash = "";
 	// Get are update mirror :D
-	var $mirror_update = "http://www.outlaw.ipbhost.com/store/";
+	var $mirror_update = "https://www.outlaw.ipbhost.com/store/";
 
 	function __construct()
 	{
@@ -924,7 +924,7 @@ class ad_store
 		$this->common_header('', 'IBStore Update', 'Check for Updates');
 		$ADMIN->html .= $SKIN->start_table("Update");
 		$ADMIN->html .= $SKIN->add_td_basic("<img borer='0' src='" . $this->mirror_update . "updatecheck.jpeg?version={$this->ibsversion}'>");
-		$ADMIN->html .= $SKIN->add_td_basic("You can download the latest version <a href='http://mods.ibplanet.com/db/?act=mod&id=2013'>Here</a>");
+		$ADMIN->html .= $SKIN->add_td_basic("You can download the latest version <a href='https://mods.ibplanet.com/db/?act=mod&id=2013'>Here</a>");
 		$ADMIN->html .= $SKIN->end_table();
 		$this->common_footer("");
 

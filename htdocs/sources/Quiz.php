@@ -1932,7 +1932,7 @@ class quiz
 		$msg = str_replace("<QUIZ_PERCENT_NEEDED>", $quiz['percent_needed'], $msg);
 
 		// !!! MAY BE - Redirect to the Quiz results???
-		//    http://devel/index.php?act=quiz&code=quiz_results&quiz_id=1
+		//    https://devel/index.php?act=quiz&code=quiz_results&quiz_id=1
 
 		$lib->redirect($msg, "act=quiz&" . $extra_location, 1);
 	}
@@ -2074,7 +2074,7 @@ class quiz
 		$html .= View::make("quiz.end_page");
 		// If you wish to remove it you will have to pay the 40$ fee.
 		// See: www.outlaw.ipbhost.com/store/services.php for more infomation on how to pay.
-		//	$html .= "<br/><div align='center' class='copyright'>Powered by <a href=\"http://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='http://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
+		//	$html .= "<br/><div align='center' class='copyright'>Powered by <a href=\"https://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='https://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
 
 		$print = new display();
 

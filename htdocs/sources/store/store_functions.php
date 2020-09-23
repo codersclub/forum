@@ -42,14 +42,14 @@ class lib
 		/* Although these are not the Default IBStore Items its easyer to add them here
 		   instead of having to have the Mod Authors do it */
 
-		// Munja Pets Addon Items (Can be gotten here: http://mods.ibplanet.com/db/?mod=2096)
+		// Munja Pets Addon Items (Can be gotten here: https://mods.ibplanet.com/db/?mod=2096)
 		$items['munjpet_bed']               = "Munja Pets: Bed";
 		$items['munjpet_changename']        = "Munja Pets: Name Change";
 		$items['munjpet_munjpet_changesex'] = "Munja Pets: Change Gender";
 		$items['munjpet_changespecies']     = "Munja Pets: Change Species";
 		$items['munjpet_food']              = "Munja Pets: Food";
 		$items['munjpet_toy']               = "Munja Pets: Toy";
-		// Advance Steal (Can be gotten here: http://mods.ibplanet.com/db/?mod=2069)
+		// Advance Steal (Can be gotten here: https://mods.ibplanet.com/db/?mod=2069)
 		$items['simplesteal']  = "Basic Steal V2";
 		$items['getsteal']     = "Steal Helpers";
 		$items['defendsteal']  = "Steal Defence";
@@ -188,7 +188,7 @@ class lib
 
 	function output($output)
 	{
-		//		if(!@preg_match("#Powered By <a href=\"http://www.subzerofx.com/shop/\" target='_blank'>IBStore</a>#is",$output)) {
+		//		if(!@preg_match("#Powered By <a href=\"https://www.subzerofx.com/shop/\" target='_blank'>IBStore</a>#is",$output)) {
 		//			die("<br>
 		//				<b>Parse error</b>:  parse error, unexpected '=' in <b>".@str_replace('\\','/',@getcwd())."/sources/store/store.php</b> on line <b>951</b><br>");
 		//		}

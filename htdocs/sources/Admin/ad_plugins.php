@@ -125,7 +125,7 @@ class ad_plugins
 			$frames = "<html>
 		   			 <head><title>Invision Power Board: Registration Set up</title></head>
 					   <frameset rows='*,50' frameborder='yes' border='1' framespacing='0'>
-					   	<frame name='chat_top'   scrolling='auto' src='http://customer.invisionpower.com/ipb/copy/redirect_acp.php'>
+					   	<frame name='chat_top'   scrolling='auto' src='https://customer.invisionpower.com/ipb/copy/redirect_acp.php'>
 					   	<frame name='chat_bottom'  scrolling='auto' src='{$SKIN->base_url}&act=pin&code=copyframe'>
 					   </frameset>
 				   </html>";
@@ -194,7 +194,7 @@ class ad_plugins
 				exit();
 			} else
 			{
-				$ADMIN->error("The override password was incorrect. Please <a href='http://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='http://customer.invisionpower.com'>IPS customer account</a>.");
+				$ADMIN->error("The override password was incorrect. Please <a href='https://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='https://customer.invisionpower.com'>IPS customer account</a>.");
 			}
 		}
 
@@ -203,7 +203,7 @@ class ad_plugins
 			$ADMIN->error("Sorry, that is not a valid IPB Copyright key, please hit 'back' in your browser and try again.");
 		}
 
-		$response = trim(@implode('', @file("http://customer.invisionpower.com/ipb/copy/?k=" . urlencode($acc_number))));
+		$response = trim(@implode('', @file("https://customer.invisionpower.com/ipb/copy/?k=" . urlencode($acc_number))));
 
 		if ($response == "")
 		{
@@ -214,7 +214,7 @@ class ad_plugins
 			               <li>You are running this IPB on a server without an internet connection</li>
 			               </ul>
 			               <br />
-			               Please <a href='http://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='http://customer.invisionpower.com'>IPS customer account</a>.
+			               Please <a href='https://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='https://customer.invisionpower.com'>IPS customer account</a>.
 			             ");
 		} else
 		{
@@ -227,7 +227,7 @@ class ad_plugins
 			               <li>Your registration licence is no longer valid</li>
 			               </ul>
 			               <br />
-			               Please <a href='http://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='http://customer.invisionpower.com'>IPS customer account</a>.
+			               Please <a href='https://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='https://customer.invisionpower.com'>IPS customer account</a>.
 			             ");
 			} else
 			{
@@ -315,7 +315,7 @@ class ad_plugins
 			$frames = "<html>
 		   			 <head><title>Invision Power Board: Registration Set up</title></head>
 					   <frameset rows='*,50' frameborder='yes' border='1' framespacing='0'>
-					   	<frame name='chat_top'   scrolling='auto' src='http://www.invisionboard.com/?whyregister++acp'>
+					   	<frame name='chat_top'   scrolling='auto' src='https://www.invisionboard.com/?whyregister++acp'>
 					   	<frame name='chat_bottom'  scrolling='auto' src='{$SKIN->base_url}&act=pin&code=regframe'>
 					   </frameset>
 				   </html>";
@@ -380,7 +380,7 @@ class ad_plugins
 				exit();
 			} else
 			{
-				$ADMIN->error("The override password was incorrect. Please <a href='http://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='http://customer.invisionpower.com'>IPS customer account</a>.");
+				$ADMIN->error("The override password was incorrect. Please <a href='https://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='https://customer.invisionpower.com'>IPS customer account</a>.");
 			}
 		}
 
@@ -389,7 +389,7 @@ class ad_plugins
 			$ADMIN->error("Sorry, that is not a valid IPB registration key, please hit 'back' in your browser and try again.");
 		}
 
-		$response = trim(implode('', file("http://customer.invisionpower.com/ipb/reg/?k=" . urlencode($acc_number))));
+		$response = trim(implode('', file("https://customer.invisionpower.com/ipb/reg/?k=" . urlencode($acc_number))));
 
 		if ($response == "")
 		{
@@ -400,7 +400,7 @@ class ad_plugins
 			               <li>You are running this IPB on a server without an internet connection</li>
 			               </ul>
 			               <br />
-			               Please <a href='http://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='http://customer.invisionpower.com'>IPS customer account</a>.
+			               Please <a href='https://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='https://customer.invisionpower.com'>IPS customer account</a>.
 			             ");
 		} else
 		{
@@ -413,7 +413,7 @@ class ad_plugins
 			               <li>Your registration licence is no longer valid</li>
 			               </ul>
 			               <br />
-			               Please <a href='http://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='http://customer.invisionpower.com'>IPS customer account</a>.
+			               Please <a href='https://www.invisionpower.com/?contact'>contact us</a> for assistance or start a new ticket from your <a href='https://customer.invisionpower.com'>IPS customer account</a>.
 			             ");
 			} else
 			{
@@ -516,7 +516,7 @@ class ad_plugins
 			$frames = "<html>
 		   			 <head><title>Invision Power Board: Chat Set up</title></head>
 					   <frameset rows='*,50' frameborder='yes' border='1' framespacing='0'>
-					   	<frame name='chat_top'   scrolling='auto' src='http://www.invisionchat.com/?acp++acp'>
+					   	<frame name='chat_top'   scrolling='auto' src='https://www.invisionchat.com/?acp++acp'>
 					   	<frame name='chat_bottom'  scrolling='auto' src='{$SKIN->base_url}&act=pin&code=chatframe'>
 					   </frameset>
 				   </html>";

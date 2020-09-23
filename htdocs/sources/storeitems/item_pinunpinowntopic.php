@@ -55,7 +55,7 @@ EOF;
 		global $ibforums, $print, $lib;
 		// You know first i was going to make this use parse_url then i decided to make it do some thing else if parse URL failed
 		// Then i came to my sense's and did it the lazy way :D
-		//http://www.subzerofx.com/shop/index.php?showtopic=286
+		//https://www.subzerofx.com/shop/index.php?showtopic=286
 		if (!$ibforums->input['url'])
 		{
 			$lib->itemerror("Вы не указали ссылку на тему, которую хотите прикрепить");

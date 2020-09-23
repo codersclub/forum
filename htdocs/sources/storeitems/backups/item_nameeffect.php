@@ -173,9 +173,9 @@ class item
 			</tr>
 			<script language="JavaScript">
 			<!-- Original:  Luis Romero (luisromero7987@aol.com) -->
-			<!-- Web Site:  http://www.geocities.com/lr7987 -->
+			<!-- Web Site:  https://www.geocities.com/lr7987 -->
 			<!-- This script and many more are available free online at -->
-			<!-- The JavaScript Source!! http://javascript.internet.com -->
+			<!-- The JavaScript Source!! https://javascript.internet.com -->
 			function showColor(val) {
 				document.item.color.value = val;
 				var type = '{$extra['one']}';

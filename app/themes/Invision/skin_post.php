@@ -581,7 +581,7 @@ function postbox_buttons($data, $syntax_select = "", $mod_buttons = "", $topic_d
 global $ibforums, $print;
 
 $ipicture = $ibforums->vars['use_ipicture_button']
-	? "<input type='button' value=' iPicture ' class='codebuttons' name='ipicture' title='{$ibforums->lang['ipicture_title']}' onclick='PopUp(\"http://ipicture.ru/\", \"iPicture\", 640,480,1,1,1)'>"
+	? "<input type='button' value=' iPicture ' class='codebuttons' name='ipicture' title='{$ibforums->lang['ipicture_title']}' onclick='PopUp(\"https://ipicture.ru/\", \"iPicture\", 640,480,1,1,1)'>"
 	: "";
 $print->js->addLocal('ibfcode.js');
 return <<<EOF
@@ -649,7 +649,7 @@ return <<<EOF
 	   <input type='button' accesskey='l' value=' LIST ' onclick='tag_list()' class='codebuttons' name="LIST">&nbsp;
 	   <input type='button' accesskey='q' value='QUOTE' onclick='tag_quote()' class='codebuttons' name='QUOTE'>
 	   <input type='button' accesskey='p' value='Spoiler' onclick='tag_spoiler()' class='codebuttons' name='Spoiler'>
-	   <input type='button' accesskey='h' value=' http:// ' onclick='tag_url()' class='codebuttons' name='url'>
+	   <input type='button' accesskey='h' value=' https:// ' onclick='tag_url()' class='codebuttons' name='url'>
 	   <input type='button' accesskey='g' value=' IMG ' onclick='tag_image()' class='codebuttons' name='img'>
 
            <!-- iPicture.ru Button -->

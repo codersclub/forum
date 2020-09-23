@@ -936,7 +936,7 @@ class ad_settings
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>External http:// link to guidlines page?</b><br>Leave blank to use internal page",
+		                                       "<b>External link to guidlines page?</b><br>Leave blank to use internal page",
 		                                       $SKIN->form_input("gl_link", $INFO['gl_link'])
 		                                  ));
 
@@ -963,7 +963,7 @@ class ad_settings
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
 
-		$this->common_header('docoppa', 'COPPA Set-Up', 'You may change the configuration below. Note, enabling <a href="http://www.ftc.gov/ogc/coppa1.htm" target="_blank">COPPA</a> on your board will require children under the age of 13 to get parental consent via a faxed or mailed form.');
+		$this->common_header('docoppa', 'COPPA Set-Up', 'You may change the configuration below. Note, enabling <a href="https://www.ftc.gov/ogc/coppa1.htm" target="_blank">COPPA</a> on your board will require children under the age of 13 to get parental consent via a faxed or mailed form.');
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Use COPPA registration system?</b>",
@@ -2464,17 +2464,17 @@ class ad_settings
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Short time format</b><br>Same configuration as <a href='http://www.php.net/date' target='_blank'>PHP Date</a>",
+		                                       "<b>Short time format</b><br>Same configuration as <a href='https://www.php.net/date' target='_blank'>PHP Date</a>",
 		                                       $SKIN->form_input("clock_short", $INFO['clock_short'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Join date time format</b><br>Same configuration as <a href='http://www.php.net/date' target='_blank'>PHP Date</a>",
+		                                       "<b>Join date time format</b><br>Same configuration as <a href='https://www.php.net/date' target='_blank'>PHP Date</a>",
 		                                       $SKIN->form_input("clock_joined", $INFO['clock_joined'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
-		                                       "<b>Long time format</b><br>Same configuration as <a href='http://www.php.net/date' target='_blank'>PHP Date</a>",
+		                                       "<b>Long time format</b><br>Same configuration as <a href='https://www.php.net/date' target='_blank'>PHP Date</a>",
 		                                       $SKIN->form_input("clock_long", $INFO['clock_long'])
 		                                  ));
 

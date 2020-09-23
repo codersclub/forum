@@ -154,7 +154,7 @@ class Contact
 
 		//----------------------------------
 
-		$std->boink_it("http://www.integritymessenger.com/WebIM/send.php?to=" . urlencode($member['integ_msg']));
+		$std->boink_it("https://www.integritymessenger.com/WebIM/send.php?to=" . urlencode($member['integ_msg']));
 		exit();
 
 	}

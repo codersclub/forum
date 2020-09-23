@@ -172,7 +172,7 @@ class store
 
 		// If you wish to remove it you will have to pay the 40$ fee.
 		// See: www.outlaw.ipbhost.com/store/services.php for more infomation on how to pay.
-		$out_put .= "<br><div align='center' class='copyright'>Powered by <a href=\"http://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='http://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
+		$out_put .= "<br><div align='center' class='copyright'>Powered by <a href=\"https://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='https://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
 		$print->add_output("$out_put");
 
 		// do the output
@@ -412,9 +412,9 @@ class store
 			$itemm->do_on_use($item['extra_one'], $item['extra_two'], $item['extra_three']);
 			$output = "<center>Запрос выполнен!</center><br><p>";
 			$output .= "<ul type='square'>Сейчас Вы можете:";
-			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=store&code=inventory'>Перейти к другим Вашим купленным вещам</li>";
-			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=store'>Посмотреть другие товары магазина</li>";
-			$output .= "<li> <a href='http://forum.sources.ru/index.php?act=idx'>Перейти в Форум на Исходниках.RU</a></li>";
+			$output .= "<li> <a href='https://forum.sources.ru/index.php?act=store&code=inventory'>Перейти к другим Вашим купленным вещам</li>";
+			$output .= "<li> <a href='https://forum.sources.ru/index.php?act=store'>Посмотреть другие товары магазина</li>";
+			$output .= "<li> <a href='https://forum.sources.ru/index.php?act=idx'>Перейти в Форум на Исходниках.RU</a></li>";
 			$output .= "</ul></p>";
 			$this->output .= $output;
 		}
@@ -951,7 +951,7 @@ class store
 		$html .= View::make("store.end_page");
 		// If you wish to remove it you will have to pay the 40$ fee.
 		// See: www.outlaw.ipbhost.com/store/services.php for more infomation on how to pay.
-		$html .= "<br/><div align='center' class='copyright'>Powered by <a href=\"http://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='http://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
+		$html .= "<br/><div align='center' class='copyright'>Powered by <a href=\"https://www.subzerofx.com/shop/\" target='_blank'>IBStore</a> {$this->store_version} &copy; 2003-04 &nbsp;<a href='https://www.subzerofx.com/' target='_blank'>SubZeroFX.</a></div><br>";
 
 		$print = new display();
 

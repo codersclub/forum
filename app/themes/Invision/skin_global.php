@@ -430,13 +430,13 @@ return <<<EOF
 Наши проекты:
 </td>
 <td class='b-neighbor-links' colspan=2>
-<a class='b-neighbor-link b-neighbor-link_magazine' href="http://magazine.sources.ru/"><b>Журнал</b></a>
+<a class='b-neighbor-link b-neighbor-link_magazine' href="https://magazine.sources.ru/"><b>Журнал</b></a>
 &middot;
-<a class='e-neighbor-link e-neighbor-link-discuz' href="http://discuz.ml/" title="Discuz! MultiLingual"><b>Discuz!ML</b></a>
+<a class='e-neighbor-link e-neighbor-link-discuz' href="https://codersclub.org/discuz.ml/" title="Discuz! MultiLingual"><b>Discuz!ML</b></a>
 &middot;
-<a class='b-neighbor-link b-neighbor-link_wiki' href="http://wiki.sources.ru/"><b>Wiki</b></a>
+<a class='b-neighbor-link b-neighbor-link_wiki' href="https://wiki.sources.ru/"><b>Wiki</b></a>
 &middot;
-<a class='b-neighbor-link b-neighbor-link_drkb' href="http://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
+<a class='b-neighbor-link b-neighbor-link_drkb' href="https://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
 &middot;
 <a class='b-neighbor-link b-neighbor-link_donate' href="/donate.php"><b>Помощь&nbsp;проекту</b></a>
 </td>

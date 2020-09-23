@@ -539,22 +539,22 @@ return <<<EOF
 <table class="pformstrip" cellspacing=0 cellpadding=8 width="100%">
   <tr align="center">
    <td>
-   <a href="http://www.yandex.ru" target="_blank" title="Яndex: Найдется ВСЁ!"><img src="/img/yandex.gif" border=0 width=76 height=48></a>
+   <a href="https://www.yandex.ru" target="_blank" title="Яndex: Найдется ВСЁ!"><img src="/img/yandex.gif" border=0 width=76 height=48></a>
    </td>
 
    <td class=tableborder width=1><img src=/html/sys-img/blank.gif></td>
 
    <td width="50%">
-   <a href="http://www.google.ru/webhp?hl=ru" target=_blank title="Google: а ничего и не терялось!"><img src="/img/google.gif" width=150 height=55 border=0 vspace=12></a>
+   <a href="https://www.google.ru/webhp?hl=ru" target=_blank title="Google: а ничего и не терялось!"><img src="/img/google.gif" width=150 height=55 border=0 vspace=12></a>
    </td>
   </tr>
   <tr align="center">
    <td width="50%">
-<FORM NAME="web" METHOD="get" ACTION="http://www.yandex.ru/yandsearch">
+<FORM NAME="web" METHOD="get" ACTION="https://www.yandex.ru/yandsearch">
 <INPUT TYPE="text" NAME="text" SIZE=40 VALUE="" MAXLENGTH=160>
 <INPUT TYPE="hidden" NAME="serverurl" VALUE="forum.sources.ru">
 <INPUT TYPE="hidden" NAME="server_name" VALUE="forum.sources.Ru">
-<INPUT TYPE="hidden" NAME="referrer1" VALUE="http://forum.sources.ru/">
+<INPUT TYPE="hidden" NAME="referrer1" VALUE="https://forum.sources.ru/">
 <INPUT TYPE="hidden" NAME="referrer2" VALUE="forum.sources.ru">
 <INPUT TYPE=SUBMIT VALUE="Search">
 </form>
@@ -562,7 +562,7 @@ return <<<EOF
    <td class=tableborder width=1><img src=/html/sys-img/blank.gif></td>
    </td>
    <td>
-<form name=gs method=GET action=http://www.google.ru/search>
+<form name=gs method=GET action=https://www.google.ru/search>
 <input type=hidden name=hl value="ru">
 <input type=hidden name=as_sitesearch value="forum.sources.ru">
 <input type=text name=q size=41 maxlength=2048 value="" title="">

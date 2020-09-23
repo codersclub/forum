@@ -104,7 +104,7 @@ $lang['fav_remove']  = "Remove from Favorites";
 $lang['modcp_accept']  = "<span style='color:red'><b>Accept</b></span>";
 $lang['modcp_reject']  = "<span style='color:red'><b>Reject</b></span>";
 $lang['attachment_size'] = "Attachment size: %s kb";
-$lang['attachment_size_b']  = "%s B"; // http://en.wikipedia.org/wiki/Byte#Unit_symbol_or_abbreviation
+$lang['attachment_size_b']  = "%s B"; // https://en.wikipedia.org/wiki/Byte#Unit_symbol_or_abbreviation
 $lang['attachment_size_kb']  = "%s K";
 $lang['attachment_size_mb']  = "%s M";
 $lang['attachment_size_gb']  = "%s G";
