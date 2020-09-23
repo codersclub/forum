@@ -2706,7 +2706,7 @@ class functions
 
 		$name = $ibforums->vars['cookie_id'] . $name;
 
-		@setcookie($name, $value, $expires, $ibforums->vars['cookie_path'], $ibforums->vars['cookie_domain']);
+		@setcookie($name, $value, $expires, $ibforums->vars['cookie_path'], $ibforums->vars['cookie_domain'], TRUE);
 	}
 
 	/* ------------------------------------------------------------------------- */
