@@ -10,3 +10,7 @@ Disallow: /vb/
 Allow: /
 
 Host: forum.sources.ru
+
+User-agent: SemrushBot
+Disallow: /
+
