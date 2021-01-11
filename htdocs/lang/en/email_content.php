@@ -128,9 +128,12 @@ $EMAIL['admin_newuser'] = <<<EOF
 
 Hello Mr. Admin Sir!
 
-You have received this email because a new user has registered!
+On <#DATE#> a new user has registered at your forum:
 
-<#MEMBER_NAME#> completed their registration on <#DATE#>
+ID:     <#ID#>
+Login:  <#NAME#>
+E-mail: <#EMAIL#>
+IP:     <#IP_ADDRESS#>
 
 You can turn off user notification in the Admin Control Panel
 

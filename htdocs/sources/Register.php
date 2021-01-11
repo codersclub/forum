@@ -1178,8 +1178,11 @@ class Register
 					$this->email->get_template("admin_newuser");
 
 					$this->email->build_message(array(
-					                                 'DATE'        => $date,
-					                                 'MEMBER_NAME' => $member['name'],
+					                                 'DATE'  => $date,
+					                                 'ID'    => $member['id'],
+					                                 'NAME'  => $member['name'],
+					                                 'EMAIL' => $member['email'],
+					                                 'IP_ADDRESS' => $member['ip_address'],
 					                            ));
 
 					$this->email->subject = "New Registration at " . $ibforums->vars['board_name'];
