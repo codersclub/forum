@@ -702,7 +702,7 @@ class Profile
 
 		if ($member['icq_number'])
 		{
-			$info['icq_status'] = "<a href=https://wwp.icq.com/{$member['icq_number']}#pager target='_blank' title='{$member['icq_number']}' alt='{$member['icq_number']}'><img src=https://online.mirabilis.com/scripts/online.dll?icq={$member['icq_number']}&img=5 width=18 height=18 border=0 align=top></a>";
+			$info['icq_status'] = "<a href=\"https://icq.im/{$member['icq_number']}\" target=\"_blank\" title=\"ICQ {$member['icq_number']}\"><img src=\"https://status.icq.com/online.gif?icq={$member['icq_number']}\" alt=\"ICQ\" width=18 height=18 border=0 align=top></a>";
 			$info['icq_icon']   = "<a href='https://wwp.icq.com/scripts/search.dll?to={$member['icq_number']}'><{P_ICQ}></a>";
 			$info['icq_number'] = $member['icq_number'];
 		} else
