@@ -584,7 +584,7 @@ class display
 		print $output;
 
 		\Logs::info('Stats', 'Queries used: ' . Debug::instance()->stats->queriesCount);
-		\Logs::info('Stats', 'Script Execution Time: ' . sprintf('%.4f', Debug::instance()->executionTime()));
+		\Logs::info('Stats', 'Script execution time: ' . sprintf('%.4f', Debug::instance()->executionTime()));
 
 		exit;
 	}

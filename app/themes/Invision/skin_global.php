@@ -638,7 +638,7 @@ EOF;
 
 function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
 return <<<EOF
-  <div class="b-script-execution-stats">[ Script Execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
+  <div class="b-script-execution-stats">[ Script execution time: {$ex_time} ] &nbsp; [ {$query_cnt} queries used ] &nbsp; [ Generated: {$timestamp} ] &nbsp; {$sload}</div>
 EOF;
 }
 
