@@ -4,6 +4,7 @@ Disallow: /cpp/
 Disallow: /delphi/
 Disallow: /hardware/
 Disallow: /magazine/
+Disallow: /next/
 Disallow: /photo/
 Disallow: /storage/
 Disallow: /vb/
