@@ -11,7 +11,7 @@ $fav = new fav;
 class fav
 {
 	var $output = "";
-	var $nav = "";
+	var $nav = [];
 
 	function __construct()
 	{

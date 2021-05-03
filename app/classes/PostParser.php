@@ -106,7 +106,7 @@ class PostParser
 	var $quote_closed = 0;
 	var $quote_error = 0;
 	var $emoticons = "";
-	var $badwords = "";
+	var $badwords = [];
 	var $strip_quotes = "";
 	var $in_sig = "";
 	var $allow_unicode = 1;
