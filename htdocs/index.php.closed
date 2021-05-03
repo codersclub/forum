@@ -1,6 +1,10 @@
+<?php
+header('HTTP/1.1 503 Service Unavailable Error');
+?>
+
 <html>
 <head><title>Forum at Sources.ru</title></head>
-<body><h1>Sorry, the Forum is temporarly closed!</h1>
+<body><h1>Sorry, the Forum is temporarily closed!</h1>
 Repairing a database now....
 <hr><a href="http://www.sources.ru/">www.sources.ru</a>
 </body></html>
