@@ -44,13 +44,23 @@ _tmr.push({id: "89876", type: "pageView", start: (new Date()).getTime()});
     <% BOARD %>
 
     <span style="float: right;">
-        <!-- Rating@Mail.ru logo -->
         <noindex>
+
+        <!-- Yandex SQI -->
+        <a href="https://webmaster.yandex.ru/siteinfo/?site=https://forum.sources.ru"
+            target="_blank"
+            style="text-decoration:none; padding-right:1em;"
+            title="Yandex: Site Quality Index">
+          <img width="88" height="31" alt="" border="0" src="https://yandex.ru/cycounter?https://forum.sources.ru&theme=light&lang=en"/>
+        </a>
+
+        <!-- Rating@Mail.ru logo -->
         <a href="https://top.mail.ru/jump?from=89876">
         <img src="//top-fwz1.mail.ru/counter?id=89876;t=8;l=1" 
         style="border:0;" height="40" width="88" alt="Рейтинг@Mail.ru" /></a>
-        </noindex>
         <!-- //Rating@Mail.ru logo -->
+
+        </noindex>
     </span>
 
     <% STATS %>
