@@ -555,7 +555,7 @@ class Reputation
 						}
 					}
 
-					if ($ibforums->member['g_access_cp'] and $ibforums->member['id'] != $i['member_id'])
+					if ($ibforums->member['g_access_cp'])
 					{
 						$i['admin_undo'] = "<br><a href='{$ibforums->base_url}act=rep&amp;CODE=delete&amp;type={$ibforums->input['type']}&amp;id={$i['msg_id']}&amp;mid={$i['member_id']}'>{$ibforums->lang['undo_change']}</a>";
 					}
@@ -712,7 +712,7 @@ class Reputation
 						}
 					}
 
-					if ($ibforums->member['g_access_cp'] and $ibforums->member['id'] != $i['member_id'])
+					if ($ibforums->member['g_access_cp'])
 					{
 						$i['admin_undo'] = "<br><a href='{$ibforums->base_url}act=rep&CODE=delete&id={$i['msg_id']}&mid={$i['member_id']}'>{$ibforums->lang['undo_change']}</a>";
 					}
@@ -762,7 +762,7 @@ class Reputation
 
 				if ($row['member_id'] == $ibforums->member['id'])
 				{
-					$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
+//					$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
 				}
 
 				$ibforums->db->exec("DELETE FROM ibf_reputation WHERE msg_id='" . $ibforums->input['id'] . "'");
