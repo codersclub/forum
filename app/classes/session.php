@@ -459,6 +459,12 @@ class session
 
 		$ibforums->perm_id_array = explode(",", $ibforums->perm_id);
 
+		// Disable Rating for Awaiting Registration members
+		if ($this->member['mgroup'] == $ibforums->vars['auth_group'])
+		{
+			$this->member['allow_rep'] = 0;
+		}
+
 		return $this->member;
 	}
 
