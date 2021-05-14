@@ -157,10 +157,12 @@ $EMAIL['admin_newuser'] = <<<EOF
 
 <#DATE#> на вашем форуме зарегистрировался новый пользователь:
 
-ID:     <#ID#>
-Login:  <#NAME#>
-E-mail: <#EMAIL#>
-IP:     <#IP_ADDRESS#>
+ID:       <#ID#>
+Login:    <#NAME#>
+E-mail:   <#EMAIL#>
+IP:       <#IP_ADDRESS#>
+Referer:  <#REFERER#>
+Location: <#LOCATION#>
 
 Вы можете отключить это уведомление через админ-центр.
 

@@ -130,10 +130,12 @@ Hello Mr. Admin Sir!
 
 On <#DATE#> a new user has registered at your forum:
 
-ID:     <#ID#>
-Login:  <#NAME#>
-E-mail: <#EMAIL#>
-IP:     <#IP_ADDRESS#>
+ID:       <#ID#>
+Login:    <#NAME#>
+E-mail:   <#EMAIL#>
+IP:       <#IP_ADDRESS#>
+Referer:  <#REFERER#>
+Location: <#LOCATION#>
 
 You can turn off user notification in the Admin Control Panel
 

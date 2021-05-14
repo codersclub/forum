@@ -1183,6 +1183,8 @@ class Register
 					                                 'NAME'  => $member['name'],
 					                                 'EMAIL' => $member['email'],
 					                                 'IP_ADDRESS' => $member['ip_address'],
+					                                 'LOCATION' => $ibforums->input['Location'],
+					                                 'REFERER' => $_SERVER['HTTP_REFERER'],
 					                            ));
 
 					$this->email->subject = "New Registration at " . $ibforums->vars['board_name'];

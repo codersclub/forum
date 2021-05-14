@@ -128,6 +128,10 @@ return <<<EOF
   <!--{OPTIONAL.FIELDS}-->
   <!--IBF.MODULES.EXTRA-->
   <!--{REG.ANTISPAM}-->
+  <tr class='location'>
+    <td class="pformleft"><b>Location</b><br>Enter your country, i.e. USA, Brasilia, Netherlands, etc.</td>
+    <td class="pformright"><input type='text' size='32' maxlength='50' value='' name='Location' class='forminput'></td>
+  </tr>
   </table>
 </div>
 <br>
