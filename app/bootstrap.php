@@ -27,15 +27,15 @@ Logs\Logger::initialize();
  * Root path
  */
 define('ROOT_PATH', Config::get('path.public') . '/');
-
+define('BASE_PATH', Config::get('path.base'));
 
 /**
  * Configs
  */
-if (!file_exists(__DIR__ . '/../conf_global.php')) {
+if (!file_exists(BASE_PATH . '/conf_global.php')) {
     throw new Exception('Please create or copy "conf_global.php"');
 }
-require __DIR__ . '/../conf_global.php';
+require BASE_PATH . '/conf_global.php';
 
 if(@$_SERVER['HTTP_HOST'] && @$_SERVER['REQUEST_SCHEME']) {
     $source_url = 'http://' . $_SERVER['HTTP_HOST'];

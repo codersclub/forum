@@ -180,8 +180,13 @@ class Registry
                 return $defaultValue;
             }
             $conf = $conf[$elem];
-
         }
+
+        // Fix path for Windows
+        if($name=='path') {
+            $conf = str_replace('\\', '/', realpath($conf));
+        }
+
         return $conf;
     }
 
