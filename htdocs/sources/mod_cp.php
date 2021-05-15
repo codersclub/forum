@@ -58,7 +58,7 @@ class Moderate
 	//
 	/***********************************************************************************/
 
-	function Moderate()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

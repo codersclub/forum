@@ -29,7 +29,7 @@ class TNX_n
         var $_down_status = 0;
         var $_content = '';
 
-        function TNX_n($login, $cache_dir)
+        function __construct($login, $cache_dir)
         {
                 // проверяем коннекты
                 if($this->_connect_using == 'fsock' AND !function_exists('fsockopen'))

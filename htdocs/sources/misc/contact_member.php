@@ -45,7 +45,7 @@ class Contact
 	//
 	/***********************************************************************************/
 
-	function Contact()
+	function __construct()
 	{
 
 		global $ibforums, $std, $print;

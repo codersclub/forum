@@ -37,7 +37,7 @@ class Poll
 	var $poll_count = 0;
 	var $poll_choices = "";
 
-	function Poll()
+	function __construct()
 	{
 
 		global $ibforums, $std, $print;

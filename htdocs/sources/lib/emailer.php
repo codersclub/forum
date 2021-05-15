@@ -60,7 +60,7 @@ class emailer
 
 	var $temp_dump = 1;
 
-	function emailer()
+	function __construct()
 	{
 		global $ibforums;
 
@@ -456,7 +456,7 @@ class emailer
 
 		for ($i = 0; $i < $j; ++$i)
 		{
-			switch ($string{$i})
+			switch ($string[$i])
 			{
 				case '=':
 				case '<':
@@ -479,7 +479,7 @@ class emailer
 						$iEncStart = false;
 					} else
 					{
-						$ret .= sprintf("=%02X", ord($string{$i}));
+						$ret .= sprintf("=%02X", ord($string[$i]));
 					}
 					break;
 				case '(':
@@ -513,7 +513,7 @@ class emailer
 					}
 					break;
 				default:
-					$k = ord($string{$i});
+					$k = ord($string[$i]);
 					if ($k > 126)
 					{
 						if ($iEncStart === false)
@@ -554,7 +554,7 @@ class emailer
 								$ret       = '';
 							} else
 							{
-								$ret .= $string{$i};
+								$ret .= $string[$i];
 							}
 						}
 					}

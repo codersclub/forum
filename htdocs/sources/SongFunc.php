@@ -28,7 +28,7 @@ class SongFunc
 
 	var $output = "";
 
-	function SongFunc()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

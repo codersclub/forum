@@ -63,7 +63,7 @@ class Search
 	var $modfunctions = false;
 
 	//--------------------------------------------
-	function Search()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

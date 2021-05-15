@@ -42,7 +42,7 @@ class task_functions
 	//
 	/*-------------------------------------------------------------------------*/
 
-	function task_functions()
+	function __construct()
 	{
 		global $std, $ibforums, $ROOT_PATH;
 

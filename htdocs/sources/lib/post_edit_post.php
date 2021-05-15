@@ -42,7 +42,7 @@ class post_functions extends Post
 	var $edit_title = 0;
 
 	//-----------------------------------
-	function post_functions($class)
+	function __construct($class)
 	{
 
 		global $ibforums, $std;

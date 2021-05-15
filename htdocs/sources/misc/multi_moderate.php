@@ -41,7 +41,7 @@ class  multi_mod
 	// @constructor (no, not bob the builder)
 	//------------------------------------------------------
 
-	function multi_mod()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

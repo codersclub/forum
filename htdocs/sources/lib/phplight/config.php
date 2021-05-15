@@ -8,7 +8,7 @@ class HiLight_Config
 	var $delimeter;
 	var $equation;
 
-	function HiLight_Config($filename,$del=array('#','%~','[',']'),$eq='=')
+	function __construct($filename,$del=array('#','%~','[',']'),$eq='=')
 	{
 		if(empty($filename)||empty($del[0])||empty($del[1])||
 				empty($eq)||!is_file($filename))return false;

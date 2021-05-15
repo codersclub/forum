@@ -41,7 +41,7 @@ class ipb_member_sync
 {
 	var $class = "";
 
-	function ipb_member_sync()
+	function __construct()
 	{
 
 	}

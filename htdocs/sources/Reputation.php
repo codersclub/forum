@@ -10,7 +10,7 @@ class Reputation
 	var $message = "";
 	var $parser = "";
 
-	function Reputation()
+	function __construct()
 	{
 		global $ibforums, $std;
 

@@ -13,7 +13,7 @@ class Statistics
 	var $page_title = "";
 	var $nav = array();
 
-	function Statistics()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

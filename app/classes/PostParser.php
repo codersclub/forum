@@ -39,7 +39,7 @@ class syntax_rule
 	var $tags = array();
 	var $actions = array();
 
-	function syntax_rule($db_row)
+	function __construct($db_row)
 	{
 		$this->reg_exp = $db_row ['reg_exp'];
 

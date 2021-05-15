@@ -34,7 +34,7 @@ class tracker
 	var $category = array();
 	var $type = 'topic';
 
-	function tracker($is_sub = 0)
+	function __construct($is_sub = 0)
 	{
 
 		//------------------------------------------------------

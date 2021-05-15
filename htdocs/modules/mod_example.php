@@ -39,7 +39,7 @@ class module extends module_loader
 	// Constructer, called and run by IPB
 	//=====================================
 
-	function module()
+	function __construct()
 	{
 		global $ibforums, $std;
 

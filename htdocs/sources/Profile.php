@@ -55,7 +55,7 @@ class Profile
 	var $lib;
 
 	//----------------------------------------------------------
-	function Profile()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

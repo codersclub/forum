@@ -37,7 +37,7 @@ class module_loader
 	var $class = "";
 	var $module = "";
 
-	function module_loader()
+	function __construct()
 	{
 		global $ibforums;
 

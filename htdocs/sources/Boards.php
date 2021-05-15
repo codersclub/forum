@@ -49,7 +49,7 @@ class Boards {
 	var $fs = array();
 	var $cs = array();
 
-	function Boards()
+	function __construct()
 	{
 		global $std, $print;
 

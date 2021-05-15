@@ -49,7 +49,7 @@ class  warn
 	// @constructor (no, not bob the builder)
 	//------------------------------------------------------
 
-	function warn()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

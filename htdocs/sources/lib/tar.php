@@ -91,7 +91,7 @@ class tar
 	// CONSTRUCTOR: Attempt to guess the current working dir.
 	//+--------------------------------------------------------------------------
 
-	function tar()
+	function __construct()
 	{
 		//		global $HTTP_SERVER_VARS;
 

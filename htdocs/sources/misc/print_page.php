@@ -45,7 +45,7 @@ class Printable
 	//
 	/***********************************************************************************/
 
-	function Printable()
+	function __construct()
 	{
 
 		global $ibforums, $std, $print;

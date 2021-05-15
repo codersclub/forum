@@ -11,7 +11,7 @@ class HiLight_Format
 {
 	var $cfg;
 
-	function HiLight_Format(&$config)
+	function __construct(&$config)
 	{
 		$this->cfg=$config;
 	}

@@ -42,7 +42,7 @@ class calendar
 	var $month_words = array();
 	var $day_words = array();
 
-	function calendar()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

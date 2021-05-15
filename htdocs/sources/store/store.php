@@ -22,7 +22,7 @@ class store
 	var $store_version = "2.5";
 	var $nav = array();
 
-	function store()
+	function __construct()
 	{
 		global $ibforums, $std, $print, $lib;
 

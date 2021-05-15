@@ -33,7 +33,7 @@ class Login
 	var $login_html = "";
 	var $modules = "";
 
-	function Login()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

@@ -52,7 +52,7 @@ class Search
 	var $mysql_version = "";
 	var $true_version = "";
 
-	function Search()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

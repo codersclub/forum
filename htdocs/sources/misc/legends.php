@@ -30,7 +30,7 @@ class legends
 	var $output = "";
 	var $base_url = "";
 
-	function legends()
+	function __construct()
 	{
 
 		//------------------------------------------------------

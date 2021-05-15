@@ -33,7 +33,7 @@ class Register
 	var $email = "";
 	var $modules = "";
 
-	function Register()
+	function __construct()
 	{
 		global $ibforums, $std, $print;
 

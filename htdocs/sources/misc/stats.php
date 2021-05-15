@@ -31,7 +31,7 @@ class stats
 	var $base_url = "";
 	var $forum = "";
 
-	function stats()
+	function __construct()
 	{
 
 		//------------------------------------------------------

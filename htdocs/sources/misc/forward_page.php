@@ -40,7 +40,7 @@ class Forward
 	//
 	/***********************************************************************************/
 
-	function Forward()
+	function __construct()
 	{
 
 		global $ibforums, $std, $print;

@@ -33,7 +33,7 @@ class buddy {
 
 
 
-    function buddy() {
+    function __construct() {
     	global $std, $print;
 
 		$ibforums = Ibf::app();

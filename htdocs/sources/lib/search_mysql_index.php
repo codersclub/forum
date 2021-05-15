@@ -33,7 +33,7 @@ class search_lib extends Search
 	// Constructor
 	//--------------------------------------------
 
-	function search_lib($that)
+	function __construct($that)
 	{
 		global $ibforums, $std, $print;
 
