@@ -135,6 +135,7 @@ Login:    <#NAME#>
 E-mail:   <#EMAIL#>
 IP:       <#IP_ADDRESS#>
 Referer:  <#REFERER#>
+WebSite:  <#WEBSITE#>
 Location: <#LOCATION#>
 
 You can turn off user notification in the Admin Control Panel

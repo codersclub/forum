@@ -162,6 +162,7 @@ Login:    <#NAME#>
 E-mail:   <#EMAIL#>
 IP:       <#IP_ADDRESS#>
 Referer:  <#REFERER#>
+WebSite:  <#WEBSITE#>
 Location: <#LOCATION#>
 
 Вы можете отключить это уведомление через админ-центр.

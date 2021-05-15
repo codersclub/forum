@@ -128,7 +128,11 @@ return <<<EOF
   <!--{OPTIONAL.FIELDS}-->
   <!--IBF.MODULES.EXTRA-->
   <!--{REG.ANTISPAM}-->
-  <tr class='location'>
+  <tr class='reg_website'>
+    <td class='pformleft'><b>{$ibforums->lang['website']}</b></td>
+    <td class='pformright'><input type='text' maxlength='250' name='WebSite' value='' class='forminput w100'></td>
+  </tr>
+  <tr class='reg_location'>
     <td class="pformleft"><b>Location</b><br>Enter your country, i.e. USA, Brasilia, Netherlands, etc.</td>
     <td class="pformright"><input type='text' size='32' maxlength='50' value='' name='Location' class='forminput'></td>
   </tr>
