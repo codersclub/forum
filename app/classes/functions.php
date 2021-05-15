@@ -2748,7 +2748,7 @@ class functions
 				}
 				if (is_array($_GET[$k]))
 				{
-					while (list($k2, $v2) = each($_GET[$k]))
+					foreach ($_GET[$k] as $k2 => $v2)
 					{
 						$return[$k][$this->clean_key($k2)] = $this->clean_value($v2, true);
 					}
@@ -2767,7 +2767,7 @@ class functions
 		    {
 				if (is_array($_POST[$k]))
 				{
-					while (list($k2, $v2) = each($_POST[$k]))
+					foreach ($_POST[$k] as $k2 => $v2)
 					{
 						$return[$k][$this->clean_key($k2)] = $this->clean_value($v2);
 					}

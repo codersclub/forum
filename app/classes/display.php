@@ -192,7 +192,7 @@ class display
 			{
 				$stats .= "<br>\n<div class='tableborder'>\n<div class='pformstrip'>FORM and GET Input</div><div class='row1' style='padding:6px'>\n";
 
-				while (list($k, $v) = each($ibforums->input))
+				foreach ($ibforums->input as $k => $v)
 				{
 					$stats .= "<strong>$k</strong> = $v<br>\n";
 				}
