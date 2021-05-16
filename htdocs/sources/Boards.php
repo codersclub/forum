@@ -143,15 +143,16 @@ class Boards {
 				if (!isset($visible))
 					$visible = 1;
 
-				$this->cats[$r['cat_id']] = array('id'			 => $r['cat_id'],
-					'position'		 => $r['cat_position'],
-					'state'			 => $r['cat_state'],
-					'name'			 => $r['cat_name'],
-					'icon'			 => $r['cat_icon'],
-					'description'	 => $r['cat_desc'],
-					'image'			 => $r['image'],
-					'url'			 => $r['url'],
-					'visible'		 => $visible,
+				$this->cats[$r['cat_id']] = array(
+					'id'		=> $r['cat_id'],
+					'position'	=> $r['cat_position'],
+					'state'		=> $r['cat_state'],
+					'name'		=> $r['cat_name'],
+					'icon'		=> $r['cat_icon'],
+					'description'	=> $r['cat_desc'],
+					'image'		=> $r['image'],
+					'url'		=> $r['url'],
+					'visible'	=> $visible,
 				);
 				$last_c_id = $r['cat_id'];
 			}
@@ -1217,7 +1218,9 @@ class Boards {
 					{
 						$newest['last_poster'] = $ibforums->lang['f_none'];
 					}
-
+					if(empty($this->children[$forum_data['fid']])) {
+						$this->children[$forum_data['fid']] = [];
+					}
 					$newest['img_new_post'] = $std->forum_new_posts($newest, ( count($this->children[$forum_data['fid']]) > 0 or $printed_children > 0 )
 							? 1
 							: 0, $state, $this->mods);

@@ -564,6 +564,10 @@ class Forums
 			return View::make("boards.forum_redirect_row", ['info' => $forum_data]);
 		}
 
+		if(empty($this->children[$forum_data['id']])) {
+			$this->children[$forum_data['id']] = [];
+		}
+
 		$forum_data['img_new_post'] = $ibforums->functions->forum_new_posts($forum_data, count($this->children[$forum_data['id']]) > 0, "", $this->mods);
 
 		if ($forum_data['img_new_post'] == '<{C_ON}>')
