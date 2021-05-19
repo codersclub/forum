@@ -3034,6 +3034,11 @@ class ad_forums
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
+		                                       '<b>Jabber</b>',
+		                                       $SKIN->form_input('integ_msg', $mem['integ_msg'])
+		                                  ));
+
+		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Website Address</b>",
 		                                       $SKIN->form_input("website", $mem['website'])
 		                                  ));
@@ -3248,6 +3253,7 @@ class ad_forums
 			'email'               => $IN['email'],
 			'aim_name'            => $IN['aim_name'],
 			'icq_number'          => $IN['icq_number'],
+			'integ_msg'           => $IN['integ_msg'],
 			'yahoo'               => $IN['yahoo'],
 			'msnname'             => $IN['msnname'],
 			'website'             => $IN['website'],
