@@ -388,7 +388,7 @@ class admin_skin
 	function form_textarea($name, $value = "", $cols = '60', $rows = '5', $wrap = 'soft')
 	{
 
-		return "<textarea name='$name' cols='$cols' rows='$rows' wrap='$wrap' class='multitext'>$value</textarea>";
+		return "<textarea name='$name' cols='$cols' rows='$rows' wrap='$wrap' class='multitext'>" . htmlspecialchars($value) . "</textarea>";
 
 	}
 
