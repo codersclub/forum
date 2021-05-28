@@ -1358,18 +1358,19 @@ class ad_groups
 			//---------------------------
 			// Update the DB...
 			//---------------------------
+			$sql = "UPDATE ibf_forums
+				SET
+					read_perms='$read',
+					reply_perms='$reply',
+					start_perms='$start',
+					upload_perms='$upload'
+				WHERE id=" . intval($row['id'])";
 
-			if (!$new_q = $ibforums->db->exec("UPDATE ibf_forums
-						   SET
-							read_perms='$read',
-							reply_perms='$reply',
-							start_perms='$start',
-							upload_perms='$upload'
-						   WHERE id=" . intval($row['id']))
-			)
-			{
-				die ("Update query failed on Forum ID " . $row['id']);
-			}
+			$new_q = $ibforums->db->exec($sql);
+
+			//dump($sql, '$sql');
+			//dump($new_q, '$new_q');
+			//dump($ibforums->db->errorInfo(), '$ibforums->db->errorInfo()');
 
 		}
 
