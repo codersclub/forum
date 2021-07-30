@@ -110,11 +110,11 @@ class modfunctions
 			'icon_id'      => 0,
 			'post'         => $post,
 			'author_name'  => $ibforums->member['name'],
-			'forum_id'     => "",
-			'topic_id'     => "",
+			'forum_id'     => 0,
+			'topic_id'     => 0,
 			'queued'       => 0,
-			'attach_id'    => "",
-			'attach_hits'  => "",
+			'attach_id'    => "", // varchar(16)
+			'attach_hits'  => 0,
 			'attach_type'  => "",
 			'delete_after' => $std->delayed_time($post, $this->forum['days_off'], 0, $this->moderator),
 		);
