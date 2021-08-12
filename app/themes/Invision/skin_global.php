@@ -416,29 +416,35 @@ return <<<EOF
 <tr id='logostrip'>
 <td class='b-logo-wrapper'><a class='b-logo_link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='b-logo_img' src='{$ibforums->skin['ImagesPath']}/logo4.gif' alt='На главную' border='0'></a></td>
 
-<td align='center' class='b-slogan-wrapper'>
-<!-- SLOGAN -->
-</td>
-
-<td class='b-header-banner-wrapper'>
-<!-- HEADER_BANNER -->
+<td align='center' class='b-slogan-wrapper' colspan=2>
+Наши проекты:
+<br>
+<a class='b-neighbor-link b-neighbor-link_magazine' href="https://magazine.sources.ru/"><b>Журнал</b></a>
+&nbsp;
+&middot;
+&nbsp;
+<a class='e-neighbor-link e-neighbor-link-discuz' href="https://codersclub.org/discuz.ml/" title="Discuz! MultiLingual"><b>Discuz!ML</b></a>
+&nbsp;
+&middot;
+&nbsp;
+<a class='b-neighbor-link b-neighbor-link_wiki' href="https://wiki.sources.ru/"><b>Wiki</b></a>
+&nbsp;
+&middot;
+&nbsp;
+<a class='b-neighbor-link b-neighbor-link_drkb' href="https://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
+&nbsp;
+&middot;
+&nbsp;
+<a class='b-neighbor-link b-neighbor-link_donate' href="/donate.php"><b>Помощь&nbsp;проекту</b></a>
 </td>
 </tr>
 
 <tr class='b-neighbor-links-wrapper'>
 <td class='b-neighbor-links-title'>
-Наши проекты:
+<!-- SLOGAN -->
 </td>
 <td class='b-neighbor-links' colspan=2>
-<a class='b-neighbor-link b-neighbor-link_magazine' href="https://magazine.sources.ru/"><b>Журнал</b></a>
-&middot;
-<a class='e-neighbor-link e-neighbor-link-discuz' href="https://codersclub.org/discuz.ml/" title="Discuz! MultiLingual"><b>Discuz!ML</b></a>
-&middot;
-<a class='b-neighbor-link b-neighbor-link_wiki' href="https://wiki.sources.ru/"><b>Wiki</b></a>
-&middot;
-<a class='b-neighbor-link b-neighbor-link_drkb' href="https://drkb.ru/" title="Delphi Resources Knowledge Base"><b>DRKB</b></a>
-&middot;
-<a class='b-neighbor-link b-neighbor-link_donate' href="/donate.php"><b>Помощь&nbsp;проекту</b></a>
+<!-- HEADER_BANNER -->
 </td>
 </tr>
 </table>
