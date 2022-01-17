@@ -751,7 +751,12 @@ class display
 			exit();
 		}
 
-		$std->boink_it($ibforums->base_url . $url, $type);
+		if (!preg_match("#^https?://#", $url))
+		{
+			$url = $ibforums->base_url . $url;
+		}
+
+		$std->boink_it($url, $type);
 
 		exit();
 	}
