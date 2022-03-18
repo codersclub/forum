@@ -113,13 +113,20 @@ class ad_cat
 		$cats   = array();
 		$forums = array();
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_categories WHERE id > 0 ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_categories
+			WHERE id > 0
+			ORDER BY position ASC");
 		while ($r = $stmt->fetch())
 		{
 			$cats[] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_forums ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			ORDER BY position ASC");
 		while ($r = $stmt->fetch())
 		{
 			$forums[] = $r;
@@ -139,12 +146,14 @@ class ad_cat
 		foreach ($cats as $c)
 		{
 
-			$ADMIN->html .= $SKIN->add_td_row(array(
-			                                       $SKIN->form_dropdown('POS_' . $c['id'], $form_array, $c['position']),
-			                                       $c['name'],
-			                                       '&nbsp;',
-			                                       '&nbsp;',
-			                                  ), 'pformstrip');
+			$ADMIN->html .= $SKIN->add_td_row(
+				array(
+					$SKIN->form_dropdown('POS_' . $c['id'], $form_array, $c['position']),
+					$c['name'],
+					'&nbsp;',
+					'&nbsp;',
+				),
+				'pformstrip');
 			$last_cat_id = $c['id'];
 
 			foreach ($forums as $r)
@@ -177,11 +186,16 @@ class ad_cat
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
 
-		$stmt = $ibforums->db->query("SELECT id from ibf_categories");
+		$stmt = $ibforums->db->query(
+			"SELECT id from ibf_categories"
+		);
 
 		while ($r = $stmt->fetch())
 		{
-			$order_query = $ibforums->db->exec("UPDATE ibf_categories SET position='" . $IN['POS_' . $r['id']] . "' WHERE id='" . $r['id'] . "'");
+			$order_query = $ibforums->db->exec(
+				"UPDATE ibf_categories
+				SET position='" . $IN['POS_' . $r['id']] . "'
+				WHERE id='" . $r['id'] . "'");
 		}
 
 		$ADMIN->save_log("Re-ordered categories");
@@ -208,7 +222,10 @@ class ad_cat
 			$ADMIN->error("Could not determine the category ID to update.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id, name FROM ibf_categories WHERE id > 0 ");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name
+			FROM ibf_categories
+			WHERE id > 0 ");
 
 		//+-------------------------------
 		// Make sure we have more than 1
@@ -234,7 +251,10 @@ class ad_cat
 		// Get the details for this category...
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_categories WHERE id='" . $IN['c'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_categories
+			WHERE id='" . $IN['c'] . "'");
 		$cat  = $stmt->fetch();
 
 		//+-------------------------------
@@ -293,9 +313,14 @@ class ad_cat
 			$ADMIN->error("Could not determine the destination category ID.");
 		}
 
-		$ibforums->db->exec("UPDATE ibf_forums SET category='" . $IN['MOVE_ID'] . "' WHERE category='" . $IN['c'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_forums
+			SET category='" . $IN['MOVE_ID'] . "'
+			WHERE category='" . $IN['c'] . "'");
 
-		$ibforums->db->exec("DELETE FROM ibf_categories WHERE id='" . $IN['c'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_categories
+			WHERE id='" . $IN['c'] . "'");
 
 		$ADMIN->save_log("Removed category '{$IN['name']}'");
 
@@ -316,7 +341,10 @@ class ad_cat
 
 		$subcats = array();
 
-		$stmt = $ibforums->db->query("SELECT id, name FROM ibf_categories WHERE id > 0");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name
+			FROM ibf_categories
+			WHERE id > 0");
 
 		while ($r = $stmt->fetch())
 		{
@@ -328,7 +356,10 @@ class ad_cat
 			$subcats[] = array($r['id'], $r['name']);
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_categories WHERE id='" . $IN['c'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_categories
+			WHERE id='" . $IN['c'] . "'");
 		$cat  = $stmt->fetch();
 
 		$ADMIN->page_title = "Edit a category";
@@ -456,13 +487,20 @@ class ad_cat
 		$children    = array();
 		$this->skins = array();
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_categories WHERE id > 0 ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_categories
+			WHERE id > 0
+			ORDER BY position ASC");
 		while ($r = $stmt->fetch())
 		{
 			$cats[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_forums ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			ORDER BY position ASC");
 		while ($r = $stmt->fetch())
 		{
 

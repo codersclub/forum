@@ -138,7 +138,9 @@ class ad_groups
 			$ADMIN->error("Could not resolve the permission mask setty doodle thingy ID, please try again");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_forum_perms WHERE perm_id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_forum_perms
+			WHERE perm_id='" . $IN['id'] . "'");
 
 		$old_id = intval($IN['id']);
 
@@ -146,7 +148,9 @@ class ad_groups
 		// Remove from forums...
 		//+-------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT id, read_perms, reply_perms, start_perms, upload_perms FROM ibf_forums");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, read_perms, reply_perms, start_perms, upload_perms
+            FROM ibf_forums");
 
 		while ($f = $stmt->fetch())
 		{
@@ -197,8 +201,9 @@ class ad_groups
 		// UPDATE DB
 		//+-------------------------------------------
 
-		$ibforums->db->exec("INSERT INTO ibf_forum_perms
-			    SET perm_name='" . $IN['new_perm_name'] . "'");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_forum_perms
+			SET perm_name='" . $IN['new_perm_name'] . "'");
 
 		$new_id = $ibforums->db->lastInsertId();
 
@@ -212,7 +217,9 @@ class ad_groups
 
 			if (($new_id > 0) and ($old_id > 0))
 			{
-				$stmt = $ibforums->db->query("SELECT id, read_perms, reply_perms, start_perms, upload_perms FROM ibf_forums");
+				$stmt = $ibforums->db->query(
+				    "SELECT id, read_perms, reply_perms, start_perms, upload_perms
+                    FROM ibf_forums");
 
 				while ($f = $stmt->fetch())
 				{
@@ -263,7 +270,10 @@ class ad_groups
 			$ADMIN->error("Could not resolve the permission mask setty doodle thingy ID, please try again");
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms WHERE perm_id='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forum_perms
+            WHERE perm_id='" . $IN['id'] . "'");
 
 		if (!$perms = $stmt->fetch())
 		{
@@ -304,10 +314,13 @@ class ad_groups
 
 		$last_cat_id = -1;
 
-		$stmt = $ibforums->db->query("SELECT f.id as forum_id, f.parent_id, f.subwrap, f.sub_can_post, f.name as forum_name, f.position, f.read_perms, f.start_perms, f.reply_perms, c.id as cat_id, c.name
-				    FROM ibf_forums f
-				     LEFT JOIN ibf_categories c ON (c.id=f.category)
-				    ORDER BY c.position, f.position");
+		$stmt = $ibforums->db->query(
+		    "SELECT f.id as forum_id, f.parent_id, f.subwrap, f.sub_can_post, f.name as forum_name, f.position,
+                f.read_perms, f.start_perms, f.reply_perms, c.id as cat_id, c.name
+			FROM ibf_forums f
+			LEFT JOIN ibf_categories c
+			    ON (c.id=f.category)
+			ORDER BY c.position, f.position");
 
 		$forum_keys = array();
 		$cat_keys   = array();
@@ -465,7 +478,10 @@ class ad_groups
 		// Get, check and reset
 		//+-------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT id, name, org_perm_id FROM ibf_members WHERE id=" . intval($IN['id']));
+		$stmt = $ibforums->db->query(
+		    "SELECT id, name, org_perm_id
+            FROM ibf_members
+            WHERE id=" . intval($IN['id']));
 
 		if (!$mem = $stmt->fetch())
 		{
@@ -474,9 +490,10 @@ class ad_groups
 
 		if ($IN['pid'] == 'all')
 		{
-			$ibforums->db->exec("UPDATE ibf_members
-				    SET org_perm_id=0
-				    WHERE id=" . intval($IN['id']));
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET org_perm_id=0
+				WHERE id=" . intval($IN['id']));
 		} else
 		{
 			$IN['pid'] = intval($IN['pid']);
@@ -485,9 +502,10 @@ class ad_groups
 
 			if (count($pid_array) < 2)
 			{
-				$ibforums->db->exec("UPDATE ibf_members
-					    SET org_perm_id=0
-					    WHERE id=" . intval($IN['id']));
+				$ibforums->db->exec(
+				    "UPDATE ibf_members
+					SET org_perm_id=0
+					WHERE id=" . intval($IN['id']));
 			} else
 			{
 				$new_arr = array();
@@ -500,9 +518,10 @@ class ad_groups
 					}
 				}
 
-				$ibforums->db->exec("UPDATE ibf_members
-					    SET org_perm_id='" . implode(",", $new_arr) . "'
-					    WHERE id=" . intval($IN['id']));
+				$ibforums->db->exec(
+				    "UPDATE ibf_members
+					SET org_perm_id='" . implode(",", $new_arr) . "'
+					WHERE id=" . intval($IN['id']));
 			}
 
 		}
@@ -543,7 +562,10 @@ class ad_groups
 			$ADMIN->error("Could not resolve the permission mask setty doodle thingy ID, please try again");
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms WHERE perm_id='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forum_perms
+            WHERE perm_id='" . $IN['id'] . "'");
 
 		if (!$perms = $stmt->fetch())
 		{
@@ -573,7 +595,12 @@ class ad_groups
 
 		$ADMIN->html .= $SKIN->start_table("Members using: " . $perms['perm_name']);
 
-		$stmt = $ibforums->db->query("SELECT id, name, email, posts, org_perm_id FROM ibf_members WHERE (org_perm_id IS NOT NULL AND org_perm_id <> 0) ORDER BY name");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, name, email, posts, org_perm_id
+            FROM ibf_members
+            WHERE (org_perm_id IS NOT NULL
+                AND org_perm_id <> 0)
+            ORDER BY name");
 
 		while ($r = $stmt->fetch())
 		{
@@ -587,7 +614,11 @@ class ad_groups
 					{
 						$extra = "<li>Also using: <em style='color:red'>";
 
-						$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms WHERE perm_id IN ({$r['org_perm_id']}) AND perm_id <> {$IN['id']}");
+						$stmt = $ibforums->db->query(
+						    "SELECT *
+                            FROM ibf_forum_perms
+                            WHERE perm_id IN ({$r['org_perm_id']})
+                              AND perm_id <> {$IN['id']}");
 
 						while ($mr = $stmt->fetch())
 						{
@@ -647,7 +678,9 @@ class ad_groups
 
 		$perms = array();
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forum_perms");
 
 		while ($r = $stmt->fetch())
 		{
@@ -661,7 +694,12 @@ class ad_groups
 
 		$mems = array();
 
-		$stmt = $ibforums->db->query("SELECT COUNT(id) as count, org_perm_id FROM ibf_members WHERE (org_perm_id IS NOT NULL AND org_perm_id <> 0) GROUP by org_perm_id");
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(id) as count, org_perm_id
+            FROM ibf_members
+            WHERE (org_perm_id IS NOT NULL
+              AND org_perm_id <> 0)
+            GROUP by org_perm_id");
 
 		while ($r = $stmt->fetch())
 		{
@@ -684,7 +722,9 @@ class ad_groups
 
 		$groups = array();
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title, g_perm_id FROM ibf_groups");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id, g_title, g_perm_id
+            FROM ibf_groups");
 
 		while ($r = $stmt->fetch())
 		{
@@ -830,7 +870,10 @@ class ad_groups
 
 		//+----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms WHERE perm_id='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forum_perms
+            WHERE perm_id='" . $IN['id'] . "'");
 
 		$group = $stmt->fetch();
 
@@ -843,14 +886,21 @@ class ad_groups
 		$forums   = array();
 		$children = array();
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_categories WHERE id > 0 ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_categories
+            WHERE id > 0
+            ORDER BY position ASC");
 
 		while ($r = $stmt->fetch())
 		{
 			$cats[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_forums ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forums
+            ORDER BY position ASC");
 
 		while ($r = $stmt->fetch())
 		{
@@ -1141,16 +1191,20 @@ class ad_groups
 
 		//---------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms WHERE perm_id='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forum_perms
+            WHERE perm_id='" . $IN['id'] . "'");
 
 		if (!$gr = $stmt->fetch())
 		{
 			$ADMIN->error("Not a valid group ID");
 		}
 
-		$ibforums->db->exec("UPDATE ibf_forum_perms
-			    SET perm_name='{$IN['perm_name']}'
-			    WHERE perm_id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_forum_perms
+			SET perm_name='{$IN['perm_name']}'
+			WHERE perm_id='" . $IN['id'] . "'");
 
 		$ADMIN->save_log("Forum Access Permissions Name Edited for Mask: '{$gr['perm_name']}'");
 
@@ -1176,7 +1230,10 @@ class ad_groups
 
 		//---------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms WHERE perm_id='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forum_perms
+            WHERE perm_id='" . $IN['id'] . "'");
 
 		if (!$gr = $stmt->fetch())
 		{
@@ -1187,7 +1244,10 @@ class ad_groups
 		// Pull the forum data..
 		//---------------------------
 
-		$stmt = $ibforums->db->query("SELECT id, read_perms, start_perms, reply_perms, upload_perms FROM ibf_forums ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, read_perms, start_perms, reply_perms, upload_perms
+            FROM ibf_forums
+            ORDER BY position ASC");
 
 		while ($row = $stmt->fetch())
 		{
@@ -1364,7 +1424,7 @@ class ad_groups
 					reply_perms='$reply',
 					start_perms='$start',
 					upload_perms='$upload'
-				WHERE id=" . intval($row['id'])";
+				WHERE id=" . intval($row['id']);
 
 			$new_q = $ibforums->db->exec($sql);
 
@@ -1407,7 +1467,10 @@ class ad_groups
 
 		//+-------------------------------
 
-		$stmt        = $ibforums->db->query("SELECT COUNT(id) as users FROM ibf_members WHERE mgroup='" . $IN['id'] . "'");
+		$stmt        = $ibforums->db->query(
+		    "SELECT COUNT(id) as users
+            FROM ibf_members
+            WHERE mgroup='" . $IN['id'] . "'");
 		$black_adder = $stmt->fetch();
 
 		if ($black_adder['users'] < 1)
@@ -1415,12 +1478,18 @@ class ad_groups
 			$black_adder['users'] = 0;
 		}
 
-		$stmt  = $ibforums->db->query("SELECT g_title FROM ibf_groups WHERE g_id='" . $IN['id'] . "'");
+		$stmt  = $ibforums->db->query(
+		    "SELECT g_title
+            FROM ibf_groups
+            WHERE g_id='" . $IN['id'] . "'");
 		$group = $stmt->fetch();
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups WHERE g_id <> '" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id, g_title
+            FROM ibf_groups
+            WHERE g_id <> '" . $IN['id'] . "'");
 
 		$mem_groups = array();
 
@@ -1482,33 +1551,46 @@ class ad_groups
 
 		// Check to make sure that the relevant groups exist.
 
-		$stmt = $ibforums->db->query("SELECT g_id FROM ibf_groups WHERE g_id IN(" . $IN['id'] . "," . $IN['to_id'] . ")");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id
+            FROM ibf_groups
+            WHERE g_id IN(" . $IN['id'] . "," . $IN['to_id'] . ")");
 
 		if ($stmt->rowCount() != 2)
 		{
 			$ADMIN->error("Could not resolve the ID's passed to group deletion");
 		}
 
-		$ibforums->db->exec("UPDATE ibf_members SET mgroup='" . $IN['to_id'] . "' WHERE mgroup='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET mgroup='" . $IN['to_id'] . "'
+			WHERE mgroup='" . $IN['id'] . "'");
 
-		$ibforums->db->exec("DELETE FROM ibf_groups WHERE g_id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_groups
+			WHERE g_id='" . $IN['id'] . "'");
 
 		// Look for promotions in case we have members to be promoted to this group...
 
-		$stmt = $ibforums->db->query("SELECT g_id
-				   FROM ibf_groups
-				   WHERE g_promotion LIKE '{$IN['id']}&%'");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id
+			FROM ibf_groups
+			WHERE g_promotion LIKE '{$IN['id']}&%'");
 
 		while ($row = $stmt->fetch())
 		{
-			$nq = $ibforums->db->exec("UPDATE ibf_groups
-					  SET g_promotion='-1&-1'
-					  WHERE g_id='" . $row['g_id'] . "'");
+			$nq = $ibforums->db->exec(
+			    "UPDATE ibf_groups
+				SET g_promotion='-1&-1'
+				WHERE g_id='" . $row['g_id'] . "'");
 		}
 
 		// Remove from moderators table
 
-		$ibforums->db->exec("DELETE FROM ibf_moderators WHERE is_group=1 AND group_id=" . $IN['id']);
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_moderators
+			WHERE is_group=1
+			  AND group_id=" . $IN['id']);
 
 		$ADMIN->save_log("Member Group '{$IN['name']}' removed");
 
@@ -1654,9 +1736,10 @@ class ad_groups
 
 			// Update the title of the group held in the mod table incase it changed.
 
-			$ibforums->db->exec("UPDATE ibf_moderators
-				    SET group_name='" . trim($IN['g_title']) . "'
-				    WHERE group_id='" . $IN['id'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_moderators
+				SET group_name='" . trim($IN['g_title']) . "'
+				WHERE group_id='" . $IN['id'] . "'");
 
 			$ADMIN->save_log("Edited Group '{$IN['g_title']}'");
 
@@ -1718,9 +1801,10 @@ class ad_groups
 
 		if ($IN['id'] != "")
 		{
-			$stmt = $ibforums->db->query("SELECT *
-				    FROM ibf_groups
-				    WHERE g_id='" . $IN['id'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+				FROM ibf_groups
+				WHERE g_id='" . $IN['id'] . "'");
 
 			$group = $stmt->fetch();
 
@@ -1760,8 +1844,9 @@ class ad_groups
 
 		$perm_masks = array();
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_forum_perms");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_forum_perms");
 
 		while ($r = $stmt->fetch())
 		{
@@ -2247,15 +2332,17 @@ class ad_groups
 
 		$ADMIN->html .= $SKIN->start_table("User Group Management");
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				 ibf_groups.g_id, ibf_groups.g_access_cp,
 				 ibf_groups.g_is_supmod, ibf_groups.g_title,
 				 ibf_groups.prefix, ibf_groups.suffix,
 				 COUNT(ibf_members.id) as count
-			   FROM ibf_groups
-			    LEFT JOIN ibf_members ON (ibf_members.mgroup = ibf_groups.g_id)
-			    GROUP BY ibf_groups.g_id ORDER BY ibf_groups.g_title
-			    ");
+			FROM ibf_groups
+			LEFT JOIN ibf_members
+                 ON (ibf_members.mgroup = ibf_groups.g_id)
+			GROUP BY ibf_groups.g_id ORDER BY ibf_groups.g_title
+			");
 
 		while ($r = $stmt->fetch())
 		{
@@ -2357,4 +2444,3 @@ class ad_groups
 	}
 
 }
-

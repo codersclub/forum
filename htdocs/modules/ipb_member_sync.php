@@ -253,7 +253,11 @@ class ipb_member_sync
 
 			$message .= "Взыскания: ";
 
-			$stmt = $ibforums->db->query("SELECT COUNT(wlog_id) as cnt FROM ibf_warn_logs WHERE wlog_mid='" . $ibforums->member['id'] . "' and wlog_type='neg'");
+			$stmt = $ibforums->db->query(
+			    "SELECT COUNT(wlog_id) as cnt
+                FROM ibf_warn_logs
+                WHERE wlog_mid='" . $ibforums->member['id'] . "'
+                  AND wlog_type='neg'");
 
 			$row = $stmt->fetch();
 
@@ -343,17 +347,24 @@ class ipb_member_sync
 
 			$ibforums->db->insertRow("ibf_polls", $poll);
 
-			$ibforums->db->exec("UPDATE ibf_forums SET last_title='" . addslashes($topic['title']) . "',
-						  last_id='" . $tid . "',
-						  last_post='" . time() . "',
-						  last_poster_name='Forum_Bot',
-						  last_poster_id='8617',
-						  topics=topics+1
-			    WHERE id='" . $ibforums->vars['club'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_forums
+                SET last_title='" . addslashes($topic['title']) . "',
+					last_id='" . $tid . "',
+					last_post='" . time() . "',
+					last_poster_name='Forum_Bot',
+					last_poster_id='8617',
+					topics=topics+1
+				WHERE id='" . $ibforums->vars['club'] . "'");
 
-			$ibforums->db->exec("UPDATE ibf_stats SET TOTAL_TOPICS=TOTAL_TOPICS+1");
+			$ibforums->db->exec(
+			    "UPDATE ibf_stats
+				SET TOTAL_TOPICS=TOTAL_TOPICS+1");
 
-			$ibforums->db->exec("UPDATE ibf_members SET disable_group=1 WHERE id='" . $ibforums->member['id'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET disable_group=1
+				WHERE id='" . $ibforums->member['id'] . "'");
 		}
 
 	}

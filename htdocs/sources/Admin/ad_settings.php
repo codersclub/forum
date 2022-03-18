@@ -611,7 +611,10 @@ class ad_settings
 			{
 				// How many posts do we have?
 
-				$stmt = $ibforums->db->query("SELECT COUNT(*) as cnt from ibf_posts");
+				$stmt = $ibforums->db->query(
+					"SELECT COUNT(*) as cnt
+					FROM ibf_posts"
+				);
 
 				$result = $stmt->fetch();
 
@@ -631,9 +634,15 @@ class ad_settings
 				{
 					// Index away!
 
-					$stmt = $ibforums->db->query("alter table ibf_topics add fulltext(title)");
+					$stmt = $ibforums->db->query(
+						"ALTER TABLE ibf_topics
+    					ADD fulltext(title)"
+					);
 
-					$stmt = $ibforums->db->query("alter table ibf_posts add fulltext(post)");
+					$stmt = $ibforums->db->query(
+						"ALTER TABLE ibf_posts
+    					ADD fulltext(post)"
+					);
 
 				}
 			} else
@@ -659,7 +668,11 @@ class ad_settings
 
 		$this->common_header('dowarn', 'Member Warning Set-Up', 'You may change the configuration below.');
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups ORDER BY g_title");
+		$stmt = $ibforums->db->query(
+			"SELECT g_id, g_title
+			FROM ibf_groups
+			ORDER BY g_title"
+		);
 
 		while ($r = $stmt->fetch())
 		{
@@ -782,7 +795,11 @@ class ad_settings
 
 		$this->common_header('dospider', 'Search Engine Spider/Crawler Set-Up', 'You may change the configuration below.<br />' . $SKIN->js_help_link('set_spider'));
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups ORDER BY g_title");
+		$stmt = $ibforums->db->query(
+			"SELECT g_id, g_title
+			FROM ibf_groups
+			ORDER BY g_title"
+		);
 
 		$mem_group = array();
 
@@ -896,11 +913,19 @@ class ad_settings
 		$glines = stripslashes($_POST['gl_guidelines']);
 		$glines = str_replace("<br>", "<br />", $glines);
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_cache_store WHERE cs_key='boardrules'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_cache_store
+			WHERE cs_key='boardrules'"
+		);
 
 		if ($row = $stmt->fetch())
 		{
-			$ibforums->db->exec("UPDATE ibf_cache_store SET cs_value='" . addslashes($glines) . "' WHERE cs_key='boardrules'");
+			$ibforums->db->exec(
+				"UPDATE ibf_cache_store
+				SET cs_value='" . addslashes($glines) . "'
+				WHERE cs_key='boardrules'"
+			);
 		} else
 		{
 			$data = [
@@ -926,7 +951,11 @@ class ad_settings
 
 		$this->common_header('doglines', 'Board Guidelines/Rules', 'You may change the configuration below');
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_cache_store WHERE cs_key='boardrules'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_cache_store
+			WHERE cs_key='boardrules'"
+		);
 
 		$row = $stmt->fetch();
 
@@ -1000,15 +1029,23 @@ class ad_settings
 
 		if ($IN['posts'])
 		{
-			$stmt                   = $ibforums->db->query("SELECT COUNT(pid) as posts FROM ibf_posts WHERE queued <> 1");
-			$r                      = $stmt->fetch();
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(pid) as posts
+				FROM ibf_posts
+				WHERE queued <> 1"
+			);
+			$r = $stmt->fetch();
 			$stats['TOTAL_REPLIES'] = $r['posts'];
 			$stats['TOTAL_REPLIES'] = $stats['TOTAL_REPLIES'] < 1
 				? 0
 				: $stats['TOTAL_REPLIES'];
 
-			$stmt                  = $ibforums->db->query("SELECT COUNT(tid) as topics FROM ibf_topics WHERE approved = 1");
-			$r                     = $stmt->fetch();
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(tid) as topics
+				FROM ibf_topics
+				WHERE approved = 1"
+			);
+			$r = $stmt->fetch();
 			$stats['TOTAL_TOPICS'] = $r['topics'];
 			$stats['TOTAL_TOPICS'] = $stats['TOTAL_TOPICS'] < 1
 				? 0
@@ -1019,8 +1056,12 @@ class ad_settings
 
 		if ($IN['members'])
 		{
-			$stmt               = $ibforums->db->query("SELECT COUNT(id) as members from ibf_members WHERE mgroup <> '" . $INFO['auth_group'] . "'");
-			$r                  = $stmt->fetch();
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(id) as members
+				FROM ibf_members
+				WHERE mgroup <> '" . $INFO['auth_group'] . "'"
+			);
+			$r = $stmt->fetch();
 			$stats['MEM_COUNT'] = $r['members'];
 			// Remove "guest" account...
 			$stats['MEM_COUNT']--;
@@ -1031,8 +1072,14 @@ class ad_settings
 
 		if ($IN['lastreg'])
 		{
-			$stmt                   = $ibforums->db->query("SELECT id, name FROM ibf_members WHERE mgroup <> '" . $INFO['auth_group'] . "' ORDER BY id DESC LIMIT 0,1");
-			$r                      = $stmt->fetch();
+			$stmt = $ibforums->db->query(
+				"SELECT id, name
+				FROM ibf_members
+				WHERE mgroup <> '" . $INFO['auth_group'] . "'
+				ORDER BY id DESC
+				LIMIT 0,1"
+			);
+			$r = $stmt->fetch();
 			$stats['LAST_MEM_NAME'] = $r['name'];
 			$stats['LAST_MEM_ID']   = $r['id'];
 		}
@@ -1332,7 +1379,10 @@ class ad_settings
 		global $std;
 		$ibforums = Ibf::app();
 
-		$stmt = $ibforums->db->query("SELECT id FROM ibf_members");
+		$stmt = $ibforums->db->query(
+			"SELECT id
+			FROM ibf_members"
+		);
 
 		while ($user = $stmt->fetch())
 		{
@@ -1403,7 +1453,11 @@ class ad_settings
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_emoticons WHERE id='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_emoticons
+			WHERE id='" . $IN['id'] . "'"
+		);
 
 		if (!$r = $stmt->fetch())
 		{
@@ -1488,7 +1542,10 @@ class ad_settings
 			$ADMIN->error("You must pass a valid emoticon id, silly!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_emoticons WHERE id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_emoticons
+			WHERE id='" . $IN['id'] . "'"
+		);
 
 		$std->boink_it($SKIN->base_url . "&act=op&code=emo");
 		exit();
@@ -1617,7 +1674,10 @@ class ad_settings
 
 		$ADMIN->html .= $SKIN->start_table("Current Emoticons");
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_emoticons");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_emoticons"
+		);
 
 		$emo_url = $INFO['html_url'] . '/emoticons';
 
@@ -1808,7 +1868,11 @@ class ad_settings
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_badwords WHERE wid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_badwords
+			WHERE wid='" . $IN['id'] . "'"
+		);
 
 		if (!$r = $stmt->fetch())
 		{
@@ -1860,7 +1924,10 @@ class ad_settings
 			$ADMIN->error("You must pass a valid filter id, silly!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_badwords WHERE wid='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_badwords
+			WHERE wid='" . $IN['id'] . "'"
+		);
 
 		$std->boink_it($SKIN->base_url . "&act=op&code=bw");
 		exit();
@@ -1928,7 +1995,10 @@ class ad_settings
 
 		$ADMIN->html .= $SKIN->start_table("Current Filters");
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_badwords");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_badwords"
+		);
 
 		if ($stmt->rowCount())
 		{
@@ -1999,7 +2069,11 @@ class ad_settings
 
 		$this->common_header('donews', 'News Export Set-Up', 'You may change the configuration below');
 
-		$stmt = $ibforums->db->query("SELECT id, name FROM ibf_forums ORDER BY name");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name
+			FROM ibf_forums
+			ORDER BY name"
+		);
 
 		$form_array = array();
 
@@ -3234,5 +3308,3 @@ the time is greatly reduced.
 ";
 	}
 }
-
-?>

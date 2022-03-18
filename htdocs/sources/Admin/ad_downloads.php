@@ -180,7 +180,10 @@ class ad_downloads
 			$as_array[] = array(1, "Yes");
 			$as_array[] = array(0, "No");
 
-			$stmt      = $ibforums->db->query("SELECT * from ibf_files_cats WHERE sub=0");
+			$stmt      = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_files_cats
+				WHERE sub=0");
 			$e_array   = array();
 			$e_array[] = array(0, "None");
 			while ($row = $stmt->fetch())
@@ -189,7 +192,9 @@ class ad_downloads
 
 			}
 
-			$stmt       = $ibforums->db->query("SELECT * FROM ibf_forums");
+			$stmt       = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_forums");
 			$tt_array   = array();
 			$tt_array[] = array(0, "<b>None</b>");
 			while ($row = $stmt->fetch())
@@ -283,7 +288,9 @@ class ad_downloads
 
 			$ADMIN->page_detail = "This page helps you delete categories.";
 
-			$stmt    = $ibforums->db->query("SELECT * from ibf_files_cats");
+			$stmt    = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_files_cats");
 			$d_array = array();
 			$w_array = array();
 
@@ -323,7 +330,9 @@ class ad_downloads
 
 			$ADMIN->page_detail = "This page helps you edit caegories for your download system.";
 
-			$stmt    = $ibforums->db->query("SELECT * from ibf_files_cats");
+			$stmt    = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_files_cats");
 			$e_array = array();
 
 			while ($row = $stmt->fetch())
@@ -358,7 +367,10 @@ class ad_downloads
 				$ADMIN->error("No category was specified...");
 			}
 
-			$stmt      = $ibforums->db->query("SELECT * from ibf_files_cats WHERE sub=0");
+			$stmt      = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_files_cats
+				WHERE sub=0");
 			$e_array   = array();
 			$e_array[] = array(0, "None");
 			while ($row = $stmt->fetch())
@@ -367,7 +379,9 @@ class ad_downloads
 
 			}
 
-			$stmt       = $ibforums->db->query("SELECT * FROM ibf_forums");
+			$stmt       = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_forums");
 			$tt_array   = array();
 			$tt_array[] = array(0, "<b>None</b>");
 			while ($row = $stmt->fetch())
@@ -380,7 +394,10 @@ class ad_downloads
 
 			$ADMIN->page_detail = "This page helps you edit caegory for your download module.";
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_files_cats WHERE cid = " . $IN['cid']);
+			$stmt = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_files_cats
+				WHERE cid = " . $IN['cid']);
 
 			$row = $stmt->fetch();
 
@@ -507,7 +524,11 @@ class ad_downloads
 
 		$cats = array();
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_files_cats WHERE cid > 0 ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_files_cats
+			WHERE cid > 0
+			ORDER BY position ASC");
 		while ($r = $stmt->fetch())
 		{
 			$cats[] = $r;
@@ -559,11 +580,16 @@ class ad_downloads
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
 
-		$stmt = $ibforums->db->query("SELECT cid from ibf_files_cats");
+		$stmt = $ibforums->db->query(
+			"SELECT cid
+			FROM ibf_files_cats");
 
 		while ($r = $stmt->fetch())
 		{
-			$order_query = $ibforums->db->exec("UPDATE ibf_files_cats SET position='" . $IN['POS_' . $r['cid']] . "' WHERE cid='" . $r['cid'] . "'");
+			$order_query = $ibforums->db->exec(
+				"UPDATE ibf_files_cats
+				SET position='" . $IN['POS_' . $r['cid']] . "'
+				WHERE cid='" . $r['cid'] . "'");
 		}
 
 		$ADMIN->done_screen("Category Ordering Adjusted", "Category Control", "act=cat");
@@ -583,16 +609,26 @@ class ad_downloads
 				$ADMIN->error("The name field was not filled in...");
 			}
 
-			$stmt = $ibforums->db->query("SELECT MAX(cid) as mid FROM ibf_files_cats");
+			$stmt = $ibforums->db->query(
+				"SELECT MAX(cid) as mid
+				FROM ibf_files_cats");
 			$row  = $stmt->fetch();
 
 			$last_id = $row['mid'] + 1;
 			if ($IN['sub'] == 0 || $IN['sub'] == "")
 			{
-				$stmt = $ibforums->db->query("SELECT cname FROM ibf_files_cats WHERE cname = '" . $IN['cname'] . "' AND sub = 0");
+				$stmt = $ibforums->db->query(
+					"SELECT cname
+					FROM ibf_files_cats
+					WHERE cname = '" . $IN['cname'] . "'
+					  AND sub = 0");
 			} else
 			{
-				$stmt = $ibforums->db->query("SELECT cname FROM ibf_files_cats WHERE cname = '" . $IN['cname'] . "' AND sub = '" . $IN['sub'] . "'");
+				$stmt = $ibforums->db->query(
+					"SELECT cname
+					FROM ibf_files_cats
+					WHERE cname = '" . $IN['cname'] . "'
+					  AND sub = '" . $IN['sub'] . "'");
 			}
 
 			if ($stmt->rowCount() > 0)
@@ -600,14 +636,21 @@ class ad_downloads
 				$ADMIN->error("Duplicate category name...");
 			}
 
-			$stmt = $ibforums->db->query("SELECT sub FROM ibf_files_cats WHERE cid = '" . $IN['sub'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT sub
+				FROM ibf_files_cats
+				WHERE cid = '" . $IN['sub'] . "'");
 
 			if ($stmt->rowCount() > 0)
 			{
 				$ADMIN->error("The ID specified for the category does not exists or that category is already a sub category...");
 			}
 
-			$ibforums->db->exec("INSERT INTO ibf_files_cats ( cid , sub , cname , cdesc , copen, dis_screen, dis_screen_cat, screen_req, authorize, fordaforum, show_notes, cnotes, group_perm ) VALUES( '$last_id' , '" . $IN['sub'] . "' , '" . $IN['cname'] . "' , '" . $IN['cdesc'] . "' , '" . $IN['copen'] . "', '" . $IN['dis_screen'] . "', '" . $IN['dis_screen_cat'] . "', '" . $IN['screen_req'] . "', '" . $IN['authorize'] . "', '" . $IN['fordaforum'] . "', '" . $IN['show_notes'] . "', '" . $IN['cnotes'] . "', '" . $IN['group_perm'] . "'  )");
+			$ibforums->db->exec(
+				"INSERT INTO ibf_files_cats
+					(cid, sub, cname, cdesc, copen, dis_screen, dis_screen_cat, screen_req, authorize, fordaforum, show_notes, cnotes, group_perm)
+					VALUES
+					( '$last_id' , '" . $IN['sub'] . "' , '" . $IN['cname'] . "' , '" . $IN['cdesc'] . "' , '" . $IN['copen'] . "', '" . $IN['dis_screen'] . "', '" . $IN['dis_screen_cat'] . "', '" . $IN['screen_req'] . "', '" . $IN['authorize'] . "', '" . $IN['fordaforum'] . "', '" . $IN['show_notes'] . "', '" . $IN['cnotes'] . "', '" . $IN['group_perm'] . "'  )");
 
 			$ADMIN->done_screen("Category created!", "Download Admin", "act=downloads");
 		}
@@ -621,7 +664,22 @@ class ad_downloads
 				$ADMIN->error("No name specified...");
 			}
 
-			$ibforums->db->exec("UPDATE ibf_files_cats SET cname = '" . $IN['cname'] . "' , sub = '" . $IN['sub'] . "' , cdesc = '" . $IN['cdesc'] . "' , copen = '" . $IN['copen'] . "', dis_screen = '" . $IN['dis_screen'] . "', dis_screen_cat = '" . $IN['dis_screen_cat'] . "', screen_req = '" . $IN['screen_req'] . "', authorize = '" . $IN['authorize'] . "', fordaforum = '" . $IN['fordaforum'] . "', show_notes = '" . $IN['show_notes'] . "', cnotes = '" . $IN['cnotes'] . "', group_perm= '" . $IN['group_perm'] . "'  WHERE cid = " . $IN['cid']);
+			$ibforums->db->exec(
+				"UPDATE ibf_files_cats
+				SET
+					cname = '" . $IN['cname'] . "',
+					sub = '" . $IN['sub'] . "',
+					cdesc = '" . $IN['cdesc'] . "',
+					copen = '" . $IN['copen'] . "',
+					dis_screen = '" . $IN['dis_screen'] . "',
+					dis_screen_cat = '" . $IN['dis_screen_cat'] . "',
+					screen_req = '" . $IN['screen_req'] . "',
+					authorize = '" . $IN['authorize'] . "',
+					fordaforum = '" . $IN['fordaforum'] . "',
+					show_notes = '" . $IN['show_notes'] . "',
+					cnotes = '" . $IN['cnotes'] . "',
+					group_perm= '" . $IN['group_perm'] . "'
+				WHERE cid = " . $IN['cid']);
 
 			$ADMIN->done_screen("Category edited!", "Download Admin", "act=downloads");
 		}
@@ -635,8 +693,14 @@ class ad_downloads
 			{
 				$ADMIN->error("The category to which the files in this category must be transfered isnt specified...");
 			}
-			$ibforums->db->exec("UPDATE ibf_files SET cat = '" . $IN['trans'] . "' WHERE cat = '" . $IN['del'] . "'");
-			$ibforums->db->exec("DELETE FROM ibf_files_cats WHERE cid = '" . $IN['del'] . "'");
+			$ibforums->db->exec(
+				"UPDATE ibf_files
+				SET cat = '" . $IN['trans'] . "'
+				WHERE cat = '" . $IN['del'] . "'");
+
+			$ibforums->db->exec(
+				"DELETE FROM ibf_files_cats
+				WHERE cid = '" . $IN['del'] . "'");
 
 			$ADMIN->done_screen("Category deleted and files have been tranfered!", "Download Admin", "act=downloads");
 		}
@@ -882,7 +946,8 @@ class ad_downloads
 		$ss_array[] = array(1, "Yes");
 		$ss_array[] = array(2, "Per-Category");
 
-		$stmt      = $ibforums->db->query("SELECT * FROM ibf_forums");
+		$stmt      = $ibforums->db->query(
+			"SELECT * FROM ibf_forums");
 		$e_array   = array();
 		$e_array[] = array(0, "<b>None</b>");
 		$e_array[] = array('percat', "<b>Per-Category</b>");
@@ -1024,13 +1089,19 @@ class ad_downloads
 		global $IN, $root_path, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
 
-		$stmt = $ibforums->db->query("SELECT cid FROM ibf_files_cats");
+		$stmt = $ibforums->db->query(
+			"SELECT cid
+			FROM ibf_files_cats");
 		$cats = $stmt->rowCount();
 
-		$stmt    = $ibforums->db->query("SELECT id FROM ibf_files");
+		$stmt    = $ibforums->db->query(
+			"SELECT id
+			FROM ibf_files");
 		$scripts = $stmt->rowCount();
 
-		$stmt = $ibforums->db->query("SELECT DISTINCT author FROM ibf_files");
+		$stmt = $ibforums->db->query(
+			"SELECT DISTINCT author
+			FROM ibf_files");
 
 		$authors = "";
 
@@ -1045,13 +1116,23 @@ class ad_downloads
 			}
 		}
 
-		$stmt  = $ibforums->db->query("SELECT SUM( downloads ) as down FROM ibf_files");
+		$stmt  = $ibforums->db->query(
+			"SELECT SUM( downloads ) as down
+			FROM ibf_files");
 		$downs = $stmt->fetch();
 
-		$stmt = $ibforums->db->query("SELECT sname FROM ibf_files ORDER BY downloads DESC LIMIT 0,1");
+		$stmt = $ibforums->db->query(
+			"SELECT sname
+			FROM ibf_files
+			ORDER BY downloads DESC
+			LIMIT 0,1");
 		$maxd = $stmt->fetch();
 
-		$stmt = $ibforums->db->query("SELECT sname FROM ibf_files ORDER BY views DESC LIMIT 0,1");
+		$stmt = $ibforums->db->query(
+			"SELECT sname
+			FROM ibf_files
+			ORDER BY views DESC
+			LIMIT 0,1");
 		$maxv = $stmt->fetch();
 
 		$ADMIN->page_title = "Welcome to the downloads module's Control Panel!";
@@ -1090,5 +1171,3 @@ class ad_downloads
 
 	}
 }
-
-?>

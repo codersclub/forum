@@ -506,10 +506,12 @@ class ad_store
 				{
 					$points += $user['points'];
 				}
-				$temp = $ibforums->db->exec("UPDATE ibf_members
-						    SET points='{$points}'
-						    WHERE id='{$user['id']}'
-						    LIMIT 1");
+				$temp = $ibforums->db->exec(
+				    "UPDATE ibf_members
+					SET points='{$points}'
+					WHERE id='{$user['id']}'
+					LIMIT 1"
+                );
 				$amount++;
 			}
 			$stat_recount     = "Post Recount";
@@ -518,8 +520,11 @@ class ad_store
 		{
 			if ($IN['doaction'] == 'resetposts')
 			{
-				$ibforums->db->exec("UPDATE ibf_members
-				    SET posts=posts-post_addon,post_addon=0");
+				$ibforums->db->exec(
+				    "UPDATE ibf_members
+				    SET posts=posts-post_addon,post_addon=0"
+                );
+
 				$stat_recount     = "Posts Reset";
 				$done_description = "All members posts have been reset to there real ones.";
 			} else
@@ -761,8 +766,18 @@ class ad_store
 		global $ADMIN, $SKIN, $IN;
 		$ibforums = Ibf::app();
 		$this->check();
-		$ibforums->db->exec("DELETE FROM ibf_store_shopstock WHERE id='{$IN['id']}' LIMIT 1");
-		$ibforums->db->exec("DELETE FROM ibf_store_inventory WHERE item_id='{$IN['id']}' LIMIT 1");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_store_shopstock
+			WHERE id='{$IN['id']}'
+			LIMIT 1"
+        );
+
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_store_inventory
+			WHERE item_id='{$IN['id']}'
+			LIMIT 1"
+        );
+
 		// IBStore: delete addon
 		$ADMIN->save_log("Deleted Item");
 
@@ -800,10 +815,12 @@ class ad_store
 		$page    = $IN['page_num'];
 		$limit   = 25;
 		$pagetwo = $page + $limit;
-		$stmt    = $ibforums->db->query("SELECT *
-			    FROM ibf_store_logs
-                            ORDER BY time DESC
-                            LIMIT $page,$limit");
+		$stmt    = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_store_logs
+            ORDER BY time DESC
+            LIMIT $page,$limit"
+        );
 		while ($logs = $stmt->fetch())
 		{
 
@@ -879,10 +896,12 @@ class ad_store
 		$page    = $IN['page_num'];
 		$limit   = 25;
 		$pagetwo = $page + $limit;
-		$stmt    = $ibforums->db->query("SELECT *
-                            FROM ibf_store_modlogs
-                            ORDER BY time DESC
-                            LIMIT $page,$limit");
+		$stmt    = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_store_modlogs
+            ORDER BY time DESC
+            LIMIT $page,$limit"
+        );
 		while ($logs = $stmt->fetch())
 		{
 			$ADMIN->html .= $SKIN->add_td_row(array(
@@ -911,7 +930,9 @@ class ad_store
 	{
 		global $ADMIN, $SKIN, $IN;
 		$ibforums = Ibf::app();
-		$ibforums->db->exec("DELETE FROM " . $IN['type']);
+		$ibforums->db->exec(
+		    "DELETE FROM " . $IN['type']
+        );
 		$ADMIN->save_log("Table: " . $IN['type'] . " Deleted of all logs.");
 
 		$ADMIN->done_screen("Log Cleared", "Administration CP Home", "act=index");
@@ -963,8 +984,9 @@ class ad_store
 				: $IN['quiz_items'];
 		}
 
-		$ibforums->db->exec("UPDATE ibf_quiz_info
-			    SET quizname='{$IN['quiz_name']}',
+		$ibforums->db->exec(
+		    "UPDATE ibf_quiz_info
+			SET quizname='{$IN['quiz_name']}',
 				quizdesc='{$IN['quiz_desc']}',
 				percent_needed='{$IN['perc_need']}',
 				amount_won='{$IN['winnings']}',
@@ -974,8 +996,10 @@ class ad_store
 				timeout='{$IN['timeout']}',
 				pending='{$IN['pending']}',
 				quiz_items='{$quiz_items}'
-			    WHERE q_id='{$IN['updateid']}'
-                            LIMIT 1");
+			WHERE q_id='{$IN['updateid']}'
+            LIMIT 1"
+        );
+
 		$ADMIN->save_log("Quiz &quot;{$IN['quiz_name']}&quot; Edited.");
 
 		$ADMIN->done_screen("Quiz Edited", "Administration CP Home", "act=index");
@@ -992,9 +1016,11 @@ class ad_store
 		$ADMIN->html .= $SKIN->add_td_basic("<span style='color:red'><b>Not Case Senstive!</b></span>");
 		$ADMIN->html .= $SKIN->add_td_basic("Leave any Multiple Correct Answer, or Drop Down Answer field blank to not use that one.");
 
-		$stmt = $ibforums->db->query("SELECT *
-                    FROM ibf_quiz
-			    WHERE quiz_id='{$IN['updateid']}'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_quiz
+			WHERE quiz_id='{$IN['updateid']}'"
+        );
 		if ($stmt->rowCount() <= 0)
 		{
 			$ADMIN->error("Could not find any Questions and Answers.");
@@ -1084,11 +1110,13 @@ class ad_store
 			{
 				$answer = addslashes(stripslashes($IN['q_' . $mid . '_answer']));
 
-				$ibforums->db->exec("UPDATE ibf_quiz
-                                            SET question='{$question}',
-                                                anwser='{$answer}'
-					    WHERE mid='{$mid}'
-					    LIMIT 1");
+				$ibforums->db->exec(
+				    "UPDATE ibf_quiz
+                    SET question='{$question}',
+                        anwser='{$answer}'
+					WHERE mid='{$mid}'
+					LIMIT 1"
+                );
 			} else
 			{
 				if ($match[2] == 'dropdown' || $match[2] == 'multiq')
@@ -1115,11 +1143,13 @@ class ad_store
 					}
 					$quiz_answers = "{answer1_" . $IN['q_' . $mid . '_1_correct'] . ":" . $IN['q_' . $mid . '_answer_1'] . '}||' . "{answer2_" . $IN['q_' . $mid . '_2_correct'] . ":" . $IN['q_' . $mid . '_answer_2'] . '}||' . "{answer3_" . $IN['q_' . $mid . '_3_correct'] . ":" . $IN['q_' . $mid . '_answer_3'] . '}||' . "{answer4_" . $IN['q_' . $mid . '_4_correct'] . ":" . $IN['q_' . $mid . '_answer_4'] . '}';
 
-					$ibforums->db->exec("UPDATE ibf_quiz
-                                            SET question='{$question}',
-                                                anwser='{$quiz_answers}'
+					$ibforums->db->exec(
+					    "UPDATE ibf_quiz
+                        SET question='{$question}',
+                            anwser='{$quiz_answers}'
 					    WHERE mid='{$mid}'
-					    LIMIT 1");
+					    LIMIT 1"
+                    );
 				}
 			}
 
@@ -1152,10 +1182,12 @@ class ad_store
 			$quiz['items_won'] = array();
 		} else
 		{
-			$stmt = $ibforums->db->query("SELECT *
-                                    FROM ibf_quiz_info
-				    WHERE q_id='{$IN['updateid']}'
-				    LIMIT 1");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+                FROM ibf_quiz_info
+				WHERE q_id='{$IN['updateid']}'
+				LIMIT 1"
+            );
 			if ($stmt->rowCount() <= 0)
 			{
 				$ADMIN->error("Could not find Quiz.");
@@ -1218,10 +1250,12 @@ class ad_store
 		                                       $SKIN->form_input("let_play", $quiz['let_play'])
 		                                  ));
 
-		$stmt    = $ibforums->db->query("SELECT
-                              id,item_name,stock
-			    FROM ibf_store_shopstock
-			    ORDER BY item_name DESC");
+		$stmt    = $ibforums->db->query(
+		    "SELECT
+                id,item_name,stock
+			FROM ibf_store_shopstock
+			ORDER BY item_name DESC"
+        );
 		$items[] = array('none', 'No Items for Prize');
 		if ($stmt->rowCount() >= 8)
 		{
@@ -1405,10 +1439,12 @@ class ad_store
 		global $ADMIN, $SKIN, $IN;
 		$ibforums = Ibf::app();
 
-		$ibforums->db->exec("UPDATE ibf_quiz_info
-			    SET pending='0'
-			    WHERE q_id='{$IN['quizid']}'
-			    LIMIT 1");
+		$ibforums->db->exec(
+		    "UPDATE ibf_quiz_info
+			SET pending='0'
+			WHERE q_id='{$IN['quizid']}'
+			LIMIT 1"
+        );
 		$ADMIN->save_log("Quiz &quot;{$IN['quiz_name']}&quot; Created.");
 
 		$ADMIN->done_screen("Quiz Created", "Administration CP Home", "act=index");
@@ -1430,8 +1466,14 @@ class ad_store
 		}
 		$IN['quiz_question'] = addslashes($IN['quiz_question']);
 
-		$ibforums->db->exec("INSERT INTO ibf_quiz
-			    VALUES('','{$IN['quizid']}','{$IN['quiz_question']}','{$IN['answer']}','single')");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_quiz
+			VALUES('',
+				'{$IN['quizid']}',
+				'{$IN['quiz_question']}',
+				'{$IN['answer']}',
+				'single')"
+        );
 	}
 
 	function addmulti()
@@ -1480,8 +1522,14 @@ class ad_store
 
 		$quiz_answers = "{answer1_" . $IN['correct_1'] . ":" . $IN['answer_1'] . '}||' . "{answer2_" . $IN['correct_2'] . ":" . $IN['answer_2'] . '}||' . "{answer3_" . $IN['correct_3'] . ":" . $IN['answer_3'] . '}||' . "{answer4_" . $IN['correct_4'] . ":" . $IN['answer_4'] . '}';
 
-		$ibforums->db->exec("INSERT INTO ibf_quiz
-			    VALUES('','{$IN['quizid']}','{$IN['quiz_question']}','{$quiz_answers}','{$IN['addtype']}')");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_quiz
+			VALUES('',
+				'{$IN['quizid']}',
+				'{$IN['quiz_question']}',
+				'{$quiz_answers}',
+				'{$IN['addtype']}')"
+        );
 	}
 
 	function multi()
@@ -1565,9 +1613,11 @@ class ad_store
 		$ibforums = Ibf::app();
 
 		$this->common_header('quiz_settings', 'IBStore Quizs', 'Add a Quiz');
-		$stmt = $ibforums->db->query("SELECT *
-                            FROM ibf_quiz_info
-                            WHERE q_id>'0'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_quiz_info
+            WHERE q_id>'0'"
+        );
 		while ($temp = $stmt->fetch())
 		{
 			$quizs[] = array($temp['q_id'], $temp['quizname']);
@@ -1602,11 +1652,17 @@ class ad_store
 		global $IN, $INFO, $SKIN, $ADMIN;
 		$ibforums = Ibf::app();
 
-		$ibforums->db->exec("DELETE FROM ibf_quiz_info
-			    WHERE q_id='{$IN['updateid']}'
-			    LIMIT 1");
-		$ibforums->db->exec("DELETE FROM ibf_quiz
-			    WHERE quiz_id='{$IN['updateid']}'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_quiz_info
+			WHERE q_id='{$IN['updateid']}'
+			LIMIT 1"
+        );
+
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_quiz
+			WHERE quiz_id='{$IN['updateid']}'"
+        );
+
 		$ADMIN->save_log("Quiz ID, " . $IN['updateid'] . " Was Deleted");
 
 		$ADMIN->done_screen("Quiz Deleted", "Administration CP Home", "act=index");
@@ -1684,10 +1740,12 @@ class ad_store
 			$EXTRA['extra_three']  = $add_item->extra_three;
 		} else
 		{
-			$stmt      = $ibforums->db->query("SELECT *
-                                    FROM ibf_store_shopstock
-                                    WHERE id='{$IN['id']}'
-                                    LIMIT 1");
+			$stmt      = $ibforums->db->query(
+			    "SELECT *
+                FROM ibf_store_shopstock
+                WHERE id='{$IN['id']}'
+                LIMIT 1"
+            );
 			$itemm     = $stmt->fetch();
 			$file_name = $INFO['base_dir'] . "sources/storeitems/" . $itemm['module'] . "." . $INFO['php_ext'];
 			if (!file_exists($file_name))
@@ -1812,10 +1870,12 @@ class ad_store
 		                                       $SKIN->form_dropdown('item_icon', $icons, $item['icon'], "onChange='show_icon()'") . "&nbsp;&nbsp;<img src='{$image}' name='iconpreview' border='0'>",
 		                                  ));
 		$category[] = array('shop', 'Main Category');
-		$stmt       = $ibforums->db->query("SELECT *
-                            FROM ibf_store_category
-                            WHERE catid>'0'
-                            ORDER BY catid DESC");
+		$stmt       = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_store_category
+            WHERE catid>'0'
+            ORDER BY catid DESC"
+        );
 		while ($temp = $stmt->fetch())
 		{
 			$category[] = array($temp['catid'], $temp['cat_name']);
@@ -1972,8 +2032,9 @@ class ad_store
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
 		$ibforums = Ibf::app();
 
-		$ibforums->db->exec("UPDATE ibf_store_shopstock
-			    SET item_name='{$IN['item__name']}',
+		$ibforums->db->exec(
+		    "UPDATE ibf_store_shopstock
+			SET item_name='{$IN['item__name']}',
 				   icon='{$IN['item_icon']}',
 				   item_desc='{$IN['item_desc']}',
 				   sell_price='{$IN['item_price']}',
@@ -1987,8 +2048,9 @@ class ad_store
 				   restock_wait='{$IN['stock_wait']}',
 				   item_limit='{$IN['item_limit']}',
 				   restock_type='{$IN['restock_type']}'
-			    WHERE id='{$IN['id']}'
-                            LIMIT 1");
+			WHERE id='{$IN['id']}'
+            LIMIT 1"
+        );
 
 		$ADMIN->save_log("Updated Item: " . $IN['item__name']);
 
@@ -2009,10 +2071,45 @@ class ad_store
 		}
 		$IN['item__name'] = addslashes($IN['item__name']);
 		$IN['item_desc']  = addslashes($IN['item_desc']);
-		$ibforums->db->exec("INSERT INTO ibf_store_shopstock
-				    (id,item_name,icon,item_desc,sell_price,module,stock,avalible,category,extra_one,extra_two,extra_three,soldout_time,restock_amount,restock_wait,item_limit,restock_type)
-					VALUES('','{$IN['item__name']}','{$IN['item_icon']}','{$IN['item_desc']}','{$IN['item_price']}','{$IN['item_module']}',
-					'{$IN['item_stock']}','{$IN['avalible']}','{$IN['item_category']}','{$IN['extra_one']}','{$IN['extra_two']}','{$IN['extra_three']}','0','{$IN['restock_amount']}','{$IN['stock_wait']}','{$IN['item_limit']}','{$IN['restock_type']}')");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_store_shopstock (
+				id,
+				item_name,
+				icon,
+				item_desc,
+				sell_price,
+				module,
+				stock,
+				avalible,
+				category,
+				extra_one,
+				extra_two,
+				extra_three,
+				soldout_time,
+				restock_amount,
+				restock_wait,
+				item_limit,
+				restock_type)
+			VALUES (
+				'',
+				'{$IN['item__name']}',
+				'{$IN['item_icon']}',
+				'{$IN['item_desc']}',
+				'{$IN['item_price']}',
+				'{$IN['item_module']}',
+				'{$IN['item_stock']}',
+				'{$IN['avalible']}',
+				'{$IN['item_category']}',
+				'{$IN['extra_one']}',
+				'{$IN['extra_two']}',
+				'{$IN['extra_three']}',
+				'0',
+				'{$IN['restock_amount']}',
+				'{$IN['stock_wait']}',
+				'{$IN['item_limit']}',
+				'{$IN['restock_type']}')"
+        );
+
 		$ADMIN->save_log("Added Item: " . $IN['item_module'] . " To Store");
 
 		$ADMIN->done_screen("Forum Configurations updated", "Administration CP Home", "act=index");
@@ -2028,10 +2125,12 @@ class ad_store
 		$ADMIN->html .= $SKIN->start_table("Edit Item:");
 
 		$item[] = array('', 'Select A Item');
-		$stmt   = $ibforums->db->query("SELECT
-                                id,item_name,stock,module
-                            FROM ibf_store_shopstock
-                            WHERE id>0");
+		$stmt   = $ibforums->db->query(
+		    "SELECT
+                    id,item_name,stock,module
+            FROM ibf_store_shopstock
+            WHERE id>0"
+        );
 		while ($temp = $stmt->fetch())
 		{
 			if (file_exists($INFO['base_dir'] . 'sources/storeitems/' . $temp['module'] . '.' . $INFO['php_ext']))
@@ -2096,9 +2195,11 @@ class ad_store
 		global $IN, $INFO, $SKIN, $ADMIN;
 		$ibforums = Ibf::app();
 		$this->common_header('edit_category', 'IBStore Category Editer', 'Select a category to edit');
-		$stmt = $ibforums->db->query("SELECT *
-                            FROM ibf_store_category
-                            ORDER BY catid DESC");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_store_category
+            ORDER BY catid DESC"
+        );
 		while ($cat = $stmt->fetch())
 		{
 			$catt[] = array($cat['catid'], $cat['cat_name']);
@@ -2133,17 +2234,21 @@ class ad_store
 		$ibforums = Ibf::app();
 		if ($IN['effect'] == 'del')
 		{
-			$ibforums->db->exec("DELETE FROM ibf_store_category
-                                    WHERE catid='{$IN['catid']}'
-                                    LIMIT 1");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_store_category
+                WHERE catid='{$IN['catid']}'
+                LIMIT 1"
+            );
 			$ADMIN->save_log("Deleted An Category");
 
 			$ADMIN->done_screen("Category Delete.", "Administration CP Home", "act=index");
 		}
-		$stmt = $ibforums->db->query("SELECT *
-                            FROM ibf_store_category
-                            WHERE catid='{$IN['catid']}'
-                            LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_store_category
+            WHERE catid='{$IN['catid']}'
+            LIMIT 1"
+        );
 		if ($stmt->rowCount() <= 0)
 		{
 			$ADMIN->error("We could not find the category your looking for");
@@ -2172,11 +2277,14 @@ class ad_store
 		global $IN, $ADMIN;
 		$ibforums       = Ibf::app();
 		$IN['cat_desc'] = addslashes($this->postparse($IN['cat_desc']));
-		$ibforums->db->exec("UPDATE ibf_store_category
-                            SET cat_name='{$IN['cat_name']}',
-                                cat_desc='{$IN['cat_desc']}'
-                            WHERE catid='{$IN['catid']}'
-                            LIMIT 1");
+		$ibforums->db->exec(
+		    "UPDATE ibf_store_category
+            SET cat_name='{$IN['cat_name']}',
+                cat_desc='{$IN['cat_desc']}'
+            WHERE catid='{$IN['catid']}'
+            LIMIT 1"
+        );
+
 		$ADMIN->save_log("Edited Category: " . $IN['cat_name']);
 
 		$ADMIN->done_screen("Category Updated!", "Administration CP Home", "act=index");
@@ -2188,9 +2296,13 @@ class ad_store
 		global $IN, $INFO, $ITEM, $SKIN, $ADMIN;
 		$ibforums       = Ibf::app();
 		$IN['cat_desc'] = addslashes($this->postparse($IN['cat_desc']));
-		$ibforums->db->exec("INSERT INTO ibf_store_category
-                            (catid,cat_name,cat_desc) VALUES
-                            ('','{$IN['cat_name']}','{$IN['cat_desc']}')");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_store_category
+                (catid,cat_name,cat_desc)
+            VALUES
+                ('','{$IN['cat_name']}','{$IN['cat_desc']}')"
+        );
+
 		$ADMIN->save_log("Added Category: " . $IN['cat_name']);
 
 		$ADMIN->done_screen("Forum Configurations updated", "Administration CP Home", "act=index");
@@ -2281,5 +2393,3 @@ class ad_store
 	}
 
 }
-
-

@@ -132,7 +132,10 @@ class ad_settings
 
 			//+-------------------------------
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_faq WHERE id='" . $IN['id'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_faq
+				WHERE id='" . $IN['id'] . "'");
 
 			if (!$r = $stmt->fetch())
 			{
@@ -200,7 +203,9 @@ class ad_settings
 			$ADMIN->error("You must pass a valid help file id, silly!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_faq WHERE id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_faq
+			WHERE id='" . $IN['id'] . "'");
 
 		$ADMIN->save_log("Removed a help file");
 
@@ -262,7 +267,10 @@ class ad_settings
 
 		$ADMIN->html .= $SKIN->start_table("Current Help Files");
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_faq ORDER BY id ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_faq
+			ORDER BY id ASC");
 
 		if ($stmt->rowCount())
 		{
@@ -289,5 +297,3 @@ class ad_settings
 	}
 
 }
-
-?>

@@ -91,11 +91,13 @@ class ad_warnlogs
 
 		$id = intval($IN['id']);
 
-		$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
-						FROM ibf_warn_logs l
-						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
-						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
-					    WHERE l.wlog_id=$id");
+		$stmt = $ibforums->db->query(
+			"SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+			FROM ibf_warn_logs l
+				LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
+				LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
+			WHERE l.wlog_id=$id"
+		);
 
 		if (!$row = $stmt->fetch())
 		{
@@ -148,11 +150,13 @@ class ad_warnlogs
 
 		$id = intval($IN['id']);
 
-		$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
-						FROM ibf_warn_logs l
-						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
-						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
-					    WHERE l.wlog_id=$id");
+		$stmt = $ibforums->db->query(
+			"SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+			FROM ibf_warn_logs l
+				LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
+				LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
+			WHERE l.wlog_id=$id"
+		);
 
 		if (!$row = $stmt->fetch())
 		{
@@ -208,19 +212,25 @@ class ad_warnlogs
 
 		if ($IN['search_string'] == "")
 		{
-			$stmt = $ibforums->db->query("SELECT COUNT(wlog_id) as count FROM ibf_warn_logs WHERE wlog_mid='" . $IN['mid'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(wlog_id) as count
+				FROM ibf_warn_logs
+				WHERE wlog_mid='" . $IN['mid'] . "'"
+			);
 			$row  = $stmt->fetch();
 
 			$row_count = $row['count'];
 
 			$query = "&act=warnlog&mid={$IN['mid']}&code=view";
 
-			$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
-						FROM ibf_warn_logs l
-						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
-						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
-					    WHERE l.wlog_mid={$IN['mid']}
-					    ORDER BY l.wlog_date DESC LIMIT $start,30");
+			$stmt = $ibforums->db->query(
+				"SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+				FROM ibf_warn_logs l
+					LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
+					LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
+				WHERE l.wlog_mid={$IN['mid']}
+				ORDER BY l.wlog_date DESC LIMIT $start,30"
+			);
 		} else
 		{
 			$IN['search_string'] = urldecode($IN['search_string']);
@@ -233,19 +243,25 @@ class ad_warnlogs
 				$dbq = "l.wlog_contact_content LIKE '%" . $IN['search_string'] . "%'";
 			}
 
-			$stmt = $ibforums->db->query("SELECT COUNT(l.wlog_id) as count FROM ibf_warn_logs l WHERE $dbq");
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(l.wlog_id) as count
+				FROM ibf_warn_logs l
+				WHERE $dbq"
+			);
 			$row  = $stmt->fetch();
 
 			$row_count = $row['count'];
 
 			$query = "&act=warnlog&code=view&search_type={$IN['search_type']}&search_string=" . urlencode($IN['search_string']);
 
-			$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
-						FROM ibf_warn_logs l
-						  LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
-						  LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
-					    WHERE $dbq
-					    ORDER BY l.wlog_date DESC LIMIT $start,30");
+			$stmt = $ibforums->db->query(
+				"SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+				FROM ibf_warn_logs l
+					LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
+					LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
+				WHERE $dbq
+				ORDER BY l.wlog_date DESC LIMIT $start,30"
+			);
 		}
 
 		$links = $std->build_pagelinks(array(
@@ -390,7 +406,10 @@ class ad_warnlogs
 			$ADMIN->error("You did not select a member ID to remove by!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_warn_logs WHERE wlog_mid={$IN['mid']}");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_warn_logs
+			WHERE wlog_mid={$IN['mid']}"
+		);
 
 		$ADMIN->save_log("Removed Warn Logs");
 
@@ -415,11 +434,13 @@ class ad_warnlogs
 		// VIEW LAST 5
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
-				     FROM ibf_warn_logs l
-				     LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
-				     LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
-				    ORDER BY l.wlog_date DESC LIMIT 0,10");
+		$stmt = $ibforums->db->query(
+			"SELECT l.*, m.id as a_id, m.name as a_name, p.id as p_id, p.name as p_name
+			FROM ibf_warn_logs l
+				LEFT JOIN ibf_members m ON (m.id=l.wlog_mid)
+				LEFT JOIN ibf_members p ON (p.id=l.wlog_addedby)
+			ORDER BY l.wlog_date DESC LIMIT 0,10"
+		);
 
 		$SKIN->td_header[] = array("Type", "5%");
 		$SKIN->td_header[] = array("Warned Member", "25%");
@@ -467,7 +488,13 @@ class ad_warnlogs
 
 		$ADMIN->html .= $SKIN->start_table("Saved Warn Logs");
 
-		$stmt = $ibforums->db->query("SELECT l.*, m.name, count(l.wlog_mid) as act_count from ibf_warn_logs l, ibf_members m WHERE m.id=l.wlog_mid GROUP BY l.wlog_mid ORDER BY act_count DESC");
+		$stmt = $ibforums->db->query(
+			"SELECT l.*, m.name, count(l.wlog_mid) as act_count
+			FROM ibf_warn_logs l, ibf_members m
+			WHERE m.id=l.wlog_mid
+			GROUP BY l.wlog_mid
+			ORDER BY act_count DESC"
+		);
 
 		while ($r = $stmt->fetch())
 		{
@@ -524,5 +551,3 @@ class ad_warnlogs
 	}
 
 }
-
-?>

@@ -172,7 +172,11 @@ class ad_langs
 			$ADMIN->error("$tarname is not a valid tar-chive");
 		}
 
-		$ibforums->db->exec("INSERT INTO ibf_languages (ldir, lname) VALUES('temp', '$real_name (Import)')");
+		$ibforums->db->exec(
+			"INSERT INTO ibf_languages
+				(ldir, lname)
+			VALUES
+				('temp', '$real_name (Import)')");
 
 		$new_id = $ibforums->db->lastInsertId();
 
@@ -184,7 +188,9 @@ class ad_langs
 
 		if (!mkdir($dest, 0777))
 		{
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
+			$ibforums->db->exec(
+				"DELETE FROM ibf_languages
+				WHERE lid='$new_id'");
 
 			$ADMIN->error("Could not create a new directory in $to_dir, please give sufficient CHMOD permissions to allow this");
 		}
@@ -197,7 +203,9 @@ class ad_langs
 
 		if ($tar->error != "")
 		{
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
+			$ibforums->db->exec(
+				"DELETE FROM ibf_languages
+				WHERE lid='$new_id'");
 
 			$ADMIN->error($tar->error);
 		}
@@ -286,7 +294,10 @@ class ad_langs
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_languages
+			WHERE lid='" . $IN['id'] . "'");
 
 		if (!$row = $stmt->fetch())
 		{
@@ -372,7 +383,10 @@ class ad_langs
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_languages
+			WHERE lid='" . $IN['id'] . "'");
 
 		if (!$row = $stmt->fetch())
 		{
@@ -502,7 +516,10 @@ class ad_langs
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_languages
+			WHERE lid='" . $IN['id'] . "'");
 
 		if (!$row = $stmt->fetch())
 		{
@@ -537,7 +554,10 @@ class ad_langs
 			$ADMIN->error("You must specify an existing language set ID, go back and try again");
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_languages WHERE lid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_languages
+			WHERE lid='" . $IN['id'] . "'");
 
 		//-------------------------------------
 
@@ -589,12 +609,17 @@ class ad_langs
 
 		if (!$ADMIN->copy_dir($INFO['base_dir'] . 'lang/' . $row['ldir'], $INFO['base_dir'] . 'lang/' . $new_id))
 		{
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='$new_id'");
+			$ibforums->db->exec(
+				"DELETE FROM ibf_languages
+				WHERE lid='$new_id'");
 
 			$ADMIN->error($ADMIN->errors);
 		} else
 		{
-			$ibforums->db->exec("UPDATE ibf_languages SET ldir='$new_id' WHERE lid='$new_id'");
+			$ibforums->db->exec(
+				"UPDATE ibf_languages
+				SET ldir='$new_id'
+				WHERE lid='$new_id'");
 		}
 
 		//-------------------------------------
@@ -626,7 +651,10 @@ class ad_langs
 			$ADMIN->error("You cannot remove this language pack.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_languages
+			WHERE lid='" . $IN['id'] . "'");
 
 		if (!$row = $stmt->fetch())
 		{
@@ -645,12 +673,17 @@ class ad_langs
 			$ADMIN->error("You cannot remove this language pack while it is the default language directory. Please select another pack to be the default and try again");
 		}
 
-		$ibforums->db->exec("UPDATE ibf_members SET language='{$INFO['default_language']}' WHERE language='{$row['ldir']}'");
+		$ibforums->db->exec(
+			"UPDATE ibf_members
+			SET language='{$INFO['default_language']}'
+			WHERE language='{$row['ldir']}'");
 
 		if ($ADMIN->rm_dir($INFO['base_dir'] . "lang/" . $row['ldir']))
 		{
 
-			$ibforums->db->exec("DELETE FROM ibf_languages WHERE lid='" . $IN['id'] . "'");
+			$ibforums->db->exec(
+				"DELETE FROM ibf_languages
+				WHERE lid='" . $IN['id'] . "'");
 
 			$std->boink_it($SKIN->base_url . "&act=lang");
 			exit();
@@ -681,7 +714,10 @@ class ad_langs
 			$ADMIN->error("You must specify an existing language filename, go back and try again");
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_languages
+			WHERE lid='" . $IN['id'] . "'");
 
 		if (!$row = $stmt->fetch())
 		{
@@ -786,7 +822,10 @@ class ad_langs
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_languages WHERE lid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_languages
+			WHERE lid='" . $IN['id'] . "'");
 
 		if (!$row = $stmt->fetch())
 		{
@@ -946,12 +985,13 @@ class ad_langs
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("select ibf_languages.*, count(ibf_members.id) as mcount
-			    from ibf_languages
-			     left join ibf_members on(ibf_members.language=ibf_languages.ldir)
-			     where (ibf_members.language is not null or ibf_members.language = 'en')
-			     group by ibf_languages.ldir
-			     order by ibf_languages.lname");
+		$stmt = $ibforums->db->query(
+			"SELECT ibf_languages.*, count(ibf_members.id) as mcount
+			FROM ibf_languages
+			LEFT JOIN ibf_members on(ibf_members.language=ibf_languages.ldir)
+			WHERE (ibf_members.language is not null or ibf_members.language = 'en')
+			GROUP BY ibf_languages.ldir
+			ORDER BY ibf_languages.lname");
 
 		$used_ids   = array();
 		$show_array = array();
@@ -974,7 +1014,7 @@ class ad_langs
 
 				if ($INFO['default_language'] == $r['ldir'])
 				{
-					$root = "<span style='color:red;font-weight:bold'> (Default Language)</span>";
+					$root = "<span style='color:red;font-weight:bold;'> (Default Language)</span>";
 				} else
 				{
 					$root = " ( <a href='{$SKIN->base_url}&act=lang&code=makedefault&id=" . urlencode($r['ldir']) . "'>Make Default Language</a> )";
@@ -1008,7 +1048,10 @@ class ad_langs
 		{
 			$used_ids[] = '0';
 		}
-		$stmt = $ibforums->db->query("SELECT lid, ldir, lname FROM ibf_languages WHERE lid NOT IN(" . implode(",", $used_ids) . ")");
+		$stmt = $ibforums->db->query(
+			"SELECT lid, ldir, lname
+			FROM ibf_languages
+			WHERE lid NOT IN(" . implode(",", $used_ids) . ")");
 
 		if ($stmt->rowCount())
 		{
@@ -1025,7 +1068,7 @@ class ad_langs
 
 				if ($INFO['default_language'] == $r['ldir'])
 				{
-					$root = "<span style='color:red;font-weight:bold'> (Default Language)</span>";
+					$root = "<span style='color:red;font-weight:bold;'> (Default Language)</span>";
 				} else
 				{
 					$root = " ( <a href='{$SKIN->base_url}&act=lang&code=makedefault&id=" . urlencode($r['ldir']) . "'>Make Default Language</a> )";
@@ -1078,5 +1121,3 @@ class ad_langs
 	}
 
 }
-
-?>

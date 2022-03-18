@@ -85,7 +85,11 @@ class ad_spiderlogs
 
 		if ($IN['search_string'] == "")
 		{
-			$stmt = $ibforums->db->query("SELECT COUNT(sid) as count FROM ibf_spider_logs WHERE bot='$botty'");
+			$stmt = $ibforums->db->query(
+			    "SELECT COUNT(sid) as count
+                FROM ibf_spider_logs
+                WHERE bot='$botty'"
+            );
 
 			$row = $stmt->fetch();
 
@@ -93,13 +97,23 @@ class ad_spiderlogs
 
 			$query = "&act=spiderlog&bid={$IN['bid']}&code=view";
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_spider_logs WHERE bot='$botty' ORDER BY entry_date DESC LIMIT $start, 20");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+                FROM ibf_spider_logs
+                WHERE bot='$botty'
+                ORDER BY entry_date DESC
+                LIMIT $start, 20"
+            );
 
 		} else
 		{
 			$IN['search_string'] = urldecode($IN['search_string']);
 
-			$stmt = $ibforums->db->query("SELECT COUNT(sid) as count FROM ibf_spider_logs WHERE query_string LIKE '%{$IN['search_string']}%'");
+			$stmt = $ibforums->db->query(
+			    "SELECT COUNT(sid) as count
+                FROM ibf_spider_logs
+                WHERE query_string LIKE '%{$IN['search_string']}%'"
+            );
 
 			$row = $stmt->fetch();
 
@@ -107,7 +121,13 @@ class ad_spiderlogs
 
 			$query = "&act=spiderlog&code=view&search_string=" . urlencode($IN['search_string']);
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_spider_logs WHERE query_string LIKE '%{$IN['search_string']}%' ORDER BY entry_date DESC LIMIT $start, 20");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+                FROM ibf_spider_logs
+                WHERE query_string LIKE '%{$IN['search_string']}%'
+                ORDER BY entry_date DESC
+                LIMIT $start, 20"
+            );
 
 		}
 
@@ -178,7 +198,10 @@ class ad_spiderlogs
 
 		$botty = urldecode($IN['bid']);
 
-		$ibforums->db->exec("DELETE FROM ibf_spider_logs WHERE bot='$botty'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_spider_logs
+			WHERE bot='$botty'"
+        );
 
 		$ADMIN->save_log("Removed Search Engine Logs");
 
@@ -211,7 +234,12 @@ class ad_spiderlogs
 
 		$ADMIN->html .= $SKIN->start_table("Saved Search Engine Spider Logs");
 
-		$stmt = $ibforums->db->query("SELECT count(*) as cnt, bot, entry_date, query_string FROM `ibf_spider_logs` group by bot order by entry_date DESC");
+		$stmt = $ibforums->db->query(
+		    "SELECT count(*) as cnt, bot, entry_date, query_string
+            FROM `ibf_spider_logs`
+            GROUP BY bot
+            ORDER BY entry_date DESC"
+        );
 
 		while ($r = $stmt->fetch())
 		{

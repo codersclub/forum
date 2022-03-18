@@ -134,18 +134,22 @@ class ad_rss
 		$ADMIN->page_detail = "Managing the RSS Sources";
 		$ADMIN->page_title  = "RSS Manager";
 
-		$stmt = $ibforums->db->query("SELECT COUNT(id) as count
-		FROM ibf_rss_sources");
+		$stmt = $ibforums->db->query(
+			"SELECT COUNT(id) as count
+			FROM ibf_rss_sources"
+		);
 		$row  = $stmt->fetch();
 
 		$row_count = $row['count'];
 
 		$query = "&act=rss_sources";
 
-		$stmt = $ibforums->db->query("SELECT *
-		FROM ibf_rss_sources
-		ORDER BY id
-		LIMIT $start, 20");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_rss_sources
+			ORDER BY id
+			LIMIT $start, 20"
+		);
 
 		$links = $std->build_pagelinks(array(
 		                                    'TOTAL_POSS' => $row_count,
@@ -223,10 +227,11 @@ class ad_rss
 			$row['url']  = '';
 		} else
 		{
-			$stmt = $ibforums->db->query("SELECT *
-  		FROM ibf_rss_sources
-  		WHERE id='{$IN['id']}'
-  		");
+			$stmt = $ibforums->db->query(
+				"SELECT *
+  				FROM ibf_rss_sources
+  				WHERE id='{$IN['id']}'"
+			);
 
 			$row = $stmt->fetch();
 		}
@@ -300,9 +305,9 @@ class ad_rss
 		if ($IN['id'])
 		{
 			$query = "UPDATE ibf_rss_sources
-		SET name='{$IN['source_name']}',
-		    url='{$IN['source_url']}'
-		WHERE id='{$IN['id']}'";
+				SET name='{$IN['source_name']}',
+		    		url='{$IN['source_url']}'
+				WHERE id='{$IN['id']}'";
 		} else
 		{
 			/*
@@ -313,8 +318,8 @@ class ad_rss
 			*/
 			//todo does it work?
 			$query = "INSERT INTO ibf_rss_sources
-		SET name='{$IN['source_name']}',
-		    url='{$IN['source_url']}'";
+					SET name='{$IN['source_name']}',
+		    		url='{$IN['source_url']}'";
 		}
 
 		$stmt = $ibforums->db->query($query);
@@ -342,7 +347,10 @@ class ad_rss
 			$ADMIN->error("You did not select a source ID to remove!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_rss_sources WHERE id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_rss_sources
+			WHERE id='" . $IN['id'] . "'"
+		);
 
 		$redir_url = $ADMIN->base_url . "&act=rss_sources";
 		if ($IN['st'] > 0)
@@ -374,20 +382,24 @@ class ad_rss
 		$ADMIN->page_detail = "Managing the RSS Channels";
 		$ADMIN->page_title  = "RSS Manager";
 
-		$stmt = $ibforums->db->query("SELECT COUNT(id) as count
-		FROM ibf_rss_channels");
+		$stmt = $ibforums->db->query(
+			"SELECT COUNT(id) as count
+			FROM ibf_rss_channels"
+		);
 		$row  = $stmt->fetch();
 
 		$row_count = $row['count'];
 
 		$query = "&act=rss_channels";
 
-		$stmt = $ibforums->db->query("SELECT c.*, s.name as source_name
-		FROM ibf_rss_channels c
-		LEFT JOIN ibf_rss_sources s
-			ON (c.source_id=s.id)
-		ORDER BY c.id
-		LIMIT $start, 20");
+		$stmt = $ibforums->db->query(
+			"SELECT c.*, s.name as source_name
+			FROM ibf_rss_channels c
+			LEFT JOIN ibf_rss_sources s
+				ON (c.source_id=s.id)
+			ORDER BY c.id
+			LIMIT $start, 20"
+		);
 
 		$links = $std->build_pagelinks(array(
 		                                    'TOTAL_POSS' => $row_count,
@@ -465,10 +477,11 @@ class ad_rss
 		//+----------------------------
 
 		$sources_array = array();
-		$stmt          = $ibforums->db->query("SELECT *
-		FROM ibf_rss_sources
-		ORDER BY id
-		");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_rss_sources
+			ORDER BY id"
+		);
 		while ($row = $stmt->fetch())
 		{
 			$sources_array[] = array("{$row['id']}", "{$row['name']}");
@@ -481,10 +494,11 @@ class ad_rss
 			//      $row['url']='';
 		} else
 		{
-			$stmt = $ibforums->db->query("SELECT *
-  		FROM ibf_rss_channels
-  		WHERE id='{$IN['id']}'
-  		");
+			$stmt = $ibforums->db->query(
+				"SELECT *
+  				FROM ibf_rss_channels
+  				WHERE id='{$IN['id']}'"
+			);
 
 			$row = $stmt->fetch();
 		}
@@ -607,17 +621,17 @@ class ad_rss
 			*/
 
 			$query = "UPDATE ibf_rss_channels
-		SET	descr       ='{$IN['channel_descr']}',
-			channel_url ='{$IN['channel_url']}',
-			source_id   ='{$IN['source_id']}',
-			forum_id    ='{$IN['forum_id']}',
-			posting_type='{$IN['posting_type']}',
-			user_id     ='{$IN['user_id']}',
-			user_name   ='{$IN['user_name']}',
-			url_handler ='{$IN['url_handler']}',
-			body_handler='{$IN['body_handler']}',
-			is_active   ='{$IN['is_active']}'
-		WHERE id='{$IN['id']}'";
+				SET	descr       ='{$IN['channel_descr']}',
+					channel_url ='{$IN['channel_url']}',
+					source_id   ='{$IN['source_id']}',
+					forum_id    ='{$IN['forum_id']}',
+					posting_type='{$IN['posting_type']}',
+					user_id     ='{$IN['user_id']}',
+					user_name   ='{$IN['user_name']}',
+					url_handler ='{$IN['url_handler']}',
+					body_handler='{$IN['body_handler']}',
+					is_active   ='{$IN['is_active']}'
+				WHERE id='{$IN['id']}'";
 		} else
 		{
 			/*
@@ -627,16 +641,16 @@ class ad_rss
 				  }
 			*/
 			$query = "INSERT INTO ibf_rss_channels
-		SET	descr       ='{$IN['channel_descr']}',
-			channel_url ='{$IN['channel_url']}',
-			source_id   ='{$IN['source_id']}',
-			forum_id    ='{$IN['forum_id']}',
-			posting_type='{$IN['posting_type']}',
-			user_id     ='{$IN['user_id']}',
-			user_name   ='{$IN['user_name']}',
-			url_handler ='{$IN['url_handler']}',
-			body_handler='{$IN['body_handler']}',
-			is_active   ='{$IN['is_active']}'
+				SET	descr       ='{$IN['channel_descr']}',
+					channel_url ='{$IN['channel_url']}',
+					source_id   ='{$IN['source_id']}',
+					forum_id    ='{$IN['forum_id']}',
+					posting_type='{$IN['posting_type']}',
+					user_id     ='{$IN['user_id']}',
+					user_name   ='{$IN['user_name']}',
+					url_handler ='{$IN['url_handler']}',
+					body_handler='{$IN['body_handler']}',
+					is_active   ='{$IN['is_active']}'
 		    ";
 		}
 
@@ -665,7 +679,9 @@ class ad_rss
 			$ADMIN->error("You did not select a channel ID to remove!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_rss_channels WHERE id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_rss_channels
+			WHERE id='" . $IN['id'] . "'");
 
 		$redir_url = $ADMIN->base_url . "&act=rss_channels";
 		if ($IN['st'] > 0)
@@ -697,20 +713,24 @@ class ad_rss
 		$ADMIN->page_detail = "Managing the RSS Logs";
 		$ADMIN->page_title  = "RSS Manager";
 
-		$stmt = $ibforums->db->query("SELECT COUNT(id) as count
-		FROM ibf_rss_logs");
+		$stmt = $ibforums->db->query(
+			"SELECT COUNT(id) as count
+			FROM ibf_rss_logs"
+		);
 		$row  = $stmt->fetch();
 
 		$row_count = $row['count'];
 
 		$query = "&act=rss_logs";
 
-		$stmt = $ibforums->db->query("SELECT l.*, s.name as source_name
-		FROM ibf_rss_logs l
-		LEFT JOIN ibf_rss_sources s
-			ON (l.source_id=s.id)
-		ORDER BY l.id
-		LIMIT $start, 20");
+		$stmt = $ibforums->db->query(
+			"SELECT l.*, s.name as source_name
+			FROM ibf_rss_logs l
+			LEFT JOIN ibf_rss_sources s
+				ON (l.source_id=s.id)
+			ORDER BY l.id
+			LIMIT $start, 20"
+		);
 
 		$links = $std->build_pagelinks(array(
 		                                    'TOTAL_POSS' => $row_count,
@@ -787,7 +807,10 @@ class ad_rss
 			$ADMIN->error("You did not select a log ID to remove!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_rss_logs WHERE id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_rss_logs
+			WHERE id='" . $IN['id'] . "'"
+		);
 
 		$redir_url = $ADMIN->base_url . "&act=rss_logs";
 		if ($IN['st'] > 0)
@@ -802,5 +825,3 @@ class ad_rss
 	}
 
 }
-
-?>

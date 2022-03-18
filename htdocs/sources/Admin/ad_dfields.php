@@ -102,7 +102,10 @@ class ad_dfields
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT ftitle, fid FROM ibf_files_custfields WHERE fid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT ftitle, fid
+			FROM ibf_files_custfields
+			WHERE fid='" . $IN['id'] . "'");
 
 		if (!$field = $stmt->fetch())
 		{
@@ -149,16 +152,23 @@ class ad_dfields
 
 		// Check to make sure that the relevant groups exist.
 
-		$stmt = $ibforums->db->query("SELECT ftitle, fid FROM ibf_files_custfields WHERE fid='" . $IN['id'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT ftitle, fid
+			FROM ibf_files_custfields
+			WHERE fid='" . $IN['id'] . "'");
 
 		if (!$row = $stmt->fetch())
 		{
 			$ADMIN->error("Could not resolve the ID's passed to deletion");
 		}
 
-		$stmt = $ibforums->db->query("ALTER TABLE ibf_files_custentered DROP field_{$row['fid']}");
+		$stmt = $ibforums->db->query(
+			"ALTER TABLE ibf_files_custentered
+			DROP field_{$row['fid']}");
 
-		$ibforums->db->exec("DELETE FROM ibf_files_custfields WHERE fid='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_files_custfields
+			WHERE fid='" . $IN['id'] . "'");
 
 		$ADMIN->done_screen("Custom Download Field Removed", "Custom Download Field Control", "act=dfield");
 
@@ -220,7 +230,9 @@ class ad_dfields
 
 			$new_id = $ibforums->db->lastInsertId();
 
-			$ibforums->db->query("ALTER TABLE ibf_files_custentered ADD field_$new_id text default ''");
+			$ibforums->db->query(
+				"ALTER TABLE ibf_files_custentered
+    			ADD field_$new_id text default ''");
 
 			$ibforums->db->query("OPTIMIZE TABLE ibf_files_custfields");
 
@@ -257,7 +269,10 @@ class ad_dfields
 
 		if ($IN['id'] != "")
 		{
-			$stmt   = $ibforums->db->query("SELECT * FROM ibf_files_custfields WHERE fid='" . $IN['id'] . "'");
+			$stmt   = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_files_custfields
+				WHERE fid='" . $IN['id'] . "'");
 			$fields = $stmt->fetch();
 		} else
 		{
@@ -373,7 +388,9 @@ class ad_dfields
 			'text' => 'Text Input',
 		);
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_files_custfields");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_files_custfields");
 
 		if ($stmt->rowCount())
 		{
@@ -426,5 +443,3 @@ class ad_dfields
 	}
 
 }
-
-?>

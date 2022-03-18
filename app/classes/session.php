@@ -174,7 +174,9 @@ class session
 
 				if ($ibforums->vars['spider_active'])
 				{
-					$ibforums->db->exec("DELETE FROM ibf_sessions WHERE id='" . $agent . "_session'");
+					$ibforums->db->exec(
+					    "DELETE FROM ibf_sessions
+						WHERE id='" . $agent . "_session'");
 					$this->create_bot_session($agent);
 				}
 
@@ -597,10 +599,11 @@ class session
 								}
 
 								// update group and warn level of user
-								$ibforums->db->exec("UPDATE ibf_members
+								$ibforums->db->exec(
+								    "UPDATE ibf_members
 								    SET
-									mgroup='" . $group . "',
-									warn_level='" . $level . "'
+									    mgroup='" . $group . "',
+									    warn_level='" . $level . "'
 								    WHERE id='" . $this->member['id'] . "'");
 
 								// accept new group and warn level for already fetched row
@@ -608,7 +611,8 @@ class session
 								$this->member['warn_level'] = $level;
 
 								// delete old record about violation
-								$ibforums->db->exec("DELETE FROM ibf_warnings
+								$ibforums->db->exec(
+								    "DELETE FROM ibf_warnings
 								    WHERE id='" . $row['id'] . "'");
 								// todo BAD MESSAGE!
 								$mes = "Уменьшен уровень Ваших предупреждений в связи с истечением срока действия одного из них.\n\n";
@@ -675,7 +679,8 @@ class session
 						// ************************************************ END OF ADMINS TASKS ****************************************************
 						// *************************************************************************************************************************
 						// mark time when moderator work has been made
-						$ibforums->db->exec("UPDATE ibf_moderators
+						$ibforums->db->exec(
+						    "UPDATE ibf_moderators
 						    SET time_deleted_link='" . $time . "'
 						    WHERE mid='" . $this->member['is_mod'] . "'");
 					} // end of moderator tasks
@@ -865,11 +870,14 @@ class session
 				? (time() - $ibforums->vars['session_expiration'])
 				: (time() - 3600);
 
-			$ibforums->db->exec("DELETE FROM ibf_sessions
-			    WHERE running_time < {$ibforums->vars['session_expiration']} LIMIT 10");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_sessions
+				WHERE running_time < {$ibforums->vars['session_expiration']}
+				LIMIT 10");
 
-			$ibforums->db->exec("DELETE FROM ibf_sessions
-			    WHERE member_id='" . $this->member['id'] . "'");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_sessions
+				WHERE member_id='" . $this->member['id'] . "'");
 
 			$this->session_id = md5(uniqid(microtime()));
 
@@ -947,8 +955,8 @@ class session
 
 				$ibforums->db->exec("UPDATE ibf_members
 				    SET
-					last_visit=last_activity,
-					last_activity='" . $this->time_now . "'
+					    last_visit=last_activity,
+					    last_activity='" . $this->time_now . "'
 				    WHERE id='" . $this->member['id'] . "'");
 
 				// Update the Last Visit time
@@ -992,7 +1000,10 @@ class session
 			? (time() - $ibforums->vars['session_expiration'])
 			: (time() - 3600);
 
-		$ibforums->db->exec("DELETE FROM ibf_sessions WHERE running_time < {$ibforums->vars['session_expiration']} or ip_address='" . $this->ip_address . "'" . $extra);
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_sessions
+			WHERE running_time < {$ibforums->vars['session_expiration']}
+			OR ip_address='" . $this->ip_address . "'" . $extra);
 
 		$this->session_id = md5(uniqid(microtime()));
 

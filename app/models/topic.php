@@ -14,26 +14,28 @@ class topic
 	{
 		$ibforums = Ibf::app();
 
-		$last_post = $ibforums->db->query("SELECT
+		$last_post = $ibforums->db->query(
+		    "SELECT
 				post_date,
 				author_id,
 				author_name
-			    FROM ibf_posts
-			    WHERE topic_id='{$this->tid}'
-				AND queued != 1 AND use_sig = 0
-			    ORDER BY pid DESC
-			    LIMIT 1")->fetch();
+			FROM ibf_posts
+			WHERE topic_id='{$this->tid}'
+			  AND queued != 1 AND use_sig = 0
+			ORDER BY pid DESC
+			LIMIT 1")->fetch();
 
 		if ($last_post)
 		{
 			// если вообще есть не отклонённые ответы...
-			$ibforums->db->exec("UPDATE ibf_topics t
-				    SET
-						t.last_post='" . $last_post['post_date'] . "',
-						t.last_poster_id='" . $last_post['author_id'] . "',
-						t.last_poster_name='" . $last_post['author_name'] . "'
-
-				    WHERE (t.tid='{$this->tid}' OR mirrored_topic_id='{$this->tid}')");
+			$ibforums->db->exec(
+			    "UPDATE ibf_topics t
+				SET
+					t.last_post='" . $last_post['post_date'] . "',
+					t.last_poster_id='" . $last_post['author_id'] . "',
+					t.last_poster_name='" . $last_post['author_name'] . "'
+				WHERE (t.tid='{$this->tid}'
+				  OR mirrored_topic_id='{$this->tid}')");
 		}
 
 		// обновить все зеркала
@@ -73,7 +75,10 @@ class topic
 		$ibforums = Ibf::app();
 
 		$result = array();
-		$stmt   = $ibforums->db->query("SELECT * FROM ibf_topics WHERE mirrored_topic_id='{$this->tid}'");
+		$stmt   = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_topics
+            WHERE mirrored_topic_id='{$this->tid}'");
 		while (($o = $stmt->fetchObject('topic')) != false)
 		{
 			$result[] = $o;

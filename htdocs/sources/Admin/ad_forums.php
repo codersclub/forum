@@ -155,7 +155,10 @@ class ad_forums
 			$ADMIN->error("Could not determine the forum ID to empty.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id, name, skin_id FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name, skin_id
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		//+-------------------------------
 		// Make sure we have a legal forum
@@ -221,7 +224,10 @@ class ad_forums
 			$ADMIN->error("Could not determine the forum ID to empty.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id, name, skin_id FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name, skin_id
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		$forum = $stmt->fetch();
 
@@ -236,11 +242,18 @@ class ad_forums
 
 		if ($IN['fsid'] == 'n')
 		{
-			$ibforums->db->exec("UPDATE ibf_forums SET skin_id='-1' WHERE id='" . $IN['f'] . "'");
+			$ibforums->db->exec(
+				"UPDATE ibf_forums
+				SET skin_id='-1'
+				WHERE id='" . $IN['f'] . "'");
 			$ADMIN->rebuild_config(array('forum_skin_' . $IN['f'] => ""));
 		} else
 		{
-			$ibforums->db->exec("UPDATE ibf_forums SET skin_id='" . $IN['fsid'] . "' WHERE id='" . $IN['f'] . "'");
+			$ibforums->db->exec(
+				"UPDATE ibf_forums
+				SET skin_id='" . $IN['fsid'] . "'
+				WHERE id='" . $IN['f'] . "'");
+
 			$ADMIN->rebuild_config(array('forum_skin_' . $IN['f'] => $IN['fsid']));
 		}
 
@@ -275,7 +288,11 @@ class ad_forums
 
 		$last_cat_id = -1;
 
-		$stmt = $ibforums->db->query("SELECT c.id, c.name, f.id as forum_id, f.subwrap, f.name as forum_name, f.parent_id, f.category FROM ibf_categories c, ibf_forums f WHERE c.id > 0 ORDER BY c.position, f.position");
+		$stmt = $ibforums->db->query(
+			"SELECT c.id, c.name, f.id as forum_id, f.subwrap, f.name as forum_name, f.parent_id, f.category
+			FROM ibf_categories c, ibf_forums f
+			WHERE c.id > 0
+			ORDER BY c.position, f.position");
 
 		while ($r = $stmt->fetch())
 		{
@@ -388,13 +405,20 @@ class ad_forums
 
 		// Move sub forums...
 
-		$ibforums->db->exec("UPDATE ibf_forums SET category='$cat', parent_id='$parent' WHERE parent_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_forums
+			SET category='$cat', parent_id='$parent'
+			WHERE parent_id='" . $IN['f'] . "'");
 
-		$ibforums->db->exec("DELETE FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		// Delete any moderators, if any..
 
-		$ibforums->db->exec("DELETE FROM ibf_moderators WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_moderators
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		$ADMIN->save_log("Removed sub-forum '{$IN['name']}'");
 
@@ -418,7 +442,10 @@ class ad_forums
 			$ADMIN->error("Could not determine the forum ID to empty.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id, name, show_rules, rules_title, rules_text FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name, show_rules, rules_title, rules_text
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		//+-------------------------------
 		// Make sure we have a legal forum
@@ -517,7 +544,10 @@ class ad_forums
 			$IN['f'] = $f_override;
 		}
 
-		$stmt  = $ibforums->db->query("SELECT name FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt  = $ibforums->db->query(
+			"SELECT name
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 		$forum = $stmt->fetch();
 
 		if ($IN['f'] == "")
@@ -527,17 +557,31 @@ class ad_forums
 
 		// Get the topics..
 
-		$stmt   = $ibforums->db->query("SELECT COUNT(tid) as count FROM ibf_topics WHERE approved=1 and forum_id='" . $IN['f'] . "'");
+		$stmt   = $ibforums->db->query(
+			"SELECT COUNT(tid) as count
+			FROM ibf_topics
+			WHERE approved=1
+			    AND forum_id='" . $IN['f'] . "'");
 		$topics = $stmt->fetch();
 
 		// Get the posts..
 
-		$stmt  = $ibforums->db->query("SELECT COUNT(pid) as count FROM ibf_posts WHERE queued <> 1 and forum_id='" . $IN['f'] . "'");
+		$stmt  = $ibforums->db->query(
+			"SELECT COUNT(pid) as count
+			FROM ibf_posts
+			WHERE queued <> 1
+			    AND forum_id='" . $IN['f'] . "'");
 		$posts = $stmt->fetch();
 
 		// Get the forum last poster..
 
-		$stmt      = $ibforums->db->query("SELECT tid, title, last_poster_id, last_poster_name, last_post FROM ibf_topics WHERE approved=1 and forum_id='" . $IN['f'] . "' ORDER BY last_post DESC LIMIT 0,1");
+		$stmt      = $ibforums->db->query(
+			"SELECT tid, title, last_poster_id, last_poster_name, last_post
+			FROM ibf_topics
+			WHERE approved=1
+			  AND forum_id='" . $IN['f'] . "'
+			ORDER BY last_post DESC
+			LIMIT 0,1");
 		$last_post = $stmt->fetch();
 
 		// Reset this forums stats
@@ -592,7 +636,10 @@ class ad_forums
 			$ADMIN->error("Could not determine the forum ID to empty.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id, name FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		//+-------------------------------
 		// Make sure we have a legal forum
@@ -653,7 +700,10 @@ class ad_forums
 
 		// Check to make sure its a valid forum.
 
-		$stmt = $ibforums->db->query("SELECT id, posts, topics FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT id, posts, topics
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		if (!$forum = $stmt->fetch())
 		{
@@ -662,25 +712,47 @@ class ad_forums
 
 		// Delete topics...
 
-		$ibforums->db->exec("DELETE FROM ibf_topics WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_topics
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Move posts...
 
-		$ibforums->db->exec("DELETE FROM ibf_posts WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_posts
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Move polls...
 
-		$ibforums->db->exec("DELETE FROM ibf_polls WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_polls
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Move voters...
 
-		$ibforums->db->exec("DELETE FROM ibf_voters WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_voters
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Clean up the stats
 
-		$ibforums->db->exec("UPDATE ibf_forums SET posts='0', topics='0', last_post='', last_poster_id='', last_poster_name='', last_title='', last_id='' WHERE id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_forums
+			SET
+				posts='0',
+				topics='0',
+				last_post='',
+				last_poster_id='',
+				last_poster_name='',
+				last_title='',
+				last_id=''
+			WHERE id='" . $IN['f'] . "'");
 
-		$ibforums->db->exec("UPDATE ibf_stats SET TOTAL_TOPICS=TOTAL_TOPICS-" . $forum['topics'] . ", TOTAL_REPLIES=TOTAL_REPLIES-" . $forum['posts']);
+		$ibforums->db->exec(
+			"UPDATE ibf_stats
+			SET
+				TOTAL_TOPICS=TOTAL_TOPICS-" . $forum['topics'] . ",
+				TOTAL_REPLIES=TOTAL_REPLIES-" . $forum['posts']);
 
 		$ADMIN->save_log("Emptied forum '{$IN['name']}' of all posts");
 
@@ -719,13 +791,20 @@ class ad_forums
 		$forum_in_cat = array();
 		$children     = array();
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_categories WHERE id > 0 ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_categories
+			WHERE id > 0
+			ORDER BY position ASC");
 		while ($r = $stmt->fetch())
 		{
 			$cats[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_forums ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			ORDER BY position ASC");
 		while ($r = $stmt->fetch())
 		{
 
@@ -810,11 +889,16 @@ class ad_forums
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
 
-		$stmt = $ibforums->db->query("SELECT id from ibf_forums");
+		$stmt = $ibforums->db->query(
+			"SELECT id
+			FROM ibf_forums");
 
 		while ($r = $stmt->fetch())
 		{
-			$order_query = $ibforums->db->exec("UPDATE ibf_forums SET position='" . $IN['POS_' . $r['id']] . "' WHERE id='" . $r['id'] . "'");
+			$order_query = $ibforums->db->exec(
+				"UPDATE ibf_forums
+				SET position='" . $IN['POS_' . $r['id']] . "'
+				WHERE id='" . $r['id'] . "'");
 		}
 
 		$ADMIN->save_log("Reordered Forums");
@@ -839,8 +923,11 @@ class ad_forums
 			$ADMIN->error("Could not determine the forum ID to delete.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT f.id, f.name, f.parent_id FROM ibf_forums f, ibf_categories c
-			    WHERE c.id=f.category ORDER BY c.position, f.position");
+		$stmt = $ibforums->db->query(
+			"SELECT f.id, f.name, f.parent_id
+			FROM ibf_forums f, ibf_categories c
+			WHERE c.id=f.category
+			ORDER BY c.position, f.position");
 
 		//+-------------------------------
 		// Make sure we have more than 1
@@ -928,7 +1015,10 @@ class ad_forums
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP;
 		$ibforums = Ibf::app();
 
-		$stmt  = $ibforums->db->query("SELECT * FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt  = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 		$forum = $stmt->fetch();
 
 		if (!$IN['f'])
@@ -943,35 +1033,62 @@ class ad_forums
 
 		// Move topics...
 
-		$ibforums->db->exec("UPDATE ibf_topics SET forum_id='" . $IN['MOVE_ID'] . "' WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_topics
+			SET forum_id='" . $IN['MOVE_ID'] . "'
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Move posts...
 
-		$ibforums->db->exec("UPDATE ibf_posts SET forum_id='" . $IN['MOVE_ID'] . "' WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_posts
+			SET forum_id='" . $IN['MOVE_ID'] . "'
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Move polls...
 
-		$ibforums->db->exec("UPDATE ibf_polls SET forum_id='" . $IN['MOVE_ID'] . "' WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_polls
+			SET forum_id='" . $IN['MOVE_ID'] . "'
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Move voters...
 
-		$ibforums->db->exec("UPDATE ibf_voters SET forum_id='" . $IN['MOVE_ID'] . "' WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_voters
+			SET forum_id='" . $IN['MOVE_ID'] . "'
+			WHERE forum_id='" . $IN['f'] . "'");
 
 		// Delete the forum
 
-		$ibforums->db->exec("DELETE FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		// Delete any moderators, if any..
 
-		$ibforums->db->exec("DELETE FROM ibf_moderators WHERE forum_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_moderators
+			WHERE forum_id='" . $IN['f'] . "'");
 
-		$ibforums->db->exec("DELETE FROM ibf_forums_order WHERE id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_forums_order
+			WHERE id='" . $IN['f'] . "'");
 
-		$ibforums->db->exec("UPDATE ibf_forums SET faq_id=0 WHERE faq_id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_forums
+			SET faq_id=0
+			WHERE faq_id='" . $IN['f'] . "'");
 
-		$ibforums->db->exec("UPDATE ibf_log_forums SET fid='" . $IN['MOVE_ID'] . "' WHERE fid='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_log_forums
+			SET fid='" . $IN['MOVE_ID'] . "'
+			WHERE fid='" . $IN['f'] . "'");
 
-		$ibforums->db->exec("UPDATE ibf_log_topics SET fid='" . $IN['MOVE_ID'] . "' WHERE fid='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"UPDATE ibf_log_topics
+			SET fid='" . $IN['MOVE_ID'] . "'
+			WHERE fid='" . $IN['f'] . "'");
 
 		$this->recount($IN['MOVE_ID']);
 
@@ -980,14 +1097,20 @@ class ad_forums
 
 		if ($forum['parent_id'] > 0)
 		{
-			$stmt = $ibforums->db->query("SELECT id FROM ibf_forums WHERE parent_id='{$forum['parent_id']}'");
+			$stmt = $ibforums->db->query(
+				"SELECT id
+				FROM ibf_forums
+				WHERE parent_id='{$forum['parent_id']}'");
 
 			if (!$stmt->rowCount())
 			{
 				// No, there are no more forums that have a parent id the same as the one we've just moved it from
 				// So, make that forum a normal forum then!
 
-				$ibforums->db->exec("UPDATE ibf_forums SET subwrap=0 WHERE id='{$forum['parent_id']}'");
+				$ibforums->db->exec(
+					"UPDATE ibf_forums
+					SET subwrap=0
+					WHERE id='{$forum['parent_id']}'");
 			}
 		}
 
@@ -1020,13 +1143,20 @@ class ad_forums
 
 		$last_cat_id = -1;
 
-		$stmt = $ibforums->db->query("SELECT id, name from ibf_categories WHERE id > 0 ORDER BY position");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name
+			FROM ibf_categories
+			WHERE id > 0
+			ORDER BY position");
 		while ($r = $stmt->fetch())
 		{
 			$category[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT id as forum_id, subwrap, name as forum_name, subwrap, parent_id, category from ibf_forums ORDER BY position");
+		$stmt = $ibforums->db->query(
+			"SELECT id as forum_id, subwrap, name as forum_name, subwrap, parent_id, category
+			FROM ibf_forums
+			ORDER BY position");
 		while ($r = $stmt->fetch())
 		{
 			if ($r['parent_id'] > 0)
@@ -1350,7 +1480,9 @@ class ad_forums
 		// Get the new forum id. We could use auto_incrememnt, but we need the ID to use as the default
 		// forum position...
 
-		$stmt = $ibforums->db->query("SELECT MAX(id) as top_forum FROM ibf_forums");
+		$stmt = $ibforums->db->query(
+			"SELECT MAX(id) as top_forum
+			FROM ibf_forums");
 		$row  = $stmt->fetch();
 
 		if ($row['top_forum'] < 1)
@@ -1372,7 +1504,10 @@ class ad_forums
 		{
 			$parent = preg_replace("/^f_/", "", $IN['CATEGORY']);
 
-			$stmt = $ibforums->db->query("SELECT category FROM ibf_forums WHERE id='$parent'");
+			$stmt = $ibforums->db->query(
+				"SELECT category
+				FROM ibf_forums
+				WHERE id='$parent'");
 
 			if ($forum_result = $stmt->fetch())
 			{
@@ -1428,7 +1563,10 @@ class ad_forums
 
 		if ($parent != -1)
 		{
-			$ibforums->db->exec("UPDATE ibf_forums SET subwrap=1 WHERE id='$parent'");
+			$ibforums->db->exec(
+				"UPDATE ibf_forums
+				SET subwrap=1
+				WHERE id='$parent'");
 		}
 
 		$std->update_forum_order_cache($row['top_forum'], $parent);
@@ -1463,27 +1601,29 @@ class ad_forums
 
 		$last_cat_id = -1;
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+			"SELECT
 				id,
 				name
-			    FROM ibf_categories
-			    WHERE id > 0
-			    ORDER BY position");
+			FROM ibf_categories
+			WHERE id > 0
+			ORDER BY position");
 
 		while ($r = $stmt->fetch())
 		{
 			$category[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+			"SELECT
 				id as forum_id,
 				subwrap,
 				name as forum_name,
 				subwrap,
 				parent_id,
 				category
-			    FROM ibf_forums
-			    ORDER BY position");
+			FROM ibf_forums
+			ORDER BY position");
 		while ($r = $stmt->fetch())
 		{
 
@@ -1513,9 +1653,10 @@ class ad_forums
 			}
 		}
 
-		$stmt  = $ibforums->db->query("SELECT *
-			    FROM ibf_forums
-			    WHERE id='" . $IN['f'] . "'");
+		$stmt  = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 		$forum = $stmt->fetch();
 
 		if ($forum['id'] == "")
@@ -1859,7 +2000,10 @@ class ad_forums
 			$ADMIN->error("You must enter a forum title");
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 
 		$old_details = $stmt->fetch();
 
@@ -1873,7 +2017,10 @@ class ad_forums
 		{
 			$parent = preg_replace("/^f_/", "", $IN['CATEGORY']);
 
-			$stmt = $ibforums->db->query("SELECT category FROM ibf_forums WHERE id='$parent'");
+			$stmt = $ibforums->db->query(
+				"SELECT category
+				FROM ibf_forums
+				WHERE id='$parent'");
 
 			if ($forum_result = $stmt->fetch())
 			{
@@ -1919,7 +2066,10 @@ class ad_forums
 
 		if ($parent != -1)
 		{
-			$ibforums->db->exec("UPDATE ibf_forums SET subwrap=1 WHERE id='$parent'");
+			$ibforums->db->exec(
+				"UPDATE ibf_forums
+				SET subwrap=1
+				WHERE id='$parent'");
 		}
 
 		// Have we moved this forum from a sub cat forum?
@@ -1927,18 +2077,26 @@ class ad_forums
 
 		if (($old_details['parent_id'] > 0) and ($old_details['parent_id'] != $parent))
 		{
-			$stmt = $ibforums->db->query("SELECT id FROM ibf_forums WHERE parent_id='{$old_details['parent_id']}'");
+			$stmt = $ibforums->db->query(
+				"SELECT id
+				FROM ibf_forums
+				WHERE parent_id='{$old_details['parent_id']}'");
 
 			if (!$stmt->rowCount())
 			{
 				// No, there are no more forums that have a parent id the same as the one we've just moved it from
 				// So, make that forum a normal forum then!
 
-				$ibforums->db->exec("UPDATE ibf_forums SET subwrap=0 WHERE id='{$old_details['parent_id']}'");
+				$ibforums->db->exec(
+					"UPDATE ibf_forums
+					SET subwrap=0
+					WHERE id='{$old_details['parent_id']}'");
 			}
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_forums_order WHERE id='" . $IN['f'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_forums_order
+			WHERE id='" . $IN['f'] . "'");
 
 		$std->update_forum_order_cache($IN['f'], $parent);
 
@@ -1963,14 +2121,22 @@ class ad_forums
 
 		$last_cat_id = -1;
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_categories WHERE id > 0 ORDER BY position");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_categories
+			WHERE id > 0
+			ORDER BY position");
 
 		while ($r = $stmt->fetch())
 		{
 			$cats[] = array($r['id'], "Category: " . $r['name']);
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_forums WHERE subwrap='1' AND id='" . $IN['f'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			WHERE subwrap='1'
+			  AND id='" . $IN['f'] . "'");
 
 		if (!$forum = $stmt->fetch())
 		{
@@ -2359,14 +2525,20 @@ class ad_forums
 
 		$cats = array();
 
-		$stmt = $ibforums->db->query("SELECT id,name FROM ibf_categories ORDER BY position");
+		$stmt = $ibforums->db->query(
+			"SELECT id,name
+			FROM ibf_categories
+			ORDER BY position");
 
 		while ($r = $stmt->fetch())
 		{
 			$cats[] = array($r['CAT_ID'], $r['CAT_NAME']);
 		}
 
-		$stmt  = $ibforums->db->query("SELECT * FROM ibf_forums WHERE id='" . $IN['f'] . "'");
+		$stmt  = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			WHERE id='" . $IN['f'] . "'");
 		$forum = $stmt->fetch();
 
 		if ($forum['id'] == "")
@@ -2493,5 +2665,3 @@ class ad_forums
 	}
 
 }
-
-?>

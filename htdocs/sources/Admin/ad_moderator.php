@@ -94,7 +94,11 @@ class ad_mod
 			$ADMIN->error("You did not choose a valid moderator ID");
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_moderators WHERE mid='" . $IN['mid'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_moderators
+			WHERE mid='" . $IN['mid'] . "'"
+		);
 		$mod  = $stmt->fetch();
 
 		if ($mod['is_group'])
@@ -105,7 +109,10 @@ class ad_mod
 			$name = $mod['member_name'];
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_moderators WHERE mid='" . $IN['mid'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_moderators
+			WHERE mid='" . $IN['mid'] . "'"
+		);
 
 		$ADMIN->save_log("Removed Moderator '{$name}'");
 
@@ -129,7 +136,11 @@ class ad_mod
 			$ADMIN->error("You did not choose a valid moderator ID");
 		}
 
-		$stmt = $ibforums->db->query("SELECT member_name FROM ibf_moderators WHERE mid='" . $IN['mid'] . "'");
+		$stmt = $ibforums->db->query(
+			"SELECT member_name
+			FROM ibf_moderators
+			WHERE mid='" . $IN['mid'] . "'"
+		);
 		$mod  = $stmt->fetch();
 
 		//--------------------------------------
@@ -224,7 +235,11 @@ class ad_mod
 
 		$forum_ids = array();
 
-		$stmt = $ibforums->db->query("SELECT id FROM ibf_forums WHERE id IN(" . $IN['fid'] . ")");
+		$stmt = $ibforums->db->query(
+			"SELECT id
+			FROM ibf_forums
+			WHERE id IN(" . $IN['fid'] . ")"
+		);
 
 		while ($i = $stmt->fetch())
 		{
@@ -241,7 +256,11 @@ class ad_mod
 				$ADMIN->error("We could not match that group ID");
 			}
 
-			$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups WHERE g_id='" . $IN['gid'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT g_id, g_title
+				FROM ibf_groups
+				WHERE g_id='" . $IN['gid'] . "'"
+			);
 
 			if (!$group = $stmt->fetch())
 			{
@@ -252,7 +271,12 @@ class ad_mod
 			// Already using this group on this forum?
 			//---------------------------------------
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_moderators WHERE forum_id IN(" . $IN['fid'] . ") and group_id={$IN['gid']}");
+			$stmt = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_moderators
+				WHERE forum_id IN(" . $IN['fid'] . ")
+				  AND group_id={$IN['gid']}"
+			);
 
 			while ($f = $stmt->fetch())
 			{
@@ -275,7 +299,11 @@ class ad_mod
 				$ADMIN->error("You did not choose a member to add as a moderator");
 			}
 
-			$stmt = $ibforums->db->query("SELECT id, name from ibf_members WHERE id='" . $IN['mem'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT id, name
+				FROM ibf_members
+				WHERE id='" . $IN['mem'] . "'"
+			);
 
 			if (!$mem = $stmt->fetch())
 			{
@@ -286,7 +314,12 @@ class ad_mod
 			// Already using this member on this forum?
 			//---------------------------------------
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_moderators WHERE forum_id IN(" . $IN['fid'] . ") and member_id={$IN['mem']}");
+			$stmt = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_moderators
+				WHERE forum_id IN(" . $IN['fid'] . ")
+				  AND member_id={$IN['mem']}"
+			);
 
 			while ($f = $stmt->fetch())
 			{
@@ -352,7 +385,11 @@ class ad_mod
 
 			//--------------------------------------
 
-			$stmt = $ibforums->db->query("SELECT name FROM ibf_forums WHERE id IN(" . $IN['fid'] . ")");
+			$stmt = $ibforums->db->query(
+				"SELECT name
+				FROM ibf_forums
+				WHERE id IN(" . $IN['fid'] . ")"
+			);
 
 			while ($r = $stmt->fetch())
 			{
@@ -369,7 +406,11 @@ class ad_mod
 
 			if ($IN['mod_type'] == 'group')
 			{
-				$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups WHERE g_id='" . $IN['mod_group'] . "'");
+				$stmt = $ibforums->db->query(
+					"SELECT g_id, g_title
+					FROM ibf_groups
+					WHERE g_id='" . $IN['mod_group'] . "'"
+				);
 
 				if (!$group = $stmt->fetch())
 				{
@@ -386,7 +427,11 @@ class ad_mod
 					$ADMIN->error("Could not resolve the member id bucko");
 				} else
 				{
-					$stmt = $ibforums->db->query("SELECT name, id FROM ibf_members WHERE id='" . $IN['MEMBER_ID'] . "'");
+					$stmt = $ibforums->db->query(
+						"SELECT name, id
+						FROM ibf_members
+						WHERE id='" . $IN['MEMBER_ID'] . "'"
+					);
 
 					if (!$mem = $stmt->fetch())
 					{
@@ -416,7 +461,11 @@ class ad_mod
 			$ADMIN->page_title  = "Editing a moderator";
 			$ADMIN->page_detail = "Please check the information carefully before submitting the form";
 
-			$stmt = $ibforums->db->query("SELECT * from ibf_moderators WHERE mid='" . $IN['mid'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_moderators
+				WHERE mid='" . $IN['mid'] . "'"
+			);
 
 			if (!$mod = $stmt->fetch())
 			{
@@ -455,7 +504,11 @@ class ad_mod
 		{
 			$forums = array();
 
-			$stmt = $ibforums->db->query("SELECT id, name FROM ibf_forums ORDER BY position");
+			$stmt = $ibforums->db->query(
+				"SELECT id, name
+				FROM ibf_forums
+				ORDER BY position"
+			);
 
 			while ($r = $stmt->fetch())
 			{
@@ -701,7 +754,11 @@ class ad_mod
 
 			$mem_group = array();
 
-			$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups ORDER BY g_title");
+			$stmt = $ibforums->db->query(
+				"SELECT g_id, g_title
+				FROM ibf_groups
+				ORDER BY g_title"
+			);
 
 			while ($r = $stmt->fetch())
 			{
@@ -751,7 +808,11 @@ class ad_mod
 			$ADMIN->error("You didn't choose a member name to look for!");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id, name FROM ibf_members WHERE name LIKE '" . $IN['USER_NAME'] . "%'");
+		$stmt = $ibforums->db->query(
+			"SELECT id, name
+			FROM ibf_members
+			WHERE name LIKE '" . $IN['USER_NAME'] . "%'"
+		);
 
 		if (!$stmt->rowCount())
 		{
@@ -832,13 +893,22 @@ class ad_mod
 		$mods     = array();
 		$children = array();
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_categories where id > 0 ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_categories
+			WHERE id > 0
+			ORDER BY position ASC"
+		);
 		while ($r = $stmt->fetch())
 		{
 			$cats[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_forums ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_forums
+			ORDER BY position ASC"
+		);
 		while ($r = $stmt->fetch())
 		{
 
@@ -852,7 +922,10 @@ class ad_mod
 
 		}
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_moderators");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_moderators"
+		);
 		while ($r = $stmt->fetch())
 		{
 			$mods[] = $r;
@@ -1022,5 +1095,3 @@ class ad_mod
 	}
 
 }
-
-?>

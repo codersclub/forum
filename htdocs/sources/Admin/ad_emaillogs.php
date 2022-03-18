@@ -95,11 +95,12 @@ class ad_emaillogs
 
 		$id = intval($IN['id']);
 
-		$stmt = $ibforums->db->query("SELECT email.*, m.id, m.name, mem.id as to_id, mem.name as to_name
-			    FROM ibf_email_logs email
-					 LEFT JOIN ibf_members m ON (m.id=email.from_member_id)
-					 LEFT JOIN ibf_members mem ON (mem.id=email.to_member_id)
-			    WHERE email.email_id=$id");
+		$stmt = $ibforums->db->query(
+			"SELECT email.*, m.id, m.name, mem.id as to_id, mem.name as to_name
+			FROM ibf_email_logs email
+				LEFT JOIN ibf_members m ON (m.id=email.from_member_id)
+				LEFT JOIN ibf_members mem ON (mem.id=email.to_member_id)
+			WHERE email.email_id=$id");
 
 		if (!$row = $stmt->fetch())
 		{
@@ -139,7 +140,8 @@ class ad_emaillogs
 
 		if ($IN['type'] == 'all')
 		{
-			$ibforums->db->exec("DELETE FROM ibf_email_logs");
+			$ibforums->db->exec(
+				"DELETE FROM ibf_email_logs");
 		} else
 		{
 			$ids = array();
@@ -162,7 +164,9 @@ class ad_emaillogs
 				$ADMIN->error("You did not select any email log entries to approve or delete");
 			}
 
-			$ibforums->db->exec("DELETE FROM ibf_email_logs WHERE email_id IN (" . implode(',', $ids) . ")");
+			$ibforums->db->exec(
+				"DELETE FROM ibf_email_logs
+				WHERE email_id IN (" . implode(',', $ids) . ")");
 		}
 
 		$ADMIN->save_log("Removed " . count($ids) . " email log entries");
@@ -270,7 +274,10 @@ class ad_emaillogs
 
 					if ($IN['match'] == 'loose')
 					{
-						$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE name LIKE '%{$string}%'");
+						$stmt = $ibforums->db->query(
+							"SELECT id,name
+							FROM ibf_members
+							WHERE name LIKE '%{$string}%'");
 
 						if (!$stmt->rowCount())
 						{
@@ -287,7 +294,10 @@ class ad_emaillogs
 						$db_query[] = 'email.from_member_id IN(' . implode(',', $ids) . ')';
 					} else
 					{
-						$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE name='{$string}'");
+						$stmt = $ibforums->db->query(
+							"SELECT id,name
+							FROM ibf_members
+							WHERE name='{$string}'");
 
 						if (!$stmt->rowCount())
 						{
@@ -311,7 +321,10 @@ class ad_emaillogs
 
 					if ($IN['match'] == 'loose')
 					{
-						$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE name LIKE '%{$string}%'");
+						$stmt = $ibforums->db->query(
+							"SELECT id,name
+							FROM ibf_members
+							WHERE name LIKE '%{$string}%'");
 
 						if (!$stmt->rowCount())
 						{
@@ -328,7 +341,10 @@ class ad_emaillogs
 						$db_query[] = 'email.to_member_id IN(' . implode(',', $ids) . ')';
 					} else
 					{
-						$stmt = $ibforums->db->query("SELECT id,name FROM ibf_members WHERE name='{$string}'");
+						$stmt = $ibforums->db->query(
+							"SELECT id,name
+							FROM ibf_members
+							WHERE name='{$string}'");
 
 						if (!$stmt->rowCount())
 						{
@@ -366,7 +382,9 @@ class ad_emaillogs
 			$url = '&' . implode('&', $url_query);
 		}
 
-		$stmt = $ibforums->db->query("SELECT count(email.email_id) as cnt FROM ibf_email_logs email" . $dbe);
+		$stmt = $ibforums->db->query(
+			"SELECT count(email.email_id) as cnt
+			FROM ibf_email_logs email" . $dbe);
 
 		$count = $stmt->fetch();
 
@@ -379,11 +397,13 @@ class ad_emaillogs
 		                                    'BASE_URL'   => $ADMIN->base_url . '&act=emaillog' . $url,
 		                               ));
 
-		$stmt = $ibforums->db->query("SELECT email.*, m.id, m.name, mem.id as to_id, mem.name as to_name
-			    FROM ibf_email_logs email
-					 LEFT JOIN ibf_members m ON (m.id=email.from_member_id)
-					 LEFT JOIN ibf_members mem ON (mem.id=email.to_member_id) $dbe
-			    ORDER BY email_date DESC LIMIT $start,25");
+		$stmt = $ibforums->db->query(
+			"SELECT email.*, m.id, m.name, mem.id as to_id, mem.name as to_name
+			FROM ibf_email_logs email
+				LEFT JOIN ibf_members m ON (m.id=email.from_member_id)
+				LEFT JOIN ibf_members mem ON (mem.id=email.to_member_id) $dbe
+			ORDER BY email_date DESC
+			LIMIT $start,25");
 
 		$ADMIN->html .= $SKIN->start_form(array(
 		                                       1 => array('code', 'remove'),
@@ -470,5 +490,3 @@ class ad_emaillogs
 	}
 
 }
-
-?>

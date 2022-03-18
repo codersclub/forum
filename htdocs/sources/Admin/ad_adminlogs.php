@@ -102,15 +102,23 @@ class ad_adlogs
 
 		if ($IN['search_string'] == "")
 		{
-			$stmt = $ibforums->db->query("SELECT COUNT(id) as count FROM ibf_admin_logs WHERE member_id='" . $IN['mid'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(id) as count
+				FROM ibf_admin_logs
+				WHERE member_id='" . $IN['mid'] . "'");
 			$row  = $stmt->fetch();
 
 			$row_count = $row['count'];
 
 			$query = "&act=adminlog&mid={$IN['mid']}&code=view";
 
-			$stmt = $ibforums->db->query("SELECT m.*, mem.id, mem.name FROM ibf_admin_logs m, ibf_members mem
-					    WHERE m.member_id='" . $IN['mid'] . "' AND m.member_id=mem.id ORDER BY m.ctime DESC LIMIT $start, 20");
+			$stmt = $ibforums->db->query(
+				"SELECT m.*, mem.id, mem.name
+				FROM ibf_admin_logs m, ibf_members mem
+				WHERE m.member_id='" . $IN['mid'] . "'
+				  AND m.member_id=mem.id
+				ORDER BY m.ctime DESC
+				LIMIT $start, 20");
 
 		} else
 		{
@@ -118,15 +126,23 @@ class ad_adlogs
 
 			$dbq = "m." . $IN['search_type'] . " LIKE '%" . $IN['search_string'] . "%'";
 
-			$stmt = $ibforums->db->query("SELECT COUNT(m.id) as count FROM ibf_admin_logs m WHERE $dbq");
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(m.id) as count
+				FROM ibf_admin_logs m
+				WHERE $dbq");
 			$row  = $stmt->fetch();
 
 			$row_count = $row['count'];
 
 			$query = "&act=adminlog&code=view&search_type={$IN['search_type']}&search_string=" . urlencode($IN['search_string']);
 
-			$stmt = $ibforums->db->query("SELECT m.*, mem.id, mem.name FROM ibf_admin_logs m, ibf_members mem
-					    WHERE m.member_id=mem.id AND $dbq ORDER BY m.ctime DESC LIMIT $start, 20");
+			$stmt = $ibforums->db->query(
+				"SELECT m.*, mem.id, mem.name
+				FROM ibf_admin_logs m, ibf_members mem
+				WHERE m.member_id=mem.id
+				  AND $dbq
+				ORDER BY m.ctime DESC
+				LIMIT $start, 20");
 
 		}
 
@@ -197,7 +213,9 @@ class ad_adlogs
 			$ADMIN->error("You did not select a member ID to remove by!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_admin_logs WHERE member_id='" . $IN['mid'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_admin_logs
+			WHERE member_id='" . $IN['mid'] . "'");
 
 		$std->boink_it($ADMIN->base_url . "&act=adminlog");
 		exit();
@@ -222,8 +240,12 @@ class ad_adlogs
 		// LAST FIVE ACTIONS
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT m.*, mem.id, mem.name FROM ibf_admin_logs m, ibf_members mem
-					    WHERE m.member_id=mem.id ORDER BY m.ctime DESC LIMIT 0, 5");
+		$stmt = $ibforums->db->query(
+			"SELECT m.*, mem.id, mem.name
+			FROM ibf_admin_logs m, ibf_members mem
+			WHERE m.member_id=mem.id
+			ORDER BY m.ctime DESC
+			LIMIT 0, 5");
 
 		$SKIN->td_header[] = array("Member Name", "20%");
 		$SKIN->td_header[] = array("Action Perfomed", "40%");
@@ -263,7 +285,12 @@ class ad_adlogs
 
 		$ADMIN->html .= $SKIN->start_table("Saved Admininstration Logs");
 
-		$stmt = $ibforums->db->query("SELECT m.*, mem.name, count(m.id) as act_count FROM ibf_admin_logs m, ibf_members mem WHERE m.member_id=mem.id GROUP BY m.member_id ORDER BY act_count DESC");
+		$stmt = $ibforums->db->query(
+			"SELECT m.*, mem.name, count(m.id) as act_count
+			FROM ibf_admin_logs m, ibf_members mem
+			WHERE m.member_id=mem.id
+			GROUP BY m.member_id
+			ORDER BY act_count DESC");
 
 		while ($r = $stmt->fetch())
 		{

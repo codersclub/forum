@@ -248,9 +248,10 @@ class ad_forums
 		// Get a grip, er count
 		//+---------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT COUNT(id) AS total
-			    FROM ibf_members
-			    WHERE mgroup IN($group_str)" . $where);
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(id) AS total
+			FROM ibf_members
+			WHERE mgroup IN($group_str)" . $where);
 
 		$rows = $stmt->fetch();
 
@@ -264,7 +265,10 @@ class ad_forums
 		// Regex up stuff
 		//+---------------------------------------
 
-		$stmt  = $ibforums->db->query("SELECT * FROM ibf_stats");
+		$stmt  = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_stats"
+        );
 		$stats = $stmt->fetch();
 
 		$contents = $std->txt_stripslashes($_POST['email_contents']);
@@ -298,9 +302,11 @@ class ad_forums
 
 		$this->email->bcc = array();
 
-		$stmt = $ibforums->db->query("SELECT email
-			    FROM ibf_members
-			    WHERE mgroup IN($group_str)" . $where);
+		$stmt = $ibforums->db->query(
+		    "SELECT email
+			FROM ibf_members
+			WHERE mgroup IN($group_str)" . $where
+        );
 
 		while ($r = $stmt->fetch())
 		{
@@ -403,15 +409,17 @@ class ad_forums
 
 		$ADMIN->html .= $SKIN->start_table("Bulk Email Members: Settings");
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title
-			    FROM ibf_groups
-			    WHERE g_id <> " . $INFO['guest_group'] . "
-			    ORDER BY g_title");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id, g_title
+			FROM ibf_groups
+			WHERE g_id <> " . $INFO['guest_group'] . "
+			ORDER BY g_title"
+        );
 
 		while ($r = $stmt->fetch())
 		{
 			$ADMIN->html .= $SKIN->add_td_row(array(
-			                                       "<b>Send to group <span style='color:red'>{$r['g_title']}</span>?</b>",
+			                                       "<b>Send to group <span style='color:red;'>{$r['g_title']}</span>?</b>",
 			                                       $SKIN->form_yes_no("sg_{$r['g_id']}", isset($IN['sg_' . $r['g_id']])
 				                                       ? $IN['sg_' . $r['g_id']]
 				                                       : 1)
@@ -460,9 +468,10 @@ class ad_forums
 			$ADMIN->error("You must specify a valid member id, please go back and try again");
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_members
-			    WHERE id='" . $IN['mid'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_members
+			WHERE id='" . $IN['mid'] . "'");
 
 		if (!$member = $stmt->fetch())
 		{
@@ -524,8 +533,9 @@ class ad_forums
 
 		if ($IN['mid'] == 'all')
 		{
-			$ibforums->db->exec("UPDATE ibf_members
-				    SET temp_ban=''");
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET temp_ban=''");
 
 			$ADMIN->save_log("Unsuspended all member accounts");
 
@@ -534,9 +544,10 @@ class ad_forums
 		{
 			$mid = intval($IN['mid']);
 
-			$ibforums->db->exec("UPDATE ibf_members
-				    SET temp_ban=''
-				    WHERE id=$mid");
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET temp_ban=''
+				WHERE id=$mid");
 
 			$stmt = $ibforums->db->query("SELECT name
 				    FROM ibf_members
@@ -569,9 +580,10 @@ class ad_forums
 			$ADMIN->error("You must specify a valid member id, please go back and try again");
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_members
-			    WHERE id='" . $IN['mid'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_members
+			WHERE id='" . $IN['mid'] . "'");
 
 		if (!$member = $stmt->fetch())
 		{
@@ -598,9 +610,10 @@ class ad_forums
 		// Update and show confirmation
 		//+-------------------------------
 
-		$ibforums->db->exec("UPDATE ibf_members
-			    SET temp_ban='$new_ban'
-			    WHERE id={$IN['mid']}");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET temp_ban='$new_ban'
+			WHERE id={$IN['mid']}");
 
 		// I say, did we choose to email 'dis member?
 
@@ -680,9 +693,10 @@ class ad_forums
 			exit();
 		}
 
-		$stmt = $ibforums->db->query("SELECT name, email
-			    FROM ibf_members
-			    WHERE id='" . $IN['mid'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT name, email
+			FROM ibf_members
+			WHERE id='" . $IN['mid'] . "'");
 
 		if (!$member = $stmt->fetch())
 		{
@@ -701,9 +715,10 @@ class ad_forums
 
 		$new_name = trim($IN['new_name']);
 
-		$stmt = $ibforums->db->query("SELECT id
-			    FROM ibf_members
-			    WHERE LOWER(name)='" . mb_strtolower($new_name) . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT id
+			FROM ibf_members
+			WHERE LOWER(name)='" . mb_strtolower($new_name) . "'");
 
 		if ($stmt->rowCount())
 		{
@@ -714,33 +729,50 @@ class ad_forums
 		// If one gets here, one can assume that the new name is correct for one, er...one.
 		// So, lets do the converteroo
 
-		$ibforums->db->exec("UPDATE ibf_members
-			    SET name='$new_name'
-			    WHERE id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_contacts
-			    SET contact_name='$new_name'
-			    WHERE contact_id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_forums
-			    SET last_poster_name='$new_name'
-			    WHERE last_poster_id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_moderator_logs
-			    SET member_name='$new_name'
-			    WHERE member_id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_moderators
-			    SET member_name='$new_name'
-			    WHERE member_id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_posts
-			    SET author_name='$new_name'
-			    WHERE author_id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_sessions
-			    SET member_name='$new_name'
-			    WHERE member_id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_topics
-			    SET starter_name='$new_name'
-			    WHERE starter_id='$mid'");
-		$ibforums->db->exec("UPDATE ibf_topics
-			    SET last_poster_name='$new_name'
-			    WHERE last_poster_id='$mid'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET name='$new_name'
+			WHERE id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_contacts
+			SET contact_name='$new_name'
+			WHERE contact_id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_forums
+			SET last_poster_name='$new_name'
+			WHERE last_poster_id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_moderator_logs
+			SET member_name='$new_name'
+			WHERE member_id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_moderators
+			SET member_name='$new_name'
+			WHERE member_id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_posts
+			SET author_name='$new_name'
+			WHERE author_id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_sessions
+			SET member_name='$new_name'
+			WHERE member_id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_topics
+			SET starter_name='$new_name'
+			WHERE starter_id='$mid'");
+
+		$ibforums->db->exec(
+		    "UPDATE ibf_topics
+			SET last_poster_name='$new_name'
+			WHERE last_poster_id='$mid'");
 
 		// I say, did we choose to email 'dis member?
 
@@ -763,11 +795,12 @@ class ad_forums
 			$this->email->send_mail();
 		}
 
-		$stmt                   = $ibforums->db->query("SELECT id, name
-			    FROM ibf_members
-			    WHERE mgroup <> '" . $INFO['auth_group'] . "'
-			    ORDER BY id DESC
-			    LIMIT 0,1");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, name
+			FROM ibf_members
+			WHERE mgroup <> '" . $INFO['auth_group'] . "'
+			ORDER BY id DESC
+			LIMIT 0,1");
 		$r                      = $stmt->fetch();
 		$stats['LAST_MEM_NAME'] = $r['name'];
 		$stats['LAST_MEM_ID']   = $r['id'];
@@ -801,9 +834,10 @@ class ad_forums
 			$ADMIN->error("You must specify a valid member id, please go back and try again");
 		}
 
-		$stmt = $ibforums->db->query("SELECT name
-			    FROM ibf_members
-			    WHERE id='" . $IN['mid'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT name
+			FROM ibf_members
+			WHERE id='" . $IN['mid'] . "'");
 
 		if (!$member = $stmt->fetch())
 		{
@@ -831,7 +865,7 @@ class ad_forums
 		{
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       "<b>Error Message:</b>",
-			                                       "<b><span style='color:red'>$message</span></b>",
+			                                       "<b><span style='color:red;'>$message</span></b>",
 			                                  ));
 		}
 
@@ -914,10 +948,11 @@ class ad_forums
 
 			//-------------------------------------------
 
-			$stmt = $ibforums->db->query("SELECT m.id, m.email, m.mgroup, v.*
-				     FROM ibf_validating v
-					 LEFT JOIN ibf_members m ON (v.member_id=m.id)
-				     WHERE m.id IN(" . implode(",", $ids) . ")");
+			$stmt = $ibforums->db->query(
+			    "SELECT m.id, m.email, m.mgroup, v.*
+			    FROM ibf_validating v
+				LEFT JOIN ibf_members m ON (v.member_id=m.id)
+				WHERE m.id IN(" . implode(",", $ids) . ")");
 
 			while ($row = $stmt->fetch())
 			{
@@ -931,28 +966,32 @@ class ad_forums
 					$row['real_group'] = $INFO['member_group'];
 				}
 
-				$update = $ibforums->db->exec("UPDATE ibf_members
-						      SET mgroup='" . $row['real_group'] . "',
-						          old_group='" . $row['real_group'] . "'
-						      WHERE id='" . $row['id'] . "'");
+				$update = $ibforums->db->exec(
+				    "UPDATE ibf_members
+					SET mgroup='" . $row['real_group'] . "',
+						old_group='" . $row['real_group'] . "'
+					WHERE id='" . $row['id'] . "'");
 
 				$email->to = $row['email'];
 
 				$email->send_mail();
 			}
 
-			$ibforums->db->exec("DELETE FROM ibf_validating
-				    WHERE member_id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_validating
+				WHERE member_id IN(" . implode(",", $ids) . ")");
 
-			$stmt = $ibforums->db->query("SELECT id, name
-				    FROM ibf_members
-				    WHERE mgroup <> " . $INFO['auth_group'] . "
-				    ORDER BY id DESC
-				    LIMIT 0,1");
-			$r    = $stmt->fetch();
+			$stmt = $ibforums->db->query(
+			    "SELECT id, name
+				FROM ibf_members
+				WHERE mgroup <> " . $INFO['auth_group'] . "
+				ORDER BY id DESC
+				LIMIT 0,1");
+			$r = $stmt->fetch();
 
-			$ibforums->db->exec("UPDATE ibf_stats
-				    SET MEM_COUNT=MEM_COUNT+" . count($ids) . ",
+			$ibforums->db->exec(
+			    "UPDATE ibf_stats
+				SET MEM_COUNT=MEM_COUNT+" . count($ids) . ",
 					LAST_MEM_NAME='{$r['name']}',
 					LAST_MEM_ID='{$r['id']}'");
 
@@ -962,38 +1001,48 @@ class ad_forums
 
 		} else
 		{
-			$ibforums->db->exec("DELETE FROM ibf_members
-				    WHERE id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_members
+				WHERE id IN(" . implode(",", $ids) . ")");
 
-			$ibforums->db->exec("DELETE FROM ibf_member_extra
-				    WHERE id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_member_extra
+				WHERE id IN(" . implode(",", $ids) . ")");
 
 			// Delete member messages...
 
-			$ibforums->db->exec("DELETE FROM ibf_messages
-                                    WHERE member_id IN(" . implode(",", $ids) . ")");
-			$ibforums->db->exec("DELETE FROM ibf_contacts
-                                    WHERE member_id IN(" . implode(",", $ids) . ")
-                                       OR contact_id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_messages
+                WHERE member_id IN(" . implode(",", $ids) . ")");
 
-			$ibforums->db->exec("DELETE FROM ibf_validating
-                                    WHERE member_id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_contacts
+                WHERE member_id IN(" . implode(",", $ids) . ")
+                   OR contact_id IN(" . implode(",", $ids) . ")");
 
-			$ibforums->db->exec("DELETE FROM ibf_pfields_content
-                                    WHERE member_id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_validating
+                WHERE member_id IN(" . implode(",", $ids) . ")");
 
-			$ibforums->db->exec("DELETE FROM ibf_warn_logs
-                                    WHERE wlog_mid IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_pfields_content
+                WHERE member_id IN(" . implode(",", $ids) . ")");
+
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_warn_logs
+                WHERE wlog_mid IN(" . implode(",", $ids) . ")");
 
 			// Convert their posts and topics into guest postings..
 
-			$ibforums->db->exec("UPDATE ibf_posts
-                                    SET author_id='0'
-                                    WHERE author_id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "UPDATE ibf_posts
+                SET author_id='0'
+                WHERE author_id IN(" . implode(",", $ids) . ")");
 
-			$ibforums->db->exec("UPDATE ibf_topics
-                                    SET starter_id='0'
-                                    WHERE starter_id IN(" . implode(",", $ids) . ")");
+			$ibforums->db->exec(
+			    "UPDATE ibf_topics
+                SET starter_id='0'
+                WHERE starter_id IN(" . implode(",", $ids) . ")");
 
 			if (USE_MODULES == 1)
 			{
@@ -1019,9 +1068,10 @@ class ad_forums
 
 		$ADMIN->page_detail = "This section allows you to allow or deny registrations where you have requested that an administrator previews new accounts before allowing full membership. It will also allow you to complete or deny new email address changes.<br><br>This form will also allow you to complete the registrations for those who did not receive an email.";
 
-		$stmt = $ibforums->db->query("SELECT COUNT(vid) AS mcount
-			    FROM ibf_validating
-			    WHERE validate_type<>'lost_pass'");
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(vid) AS mcount
+			FROM ibf_validating
+			WHERE validate_type<>'lost_pass'");
 
 		$row = $stmt->fetch();
 
@@ -1105,12 +1155,13 @@ class ad_forums
 
 		if ($cnt > 0)
 		{
-			$stmt = $ibforums->db->query("SELECT m.name, m.id, m.email, m.posts, m.joined, v.*
-				    FROM ibf_validating v
-				    LEFT JOIN ibf_members m ON (v.member_id=m.id)
-				    WHERE v.validate_type<>'lost_pass'
-				    ORDER BY $col $ord
-				    LIMIT $st,75");
+			$stmt = $ibforums->db->query(
+			    "SELECT m.name, m.id, m.email, m.posts, m.joined, v.*
+				FROM ibf_validating v
+				LEFT JOIN ibf_members m ON (v.member_id=m.id)
+				WHERE v.validate_type<>'lost_pass'
+				ORDER BY $col $ord
+				LIMIT $st,75");
 
 			while ($r = $stmt->fetch())
 			{
@@ -1325,9 +1376,10 @@ class ad_forums
 
 		$ADMIN->html .= $SKIN->start_table("Member Titles/Ranks");
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_titles
-			    ORDER BY posts");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_titles
+			ORDER BY posts");
 
 		while ($r = $stmt->fetch())
 		{
@@ -1447,8 +1499,9 @@ class ad_forums
 			$ADMIN->error("We could not match that ID");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_titles
-			    WHERE id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_titles
+			WHERE id='" . $IN['id'] . "'");
 
 		$ADMIN->save_log("Removed Rank Setting");
 
@@ -1521,9 +1574,10 @@ class ad_forums
 				$ADMIN->error("No rank ID was set, please try again");
 			}
 
-			$stmt = $ibforums->db->query("SELECT *
-				    FROM ibf_titles
-				    WHERE id='" . $IN['id'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+				FROM ibf_titles
+				WHERE id='" . $IN['id'] . "'");
 			$rank = $stmt->fetch();
 
 			$button = "Complete Edit";
@@ -1598,9 +1652,10 @@ class ad_forums
 
 		$mem_group[0] = array('0', 'Any member group');
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title
-			    FROM ibf_groups
-			    ORDER BY g_title");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id, g_title
+			FROM ibf_groups
+			ORDER BY g_title");
 
 		while ($r = $stmt->fetch())
 		{
@@ -1710,7 +1765,9 @@ class ad_forums
 
 		$time_now = time();
 
-		$query = "SELECT COUNT(id) as mcount FROM ibf_members WHERE";
+		$query = "SELECT COUNT(id) as mcount
+                  FROM ibf_members
+                  WHERE";
 
 		$add_query = array();
 
@@ -1765,9 +1822,10 @@ class ad_forums
 
 		if ($count['mcount'] < 101)
 		{
-			$stmt = $ibforums->db->query("SELECT id, name
-				    FROM ibf_members
-				    WHERE $additional_query");
+			$stmt = $ibforums->db->query(
+			    "SELECT id, name
+				FROM ibf_members
+				WHERE $additional_query");
 
 			$member_arr = array();
 
@@ -1845,9 +1903,10 @@ class ad_forums
 
 		$ids = array();
 
-		$stmt = $ibforums->db->query("SELECT id
-			    FROM ibf_members
-			    WHERE " . $query);
+		$stmt = $ibforums->db->query(
+		    "SELECT id
+			FROM ibf_members
+			WHERE " . $query);
 
 		if ($stmt->rowCount())
 		{
@@ -1900,9 +1959,10 @@ class ad_forums
 			$ADMIN->error("You didn't choose a member name to look for!");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id, name
-			    FROM ibf_members
-			    WHERE name LIKE '" . $IN['USER_NAME'] . "%'");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, name
+			FROM ibf_members
+			WHERE name LIKE '" . $IN['USER_NAME'] . "%'");
 
 		if (!$stmt->rowCount())
 		{
@@ -1968,9 +2028,10 @@ class ad_forums
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_members
-			    WHERE id='" . $IN['MEMBER_ID'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_members
+			WHERE id='" . $IN['MEMBER_ID'] . "'");
 		$mem  = $stmt->fetch();
 
 		//+-------------------------------
@@ -2011,9 +2072,10 @@ class ad_forums
 
 		$ADMIN->page_detail = "You may pre-register members using this form.";
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title
-                            FROM ibf_groups
-                            ORDER BY g_title");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id, g_title
+            FROM ibf_groups
+            ORDER BY g_title");
 
 		while ($r = $stmt->fetch())
 		{
@@ -2032,9 +2094,10 @@ class ad_forums
 		$custom_output = "";
 		$field_data    = array();
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_pfields_content
-                            WHERE member_id='" . $IN['MEMBER_ID'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_pfields_content
+            WHERE member_id='" . $IN['MEMBER_ID'] . "'");
 
 		while ($content = $stmt->fetch())
 		{
@@ -2050,10 +2113,11 @@ class ad_forums
 			}
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_pfields_data
-                            WHERE fshowreg=1
-                            ORDER BY forder");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_pfields_data
+            WHERE fshowreg=1
+            ORDER BY forder");
 
 		while ($row = $stmt->fetch())
 		{
@@ -2159,9 +2223,10 @@ class ad_forums
 		// Do we already have such a member?
 		//----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT id
-			    FROM ibf_members
-			    WHERE LOWER(name)='" . $IN['name'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT id
+			FROM ibf_members
+			WHERE LOWER(name)='" . $IN['name'] . "'");
 
 		if ($stmt->rowCount())
 		{
@@ -2174,7 +2239,9 @@ class ad_forums
 
 		$custom_fields = array();
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_pfields_data");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_pfields_data");
 
 		$have_custom = $stmt->rowCount();
 
@@ -2223,7 +2290,11 @@ class ad_forums
 
 		//+--------------------------------------------
 
-		$ibforums->db->exec("UPDATE ibf_stats SET " . "MEM_COUNT=MEM_COUNT+1, " . "LAST_MEM_NAME='" . trim($IN['name']) . "', " . "LAST_MEM_ID='" . $member_id . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_stats
+			SET " . "MEM_COUNT=MEM_COUNT+1, "
+			      . "LAST_MEM_NAME='" . trim($IN['name']) . "', "
+			      . "LAST_MEM_ID='" . $member_id . "'");
 
 		$ADMIN->save_log("Created new member account for '{$IN['name']}'");
 
@@ -2248,9 +2319,10 @@ class ad_forums
 
 		$mem_group = array(0 => array('all', 'Any Group'));
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title
-			    FROM ibf_groups
-			    ORDER BY g_title");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id, g_title
+			FROM ibf_groups
+			ORDER BY g_title");
 
 		while ($r = $stmt->fetch())
 		{
@@ -2453,18 +2525,19 @@ class ad_forums
 
 		$query = "SELECT m.id, m.email, m.name, m.mgroup, m.ip_address, m.posts, m.temp_ban, g.g_title
 		          FROM ibf_members m
-		           LEFT JOIN ibf_groups g ON (g.g_id=m.mgroup)
+		          LEFT JOIN ibf_groups g ON (g.g_id=m.mgroup)
 		          WHERE $rq
-			  ORDER BY m.name
-			  LIMIT $st,50";
+			      ORDER BY m.name
+			      LIMIT $st,50";
 
 		//+-------------------------------
 		// Get the number of results
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT COUNT(m.id) AS count
-			    FROM ibf_members m
-			    WHERE $rq");
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(m.id) AS count
+			FROM ibf_members m
+			WHERE $rq");
 
 		$count = $stmt->fetch();
 
@@ -2572,9 +2645,10 @@ class ad_forums
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_members
-                            WHERE id='" . $IN['MEMBER_ID'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_members
+            WHERE id='" . $IN['MEMBER_ID'] . "'");
 		$mem  = $stmt->fetch();
 
 		//+-------------------------------
@@ -2591,9 +2665,10 @@ class ad_forums
 
 		$units = array(0 => array('h', 'Hours'), 1 => array('d', 'Days'));
 
-		$stmt = $ibforums->db->query("SELECT g_id, g_title
-                            FROM ibf_groups
-                            ORDER BY g_title");
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id, g_title
+            FROM ibf_groups
+            ORDER BY g_title");
 
 		while ($r = $stmt->fetch())
 		{
@@ -2625,7 +2700,10 @@ class ad_forums
 
 		$lang_array = array();
 
-		$stmt = $ibforums->db->prepare("SELECT ldir, lname FROM ibf_languages")->execute();
+		$stmt = $ibforums->db->prepare(
+		    "SELECT ldir, lname
+            FROM ibf_languages"
+        )->execute();
 
 		while ($l = $stmt->fetch())
 		{
@@ -2664,9 +2742,10 @@ class ad_forums
 		$custom_output = "";
 		$field_data    = array();
 
-		$stmt = $ibforums->db->query("SELECT *
-                            FROM ibf_pfields_content
-                            WHERE member_id='" . $IN['MEMBER_ID'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_pfields_content
+            WHERE member_id='" . $IN['MEMBER_ID'] . "'");
 
 		while ($content = $stmt->fetch())
 		{
@@ -2682,9 +2761,10 @@ class ad_forums
 			}
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-                            FROM ibf_pfields_data
-                            ORDER BY forder");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_pfields_data
+            ORDER BY forder");
 
 		while ($row = $stmt->fetch())
 		{
@@ -2739,8 +2819,9 @@ class ad_forums
 
 		$perm_masks = array();
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_forum_perms");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_forum_perms");
 
 		while ($r = $stmt->fetch())
 		{
@@ -3189,9 +3270,10 @@ class ad_forums
 	{
 		global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
-		$stmt = $ibforums->db->query("SELECT name, mgroup, password
-			    FROM ibf_members
-			    WHERE id='" . $IN['mid'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT name, mgroup, password
+			FROM ibf_members
+			WHERE id='" . $IN['mid'] . "'");
 
 		$memb = $stmt->fetch();
 
@@ -3299,20 +3381,25 @@ class ad_forums
 
 		if ($IN['remove_photo'])
 		{
-			$stmt = $ibforums->db->query("SELECT id
+			$stmt = $ibforums->db->query(
+			    "SELECT id
 			     FROM ibf_member_extra
 			     WHERE id={$IN['mid']}");
 
 			if ($stmt->rowCount())
 			{
-				$ibforums->db->exec("UPDATE ibf_member_extra SET
+				$ibforums->db->exec(
+				    "UPDATE ibf_member_extra
+					SET
 						photo_location='',
 						photo_type='',
 						photo_dimensions=''
-					    WHERE id={$IN['mid']}");
+					WHERE id={$IN['mid']}");
 			} else
 			{
-				$ibforums->db->exec("INSERT INTO ibf_member_extra SET
+				$ibforums->db->exec(
+				    "INSERT INTO ibf_member_extra
+					SET
 						photo_location='',
 						photo_type='',
 						photo_dimensions='',
@@ -3331,11 +3418,13 @@ class ad_forums
 		if ($IN['subscribe_delete'])
 		{
 
-			$ibforums->db->exec("DELETE FROM ibf_tracker
-				    WHERE member_id={$IN['mid']}");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_tracker
+				WHERE member_id={$IN['mid']}");
 
-			$ibforums->db->exec("DELETE FROM ibf_forum_tracker
-				    WHERE member_id={$IN['mid']}");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_forum_tracker
+				WHERE member_id={$IN['mid']}");
 
 		}
 
@@ -3345,8 +3434,9 @@ class ad_forums
 
 		$custom_fields = array();
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_pfields_data");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_pfields_data");
 
 		while ($row = $stmt->fetch())
 		{
@@ -3357,9 +3447,10 @@ class ad_forums
 		{
 			// Do we already have an entry in the content table?
 
-			$stmt = $ibforums->db->query("SELECT member_id
-                                    FROM ibf_pfields_content
-                                    WHERE member_id='" . $IN['mid'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT member_id
+                FROM ibf_pfields_content
+                WHERE member_id='" . $IN['mid'] . "'");
 			$test = $stmt->fetch();
 
 			if ($test['member_id'])
@@ -3426,7 +3517,8 @@ class ad_forums
 			$ADMIN->error("Email address is blank.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT id
+		$stmt = $ibforums->db->query(
+		    "SELECT id
 		    FROM ibf_members
 		    WHERE email='" . addslashes($email) . "'");
 
@@ -3444,9 +3536,10 @@ class ad_forums
 			$reason = ",disable_mail_reason=NULL";
 		}
 
-		$ibforums->db->exec("UPDATE ibf_members
-		    SET disable_mail='" . $action . "'" . $reason . "
-		    WHERE email='" . addslashes($email) . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET disable_mail='" . $action . "'" . $reason . "
+			WHERE email='" . addslashes($email) . "'");
 
 		$reason = ($action and $IN['reason'] and $IN['reason'] != "Enter reason here")
 			? " with reason: " . $IN['reason']
@@ -3474,15 +3567,17 @@ class ad_forums
 			$ADMIN->error("Email address is blank.");
 		}
 
-		$stmt = $ibforums->db->query("SELECT m.id, m.name, m.email, m.posts, g.g_title,
-		     IF(m.disable_mail=0,'no','yes') as disable_mail,
-		     IF(m.temp_ban IS NULL,'no','yes') as temp_ban,
-		     IF(m.mod_posts=0,'no','yes') as mod_posts,
-		     IF(m.restrict_post=0,'yes','no') as restrict_posts,
-		     IF(m.last_activity=0,'not active',DATE_FORMAT(FROM_UNIXTIME(m.last_activity),'%d.%m.%Y')) as last_time,
-		     DATE_FORMAT(FROM_UNIXTIME(m.joined),'%d.%m.%Y') as joined, IFNULL(m.warn_level,0) as warn_level
+		$stmt = $ibforums->db->query(
+		    "SELECT m.id, m.name, m.email, m.posts, g.g_title,
+		        IF(m.disable_mail=0,'no','yes') as disable_mail,
+		        IF(m.temp_ban IS NULL,'no','yes') as temp_ban,
+		        IF(m.mod_posts=0,'no','yes') as mod_posts,
+		        IF(m.restrict_post=0,'yes','no') as restrict_posts,
+		        IF(m.last_activity=0,'not active',DATE_FORMAT(FROM_UNIXTIME(m.last_activity),'%d.%m.%Y')) as last_time,
+		        DATE_FORMAT(FROM_UNIXTIME(m.joined),'%d.%m.%Y') as joined, IFNULL(m.warn_level,0) as warn_level
 		    FROM ibf_members m, ibf_groups g
-		    WHERE g.g_id=m.mgroup and m.email='" . addslashes($email) . "'");
+		    WHERE g.g_id=m.mgroup
+		      AND m.email='" . addslashes($email) . "'");
 
 		if (!$stmt->rowCount())
 		{

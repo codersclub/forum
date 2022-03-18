@@ -78,7 +78,11 @@ class ad_sskins
 		}
 
 		// Получаем текущее имя скина
-		$stmt = $ibforums->db->query("SELECT `name` FROM ibf_emoticons_skins WHERE id = {$IN['id']}");
+		$stmt = $ibforums->db->query(
+		    "SELECT `name`
+            FROM ibf_emoticons_skins
+            WHERE id = {$IN['id']}"
+        );
 
 		// А есть ли такой скин ?
 		if ($stmt->rowCount() == 0)
@@ -104,7 +108,11 @@ class ad_sskins
 		// переименуем и если усё ок то запишем в базу
 		if (rename(ROOT_PATH . 'smiles/' . $t_array['name'], ROOT_PATH . 'smiles/' . $IN['name']))
 		{
-			$ibforums->db->exec("UPDATE ibf_emoticons_skins SET `name` = '{$IN['name']}' WHERE `id` = '{$IN['id']}'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_emoticons_skins
+				SET `name` = '{$IN['name']}'
+				WHERE `id` = '{$IN['id']}'"
+            );
 		}
 
 		$std->boink_it($SKIN->base_url . "&act=sskin&code=edit&id={$IN['id']}");
@@ -123,7 +131,11 @@ class ad_sskins
 		}
 
 		// А есть ли такое ?
-		$stmt = $ibforums->db->query("SELECT `name` FROM ibf_emoticons_skins WHERE id = {$IN['id']}");
+		$stmt = $ibforums->db->query(
+		    "SELECT `name`
+            FROM ibf_emoticons_skins
+            WHERE id = {$IN['id']}"
+        );
 		if ($stmt->rowCount() == 0)
 		{
 			$ADMIN->error("Invalid ID");
@@ -133,7 +145,11 @@ class ad_sskins
 		$sskin_td = $stmt->fetch();
 
 		// Один чтоб остался
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_emoticons_skins WHERE id <> {$IN['id']}");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_emoticons_skins
+            WHERE id <> {$IN['id']}"
+        );
 		if ($stmt->rowCount() == 0)
 		{
 			$ADMIN->error("Only one skin left - dont do this");
@@ -143,9 +159,16 @@ class ad_sskins
 		$fallonskin = $stmt->fetch();
 
 		// Меняем смайлоскин юзверов
-		$ibforums->db->exec("UPDATE ibf_members SET `sskin_id` = {$fallonskin['id']} WHERE `sskin_id` = {$IN['id']} ");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET `sskin_id` = {$fallonskin['id']}
+			WHERE `sskin_id` = {$IN['id']} "
+        );
 		// Чистим базу
-		$ibforums->db->exec("DELETE FROM ibf_emoticons_skins WHERE id={$IN['id']}");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_emoticons_skins
+			WHERE id={$IN['id']}"
+        );
 
 		// Удаляем диру
 		$ADMIN->rm_dir(ROOT_PATH . 'smiles/' . $sskin_td['name']);
@@ -172,19 +195,32 @@ class ad_sskins
 		}
 
 		// Проверяем название
-		$stmt = $ibforums->db->query("SELECT id FROM ibf_emoticons_skins WHERE `name` = '{$IN['name']}'");
+		$stmt = $ibforums->db->query(
+		    "SELECT id
+            FROM ibf_emoticons_skins
+            WHERE `name` = '{$IN['name']}'"
+        );
 		if ($stmt->rowCount() > 0)
 		{
 			$ADMIN->error("Set with this name already exists");
 		}
 
 		// Добавляем
-		$ibforums->db->exec("INSERT INTO ibf_emoticons_skins (`name`) VALUES('{$IN['name']}')");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_emoticons_skins
+				    (`name`)
+				VALUES
+				    ('{$IN['name']}')"
+        );
 
 		$new_id = $ibforums->db->lastInsertId();
 
 		// Название первого скина
-		$stmt = $ibforums->db->query("SELECT name FROM ibf_emoticons_skins WHERE `id` = 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT name
+            FROM ibf_emoticons_skins
+            WHERE `id` = 1"
+        );
 		if (!($name_a = $stmt->fetch()))
 		{
 			$ADMIN->error("No skin with id 1");
@@ -193,15 +229,28 @@ class ad_sskins
 		// cоздаём диру
 		if (!$ADMIN->copy_dir(ROOT_PATH . 'smiles/' . $name_a['name'], ROOT_PATH . 'smiles/' . $IN['name']))
 		{
-			$ibforums->db->exec("DELETE FROM ibf_emoticons_skins WHERE name='{$IN['name']}'");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_emoticons_skins
+				WHERE name='{$IN['name']}'"
+            );
+
 			$ADMIN->error($ADMIN->errors);
 		}
 
 		// Последнее - копируем смайлы
-		$stmt = $ibforums->db->query("SELECT `typed`, `image`, `clickable` FROM ibf_emoticons WHERE `skid` = 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT `typed`, `image`, `clickable`
+            FROM ibf_emoticons
+            WHERE `skid` = 1"
+        );
 		while ($line = $stmt->fetch())
 		{
-			$ibforums->db->exec("INSERT INTO ibf_emoticons ( `typed`, `image`, `clickable`, `skid` ) VALUES ( '{$line['typed']}', '{$line['image']}', '{$line['clickable']}', '{$new_id}')");
+			$ibforums->db->exec(
+			    "INSERT INTO ibf_emoticons
+					(`typed`, `image`, `clickable`, `skid` )
+				VALUES
+					('{$line['typed']}', '{$line['image']}', '{$line['clickable']}', '{$new_id}')"
+            );
 		}
 
 		// Фсё %)
@@ -223,7 +272,11 @@ class ad_sskins
 		$ADMIN->html .= $SKIN->start_table("Smiles sets");
 
 		// Читаем усё
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_emoticons_skins ORDER BY `id`");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_emoticons_skins
+            ORDER BY `id`"
+        );
 
 		// Можно ли удалять ?
 		$remove = FALSE;
@@ -330,7 +383,11 @@ class ad_sskins
 
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_emoticons WHERE id='" . $IN['sid'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_emoticons
+            WHERE id='" . $IN['sid'] . "'"
+        );
 
 		if (!$r = $stmt->fetch())
 		{
@@ -338,7 +395,11 @@ class ad_sskins
 		}
 
 		//+-------------------------------
-		$stmt    = $ibforums->db->query("SELECT `name` from ibf_emoticons_skins WHERE id = {$IN['id']}");
+		$stmt    = $ibforums->db->query(
+		    "SELECT `name`
+            FROM ibf_emoticons_skins
+            WHERE id = {$IN['id']}"
+        );
 		$test_ss = $stmt->fetch();
 		$emo_url = ROOT_PATH . "/smiles/{$test_ss['name']}/";
 
@@ -419,7 +480,10 @@ class ad_sskins
 			$ADMIN->error("You must pass a valid emoticon id, silly!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_emoticons WHERE id='" . $IN['sid'] . "'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_emoticons
+			WHERE id='" . $IN['sid'] . "'"
+        );
 
 		$std->boink_it($SKIN->base_url . "&act=sskin&code=edit&id={$IN['id']}");
 		exit();
@@ -492,7 +556,11 @@ class ad_sskins
 		$ADMIN->page_title  = "Emoticon Control";
 		//		$ADMIN->nav[] = array( 'act=sskins', 'Smiles sets' );
 
-		$stmt    = $ibforums->db->query("SELECT `name` from ibf_emoticons_skins WHERE `id` = '{$IN['id']}'");
+		$stmt    = $ibforums->db->query(
+		    "SELECT `name`
+            FROM ibf_emoticons_skins
+            WHERE `id` = '{$IN['id']}'"
+        );
 		$test_ss = $stmt->fetch();
 		$emo_url = ROOT_PATH . "/smiles/{$test_ss['name']}/";
 
@@ -523,7 +591,12 @@ class ad_sskins
 
 		$ADMIN->html .= $SKIN->start_table("Current Emoticons");
 
-		$stmt = $ibforums->db->query("SELECT * from ibf_emoticons WHERE `skid` = '{$IN['id']}' ORDER BY id DESC");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_emoticons
+            WHERE `skid` = '{$IN['id']}'
+            ORDER BY id DESC"
+        );
 
 		$smilies = array();
 

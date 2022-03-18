@@ -79,7 +79,10 @@ class ad_syntax
 			$n           = 0;
 			$syntax_list = array();
 
-			$stmt = $ibforums->db->query("select id, syntax from ibf_syntax_list");
+			$stmt = $ibforums->db->query(
+			    "SELECT id, syntax
+                FROM ibf_syntax_list"
+            );
 			while ($row = $stmt->fetch())
 			{
 				$syntax_list[$n++] = array('syntax' => $row['syntax'], 'id' => $row['id']);
@@ -90,9 +93,20 @@ class ad_syntax
 				if ($IN['syntax_' . $syntax['syntax']] == '1')
 				{
 					$id = $syntax['id'];
-					$ibforums->db->exec("delete from ibf_syntax_list where id = " . $id);
-					$ibforums->db->exec("delete from ibf_syntax_rules where syntax_id = '" . $id . "'");
-					$ibforums->db->exec("delete from ibf_syntax_access where syntax_id = '" . $id . "'");
+					$ibforums->db->exec(
+					    "DELETE FROM ibf_syntax_list
+						WHERE id = " . $id
+                    );
+
+					$ibforums->db->exec(
+					    "DELETE FROM ibf_syntax_rules
+						WHERE syntax_id = '" . $id . "'"
+                    );
+
+					$ibforums->db->exec(
+					    "DELETE FROM ibf_syntax_access
+						WHERE syntax_id = '" . $id . "'"
+                    );
 				}
 			}
 		}
@@ -102,7 +116,10 @@ class ad_syntax
 			$n          = 0;
 			$forum_list = array();
 
-			$stmt = $ibforums->db->query("select id, parent_id, redirect_on from ibf_forums");
+			$stmt = $ibforums->db->query(
+			    "SELECT id, parent_id, redirect_on
+                FROM ibf_forums"
+            );
 
 			while ($row = $stmt->fetch())
 			{
@@ -141,7 +158,10 @@ class ad_syntax
 				}
 				//echo "\$forum_id=".$forum_id.", \$syntax_id=".$syntax_id.", \$IN[ 'forum_'.\$forum['parent_id'] ]=".$IN[ 'forum_'.$forum['parent_id'] ]." <br>\n";
 
-				$sql = "update ibf_forums set highlight_fid = " . $syntax_id . ", forum_highlight = " . $off . " where id = " . $forum_id;
+				$sql = "UPDATE ibf_forums
+				        SET highlight_fid = " . $syntax_id . ",
+				            forum_highlight = " . $off . "
+				        WHERE id = " . $forum_id;
 				//echo "\$sql=".$sql." <br>\n";
 				//echo "-------------------------<br>\n";
 				$stmt = $ibforums->db->query($sql);
@@ -166,7 +186,10 @@ class ad_syntax
 
 		$syntax_list = array();
 		$n           = 0;
-		$stmt        = $ibforums->db->query("select * from ibf_syntax_list");
+		$stmt        = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_syntax_list"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -196,7 +219,10 @@ class ad_syntax
 
 		$ADMIN->html .= $SKIN->start_table("Syntax Highlight Configurations (Delete)");
 
-		$stmt = $ibforums->db->query("select * from ibf_syntax_list");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_syntax_list"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -224,12 +250,14 @@ class ad_syntax
 		$ADMIN->html .= $SKIN->start_table("Permissions");
 
 		$members_list = array();
-		$n            = 0;
-		$stmt         = $ibforums->db->query("select m.id, m.name
-			from ibf_members m, ibf_moderators c
-			where m.id = c.member_id
-			group by m.id
-			order by m.name asc");
+		$n = 0;
+		$stmt = $ibforums->db->query(
+		    "SELECT m.id, m.name
+			FROM ibf_members m, ibf_moderators c
+			WHERE m.id = c.member_id
+			GROUP BY m.id
+			ORDER BY m.name asc"
+        );
 		while ($row = $stmt->fetch())
 		{
 			$members_list[$n++] = array($row['id'], $row['name']);
@@ -261,7 +289,10 @@ class ad_syntax
 		$this->syntax_list[1] = array('null', "No syntax highlight");
 		$n                    = 2;
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_syntax_list");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_syntax_list"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -272,14 +303,23 @@ class ad_syntax
 		$forums   = array();
 		$children = array();
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_categories WHERE id > 0 ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_categories
+            WHERE id > 0
+            ORDER BY position ASC"
+        );
 
 		while ($r = $stmt->fetch())
 		{
 			$cats[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forums ORDER BY position ASC");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_forums
+            ORDER BY position ASC"
+        );
 
 		while ($r = $stmt->fetch())
 		{
@@ -415,12 +455,18 @@ class ad_syntax
 		if ($IN['code'] == 'grant')
 		{
 			$member_id = $IN['member_id'];
-			$ibforums->db->exec("delete from ibf_syntax_access where member_id = " . $member_id);
+			$ibforums->db->exec(
+			    "DELETE from ibf_syntax_access
+				WHERE member_id = " . $member_id
+            );
 
 			$n           = 0;
 			$syntax_list = array();
 
-			$stmt = $ibforums->db->query("select id, syntax from ibf_syntax_list");
+			$stmt = $ibforums->db->query(
+			    "SELECT id, syntax
+                FROM ibf_syntax_list"
+            );
 			while ($row = $stmt->fetch())
 			{
 				$syntax_list[$n++] = array('syntax' => $row['syntax'], 'id' => $row['id']);
@@ -430,7 +476,12 @@ class ad_syntax
 			{
 				if ($IN['syntax_' . $syntax['syntax']] == '1')
 				{
-					$ibforums->db->exec("insert into ibf_syntax_access (syntax_id, member_id) values (" . $syntax['id'] . ", " . $member_id . ")");
+					$ibforums->db->exec(
+					    "INSERT INTO ibf_syntax_access
+						    (syntax_id, member_id)
+						VALUES
+						    (" . $syntax['id'] . ", " . $member_id . ")"
+                    );
 				}
 			}
 		}
@@ -458,8 +509,11 @@ class ad_syntax
 
 		$ADMIN->html .= $SKIN->start_table("Syntax Highlight Configurations (Grant Access)");
 
-		$stmt = $ibforums->db->query("select l.id, l.syntax, l.description, a.member_id from ibf_syntax_list l
-			    left join ibf_syntax_access a on a.syntax_id = l.id and a.member_id = " . $member_id);
+		$stmt = $ibforums->db->query(
+		    "SELECT l.id, l.syntax, l.description, a.member_id from ibf_syntax_list l
+			LEFT JOIN ibf_syntax_access a
+			    ON (a.syntax_id = l.id AND a.member_id = " . $member_id . ")"
+        );
 		while ($row = $stmt->fetch())
 		{
 			$code        = "<center>" . $row['syntax'] . "</center>";
@@ -513,13 +567,20 @@ class ad_syntax
 			$tab_length         = $IN['tab_length'];
 			$example            = $IN['example'];
 
-			$stmt = $ibforums->db->query("select max(id) as syntax_id from ibf_syntax_list");
+			$stmt = $ibforums->db->query(
+			    "SELECT max(id) as syntax_id
+			    FROM ibf_syntax_list"
+            );
 			if ($row = $stmt->fetch())
 			{
 				$syntax_id = $row['syntax_id'] + 1;
 
-				$ibforums->db->exec("insert into ibf_syntax_list (id, syntax, syntax_description, description, back_color, fore_color, tab_length, example)
-					     values (" . $syntax_id . ", '" . $syntax . "', '" . $syntax_description . "', '" . $description . "', '" . $back_color . "', '" . $fore_color . "', " . $tab_length . ", '" . $example . "')");
+				$ibforums->db->exec(
+				    "INSERT INTO ibf_syntax_list
+						(id, syntax, syntax_description, description, back_color, fore_color, tab_length, example)
+					VALUES
+						(" . $syntax_id . ", '" . $syntax . "', '" . $syntax_description . "', '" . $description . "', '" . $back_color . "', '" . $fore_color . "', " . $tab_length . ", '" . $example . "')"
+                );
 			}
 		}
 
@@ -534,7 +595,9 @@ class ad_syntax
 			$tab_length         = $IN['tab_length'];
 			$example            = $IN['example'];
 
-			$ibforums->db->exec("update ibf_syntax_list set
+			$ibforums->db->exec(
+			    "UPDATE ibf_syntax_list
+				SET
 					syntax = '" . $syntax . "',
 					syntax_description = '" . $syntax_description . "',
 					description = '" . $description . "',
@@ -542,12 +605,17 @@ class ad_syntax
 					fore_color = '" . $fore_color . "',
 					tab_length = " . $tab_length . ",
 					example = '" . $example . "'
-					where id = " . $syntax_id);
+				WHERE id = " . $syntax_id
+            );
 		}
 
 		if ($syntax_id != 'new')
 		{
-			$stmt = $ibforums->db->query("select * from ibf_syntax_list where id = " . $syntax_id);
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+                FROM ibf_syntax_list
+                WHERE id = " . $syntax_id
+            );
 			if ($row = $stmt->fetch())
 			{
 				$syntax             = $row['syntax'];

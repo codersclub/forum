@@ -97,7 +97,10 @@ class ad_multimod
 			$ADMIN->error("Could not resolve the MMOD ID, please try again");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_topic_mmod WHERE mm_id='" . $IN['id'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_topic_mmod
+			WHERE mm_id='" . $IN['id'] . "'"
+		);
 
 		$mm_id = intval($IN['id']);
 
@@ -107,7 +110,11 @@ class ad_multimod
 
 		$final = array();
 
-		$stmt = $ibforums->db->query("SELECT id,name,topic_mm_id FROM ibf_forums WHERE topic_mm_id LIKE '%,$mm_id,%'");
+		$stmt = $ibforums->db->query(
+			"SELECT id,name,topic_mm_id
+			FROM ibf_forums
+			WHERE topic_mm_id LIKE '%,$mm_id,%'"
+		);
 
 		while ($r = $stmt->fetch())
 		{
@@ -127,7 +134,11 @@ class ad_multimod
 					$new_mm_id = '';
 				}
 
-				$ibforums->db->exec("UPDATE ibf_forums SET topic_mm_id='{$new_mm_id}' WHERE id=$fid");
+				$ibforums->db->exec(
+					"UPDATE ibf_forums
+					SET topic_mm_id='{$new_mm_id}'
+					WHERE id=$fid"
+				);
 			}
 		}
 
@@ -213,7 +224,10 @@ class ad_multimod
 		$final   = array();
 		$fstring = ',' . implode(",", $forums) . ',';
 
-		$stmt = $ibforums->db->query("SELECT id,name,topic_mm_id FROM ibf_forums");
+		$stmt = $ibforums->db->query(
+			"SELECT id,name,topic_mm_id
+			FROM ibf_forums"
+		);
 
 		while ($r = $stmt->fetch())
 		{
@@ -263,7 +277,11 @@ class ad_multimod
 			{
 				$new_mm_id = "," . $std->clean_perm_string($raw_mm_id) . ",";
 
-				$ibforums->db->exec("UPDATE ibf_forums SET topic_mm_id='{$new_mm_id}' WHERE id=$fid");
+				$ibforums->db->exec(
+					"UPDATE ibf_forums
+					SET topic_mm_id='{$new_mm_id}'
+					WHERE id=$fid"
+				);
 			}
 		}
 
@@ -292,7 +310,11 @@ class ad_multimod
 		{
 			$id = intval($IN['id']);
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_topic_mmod WHERE mm_id=$id");
+			$stmt = $ibforums->db->query(
+				"SELECT *
+				FROM ibf_topic_mmod
+				WHERE mm_id=$id"
+			);
 
 			if (!$topic_mm = $stmt->fetch())
 			{
@@ -333,7 +355,10 @@ class ad_multimod
 		$db_forums   = array();
 		$last_cat_id = -1;
 
-		$stmt = $ibforums->db->query("SELECT f.id as forum_id, f.name as forum_name, f.position, f.read_perms, f.parent_id, f.subwrap, f.sub_can_post, f.redirect_on, f.topic_mm_id, c.id as cat_id, c.name as cat_name from ibf_forums f, ibf_categories c where c.id=f.category ORDER BY c.position, f.position");
+		$stmt = $ibforums->db->query(
+			"SELECT f.id as forum_id, f.name as forum_name, f.position, f.read_perms, f.parent_id, f.subwrap,
+       			f.sub_can_post, f.redirect_on, f.topic_mm_id, c.id as cat_id, c.name as cat_name from ibf_forums f,
+       			ibf_categories c where c.id=f.category ORDER BY c.position, f.position");
 
 		$forums = "<select name='forums[]' class='textinput' size='15' multiple='multiple'>\n";
 
@@ -503,7 +528,11 @@ class ad_multimod
 
 		$ADMIN->html .= $SKIN->start_table("Current Topic Multi-Moderation");
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_topic_mmod ORDER BY mm_title");
+		$stmt = $ibforums->db->query(
+			"SELECT *
+			FROM ibf_topic_mmod
+			ORDER BY mm_title"
+		);
 
 		if ($stmt->rowCount())
 		{
@@ -578,11 +607,14 @@ class ad_multimod
 
 			if (count($cats))
 			{
-				$sql_query = "SELECT id, read_perms, password, subwrap from ibf_forums WHERE category IN(" . implode(",", $cats) . ")";
+				$sql_query = "SELECT id, read_perms, password, subwrap
+							FROM ibf_forums
+							WHERE category IN(" . implode(",", $cats) . ")";
 				$boolean   = "OR";
 			} else
 			{
-				$sql_query = "SELECT id, read_perms, password, subwrap from ibf_forums";
+				$sql_query = "SELECT id, read_perms, password, subwrap
+							FROM ibf_forums";
 				$boolean   = "WHERE";
 			}
 
@@ -628,7 +660,11 @@ class ad_multimod
 
 					if ($c)
 					{
-						$stmt = $ibforums->db->query("SELECT id, read_perms, password FROM ibf_forums WHERE category=$c");
+						$stmt = $ibforums->db->query(
+							"SELECT id, read_perms, password
+							FROM ibf_forums
+							WHERE category=$c"
+						);
 
 						while ($i = $stmt->fetch())
 						{
@@ -647,7 +683,11 @@ class ad_multimod
 					{
 						$qe = " OR parent_id=$f ";
 
-						$stmt = $ibforums->db->query("SELECT id, read_perms, password FROM ibf_forums WHERE id=$f" . $qe);
+						$stmt = $ibforums->db->query(
+							"SELECT id, read_perms, password
+							FROM ibf_forums
+							WHERE id=$f" . $qe
+						);
 
 						while ($i = $stmt->fetch())
 						{
@@ -663,5 +703,3 @@ class ad_multimod
 	}
 
 }
-
-?>

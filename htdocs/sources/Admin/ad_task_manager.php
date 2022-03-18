@@ -134,7 +134,10 @@ class ad_task_manager
 			$where = "log_date < $prune";
 		}
 
-		$ibforums->db->exec('delete FROM task_logs where ' . $where);
+		$ibforums->db->exec(
+		    'DELETE FROM task_logs
+			WHERE ' . $where
+        );
 
 		$ibforums->main_msg = 'Selected Task Logs Removed';
 		$this->task_log_setup();
@@ -162,10 +165,21 @@ class ad_task_manager
 
 		if ($ibforums->input['task_id'] != -1)
 		{
-			$stmt = $ibforums->db->query('select * from task_logs where log_title=' . $ibforums->input['task_id'] . ' order log_date DESC limit 0,' . $limit);
+			$stmt = $ibforums->db->query(
+			    'SELECT *
+                FROM task_logs
+                WHERE log_title=' . $ibforums->input['task_id'] . '
+                ORDER log_date DESC
+                LIMIT 0,' . $limit
+            );
 		} else
 		{
-			$stmt = $ibforums->db->query('select * from task_logs order log_date DESC limit 0,' . $limit);
+			$stmt = $ibforums->db->query(
+			    'SELECT *
+                FROM task_logs
+                ORDER BY log_date DESC
+                LIMIT 0,' . $limit
+            );
 		}
 
 		$ibforums->adskin->td_header[] = array("Task Run", "20%");
@@ -209,7 +223,11 @@ class ad_task_manager
 
 		$tasks = array(0 => array(-1, 'All tasks'));
 
-		$stmt = $ibforums->db->query('select * from task_manager order task_title');
+		$stmt = $ibforums->db->query(
+		    'SELECT *
+            FROM task_manager
+            ORDER BY task_title'
+        );
 
 		while ($pee = $stmt->fetch())
 		{
@@ -220,7 +238,12 @@ class ad_task_manager
 		// LAST FIVE ACTIONS
 		//-----------------------------------------
 
-		$stmt = $ibforums->db->query('select * from task_logs order log_date DESC limit 0, 5');
+		$stmt = $ibforums->db->query(
+		    'SELECT *
+            FROM task_logs
+            ORDER BY log_date
+            DESC limit 0, 5'
+        );
 
 		$ibforums->adskin->td_header[] = array("Task Run", "20%");
 		$ibforums->adskin->td_header[] = array("Date Run", "35%");
@@ -319,8 +342,11 @@ class ad_task_manager
 			$this->show_tasks();
 		}
 
-		$this_task = $ibforums->db->query('select * from task_manager where task_id=' . $ibforums->input['id'])
-			->fetch();
+		$this_task = $ibforums->db->query(
+		    'SELECT *
+            FROM task_manager
+            WHERE task_id=' . $ibforums->input['id']
+        )->fetch();
 
 		if (!$this_task['task_id'])
 		{
@@ -380,7 +406,10 @@ class ad_task_manager
 			$this->show_tasks();
 		}
 
-		$ibforums->db->exec('delete task_manager where task_id=' . $ibforums->input['id']);
+		$ibforums->db->exec(
+		    'DELETE FROM task_manager
+			WHERE task_id=' . $ibforums->input['id']
+        );
 
 		$this->functions->save_next_run_stamp();
 
@@ -479,7 +508,11 @@ class ad_task_manager
 
 			$id = intval($ibforums->input['id']);
 
-			$this_task = $ibforums->db->query('select * from task_manager where task_id=' . $id)->fetch();
+			$this_task = $ibforums->db->query(
+			    'SELECT *
+                FROM task_manager
+                WHERE task_id=' . $id
+            )->fetch();
 
 			$button = 'Edit this task';
 			$code   = 'doedittask';
@@ -784,7 +817,11 @@ class ad_task_manager
 
 		$ibforums->html .= $ibforums->adskin->start_table("Your scheduled tasks");
 
-		$stmt = $ibforums->db->query('select * from task_manager order task_safemode, task_next_run');
+		$stmt = $ibforums->db->query(
+		    'SELECT *
+            FROM task_manager
+            ORDER BY task_safemode, task_next_run'
+        );
 
 		while ($row = $stmt->fetch())
 		{

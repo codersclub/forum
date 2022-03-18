@@ -83,19 +83,25 @@ class ad_modlogs
 
 		if ($IN['search_string'] == "")
 		{
-			$stmt = $ibforums->db->query("SELECT COUNT(id) as count FROM ibf_moderator_logs WHERE member_id='" . $IN['mid'] . "'");
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(id) as count
+				FROM ibf_moderator_logs
+				WHERE member_id='" . $IN['mid'] . "'"
+			);
 			$row  = $stmt->fetch();
 
 			$row_count = $row['count'];
 
 			$query = "&act=modlog&mid={$IN['mid']}&code=view";
 
-			$stmt = $ibforums->db->query("SELECT m.*, f.id as forum_id, f.name
-				    FROM ibf_moderator_logs m
-				     LEFT JOIN ibf_forums f ON(f.id=m.forum_id)
-				    WHERE m.member_id='" . $IN['mid'] . "'
-				    ORDER BY m.ctime DESC
-				    LIMIT $start, 20");
+			$stmt = $ibforums->db->query(
+				"SELECT m.*, f.id as forum_id, f.name
+				FROM ibf_moderator_logs m
+				LEFT JOIN ibf_forums f ON(f.id=m.forum_id)
+				WHERE m.member_id='" . $IN['mid'] . "'
+				ORDER BY m.ctime DESC
+				LIMIT $start, 20"
+			);
 
 		} else
 		{
@@ -109,19 +115,25 @@ class ad_modlogs
 				$dbq = "m." . $IN['search_type'] . " LIKE '%" . $IN['search_string'] . "%'";
 			}
 
-			$stmt = $ibforums->db->query("SELECT COUNT(m.id) as count FROM ibf_moderator_logs m WHERE $dbq");
+			$stmt = $ibforums->db->query(
+				"SELECT COUNT(m.id) as count
+				FROM ibf_moderator_logs m
+				WHERE $dbq"
+			);
 			$row  = $stmt->fetch();
 
 			$row_count = $row['count'];
 
 			$query = "&act=modlog&code=view&search_type={$IN['search_type']}&search_string=" . urlencode($IN['search_string']);
 
-			$stmt = $ibforums->db->query("SELECT m.*, f.id as forum_id, f.name
-				    FROM ibf_moderator_logs m
-					    LEFT JOIN ibf_forums f ON(f.id=m.forum_id)
-				    WHERE $dbq
-				    ORDER BY m.ctime DESC
-				    LIMIT $start, 20");
+			$stmt = $ibforums->db->query(
+				"SELECT m.*, f.id as forum_id, f.name
+				FROM ibf_moderator_logs m
+				LEFT JOIN ibf_forums f ON(f.id=m.forum_id)
+				WHERE $dbq
+				ORDER BY m.ctime DESC
+				LIMIT $start, 20"
+			);
 
 		}
 
@@ -204,7 +216,10 @@ class ad_modlogs
 			$ADMIN->error("You did not select a member ID to remove by!");
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_moderator_logs WHERE member_id='" . $IN['mid'] . "'");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_moderator_logs
+			WHERE member_id='" . $IN['mid'] . "'"
+		);
 
 		$ADMIN->save_log("Removed Moderator Logs");
 
@@ -231,11 +246,13 @@ class ad_modlogs
 		// VIEW LAST 5
 		//+-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT m.*, f.id as forum_id, f.name
-			    FROM ibf_moderator_logs m
-		            LEFT JOIN ibf_forums f ON (f.id=m.forum_id)
-		            ORDER BY m.ctime DESC
-			    LIMIT 0, 5");
+		$stmt = $ibforums->db->query(
+			"SELECT m.*, f.id as forum_id, f.name
+			FROM ibf_moderator_logs m
+		    LEFT JOIN ibf_forums f ON (f.id=m.forum_id)
+		    ORDER BY m.ctime DESC
+			LIMIT 0, 5"
+		);
 
 		$SKIN->td_header[] = array("Member Name", "15%");
 		$SKIN->td_header[] = array("Action Perfomed", "15%");
@@ -289,7 +306,12 @@ class ad_modlogs
 
 		$ADMIN->html .= $SKIN->start_table("Saved Moderator Logs");
 
-		$stmt = $ibforums->db->query("SELECT m.*, count(m.id) as act_count from ibf_moderator_logs m GROUP BY m.member_id ORDER BY act_count DESC");
+		$stmt = $ibforums->db->query(
+			"SELECT m.*, count(m.id) as act_count
+			FROM ibf_moderator_logs m
+			GROUP BY m.member_id
+			ORDER BY act_count DESC"
+		);
 
 		while ($r = $stmt->fetch())
 		{
@@ -349,5 +371,3 @@ class ad_modlogs
 	}
 
 }
-
-?>

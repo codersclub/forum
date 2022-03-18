@@ -196,7 +196,10 @@ if ( file_exists( $ips_file ) )
 		foreach( $IN as $name => $line ) $env .= $name."=".$line."<br>";
 
 		$stmt = Ibf::app()->db->prepare(
-			"INSERT INTO ibf_admin_foreign_visits (dt,ip_address,content) VALUES (CURRENT_TIMESTAMP, :ip, :env)")
+			"INSERT INTO ibf_admin_foreign_visits
+                (dt,ip_address,content)
+            VALUES
+                   (CURRENT_TIMESTAMP, :ip, :env)")
 			->bindParam(':ip', $IN['IP_ADDRESS'])
 			->bindParam(':env', $env)
 			->execute();
@@ -305,7 +308,10 @@ if ($IN['login'] != 'yes') {
 		// We have a URL adsess, lets verify...
 		//----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_admin_sessions WHERE ID='".$IN['adsess']."'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_admin_sessions
+            WHERE ID='".$IN['adsess']."'");
 		$row = $stmt->fetch();
 
 		if ($row['ID'] == "")
@@ -332,7 +338,10 @@ if ($IN['login'] != 'yes') {
 			// Key is good, check the member details
 			//----------------------------------
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_members WHERE id='".$row['MEMBER_ID']."'");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+                FROM ibf_members
+                WHERE id='".$row['MEMBER_ID']."'");
 			$MEMBER = $stmt->fetch();
 
 			if ($MEMBER['id'] == "")
@@ -366,7 +375,10 @@ if ($IN['login'] != 'yes') {
 					// Do we have admin access?
 					//----------------------------------
 
-					$stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='".$MEMBER['mgroup']."'");
+					$stmt = $ibforums->db->query(
+					    "SELECT *
+                        FROM ibf_groups
+                        WHERE g_id='".$MEMBER['mgroup']."'");
 
 					$GROUP = $stmt->fetch();
 
@@ -406,7 +418,10 @@ else
 	// DB
 	//----------------------------------
 
-	$stmt = $ibforums->db->query("SELECT name, password, id, mgroup FROM ibf_members WHERE LOWER(name)='".mb_strtolower($IN['username'])."'");
+	$stmt = $ibforums->db->query(
+	    "SELECT name, password, id, mgroup
+        FROM ibf_members
+        WHERE LOWER(name)='".mb_strtolower($IN['username'])."'");
 	$mem = $stmt->fetch();
 
 	if ( empty($mem['id']) )
@@ -422,7 +437,10 @@ else
 	}
 	else
 	{
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_groups WHERE g_id='".$mem['mgroup']."'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_groups
+            WHERE g_id='".$mem['mgroup']."'");
 
 		$GROUP = $stmt->fetch();
 
@@ -518,7 +536,11 @@ if ($session_validated == 1 )
 	// Lets update the sessions table:
 	//------------------------------
 
-	$ibforums->db->exec("UPDATE ibf_admin_sessions SET RUNNING_TIME='".time()."', LOCATION='".$IN['act']."' WHERE MEMBER_ID='".$MEMBER['id']."' AND ID='".$IN['AD_SESS']."'");
+	$ibforums->db->exec(
+	    "UPDATE ibf_admin_sessions
+		SET RUNNING_TIME='".time()."', LOCATION='".$IN['act']."'
+		WHERE MEMBER_ID='".$MEMBER['id']."'
+		  AND ID='".$IN['AD_SESS']."'");
 
 	do_admin_stuff();
 
@@ -546,7 +568,9 @@ function do_login($message="") {
 
 	$cut_off_stamp = time() - 60*60*2;
 
-	$ibforums->db->exec("DELETE FROM ibf_admin_sessions WHERE RUNNING_TIME < $cut_off_stamp");
+	$ibforums->db->exec(
+	    "DELETE FROM ibf_admin_sessions
+		WHERE RUNNING_TIME < $cut_off_stamp");
 
 	//+------------------------------------------------------
 
@@ -574,7 +598,12 @@ function do_login($message="") {
 
 	if ( $mid > 0 )
 	{
-		$stmt = $ibforums->db->query("SELECT m.id, m.name, m.mgroup, g.g_access_cp FROM ibf_members m, ibf_groups g WHERE m.id=$mid AND g.g_id=m.mgroup AND g.g_access_cp=1");
+		$stmt = $ibforums->db->query(
+		    "SELECT m.id, m.name, m.mgroup, g.g_access_cp
+            FROM ibf_members m, ibf_groups g
+            WHERE m.id=$mid
+              AND g.g_id=m.mgroup
+              AND g.g_access_cp=1");
 
 		if ( $r = $stmt->fetch() )
 		{
