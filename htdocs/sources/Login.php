@@ -119,7 +119,12 @@ class Login
 
 			If ($mid and $pid)
 			{
-				$stmt = $ibforums->db->query("SELECT * FROM ibf_members WHERE id=$mid AND password='$pid'");
+				$stmt = $ibforums->db->query(
+				    "SELECT *
+                    FROM ibf_members
+                    WHERE id=$mid
+                      AND password='$pid'"
+                );
 
 				if ($member = $stmt->fetch())
 				{
@@ -199,7 +204,11 @@ class Login
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_guests'));
 		}
 
-		$ibforums->db->exec("UPDATE ibf_members SET board_read='" . time() . "' WHERE id='" . $ibforums->member['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET board_read='" . time() . "'
+			WHERE id='" . $ibforums->member['id'] . "'"
+        );
 
 		$std->boink_it($ibforums->base_url);
 		exit();
@@ -216,7 +225,11 @@ class Login
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT id,parent_id FROM ibf_forums WHERE id='" . $ibforums->input['f'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT id,parent_id
+            FROM ibf_forums
+            WHERE id='" . $ibforums->input['f'] . "'"
+        );
 
 		if (!$f = $stmt->fetch())
 		{
@@ -233,14 +246,22 @@ class Login
 		$std->song_set_forumread($ibforums->input['f']);
 
 		// mark all included forums
-		$stmt = $ibforums->db->query("SELECT id FROM ibf_forums WHERE parent_id='" . $ibforums->input['f'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT id
+            FROM ibf_forums
+            WHERE parent_id='" . $ibforums->input['f'] . "'"
+        );
 		while ($forum = $stmt->fetch())
 		{
 			$forums_read[$forum['id']] = time();
 			$std->song_set_forumread($forum['id']);
 		}
 
-		$ibforums->db->exec("UPDATE ibf_members SET forums_read='" . serialize($forums_read) . "' WHERE id='" . $ibforums->member['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET forums_read='" . serialize($forums_read) . "'
+			WHERE id='" . $ibforums->member['id'] . "'"
+        );
 
 		//--------------------------------------
 		// Are we getting kicked back to the root forum (if sub forum) or index?
@@ -375,7 +396,11 @@ class Login
 				// Delete any old sessions with this users IP addy that doesn't match our
 				// session ID.
 
-				$ibf->db->query("DELETE FROM ibf_sessions WHERE ip_address='" . $ibf->input['IP_ADDRESS'] . "' AND id <> '$session_id'");
+				$ibf->db->query(
+				    "DELETE FROM ibf_sessions
+                    WHERE ip_address='" . $ibf->input['IP_ADDRESS'] . "'
+                      AND id <> '$session_id'"
+                );
 
 				$data = array(
 					'member_name'  => $ibf->db->quote($member['name']),
@@ -394,7 +419,10 @@ class Login
 
 				// Delete any old sessions with this users IP addy.
 
-				$stmt = $ibf->db->query("DELETE FROM ibf_sessions WHERE ip_address='" . $ibf->input['IP_ADDRESS'] . "'");
+				$stmt = $ibf->db->query(
+				    "DELETE FROM ibf_sessions
+                    WHERE ip_address='" . $ibf->input['IP_ADDRESS'] . "'"
+                );
 
 				$data = [
 					'id'           => $session_id,
@@ -439,7 +467,11 @@ class Login
 			// Clear out any passy change stuff
 			//-----------------------------------
 
-			$stmt = $ibf->db->query("DELETE FROM ibf_validating WHERE member_id={$ibf->member['id']} AND validate_type='lost_pass'");
+			$stmt = $ibf->db->query(
+			    "DELETE FROM ibf_validating
+                WHERE member_id={$ibf->member['id']}
+                  AND validate_type='lost_pass'"
+            );
 
 			//-----------------------------------
 			// Redirect them to either the board
@@ -476,7 +508,14 @@ class Login
 
 		// Update the DB
 
-		$stmt = $ibforums->db->query("UPDATE ibf_sessions SET " . "member_name=''," . "member_id='0'," . "login_type='0' " . "WHERE id='" . $sess->session_id . "'");
+		$stmt = $ibforums->db->query(
+		    "UPDATE ibf_sessions
+		    SET
+		        member_name='',
+		        member_id='0',
+		        login_type='0'
+            WHERE id='" . $sess->session_id . "'"
+        );
 
 		// Set some cookies
 		$std->my_setcookie("member_id", "0");
@@ -500,4 +539,3 @@ class Login
 	}
 
 }
-

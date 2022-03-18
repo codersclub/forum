@@ -81,7 +81,11 @@ class Messenger
 		// Get the member stats data
 		//--------------------------------------------
 
-		$stmt            = $ibforums->db->query("SELECT vdirs, msg_total, new_msg, msg_msg_id FROM ibf_members WHERE id='" . $this->member['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT vdirs, msg_total, new_msg, msg_msg_id
+            FROM ibf_members
+            WHERE id='" . $this->member['id'] . "'"
+        );
 		$this->msg_stats = $stmt->fetch();
 
 		//--------------------------------------------
@@ -280,9 +284,13 @@ class Messenger
 		{
 			$ibforums->member['posts'] = 0;
 		}
-		$limit = $ibforums->db
-			->query("SELECT max_pms_per_hour FROM ibf_titles WHERE posts <= '" . $ibforums->member['posts'] . "' ORDER BY posts DESC LIMIT 1")
-			->fetchColumn();
+		$limit = $ibforums->db->query(
+		    "SELECT max_pms_per_hour
+            FROM ibf_titles
+            WHERE posts <= '" . $ibforums->member['posts'] . "'
+            ORDER BY posts DESC
+            LIMIT 1"
+        )->fetchColumn();
 
 		if ($limit == 0)
 		{
@@ -332,9 +340,13 @@ class Messenger
 
 		// Get the last message stuff
 
-		$stmt = $ibforums->db->query("SELECT m.name, msg.title, msg.msg_date, msg.from_id FROM ibf_members m, ibf_messages msg
-			    WHERE msg.member_id='" . $ibforums->member['id'] . "' AND msg.msg_id='" . $this->msg_stats['msg_msg_id'] . "' AND
-				  m.id=msg.from_id");
+		$stmt = $ibforums->db->query(
+		    "SELECT m.name, msg.title, msg.msg_date, msg.from_id
+            FROM ibf_members m, ibf_messages msg
+			WHERE msg.member_id='" . $ibforums->member['id'] . "'
+			  AND msg.msg_id='" . $this->msg_stats['msg_msg_id'] . "'
+			  AND m.id=msg.from_id"
+        );
 
 		$row = $stmt->fetch();
 
@@ -404,7 +416,12 @@ class Messenger
 			$names[$v['id']] = $v['real'];
 		}
 
-		$stmt = $ibforums->db->query("SELECT msg_id, vid FROM ibf_messages WHERE member_id={$ibforums->member['id']} LIMIT 0,1000");
+		$stmt = $ibforums->db->query(
+		    "SELECT msg_id, vid
+            FROM ibf_messages
+            WHERE member_id={$ibforums->member['id']}
+            LIMIT 0,1000"
+        );
 
 		while ($r = $stmt->fetch())
 		{
@@ -469,9 +486,18 @@ class Messenger
 			$qe = ' AND read_state=1';
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_messages WHERE member_id={$ibforums->member['id']} AND vid IN('" . implode("','", $ids) . "')" . $qe);
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_messages
+			WHERE member_id={$ibforums->member['id']}
+			  AND vid IN('" . implode("','", $ids) . "')" . $qe
+        );
 
-		$stmt = $ibforums->db->query("SELECT COUNT(*) as msg_total FROM ibf_messages WHERE member_id=" . $this->member['id'] . " AND vid <> 'unsent'");
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(*) as msg_total
+            FROM ibf_messages
+            WHERE member_id=" . $this->member['id'] . "
+              AND vid <> 'unsent'"
+        );
 
 		$total = $stmt->fetch();
 
@@ -479,7 +505,11 @@ class Messenger
 			? $total['msg_total']
 			: 0;
 
-		$ibforums->db->exec("UPDATE ibf_members SET msg_total=" . $total['msg_total'] . " WHERE id=" . $this->member['id']);
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET msg_total=" . $total['msg_total'] . "
+			WHERE id=" . $this->member['id']
+        );
 
 		$std->boink_it($this->base_url . "act=Msg&amp;CODE=delete");
 	}
@@ -582,14 +612,16 @@ class Messenger
 		// Get the messages...
 		//----------------------------------------
 
-		$archive_query = $stmt = $ibforums->db->query("SELECT mg.*, m.name, m.id, mr.id as rec_id, mr.name as rec_name
-					 	FROM ibf_messages mg
-						   LEFT JOIN ibf_members m ON (m.id=mg.from_id)
-						   LEFT JOIN ibf_members mr ON (mr.id=mg.recipient_id)
-						 WHERE mg.member_id={$ibforums->member['id']}
-						 AND mg.msg_date $older_newer $time_cut" . $folder_query . "
-						 ORDER BY mg.msg_date
-						 LIMIT 0," . $ibforums->input['number']);
+		$archive_query = $stmt = $ibforums->db->query(
+		    "SELECT mg.*, m.name, m.id, mr.id as rec_id, mr.name as rec_name
+			FROM ibf_messages mg
+				LEFT JOIN ibf_members m ON (m.id=mg.from_id)
+				LEFT JOIN ibf_members mr ON (mr.id=mg.recipient_id)
+			WHERE mg.member_id={$ibforums->member['id']}
+				AND mg.msg_date $older_newer $time_cut" . $folder_query . "
+			ORDER BY mg.msg_date
+			LIMIT 0," . $ibforums->input['number']
+        );
 
 		if ($stmt->rowCount($archive_query))
 		{
@@ -641,9 +673,16 @@ class Messenger
 
 				if (!empty($msg_str))
 				{
-					$ibforums->db->exec("DELETE FROM ibf_messages WHERE msg_id IN ($msg_str)");
+					$ibforums->db->exec(
+					    "DELETE FROM ibf_messages
+						WHERE msg_id IN ($msg_str)"
+                    );
 
-					$ibforums->db->exec("UPDATE ibf_members SET msg_total=msg_total-$num_msg WHERE id ='" . $this->member['id'] . "'");
+					$ibforums->db->exec(
+					    "UPDATE ibf_members
+						SET msg_total=msg_total-$num_msg
+						WHERE id ='" . $this->member['id'] . "'"
+                    );
 				}
 			}
 
@@ -759,7 +798,11 @@ class Messenger
 			}
 		}
 
-		$ibforums->db->exec("UPDATE ibf_members SET vdirs='$v_dir' WHERE id='" . $this->member['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET vdirs='$v_dir'
+			WHERE id='" . $this->member['id'] . "'"
+        );
 
 		$std->boink_it($ibforums->base_url . "act=Msg&amp;CODE=07");
 		exit;
@@ -786,7 +829,11 @@ class Messenger
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_user'));
 		}
 
-		$ibforums->db->exec("DELETE FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' AND contact_id='" . $ibforums->input['MID'] . "'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_contacts
+			WHERE member_id='" . $this->member['id'] . "'
+			  AND contact_id='" . $ibforums->input['MID'] . "'"
+        );
 
 		$std->boink_it($this->base_url . "act=Msg&amp;CODE=02");
 		exit;
@@ -813,7 +860,12 @@ class Messenger
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_user'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' AND contact_id='" . $ibforums->input['MID'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_contacts
+            WHERE member_id='" . $this->member['id'] . "'
+              AND contact_id='" . $ibforums->input['MID'] . "'"
+        );
 
 		$memb = $stmt->fetch();
 
@@ -894,7 +946,12 @@ class Messenger
 			? 1
 			: 0;
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' AND contact_id='" . $ibforums->input['MID'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_contacts
+            WHERE member_id='" . $this->member['id'] . "'
+              AND contact_id='" . $ibforums->input['MID'] . "'"
+        );
 		$memb = $stmt->fetch();
 
 		if (!$memb['contact_id'])
@@ -902,10 +959,13 @@ class Messenger
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_user'));
 		}
 
-		$ibforums->db->exec("UPDATE ibf_contacts SET contact_desc='" . $ibforums->input['mem_desc'] . "',
-						    allow_msg='" . $ibforums->input['allow_msg'] . "',
-						    show_online='" . $ibforums->input['show_online'] . "'
-			    WHERE id='" . $memb['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_contacts
+			SET contact_desc='" . $ibforums->input['mem_desc'] . "',
+				allow_msg='" . $ibforums->input['allow_msg'] . "',
+				show_online='" . $ibforums->input['show_online'] . "'
+			WHERE id='" . $memb['id'] . "'"
+        );
 
 		$std->boink_it($this->base_url . "act=Msg&amp;CODE=02");
 
@@ -925,7 +985,12 @@ class Messenger
 
 		$this->output .= View::make("msg.Address_header");
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' ORDER BY contact_name ASC");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_contacts
+            WHERE member_id='" . $this->member['id'] . "'
+            ORDER BY contact_name ASC"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -957,7 +1022,11 @@ class Messenger
 		{
 			if (preg_match("/^(\d+)$/", $ibforums->input['MID']))
 			{
-				$stmt = $ibforums->db->query("SELECT name, id FROM ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT name, id
+                    FROM ibf_members
+                    WHERE id='" . $ibforums->input['MID'] . "'"
+                );
 
 				$memb = $stmt->fetch();
 
@@ -990,11 +1059,13 @@ class Messenger
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_user'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				name, id
-			    FROM ibf_members
-			    WHERE
-				LOWER(name)='" . addslashes($ibforums->input['mem_name']) . "'");
+			FROM ibf_members
+			WHERE
+				LOWER(name)='" . addslashes($ibforums->input['mem_name']) . "'"
+        );
 
 		$memb = $stmt->fetch();
 
@@ -1019,7 +1090,12 @@ class Messenger
 		// address book?
 		//--------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT contact_id FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' AND contact_id='" . $memb['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT contact_id
+            FROM ibf_contacts
+            WHERE member_id='" . $this->member['id'] . "'
+              AND contact_id='" . $memb['id'] . "'"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -1090,7 +1166,11 @@ class Messenger
 
 			if ($ibforums->input['delete'])
 			{
-				$ibforums->db->exec("DELETE FROM ibf_messages WHERE member_id='" . $this->member['id'] . "' AND msg_id IN ($id_string)");
+				$ibforums->db->exec(
+				    "DELETE FROM ibf_messages
+					WHERE member_id='" . $this->member['id'] . "'
+					  AND msg_id IN ($id_string)"
+                );
 
 				if ($ibforums->input['saved'])
 				{
@@ -1101,14 +1181,23 @@ class Messenger
 					exit;
 				} else
 				{
-					$ibforums->db->exec("UPDATE ibf_members SET msg_total=msg_total-$affected_ids WHERE id='" . $this->member['id'] . "'");
+					$ibforums->db->exec(
+					    "UPDATE ibf_members
+						SET msg_total=msg_total-$affected_ids
+						WHERE id='" . $this->member['id'] . "'"
+                    );
 					$std->boink_it($this->base_url . "act=Msg&amp;CODE=01&amp;VID={$this->vid}");
 					exit;
 				}
 			} else {
 				if ($ibforums->input['move'])
 				{
-					$ibforums->db->exec("UPDATE ibf_messages SET vid='" . $this->vid . "' WHERE member_id='" . $this->member['id'] . "' AND msg_id IN ($id_string)");
+					$ibforums->db->exec(
+					    "UPDATE ibf_messages
+						SET vid='" . $this->vid . "'
+						WHERE member_id='" . $this->member['id'] . "'
+						  AND msg_id IN ($id_string)"
+                    );
 					$std->boink_it($this->base_url . "act=Msg&amp;CODE=01&amp;VID={$this->vid}");
 					exit;
 				} else
@@ -1156,7 +1245,14 @@ class Messenger
 		{
 			$id_string = implode(",", $ids);
 
-			$ibforums->db->exec("UPDATE ibf_messages SET tracking=0 WHERE tracking=1 AND read_state=1 AND from_id='" . $this->member['id'] . "' AND msg_id IN ($id_string)");
+			$ibforums->db->exec(
+			    "UPDATE ibf_messages
+				SET tracking=0
+				WHERE tracking=1
+				  AND read_state=1
+				  AND from_id='" . $this->member['id'] . "'
+				  AND msg_id IN ($id_string)"
+            );
 
 			$std->boink_it($this->base_url . "act=Msg&amp;CODE=30");
 		} else
@@ -1192,7 +1288,13 @@ class Messenger
 		{
 			$id_string = implode(",", $ids);
 
-			$ibforums->db->exec("DELETE FROM ibf_messages WHERE tracking=1 AND read_state=0 AND from_id='" . $this->member['id'] . "' AND msg_id IN ($id_string)");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_messages
+				WHERE tracking=1
+				  AND read_state=0
+				  AND from_id='" . $this->member['id'] . "'
+				  AND msg_id IN ($id_string)"
+            );
 
 			$std->boink_it($this->base_url . "act=Msg&amp;CODE=30");
 		} else
@@ -1231,9 +1333,17 @@ class Messenger
 		// Delete it from the DB
 		//--------------------------------------
 
-		$ibforums->db->exec("DELETE FROM ibf_messages WHERE msg_id='" . $ibforums->input['MSID'] . "' AND member_id='" . $this->member['id'] . "'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_messages
+			WHERE msg_id='" . $ibforums->input['MSID'] . "'
+			  AND member_id='" . $this->member['id'] . "'"
+        );
 
-		$ibforums->db->exec("UPDATE ibf_members SET msg_total=msg_total-1 WHERE id='" . $this->member['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET msg_total=msg_total-1
+			WHERE id='" . $this->member['id'] . "'"
+        );
 
 		// BYE!
 
@@ -1272,11 +1382,14 @@ class Messenger
 		// Check to make sure it exists
 		//--------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT m.*, s.id as s_id FROM ibf_messages m
+		$stmt = $ibforums->db->query(
+		    "SELECT m.*, s.id as s_id
+            FROM ibf_messages m
 			    LEFT JOIN ibf_sessions s
-			     ON (s.member_id=m.from_id and s.login_type<>1)
-			    WHERE m.msg_id='" . $ibforums->input['MSID'] . "' AND
-			      m.member_id='" . $this->member['id'] . "'");
+			      ON (s.member_id=m.from_id and s.login_type<>1)
+			WHERE m.msg_id='" . $ibforums->input['MSID'] . "'
+			  AND m.member_id='" . $this->member['id'] . "'"
+        );
 
 		$msg = $stmt->fetch();
 
@@ -1294,7 +1407,11 @@ class Messenger
 
 		if ($ibforums->member['new_msg'] >= 1)
 		{
-			$ibforums->db->exec("UPDATE ibf_members SET new_msg=new_msg-1 WHERE id='" . $this->member['id'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET new_msg=new_msg-1
+				WHERE id='" . $this->member['id'] . "'"
+            );
 		}
 
 		//--------------------------------------
@@ -1303,7 +1420,11 @@ class Messenger
 
 		if ($msg['read_state'] < 1)
 		{
-			$ibforums->db->exec("UPDATE ibf_messages SET read_state=1, read_date='" . time() . "' WHERE msg_id='" . $ibforums->input['MSID'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_messages
+				SET read_state=1, read_date='" . time() . "'
+				WHERE msg_id='" . $ibforums->input['MSID'] . "'"
+            );
 		}
 
 		//--------------------------------------
@@ -1314,7 +1435,12 @@ class Messenger
 
 		$msg['msg_date'] = $std->get_date($msg['msg_date']);
 
-		$stmt = $ibforums->db->query("SELECT g.*, m.* FROM ibf_members m, ibf_groups g WHERE id='" . $msg['from_id'] . "' and g.g_id=m.mgroup");
+		$stmt = $ibforums->db->query(
+		    "SELECT g.*, m.*
+            FROM ibf_members m, ibf_groups g
+            WHERE id='" . $msg['from_id'] . "'
+              AND g.g_id=m.mgroup"
+        );
 
 		$member = $stmt->fetch();
 
@@ -1451,7 +1577,11 @@ class Messenger
 
 		if (!empty($ibforums->input['MID']))
 		{
-			$stmt = $ibforums->db->query("SELECT name, id FROM ibf_members WHERE id='" . $ibforums->input['MID'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT name, id
+                FROM ibf_members
+                WHERE id='" . $ibforums->input['MID'] . "'"
+            );
 			$name = $stmt->fetch();
 
 			if ($ibforums->input['fwd'] != 1)
@@ -1474,7 +1604,12 @@ class Messenger
 		} else {
 			if (!empty($ibforums->input['MSID']))
 			{
-				$stmt    = $ibforums->db->query("SELECT message, title from ibf_messages WHERE msg_id='" . $ibforums->input['MSID'] . "' and member_id='" . $this->member['id'] . "'");
+				$stmt    = $ibforums->db->query(
+				    "SELECT message, title
+                    FROM ibf_messages
+                    WHERE msg_id='" . $ibforums->input['MSID'] . "'
+                      AND member_id='" . $this->member['id'] . "'"
+                );
 				$old_msg = $stmt->fetch();
 				if ($old_msg['title'])
 				{
@@ -1570,7 +1705,13 @@ class Messenger
 
 		$contacts = $this->build_contact_list();
 
-		$stmt = $ibforums->db->query("SELECT mg.*, m.name as to_name, m.id as to_id from ibf_messages mg, ibf_members m WHERE msg_id='" . $ibforums->input['MSID'] . "' and member_id='" . $this->member['id'] . "' AND m.id=mg.recipient_id");
+		$stmt = $ibforums->db->query(
+		    "SELECT mg.*, m.name as to_name, m.id as to_id
+            FROM ibf_messages mg, ibf_members m
+            WHERE msg_id='" . $ibforums->input['MSID'] . "'
+              AND member_id='" . $this->member['id'] . "'
+              AND m.id=mg.recipient_id"
+        );
 		$msg  = $stmt->fetch();
 
 		if (!$msg['msg_id'])
@@ -1684,7 +1825,11 @@ class Messenger
 			$query = "id='" . $ibforums->input['from_contact'] . "'";
 		}
 
-		$stmt = $ibforums->db->query("SELECT name, id, view_pop, mgroup, email_pm, language, email, disable_mail FROM ibf_members WHERE " . $query);
+		$stmt = $ibforums->db->query(
+		    "SELECT name, id, view_pop, mgroup, email_pm, language, email, disable_mail
+            FROM ibf_members
+            WHERE " . $query
+        );
 
 		$to_member = $stmt->fetch();
 
@@ -1739,8 +1884,13 @@ class Messenger
 				// and if true, update rather than create a new unsent
 				// row
 
-				$stmt = $ibforums->db->query("SELECT msg_id FROM ibf_messages WHERE msg_id='" . $ibforums->input['OID'] . "' AND
-						   member_id='" . $ibforums->member['id'] . "' AND vid='unsent'");
+				$stmt = $ibforums->db->query(
+				    "SELECT msg_id
+                    FROM ibf_messages
+                    WHERE msg_id='" . $ibforums->input['OID'] . "'
+                      AND member_id='" . $ibforums->member['id'] . "'
+                      AND vid='unsent'"
+                );
 
 				if ($stmt->rowCount())
 				{
@@ -1765,7 +1915,12 @@ class Messenger
 		// Can the reciepient use the PM system?
 		//--------------------------------------
 
-		$stmt         = $ibforums->db->query("SELECT m.msg_total, g.g_use_pm, g.g_max_messages FROM ibf_groups g, ibf_members m WHERE m.id='" . $to_member['id'] . "' AND g.g_id=m.mgroup");
+		$stmt         = $ibforums->db->query(
+		    "SELECT m.msg_total, g.g_use_pm, g.g_max_messages
+            FROM ibf_groups g, ibf_members m
+            WHERE m.id='" . $to_member['id'] . "'
+              AND g.g_id=m.mgroup"
+        );
 		$to_msg_stats = $stmt->fetch();
 
 		if ($to_msg_stats['g_use_pm'] != 1)
@@ -1786,12 +1941,17 @@ class Messenger
 		}
 
 		//--------------------------------------
-		// Has the reciepient blocked us?
+		// Has the recipient blocked us?
 		//--------------------------------------
 
 		if (!$ibforums->member['g_is_supmod'])
 		{
-			$stmt = $ibforums->db->query("SELECT contact_id, allow_msg FROM ibf_contacts WHERE contact_id='" . $this->member['id'] . "' AND member_id='" . $to_member['id'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT contact_id, allow_msg
+                FROM ibf_contacts
+                WHERE contact_id='" . $this->member['id'] . "'
+                  AND member_id='" . $to_member['id'] . "'"
+            );
 
 			$can_msg = $stmt->fetch();
 
@@ -1861,10 +2021,13 @@ class Messenger
 				{
 					$array_count = count($new_array);
 
-					$stmt = $ibforums->db->query("SELECT m.id, m.name, m.msg_total, m.view_pop, m.email_pm, m.language, m.email, m.disable_mail,
-							g.g_max_messages, g.g_use_pm FROM ibf_members m, ibf_groups g
-						    WHERE LOWER(m.name) IN (" . implode(",", $new_array) . ") and
-							m.mgroup=g.g_id");
+					$stmt = $ibforums->db->query(
+					    "SELECT m.id, m.name, m.msg_total, m.view_pop, m.email_pm, m.language, m.email, m.disable_mail,
+							g.g_max_messages, g.g_use_pm
+                        FROM ibf_members m, ibf_groups g
+						WHERE LOWER(m.name) IN (" . implode(",", $new_array) . ")
+						  AND m.mgroup=g.g_id"
+                    );
 
 					if (!$stmt->rowCount())
 					{
@@ -1952,9 +2115,13 @@ class Messenger
 						// Almost there! now just to check the block list..
 						//--------------------------------------
 
-						$stmt = $ibforums->db->query("SELECT m.name, c.allow_msg FROM ibf_members m, ibf_contacts c
-							    WHERE contact_id='" . $ibforums->member['id'] . "' AND
-								member_id IN (" . implode(",", $cc_id_array) . ") AND m.id=c.member_id");
+						$stmt = $ibforums->db->query(
+						    "SELECT m.name, c.allow_msg
+                            FROM ibf_members m, ibf_contacts c
+							WHERE contact_id='" . $ibforums->member['id'] . "'
+							  AND member_id IN (" . implode(",", $cc_id_array) . ")
+							  AND m.id=c.member_id"
+                        );
 
 						while ($c = $stmt->fetch())
 						{
@@ -2021,7 +2188,15 @@ class Messenger
 
 			//-----------------------------------------------------
 
-			$stmt = $ibforums->db->query("UPDATE ibf_members SET " . "msg_total = msg_total + 1, " . "new_msg = new_msg + 1, " . "msg_from_id='" . $this->member['id'] . "', " . "msg_msg_id='" . $new_id . "', " . "show_popup='" . $show_popup . "' " . "WHERE id='" . $to_member['id'] . "'");
+			$stmt = $ibforums->db->query(
+			    "UPDATE ibf_members
+			    SET msg_total = msg_total + 1,
+			        new_msg = new_msg + 1,
+			        msg_from_id='" . $this->member['id'] . "',
+			        msg_msg_id='" . $new_id . "',
+			        show_popup='" . $show_popup . "'
+			    WHERE id='" . $to_member['id'] . "'"
+            );
 
 			//-----------------------------------------------------
 			// Has this member requested a PM email nofity?
@@ -2060,7 +2235,11 @@ class Messenger
 		if ($ibforums->input['add_sent'])
 		{
 
-			$stmt = $ibforums->db->query("UPDATE ibf_members SET " . "msg_total = msg_total + 1 " . "WHERE id='" . $this->member['id'] . "'");
+			$stmt = $ibforums->db->query(
+			    "UPDATE ibf_members
+			    SET msg_total = msg_total + 1
+                WHERE id='" . $this->member['id'] . "'"
+            );
 
 			$data = [
 				'member_id'    => $this->member['id'],
@@ -2083,7 +2262,12 @@ class Messenger
 			// is already from the unsent folder, if true,
 			// delete from unsent items.
 
-			$ibforums->db->exec("DELETE from ibf_messages WHERE msg_id='" . $ibforums->input['OID'] . "' AND member_id='" . $ibforums->member['id'] . "' AND vid='unsent'");
+			$ibforums->db->exec(
+			    "DELETE from ibf_messages
+				WHERE msg_id='" . $ibforums->input['OID'] . "'
+				  AND member_id='" . $ibforums->member['id'] . "'
+				  AND vid='unsent'"
+            );
 		}
 
 		$text = preg_replace("/<#FROM_MEMBER#>/", $this->member['name'], $ibforums->lang['sent_text']);
@@ -2126,20 +2310,34 @@ class Messenger
 		// Get the number of messages we have in total.
 		//---------------------------------------------
 
-		$stmt  = $ibforums->db->query("SELECT COUNT(*) as msg_total FROM ibf_messages WHERE member_id='" . $this->member['id'] . "' AND vid <> 'unsent'");
+		$stmt  = $ibforums->db->query(
+		    "SELECT COUNT(*) as msg_total
+            FROM ibf_messages
+            WHERE member_id='" . $this->member['id'] . "'
+              AND vid <> 'unsent'"
+        );
 		$total = $stmt->fetch();
 
 		$total['msg_total'] = $total['msg_total'] > 0
 			? $total['msg_total']
 			: 0;
 
-		$ibforums->db->exec("UPDATE ibf_members SET msg_total='" . $total['msg_total'] . "' WHERE id='" . $this->member['id'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_members
+			SET msg_total='" . $total['msg_total'] . "'
+			WHERE id='" . $this->member['id'] . "'"
+        );
 
 		//---------------------------------------------
 		// Get the number of messages in our curr folder.
 		//---------------------------------------------
 
-		$stmt          = $ibforums->db->query("SELECT COUNT(*) as msg_total FROM ibf_messages WHERE member_id='" . $this->member['id'] . "' AND vid='{$this->vid}'");
+		$stmt          = $ibforums->db->query(
+		    "SELECT COUNT(*) as msg_total
+            FROM ibf_messages
+            WHERE member_id='" . $this->member['id'] . "'
+              AND vid='{$this->vid}'"
+        );
 		$total_current = $stmt->fetch();
 
 		$total_current['msg_total'] = $total_current['msg_total'] > 0
@@ -2219,17 +2417,23 @@ class Messenger
 					IFNULL(mp.name,'Unknown member') as from_name,
 					IF(mp.id, 0, 1) as member_deleted
 				FROM ibf_messages m
-				LEFT JOIN ibf_members mp ON (mp.id=m.recipient_id)
-				WHERE m.member_id='" . $this->member['id'] . "' AND m.vid='" . $this->vid . "'
+				LEFT JOIN ibf_members mp
+				    ON (mp.id=m.recipient_id)
+				WHERE m.member_id='" . $this->member['id'] . "'
+				  AND m.vid='" . $this->vid . "'
 				ORDER BY $sort_key LIMIT $start, $p_end"
 			);
 		} else
 		{
-			$stmt = $ibforums->db->query("SELECT m.*, IFNULL(mp.name,'Unknown member') as from_name
-			            FROM ibf_messages m
-				    LEFT JOIN ibf_members mp ON (mp.id=m.from_id)
-				    WHERE m.member_id='" . $this->member['id'] . "' AND m.vid='" . $this->vid . "'
-				    ORDER BY $sort_key LIMIT $start, $p_end");
+			$stmt = $ibforums->db->query(
+			    "SELECT m.*, IFNULL(mp.name,'Unknown member') as from_name
+			    FROM ibf_messages m
+				LEFT JOIN ibf_members mp ON (mp.id=m.from_id)
+				WHERE m.member_id='" . $this->member['id'] . "'
+				  AND m.vid='" . $this->vid . "'
+				ORDER BY $sort_key
+				LIMIT $start, $p_end"
+            );
 		}
 
 		$this->output .= View::make(
@@ -2287,7 +2491,11 @@ class Messenger
 
 		if ($this->msg_stats['current_id'] == 'in')
 		{
-			$ibforums->db->exec("UPDATE ibf_members SET new_msg='0' WHERE id='" . $this->member['id'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET new_msg='0'
+				WHERE id='" . $this->member['id'] . "'"
+            );
 		}
 
 		$this->page_title = $ibforums->lang['t_welcome'];
@@ -2313,7 +2521,14 @@ class Messenger
 
 		$this->output .= View::make("msg.unsent_table_header");
 
-		$stmt = $ibforums->db->query("SELECT m.*, mp.name as to_name FROM ibf_messages m, ibf_members mp WHERE member_id='" . $this->member['id'] . "' AND vid='unsent' and mp.id=m.recipient_id ORDER BY msg_date DESC");
+		$stmt = $ibforums->db->query(
+		    "SELECT m.*, mp.name as to_name
+            FROM ibf_messages m, ibf_members mp
+            WHERE member_id='" . $this->member['id'] . "'
+              AND vid='unsent'
+              AND mp.id=m.recipient_id
+            ORDER BY msg_date DESC"
+        );
 
 		//---------------------------------------------
 		// Get the messages
@@ -2354,12 +2569,14 @@ class Messenger
 
 		$this->output .= View::make("msg.trackread_table_header");
 
-		$stmt = $ibforums->db->query("SELECT m.*, mp.name as to_name, mp.id as memid
- 					  FROM ibf_messages m, ibf_members mp
- 					WHERE m.tracking=1
- 					   AND m.from_id='" . $this->member['id'] . "'
- 					   AND m.member_id=mp.id
- 					ORDER BY m.read_state DESC, msg_date DESC");
+		$stmt = $ibforums->db->query(
+		    "SELECT m.*, mp.name as to_name, mp.id as memid
+ 			FROM ibf_messages m, ibf_members mp
+ 			WHERE m.tracking=1
+ 				AND m.from_id='" . $this->member['id'] . "'
+ 				AND m.member_id=mp.id
+ 			ORDER BY m.read_state DESC, msg_date DESC"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -2526,7 +2743,12 @@ class Messenger
 			$id = 1;
 		}
 
-		$stmt = $ibforums->db->query("SELECT typed, image from ibf_emoticons WHERE clickable='1' and skid='" . $id . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT typed, image
+            FROM ibf_emoticons
+            WHERE clickable='1'
+              AND skid='" . $id . "'"
+        );
 
 		while ($elmo = $stmt->fetch())
 		{
@@ -2600,7 +2822,12 @@ class Messenger
 
 		$contacts = "";
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_contacts WHERE member_id='" . $this->member['id'] . "' ORDER BY contact_name");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_contacts
+            WHERE member_id='" . $this->member['id'] . "'
+            ORDER BY contact_name"
+        );
 
 		if ($stmt->rowCount())
 		{
