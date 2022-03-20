@@ -174,9 +174,9 @@ class quiz
 		}
 
 		$query = "UPDATE ibf_quiz_info
-		SET quiz_status='{$status}'
-		WHERE q_id='{$qid}'
-		LIMIT 1";
+		    SET quiz_status='{$status}'
+		    WHERE q_id='{$qid}'
+		    LIMIT 1";
 
 		$ibforums->db->query($query);
 
@@ -215,12 +215,18 @@ class quiz
 			$this->error('no_rights');
 		}
 
-		$ibforums->db->exec("DELETE
-		FROM ibf_quiz_info
-		WHERE q_id='{$qid}' LIMIT 1");
-		$ibforums->db->exec("DELETE
-		FROM ibf_quiz
-		WHERE quiz_id='{$qid}'");
+		$ibforums->db->exec(
+		    "DELETE
+			FROM ibf_quiz_info
+			WHERE q_id='{$qid}' LIMIT 1"
+        );
+
+		$ibforums->db->exec(
+		    "DELETE
+			FROM ibf_quiz
+			WHERE quiz_id='{$qid}'"
+        );
+
 		$this->save_log("Quiz ID " . $qid . " Was Deleted");
 
 		$lib->redirect($msg, "act=quiz", 1);
@@ -260,12 +266,14 @@ class quiz
 		//------------------------------
 		// Get the Quiz settings
 
-		$stmt = $ibforums->db->query("SELECT *
-      	FROM ibf_quiz_info
-      	WHERE
-      		q_id='{$qid}'
-      		{$extra}
-      		LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+      	    FROM ibf_quiz_info
+      	    WHERE
+      		    q_id='{$qid}'
+      		    {$extra}
+      		LIMIT 1"
+        );
 
 		if ($stmt->rowCount() == 0)
 		{
@@ -305,10 +313,12 @@ class quiz
 		//------------------------------
 		// Get Item list for a Prize
 
-		$stmt    = $ibforums->db->query("SELECT id,item_name,stock
-	    FROM ibf_store_shopstock
-	    WHERE stock > 0
-	    ORDER BY item_name DESC");
+		$stmt    = $ibforums->db->query(
+		    "SELECT id,item_name,stock
+	        FROM ibf_store_shopstock
+	        WHERE stock > 0
+	        ORDER BY item_name DESC"
+        );
 		$items[] = array('none', 'No Items for Prize');
 
 		if ($stmt->rowCount() >= 16)
@@ -541,11 +551,12 @@ class quiz
 			$answer   = str_replace("<br>", "\n", $answer);
 
 			$query = "UPDATE ibf_quiz
-      	    SET
-		question='{$question}',
-		answer='{$answer}',
-		type='{$info}'
-      	    WHERE mid='{$mid}' LIMIT 1";
+				SET
+					question='{$question}',
+					answer='{$answer}',
+					type='{$info}'
+				WHERE mid='{$mid}'
+				LIMIT 1";
 
 			//echo $query."<hr>\n";
 
@@ -590,12 +601,14 @@ class quiz
 
 		// Get the Quiz settings
 
-		$stmt = $ibforums->db->query("SELECT *
-      	FROM ibf_quiz_info
-      	WHERE
-      		q_id='{$qid}'
-      		{$extra}
-      		LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+      	    FROM ibf_quiz_info
+      	    WHERE
+          		q_id='{$qid}'
+          		{$extra}
+      		LIMIT 1"
+        );
 
 		if ($stmt->rowCount() == 0)
 		{
@@ -619,9 +632,11 @@ class quiz
 		//--------------------------------
 		// Get all the Quiz questions
 
-		$stmt = $ibforums->db->query("SELECT *
-      	FROM ibf_quiz
-      	WHERE quiz_id='{$qid}'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+      	    FROM ibf_quiz
+      	    WHERE quiz_id='{$qid}'"
+        );
 
 		if ($stmt->rowCount() <= 0)
 				{
@@ -780,10 +795,12 @@ class quiz
 		if (!$qid)
 			return $ans;
 
-		$stmt = $ibforums->db->query("SELECT *
-		FROM ibf_quiz
-		WHERE quiz_id='{$qid}'
-		ORDER BY mid");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+		    FROM ibf_quiz
+		    WHERE quiz_id='{$qid}'
+		    ORDER BY mid"
+        );
 
 		if ($stmt->rowCount() <= 0)
 			return $ans;
@@ -816,18 +833,20 @@ class quiz
 		if (!$mid)
 			return $ans;
 
-		$stmt = $ibforums->db->query("SELECT
-			quiz_id,
-			ip_address,
-			time,
-			time_took,
-			amount_right,
-			answers
-		FROM ibf_quiz_winners
-		WHERE
-			quiz_id='{$qid}' AND
-			memberid='{$mid}'
-			LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT
+			    quiz_id,
+			    ip_address,
+			    time,
+			    time_took,
+			    amount_right,
+			    answers
+		    FROM ibf_quiz_winners
+		    WHERE
+    			quiz_id='{$qid}'
+		        AND memberid='{$mid}'
+			LIMIT 1"
+        );
 
 		if ($stmt->rowCount() == 0)
 		{
@@ -1029,10 +1048,12 @@ class quiz
 
 		// Get the Quiz settings
 
-		$stmt = $ibforums->db->query("SELECT *
-		FROM ibf_quiz_info
-		WHERE q_id='{$qid}'
-		LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+		    FROM ibf_quiz_info
+		    WHERE q_id='{$qid}'
+		    LIMIT 1"
+        );
 
 		if ($stmt->rowCount() == 0)
 			$this->error("cannot_find_quiz");
@@ -1055,9 +1076,11 @@ class quiz
 		// Update the Quiz views counter
 		//----------------------------------------------
 
-		$ibforums->db->exec("UPDATE ibf_quiz_info
-    	    SET views=views+1
-    	    WHERE q_id='{$qid}'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_quiz_info
+			SET views=views+1
+			WHERE q_id='{$qid}'"
+        );
 
 		// Get all the groups
 
@@ -1073,23 +1096,22 @@ class quiz
 			// Get the Quiz Author
 
 			$query = "SELECT
-      		m.id, m.name, m.mgroup, m.email, m.joined,
-      		m.avatar, m.avatar_size, m.posts, m.aim_name,
-      		m.icq_number, m.signature,  m.website, m.yahoo,
-      		m.integ_msg, m.title, m.hide_email, m.msnname,
-      		m.warn_level, m.warn_lastwarn,
-      		m.points,  m.fined, m.rep, m.ratting, m.show_ratting,
-      		g.g_id, g.g_title, g.g_icon, g.g_use_signature,
-      		g.g_use_avatar, g.g_dohtml,
-      		s.id as s_id
-      	  FROM ibf_members m
-      	  LEFT JOIN ibf_sessions s
-      		ON (s.member_id != 0 and m.id=s.member_id and s.login_type != 1)
-      	  LEFT JOIN ibf_groups g
-      		ON (g.g_id=m.mgroup)
-      	  WHERE m.id='{$mid}'
-  	  LIMIT 1
-  	";
+				m.id, m.name, m.mgroup, m.email, m.joined,
+				m.avatar, m.avatar_size, m.posts, m.aim_name,
+				m.icq_number, m.signature,  m.website, m.yahoo,
+		      	m.integ_msg, m.title, m.hide_email, m.msnname,
+				m.warn_level, m.warn_lastwarn,
+				m.points,  m.fined, m.rep, m.ratting, m.show_ratting,
+				g.g_id, g.g_title, g.g_icon, g.g_use_signature,
+				g.g_use_avatar, g.g_dohtml,
+				s.id as s_id
+			FROM ibf_members m
+			LEFT JOIN ibf_sessions s
+				ON (s.member_id != 0 and m.id=s.member_id and s.login_type != 1)
+			LEFT JOIN ibf_groups g
+				ON (g.g_id=m.mgroup)
+			WHERE m.id='{$mid}'
+			LIMIT 1";
 
 			$res = $stmt = $ibforums->db->query($query);
 
@@ -1186,10 +1208,12 @@ class quiz
 
 			if ($row['quiz_status'] != 'CLOSED' && $row['status_days'] <= 0)
 			{
-				$stmt = $ibforums->db->exec("UPDATE ibf_quiz_info
-  			    SET quiz_status='CLOSED'
-  			    WHERE q_id='{$row['q_id']}'
-  			    LIMIT 1");
+				$stmt = $ibforums->db->exec(
+				    "UPDATE ibf_quiz_info
+					SET quiz_status='CLOSED'
+					WHERE q_id='{$row['q_id']}'
+					LIMIT 1"
+                );
 			}
 			$row['quiz_status'] = 'CLOSED';
 		}
@@ -1260,8 +1284,11 @@ class quiz
 
 		// Get all the Quiz
 
-		$list_quiz = $stmt = $ibforums->db->query("SELECT *
-    			 FROM ibf_quiz_info " . $extra);
+		$list_quiz = $stmt = $ibforums->db->query(
+		    "SELECT *
+    		FROM ibf_quiz_info "
+            . $extra
+        );
 
 		while ($quiz = $stmt->fetch($list_quiz))
 		{
@@ -1312,9 +1339,12 @@ class quiz
 			{
 				if ($quiz['quiz_status'] != 'CLOSED' && $quiz['status_days'] <= 0)
 				{
-					$ibforums->db->exec("UPDATE ibf_quiz_info
-  			      SET quiz_status='CLOSED'
-  			      WHERE q_id='{$quiz['q_id']}' LIMIT 1");
+					$ibforums->db->exec(
+					    "UPDATE ibf_quiz_info
+						SET quiz_status='CLOSED'
+						WHERE q_id='{$quiz['q_id']}'
+						LIMIT 1"
+                    );
 				}
 			}
 
@@ -1377,12 +1407,14 @@ class quiz
 
 		// Get the Quiz settings
 
-		$stmt = $ibforums->db->query("SELECT *
-		FROM ibf_quiz_info
-		WHERE
-			q_id='{$qid}'
-			{$extra}
-			LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+		    FROM ibf_quiz_info
+		    WHERE
+    			q_id='{$qid}'
+    			{$extra}
+    		LIMIT 1"
+        );
 
 		if ($stmt->rowCount() == 0)
 		{
@@ -1408,12 +1440,14 @@ class quiz
 
 		// Check for the member played allready
 
-		$stmt = $ibforums->db->query("SELECT 1
-		FROM ibf_quiz_winners
-		WHERE
-			quiz_id='{$qid}' AND
-			memberid='{$ibforums->member['id']}'
-			LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT 1
+		    FROM ibf_quiz_winners
+		    WHERE
+    			quiz_id='{$qid}' AND
+    			memberid='{$ibforums->member['id']}'
+			LIMIT 1"
+        );
 		if ($stmt->rowCount() > 0)
 		{
 			$this->error("played_quiz_already");
@@ -1427,9 +1461,11 @@ class quiz
 		//--------------------------------
 		// Get all the Quiz questions
 
-		$stmt = $ibforums->db->query("SELECT *
-		FROM ibf_quiz
-		WHERE quiz_id='{$qid}'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+		    FROM ibf_quiz
+		    WHERE quiz_id='{$qid}'"
+        );
 
 		if ($stmt->rowCount() <= 0)
 			$this->error("couldnotloadanswer");
@@ -1597,21 +1633,25 @@ class quiz
 			$this->error("cannot_find_quiz");
 		}
 
-		$stmt = $ibforums->db->query("SELECT 1
-		FROM ibf_quiz_winners
-		WHERE quiz_id='{$qid}' AND
-		      memberid='{$ibforums->member['id']}'
-		LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT 1
+		    FROM ibf_quiz_winners
+		    WHERE quiz_id='{$qid}'
+		      AND memberid='{$ibforums->member['id']}'
+    		LIMIT 1"
+        );
 
 		if ($stmt->rowCount() > 0)
 		{
 			$this->error("quiz_playedalready");
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-		FROM ibf_quiz_info
-		WHERE q_id='{$qid}'
-		LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+		    FROM ibf_quiz_info
+		    WHERE q_id='{$qid}'
+		    LIMIT 1"
+        );
 
 		if ($stmt->rowCount() <= 0)
 			$this->error('cannot_find_quiz');
@@ -1658,10 +1698,12 @@ class quiz
 		// Get All the Qestions for this Quiz
 		//---------------------------------
 
-		$stmt = $ibforums->db->query("SELECT *
-		FROM ibf_quiz
-		WHERE quiz_id='{$qid}'
-		ORDER BY mid");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+		    FROM ibf_quiz
+		    WHERE quiz_id='{$qid}'
+		    ORDER BY mid"
+        );
 
 		while ($check = $stmt->fetch())
 		{
@@ -1863,16 +1905,17 @@ class quiz
 		//--------------------------------
 		// Store all the user answers
 
-		$ibforums->db->exec("INSERT INTO ibf_quiz_winners
-		SET
-		quiz_id='{$ibforums->input['quiz_id']}',
-		memberid='{$ibforums->member['id']}',
-		ip_address='{$ibforums->input['IP_ADDRESS']}',
-		time='{$time}',
-		time_took='{$time_took}',
-		amount_right='{$correct}',
-		answers='{$serial_answer}'
-		");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_quiz_winners
+			SET
+				quiz_id='{$ibforums->input['quiz_id']}',
+				memberid='{$ibforums->member['id']}',
+				ip_address='{$ibforums->input['IP_ADDRESS']}',
+				time='{$time}',
+				time_took='{$time_took}',
+				amount_right='{$correct}',
+				answers='{$serial_answer}'"
+        );
 
 		//---------------------------
 		// Check for WIN!
@@ -1892,14 +1935,16 @@ class quiz
 				{
 					if (!preg_match("#(.+)=(.+)#is", $items, $match))
 						continue;
-					$ibforums->db->exec("INSERT INTO ibf_store_inventory
-			(i_id,owner_id,item_id,price_payed)
-		      VALUES (
-			'',
-			'{$ibforums->member['id']}',
-			'{$match[1]}',
-			'{$quiz['amount_won']}'
-			)");
+					$ibforums->db->exec(
+					    "INSERT INTO ibf_store_inventory
+						    (i_id,owner_id,item_id,price_payed)
+					    VALUES (
+						    '',
+						    '{$ibforums->member['id']}',
+						    '{$match[1]}',
+						    '{$quiz['amount_won']}'
+					    )"
+                    );
 
 					$items_gotten[] = $match[2];
 				}
@@ -1916,10 +1961,12 @@ class quiz
 			if ($quiz['amount_won'])
 			{
 				$ibforums->member['points'] += $quiz['amount_won'];
-				$ibforums->db->exec("UPDATE ibf_members
-  		  SET points='{$ibforums->member['points']}'
-  		  WHERE id='{$ibforums->member['id']}'
-  		  LIMIT 1");
+				$ibforums->db->exec(
+				    "UPDATE ibf_members
+			  		SET points='{$ibforums->member['points']}'
+			  		WHERE id='{$ibforums->member['id']}'
+			  		LIMIT 1"
+                );
 				$msg = $ibforums->lang['quiz_winner'] . $extra;
 			}
 		} else
@@ -1946,25 +1993,30 @@ class quiz
 
 		// Get the Quiz players
 
-		$stmt   = $ibforums->db->query("SELECT
-			quiz_id,
-			memberid,
-			ip_address,
-			time,
-			time_took,
-			amount_right,
-			answers
-		FROM ibf_quiz_winners
-		WHERE quiz_id='{$quiz_id}'");
+		$stmt   = $ibforums->db->query(
+		    "SELECT
+			    quiz_id,
+			    memberid,
+			    ip_address,
+			    time,
+			    time_took,
+			    amount_right,
+			    answers
+		    FROM ibf_quiz_winners
+		    WHERE quiz_id='{$quiz_id}'"
+        );
 		$played = $stmt->rowCount();
 
 		// Check for players limit
 
 		if ($played >= $let_play && $let_play != 0)
 		{
-			$ibforums->db->exec("UPDATE ibf_quiz_info
-		  SET quiz_status='CLOSED'
-        	  WHERE q_id='{$quiz_id}' LIMIT 1");
+			$ibforums->db->exec(
+			    "UPDATE ibf_quiz_info
+				SET quiz_status='CLOSED'
+		        WHERE q_id='{$quiz_id}'
+		        LIMIT 1"
+            );
 			return array(
 				'status'     => 'close',
 				'plays_left' => $played
@@ -2115,7 +2167,12 @@ class quiz
 		$tables .= $addon;
 		$extra = "LOWER(name)='" . mb_strtolower($username) . "'";
 		$extra .= $extra_a;
-		$stmt = $ibforums->db->query("SELECT " . $tables . " FROM ibf_members WHERE " . $extra . " LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT " . $tables . "
+		     FROM ibf_members
+		     WHERE " . $extra . "
+		     LIMIT 1"
+        );
 		if ($stmt->rowCount() == 0)
 		{
 			$this->error("cannot_finduser");
@@ -2133,7 +2190,12 @@ class quiz
 		$tables .= $addon;
 		$extra = "id='" . $userid . "'";
 		$extra .= $extra_a;
-		$stmt = $ibforums->db->query("SELECT " . $tables . " FROM ibf_members WHERE " . $extra . " LIMIT 1");
+		$stmt = $ibforums->db->query(
+		    "SELECT " . $tables . "
+		    FROM ibf_members
+		    WHERE " . $extra . "
+		    LIMIT 1"
+        );
 		if ($stmt->rowCount() == 0)
 		{
 			$this->error("cannot_finduser");

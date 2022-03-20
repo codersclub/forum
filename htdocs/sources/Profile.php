@@ -157,10 +157,14 @@ class Profile
 			            ));
 		}
 		
-		$stmt = $ibforums->db->query ( "SELECT m.*, s.id as s_id, g.g_id, g.g_title AS group_title
+		$stmt = $ibforums->db->query (
+		    "SELECT m.*, s.id as s_id, g.g_id, g.g_title AS group_title
             FROM (ibf_members m, ibf_groups g )
-	    LEFT JOIN ibf_sessions s ON (s.member_id=m.id and s.login_type<>1)
-	    WHERE m.id='$id' and m.mgroup=g.g_id" );
+	        LEFT JOIN ibf_sessions s
+	          ON (s.member_id=m.id and s.login_type<>1)
+	        WHERE m.id='$id'
+	          AND m.mgroup=g.g_id"
+        );
 		
 		$member = $stmt->fetch ();
 
@@ -234,8 +238,8 @@ class Profile
 		{
 
 			$sql = "UPDATE ibf_members
-		SET	posts='" . $TotalThematic . "'
-		WHERE	id='{$id}'";
+				SET posts='" . $TotalThematic . "'
+				WHERE id='{$id}'";
 
 			$ibforums->db->exec($sql);
 
@@ -288,9 +292,11 @@ class Profile
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'incorrect_use'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
+		$stmt = $ibforums->db->query(
+		    "SELECT *
 		    FROM ibf_members
-		    WHERE id=$id");
+		    WHERE id=$id"
+        );
 
 		$member = $stmt->fetch();
 
@@ -432,11 +438,14 @@ class Profile
 		$this->show_height = "";
 		$this->show_width  = "";
 
-		$stmt = $ibforums->db->query("SELECT m.id, m.name,
-			me.photo_type, me.photo_location, me.photo_dimensions
+		$stmt = $ibforums->db->query(
+		    "SELECT m.id, m.name,
+			    me.photo_type, me.photo_location, me.photo_dimensions
 		    FROM ibf_member_extra me
-    	            LEFT JOIN ibf_members m ON me.id=m.id
-    		    WHERE m.id=$id");
+    	    LEFT JOIN ibf_members m
+    	      ON me.id=m.id
+    		WHERE m.id=$id"
+        );
 
 		$this->photo_member = $stmt->fetch();
 
@@ -548,10 +557,14 @@ class Profile
 		// Prepare Query...
 		//--------------------------------------------
 
-		$stmt   = $ibforums->db->query("SELECT m.*, s.id as s_id, g.g_id, g.g_title AS group_title
-	            FROM (ibf_members m, ibf_groups g )
-		    LEFT JOIN ibf_sessions s ON (s.member_id=m.id and s.login_type<>1)
-		    WHERE m.id='$id' and m.mgroup=g.g_id");
+		$stmt   = $ibforums->db->query(
+		    "SELECT m.*, s.id as s_id, g.g_id, g.g_title AS group_title
+	        FROM (ibf_members m, ibf_groups g )
+		    LEFT JOIN ibf_sessions s
+		      ON (s.member_id=m.id and s.login_type<>1)
+		    WHERE m.id='$id'
+		      AND m.mgroup=g.g_id"
+        );
 		$member = $stmt->fetch();
 
 		if (empty($member['id']))
@@ -571,8 +584,10 @@ class Profile
 		// member has access to by this members profile
 		//--------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT id, read_perms
-		    FROM ibf_forums");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, read_perms
+		    FROM ibf_forums"
+        );
 
 		$forum_ids = array('0');
 
@@ -591,20 +606,25 @@ class Profile
 		$stmt = \Ibf::app()->db->query(
 				'SELECT forum_id, f.name, _sph_count as f_posts 
 				FROM ibf_sph_search_posts t1
-				INNER JOIN ibf_forums f ON (t1.forum_id = f.id) 
+				INNER JOIN ibf_forums f
+				   ON (t1.forum_id = f.id) 
 				WHERE t1.query=\'filter=forum_id,' . $forum_id_str .';filter=author_id,'.$member['id'].';limit=1;groupby=attr:forum_id;groupsort=@count desc;mode=extended\''
 			);
 
 		$favourite = $stmt->fetch();
 
-		$stmt = $ibforums->db->query("SELECT COUNT(pid) AS total_posts
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(pid) AS total_posts
 		    FROM ibf_posts
-		    WHERE author_id='" . $member['id'] . "'");
+		    WHERE author_id='" . $member['id'] . "'"
+        );
 
 		$total_posts = $stmt->fetch();
 
-		$stmt = $ibforums->db->query("SELECT TOTAL_TOPICS, TOTAL_REPLIES
-		    FROM ibf_stats");
+		$stmt = $ibforums->db->query(
+		    "SELECT TOTAL_TOPICS, TOTAL_REPLIES
+		    FROM ibf_stats"
+        );
 
 		$stats = $stmt->fetch();
 
@@ -653,11 +673,13 @@ class Profile
 		$info['board_posts'] = $board_posts;
 		$info['joined']      = $std->format_date_without_time($member['joined']);
 
-		$stmt = $ibforums->db->query("SELECT title
+		$stmt = $ibforums->db->query(
+		    "SELECT title
 		    FROM ibf_titles
 		    WHERE posts < '" . $member['posts'] . "'
 		    ORDER BY posts DESC
-		    LIMIT 1");
+		    LIMIT 1"
+        );
 
 		if ($i = $stmt->fetch())
 		{
@@ -875,9 +897,11 @@ class Profile
 		//        	}
 		//        }
 
-		$stmt = $ibforums->db->query("SELECT *
+		$stmt = $ibforums->db->query(
+		    "SELECT *
 		    FROM ibf_pfields_content
-                    WHERE member_id='" . $member['id'] . "'");
+            WHERE member_id='" . $member['id'] . "'"
+        );
 
 		while ($content = $stmt->fetch())
 		{
@@ -890,10 +914,12 @@ class Profile
 			}
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
+		$stmt = $ibforums->db->query(
+		    "SELECT *
 		    FROM ibf_pfields_data
-                    $query_extra
-                    ORDER BY forder");
+                $query_extra
+            ORDER BY forder"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -948,10 +974,12 @@ class Profile
 					$mod  = 1;
 				} else
 				{
-					$stmt            = $ibforums->db->query("SELECT *
+					$stmt = $ibforums->db->query(
+					    "SELECT *
 					    FROM ibf_moderators
 					    WHERE (member_id=" . $ibforums->member['id'] . "
-						OR (is_group=1 AND group_id=" . $ibforums->member['mgroup'] . "))");
+						   OR (is_group=1 AND group_id=" . $ibforums->member['mgroup'] . "))"
+                    );
 					$this->moderator = $stmt->fetch();
 
 					if ($this->moderator['mid'] AND $this->moderator['allow_warn'] == 1)
@@ -1096,9 +1124,11 @@ class Profile
 	{
 		global $ibforums, $std;
 
-		$stmt = $ibforums->db->query("SELECT count(*) AS count
+		$stmt = $ibforums->db->query(
+		    "SELECT count(*) AS count
 			FROM ibf_moderators md
-			WHERE md.member_id='" . $mid . "'");
+			WHERE md.member_id='" . $mid . "'"
+        );
 		$i    = $stmt->fetch();
 
 		return $i['count'];
@@ -1111,9 +1141,11 @@ class Profile
 
 		$sup_ids = array();
 
-		$stmt = $ibforums->db->query("SELECT g_id
+		$stmt = $ibforums->db->query(
+		    "SELECT g_id
 		    FROM ibf_groups
-		    WHERE g_is_supmod = 1");
+		    WHERE g_is_supmod = 1"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -1129,10 +1161,12 @@ class Profile
 
 		$admin_ids = array();
 
-		$stmt = $ibforums->db->query("SELECT id, mgroup
+		$stmt = $ibforums->db->query(
+		    "SELECT id, mgroup
 		    FROM ibf_members
 		    WHERE id='" . $mid . "'
-			AND mgroup='" . $ibforums->vars['admin_group'] . "'");
+			  AND mgroup='" . $ibforums->vars['admin_group'] . "'"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -1151,11 +1185,13 @@ class Profile
 		if (count($sup_ids) > 0)
 		{
 
-			$stmt = $ibforums->db->query("SELECT id, mgroup
+			$stmt = $ibforums->db->query(
+			    "SELECT id, mgroup
 			    FROM ibf_members
 			    WHERE id='" . $mid . "'
-				AND mgroup IN (" . implode(',', $sup_ids) . ")
-				AND mgroup<>'" . $ibforums->vars['admin_group'] . "' ");
+				  AND mgroup IN (" . implode(',', $sup_ids) . ")
+				  AND mgroup<>'" . $ibforums->vars['admin_group'] . "' "
+            );
 			if ($stmt->rowCount())
 			{
 				$member_is_sup = 1;
