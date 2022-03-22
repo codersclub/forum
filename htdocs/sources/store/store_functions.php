@@ -90,7 +90,11 @@ class lib
 		{
 			return false;
 		}
-		$stmt = $ibforums->db->query("SELECT 1 FROM ibf_store_inventory WHERE owner_id='{$userid}'");
+		$stmt = $ibforums->db->query(
+			"SELECT 1
+			FROM ibf_store_inventory
+			WHERE owner_id='{$userid}'"
+		);
 		if ($stmt->rowCount() + $addon > $max)
 		{
 			return true;
@@ -102,10 +106,20 @@ class lib
 	function load_extra($itemid)
 	{
 		$ibforums = Ibf::app();
-		$stmt     = $ibforums->db->query("SELECT item_id FROM ibf_store_inventory WHERE i_id='{$itemid}' LIMIT 1");
+		$stmt     = $ibforums->db->query(
+					"SELECT item_id
+					FROM ibf_store_inventory
+					WHERE i_id='{$itemid}'
+					LIMIT 1"
+		);
 		$itemid   = $stmt->fetch();
 		$itemid   = $itemid['item_id'];
-		$stmt     = $ibforums->db->query("SELECT extra_one,extra_two,extra_three FROM ibf_store_shopstock WHERE id='{$itemid}' LIMIT 1");
+		$stmt     = $ibforums->db->query(
+					"SELECT extra_one, extra_two, extra_three
+					FROM ibf_store_shopstock
+					WHERE id='{$itemid}'
+					LIMIT 1"
+		);
 		$extra    = $stmt->fetch();
 		return $extra;
 	}
@@ -143,10 +157,33 @@ class lib
 		//				break;
 		//		}
 
-		//logid, fromid,                      message,                reason,   username,     toid,     toname,      type,     sum,     time,
-		$ibforums->db->exec("INSERT INTO ibf_store_logs VALUES('','{$fromid}','" . addslashes($message) . "','" . addslashes($reason) . "','{$fromname}','{$toid}','{$toname}','{$type}','{$sum}','{$time}')");
-		//		$ibforums->db->exec("INSERT INTO ibf_store_logs VALUES('','{$ibforums->member['id']}','".addslashes($message)."','".addslashes($reason)."','{$ibforums->member['name']}','{$toid}','{$toname}','{$type}','{$sum}','{$time}')");
-		//		$ibforums->db->exec("INSERT INTO ibf_store_logs VALUES('','".addslashes($message)."','{$ibforums->member['name']}','{$type}','{$time}')");
+		$sql = "INSERT INTO ibf_store_logs (
+				fromid,
+				message,
+				reason,
+				username,
+				toid,
+				toname,
+				type,
+				sum,
+				time)
+			VALUES (
+				{$fromid},
+				'" . addslashes($message) . "',
+				'" . addslashes($reason) . "',
+				'{$fromname}',
+				{$toid},
+				'{$toname}',
+				'{$type}',
+				{$sum},
+				{$time}
+			)";
+		$ibforums->db->exec($sql);
+		//$ibforums->db->exec(
+		//	"INSERT INTO ibf_store_logs
+		//	VALUES('', '{$ibforums->member['id']}', '".addslashes($message)."', '".addslashes($reason)."', '{$ibforums->member['name']}', '{$toid}', '{$toname}', '{$type}', '{$sum}', '{$time}')");
+		//$ibforums->db->exec(
+		//	"INSERT INTO ibf_store_logs VALUES('', '".addslashes($message)."', '{$ibforums->member['name']}', '{$type}', '{$time}')");
 		//logid      message               username                     type      time
 	}
 
@@ -182,7 +219,10 @@ class lib
 		}
 
 		//logid, fromid, message, username, toid, toname, type, sum, time,
-		$ibforums->db->exec("INSERT INTO ibf_store_logs VALUES('','" . addslashes($message) . "','{$ibforums->member['name']}','{$type}','{$time}')");
+		$ibforums->db->exec(
+			"INSERT INTO ibf_store_logs
+			VALUES('', '" . addslashes($message) . "', '{$ibforums->member['name']}', '{$type}', '{$time}')"
+		);
 		//logid      message               username                     type      time
 	}
 
@@ -213,7 +253,12 @@ class lib
 	function delete_item($itemid)
 	{
 		global $ibforums;
-		$ibforums->db->exec("DELETE FROM ibf_store_inventory WHERE i_id='{$itemid}' AND owner_id='{$ibforums->member['id']}' LIMIT 1");
+		$ibforums->db->exec(
+			"DELETE FROM ibf_store_inventory
+			WHERE i_id='{$itemid}'
+			  AND owner_id='{$ibforums->member['id']}'
+			LIMIT 1"
+		);
 	}
 
 	function sendpm($sendto, $message, $title, $sender_id = "", $popup = 0)
@@ -241,12 +286,16 @@ class lib
 		{
 			$extra = ",show_popup=1";
 		}
-		$ibforums->db->exec("UPDATE ibf_members SET msg_total = msg_total + 1,
-						   new_msg = new_msg + 1,
-						   msg_from_id='{$sender_id}',
-						   msg_msg_id='{$message_id}'
-						   " . $extra . "
-					   WHERE id='{$sendto}' LIMIT 1");
+		$ibforums->db->exec(
+			"UPDATE ibf_members
+			SET msg_total = msg_total + 1,
+				new_msg = new_msg + 1,
+				msg_from_id='{$sender_id}',
+				msg_msg_id='{$message_id}'
+				" . $extra . "
+			WHERE id='{$sendto}'
+			LIMIT 1"
+		);
 		return $message_id;
 	}
 
@@ -257,8 +306,17 @@ class lib
 		$reson       = addslashes(stripslashes($reson));
 		$users_reson = addslashes(stripslashes($users_reson));
 
-		//		$ibforums->db->exec("INSERT INTO ibf_store_modlogs (id,username,reson,user_reson,type,time) VALUES('','{$name}','{$reson}','{$users_reson}','{$type}','{$time}')");
-		$ibforums->db->exec("INSERT INTO ibf_store_modlogs (id,fromid,username,toid,toname,sum,reson,user_reson,type,time) VALUES('','{$userid}','{$name}','{$toid}','{$toname}','{$sum}','{$reson}','{$users_reson}','{$type}','{$time}')");
+		//$ibforums->db->exec(
+		//	"INSERT INTO ibf_store_modlogs
+		//		(id, username, reson, user_reson, type, time)
+		//	VALUES('', '{$name}', '{$reson}', '{$users_reson}', '{$type}', '{$time}')"
+		//);
+		$ibforums->db->exec(
+			"INSERT INTO ibf_store_modlogs
+    			(id, fromid, username, toid, toname, sum, reson, user_reson, type, time)
+    		VALUES
+    		    ('', '{$userid}', '{$name}', '{$toid}', '{$toname}', '{$sum}', '{$reson}', '{$users_reson}', '{$type}', '{$time}')"
+		);
 		//  id, fromid, username, toid, toname, sum, reson, user_reson, type, time
 
 	}
@@ -300,5 +358,3 @@ class lib
 
 	}
 }
-
-?>

@@ -74,12 +74,14 @@ class Topics
 			return "";
 		}
 
-		$stmt = $ibforums->db->query("SELECT mid,
-			member_name AS mod_name,
-			member_id AS mod_id,
-			is_group, group_id, group_name, post_q, topic_q
+		$stmt = $ibforums->db->query(
+		    "SELECT mid,
+			    member_name AS mod_name,
+			    member_id AS mod_id,
+			    is_group, group_id, group_name, post_q, topic_q
 		    FROM ibf_moderators
-		    WHERE forum_id='" . $this->forum['id'] . "'");
+		    WHERE forum_id='" . $this->forum['id'] . "'"
+        );
 
 		if (!$stmt->rowCount())
 		{
@@ -143,9 +145,11 @@ class Topics
 			$size = round(filesize($path) / 1024, 2);
 		}
 
-		$ibforums->db->exec("UPDATE ibf_posts SET
-			attach_size='" . $size . "'
-		    WHERE pid='" . $row['pid'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_posts
+			SET attach_size='" . $size . "'
+			WHERE pid='" . $row['pid'] . "'"
+        );
 
 		$row['attach_size'] = $size;
 	}
@@ -828,28 +832,29 @@ class Topics
 
 		if (!$ibforums->topic_cache['tid'])
 		{
-			$stmt = $ibforums->db->query("SELECT
-				t.*,
-				f.topic_mm_id, f.name as forum_name,
-				f.quick_reply, f.id as forum_id,
-				f.read_perms, f.start_perms, f.reply_perms,
-				f.parent_id, f.use_html,
+			$stmt = $ibforums->db->query(
+			    "SELECT
+				    t.*,
+				    f.topic_mm_id, f.name as forum_name,
+				    f.quick_reply, f.id as forum_id,
+				    f.read_perms, f.start_perms, f.reply_perms,
+				    f.parent_id, f.use_html,
 			        f.forum_highlight, f.highlight_fid,
 			        f.allow_poll, f.password,
-				f.posts as forum_posts,
-				f.topics as forum_topics, f.upload_perms,
+				    f.posts as forum_posts,
+				    f.topics as forum_topics, f.upload_perms,
 			        f.show_rules, f.rules_text, f.rules_title,
-				f.red_border, f.siu_thumb, f.inc_postcount,
-				f.days_off, f.decided_button, f.faq_id ,
-				c.name as cat_name, c.id as cat_id
+				    f.red_border, f.siu_thumb, f.inc_postcount,
+				    f.days_off, f.decided_button, f.faq_id ,
+				    c.name as cat_name, c.id as cat_id
 			    FROM
-				ibf_topics t,
-				ibf_forums f,
-				ibf_categories c
-			    WHERE
-				t.tid='" . $ibforums->input['t'] . "'
-				AND f.id=t.forum_id
-				AND f.category=c.id");
+				    ibf_topics t,
+				    ibf_forums f,
+				    ibf_categories c
+			    WHERE t.tid='" . $ibforums->input['t'] . "'
+				  AND f.id=t.forum_id
+				  AND f.category=c.id"
+            );
 
 			$this->topic = $stmt->fetch();
 		} else
@@ -901,11 +906,14 @@ class Topics
 
 		if ($ibforums->member['id'])
 		{
-			$stmt = $ibforums->db->query("SELECT trid
+			$stmt = $ibforums->db->query(
+			    "SELECT trid
 			    FROM ibf_tracker
 			    WHERE
-				member_id='" . $ibforums->member['id'] . "' and
-				topic_id='" . $this->topic['tid'] . "'");
+				    member_id='" . $ibforums->member['id'] . "'
+				  AND
+				    topic_id='" . $this->topic['tid'] . "'"
+            );
 
 			if ($stmt->rowCount())
 			{
@@ -985,13 +993,14 @@ class Topics
 
 		if ($ibforums->member['id'] and !$ibforums->member['g_is_supmod'])
 		{
-			$stmt = $ibforums->db->query("SELECT *
-				    FROM ibf_moderators
-				    WHERE
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+				FROM ibf_moderators
+				WHERE
 					forum_id=" . $this->forum['id'] . "
-					AND (member_id=" . $ibforums->member['id'] . "
-					     OR (is_group=1
-						 AND group_id='" . $ibforums->member['mgroup'] . "'))");
+				AND (member_id=" . $ibforums->member['id'] . "
+				     OR (is_group=1 AND group_id='" . $ibforums->member['mgroup'] . "'))"
+            );
 
 			$this->moderator = $stmt->fetch();
 		}
@@ -1062,28 +1071,32 @@ class Topics
 							$std->boink_it($ibforums->base_url . "showtopic=" . $this->topic['tid']);
 						} else
 						{
-							$stmt = $ibforums->db->query("SELECT
-						pid,
-						post_date
-					    FROM ibf_posts
-					    WHERE
-						queued != 1
-						AND topic_id='" . $this->topic['tid'] . "'
-						AND use_sig = 0
-						AND post_date > $last_read_time
-					    ORDER BY post_date
-					    LIMIT 1");
+							$stmt = $ibforums->db->query(
+							    "SELECT
+						            pid,
+						            post_date
+					            FROM ibf_posts
+					            WHERE
+						            queued != 1
+						        AND topic_id='" . $this->topic['tid'] . "'
+						        AND use_sig = 0
+						        AND post_date > $last_read_time
+					            ORDER BY post_date
+					            LIMIT 1"
+                            );
 
 							if ($post = $stmt->fetch())
 							{
 
 								$pid = "&#entry" . $post['pid'];
 
-								$stmt = $ibforums->db->query("SELECT COUNT(pid) AS posts
-						    FROM ibf_posts
-						    WHERE
-							topic_id='" . $this->topic['tid'] . "'
-							AND pid <= '" . $post['pid'] . "'");
+								$stmt = $ibforums->db->query(
+								    "SELECT COUNT(pid) AS posts
+						            FROM ibf_posts
+						            WHERE
+							            topic_id='" . $this->topic['tid'] . "'
+							        AND pid <= '" . $post['pid'] . "'"
+                                );
 
 								if (!$cposts = $stmt->fetch() or $cposts['posts'] == 0)
 								{
@@ -1116,19 +1129,24 @@ class Topics
 
 						if ($pid > 0)
 						{
-							$stmt = $ibforums->db->query("SELECT COUNT(pid) AS posts
-					    FROM ibf_posts
-					    WHERE
-						topic_id='" . $this->topic['tid'] . "' and
-						pid <= '" . $pid . "'");
+							$stmt = $ibforums->db->query(
+							    "SELECT COUNT(pid) AS posts
+					            FROM ibf_posts
+					            WHERE
+						            topic_id='" . $this->topic['tid'] . "'
+						        AND
+						            pid <= '" . $pid . "'"
+                            );
 
 							if (!$cposts = $stmt->fetch() or !$cposts['posts'])
 							{
 								$tid = 0;
 
-								$stmt = $ibforums->db->query("SELECT topic_id
-						    FROM ibf_posts
-						    WHERE pid='" . $pid . "'");
+								$stmt = $ibforums->db->query(
+								    "SELECT topic_id
+						            FROM ibf_posts
+						            WHERE pid='" . $pid . "'"
+                                );
 
 								if ($topic = $stmt->fetch())
 								{
@@ -1138,10 +1156,12 @@ class Topics
 								if ($tid and $tid != $this->topic['tid'])
 								{
 									// repeat query
-									$stmt = $ibforums->db->query("SELECT COUNT(pid) AS posts
-							 FROM ibf_posts
-							 WHERE topic_id='" . $tid . "'
-							 AND pid <= '" . $pid . "'");
+									$stmt = $ibforums->db->query(
+									    "SELECT COUNT(pid) AS posts
+							            FROM ibf_posts
+							            WHERE topic_id='" . $tid . "'
+							            AND pid <= '" . $pid . "'"
+                                    );
 								}
 
 								if (!$tid or !$cposts = $stmt->fetch() or $cposts['posts'] == 0)
@@ -1183,20 +1203,26 @@ class Topics
 		// Update the topic views counter and topic logs
 		//----------------------------------------------
 
-		$ibforums->db->exec("UPDATE ibf_topics
-		    SET views=views+1
-		    WHERE tid='" . $this->topic['tid'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_topics
+			SET views=views+1
+			WHERE tid='" . $this->topic['tid'] . "'"
+        );
 
 		$std->song_set_topicread($this->forum['id'], $this->topic['tid']);
 
 		if ($this->topic['has_mirror'])
 		{
-			$ibforums->db->exec("UPDATE ibf_topics
-				    SET views=views+1
-				    WHERE mirrored_topic_id='{$this->topic['tid']}'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_topics
+				SET views=views+1
+				WHERE mirrored_topic_id='{$this->topic['tid']}'"
+            );
 
 			// update forums
-			$q = "SELECT forum_id, tid FROM ibf_topics WHERE mirrored_topic_id='{$this->topic['tid']}' ";
+			$q = "SELECT forum_id, tid
+                  FROM ibf_topics
+                  WHERE mirrored_topic_id='{$this->topic['tid']}'";
 
 			$stmt = $ibforums->db->query($q);
 			while ($row = $stmt->fetch())
@@ -1204,11 +1230,14 @@ class Topics
 				$log_time = 0;
 				if ($ibforums->member['id'])
 				{
-					$stmt = $ibforums->db->query("SELECT logTime
+					$stmt = $ibforums->db->query(
+					    "SELECT logTime
 					    FROM ibf_log_topics
 					    WHERE
-						tid='" . $row['tid'] . "' AND
-						mid='" . $ibforums->member['id'] . "'");
+						    tid='" . $row['tid'] . "'
+						AND
+						    mid='" . $ibforums->member['id'] . "'"
+                    );
 
 					if ($stmt->rowCount())
 					{
@@ -1230,19 +1259,21 @@ class Topics
 
 		if ($this->forum['parent_id'] > 0)
 		{
-			$stmt = $ibforums->db->query("SELECT
-				f.id as forum_id,
-				f.name as forum_name,
-				c.id,
-				c.name
+			$stmt = $ibforums->db->query(
+			    "SELECT
+				    f.id as forum_id,
+				    f.name as forum_name,
+				    c.id,
+				    c.name
 			    FROM
-				ibf_forums_order fo,
-				ibf_forums f,
-				ibf_categories c
+				    ibf_forums_order fo,
+				    ibf_forums f,
+				    ibf_categories c
 			    WHERE
-				fo.id='" . $this->forum['id'] . "'
+				    fo.id='" . $this->forum['id'] . "'
 				AND f.id=fo.pid
-				AND c.id=f.category");
+				AND c.id=f.category"
+            );
 
 			while ($row = $stmt->fetch())
 			{
@@ -1268,13 +1299,15 @@ class Topics
 		// member title info
 		//-------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT
-			id,
-			title,
-			pips,
-			posts
+		$stmt = $ibforums->db->query(
+		    "SELECT
+			    id,
+			    title,
+			    pips,
+			    posts
 		    FROM ibf_titles
-		    ORDER BY posts DESC");
+		    ORDER BY posts DESC"
+        );
 
 		while ($i = $stmt->fetch())
 		{
@@ -1426,17 +1459,19 @@ class Topics
 
 		$links = "";
 
-		$stmt = $ibforums->db->query("SELECT
-			t.tid as topic_id,
-			t.title,
-			t.description
+		$stmt = $ibforums->db->query(
+		    "SELECT
+			    t.tid as topic_id,
+			    t.title,
+			    t.description
 		    FROM
-			ibf_topics t,
-			ibf_topiclinks tl
+			    ibf_topics t,
+			    ibf_topiclinks tl
 		    WHERE
-			tl.tid='" . $this->topic['tid'] . "'
+			    tl.tid='" . $this->topic['tid'] . "'
 			AND t.tid=tl.link
-		    ORDER BY t.tid");
+		    ORDER BY t.tid"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -1452,12 +1487,14 @@ class Topics
 			}
 		}
 
-		$stmt = $ibforums->db->query("SELECT
-			name,
-			link
+		$stmt = $ibforums->db->query(
+		    "SELECT
+			    name,
+			    link
 		    FROM ibf_topicsinfo
 		    WHERE tid='" . $this->topic['tid'] . "'
-		    ORDER BY date DESC");
+		    ORDER BY date DESC"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -1533,12 +1570,14 @@ class Topics
 			// Get the data for the profile fields
 			//--------------------------------------------
 
-			$stmt = $ibforums->db->query("SELECT
-				fid,
-				ftype,
-				fhide,
-				fcontent
-			    FROM ibf_pfields_data");
+			$stmt = $ibforums->db->query(
+			    "SELECT
+				    fid,
+				    ftype,
+				    fhide,
+				    fcontent
+			    FROM ibf_pfields_data"
+            );
 
 			while ($r = $stmt->fetch())
 			{
@@ -1606,13 +1645,15 @@ class Topics
 
 			$query .= "p.pid != '" . $this->topic['pinned_post'] . "' and ";
 
-			$stmt = $ibforums->db->query("SELECT pid
+			$stmt = $ibforums->db->query(
+			    "SELECT pid
 			    FROM ibf_posts
 			    WHERE
-				queued != 1
+				    queued != 1
 				AND topic_id='" . $this->topic['tid'] . "'
 			    ORDER BY pid
-			    LIMIT " . $this->first . ",1");
+			    LIMIT " . $this->first . ",1"
+            );
 
 			$post = $stmt->fetch();
 
@@ -1655,21 +1696,24 @@ class Topics
 		if (!$stmt->rowCount() and $this->first >= $ibforums->vars['display_max_posts'])
 		{
 
-			$pcount = $ibforums->db->query("SELECT
-				COUNT(pid) as pcount
+			$pcount = $ibforums->db->query(
+			    "SELECT
+				    COUNT(pid) as pcount
 			    FROM ibf_posts
 			    WHERE
-				topic_id='" . $this->topic['tid'] . "'
-				AND queued != 1")
-				->fetch();
+				    topic_id='" . $this->topic['tid'] . "'
+				AND queued != 1"
+            )->fetch();
 
 			$pcount['pcount'] = ($pcount['pcount'])
 				? $pcount['pcount'] - 1
 				: 0;
 
-			$ibforums->db->exec("UPDATE ibf_topics
+			$ibforums->db->exec(
+			    "UPDATE ibf_topics
 			    SET posts='" . $pcount['pcount'] . "'
-			    WHERE tid='" . $this->topic['tid'] . "'");
+			    WHERE tid='" . $this->topic['tid'] . "'"
+            );
 
 			$std->boink_it($ibforums->base_url . "showtopic=" . $this->topic['tid'] . "&amp;view=getlastpost");
 
@@ -1722,19 +1766,21 @@ class Topics
 
 			$time = time() - $cut_off;
 
-			$stmt = $ibforums->db->query("SELECT
-				s.member_id,
-				s.member_name,
-				s.login_type,
-				s.location,
-				s.org_perm_id,
-				g.suffix, g.prefix, g.g_perm_id
+			$stmt = $ibforums->db->query(
+			    "SELECT
+				    s.member_id,
+				    s.member_name,
+				    s.login_type,
+				    s.location,
+				    s.org_perm_id,
+				    g.suffix, g.prefix, g.g_perm_id
 			    FROM ibf_sessions s
 			    LEFT JOIN ibf_groups g
-				ON (g.g_id=s.member_group)
+				    ON (g.g_id=s.member_group)
 			    WHERE
-				s.r_in_topic='" . $this->topic['tid'] . "'
-				AND s.running_time > $time");
+				    s.r_in_topic='" . $this->topic['tid'] . "'
+				AND s.running_time > $time"
+            );
 
 			//+-----------------------------------------
 			// Cache all printed members so we don't double print them
@@ -1847,12 +1893,15 @@ class Topics
 
 				if (!$q)
 				{
-					$stmt = $ibforums->db->query("SELECT mod_posts
+					$stmt = $ibforums->db->query(
+					    "SELECT mod_posts
 					    FROM ibf_preview_user
 					    WHERE
-						mid='" . $ibforums->member['id'] . "' and
-						(fid='" . $this->forum['id'] . "' or
-						 fid='" . $this->forum['parent_id'] . "')");
+						    mid='" . $ibforums->member['id'] . "'
+						AND
+						    (fid='" . $this->forum['id'] . "' OR
+						    fid='" . $this->forum['parent_id'] . "')"
+                    );
 
 					if ($stmt->rowCount())
 					{
@@ -2090,11 +2139,13 @@ class Topics
 		if (!$id)
 			$id = 1;
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				typed,
 				image
-			    FROM ibf_emoticons
-			    WHERE clickable='1' and skid='" . $id . "'");
+			FROM ibf_emoticons
+			WHERE clickable='1' and skid='" . $id . "'"
+        );
 
 		while ($elmo = $stmt->fetch())
 		{
@@ -2800,13 +2851,15 @@ class Topics
 		// Get the topic mod thingies
 		//----------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				mm_id,
 				mm_title
-			    FROM ibf_topic_mmod
-			    WHERE
+			FROM ibf_topic_mmod
+			WHERE
 				mm_id IN(" . implode(",", explode(",", $this->forum['topic_mm_id'])) . ")
-			    ORDER BY mm_id ASC");
+			ORDER BY mm_id ASC"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -3180,9 +3233,11 @@ class Topics
 		// Get the poll information...
 		//----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT *
+		$stmt = $ibforums->db->query(
+		    "SELECT *
 		    FROM ibf_polls
-		    WHERE tid='" . $this->topic['tid'] . "'");
+		    WHERE tid='" . $this->topic['tid'] . "'"
+        );
 
 		$poll_data = $stmt->fetch();
 
@@ -3205,12 +3260,17 @@ class Topics
 
 			if (time() > $poll_data['live_before'])
 			{
-				$ibforums->db->exec("UPDATE ibf_polls
+				$ibforums->db->exec(
+				    "UPDATE ibf_polls
 				    SET state='closed'
-				    WHERE tid='" . $this->topic['tid'] . "'");
-				$ibforums->db->exec("UPDATE ibf_topics
+				    WHERE tid='" . $this->topic['tid'] . "'"
+                );
+
+				$ibforums->db->exec(
+				    "UPDATE ibf_topics
 				    SET description='голосование окончено'
-				    WHERE tid='" . $this->topic['tid'] . "'");
+				    WHERE tid='" . $this->topic['tid'] . "'"
+                );
 
 				$poll_data['state'] = "closed";
 			}
@@ -3288,11 +3348,14 @@ class Topics
 		// Have we voted in this poll?
 		//----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT member_id
+		$stmt = $ibforums->db->query(
+		    "SELECT member_id
 		    FROM ibf_voters
 		    WHERE
-			member_id='" . $ibforums->member['id'] . "' and
-			tid='" . $this->topic['tid'] . "'");
+			    member_id='" . $ibforums->member['id'] . "'
+			AND
+			    tid='" . $this->topic['tid'] . "'"
+        );
 
 		$voter = $stmt->fetch();
 
@@ -3573,12 +3636,16 @@ class Topics
 			$st = ($pages - 1) * $ibforums->vars['display_max_posts'];
 		}
 
-		$stmt = $ibforums->db->query("SELECT max(pid) as pid
-			    FROM ibf_posts
-			    WHERE
-				queued != 1 AND
-				use_sig = 0 AND
-				topic_id='" . $this->topic['tid'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT max(pid) as pid
+			FROM ibf_posts
+			WHERE
+				queued != 1
+			AND
+				use_sig = 0
+			AND
+				topic_id='" . $this->topic['tid'] . "'"
+        );
 		$post = $stmt->fetch();
 
 		$std->boink_it($ibforums->base_url . "showtopic=" . $this->topic['tid'] . "&amp;st=$st&" . "#entry" . $post['pid']);

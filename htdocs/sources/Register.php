@@ -194,9 +194,11 @@ class Register
 			return;
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_members
-			    WHERE LOWER(name)='" . mb_strtolower($ibforums->input['username']) . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_members
+			WHERE LOWER(name)='" . mb_strtolower($ibforums->input['username']) . "'"
+        );
 
 		if (!$member = $stmt->fetch())
 		{
@@ -208,9 +210,11 @@ class Register
 		// Check in the DB for any validations
 		//------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_validating
-			    WHERE member_id='" . intval($member['id']) . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_validating
+			WHERE member_id='" . intval($member['id']) . "'"
+        );
 
 		if (!$val = $stmt->fetch())
 		{
@@ -350,8 +354,10 @@ class Register
 
 			// Remove old reg requests from the DB
 
-			$ibforums->db->exec("DELETE FROM ibf_reg_antispam
-				    WHERE ctime < '$r_date'");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_reg_antispam
+				WHERE ctime < '$r_date'"
+            );
 
 			// Set a new ID for this reg request...
 
@@ -371,7 +377,7 @@ class Register
 				'ip_address' => $ibforums->input['IP_ADDRESS'],
 				'ctime'      => time(),
 			];
-			$ibforums->db->insertRow("ibf_reg_antispam", $data);
+			$ibforums->db->insertRow('ibf_reg_antispam', $data);
 		}
 
 		$this->page_title = $ibforums->lang['lost_pass_form'];
@@ -413,9 +419,11 @@ class Register
 				return;
 			}
 
-			$stmt = $ibforums->db->query("SELECT *
-				    FROM ibf_reg_antispam
-				    WHERE regid='" . trim(addslashes($ibforums->input['regid'])) . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+				FROM ibf_reg_antispam
+				WHERE regid='" . trim(addslashes($ibforums->input['regid'])) . "'"
+            );
 
 			if (!$row = $stmt->fetch())
 			{
@@ -454,9 +462,11 @@ class Register
 		// Attempt to get the user details from the DB
 		//------------------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT name, id, email, mgroup
+		$stmt = $ibforums->db->query(
+		    "SELECT name, id, email, mgroup
 		    FROM ibf_members
-		    WHERE LOWER(name)='" . addslashes($member_name) . "'");
+		    WHERE LOWER(name)='" . addslashes($member_name) . "'"
+        );
 
 		if (!$stmt->rowCount())
 		{
@@ -490,7 +500,7 @@ class Register
 				'ip_address' => $ibforums->input['IP_ADDRESS']
 			];
 
-			$ibforums->db->insertRow("ibf_validating", $data);
+			$ibforums->db->insertRow('ibf_validating', $data);
 
 			//------------------------------------------------------------
 			// Send out the email.
@@ -559,8 +569,10 @@ class Register
 
 			// Remove old reg requests from the DB
 
-			$ibforums->db->query("DELETE FROM ibf_reg_antispam
-				    WHERE ctime < '$r_date'");
+			$ibforums->db->query(
+			    "DELETE FROM ibf_reg_antispam
+				WHERE ctime < '$r_date'"
+            );
 
 			// Set a new ID for this reg request...
 
@@ -581,7 +593,7 @@ class Register
 				'ctime'      => time(),
 			];
 
-			$ibforums->db->insertRow("ibf_reg_antispam", $data);
+			$ibforums->db->insertRow('ibf_reg_antispam', $data);
 		}
 
 		//-----------------------------------------------
@@ -592,10 +604,12 @@ class Register
 		$optional_output = "";
 		$field_data      = array();
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_pfields_data
-			    WHERE fshowreg=1
-			    ORDER BY forder");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_pfields_data
+			WHERE fshowreg=1
+			ORDER BY forder"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -753,9 +767,11 @@ class Register
 
 		$custom_fields = array();
 
-		$stmt = $ibforums->db->query("SELECT *
+		$stmt = $ibforums->db->query(
+		    "SELECT *
 		    FROM ibf_pfields_data
-                    WHERE fshowreg=1");
+            WHERE fshowreg=1"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -877,10 +893,12 @@ class Register
 		//| Is this name already taken?
 		//+--------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT id
+		$stmt = $ibforums->db->query(
+		    "SELECT id
 		    FROM ibf_members
 		    WHERE LOWER(name)='" . addslashes(mb_strtolower($in_username)) . "'
-		    LIMIT 1");
+		    LIMIT 1"
+        );
 
 		$name_check = $stmt->fetch();
 
@@ -902,9 +920,11 @@ class Register
 
 		if (!$ibforums->vars['allow_dup_email'])
 		{
-			$stmt = $ibforums->db->query("SELECT id
+			$stmt = $ibforums->db->query(
+			    "SELECT id
 			    FROM ibf_members
-			    WHERE email='" . addslashes($in_email) . "'");
+			    WHERE email='" . addslashes($in_email) . "'"
+            );
 
 			$email_check = $stmt->fetch();
 
@@ -983,9 +1003,11 @@ class Register
 				return;
 			}
 
-			$stmt = $ibforums->db->query("SELECT *
+			$stmt = $ibforums->db->query(
+			    "SELECT *
 			    FROM ibf_reg_antispam
-			    WHERE regid='" . trim(addslashes($ibforums->input['regid'])) . "'");
+			    WHERE regid='" . trim(addslashes($ibforums->input['regid'])) . "'"
+            );
 
 			if (!$row = $stmt->fetch())
 			{
@@ -1003,8 +1025,10 @@ class Register
 				return;
 			}
 
-			$ibforums->db->query("DELETE FROM ibf_reg_antispam
-			    WHERE regid='" . trim(addslashes($ibforums->input['regid'])) . "'");
+			$ibforums->db->query(
+			    "DELETE FROM ibf_reg_antispam
+			    WHERE regid='" . trim(addslashes($ibforums->input['regid'])) . "'"
+            );
 		}
 
 		//+--------------------------------------------
@@ -1069,7 +1093,7 @@ class Register
 		//| Insert into the DB
 		//+--------------------------------------------
 
-		$ibforums->db->insertRow("ibf_members", $member);
+		$ibforums->db->insertRow('ibf_members', $member);
 
 		// id of new user
 		$member_id    = $ibforums->db->lastInsertId();
@@ -1088,20 +1112,24 @@ class Register
 			$std->sendpm($member_id, $pm_message, $pm_subject, $ibforums->vars['auto_pm_from']);
 		}
 
-		$ibforums->db->exec("INSERT INTO ibf_member_extra
-			(id) VALUES ($member_id)");
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_member_extra
+			(id) VALUES ($member_id)"
+        );
 
 		//+--------------------------------------------
 		//| Insert into the custom profile fields DB
 		//+--------------------------------------------
 		// Ensure deleted members profile fields are removed.
 
-		$ibforums->db->query("DELETE FROM ibf_pfields_content
-                    WHERE member_id='" . $member['id'] . "'");
+		$ibforums->db->query(
+		    "DELETE FROM ibf_pfields_content
+            WHERE member_id='" . $member['id'] . "'"
+        );
 
 		$custom_fields['member_id'] = $member['id'];
 
-		$ibforums->db->insertRow("ibf_pfields_content", $custom_fields);
+		$ibforums->db->insertRow('ibf_pfields_content', $custom_fields);
 
 		//+--------------------------------------------
 
@@ -1141,7 +1169,7 @@ class Register
 					'service'    => ''
 				];
 
-				$ibforums->db->insertRow("ibf_validating", $data);
+				$ibforums->db->insertRow('ibf_validating', $data);
 
 				if ($ibforums->vars['reg_auth_type'] == 'user')
 				{
@@ -1201,7 +1229,12 @@ class Register
 
 				// We don't want to preview, or get them to validate via email.
 
-				$ibforums->db->exec("UPDATE ibf_stats SET " . "MEM_COUNT=MEM_COUNT+1, " . "LAST_MEM_NAME='" . $member['name'] . "', " . "LAST_MEM_ID='" . $member['id'] . "'");
+				$ibforums->db->exec(
+				    "UPDATE ibf_stats
+					SET MEM_COUNT=MEM_COUNT+1,
+						LAST_MEM_NAME='" . $member['name'] . "',
+						LAST_MEM_ID='" . $member['id'] . "'"
+                );
 
 				if ($ibforums->vars['new_reg_notify'])
 				{
@@ -1240,7 +1273,7 @@ class Register
 				'ip_address' => $member['ip_address']
 			];
 
-			$ibforums->db->insertRow("ibf_validating", $data);
+			$ibforums->db->insertRow('ibf_validating', $data);
 
 			$print->redirect_screen($ibforums->lang['cp_success'], 'act=Reg&CODE=12');
 		}
@@ -1289,9 +1322,11 @@ class Register
 		// Attempt to get the profile of the requesting user
 		//------------------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT id, name, password, email
-			    FROM ibf_members
-			    WHERE id=$in_user_id");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, name, password, email
+			FROM ibf_members
+			WHERE id=$in_user_id"
+        );
 
 		if (!$member = $stmt->fetch())
 		{
@@ -1302,9 +1337,11 @@ class Register
 		// Get validating info..
 		//------------------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_validating
-			    WHERE member_id=$in_user_id");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_validating
+			WHERE member_id=$in_user_id"
+        );
 
 		if (!$validate = $stmt->fetch())
 		{
@@ -1338,16 +1375,23 @@ class Register
 					$validate['real_group'] = $ibforums->vars['newbie_group'];
 				}
 
-				$ibforums->db->exec("UPDATE ibf_members
-					    SET mgroup='" . intval($validate['real_group']) . "',
+				$ibforums->db->exec(
+				    "UPDATE ibf_members
+					SET mgroup='" . intval($validate['real_group']) . "',
 						old_group='" . intval($validate['real_group']) . "'
-					    WHERE id='" . intval($member['id']) . "'");
+					WHERE id='" . intval($member['id']) . "'"
+                );
 
 				//------------------------------------------------------------
 				// Update the stats...
 				//------------------------------------------------------------
 
-				$ibforums->db->exec("UPDATE ibf_stats SET " . "MEM_COUNT=MEM_COUNT+1, " . "LAST_MEM_NAME='" . $member['name'] . "', " . "LAST_MEM_ID='" . $member['id'] . "'");
+				$ibforums->db->exec(
+				    "UPDATE ibf_stats
+					SET MEM_COUNT=MEM_COUNT+1,
+					    LAST_MEM_NAME='" . $member['name'] . "',
+					    LAST_MEM_ID='" . $member['id'] . "'"
+                );
 
 				$std->my_setcookie("member_id", $member['id'], 1);
 				$std->my_setcookie("pass_hash", $member['password'], 1);
@@ -1356,10 +1400,12 @@ class Register
 				// Remove "dead" validation
 				//------------------------------------------------------------
 
-				$ibforums->db->query("DELETE FROM ibf_validating
-					    WHERE vid='" . $validate['vid'] . "'
-						OR (member_id={$member['id']}
-							AND validate_type='new_reg')");
+				$ibforums->db->query(
+				    "DELETE FROM ibf_validating
+					WHERE vid='" . $validate['vid'] . "'
+					   OR (member_id={$member['id']}
+					      AND validate_type='new_reg')"
+                );
 
 				$this->bash_dead_validations();
 				if ($ibforums->vars['auto_pm_on'] == 1)
@@ -1407,9 +1453,12 @@ class Register
 
 					$new_pass = md5($pass_a);
 
-					$ibforums->db->exec("UPDATE ibf_members SET
-						password='$new_pass'
-					    WHERE id='" . intval($member['id']) . "'");
+					$ibforums->db->exec(
+					    "UPDATE ibf_members
+						SET
+							password='$new_pass'
+						WHERE id='" . intval($member['id']) . "'"
+                    );
 
 					$std->my_setcookie("member_id", $member['id'], 1);
 					$std->my_setcookie("pass_hash", $new_pass, 1);
@@ -1418,10 +1467,12 @@ class Register
 					// Remove "dead" validation
 					//------------------------------------------------------------
 
-					$ibforums->db->query("DELETE FROM ibf_validating
+					$ibforums->db->query(
+					    "DELETE FROM ibf_validating
 					    WHERE vid='" . $validate['vid'] . "'
-						OR (member_id={$member['id']}
-							AND validate_type='lost_pass')");
+						   OR (member_id={$member['id']}
+							  AND validate_type='lost_pass')"
+                    );
 
 					$this->bash_dead_validations();
 
@@ -1444,10 +1495,13 @@ class Register
 							$validate['real_group'] = $ibforums->vars['newbie_group'];
 						}
 
-						$ibforums->db->exec("UPDATE ibf_members SET
+						$ibforums->db->exec(
+						    "UPDATE ibf_members
+							SET
 								mgroup='" . intval($validate['real_group']) . "',
 								old_group='" . intval($validate['real_group']) . "'
-							    WHERE id='" . intval($member['id']) . "'");
+							WHERE id='" . intval($member['id']) . "'"
+                        );
 
 						$std->my_setcookie("member_id", $member['id'], 1);
 						$std->my_setcookie("pass_hash", $member['password'], 1);
@@ -1456,10 +1510,12 @@ class Register
 						// Remove "dead" validation
 						//------------------------------------------------------------
 
-						$ibforums->db->query("DELETE FROM ibf_validating
+						$ibforums->db->query(
+						    "DELETE FROM ibf_validating
 						    WHERE vid='" . $validate['vid'] . "'
-							OR (member_id={$member['id']}
-							AND validate_type='email_chg')");
+							   OR (member_id={$member['id']}
+							      AND validate_type='email_chg')"
+                        );
 
 						$this->bash_dead_validations();
 
@@ -1515,9 +1571,11 @@ class Register
 	{
 		global $ibforums;
 
-		$stmt  = $ibforums->db->query("SELECT RULES_TEXT
-			    FROM ib_forum_rules
-			    WHERE ID='00'");
+		$stmt  = $ibforums->db->query(
+		    "SELECT RULES_TEXT
+			FROM ib_forum_rules
+			WHERE ID='00'"
+        );
 		$rules = $stmt->fetch();
 
 		$this->output     = View::make("register.show_rules", ['text' => $rules]);//todo no such a template
@@ -1575,9 +1633,11 @@ class Register
 				// Attempt to get the profile of the requesting user
 				//------------------------------------------------------------
 
-				$stmt = $ibforums->db->query("SELECT id, name, password, email
-					    FROM ibf_members
-					    WHERE id=$in_user_id");
+				$stmt = $ibforums->db->query(
+				    "SELECT id, name, password, email
+					FROM ibf_members
+					WHERE id=$in_user_id"
+                );
 
 				if (!$member = $stmt->fetch())
 				{
@@ -1588,11 +1648,13 @@ class Register
 				// Get validating info..
 				//------------------------------------------------------------
 
-				$stmt = $ibforums->db->query("SELECT *
-					    FROM ibf_validating
-					    WHERE member_id=$in_user_id
+				$stmt = $ibforums->db->query(
+				    "SELECT *
+					FROM ibf_validating
+					WHERE member_id=$in_user_id
 						AND vid='$in_validate_key'
-						AND validate_type='lost_pass'");
+						AND validate_type='lost_pass'"
+                );
 
 				if (!$validate = $stmt->fetch())
 				{
@@ -1629,9 +1691,11 @@ class Register
 
 		// Get the info from the db
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_reg_antispam
-			    WHERE regid='" . trim(addslashes($ibforums->input['rc'])) . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_reg_antispam
+			WHERE regid='" . trim(addslashes($ibforums->input['rc'])) . "'"
+        );
 
 		if (!$row = $stmt->fetch())
 		{
@@ -1681,13 +1745,14 @@ class Register
 		{
 			$less_than = time() - $ibforums->vars['validate_day_prune'] * 86400;
 
-			$stmt = $ibforums->db->query("SELECT v.vid, v.member_id,
+			$stmt = $ibforums->db->query(
+			    "SELECT v.vid, v.member_id,
 					m.posts
-			            FROM ibf_validating v
-			            LEFT JOIN ibf_members m ON (v.member_id=m.id)
-				    WHERE v.validate_type='new_reg'
-					AND v.entry_date < $less_than
-					");
+			    FROM ibf_validating v
+			        LEFT JOIN ibf_members m ON (v.member_id=m.id)
+				WHERE v.validate_type='new_reg'
+					AND v.entry_date < $less_than"
+            );
 
 			while ($i = $stmt->fetch())
 			{
@@ -1702,14 +1767,22 @@ class Register
 
 			if (count($mids) > 0)
 			{
-				$ibforums->db->query("DELETE FROM ibf_members
-                                            WHERE id IN(" . implode(",", $mids) . ")");
-				$ibforums->db->query("DELETE FROM ibf_member_extra
-                                            WHERE id IN(" . implode(",", $mids) . ")");
-				$ibforums->db->query("DELETE FROM ibf_pfields_content
-                                            WHERE member_id IN(" . implode(",", $mids) . ")");
-				$ibforums->db->query("DELETE FROM ibf_validating
-                                            WHERE vid IN(" . implode(",", $vids) . ")");
+				$ibforums->db->query(
+				    "DELETE FROM ibf_members
+                    WHERE id IN(" . implode(",", $mids) . ")"
+                );
+				$ibforums->db->query(
+				    "DELETE FROM ibf_member_extra
+                    WHERE id IN(" . implode(",", $mids) . ")"
+                );
+				$ibforums->db->query(
+				    "DELETE FROM ibf_pfields_content
+                    WHERE member_id IN(" . implode(",", $mids) . ")"
+                );
+				$ibforums->db->query(
+				    "DELETE FROM ibf_validating
+                    WHERE vid IN(" . implode(",", $vids) . ")"
+                );
 
 				if (USE_MODULES == 1)
 				{

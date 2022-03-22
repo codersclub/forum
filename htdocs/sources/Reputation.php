@@ -52,7 +52,11 @@ class Reputation
 					$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 				}
 
-				$stmt = $ibforums->db->query("SELECT name FROM ibf_members WHERE id='" . $ibforums->input['mid'] . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT name
+                    FROM ibf_members
+                    WHERE id='" . $ibforums->input['mid'] . "'"
+                );
 
 				if (!$stmt->rowCount())
 				{
@@ -88,8 +92,14 @@ class Reputation
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
-			$stmt = $ibforums->db->query("SELECT msg_date FROM ibf_reputation WHERE member_id='" . $ibforums->input['mid'] . "' AND
-			    from_id='" . $ibforums->member['id'] . "' ORDER BY msg_date DESC LIMIT 1");
+			$stmt = $ibforums->db->query(
+			    "SELECT msg_date
+                FROM ibf_reputation
+                WHERE member_id='" . $ibforums->input['mid'] . "'
+                  AND from_id='" . $ibforums->member['id'] . "'
+                ORDER BY msg_date DESC
+                LIMIT 1"
+            );
 
 			if ($info = $stmt->fetch())
 			{
@@ -162,7 +172,11 @@ class Reputation
 
 		if (time() - $ibforums->lastclick > 2)
 		{
-			$ibforums->db->exec("UPDATE ibf_members SET {$field}='" . $new . "' WHERE id='" . $memid . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET {$field}='" . $new . "'
+				WHERE id='" . $memid . "'"
+            );
 		}
 	}
 
@@ -170,7 +184,11 @@ class Reputation
 	{
 		global $ibforums, $std;
 
-		$stmt = $ibforums->db->query("SELECT inc_postcount FROM ibf_forums WHERE id='" . intval($ibforums->input['f']) . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT inc_postcount
+            FROM ibf_forums
+            WHERE id='" . intval($ibforums->input['f']) . "'"
+        );
 
 		if (!$row = $stmt->fetch())
 		{
@@ -181,7 +199,11 @@ class Reputation
 			? "rep"
 			: "ratting";
 
-		$stmt = $ibforums->db->query("SELECT {$field} as rep FROM ibf_members WHERE id='" . $memid . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT {$field} as rep
+            FROM ibf_members
+            WHERE id='" . $memid . "'"
+        );
 
 		$info = $stmt->fetch();
 
@@ -263,9 +285,16 @@ class Reputation
 			return;
 		}
 
-		$stmt = $ibforums->db->query("SELECT p.author_id, p.forum_id, p.topic_id, t.title, m.name as member_name, f.name as forum_name
-		FROM ibf_posts p, ibf_topics t, ibf_members m, ibf_forums f WHERE
-		p.pid='" . $ibforums->input['p'] . "' and t.tid=p.topic_id and m.id=p.author_id and f.id=p.forum_id");
+		$stmt = $ibforums->db->query(
+		    "SELECT p.author_id, p.forum_id, p.topic_id,
+                t.title, m.name as member_name,
+                f.name as forum_name
+		    FROM ibf_posts p, ibf_topics t, ibf_members m, ibf_forums f
+            WHERE p.pid='" . $ibforums->input['p'] . "'
+              AND t.tid=p.topic_id
+              AND m.id=p.author_id
+              AND f.id=p.forum_id"
+        );
 
 		if ($check = $stmt->fetch())
 		{
@@ -301,7 +330,12 @@ class Reputation
 
 				$title = "Обнаружена подделка ссылки выставления рейтинга";
 
-				$stmt = $ibforums->db->query("SELECT member_id FROM ibf_moderators WHERE member_id != -1 and forum_id='" . $check['forum_id'] . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT member_id
+                    FROM ibf_moderators
+                    WHERE member_id != -1
+                      AND forum_id='" . $check['forum_id'] . "'"
+                );
 				while ($moderator = $stmt->fetch())
 				{
 					$std->sendpm($moderator['member_id'], $mes, $title, 8617, 1);
@@ -423,8 +457,13 @@ class Reputation
 					? "1"
 					: "0";
 
-				$stmt = $ibforums->db->query("SELECT COUNT(r.msg_id) as total FROM ibf_reputation r, ibf_forums f
-					    WHERE f.id=r.forum_id and f.inc_postcount={$ratting_type} and r.member_id='" . $memid . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT COUNT(r.msg_id) as total
+                    FROM ibf_reputation r, ibf_forums f
+					WHERE f.id=r.forum_id
+					  AND f.inc_postcount={$ratting_type}
+					  AND r.member_id='" . $memid . "'"
+                );
 
 				$max = $stmt->fetch();
 
@@ -451,13 +490,22 @@ class Reputation
 					? "rep"
 					: "ratting";
 
-				$stmt = $ibforums->db->query("SELECT id, name, {$ratting} as rep FROM ibf_members WHERE id='" . $memid . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT id, name, {$ratting} as rep
+                    FROM ibf_members
+                    WHERE id='" . $memid . "'"
+                );
 
 				$info = $stmt->fetch();
 
-				$stmt = $ibforums->db->query("SELECT COUNT(r.msg_id) as ups FROM ibf_reputation r, ibf_forums f
-				            WHERE r.member_id='" . $memid . "' and r.code='01' and
-						  f.id=r.forum_id and f.inc_postcount={$ratting_type}");
+				$stmt = $ibforums->db->query(
+				    "SELECT COUNT(r.msg_id) as ups
+                    FROM ibf_reputation r, ibf_forums f
+				    WHERE r.member_id='" . $memid . "'
+				      AND r.code='01'
+				      AND f.id=r.forum_id
+				      AND f.inc_postcount={$ratting_type}"
+                );
 
 				if ($count = $stmt->fetch())
 				{
@@ -483,13 +531,15 @@ class Reputation
 
 				$output .= View::make("rep.ShowHeader");
 
-				$stmt = $ibforums->db->query("SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
-					    FROM (ibf_reputation r, ibf_forums f )
-				            LEFT JOIN ibf_members m ON (m.id=r.from_id)
-				            LEFT JOIN ibf_topics t ON (r.topic_id=t.tid)
-				            WHERE r.member_id='" . $memid . "' and r.forum_id=f.id and f.inc_postcount={$ratting_type}
-					    ORDER BY r.msg_date DESC
-				            LIMIT " . $ibforums->input['st'] . ", " . $ibforums->vars['rep_per_page']);
+				$stmt = $ibforums->db->query(
+				    "SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
+					FROM (ibf_reputation r, ibf_forums f )
+				    LEFT JOIN ibf_members m ON (m.id=r.from_id)
+				    LEFT JOIN ibf_topics t ON (r.topic_id=t.tid)
+				    WHERE r.member_id='" . $memid . "' and r.forum_id=f.id and f.inc_postcount={$ratting_type}
+					ORDER BY r.msg_date DESC
+				    LIMIT " . $ibforums->input['st'] . ", " . $ibforums->vars['rep_per_page']
+                );
 
 				if (!$stmt->rowCount())
 				{
@@ -594,7 +644,11 @@ class Reputation
 					$pfix = "' ";
 				}
 
-				$stmt = $ibforums->db->query("SELECT COUNT(msg_id) as total FROM ibf_reputation r WHERE from_id = '" . $memid . $pfix);
+				$stmt = $ibforums->db->query(
+				    "SELECT COUNT(msg_id) as total
+                    FROM ibf_reputation r
+                    WHERE from_id = '" . $memid . $pfix
+                );
 				$max  = $stmt->fetch();
 
 				$stmt->closeCursor();
@@ -616,10 +670,13 @@ class Reputation
 				$output .= View::make("rep.Links", ['links' => $links]);
 				$output .= "<br>";
 
-				$stmt = $ibforums->db->query("SELECT m.id, m.name, COUNT(r.from_id) as times
-					    FROM ibf_reputation r
-					    LEFT JOIN ibf_members m ON (m.id = r.from_id)
-					    WHERE r.from_id='" . $memid . $pfix . "GROUP BY r.from_id");
+				$stmt = $ibforums->db->query(
+				    "SELECT m.id, m.name, COUNT(r.from_id) as times
+					FROM ibf_reputation r
+					LEFT JOIN ibf_members m ON (m.id = r.from_id)
+					WHERE r.from_id='" . $memid . $pfix . "
+					GROUP BY r.from_id"
+                );
 
 				if (!$stmt->rowCount())
 				{
@@ -628,9 +685,12 @@ class Reputation
 
 				$info = $stmt->fetch();
 
-				$stmt = $ibforums->db->query("SELECT COUNT(r.from_id) as ups
-					    FROM ibf_reputation r
-					    WHERE r.code='01' AND r.from_id='" . $memid . $pfix);
+				$stmt = $ibforums->db->query(
+				    "SELECT COUNT(r.from_id) as ups
+					FROM ibf_reputation r
+					WHERE r.code='01'
+					  AND r.from_id='" . $memid . $pfix
+                );
 
 				$row           = $stmt->fetch();
 				$info['ups']   = $row['ups'];
@@ -642,12 +702,15 @@ class Reputation
 
 				$output .= View::make("rep.ShowSelfHeader");
 
-				$stmt = $ibforums->db->query("SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
-					    FROM (ibf_reputation r, ibf_forums f )
-				            LEFT JOIN ibf_members m ON (m.id=r.member_id)
-				            LEFT JOIN ibf_topics t ON (r.forum_id=t.forum_id AND r.topic_id=t.tid)
-				            WHERE r.forum_id=f.id and r.from_id='" . $memid . $pfix . "ORDER BY r.msg_date DESC
-				            LIMIT " . $ibforums->input['st'] . ", " . $ibforums->vars['rep_per_page']);
+				$stmt = $ibforums->db->query(
+				    "SELECT r.*, m.name, f.name as forum, t.title, f.read_perms
+					FROM (ibf_reputation r, ibf_forums f )
+				    LEFT JOIN ibf_members m ON (m.id=r.member_id)
+				    LEFT JOIN ibf_topics t ON (r.forum_id=t.forum_id AND r.topic_id=t.tid)
+				    WHERE r.forum_id=f.id and r.from_id='" . $memid . $pfix . "
+				    ORDER BY r.msg_date DESC
+				    LIMIT " . $ibforums->input['st'] . ", " . $ibforums->vars['rep_per_page']
+                );
 
 				if (!$stmt->rowCount())
 				{
@@ -750,8 +813,13 @@ class Reputation
 
 				$ibforums->input['id'] = intval($ibforums->input['id']);
 
-				$stmt = $ibforums->db->query("SELECT member_id FROM ibf_reputation WHERE msg_id='" . $ibforums->input['id'] . "' AND
-					    member_id='" . $memid . "' LIMIT 1");
+				$stmt = $ibforums->db->query(
+				    "SELECT member_id
+                    FROM ibf_reputation
+                    WHERE msg_id='" . $ibforums->input['id'] . "'
+                      AND member_id='" . $memid . "'
+                    LIMIT 1"
+                );
 
 				if (!$stmt->rowCount())
 				{
@@ -765,7 +833,10 @@ class Reputation
 //					$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_self'));
 				}
 
-				$ibforums->db->exec("DELETE FROM ibf_reputation WHERE msg_id='" . $ibforums->input['id'] . "'");
+				$ibforums->db->exec(
+				    "DELETE FROM ibf_reputation
+					WHERE msg_id='" . $ibforums->input['id'] . "'"
+                );
 
 				$std->rep_recount($memid);
 
@@ -883,7 +954,10 @@ class Reputation
 					$std->Error(array('LEVEL' => 5, 'MSG' => 'incorrect_use'));
 				}
 
-				$stmt = $ibforums->db->query("SELECT COUNT(id) as total_members FROM ibf_members");
+				$stmt = $ibforums->db->query(
+				    "SELECT COUNT(id) as total_members
+                    FROM ibf_members"
+                );
 
 				$max = $stmt->fetch();
 
@@ -911,11 +985,15 @@ class Reputation
 					$pfix = "";
 				}
 
-				$stmt = $ibforums->db->query("SELECT m.name, m.id, m.rep, m.allow_rep, m.allow_anon, COUNT(r.msg_id) AS times
-					    FROM ibf_members m
-					    LEFT JOIN ibf_reputation r ON (r.from_id = m.id{$pfix})
-					    GROUP BY m.id ORDER BY {$this->sort_key} {$this->sort_order}
-					    LIMIT {$this->first},{$this->max_results}");
+				$stmt = $ibforums->db->query(
+				    "SELECT m.name, m.id, m.rep, m.allow_rep, m.allow_anon,
+                        COUNT(r.msg_id) AS times
+					FROM ibf_members m
+					LEFT JOIN ibf_reputation r ON (r.from_id = m.id{$pfix})
+					GROUP BY m.id
+                    ORDER BY {$this->sort_key} {$this->sort_order}
+					LIMIT {$this->first},{$this->max_results}"
+                );
 
 				while ($member = $stmt->fetch())
 				{

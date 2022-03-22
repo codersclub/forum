@@ -395,9 +395,11 @@ class Moderate
 
 		$this->parser = new PostParser(1);
 
-		$stmt = $ibforums->db->query("SELECT *
+		$stmt = $ibforums->db->query(
+		    "SELECT *
 		    FROM ibf_topic_mmod
-		    WHERE mm_id={$this->mm_id}");
+		    WHERE mm_id={$this->mm_id}"
+        );
 
 		if (!$this->mm_data = $stmt->fetch())
 		{
@@ -467,9 +469,11 @@ class Moderate
 
 		}
 
-		$ibforums->db->exec("UPDATE ibf_topics
+		$ibforums->db->exec(
+		    "UPDATE ibf_topics
 		    SET title=CONCAT('$pre', title, '$end')
-		    WHERE tid IN(" . implode(",", $this->tids) . ")");
+		    WHERE tid IN(" . implode(",", $this->tids) . ")"
+        );
 
 		//-------------------------------------
 		// Add reply?
@@ -507,21 +511,25 @@ class Moderate
 			// Move to forum still exist?
 			//-------------------------------------
 
-			$stmt = $ibforums->db->query("SELECT
-				id,
-				name,
-				subwrap,
-				sub_can_post
+			$stmt = $ibforums->db->query(
+			    "SELECT
+				    id,
+				    name,
+				    subwrap,
+				    sub_can_post
 			    FROM ibf_forums
-			    WHERE id=" . $this->mm_data['topic_move']);
+			    WHERE id=" . $this->mm_data['topic_move']
+            );
 
 			if ($r = $stmt->fetch())
 			{
 				if ($r['subwrap'] == 1 AND $r['sub_can_post'] != 1)
 				{
-					$ibforums->db->exec("UPDATE ibf_topic_mmod
+					$ibforums->db->exec(
+					    "UPDATE ibf_topic_mmod
 					    SET topic_move=0
-					    WHERE mm_id=" . $this->mm_id);
+					    WHERE mm_id=" . $this->mm_id
+                    );
 				} else
 				{
 					if (!in_array($r['id'], $this->tids_forums))
@@ -533,9 +541,11 @@ class Moderate
 				}
 			} else
 			{
-				$ibforums->db->exec("UPDATE ibf_topic_mmod
+				$ibforums->db->exec(
+				    "UPDATE ibf_topic_mmod
 				    SET topic_move=0
-				    WHERE mm_id=" . $this->mm_id);
+				    WHERE mm_id=" . $this->mm_id
+                );
 			}
 		}
 
@@ -554,7 +564,11 @@ class Moderate
 			$this->modfunc->forum_recount($this->forum['id']);
 		}
 
-		$stmt = $ibforums->db->query("SELECT name from ibf_forums where id IN( " . implode($this->tids_forums) . ");");
+		$stmt = $ibforums->db->query(
+		    "SELECT name
+            FROM ibf_forums
+            WHERE id IN( " . implode($this->tids_forums) . ");"
+        );
 		while ($r = $stmt->fetch())
 		{
 			$this->moderate_log("Applied multi-mod '{$this->mm_data['mm_title']}' on forum {$r['name']}");
@@ -577,11 +591,13 @@ class Moderate
 			return FALSE;
 		}
 
-		$stmt = $ibforums->db->query("SELECT
-			DISTINCT(md.member_id) as mid,
-			md.view_ip as ip
+		$stmt = $ibforums->db->query(
+		    "SELECT
+			    DISTINCT(md.member_id) as mid,
+			    md.view_ip as ip
 			FROM ibf_moderators md, ibf_forums_order f
-		    WHERE f.pid='" . $this->forum_id . "' and f.id=md.forum_id");
+		    WHERE f.pid='" . $this->forum_id . "' and f.id=md.forum_id"
+        );
 
 		while ($forum = $stmt->fetch())
 		{
@@ -668,9 +684,11 @@ class Moderate
 
 		if ($ibforums->member['g_is_supmod'] and $this->forum_id)
 		{
-			$stmt = $ibforums->db->query("SELECT name
-				    FROM ibf_forums
-				    WHERE id='" . $this->forum_id . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT name
+				FROM ibf_forums
+				WHERE id='" . $this->forum_id . "'"
+            );
 
 			if ($i = $stmt->fetch())
 			{
@@ -757,9 +775,11 @@ class Moderate
 			return;
 		}
 
-		$ibforums->db->exec("DELETE
+		$ibforums->db->exec(
+		    "DELETE
 			    FROM ibf_ip_table
-			    WHERE id='" . $ibforums->input['ip_select'] . "'");
+			    WHERE id='" . $ibforums->input['ip_select'] . "'"
+        );
 
 		$print->redirect_screen($ibforums->lang['p_moved'], "act=modcp&auth_key={$ibforums->input['s']}&CODE=ip");
 
@@ -806,9 +826,11 @@ class Moderate
 		}
 
 		// select id of parent forum
-		$stmt = $ibforums->db->query("SELECT parent_id
-			    FROM ibf_forums
-			    WHERE id='" . $this->forum_id . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT parent_id
+			FROM ibf_forums
+			WHERE id='" . $this->forum_id . "'"
+        );
 
 		$forum = $stmt->fetch();
 
@@ -816,11 +838,14 @@ class Moderate
 
 		if (!$ibforums->member['g_is_supmod'])
 		{
-			$stmt = $ibforums->db->query("SELECT mid
-				    FROM ibf_moderators
-				    WHERE
-					member_id='" . $ibforums->member['id'] . "' and
-					forum_id='" . $this->forum_id . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT mid
+				FROM ibf_moderators
+				WHERE
+					member_id='" . $ibforums->member['id'] . "'
+				AND
+					forum_id='" . $this->forum_id . "'"
+            );
 
 			if (!$stmt->rowCount() and !$this->upper_check())
 			{
@@ -834,15 +859,21 @@ class Moderate
 		}
 
 		// look may be this address already has been added
-		$stmt = $ibforums->db->query("SELECT id
-			    FROM ibf_ip_table
-			    WHERE
-				(fid='" . $fid . "' or fid='" . $this->forum_id . "' or fid=0) and
-				(ok1='" . $ibforums->input['ip1'] . "' or ok1='*') and
-				(ok2='" . $ibforums->input['ip2'] . "' or ok2='*') and
-				(ok3='" . $ibforums->input['ip3'] . "' or ok3='*') and
+		$stmt = $ibforums->db->query(
+		    "SELECT id
+			FROM ibf_ip_table
+			WHERE
+				(fid='" . $fid . "' OR fid='" . $this->forum_id . "' OR fid=0)
+			AND
+				(ok1='" . $ibforums->input['ip1'] . "' or ok1='*')
+			AND
+				(ok2='" . $ibforums->input['ip2'] . "' or ok2='*')
+			AND
+				(ok3='" . $ibforums->input['ip3'] . "' or ok3='*')
+			AND
 				(ok4='" . $ibforums->input['ip4'] . "' or ok4='*')
-			    LIMIT 1");
+		    LIMIT 1"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -852,16 +883,18 @@ class Moderate
 			return;
 		}
 
-		$ibforums->db->exec("INSERT INTO ibf_ip_table
+		$ibforums->db->exec(
+		    "INSERT INTO ibf_ip_table
 				(mid,fid,ok1,ok2,ok3,ok4,comment)
-			    VALUES (
+			VALUES (
 				'" . $ibforums->member['id'] . "',
 				'" . $this->forum_id . "',
 				'" . $ibforums->input['ip1'] . "',
 				'" . $ibforums->input['ip2'] . "',
 				'" . $ibforums->input['ip3'] . "',
 				'" . $ibforums->input['ip4'] . "',
-				'" . $ibforums->input['comment'] . "')");
+				'" . $ibforums->input['comment'] . "')"
+        );
 
 		$print->redirect_screen($ibforums->lang['p_moved'], "act=modcp&auth_key={$ibforums->input['s']}&CODE=ip&incoming=" . $ibforums->input['ip1'] . "." . $ibforums->input['ip2'] . "." . $ibforums->input['ip3'] . "." . $ibforums->input['ip4'] . "&f={$ibforums->input['f']}");
 	}
@@ -1026,9 +1059,11 @@ class Moderate
 
 					$sub[] = $this->forum_id;
 
-					$stmt = $ibforums->db->query("SELECT id
-						    FROM ibf_forums_order
-						    WHERE pid='" . $this->forum_id . "'");
+					$stmt = $ibforums->db->query(
+					    "SELECT id
+						FROM ibf_forums_order
+						WHERE pid='" . $this->forum_id . "'"
+                    );
 
 					while ($row = $stmt->fetch())
 					{
@@ -1051,8 +1086,10 @@ class Moderate
 			// Get forums we're allowed to view
 			$aforum = array();
 
-			$stmt = $ibforums->db->query("SELECT id, read_perms
-				    FROM ibf_forums");
+			$stmt = $ibforums->db->query(
+			    "SELECT id, read_perms
+				FROM ibf_forums"
+            );
 
 			while ($f = $stmt->fetch())
 			{
@@ -1071,10 +1108,12 @@ class Moderate
 				? " and p.author_id != 0"
 				: "";
 
-			$stmt = $ibforums->db->query("SELECT
+			$stmt = $ibforums->db->query(
+			    "SELECT
 					Count(DISTINCT(p.author_id)) as max
-				    FROM ibf_posts p
-				    WHERE " . $sql . $guests);
+				FROM ibf_posts p
+				WHERE " . $sql . $guests
+            );
 
 			$total_possible = $stmt->fetch();
 
@@ -1094,20 +1133,22 @@ class Moderate
 			                               ));
 			$this->output .= View::make("modcp.ip_member_start", ['pages' => $pages]);
 
-			$stmt = $ibforums->db->query("SELECT
+			$stmt = $ibforums->db->query(
+			    "SELECT
 					IFNULL(m.id,1) as id,
 					IFNULL(m.name,p.author_name) as name,
 					p.ip_address,
 					IF(IsNULL(m.posts),'--',m.posts) as posts,
 					m.joined,
 					m.mgroup
-				    FROM ibf_posts p
-				    LEFT JOIN ibf_members m
+				FROM ibf_posts p
+				LEFT JOIN ibf_members m
 					ON (m.id=p.author_id and p.author_id != 0)
-				    WHERE
+				WHERE
 					p.queued != 1 and " . $sql . $guests . "
-				    GROUP BY p.author_name
-				    LIMIT {$this->start_val},50");
+				GROUP BY p.author_name
+				LIMIT {$this->start_val},50"
+            );
 
 			while ($row = $stmt->fetch())
 			{
@@ -1141,7 +1182,11 @@ class Moderate
 
 					$sub[] = $this->forum_id;
 
-					$stmt = $ibforums->db->query("SELECT id FROM ibf_forums_order WHERE pid='" . $this->forum_id . "'");
+					$stmt = $ibforums->db->query(
+					    "SELECT id
+                        FROM ibf_forums_order
+                        WHERE pid='" . $this->forum_id . "'"
+                    );
 
 					while ($row = $stmt->fetch())
 					{
@@ -1164,10 +1209,12 @@ class Moderate
 			// Get forums we're allowed to view
 			$aforum = array();
 
-			$stmt = $ibforums->db->query("SELECT
+			$stmt = $ibforums->db->query(
+			    "SELECT
 					id,
 					read_perms
-				    FROM ibf_forums");
+				FROM ibf_forums"
+            );
 
 			while ($f = $stmt->fetch())
 			{
@@ -1182,11 +1229,12 @@ class Moderate
 				$sql .= " and not (forum_id IN (" . implode(",", $aforum) . "))";
 			}
 
-			$stmt = $ibforums->db->query("SELECT pid
-				    FROM ibf_posts
-				    WHERE
-					queued <> 1 AND
-					$sql");
+			$stmt = $ibforums->db->query(
+			    "SELECT pid
+				FROM ibf_posts
+				WHERE queued <> 1
+				  AND $sql"
+            );
 
 			$max_hits = $stmt->rowCount();
 
@@ -1309,13 +1357,15 @@ class Moderate
 
 		//----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				id,
 				subwrap,
 				sub_can_post,
 				name
-			    FROM ibf_forums
-			    WHERE id IN(" . implode(",", $source_id) . "," . $dest_id . ")");
+			FROM ibf_forums
+			WHERE id IN(" . implode(",", $source_id) . "," . $dest_id . ")"
+        );
 
 		if ($stmt->rowCount() < 2)
 		{
@@ -1411,11 +1461,13 @@ class Moderate
 			['forum_name' => $this->forum['name'], 'fid' => $this->forum['id']]
 		);
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				tid,
 				title
-			    FROM ibf_topics
-			    WHERE tid IN(" . implode(",", $this->tids) . ")");
+			FROM ibf_topics
+			WHERE tid IN(" . implode(",", $this->tids) . ")"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -1459,7 +1511,12 @@ class Moderate
 
 		// удалить зеркала
 		$topic_ids = implode(",", array_keys($this->tids_forums));
-		$stmt      = $ibforums->db->query("SELECT tid,forum_id FROM ibf_topics WHERE state='mirror' AND mirrored_topic_id IN ($topic_ids)");
+		$stmt      = $ibforums->db->query(
+		    "SELECT tid, forum_id
+            FROM ibf_topics
+            WHERE state='mirror'
+              AND mirrored_topic_id IN ($topic_ids)"
+        );
 		$tmp_forum = $this->modfunc->forum;
 		while ($row = $stmt->fetch())
 		{
@@ -1559,9 +1616,11 @@ class Moderate
 			$append_where .= ' AND state <> \'mirror\'';
 		}
 
-		$ibforums->db->exec("UPDATE ibf_topics
-			    SET $sql
-			    WHERE tid IN(" . implode(",", $this->tids) . ") $append_where");
+		$ibforums->db->exec(
+		    "UPDATE ibf_topics
+			SET $sql
+			WHERE tid IN(" . implode(",", $this->tids) . ") $append_where"
+        );
 
 		$this->moderate_log("Altered topics ($sql) (" . implode(",", $this->tids) . ") ");
 
@@ -1650,21 +1709,26 @@ class Moderate
 
 			$pid_count = count($approve_ids);
 
-			$ibforums->db->exec("UPDATE ibf_topics
-				    SET posts=posts+$pid_count
-				    WHERE tid='" . $ibforums->input['tid'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_topics
+				SET posts=posts+$pid_count
+				WHERE tid='" . $ibforums->input['tid'] . "'"
+            );
 
-			$ibforums->db->exec("UPDATE ibf_posts
-				    SET queued=0
-				    WHERE pid IN ($pids)");
+			$ibforums->db->exec(
+			    "UPDATE ibf_posts
+				SET queued=0
+				WHERE pid IN ($pids)"
+            );
 
 			// Update the posters ..er.. post count.
 
-			$stmt = $ibforums->db->query("SELECT author_id
-				    FROM ibf_posts
-				    WHERE
-					queued <> 1 and
-					pid IN ($pids)");
+			$stmt = $ibforums->db->query(
+			    "SELECT author_id
+				FROM ibf_posts
+				WHERE queued <> 1
+				  AND pid IN ($pids)"
+            );
 
 			$mems = array();
 
@@ -1688,20 +1752,24 @@ class Moderate
 
 					$groups = array();
 
-					$stmt = $ibforums->db->query("SELECT *
-						    FROM ibf_groups");
+					$stmt = $ibforums->db->query(
+					    "SELECT *
+						FROM ibf_groups"
+                    );
 
 					while ($g = $stmt->fetch())
 					{
 						$groups[$g['g_id']] = $g;
 					}
 
-					$stmt = $ibforums->db->query("SELECT
+					$stmt = $ibforums->db->query(
+					    "SELECT
 							id,
 							mgroup,
 							posts
 						 FROM ibf_members
-						 WHERE id IN ($mstring)");
+						 WHERE id IN ($mstring)"
+                    );
 
 					while ($member = $stmt->fetch())
 					{
@@ -1728,11 +1796,13 @@ class Moderate
 							}
 						}
 
-						$ibforums->db->exec("UPDATE ibf_members
-						 SET
-							$mgroup
-							posts=posts+1
-						 WHERE id={$member['id']}");
+						$ibforums->db->exec(
+						    "UPDATE ibf_members
+						    SET
+							    $mgroup
+							    posts=posts+1
+						    WHERE id={$member['id']}"
+                        );
 					}
 				}
 			}
@@ -1740,16 +1810,19 @@ class Moderate
 			// Update the last topic poster,
 			// time and number of posts.
 
-			$stmt = $ibforums->db->query("SELECT
+			$stmt = $ibforums->db->query(
+			    "SELECT
 					author_id,
 					author_name,
 					post_date
-				    FROM ibf_posts
-				    WHERE
-					topic_id='" . $ibforums->input['tid'] . "' AND
+				FROM ibf_posts
+				WHERE
+					topic_id='" . $ibforums->input['tid'] . "'
+				AND
 					queued <> 1
-				    ORDER BY pid DESC
-				    LIMIT 0,1");
+				ORDER BY pid DESC
+				LIMIT 0,1"
+            );
 
 			if ($last = $stmt->fetch())
 			{
@@ -1772,8 +1845,14 @@ class Moderate
 
 			// Delete 'dem postings
 
-			$ibforums->db->exec("UPDATE ibf_posts SET use_sig = 2, edit_time='" . time() . "', delete_after='" . strtotime('+180 days') . "'
-				    WHERE pid IN ($pids)");
+			$ibforums->db->exec(
+			    "UPDATE ibf_posts
+				SET
+					use_sig = 2,
+					edit_time='" . time() . "',
+					delete_after='" . strtotime('+180 days') . "'
+				WHERE pid IN ($pids)"
+            );
 
 			$topic           = new topic;
 			$topic->tid      = $this->topic_id;
@@ -1870,19 +1949,25 @@ class Moderate
 
 			// Sort out the approved bit
 
-			$ibforums->db->exec("UPDATE ibf_topics
-				    SET approved=1
-				    WHERE tid IN ($tids)");
+			$ibforums->db->exec(
+			    "UPDATE ibf_topics
+				SET approved=1
+				WHERE tid IN ($tids)"
+            );
 
-			$ibforums->db->exec("UPDATE ibf_posts
-				    SET queued=0
-				    WHERE topic_id IN ($tids)");
+			$ibforums->db->exec(
+			    "UPDATE ibf_posts
+				SET queued=0
+				WHERE topic_id IN ($tids)"
+            );
 
 			// Update the posters ..er.. post count.
 
-			$stmt = $ibforums->db->query("SELECT starter_id
-				    FROM ibf_topics
-				    WHERE tid IN ($tids)");
+			$stmt = $ibforums->db->query(
+			    "SELECT starter_id
+				FROM ibf_topics
+				WHERE tid IN ($tids)"
+            );
 
 			$mems = array();
 
@@ -1906,20 +1991,24 @@ class Moderate
 
 					$groups = array();
 
-					$stmt = $ibforums->db->query("SELECT *
-						    FROM ibf_groups");
+					$stmt = $ibforums->db->query(
+					    "SELECT *
+						FROM ibf_groups"
+                    );
 
 					while ($g = $stmt->fetch())
 					{
 						$groups[$g['g_id']] = $g;
 					}
 
-					$stmt = $ibforums->db->query("SELECT
+					$stmt = $ibforums->db->query(
+					    "SELECT
 							id,
 							mgroup,
 							posts
 						 FROM ibf_members
-						 WHERE id IN ($mstring)");
+						 WHERE id IN ($mstring)"
+                    );
 
 					while ($member = $stmt->fetch())
 					{
@@ -1946,11 +2035,13 @@ class Moderate
 							}
 						}
 
-						$ibforums->db->exec("UPDATE ibf_members
+						$ibforums->db->exec(
+						    "UPDATE ibf_members
 							 SET
 								$mgroup
 								posts=posts+1
-							 WHERE id={$member['id']}");
+							 WHERE id={$member['id']}"
+                        );
 					}
 				}
 			}
@@ -1964,11 +2055,15 @@ class Moderate
 			$tids = implode(",", $delete_ids);
 			// Delete 'dem postings
 
-			$ibforums->db->exec("DELETE FROM ibf_topics
-				    WHERE tid IN ($tids)");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_topics
+				WHERE tid IN ($tids)"
+            );
 
-			$ibforums->db->exec("DELETE FROM ibf_posts
-				    WHERE topic_id IN ($tids)");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_posts
+				WHERE topic_id IN ($tids)"
+            );
 
 			//----------------------------------------
 			// Remove search words for this posts
@@ -2121,11 +2216,14 @@ class Moderate
 			$link      = "";
 			$link_text = $ibforums->lang['cp_prune_dorem'];
 
-			$stmt   = $ibforums->db->query("SELECT COUNT(tid) as tcount
-				    FROM ibf_topics
-				    WHERE
-					approved=1 and
-					forum_id='" . $this->forum['id'] . "'");
+			$stmt   = $ibforums->db->query(
+			    "SELECT COUNT(tid) as tcount
+				FROM ibf_topics
+				WHERE
+					approved=1
+				  AND
+					forum_id='" . $this->forum['id'] . "'"
+            );
 			$tcount = $stmt->fetch();
 
 			$db_query = "SELECT COUNT(*) as count
@@ -2144,9 +2242,11 @@ class Moderate
 
 			if ($ibforums->input['member'])
 			{
-				$stmt = $ibforums->db->query("SELECT id
-					    FROM ibf_members
-					    WHERE name='" . $ibforums->input['member'] . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT id
+					FROM ibf_members
+					WHERE name='" . $ibforums->input['member'] . "'"
+                );
 
 				if (!$mem = $stmt->fetch())
 				{
@@ -2298,12 +2398,14 @@ class Moderate
 		// Query the DB for possible matches
 		//---------------------------------
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				id,
 				name
-			    FROM ibf_members
-			    WHERE name LIKE '" . $ibforums->input['name'] . "%'
-			    LIMIT 0,100");
+			FROM ibf_members
+			WHERE name LIKE '" . $ibforums->input['name'] . "%'
+			LIMIT 0,100"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -2357,15 +2459,18 @@ class Moderate
 
 		//--------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				m.*,
 				g.*
-			    FROM
+			FROM
 				ibf_members m,
 				ibf_groups g
-			    WHERE
-				m.id='" . $ibforums->input['memberid'] . "' AND
-				m.mgroup=g.g_id");
+			WHERE
+				m.id='" . $ibforums->input['memberid'] . "'
+			  AND
+				m.mgroup=g.g_id"
+        );
 
 		if (!$member = $stmt->fetch())
 		{
@@ -2402,12 +2507,14 @@ class Moderate
 		if (isset($ibforums->input['show_ips']))
 		{
 			$ip_row .= "\n<tr><td class='pformleft'>\nЗарегистрированные ИП адреса</td>\n<td class='pformright'>\n";
-			$stmt = $ibforums->db->query("SELECT
-				DISTINCT ip_address
-			FROM	ibf_posts
-			WHERE
-				author_id =  '" . $ibforums->input['memberid'] . "'
-			ORDER BY ip_address");
+			$stmt = $ibforums->db->query(
+			    "SELECT
+				    DISTINCT ip_address
+			    FROM	ibf_posts
+			    WHERE
+    				author_id =  '" . $ibforums->input['memberid'] . "'
+    			ORDER BY ip_address"
+            );
 			$num  = $stmt->rowCount();
 			if ($num)
 			{
@@ -2476,15 +2583,18 @@ class Moderate
 
 		//--------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				m.*,
 				g.*
-			    FROM
+			FROM
 				ibf_members m,
 				ibf_groups g
-			    WHERE
-				m.id='" . $ibforums->input['memberid'] . "' AND
-				m.mgroup=g.g_id");
+			WHERE
+				m.id='" . $ibforums->input['memberid'] . "'
+			  AND
+				m.mgroup=g.g_id"
+        );
 
 		if (!$member = $stmt->fetch())
 		{
@@ -2541,35 +2651,45 @@ class Moderate
 		{
 			$this->bash_uploaded_photos($member['id']);
 
-			$stmt = $ibforums->db->query("SELECT id
-				    FROM ibf_member_extra
-				    WHERE id={$member['id']}");
+			$stmt = $ibforums->db->query(
+			    "SELECT id
+				FROM ibf_member_extra
+				WHERE id={$member['id']}"
+            );
 
 			if ($stmt->rowCount())
 			{
-				$ibforums->db->exec("UPDATE ibf_member_extra
-					    SET
+				$ibforums->db->exec(
+				    "UPDATE ibf_member_extra
+					SET
 						photo_location='',
 						photo_type='',
 						photo_dimensions=''
-					    WHERE id={$member['id']}");
+					WHERE id={$member['id']}"
+                );
 			} else
 			{
-				$ibforums->db->exec("INSERT INTO ibf_member_extra
-					    SET
+				$ibforums->db->exec(
+				    "INSERT INTO ibf_member_extra
+					SET
 						photo_location='',
 						photo_type='',
 						photo_dimensions='',
-						id={$member['id']}");
+						id={$member['id']}"
+                );
 			}
 
 			//$this->bash_uploaded_avatars($member['id']);
 		}
 
-		$ibforums->db->updateRow("ibf_members", array_map([
-		                                                  $ibforums->db,
-		                                                  'quote'
-		                                                  ], $profile), "id=" . $ibforums->db->quote($ibforums->input['memberid']));
+		$ibforums->db->updateRow("ibf_members",
+                                 array_map([
+		                                     $ibforums->db,
+		                                     'quote'
+		                                   ],
+                                           $profile),
+                                 "id=" . $ibforums->db->quote($ibforums->input['memberid'])
+        );
 
 		$this->moderate_log("Edited Profile for: {$member['name']}");
 
@@ -2617,11 +2737,14 @@ class Moderate
 
 		// Get the counts for pending topics and posts and other assorted stuff etc and ok.
 
-		$stmt = $ibforums->db->query("SELECT COUNT(tid) as count
-			    FROM ibf_topics
-			    WHERE
-				approved <> 1 AND
-				forum_id='" . $this->forum['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(tid) as count
+			FROM ibf_topics
+			WHERE
+				approved <> 1
+			  AND
+				forum_id='" . $this->forum['id'] . "'"
+        );
 		$row  = $stmt->fetch();
 
 		$tcount = $row['count']
@@ -2630,12 +2753,16 @@ class Moderate
 
 		//-------------------------------
 
-		$stmt = $ibforums->db->query("SELECT COUNT(pid) as pcount
-			    FROM ibf_posts
-			    WHERE
-				queued=1 and
-				new_topic <> 1 and
-				forum_id='" . $this->forum['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT COUNT(pid) as pcount
+			FROM ibf_posts
+			WHERE
+				queued=1
+			  AND
+				new_topic <> 1
+			  AND
+				forum_id='" . $this->forum['id'] . "'"
+        );
 		$row  = $stmt->fetch();
 
 		$pcount = $row['pcount']
@@ -2718,12 +2845,14 @@ class Moderate
 		// Check for an attempt to move into a subwrap forum
 		//-----------------------------------
 
-		$stmt = $ibforums->db->query("SELECT
+		$stmt = $ibforums->db->query(
+		    "SELECT
 				subwrap,
 				id,
 				sub_can_post
-			    FROM ibf_forums
-			    WHERE id='$moveto'");
+			FROM ibf_forums
+			WHERE id='$moveto'"
+        );
 
 		$f = $stmt->fetch();
 
@@ -2798,9 +2927,11 @@ class Moderate
 			$fid = intval($ibforums->input['f']);
 		}
 
-		$stmt = $ibforums->db->query("SELECT *
-			    FROM ibf_forums
-			    WHERE id='" . $fid . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+			FROM ibf_forums
+			WHERE id='" . $fid . "'"
+        );
 
 		if (!$this->forum = $stmt->fetch())
 		{
@@ -2849,22 +2980,28 @@ class Moderate
 		$new = array();
 		if ($ibforums->member['g_is_supmod'])
 		{
-			$stmt = $ibforums->db->query("SELECT tid, forum_id as `fid`
-				    FROM ibf_topics
-				    WHERE tid IN (" . implode(",", $ids) . ")");
+			$stmt = $ibforums->db->query(
+			    "SELECT tid, forum_id as `fid`
+				FROM ibf_topics
+				WHERE tid IN (" . implode(",", $ids) . ")"
+            );
 		} else
 		{
-			$stmt = $ibforums->db->query("SELECT
+			$stmt = $ibforums->db->query(
+			    "SELECT
 					md.*,
 					t.tid,
 					t.forum_id as `fid`
-				    FROM
+				FROM
 					ibf_topics t,
 					ibf_moderators md
-				    WHERE md.forum_id=t.forum_id AND (
+				WHERE md.forum_id=t.forum_id
+				  AND (
 					(md.member_id='" . $ibforums->member['id'] . "') OR
-					(md.group_id='" . $ibforums->member['mgroup'] . "')) and
-				          t.tid IN (" . implode(",", $ids) . ")");
+					(md.group_id='" . $ibforums->member['mgroup'] . "'))
+				  AND
+				    t.tid IN (" . implode(",", $ids) . ")"
+            );
 
 		}
 		while ($row = $stmt->fetch())
@@ -2981,14 +3118,15 @@ class Moderate
 		$access = 0;
 		if ($syntax != '')
 		{
-			$stmt = $ibforums->db->query("SELECT
+			$stmt = $ibforums->db->query(
+			    "SELECT
 					a.syntax_id,
 					a.member_id
-				     FROM ibf_syntax_list l
-				     INNER JOIN ibf_syntax_access a
-					ON a.syntax_id = l.id and
-					   a.member_id = " . $ibforums->member['id'] . "
-				     WHERE l.id = '" . $syntax_id . "'");
+				FROM ibf_syntax_list l
+				INNER JOIN ibf_syntax_access a
+					ON (a.syntax_id = l.id AND a.member_id = " . $ibforums->member['id'] . ")
+				WHERE l.id = '" . $syntax_id . "'"
+            );
 
 			if ($row = $stmt->fetch())
 			{
@@ -3197,7 +3335,11 @@ class Moderate
 
 		if ($rule == 'new')
 		{
-			$stmt = $ibforums->db->query("select max(record) as max_record from ibf_syntax_rules where syntax_id = '" . $syntax_id . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT max(record) as max_record
+                FROM ibf_syntax_rules
+                WHERE syntax_id = '" . $syntax_id . "'"
+            );
 			if ($row = $stmt->fetch())
 			{
 				$rule = $row ['max_record'] + 1;
@@ -3206,17 +3348,16 @@ class Moderate
 				$rule = 1;
 			}
 
-			$ibforums->db->prepare("INSERT INTO ibf_syntax_rules
-					(
+			$ibforums->db->prepare(
+			    "INSERT INTO ibf_syntax_rules (
 					syntax_id,
 					record,
 					description,
 					reg_exp,
 					tag_0, tag_1, tag_2, tag_3, tag_4, tag_5, tag_6, tag_7, tag_8, tag_9,
 					action_0, action_1, action_2, action_3, action_4, action_5, action_6, action_7, action_8, action_9
-				) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
-				->execute(
-					[
+				) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            )->execute([
 						$syntax_id,
 						$rule,
 						$_POST['description'],
@@ -3247,7 +3388,8 @@ class Moderate
 			$this->output .= View::make("modcp.highlight_start_form", ['syntax_id' => $syntax_id, 'rule' => $rule]);
 		} else
 		{
-			$ibforums->db->prepare("UPDATE ibf_syntax_rules
+			$ibforums->db->prepare(
+			    "UPDATE ibf_syntax_rules
 				SET
 					description = ?,
 					reg_exp = ?,
@@ -3274,8 +3416,8 @@ class Moderate
 				WHERE
 					syntax_id = ?
 				AND
-					record = ?")
-				->execute(
+					record = ?"
+            )->execute(
 					[
 						$_POST['description'],
 						$_POST['reg_exp'],
@@ -3319,24 +3461,30 @@ class Moderate
 			return;
 		}
 
-		$ibforums->db->exec("UPDATE ibf_syntax_list
+		$ibforums->db->exec(
+		    "UPDATE ibf_syntax_list
 		    SET version=version+1
-		    WHERE id='" . $id . "'");
+		    WHERE id='" . $id . "'"
+        );
 
-		$stmt = $ibforums->db->query("SELECT
-			syntax,
-			version
+		$stmt = $ibforums->db->query(
+		    "SELECT
+			    syntax,
+			    version
 		    FROM ibf_syntax_list
-		    WHERE id='" . $id . "'");
+		    WHERE id='" . $id . "'"
+        );
 
 		if ($row = $stmt->fetch())
 		{
 			$rules = array();
 
-			$stmt = $ibforums->db->query("SELECT *
+			$stmt = $ibforums->db->query(
+			    "SELECT *
 			    FROM ibf_syntax_rules
 			    WHERE syntax_id='" . $id . "'
-			    ORDER BY record");
+			    ORDER BY record"
+            );
 			while ($record = $stmt->fetch())
 			{
 				$rules[] = $record;
@@ -3373,9 +3521,11 @@ class Moderate
 			$n       = 0;
 			$records = array();
 
-			$stmt = $ibforums->db->query("SELECT record
-				     FROM ibf_syntax_rules
-				     WHERE syntax_id = '" . $syntax_id . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT record
+				FROM ibf_syntax_rules
+				WHERE syntax_id = '" . $syntax_id . "'"
+            );
 
 			while ($row = $stmt->fetch())
 			{
@@ -3387,11 +3537,14 @@ class Moderate
 				$delete = $ibforums->input["delete_" . $record];
 				if ($delete == 'checked')
 				{
-					$ibforums->db->exec("DELETE
-						     FROM ibf_syntax_rules
-						     WHERE
-							syntax_id = '" . $syntax_id . "' and
-							record = " . $record);
+					$ibforums->db->exec(
+					    "DELETE
+						FROM ibf_syntax_rules
+						WHERE
+							syntax_id = '" . $syntax_id . "'
+						  AND
+							record = " . $record
+                    );
 				}
 			}
 		} else {
@@ -3400,11 +3553,19 @@ class Moderate
 				$n       = 0;
 				$records = array();
 
-				$stmt = $ibforums->db->query("select max(record) as max_record from ibf_syntax_rules where syntax_id = '" . $syntax_id . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT max(record) as max_record
+                    FROM ibf_syntax_rules
+                    WHERE syntax_id = '" . $syntax_id . "'"
+                );
 				$row  = $stmt->fetch();
 				$max  = $row['max_record'] + 1;
 
-				$stmt = $ibforums->db->query("select record from ibf_syntax_rules where syntax_id = '" . $syntax_id . "'");
+				$stmt = $ibforums->db->query(
+				    "SELECT record
+                    FROM ibf_syntax_rules
+                    WHERE syntax_id = '" . $syntax_id . "'"
+                );
 				while ($row = $stmt->fetch())
 				{
 					$records [$n++] = $row['record'];
@@ -3413,13 +3574,23 @@ class Moderate
 				foreach ($records as $record)
 				{
 					$order = $max + $ibforums->input["order_" . $record];
-					$ibforums->db->exec("update ibf_syntax_rules set record = " . $order . " where syntax_id = '" . $syntax_id . "' and record = " . $record);
+					$ibforums->db->exec(
+					    "UPDATE ibf_syntax_rules
+						SET record = " . $order . "
+						WHERE syntax_id = '" . $syntax_id . "'
+						  AND record = " . $record
+                    );
 				}
 
 				$n       = 0;
 				$records = array();
 
-				$stmt = $ibforums->db->query("select record from ibf_syntax_rules where syntax_id = '" . $syntax_id . "' order by record");
+				$stmt = $ibforums->db->query(
+				    "SELECT record
+                    FROM ibf_syntax_rules
+                    WHERE syntax_id = '" . $syntax_id . "'
+                    ORDER BY record"
+                );
 				while ($row = $stmt->fetch())
 				{
 					$records [$n++] = $row['record'];
@@ -3428,7 +3599,12 @@ class Moderate
 				$n = 0;
 				foreach ($records as $record)
 				{
-					$ibforums->db->exec("update ibf_syntax_rules set record = " . $n . " where syntax_id = '" . $syntax_id . "' and record = " . $record);
+					$ibforums->db->exec(
+					    "UPDATE ibf_syntax_rules
+						SET record = " . $n . "
+						WHERE syntax_id = '" . $syntax_id . "'
+						  AND record = " . $record
+                    );
 					$n++;
 				}
 			}
@@ -3531,8 +3707,13 @@ class Moderate
 
 		if ($edit and $ibforums->input['f'])
 		{
-			$stmt = $ibforums->db->query("SELECT show_rules,rules_title as title,rules_text as rules,red_border as border FROM ibf_forums
-				    WHERE id='" . $ibforums->input['f'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT show_rules, rules_title as title,
+                    rules_text as rules,
+                    red_border as border
+                FROM ibf_forums
+				WHERE id='" . $ibforums->input['f'] . "'"
+            );
 
 			if ($row = $stmt->fetch())
 			{
@@ -3609,8 +3790,13 @@ class Moderate
 
 		if (!$ibforums->member['g_is_supmod'] and $ibforums->input['style'])
 		{
-			$stmt = $ibforums->db->query("SELECT mid FROM ibf_moderators WHERE member_id='" . $ibforums->member['id'] . "' and
-				    forum_id='" . $ibforums->input['f'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT mid
+                FROM ibf_moderators
+                WHERE member_id='" . $ibforums->member['id'] . "'
+                  AND
+				    forum_id='" . $ibforums->input['f'] . "'"
+            );
 
 			if (!$stmt->rowCount())
 			{
@@ -3619,11 +3805,14 @@ class Moderate
 			}
 		}
 
-		$ibforums->db->exec("UPDATE ibf_forums SET rules_title='" . addslashes($std->remove_tags($ibforums->input['title'])) . "',
-						  rules_text='" . addslashes($std->remove_tags($ibforums->input['rules_txt'])) . "',
-						  show_rules='" . $ibforums->input['style'] . "',
-						  red_border='" . $ibforums->input['border'] . "'
-			    WHERE id='" . $ibforums->input['f'] . "'");
+		$ibforums->db->exec(
+		    "UPDATE ibf_forums
+			SET rules_title='" . addslashes($std->remove_tags($ibforums->input['title'])) . "',
+				rules_text='" . addslashes($std->remove_tags($ibforums->input['rules_txt'])) . "',
+				show_rules='" . $ibforums->input['style'] . "',
+				red_border='" . $ibforums->input['border'] . "'
+			WHERE id='" . $ibforums->input['f'] . "'"
+        );
 
 		$print->redirect_screen($ibforums->lang['cp_redirect_mod_topics'], "act=modcp&CODE=rules_select&f=" . $ibforums->input['f']);
 

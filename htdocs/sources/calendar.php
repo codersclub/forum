@@ -207,7 +207,11 @@ class calendar
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_no_events'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_calendar_events WHERE eventid=$eventid");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_calendar_events
+            WHERE eventid=$eventid"
+        );
 
 		if (!$event = $stmt->fetch())
 		{
@@ -363,7 +367,11 @@ class calendar
 
 			$group_choices = "";
 
-			$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups ORDER BY g_title");
+			$stmt = $ibforums->db->query(
+			    "SELECT g_id, g_title
+                FROM ibf_groups
+                ORDER BY g_title"
+            );
 
 			while ($r = $stmt->fetch())
 			{
@@ -422,7 +430,12 @@ class calendar
 			$id = 1;
 		}
 
-		$stmt = $ibforums->db->query("SELECT typed, image from ibf_emoticons WHERE clickable='1' and skid='" . $id . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT typed, image
+            FROM ibf_emoticons
+            WHERE clickable='1'
+            AND skid='" . $id . "'"
+        );
 
 		while ($elmo = $stmt->fetch())
 		{
@@ -517,7 +530,11 @@ class calendar
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_no_events'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_calendar_events WHERE eventid='$eventid'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_calendar_events
+            WHERE eventid='$eventid'"
+        );
 
 		if (!$event = $stmt->fetch())
 		{
@@ -556,7 +573,10 @@ class calendar
 
 		if ($_POST['event_delete'] == 1 or $del == 1)
 		{
-			$ibforums->db->exec("DELETE FROM ibf_calendar_events WHERE eventid='$eventid'");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_calendar_events
+				WHERE eventid='$eventid'"
+            );
 
 			$print->redirect_screen($ibforums->lang['delete_event_redirect'], "&amp;act=calendar");
 		} else
@@ -733,10 +753,15 @@ class calendar
 				'repeat_unit'    => $ibforums->input['recur_unit'],
 			];
 
-			$ibforums->db->updateRow("ibf_calendar_events", array_map([
-			                                                          $ibforums->db,
-			                                                          'quote'
-			                                                          ], $data), "eventid='$eventid'");
+			$ibforums->db->updateRow("ibf_calendar_events",
+                                     array_map([
+			                                         $ibforums->db,
+			                                         'quote'
+                                               ],
+                                               $data
+                                     ),
+                                     "eventid='$eventid'"
+            );
 
 			$print->redirect_screen($ibforums->lang['edit_event_redirect'], "&amp;act=calendar&amp;code=showevent&amp;eventid=$eventid");
 
@@ -757,7 +782,11 @@ class calendar
 		{
 			$birthdays = array();
 
-			$stmt = $ibforums->db->query("SELECT bday_day from ibf_members WHERE bday_month=" . $this->chosen_month);
+			$stmt = $ibforums->db->query(
+			    "SELECT bday_day
+                FROM ibf_members
+                WHERE bday_month=" . $this->chosen_month
+            );
 
 			while ($user = $stmt->fetch())
 			{
@@ -774,9 +803,14 @@ class calendar
 		$timenow  = mktime(1, 1, 1, $this->chosen_month, 1, $this->chosen_year);
 		$timethen = mktime(23, 59, 59, $this->chosen_month, 0, $this->chosen_year);
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_calendar_events WHERE event_repeat=1
-      		    AND ( repeat_unit IN ('w','m') OR (repeat_unit='y' AND month={$this->chosen_month}) )
-       		   ");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_calendar_events
+            WHERE event_repeat=1
+      		    AND ( repeat_unit IN ('w','m')
+      		        OR (repeat_unit='y' AND month={$this->chosen_month})
+      		        )"
+        );
 
 		while ($rec = $stmt->fetch())
 		{
@@ -805,9 +839,16 @@ class calendar
 
 		$events = array();
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_calendar_events WHERE event_repeat <> 1 AND month={$this->chosen_month} AND year={$this->chosen_year}
-       			OR (event_ranged=1 AND ( unix_stamp < $timenow AND end_unix_stamp > $timenow ) )
-        		  ");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_calendar_events
+            WHERE event_repeat <> 1
+            AND month={$this->chosen_month}
+            AND year={$this->chosen_year}
+       		OR (event_ranged=1 AND
+       		        ( unix_stamp < $timenow AND end_unix_stamp > $timenow )
+       		   )"
+        );
 
 		while ($event = $stmt->fetch())
 		{
@@ -1289,7 +1330,11 @@ class calendar
 
 			$group_choices = "";
 
-			$stmt = $ibforums->db->query("SELECT g_id, g_title FROM ibf_groups ORDER BY g_title");
+			$stmt = $ibforums->db->query(
+			    "SELECT g_id, g_title
+                FROM ibf_groups
+                ORDER BY g_title"
+            );
 
 			while ($r = $stmt->fetch())
 			{
@@ -1328,8 +1373,17 @@ class calendar
 			$id = 1;
 		}
 
-		$stmt = $ibforums->db->query("SELECT typed, image from ibf_emoticons WHERE clickable='1' and skid='" . $id . "'");
-		//			$stmt = $ibforums->db->query("SELECT * FROM ibf_emoticons WHERE clickable=1");
+		$stmt = $ibforums->db->query(
+		    "SELECT typed, image
+            FROM ibf_emoticons
+            WHERE clickable='1'
+              AND skid='" . $id . "'"
+        );
+		//$stmt = $ibforums->db->query(
+        //      "SELECT *
+        //      FROM ibf_emoticons
+        //      WHERE clickable=1"
+        //);
 
 		while ($elmo = $stmt->fetch())
 		{
@@ -1644,10 +1698,14 @@ class calendar
 		// Get recurring events
 		//-----------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_calendar_events
-        			WHERE event_repeat=1
-        			AND ( repeat_unit IN ('w','m') OR (repeat_unit='y' AND month={$month}) )
-        			");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_calendar_events
+        	WHERE event_repeat=1
+        	AND ( repeat_unit IN ('w','m')
+        	      OR (repeat_unit='y' AND month={$month})
+        	    )"
+        );
 
 		while ($rc = $stmt->fetch())
 		{
@@ -1749,7 +1807,13 @@ class calendar
 		// Normal Events
 		//-----------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_calendar_events WHERE month='$month' AND mday='$day' AND year='$year'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_calendar_events
+            WHERE month='$month'
+                AND mday='$day'
+                AND year='$year'"
+        );
 
 		if ($stmt->rowCount())
 		{
@@ -1819,7 +1883,11 @@ class calendar
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cal_no_events'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_calendar_events WHERE eventid=$eventid");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_calendar_events
+            WHERE eventid=$eventid"
+        );
 
 		if (!$event = $stmt->fetch())
 		{
@@ -1925,7 +1993,13 @@ class calendar
 		// Get the member details and stuff
 		//-----------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT m.id, m.name, m.mgroup, m.posts, m.joined, m.avatar, m.avatar_size, " . "g.g_id, g.g_title FROM ibf_members m, ibf_groups g WHERE m.id='" . $event['userid'] . "' AND g.g_id=m.mgroup");
+		$stmt = $ibforums->db->query(
+		    "SELECT m.id, m.name, m.mgroup, m.posts, m.joined, m.avatar, m.avatar_size,
+		        g.g_id, g.g_title
+            FROM ibf_members m, ibf_groups g
+            WHERE m.id='" . $event['userid'] . "'
+              AND g.g_id=m.mgroup"
+        );
 
 		$member = $stmt->fetch();
 
@@ -2016,7 +2090,12 @@ class calendar
 
 		$output = "";
 
-		$stmt = $ibforums->db->query("SELECT id, name, bday_year from ibf_members WHERE bday_month='" . $month . "' and bday_day='$day'");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, name, bday_year
+            FROM ibf_members
+            WHERE bday_month='" . $month . "'
+              AND bday_day='$day'"
+        );
 
 		if (!$stmt->rowCount())
 		{

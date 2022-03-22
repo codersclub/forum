@@ -109,8 +109,11 @@ class SongFunc
 		    $ibforums->member['id'] == $ibforums->vars['club_boss']
 		)
 		{
-			$stmt = $ibforums->db->query("SELECT name,mgroup
-			    FROM ibf_members WHERE id='" . $mid . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT name,mgroup
+			    FROM ibf_members
+                WHERE id='" . $mid . "'"
+            );
 
 			if ($user = $stmt->fetch())
 			{
@@ -122,11 +125,13 @@ class SongFunc
 					            ));
 				}
 
-				$ibforums->db->exec("UPDATE ibf_members
+				$ibforums->db->exec(
+				    "UPDATE ibf_members
 				    SET
-					mgroup='" . $ibforums->vars['club_group'] . "',
-					disable_group=0
-				    WHERE id='" . $mid . "'");
+					    mgroup='" . $ibforums->vars['club_group'] . "',
+					    disable_group=0
+				    WHERE id='" . $mid . "'"
+                );
 
 				$message = "Уважаемый(ая), %s!\nМы имеем честь пригласить Вас в закрытый клуб Sources.Ru ";
 
@@ -163,14 +168,23 @@ class SongFunc
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT max(pid) as pid FROM ibf_posts WHERE queued != 1 AND topic_id='" . $ibforums->input['t'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT max(pid) as pid
+            FROM ibf_posts
+            WHERE queued != 1
+              AND topic_id='" . $ibforums->input['t'] . "'"
+        );
 
 		if (!$post = $stmt->fetch() or !$post['pid'])
 		{
 			return "Error";
 		} else
 		{
-			$stmt = $ibforums->db->query("SELECT Concat(posts,';',last_poster_name) as info FROM ibf_topics WHERE tid='" . $ibforums->input['t'] . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT Concat(posts,';',last_poster_name) as info
+                FROM ibf_topics
+                WHERE tid='" . $ibforums->input['t'] . "'"
+            );
 
 			if ($info = $stmt->fetch())
 			{
@@ -187,11 +201,16 @@ class SongFunc
 		global $std;
 		$ibforums = Ibf::app();
 
-		$ibforums->db->query("TRUNCATE ibf_forums_order");
+		$ibforums->db->query(
+		    "TRUNCATE ibf_forums_order"
+        );
 
 		$forums = array();
 
-		$stmt = $ibforums->db->query("SELECT id, parent_id FROM ibf_forums");
+		$stmt = $ibforums->db->query(
+		    "SELECT id, parent_id
+            FROM ibf_forums"
+        );
 
 		while ($row = $stmt->fetch())
 		{
@@ -401,21 +420,35 @@ class SongFunc
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT pid, LOWER(post) as post, topic_id, forum_id FROM ibf_posts
-			     WHERE forum_id='" . $fid . "' and indexed=0");
+		$stmt = $ibforums->db->query(
+		    "SELECT pid, LOWER(post) as post, topic_id, forum_id
+            FROM ibf_posts
+			WHERE forum_id='" . $fid . "'
+			  AND indexed=0"
+        );
 
 		while ($post = $stmt->fetch())
 		{
 			// at first delete indexed earlier words
-			$ibforums->db->exec("DELETE FROM ibf_search_post_words WHERE pid='" . $post['pid'] . "'");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_search_post_words
+				WHERE pid='" . $post['pid'] . "'"
+            );
 
 			// get words array
 			$words = $this->analyze_post($post['post']);
 
 			if (count($words))
 			{
-				$insert = $ibforums->db->prepare("INSERT IGNORE INTO ibf_search_words (word) VALUES (:word)");
-				$select = $ibforums->db->prepare("SELECT id FROM ibf_search_words WHERE word=:word");
+				$insert = $ibforums->db->prepare(
+				    "INSERT IGNORE INTO ibf_search_words
+                    (word) VALUES (:word)"
+                );
+				$select = $ibforums->db->prepare(
+				    "SELECT id
+                    FROM ibf_search_words
+                    WHERE word=:word"
+                );
 				foreach ($words as $word)
 				{
 					$select->execute([$word]);
@@ -426,7 +459,11 @@ class SongFunc
 				}
 			}
 
-			$ibforums->db->exec("UPDATE ibf_posts SET indexed=1 WHERE pid='" . $post['pid'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_posts
+				SET indexed=1
+				WHERE pid='" . $post['pid'] . "'"
+            );
 		}
 
 		return "Done!";
@@ -446,13 +483,22 @@ class SongFunc
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT tid, forum_id, LOWER(title) as title, LOWER(description) as description
-			      FROM ibf_topics WHERE forum_id='" . $fid . "' and indexed=0");
+		$stmt = $ibforums->db->query(
+		    "SELECT tid, forum_id,
+                LOWER(title) as title, LOWER(description) as description
+			FROM ibf_topics
+            WHERE forum_id='" . $fid . "'
+              AND indexed=0"
+        );
 
 		while ($topic = $stmt->fetch())
 		{
 			// at first delete indexed earlier words
-			$ibforums->db->exec("DELETE FROM ibf_search_post_words WHERE tid='" . $topic['tid'] . "' and pid=0");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_search_post_words
+				WHERE tid='" . $topic['tid'] . "'
+				  AND pid=0"
+            );
 
 			// get words array
 			$words       = $this->analyze_post($topic['title']);
@@ -467,7 +513,11 @@ class SongFunc
 				foreach ($words as $word)
 				{
 					// insert word
-					$cnt = $ibforums->db->exec("INSERT INTO ibf_search_words (word) VALUES ('" . addslashes($word) . "')");
+					$cnt = $ibforums->db->exec(
+					    "INSERT INTO ibf_search_words
+							(word)
+						VALUES ('" . addslashes($word) . "')"
+                    );
 
 					$id = 0;
 
@@ -475,7 +525,11 @@ class SongFunc
 					if ($cnt == 0)
 					{
 						// get id of existing word
-						$stmt = $ibforums->db->query("SELECT id FROM ibf_search_words WHERE word='" . addslashes($word) . "'");
+						$stmt = $ibforums->db->query(
+						    "SELECT id
+                            FROM ibf_search_words
+                            WHERE word='" . addslashes($word) . "'"
+                        );
 
 						if ($row = $stmt->fetch())
 						{
@@ -490,14 +544,22 @@ class SongFunc
 					// add word record
 					if ($id)
 					{
-						$ibforums->db->exec("INSERT INTO ibf_search_post_words VALUES (0,
-					   " . $topic['tid'] . "," . $topic['forum_id'] . ",
-					    " . $id . ")");
+						$ibforums->db->exec(
+						    "INSERT INTO ibf_search_post_words
+						    VALUES (0,  "
+                                . $topic['tid'] . ","
+							    . $topic['forum_id'] . ","
+                                . $id . ")"
+                        );
 					}
 				}
 			}
 
-			$ibforums->db->exec("UPDATE ibf_topics SET indexed=1 WHERE tid='" . $topic['tid'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_topics
+				SET indexed=1
+				WHERE tid='" . $topic['tid'] . "'"
+            );
 		}
 
 		return "Done!";

@@ -81,11 +81,15 @@ class Search
 		// Adapted from phpMyAdmin
 		//---------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT VERSION() AS version");
+		$stmt = $ibforums->db->query(
+		    "SELECT VERSION() AS version"
+        );
 
 		if (!$row = $stmt->fetch())
 		{
-			$stmt = $ibforums->db->query("SHOW VARIABLES LIKE 'version'");
+			$stmt = $ibforums->db->query(
+			    "SHOW VARIABLES LIKE 'version'"
+            );
 			$row  = $stmt->fetch();
 		}
 
@@ -236,7 +240,12 @@ class Search
 
 			// Get any old search results..
 
-			$stmt = $ibforums->db->query("SELECT id FROM ibf_search_results WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "') AND search_date > '$flood_time'");
+			$stmt = $ibforums->db->query(
+			    "SELECT id
+                FROM ibf_search_results
+                WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "')
+                AND search_date > '$flood_time'"
+            );
 
 			if ($stmt->rowCount())
 			{
@@ -277,7 +286,13 @@ class Search
 
 		if ($result == 'posts')
 		{
-			$stmt = $ibforums->db->query("SELECT pid FROM ibf_posts WHERE queued != 1 AND forum_id IN($forums) AND author_id=$mid");
+			$stmt = $ibforums->db->query(
+			    "SELECT pid
+                FROM ibf_posts
+                WHERE queued != 1
+                  AND forum_id IN($forums)
+                  AND author_id=$mid"
+            );
 
 			$max_hits = $stmt->rowCount();
 
@@ -287,7 +302,13 @@ class Search
 			}
 		} else
 		{
-			$stmt = $ibforums->db->query("SELECT tid FROM ibf_topics WHERE forum_id IN($forums) AND approved=1 and starter_id=$mid");
+			$stmt = $ibforums->db->query(
+			    "SELECT tid
+                FROM ibf_topics
+                WHERE forum_id IN($forums)
+                  AND approved=1
+                  AND starter_id=$mid"
+            );
 
 			$max_hits = $stmt->rowCount();
 
@@ -373,7 +394,12 @@ class Search
 
 			// Get any old search results..
 
-			$stmt = $ibforums->db->query("SELECT id FROM ibf_search_results WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "') AND search_date > '$flood_time'");
+			$stmt = $ibforums->db->query(
+			    "SELECT id
+                FROM ibf_search_results
+                WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "')
+                  AND search_date > '$flood_time'"
+            );
 
 			if ($stmt->rowCount())
 			{
@@ -407,8 +433,12 @@ class Search
 		// the database
 		//------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT sf.fid,f.read_perms FROM ibf_search_forums sf, ibf_forums f WHERE
-				sf.fid=f.id and sf.mid='" . $ibforums->member['id'] . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT sf.fid, f.read_perms
+            FROM ibf_search_forums sf, ibf_forums f
+            WHERE sf.fid=f.id
+              AND sf.mid='" . $ibforums->member['id'] . "'"
+        );
 
 		$all = "";
 
@@ -438,14 +468,25 @@ class Search
 
 		if ($mine)
 		{
-			$query = "SELECT t.tid as topic_id, t.last_post, t.forum_id FROM ibf_topics t, ibf_posts p
-			          WHERE p.queued != 1 and p.author_id='" . $ibforums->member['id'] . "' and p.topic_id=t.tid and
-					p.post NOT LIKE '%[MOD]%' and p.post NOT LIKE '%[EX]%' and t.state != 'link' and t.approved=1 and
-					t.forum_id IN ({$forums}) and t.last_post > '" . $time . "'";
+			$query = "SELECT t.tid as topic_id, t.last_post, t.forum_id
+                    FROM ibf_topics t, ibf_posts p
+			        WHERE p.queued != 1
+			          AND p.author_id='" . $ibforums->member['id'] . "'
+			          AND p.topic_id=t.tid
+			          AND p.post NOT LIKE '%[MOD]%'
+			          AND p.post NOT LIKE '%[EX]%'
+			          AND t.state != 'link'
+			          AND t.approved=1
+			          AND t.forum_id IN ({$forums})
+			          AND t.last_post > '" . $time . "'";
 		} else
 		{
-			$query = "SELECT t.tid as topic_id, t.last_post, t.forum_id FROM ibf_topics t
-				  WHERE t.state != 'link' AND t.approved=1 AND t.forum_id IN($forums) AND t.last_post > '" . $time . "'";
+			$query = "SELECT t.tid as topic_id, t.last_post, t.forum_id
+                    FROM ibf_topics t
+				    WHERE t.state != 'link'
+				      AND t.approved=1
+				      AND t.forum_id IN($forums)
+				      AND t.last_post > '" . $time . "'";
 		}
 
 		if ($all)
@@ -562,12 +603,19 @@ class Search
 		// the database
 		//------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT p.*,t.*,f.id as forum_id,f.name as forum_name
-				     FROM ibf_topics t, ibf_posts p, ibf_forums f
-				     WHERE p.use_sig=0 and p.queued != 1 AND p.forum_id IN($forums) AND
-					   p.author_id='" . $ibforums->member['id'] . "' AND
- 					   t.tid=p.topic_id AND f.id=p.forum_id and t.approved=1
-                                     ORDER BY p.post_date DESC LIMIT 10");
+		$stmt = $ibforums->db->query(
+		    "SELECT p.*,t.*,f.id as forum_id,f.name as forum_name
+			FROM ibf_topics t, ibf_posts p, ibf_forums f
+			WHERE p.use_sig=0
+			  AND p.queued != 1
+			  AND p.forum_id IN($forums)
+			  AND p.author_id='" . $ibforums->member['id'] . "'
+			  AND t.tid=p.topic_id
+			  AND f.id=p.forum_id
+			  AND t.approved=1
+            ORDER BY p.post_date DESC
+            LIMIT 10"
+        );
 
 		$count = 0;
 
@@ -669,7 +717,12 @@ class Search
 
 			// Get any old search results..
 
-			$stmt = $ibforums->db->query("SELECT id FROM ibf_search_results WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "') AND search_date > '$flood_time'");
+			$stmt = $ibforums->db->query(
+			    "SELECT id
+                FROM ibf_search_results
+                WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "')
+                  AND search_date > '$flood_time'"
+            );
 
 			if ($stmt->rowCount())
 			{
@@ -700,8 +753,14 @@ class Search
 		// the database
 		//------------------------------------------------
 
-		$stmt = $ibforums->db->query("SELECT tid FROM ibf_topics WHERE starter_id='" . $ibforums->member['id'] . "'
-		            AND last_post > " . $ibforums->member['last_visit'] . " AND forum_id IN($forums) AND approved=1");
+		$stmt = $ibforums->db->query(
+		    "SELECT tid
+            FROM ibf_topics
+            WHERE starter_id='" . $ibforums->member['id'] . "'
+		      AND last_post > " . $ibforums->member['last_visit'] . "
+		      AND forum_id IN($forums)
+		      AND approved=1"
+        );
 
 		$max_hits = $stmt->rowCount();
 
@@ -777,7 +836,11 @@ class Search
 
 		if ($fid)
 		{
-			$stmt = $ibforums->db->query("SELECT parent_id FROM ibf_forums WHERE id='" . $fid . "'");
+			$stmt = $ibforums->db->query(
+			    "SELECT parent_id
+                FROM ibf_forums
+                WHERE id='" . $fid . "'"
+            );
 
 			if ($row = $stmt->fetch())
 			{
@@ -810,10 +873,13 @@ class Search
 
 		$the_hiddens = "";
 
-		$stmt = $ibforums->db->query("SELECT f.id as forum_id, f.parent_id, f.subwrap, f.sub_can_post, f.name as forum_name, f.position, f.read_perms, c.id as cat_id, c.name as cat_name
-		            FROM ibf_forums f
-		              LEFT JOIN ibf_categories c ON (c.id=f.category)
-		            ORDER BY c.position, f.position");
+		$stmt = $ibforums->db->query(
+		    "SELECT f.id as forum_id, f.parent_id, f.subwrap, f.sub_can_post, f.name as forum_name, f.position,
+                f.read_perms, c.id as cat_id, c.name as cat_name
+		    FROM ibf_forums f
+		    LEFT JOIN ibf_categories c ON (c.id=f.category)
+		    ORDER BY c.position, f.position"
+        );
 
 		$forum_keys = array();
 		$cat_keys   = array();
@@ -989,7 +1055,12 @@ class Search
 
 			// Get any old search results..
 
-			$stmt = $ibforums->db->query("SELECT id FROM ibf_search_results WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "') AND search_date > '$flood_time'");
+			$stmt = $ibforums->db->query(
+			    "SELECT id
+                FROM ibf_search_results
+                WHERE (member_id='" . $ibforums->member['id'] . "' OR ip_address='" . $ibforums->input['IP_ADDRESS'] . "')
+                  AND search_date > '$flood_time'"
+            );
 
 			if ($stmt->rowCount())
 			{
@@ -1047,8 +1118,12 @@ class Search
 		if ($ibforums->member['id'])
 		{
 			// at first, collect data within visited topics
-			$stmt = $ibforums->db->query("SELECT tid,fid,logTime FROM ibf_log_topics WHERE
-			    mid='" . $ibforums->member['id'] . "' and tid IN (0" . $topics . "0)");
+			$stmt = $ibforums->db->query(
+			    "SELECT tid, fid, logTime
+                FROM ibf_log_topics
+                WHERE mid='" . $ibforums->member['id'] . "'
+                  AND tid IN (0" . $topics . "0)"
+            );
 
 			while ($read = $stmt->fetch())
 			{
@@ -1095,7 +1170,10 @@ class Search
 
 		$t_time = time() - (60 * 60 * 24);
 
-		$ibforums->db->exec("DELETE FROM ibf_search_results WHERE search_date < '$t_time'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_search_results
+			WHERE search_date < '$t_time'"
+        );
 
 		$this->unique_id = $ibforums->input['searchid'];
 
@@ -1104,7 +1182,11 @@ class Search
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'no_search_results'));
 		}
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_search_results WHERE id='{$this->unique_id}'");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_search_results
+            WHERE id='{$this->unique_id}'"
+        );
 		$sr   = $stmt->fetch();
 
 		$tmp_topics     = $sr['topic_id'];
@@ -1164,9 +1246,11 @@ class Search
 				$this->output .= $this->start_page($topic_max_hits);
 
 				$query = "SELECT t.*, f.id as forum_id, f.name as forum_name
-				          FROM ibf_topics t, ibf_forums f
-					  WHERE t.tid IN(0" . $topics . "0) and f.id=t.forum_id and t.approved=1
-					  ORDER BY t.pinned DESC,";
+				        FROM ibf_topics t, ibf_forums f
+					    WHERE t.tid IN(0" . $topics . "0)
+					      AND f.id=t.forum_id
+					      AND t.approved=1
+				        ORDER BY t.pinned DESC,";
 
 				if ($ibforums->input['new'])
 				{
@@ -1189,8 +1273,12 @@ class Search
 
 				if ($posts != ",")
 				{
-					$stmt = $ibforums->db->query("SELECT forum_id,topic_id FROM ibf_posts WHERE pid IN(0{$posts}0)
-								and queued != 1");
+					$stmt = $ibforums->db->query(
+					    "SELECT forum_id,topic_id
+                        FROM ibf_posts
+                        WHERE pid IN(0{$posts}0)
+						  AND queued != 1"
+                    );
 
 					while ($pr = $stmt->fetch())
 					{
@@ -1211,8 +1299,9 @@ class Search
 				$query = "SELECT t.*, f.id as forum_id, f.name as forum_name
 				  	  FROM ibf_topics t
 					  LEFT JOIN ibf_forums f ON (f.id=t.forum_id)
-					  WHERE t.tid IN(0" . $topics . "0) and t.approved=1
-					  ORDER BY t.pinned DESC,";
+					  WHERE t.tid IN(0" . $topics . "0)
+					    AND t.approved=1
+					  ORDER BY t.pinned DESC, ";
 
 				if ($ibforums->input['new'])
 				{
@@ -1264,22 +1353,31 @@ class Search
 			{
 				$this->output .= $this->start_page($topic_max_hits, 1);
 
-				$stmt = $ibforums->db->query("SELECT t.*, p.pid, p.author_id, p.author_name, p.post_date, p.post,
-							f.id as forum_id, f.name as forum_name
-				            	     FROM ibf_topics t
-				                     LEFT JOIN ibf_posts p ON (t.tid=p.topic_id AND p.new_topic=1 and p.use_sig=0)
-				                     LEFT JOIN ibf_forums f ON (f.id=t.forum_id)
-				                     WHERE t.tid IN(0{$topics}-1) and p.queued != 1 and t.approved=1
-				                     ORDER BY p.post_date DESC
-				                     LIMIT {$this->first},25");
+				$stmt = $ibforums->db->query(
+				    "SELECT t.*, p.pid, p.author_id, p.author_name, p.post_date, p.post,
+						f.id as forum_id, f.name as forum_name
+				    FROM ibf_topics t
+				    LEFT JOIN ibf_posts p ON (t.tid=p.topic_id AND p.new_topic=1 AND p.use_sig=0)
+				    LEFT JOIN ibf_forums f ON (f.id=t.forum_id)
+				    WHERE t.tid IN(0{$topics}-1)
+				      AND p.queued != 1
+				      AND t.approved=1
+				    ORDER BY p.post_date DESC
+				    LIMIT {$this->first},25"
+                );
 			} else
 			{
 				$this->parser->prepareIcons();
 
 				if ($topics != ",")
 				{
-					$stmt = $ibforums->db->query("SELECT pid FROM ibf_posts WHERE topic_id IN(0{$topics}0) AND
-								new_topic=1 and queued != 1");
+					$stmt = $ibforums->db->query(
+					    "SELECT pid
+                        FROM ibf_posts
+                        WHERE topic_id IN(0{$topics}0)
+                          AND new_topic=1
+                          AND queued != 1"
+                    );
 
 					while ($pr = $stmt->fetch())
 					{
@@ -1295,17 +1393,24 @@ class Search
 
 				$this->output .= $this->start_page($post_max_hits, 1);
 
-				$stmt = $ibforums->db->query("SELECT t.*, p.pid, p.author_id, p.author_name, p.post_date, p.post,
-							p.use_emo, f.id as forum_id, f.forum_highlight, f.highlight_fid as hid, f.name as forum_name,
-							f.use_html, g.g_dohtml, p.ip_address
-						     FROM ibf_posts p
-						     LEFT JOIN ibf_topics t ON (t.tid=p.topic_id)
-						     LEFT JOIN ibf_forums f ON (f.id=p.forum_id)
-						     LEFT JOIN ibf_members m ON (m.id=p.author_id)
-						     LEFT JOIN ibf_groups g ON (m.mgroup=g.g_id)
-						     WHERE p.pid IN(0{$posts}0) and p.use_sig=0 and p.queued != 1 and t.approved=1
-						     ORDER BY p.post_date DESC
-						     LIMIT {$this->first},25");
+				$stmt = $ibforums->db->query(
+				    "SELECT t.*,
+                        p.pid, p.author_id, p.author_name, p.post_date, p.post, p.use_emo,
+                        f.id as forum_id, f.forum_highlight, f.highlight_fid as hid, f.name as forum_name, f.use_html,
+                        g.g_dohtml,
+                        p.ip_address
+					FROM ibf_posts p
+					LEFT JOIN ibf_topics t ON (t.tid=p.topic_id)
+					LEFT JOIN ibf_forums f ON (f.id=p.forum_id)
+					LEFT JOIN ibf_members m ON (m.id=p.author_id)
+					LEFT JOIN ibf_groups g ON (m.mgroup=g.g_id)
+					WHERE p.pid IN(0{$posts}0)
+					  AND p.use_sig=0
+					  AND p.queued != 1
+					  AND t.approved=1
+					ORDER BY p.post_date DESC
+					LIMIT {$this->first},25"
+                );
 			}
 
 			while ($row = $stmt->fetch())
@@ -1627,11 +1732,18 @@ class Search
 				? intval($ibforums->input['st'])
 				: 0;
 
-			$ibforums->db->exec("DELETE FROM ibf_search_results WHERE search_date < '$t_time'");
+			$ibforums->db->exec(
+			    "DELETE FROM ibf_search_results
+				WHERE search_date < '$t_time'"
+            );
 
 			$unique_id = $ibforums->input['searchid'];
 
-			$stmt = $ibforums->db->query("SELECT * FROM ibf_search_results WHERE id='$unique_id'");
+			$stmt = $ibforums->db->query(
+			    "SELECT *
+                FROM ibf_search_results
+                WHERE id='$unique_id'"
+            );
 			$sr   = $stmt->fetch();
 
 			$topics   = $sr['topic_id'];
@@ -1672,10 +1784,15 @@ class Search
 		$this->output = preg_replace("/(<option value='s" . $ibforums->input['st_day'] . "')/", "\\1 selected", $this->output);
 		$this->output = preg_replace("/(<option value='e" . $ibforums->input['end_day'] . "')/", "\\1 selected", $this->output);
 
-		$stmt = $ibforums->db->query("SELECT t.*, f.id as forum_id, f.name as forum_name
-		             FROM ibf_topics t, ibf_forums f
-		            WHERE t.tid IN($topic_string) and f.id=t.forum_id
-		            ORDER BY " . $this->sort_key . " " . $this->sort_order . " LIMIT 0,25");
+		$stmt = $ibforums->db->query(
+		    "SELECT t.*,
+                f.id as forum_id, f.name as forum_name
+		    FROM ibf_topics t, ibf_forums f
+		    WHERE t.tid IN($topic_string)
+		      AND f.id=t.forum_id
+		    ORDER BY " . $this->sort_key . " " . $this->sort_order . "
+		    LIMIT 0,25"
+        );
 
 		$count = 0;
 
@@ -2091,7 +2208,10 @@ class Search
 
 			if ($ibforums->input['forums'] == 'all')
 			{
-				$stmt = $ibforums->db->query("SELECT id, read_perms, password FROM ibf_forums");
+				$stmt = $ibforums->db->query(
+				    "SELECT id, read_perms, password
+                    FROM ibf_forums"
+                );
 
 				while ($i = $stmt->fetch())
 				{
@@ -2116,7 +2236,11 @@ class Search
 
 						if ($c)
 						{
-							$stmt = $ibforums->db->query("SELECT id, read_perms, password FROM ibf_forums WHERE category=$c");
+							$stmt = $ibforums->db->query(
+							    "SELECT id, read_perms, password
+                                FROM ibf_forums
+                                WHERE category=$c"
+                            );
 
 							while ($i = $stmt->fetch())
 							{
@@ -2140,7 +2264,11 @@ class Search
 								? " OR parent_id=$f "
 								: "";
 
-							$stmt = $ibforums->db->query("SELECT id, read_perms, password FROM ibf_forums WHERE id=$f" . $qe);
+							$stmt = $ibforums->db->query(
+							    "SELECT id, read_perms, password
+                                FROM ibf_forums
+                                WHERE id=$f" . $qe
+                            );
 
 							while ($i = $stmt->fetch())
 							{
@@ -2201,7 +2329,12 @@ class Search
 	{
 		global $ibforums;
 
-		$stmt = $ibforums->db->query("SELECT tid,fid,logTime FROM ibf_log_topics WHERE mid='" . $ibforums->member['id'] . "' AND logTime > '" . $date . "'");
+		$stmt = $ibforums->db->query(
+		    "SELECT tid, fid, logTime
+            FROM ibf_log_topics
+            WHERE mid='" . $ibforums->member['id'] . "'
+              AND logTime > '" . $date . "'"
+        );
 
 		if ($stmt->rowCount() > 0)
 		{
@@ -2284,23 +2417,36 @@ class Search
 			return;
 		}
 
-		$stmt           = $ibforums->db->query("SELECT fid FROM ibf_search_forums WHERE mid='" . $ibforums->member['id'] . "' LIMIT 1");
+		$stmt           = $ibforums->db->query(
+		    "SELECT fid
+            FROM ibf_search_forums
+            WHERE mid='" . $ibforums->member['id'] . "'
+            LIMIT 1"
+        );
 		$all_checkboxes = $stmt->rowCount();
 
 		$cats     = array();
 		$forums   = array();
 		$children = array();
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_categories ORDER BY position");
+		$stmt = $ibforums->db->query(
+		    "SELECT *
+            FROM ibf_categories
+            ORDER BY position"
+        );
 
 		while ($r = $stmt->fetch())
 		{
 			$cats[$r['id']] = $r;
 		}
 
-		$stmt = $ibforums->db->query("SELECT f.*, sf.mid as checked FROM ibf_forums f
-                    LEFT JOIN ibf_search_forums sf ON (sf.mid='" . $ibforums->member['id'] . "' and sf.fid=f.id)
-		    ORDER BY f.position");
+		$stmt = $ibforums->db->query(
+		    "SELECT f.*, sf.mid as checked
+            FROM ibf_forums f
+            LEFT JOIN ibf_search_forums sf
+                ON (sf.mid='" . $ibforums->member['id'] . "' AND sf.fid=f.id)
+		    ORDER BY f.position"
+        );
 
 		while ($r = $stmt->fetch())
 		{
@@ -2382,7 +2528,10 @@ class Search
 		}
 
 		// delete old settings
-		$ibforums->db->exec("DELETE FROM ibf_search_forums WHERE mid='" . $ibforums->member['id'] . "'");
+		$ibforums->db->exec(
+		    "DELETE FROM ibf_search_forums
+			WHERE mid='" . $ibforums->member['id'] . "'"
+        );
 
 		foreach ($ibforums->input as $key => $value)
 		{
@@ -2390,7 +2539,10 @@ class Search
 			{
 				if ($ibforums->input[$match[0]])
 				{
-					$ibforums->db->exec("INSERT INTO ibf_search_forums VALUES (" . $ibforums->member['id'] . "," . $match[1] . ")");
+					$ibforums->db->exec(
+					    "INSERT INTO ibf_search_forums
+					    VALUES (" . $ibforums->member['id'] . "," . $match[1] . ")"
+                    );
 				}
 			}
 		}
@@ -2440,7 +2592,11 @@ class Search
 
 		if ($days)
 		{
-			$ibforums->db->exec("UPDATE ibf_members SET search_days='" . $days . "' WHERE id='" . $ibforums->member['id'] . "'");
+			$ibforums->db->exec(
+			    "UPDATE ibf_members
+				SET search_days='" . $days . "'
+				WHERE id='" . $ibforums->member['id'] . "'"
+            );
 		}
 
 		$print->redirect_screen($ibforums->lang['search_redirect'], "act=Search2&CODE=" . $ibforums->input['CODE_MODE']);
