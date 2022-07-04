@@ -1346,6 +1346,7 @@ class ad_groups
 			//---------------------------
 			// Start topics..
 			//---------------------------
+            $start = '';
 
 			if ($row['start_perms'] == '*')
 			{
@@ -1364,7 +1365,7 @@ class ad_groups
 							continue;
 						} else
 						{
-							$start .= $i . ",";
+							$start .= ($i . ',');
 						}
 					}
 
