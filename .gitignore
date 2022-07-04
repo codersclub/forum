@@ -11,6 +11,5 @@ app/config/logs.php
 cron/bot_config.pl
 /htdocs/download/
 /htdocs/uploads/
-/htdocs/sources/lib/TNX-something-long-random-string-324sd54ywey/*.txt
 /logs/
 /vendor
