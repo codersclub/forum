@@ -61,7 +61,7 @@ global $ibforums;
 return <<<EOF
 
 
-<a href="{$ibforums->base_url}act=rep&CODE=02&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]"><{WARN_MINUS}></a><a href="{$ibforums->base_url}act=rep&CODE=01&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]"><{WARN_ADD}></a>
+<a href="{$ibforums->base_url}act=rep&CODE=02&mid={$stuff['mid']}&f={$stuff['f']}&t={$stuff['t']}&p={$stuff['p']}"><{WARN_MINUS}></a><a href="{$ibforums->base_url}act=rep&CODE=01&mid={$stuff['mid']}&f={$stuff['f']}&t={$stuff['t']}&p={$stuff['p']}"><{WARN_ADD}></a>
 
 
 EOF;

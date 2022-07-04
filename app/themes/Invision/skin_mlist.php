@@ -39,7 +39,7 @@ global $ibforums;
 return <<<EOF
 
 <br>
-<div align="left">{$links[SHOW_PAGES]}</div>
+<div align="left">{$links['SHOW_PAGES']}</div>
 
 EOF;
 }

@@ -28,7 +28,7 @@ EOF;
 
 function RenderRow($data) {
 global $ibforums;
-$topic_classes = "topic-id-{$data["tid"]} topic-author-{$data["starter_id"]}";
+$topic_classes = "topic-id-{$data['tid']} topic-author-{$data["starter_id"]}";
 
 foreach(["pinned", "hidden", "decided", "club", "closed", "has_mirror", "is_mirror", "has_new", "deleted", "has_my_posts", "mine", "favorite", "queued", "has_queued_posts"] as $key)
 	if ($data[$key])

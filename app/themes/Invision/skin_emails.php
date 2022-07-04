@@ -39,7 +39,7 @@ return <<<EOF
             <td>
               <table cellpadding='4' cellspacing='0' border='0' width='100%'>
                 <tr>
-                   <td colspan='2' align='center' class='titlemedium'>{$data[TITLE]}</td>
+                   <td colspan='2' align='center' class='titlemedium'>{$data['TITLE']}</td>
 
 EOF;
 }
@@ -211,7 +211,7 @@ return <<<EOF
 
               <form action="https://msg.mirabilis.com/scripts/WWPMsg.dll" METHOD="POST" name="frmPager">
 			      <INPUT TYPE="hidden" NAME="subject" VALUE="From WebPager Panel">
-              <input type="hidden" name="to" value="{$data[UIN]}">
+              <input type="hidden" name="to" value="{$data['UIN']}">
               <tr>
                 <td class='row2' align='left'><b>{$ibforums->lang['name']}</b></td>
                 <td class='row2' align='left'><input type='text' name='from' value='{$ibforums->member['name']}' size='40' class='forminput' onMouseOver="this.focus()" onFocus="this.select()"></td>
@@ -323,10 +323,10 @@ global $ibforums;
 return <<<EOF
 
 <div class='tableborder'>
-  <div class='maintitle'>{$ibforums->lang['send_email_to']} {$data[NAME]}</div>
+  <div class='maintitle'>{$ibforums->lang['send_email_to']} {$data['NAME']}</div>
   <div class='tablepad'>{$ibforums->lang['show_address_text']}
   <br>
-  &gt;&gt;<b><a href="mailto:{$data[ADDRESS]}" class='misc'>{$ibforums->lang['send_email_to']} {$data[NAME]}</a></b>
+  &gt;&gt;<b><a href="mailto:{$data['ADDRESS']}" class='misc'>{$ibforums->lang['send_email_to']} {$data['NAME']}</a></b>
  </div>
 </div>
 

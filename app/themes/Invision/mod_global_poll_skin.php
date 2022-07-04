@@ -30,15 +30,15 @@ function global_poll_table_header($data) {
 global $ibforums;
 return <<<EOF
     <br>
-    <form action="{$data["form_url"]}" method="post">
+    <form action="{$data['form_url']}" method="post">
 	<div class="tableborder">
-	<div class="maintitle"><{CAT_IMG}>&nbsp;{$data["global_poll"]} - {$data["poll_question"]}</div>
+	<div class="maintitle"><{CAT_IMG}>&nbsp;{$data['global_poll']} - {$data['poll_question']}</div>
 	<table cellpadding='4' cellspacing='1' border='0' width='100%'>
 	<tr>
-           <td class='pformstrip' colspan='3'>{$data["header_text"]}</td>
+           <td class='pformstrip' colspan='3'>{$data['header_text']}</td>
     	</tr>
 	<tr>
-           <td class='row4' colspan='3'>{$data["poll_text"]}</td>
+           <td class='row4' colspan='3'>{$data['poll_text']}</td>
     	</tr>
 
 

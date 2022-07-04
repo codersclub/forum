@@ -150,7 +150,7 @@ return <<<EOF
 
 <div id="FriendsOnline" class="friends-online">
 <span class="friends-title">{$ibforums->lang['your_friends']}</span>
-<span class="friends-list">{$active[FRIENDS]}</span>
+<span class="friends-list">{$active['FRIENDS']}</span>
 </div>
 
 EOF;
@@ -232,7 +232,7 @@ if(empty($info['colspan'])) {
 return <<<EOF
 
        <tr class="b-forums-list-row forum-{$info['id']} forum-redirect" data-forum-id="{$info['id']}" data-category-id="{$info['category']}">
-         <td {$info[colspan]}class="row4 b-column b-column_icon"><{BR_REDIRECT}></td>
+         <td {$info['colspan']}class="row4 b-column b-column_icon"><{BR_REDIRECT}></td>
          <td class="row4 b-column b-column_title"><a class="b-title-link" href="{$ibforums->base_url}showforum={$info['id']}" {$info['redirect_target']}>{$info['name']}</a><div class="desc">{$info['description']}</span></td>
          <td class="row2 b-column b-column_topics">-</td>
          <td class="row2 b-column b-column_replies">-</td>

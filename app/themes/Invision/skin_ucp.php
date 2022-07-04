@@ -53,15 +53,15 @@ return <<<EOF
 <table width="100%" cellpadding="4">
 <tr>
   <td width='70%'>{$ibforums->lang['show_status']}</td>
-  <td align='left'>{$data[STATUS]}</td>
+  <td align='left'>{$data['STATUS']}</td>
 </tr>
 <tr>
   <td width='70%'>{$ibforums->lang['show_img']}</td>
-  <td align='left'>{$data[ICONS]}</td>
+  <td align='left'>{$data['ICONS']}</td>
 </tr>
 <tr>
   <td width='70%'>{$ibforums->lang['show_ratting']}</td>
-  <td align='left'>{$data[RATTING]}</td>
+  <td align='left'>{$data['RATTING']}</td>
 </tr>
 <tr>
   <td width='70%'>{$ibforums->lang['settings_viewsig']}</td>
@@ -73,46 +73,46 @@ return <<<EOF
 </tr>
 <tr>
   <td>{$ibforums->lang['settings_viewimg']}</td>
-  <td align='left'>{$data[IMG]}</td>
+  <td align='left'>{$data['IMG']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['settings_viewava']}</td>
-  <td align='left'>{$data[AVA]}</td>
+  <td align='left'>{$data['AVA']}</td>
 </tr>
 </table>
 <h3>{$ibforums->lang['settings_display']}</h3>
 <table width="100%" cellpadding="4">
 <tr>
   <td>{$ibforums->lang['show_filter']}</td>
-  <td align='left'>{$data[FILTER]}</td>
+  <td align='left'>{$data['FILTER']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['hotclocks']}</td>
-  <td align='left'>{$data[HOTCLOCKS]}</td>
+  <td align='left'>{$data['HOTCLOCKS']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['forum_icon']}</td>
-  <td align='left'>{$data[FORUM_ICON]}</td>
+  <td align='left'>{$data['FORUM_ICON']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['settings_dopopup']}</td>
-  <td align='left'>{$data[POP]}</td>
+  <td align='left'>{$data['POP']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['open_qr']}<br></td>
-  <td align='left'>{$data[QR]}</td>
+  <td align='left'>{$data['QR']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['who_answered']}<br></td>
-  <td align='left'>{$data[WP]}</td>
+  <td align='left'>{$data['WP']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['want_list']}<br></td>
-  <td align='left'>{$data[CBFL]}</td>
+  <td align='left'>{$data['CBFL']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['want_search']}<br></td>
-  <td align='left'>{$data[SEARCH]}</td>
+  <td align='left'>{$data['SEARCH']}</td>
 </tr>
 <tr>
   <td><span style='color:gray'>{$ibforums->lang['want_highlight']}</span><br></td>
@@ -120,15 +120,15 @@ return <<<EOF
 </tr>
 <tr>
   <td>{$ibforums->lang['close_category']}<br></td>
-  <td align='left'>{$data[CATEGORY]}</td>
+  <td align='left'>{$data['CATEGORY']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['show_history']}<br></td>
-  <td align='left'>{$data[HISTORY]}</td>
+  <td align='left'>{$data['HISTORY']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['show_new']}<br></td>
-  <td align='left'>{$data[SHOW_NEW]}</td>
+  <td align='left'>{$data['SHOW_NEW']}</td>
 </tr>
 <tr>
   <td>{$ibforums->lang['pp_number_posts']}</td>

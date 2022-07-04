@@ -453,7 +453,7 @@ return <<<EOF
 		<td nowrap  class='pformstrip' align="center">Member Name</td>
 		<td nowrap  class='pformstrip' align="center"># of Posts</td>
 	</tr>
-	{$data[week_posters]}
+	{$data['week_posters']}
 </table>
 
 
@@ -491,7 +491,7 @@ return <<<EOF
 		<td nowrap  class='pformstrip' align="center">Member Name</td>
 		<td nowrap  class='pformstrip' align="center"># of Posts</td>
 	</tr>
-	{$data[month_posters]}
+	{$data['month_posters']}
 </table>
 
 
@@ -531,23 +531,23 @@ return <<<EOF
 		<td nowrap  class='pformstrip' align="center" width="10%"># of Members</td>
 	<tr>
 		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;AIM</td>
-		<td class="row2" align=center><span style='color:#888888'>{$data[aim]}</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data['aim']}</td>
 	</tr>
 	<tr>
 		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;MSN</td>
-		<td class="row2" align=center><span style='color:#888888'>{$data[msn]}</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data['msn']}</td>
 	</tr>
 	<tr>
 		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;Yahoo</td>
-		<td class="row2" align=center><span style='color:#888888'>{$data[yahoo]}</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data['yahoo']}</td>
 	</tr>
 	<tr>
 		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;ICQ</td>
-		<td class="row2" align=center><span style='color:#888888'>{$data[icq]}</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data['icq']}</td>
 	</tr>
 	<tr>
 		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;No Messenger Info Given</td>
-		<td class="row2" align=center><span style='color:#888888'>{$data[none]}</td>
+		<td class="row2" align=center><span style='color:#888888'>{$data['none']}</td>
 	</tr>
 
 </TD></TR></table>

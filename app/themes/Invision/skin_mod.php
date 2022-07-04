@@ -164,11 +164,11 @@ return <<<EOF
 
   <table width='100%' cellspacing='1'>
   <tr>
-  <td class='pformleftw'><strong>{$ibforums->lang[edit_f_title]}</strong></td>
+  <td class='pformleftw'><strong>{$ibforums->lang['edit_f_title']}</strong></td>
   <td class='pformright'><input type='text' size='40' maxlength='255' name='TopicTitle' value='$title'></td>
   </tr>
   <tr>
-  <td class='pformleftw'><strong>{$ibforums->lang[edit_f_desc]}</strong></td>
+  <td class='pformleftw'><strong>{$ibforums->lang['edit_f_desc']}</strong></td>
   <td class='pformright'><input type='text' size='40' maxlength='255' name='TopicDesc' value='$desc'></td>
   </tr>
   </table>

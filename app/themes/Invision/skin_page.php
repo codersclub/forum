@@ -62,7 +62,7 @@ global $ibforums;
 return <<<EOF
 
 
-<a href='{$ibforums->base_url}act=rep&CODE=02&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]'><{WARN_MINUS}></a><a href='{$ibforums->base_url}act=rep&CODE=01&mid=$stuff[mid]&f=$stuff[f]&t=$stuff[t]&p=$stuff[p]'><{WARN_ADD}></a>
+<a href='{$ibforums->base_url}act=rep&CODE=02&mid={$stuff['mid']}&f={$stuff['f']}&t={$stuff['t']}&p={$stuff['p']}'><{WARN_MINUS}></a><a href='{$ibforums->base_url}act=rep&CODE=01&mid={$stuff['mid']}&f={$stuff['f']}&t={$stuff['t']}&p={$stuff['p']}'><{WARN_ADD}></a>
 
 
 EOF;
@@ -182,7 +182,7 @@ scroll_to	    = {$ibforums->member['show_wp']},
 <!--table width='100%' cellpadding='0' cellspacing='0' border='0'>
 <tr>
  <td align='left' width='20%' nowrap='nowrap'>{$data['TOPIC']['SHOW_PAGES']}&nbsp;{$data['TOPIC']['go_new']}&nbsp;{$data['TOPIC']['go_last']}</td>
- <td align='right' width='80%'>{$data[TOPIC][REPLY_BUTTON]}{$data[TOPIC][TOPIC_BUTTON]}{$data[TOPIC][POLL_BUTTON]}{$data[TOPIC][SOLVE_UPPER_BUTTON]}</td>
+ <td align='right' width='80%'>{$data['TOPIC']['REPLY_BUTTON']}{$data['TOPIC']['TOPIC_BUTTON']}{$data['TOPIC']['POLL_BUTTON']}{$data['TOPIC']['SOLVE_UPPER_BUTTON']}</td>
 </tr>
 </table-->
 
@@ -193,14 +193,14 @@ scroll_to	    = {$ibforums->member['show_wp']},
 <div align='right' class='postlinksbar'>
   <b>
   <!--{IBF.START_NEW_POLL}-->
-  {$data[TOPIC][TOPIC_BUTTON]}
+  {$data['TOPIC']['TOPIC_BUTTON']}
   {$data['TOPIC']['subscribe']} |
-  {$data[TOPIC][POLL_BUTTON]}
+  {$data['TOPIC']['POLL_BUTTON']}
   <a href='{$ibforums->base_url}act=Forward&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['forward']}</a> |
   <a href='{$ibforums->base_url}act=Print&amp;client=choose&amp;f={$data['FORUM']['id']}&amp;t={$data['TOPIC']['tid']}'>{$ibforums->lang['av_title']}</a>
   {$data['TOPIC']['fav_text']}
-  {$data[TOPIC][SOLVE_UPPER_BUTTON]}
-  {$data[TOPIC][REPLY_BUTTON]}
+  {$data['TOPIC']['SOLVE_UPPER_BUTTON']}
+  {$data['TOPIC']['REPLY_BUTTON']}
   </b>
 </div>
 
@@ -580,9 +580,9 @@ global $ibforums;
 return <<<EOF
 <!--IBF.TOPIC_ACTIVE-->
 <div class='activeuserstrip' align='center'>&laquo;
-<a href='{$ibforums->base_url}showtopic={$data[TOPIC]['tid']}&amp;view=old'>{$ibforums->lang['t_old']}</a> |
-<strong><a href='{$ibforums->base_url}showforum={$data[FORUM]['id']}'>{$data[FORUM]['name']}</a></strong> |
-<a href='{$ibforums->base_url}showtopic={$data[TOPIC]['tid']}&amp;view=new'>{$ibforums->lang['t_new']}</a> &raquo;
+<a href='{$ibforums->base_url}showtopic={$data['TOPIC']['tid']}&amp;view=old'>{$ibforums->lang['t_old']}</a> |
+<strong><a href='{$ibforums->base_url}showforum={$data['FORUM']['id']}'>{$data['FORUM']['name']}</a></strong> |
+<a href='{$ibforums->base_url}showtopic={$data['TOPIC']['tid']}&amp;view=new'>{$ibforums->lang['t_new']}</a> &raquo;
 </div></div><br>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
 <tr>
@@ -593,8 +593,8 @@ return <<<EOF
  <td colspan='2'>
   <table width='100%' cellpadding='0' cellspacing='0' border='0'>
    <tr>
-    <td align='left' width='20%' nowrap='nowrap'>{$data[TOPIC][SHOW_PAGES]}</td>
-    <td align='right' width='80%'><!--IBF.QUICK_REPLY_CLOSED--> {$data[TOPIC][REPLY_BUTTON]}{$data[TOPIC][TOPIC_BUTTON]}{$data[TOPIC][POLL_BUTTON]}{$data[TOPIC][SOLVE_DOWN_BUTTON]}
+    <td align='left' width='20%' nowrap='nowrap'>{$data['TOPIC']['SHOW_PAGES']}</td>
+    <td align='right' width='80%'><!--IBF.QUICK_REPLY_CLOSED--> {$data['TOPIC']['REPLY_BUTTON']}{$data['TOPIC']['TOPIC_BUTTON]'}{$data['TOPIC']['POLL_BUTTON']}{$data['TOPIC']['SOLVE_DOWN_BUTTON']}
    </tr>
   </table>
  </td>
@@ -607,7 +607,7 @@ return <<<EOF
 <!--IBF.QUICK_REPLY_OPEN-->
 <br>
 skin_page used!
-<div align='right'>{$data[FORUM]['JUMP']}</div>
+<div align='right'>{$data['FORUM']['JUMP']}</div>
 <br>
 
 

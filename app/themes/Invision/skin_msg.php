@@ -42,7 +42,7 @@ return <<<EOF
         <td class='row4' valign='top'>
 
         <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>
-        {$data[POST]['post_icon']}<span class='postdetails'>{$data['msg']['msg_date']}</span>
+        {$data['POST']['post_icon']}<span class='postdetails'>{$data['msg']['msg_date']}</span>
         </div>
 
         <div align='right'>
@@ -472,14 +472,14 @@ return <<<EOF
 <form action="{$ibforums->base_url}" method="post" class="b-address-edit-form">
 <input type='hidden' name='act' value='Msg'>
 <input type='hidden' name='CODE' value='12'>
-<input type='hidden' name='MID' value='{$data[MEMBER]['contact_id']}'>
+<input type='hidden' name='MID' value='{$data['MEMBER']['contact_id']}'>
 <h3>{$ibforums->lang['member_edit']}</h3>
 <table>
 <tr>
- <td class="b-form-element b-form-element__contact-name">{$data[MEMBER]['contact_name']}</td>
- <td class="b-form-element b-form-element__desc"><label>{$ibforums->lang['enter_desc']}</label><input type='text' name='mem_desc' size='30' maxlength='60' value='{$data[MEMBER]['contact_desc']}' class='forminput'></td>
- <td class="b-form-element b-form-element__show-online"><label>{$ibforums->lang['show_online']}</label>{$data[SHOW_ONLINE]}</td>
- <td class="b-form-element b-form-element__allow-msg"><label>{$ibforums->lang['allow_msg']}</label>{$data[SELECT]}</td>
+ <td class="b-form-element b-form-element__contact-name">{$data['MEMBER']['contact_name']}</td>
+ <td class="b-form-element b-form-element__desc"><label>{$ibforums->lang['enter_desc']}</label><input type='text' name='mem_desc' size='30' maxlength='60' value='{$data['MEMBER']['contact_desc']}' class='forminput'></td>
+ <td class="b-form-element b-form-element__show-online"><label>{$ibforums->lang['show_online']}</label>{$data['SHOW_ONLINE']}</td>
+ <td class="b-form-element b-form-element__allow-msg"><label>{$ibforums->lang['allow_msg']}</label>{$data['SELECT']}</td>
 </tr>
 </table>
 <div class="b-buttons-wrapper pformstrip"><input type="submit" value="{$ibforums->lang['submit_address_edit']}" class='forminput'></div>
@@ -598,7 +598,7 @@ function prefs_row($data) {
 global $ibforums;
 return <<<EOF
 
-<p class="b-folder-rename__row"><input type='text' name='{$data[ID]}' value='{$data[REAL]}' class='forminput'>{$data[EXTRA]}</p>
+<p class="b-folder-rename__row"><input type="text" name="{$data['ID']}" value="{$data['REAL']}" class='forminput'>{$data['EXTRA']}</p>
 
 EOF;
 }

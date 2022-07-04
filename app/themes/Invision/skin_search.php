@@ -79,7 +79,7 @@ return <<<EOF
     <tr class="b-topics-list-row">
       <td class="row4 b-topics-list-column-status">{$Data["folder_img"]}</td>
       <td class="row2 b-topics-list-column-icon">{$Data["topic_icon"]}</td>
-      <td class="row4 b-topics-list-column-title">{$Data["go_new_post"]}{$Data["prefix"]} <a class="topic-link" href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}">{$Data["title"]}</a><span class="b-topics-list-title-pages">{$Data[PAGES]}</span>
+      <td class="row4 b-topics-list-column-title">{$Data["go_new_post"]}{$Data["prefix"]} <a class="topic-link" href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}">{$Data["title"]}</a><span class="b-topics-list-title-pages">{$Data['PAGES']}</span>
       <div class="desc">{$Data["description"]}</span></td>
       <td class="row4 b-topics-list-column-forum"><a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a></td>
       <td class="row2 b-topics-list-column-author">{$Data["starter"]}</td>
@@ -97,7 +97,7 @@ function start_as_post($Data) {
 global $ibforums;
 return <<<EOF
 
-<div class="b-list-pages-wrapper b-found-posts-list-pages b-found-posts-pages-top">{$Data[SHOW_PAGES]}</div>
+<div class="b-list-pages-wrapper b-found-posts-list-pages b-found-posts-pages-top">{$Data['SHOW_PAGES']}</div>
 
 EOF;
 }
@@ -108,7 +108,7 @@ global $ibforums;
 return <<<EOF
 
 <div class="tableborder b-post__wrapper b-found-posts-post-wrapper">
-  <div class="maintitle b-found-posts-post_topic-title">{$Data["folder_img"]}&nbsp;{$Data["prefix"]} <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}" class="linkthru e-found-posts-post_topic-title-link">{$Data["title"]}</a></span></b>  {$Data[PAGES]}</div>
+  <div class="maintitle b-found-posts-post_topic-title">{$Data["folder_img"]}&nbsp;{$Data["prefix"]} <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}" class="linkthru e-found-posts-post_topic-title-link">{$Data["title"]}</a></span></b>  {$Data['PAGES']}</div>
   <table class="tablebasic b-post b-found-posts-post">
   <tr class="b-post__headers-row">
 	<td class="b-post__author-name row4"><span class="e-post-author normalname" data-author-id="{$Data["author_id"]}">{$Data["author_name"]}</span></td>
@@ -159,7 +159,7 @@ EOF;
 function end_as_post($Data) {
 $legend = View::make('global.topicsListLegend');
 return <<<EOF
-<div class="b-list-pages-wrapper b-found-posts-list-pages b-found-posts-pages-bottom">{$Data[SHOW_PAGES]}</div>
+<div class="b-list-pages-wrapper b-found-posts-list-pages b-found-posts-pages-bottom">{$Data['SHOW_PAGES']}</div>
 <div class="b-legend-row-wrapper clearfix">
 {$legend}
 </div>
@@ -217,7 +217,7 @@ return <<<EOF
     <tr>
       <td align="center" class="pinned_topic">{$Data["folder_img"]}</td>
       <td align="center" width="3%" class="pinned_topic">{$Data["topic_icon"]}</td>
-      <td class="pinned_topic">{$Data["go_new_post"]}{$Data["prefix"]}  <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}"><b>{$Data["title"]}</b></a> <span>{$Data[PAGES]}</span>
+      <td class="pinned_topic">{$Data["go_new_post"]}{$Data["prefix"]}  <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}"><b>{$Data["title"]}</b></a> <span>{$Data['PAGES']}</span>
         <span class="desc">{$Data["description"]}</span></td>
       <td class="pinned_topic" width="20%" align="center"><a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a></td>
       <td align="center" class="pinned_topic">{$Data["starter"]}</td>
@@ -387,7 +387,7 @@ EOF;
 }
 
 
-function end($Data) {
+function end($Data=[]) {
 if (!$Data["modform_close"]) {
 	$Data["modform_close"] = "</table>";
 }
@@ -397,7 +397,7 @@ return <<<EOF
 {$Data["modform_close"]}
 <div class="titlemedium b-search-topics-list-footer-row">&nbsp;</div>
 </div>
-<div class="b-list-pages-wrapper b-forum-list-pages b-forum-list-pages-bottom">{$Data[SHOW_PAGES]}</div>
+<div class="b-list-pages-wrapper b-forum-list-pages b-forum-list-pages-bottom">{$Data['SHOW_PAGES']}</div>
 <div class="b-legend-row-wrapper clearfix">
 {$legend}
 </div>
@@ -458,10 +458,10 @@ global $ibforums;
 return <<<EOF
 
 <table class="b-forums-list-actions-row b-list-actions-row">
-{$Data[SEARCH_DAYS]}
+{$Data['SEARCH_DAYS']}
 <tr>
- <td class="b-list-pages-wrapper">{$Data[SHOW_PAGES]}</td>
- <td class="b-list-actions-wrapper">{$Data[BUTTON]}</td>
+ <td class="b-list-pages-wrapper">{$Data['SHOW_PAGES']}</td>
+ <td class="b-list-actions-wrapper">{$Data['BUTTON']}</td>
 </tr>
 </table>
 <div class="tableborder topics-wrapper b-search_results-topics-wrapper">
