@@ -1058,7 +1058,7 @@ class admin_skin
 		return "<!DOCTYPE html>
 			<html>
 		          <head><title>Menu</title>
-		          <meta http-equiv=\"content-type\" content=\"text/html; charset={$INFO['charset']}\">
+		          <meta charset="utf-8">
 		          <meta HTTP-EQUIV=\"Pragma\"  CONTENT=\"no-cache\">
 			  <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
 			  <meta HTTP-EQUIV=\"Expires\" CONTENT=\"Mon, 06 May 1996 04:57:00 GMT\">
