@@ -364,3 +364,10 @@ function fatal_error($message = "", $help = "")
 	echo("$message<br><br>$help");
 	exit;
 }
+
+// Check for the Admin access
+function is_admin()
+{
+	global $ibforums;
+	return ($ibforums->member['mgroup'] == $ibforums->vars['admin_group']);
+}
