@@ -2004,10 +2004,14 @@ class functions
 
 		if ($work['pages'] > 1)
 		{
+/*
 			$work['first_page'] = View::make(
 					"global.make_page_jump",
 					['tp' => $data['TOTAL_POSS'], 'pp' => $data['PER_PAGE'], 'ub' => $data['BASE_URL']]
 				) . " (" . $work['pages'] . ")";
+*/
+            $work['first_page'] = $this->make_page_jump($data['TOTAL_POSS'], $data['PER_PAGE'], $data['BASE_URL'])
+                . " (" . $work['pages'] . ")";
 
 			for ($i = 0; $i <= $work['pages'] - 1; ++$i)
 			{
@@ -2068,6 +2072,15 @@ class functions
 		}
 
 		return $work['return'];
+	}
+
+	function make_page_jump($tp="", $pp="", $ub="") {
+		global $ibforums;
+		return <<<EOF
+
+		<a title="{$ibforums->lang['tpl_jump']}" href="javascript:multi_page_jump('$ub',$tp,$pp);">{$ibforums->lang['tpl_pages']}</a>
+
+EOF;
 	}
 
 	/* ------------------------------------------------------------------------- */

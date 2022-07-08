@@ -650,6 +650,9 @@ function do_login($message="") {
 function do_admin_stuff() {
 	global $IN, $INFO, $SKIN, $ADMIN, $std, $MEMBER, $GROUP, $ibforums;
 
+	$ibforums->lang_id = 'en';
+	$ibforums->lang = $std->load_words($ibforums->lang, 'lang_global', $ibforums->lang_id);
+
 	if ( $INFO['ipb_reg_number'] )
 	{
 		list( $a, $b, $c, $d, $e ) = explode( '-', $INFO['ipb_reg_number'] );
