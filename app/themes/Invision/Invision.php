@@ -32,8 +32,10 @@ class Invision extends AbstractTheme
             $args[1] = str_replace('.', '_', $args[1]);
             if (!isset($classes[$args[0]])) {
                 $classname = 'skin_' . $args[0];
-                if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . $classname . '.php')) {
-                    require __DIR__ . DIRECTORY_SEPARATOR . $classname . '.php';
+		        $file = __DIR__ . DIRECTORY_SEPARATOR . $classname . '.php';
+		        $file = str_replace('\\', '/', $file);
+                if (file_exists($file)) {
+                    require $file;
                     $classes[$args[0]] = new $classname();
                 } elseif ($args[0] !== 'global') {
                     return $this->getHtml('global.' . $path, $data);

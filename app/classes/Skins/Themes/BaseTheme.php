@@ -103,6 +103,9 @@ class BaseTheme extends AbstractTheme
      */
     protected function extractPath($path)
     {
-        return $this->getDirectory() . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $path) . '.inc';
+        $return = $this->getDirectory() . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $path) . '.inc';
+        $return = str_replace('\\', '/', $return);
+
+        return $return;
     }
 }
