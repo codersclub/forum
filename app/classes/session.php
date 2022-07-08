@@ -19,9 +19,9 @@ class session
 	var $location = "";
 	var $r_location = "";
 	var $in_forum = "";
-	var $r_in_forum = "";
+	var $r_in_forum = 0;
 	var $in_topic = "";
-	var $r_in_topic = "";
+	var $r_in_topic = 0;
 
 	// No need for a constructor
 
@@ -1142,7 +1142,7 @@ class session
 				'r_in_forum'   => intval($ibforums->input['f']),
 				'in_topic'     => $in_topic,
 				'r_in_topic'   => intval($ibforums->input['t']),
-			    'login_type'   => $ibforums->input['Privacy'] ?: 0,
+				'login_type'   => $ibforums->input['Privacy'] ?: 0,
 				'running_time' => $this->time_now,
 				'location'     => $locasion,
 				'r_location'   => $ibforums->input['act'] . "," . $ibforums->input['p'] . "," . $ibforums->input['CODE'],
@@ -1219,8 +1219,8 @@ class session
 
 			// Update the database
 			$stmt = $ibforums->db->prepare("UPDATE ibf_sessions
-		     SET " . IBPDO::compileKeyPairsString($db_str) . "
-		     WHERE id='{$this->session_id}'");
+				SET " . IBPDO::compileKeyPairsString($db_str) . "
+				WHERE id='{$this->session_id}'");
 			$stmt->execute($db_str);
 		}
 	}

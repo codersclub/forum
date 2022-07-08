@@ -96,7 +96,7 @@ class Search
 		// Check the user may use Search
 		//--------------------------------------------
 
-		if (!isset($ibforums->member['g_use_search']))
+        if (empty($ibforums->member['g_use_search']))
 		{
 			$std->Error(array('LEVEL' => 1, 'MSG' => 'cant_use_feature'));
 		}
@@ -1750,6 +1750,7 @@ class Search
 
 		$last_cat_id = -1;
 
+        $the_html = '';
 		$the_hiddens = "";
 
 		// Get the forum list
@@ -1836,6 +1837,9 @@ class Search
 				foreach ($forum_keys[$cat_id] as $idx => $forum_text)
 				{
 					$the_html .= $forum_text;
+                    if(empty($children[$idx])) {
+                        $children[$idx] = [];
+                    }
 					if (count($children[$idx]) > 0)
 					{
 						$the_html .= $this->subforums_addtoform($idx, $children);
@@ -2861,6 +2865,9 @@ class Search
 
 		$html = '';
 
+        if (empty($children[$id])) {
+            $children[$id] = [];
+        }
 		if (count($children[$id]) > 0)
 		{
 			foreach ($children[$id] as $ii => $tt)
@@ -2874,6 +2881,7 @@ class Search
 				}
 
 				$tt[1] = str_replace('<IBF_SONG_DEPTH>', $prefix, $tt[1]);
+				$level = intval($level);
 
 				$html .= $prefix . $tt[1] . $this->subforums_addtoform($tt[0], $children, $level + 1);
 			}

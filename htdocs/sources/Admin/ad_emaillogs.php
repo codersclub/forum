@@ -48,7 +48,6 @@ class ad_emaillogs
 		}
 
 		//---------------------------------------
-
 		// Make sure we're a root admin, or else!
 
 		if ($MEMBER['mgroup'] != $INFO['admin_group'])

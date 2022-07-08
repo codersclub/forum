@@ -81,7 +81,16 @@ class Search
 		//          $print->do_output( array( 'TITLE' => $this->page_title, 'JS' => 0, 'NAV' => $this->nav ) );
 		//        }
 
-		//---------------------------------------
+        //--------------------------------------------
+        // Check the user may use Search
+        //--------------------------------------------
+
+        if (empty($ibforums->member['g_use_search']))
+        {
+            $std->Error(array('LEVEL' => 1, 'MSG' => 'cant_use_feature'));
+        }
+
+        //---------------------------------------
 		// Get the mySQL version.
 		// Adapted from phpMyAdmin
 		//---------------------------------------
@@ -1059,6 +1068,9 @@ class Search
 						$the_html .= $forum_text;
 					} else
 					{
+                        if (empty($children[$idx])) {
+                            $children[$idx] = [];
+                        }
 						if (count($children[$idx]) > 0)
 						{
 							$the_html .= $forum_text;
@@ -2760,11 +2772,15 @@ class Search
 
 	}
 
-	function subforums_addtoform($id, &$children, $level = '')
+	function subforums_addtoform($id, &$children, $level = 0)
 	{
 
 		$html = '';
 
+        if (empty($children[$id]))
+        {
+            $children[$id] = [];
+        }
 		if (count($children[$id]) > 0)
 		{
 			foreach ($children[$id] as $ii => $tt)

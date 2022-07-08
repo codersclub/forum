@@ -367,7 +367,7 @@ class search_lib extends Search
 
 		} else
 		{
-			$posts_query = $topics_query = "SELECT t.tid
+			$topics_query = "SELECT t.tid
 					FROM ibf_topics t
 					WHERE
 					$topics_datecut
