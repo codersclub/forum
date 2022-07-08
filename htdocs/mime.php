@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 <HTML>
 <HEAD>
-<TITLE>Check for Upload MIME type</TITLE>
+  <TITLE>Check for Upload MIME type</TITLE>
 </HEAD>
+
 <BODY>
-
-
 <?php
 require __DIR__ . '/../app/bootstrap.php';
 

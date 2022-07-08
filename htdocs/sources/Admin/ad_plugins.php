@@ -122,7 +122,8 @@ class ad_plugins
 			$this->copy_config();
 		} else
 		{
-			$frames = "<html>
+			$frames = "<!DOCTYPE html>
+				<html>
 		   			 <head><title>Invision Power Board: Registration Set up</title></head>
 					   <frameset rows='*,50' frameborder='yes' border='1' framespacing='0'>
 					   	<frame name='chat_top'   scrolling='auto' src='https://customer.invisionpower.com/ipb/copy/redirect_acp.php'>
@@ -145,7 +146,8 @@ class ad_plugins
 
 		$css = $SKIN->get_css();
 
-		$html = "<html>
+		$html = "<!DOCTYPE html>
+				<html>
 				  <head>
 				   <title>Invision Power Board Order Box</title>
 				   $css
@@ -312,7 +314,8 @@ class ad_plugins
 			$this->reg_config();
 		} else
 		{
-			$frames = "<html>
+			$frames = "<!DOCTYPE html>
+				<html>
 		   			 <head><title>Invision Power Board: Registration Set up</title></head>
 					   <frameset rows='*,50' frameborder='yes' border='1' framespacing='0'>
 					   	<frame name='chat_top'   scrolling='auto' src='https://www.invisionboard.com/?whyregister++acp'>
@@ -335,7 +338,8 @@ class ad_plugins
 
 		$css = $SKIN->get_css();
 
-		$html = "<html>
+		$html = "<!DOCTYPE html>
+				<html>
 				  <head>
 				   <title>Invision Power Board Order Box</title>
 				   $css
@@ -513,7 +517,8 @@ class ad_plugins
 			$this->chat_config();
 		} else
 		{
-			$frames = "<html>
+			$frames = "<!DOCTYPE html>
+					<html>
 		   			 <head><title>Invision Power Board: Chat Set up</title></head>
 					   <frameset rows='*,50' frameborder='yes' border='1' framespacing='0'>
 					   	<frame name='chat_top'   scrolling='auto' src='https://www.invisionchat.com/?acp++acp'>
@@ -536,7 +541,8 @@ class ad_plugins
 
 		$css = $SKIN->get_css();
 
-		$html = "<html>
+		$html = "<!DOCTYPE html>
+			<html>
 				  <head>
 				   <title>Invision Power Board Order Box</title>
 				   $css

@@ -123,6 +123,7 @@ class ad_prefs
 		$ibforums = Ibf::app();
 
 		$hit_muhl = <<<EOF
+<!DOCTYPE html>
 <html>
  <head>
    <title>IPB-ACP Prefs</title>

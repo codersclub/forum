@@ -483,11 +483,13 @@ class admin_functions
 		global $IN, $INFO, $std, $SKIN, $use_gzip;
 		$ibforums = Ibf::app();
 
-		$html = "<html>
-		          <head><title>Remote</title>
-		          <meta HTTP-EQUIV=\"Pragma\"  CONTENT=\"no-cache\">
-				  <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
-				  <meta HTTP-EQUIV=\"Expires\" CONTENT=\"Mon, 06 May 1996 04:57:00 GMT\">";
+		$html = "<!DOCTYPE html>
+			<html>
+		          <head>
+			    <title>Remote</title>
+		            <meta HTTP-EQUIV=\"Pragma\"  CONTENT=\"no-cache\">
+			    <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
+			    <meta HTTP-EQUIV=\"Expires\" CONTENT=\"Mon, 06 May 1996 04:57:00 GMT\">";
 
 		$html .= $SKIN->get_css();
 

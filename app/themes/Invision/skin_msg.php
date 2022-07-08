@@ -676,11 +676,10 @@ EOF;
 function archive_html_header() {
 global $ibforums;
 return <<<EOF
-
+<!DOCTYPE html>
 <html>
  <head>
   <title>Private Message Archive</title>
- </head>
  <style type='text/css'>
 	 BODY { font-family: Verdana, Tahoma, Arial, sans-serif;
 			font-size: 11px;
@@ -729,6 +728,7 @@ return <<<EOF
 	.postdetails { font-size: 10px }
 	.postcolor   { font-size: 12px; line-height: 160% }
  </style>
+ </head>
  <body>
  <div id='ipbwrapper'>
 

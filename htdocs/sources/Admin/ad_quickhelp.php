@@ -127,7 +127,8 @@ class quick_help
 			$ADMIN->error("No help information is available for this function at present");
 		}
 
-		print "<html>
+		print "<!DOCTYPE html>
+			<html>
 				<head>
 				 <title>Quick Help</title>
 				</head>

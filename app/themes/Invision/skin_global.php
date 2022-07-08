@@ -48,9 +48,11 @@ EOF;
 function Redirect($Text, $Url, $css) {
 global $ibforums;
 return <<<EOF
-
+<!DOCTYPE html>
 <html>
-<head><title>{$ibforums->lang['stand_by']}</title><meta http-equiv='refresh' content='2; url=$Url'></head>
+<head>
+  <title>{$ibforums->lang['stand_by']}</title><meta http-equiv='refresh' content='2; url=$Url'>
+</head>
 <body>
 <table width='100%' height='85%' align='center'>
 <tr>
@@ -288,9 +290,8 @@ EOF;
 function pop_up_window($title, $js, $css, $text) {
 global $ibforums;
 return <<<EOF
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
  <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <title>$title</title>

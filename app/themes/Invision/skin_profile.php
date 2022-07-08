@@ -388,7 +388,7 @@ EOF;
 function show_card_download($name, $photo, $info) {
 global $ibforums;
 return <<<EOF
-
+<!DOCTYPE html>
 <html>
  <head>
   <title>$name</title>

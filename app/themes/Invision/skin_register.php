@@ -348,7 +348,7 @@ EOF;
 function coppa_form() {
 global $ibforums;
 return <<<EOF
-
+<!DOCTYPE html>
      <html>
       <head>
        <title>{$ibforums->lang['cpf_title']}</title>

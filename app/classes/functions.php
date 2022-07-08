@@ -1648,7 +1648,7 @@ class functions
 		{
 			@flush();
 			//			echo("<html><head><meta http-equiv='refresh' content='0; url=$url'></head><body></body></html>");
-			echo("<html><head><meta http-equiv='refresh' content='0; url=" . htmlspecialchars($url) . "'></head><body></body></html>");
+			echo("<!DOCTYPE html><html><head><meta http-equiv='refresh' content='0; url=" . htmlspecialchars($url) . "'></head><body></body></html>");
 			exit();
 		} else
 		{

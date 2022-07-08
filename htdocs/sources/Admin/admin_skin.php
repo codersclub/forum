@@ -1055,12 +1055,13 @@ class admin_skin
 
 		$css = $this->get_css();
 
-		return "<html>
+		return "<!DOCTYPE html>
+			<html>
 		          <head><title>Menu</title>
 		          <meta http-equiv=\"content-type\" content=\"text/html; charset={$INFO['charset']}\">
 		          <meta HTTP-EQUIV=\"Pragma\"  CONTENT=\"no-cache\">
-				  <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
-				  <meta HTTP-EQUIV=\"Expires\" CONTENT=\"Mon, 06 May 1996 04:57:00 GMT\">
+			  <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
+			  <meta HTTP-EQUIV=\"Expires\" CONTENT=\"Mon, 06 May 1996 04:57:00 GMT\">
 		          $css
 		          <script type='text/javascript'>
 					function ShowHide(id1, id2) {
@@ -1158,7 +1159,8 @@ class admin_skin
 
 		$pop_win = $this->js_pop_win();
 
-		return "<html>
+		return "<!DOCTYPE html>
+			<html>
 		          <head><title>Menu</title>
 		          <style type='text/css'>
 		          	TABLE, TR, TD     { font-family:Verdana, Arial;font-size: 9px; color:#000 }
@@ -1296,13 +1298,16 @@ class admin_skin
 	{
 		global $IN, $ibforums;
 
-		$frames = "<html>
-		   			 <head><title>Invision Power Board Administration Center</title></head>
-					   <frameset cols='185, *' frameborder='no' border='0' framespacing='0'>
+		$frames = "<!DOCTYPE html>
+			<html>
+		   		<head>
+					<title>Invision Power Board Administration Center</title>
+				</head>
+					<frameset cols='185, *' frameborder='no' border='0' framespacing='0'>
 					   	<frame name='menu' noresize scrolling='auto' src='{$this->base_url}&act=menu'>
 					   	<frame name='body' noresize scrolling='auto' src='{$this->base_url}&act=index'>
-					   </frameset>
-				   </html>";
+					</frameset>
+			</html>";
 
 		return $frames;
 
