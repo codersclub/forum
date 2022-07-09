@@ -392,7 +392,7 @@ return <<<EOF
 <html>
  <head>
   <title>$name</title>
-  <style type="text/css">
+  <style>
 	 form { display:inline; }
 	 img  { vertical-align:middle }
 	 BODY { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 11px; color: #000; margin-left:5%;margin-right:5%;margin-top:5px;  }

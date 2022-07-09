@@ -123,8 +123,10 @@ class ad_plugins
 		} else
 		{
 			$frames = "<!DOCTYPE html>
-				<html>
-		   			 <head><title>Invision Power Board: Registration Set up</title></head>
+				<html lang='en'>
+		   			<head>
+					   <title>Invision Power Board: Registration Set up</title>
+					</head>
 					   <frameset rows='*,50' frameborder='yes' border='1' framespacing='0'>
 					   	<frame name='chat_top'   scrolling='auto' src='https://customer.invisionpower.com/ipb/copy/redirect_acp.php'>
 					   	<frame name='chat_bottom'  scrolling='auto' src='{$SKIN->base_url}&act=pin&code=copyframe'>

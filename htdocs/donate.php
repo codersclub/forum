@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Sources.ru Donation Script
 require __DIR__ . '/../app/bootstrap.php';
 
@@ -118,7 +118,7 @@ function encode_header($string, $charset = 'iso-8859-1')
             return true;
         }
         //--></script>
-    <link rel="stylesheet" type="text/css" href="html/calendar/calendar.css">
+    <link rel="stylesheet" href="html/calendar/calendar.css">
     <script type="text/javascript" src="html/calendar/calendar.js"></script>
     <script type="text/javascript" src="html/calendar/calendar-ru.js"></script>
     <script type="text/javascript" src="html/calendar/calendar-setup.js"></script>
@@ -432,12 +432,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
 
         <tr>
-            <td align="right"><span style='color:red'>*</font> <strong>Ник</strong><br>(или&nbsp;ФИО)</td>
+            <td align="right"><span style='color:red'>*</span> <strong>Ник</strong><br>(или&nbsp;ФИО)</td>
             <td><input type="text" size="32" maxlength="32"
                        name="name" value="<?php echo $name; ?>"></td>
         </tr>
         <tr>
-            <td align="right"><span style='color:red'>*</font> <strong>Дата платежа</strong><br>DD.MM.YYYY</td>
+            <td align="right"><span style='color:red'>*</span> <strong>Дата платежа</strong><br>DD.MM.YYYY</td>
             <td><input type="text" size="32" maxlength="32"
                        id="date" name="date" value="<?php echo $date; ?>">
                 <img src='html/calendar/calendar.gif' id='calendar_start_time' style='cursor: pointer; border: 0px;'
@@ -458,7 +458,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </td>
         </tr>
         <tr>
-            <td align="right"><span style='color:red'>*</font><strong>Валюта</strong></td>
+            <td align="right"><span style='color:red'>*</span><strong>Валюта</strong></td>
             <td><select name="currency">
                     <option value="WMZ">WMZ</option>
                     <option value="WME">WME</option>
@@ -469,7 +469,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </td>
         </tr>
         <tr>
-            <td align="right"><span style='color:red'>*</font> <strong>Сумма</strong></td>
+            <td align="right"><span style='color:red'>*</span> <strong>Сумма</strong></td>
             <td><input type="text" size="32" maxlength="256"
                        name="summ" value="<?php echo $summ; ?>"></td>
         </tr>
@@ -480,7 +480,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
         <tr align="center">
             <td colspan=2>
-        <span style='color:red'>*</font> - обязательные для заполнения поля.
+        <span style='color:red'>*</span> - обязательные для заполнения поля.
             </td>
         </tr>
         <tr align="center">

@@ -352,7 +352,7 @@ return <<<EOF
      <html>
       <head>
        <title>{$ibforums->lang['cpf_title']}</title>
-       <!--<link rel='stylesheet' href='style_sheets/stylesheet_<{css_id}>.css' type='text/css'>-->
+       <!--<link rel='stylesheet' href='style_sheets/stylesheet_<{css_id}>.css'>-->
       </head>
      <body bgcolor='white'>
      <table cellpadding='0' cellspacing='4' border='0' width='95%' align='center'>

@@ -918,7 +918,7 @@ class admin_skin
 
 	function get_css()
 	{
-		return "<style type='text/css'>
+		return "<style>
 					BODY {
 							font-size: 10px;
 							font-family: Verdana, Arial, Sans-Serif;
@@ -1056,8 +1056,9 @@ class admin_skin
 		$css = $this->get_css();
 
 		return "<!DOCTYPE html>
-			<html>
-		          <head><title>Menu</title>
+			<html lang=\"en\">
+		          <head>
+			  <title>Menu</title>
 		          <meta charset="utf-8">
 		          <meta HTTP-EQUIV=\"Pragma\"  CONTENT=\"no-cache\">
 			  <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
@@ -1160,9 +1161,10 @@ class admin_skin
 		$pop_win = $this->js_pop_win();
 
 		return "<!DOCTYPE html>
-			<html>
-		          <head><title>Menu</title>
-		          <style type='text/css'>
+			<html lang-\"en\">
+		          <head>
+			  <title>Menu</title>
+		          <style>
 		          	TABLE, TR, TD     { font-family:Verdana, Arial;font-size: 9px; color:#000 }
 					BODY      {
 								 font: 9px Verdana;

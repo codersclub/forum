@@ -170,7 +170,7 @@ class display
 			if (FALSE) //if ( $DB->obj['debug'] ) //todo need to move to the debug class or remove it completely
 			{
 				flush();
-				print "<!DOCTYPE html><html><head><title>mySQL Debugger</title><body bgcolor='white'><style type='text/css'> TABLE, TD, TR, BODY { font-family: verdana,arial, sans-serif;color:black;font-size:11px }</style>";
+				print "<!DOCTYPE html><html lang=\"en\"><head><title>mySQL Debugger</title><body bgcolor='white'><style>TABLE, TD, TR, BODY { font-family: verdana,arial, sans-serif;color:black;font-size:11px }</style>";
 				print $ibforums->debug_html;
 				print "</body></html>";
 				exit();

@@ -124,10 +124,10 @@ class ad_prefs
 
 		$hit_muhl = <<<EOF
 <!DOCTYPE html>
-<html>
+<html lang="en">
  <head>
    <title>IPB-ACP Prefs</title>
-   <style type='text/css'>
+   <style>
 	 BODY {
 			font-size: 10px;
 			font-family: Verdana, Arial, Sans-Serif;

@@ -678,9 +678,9 @@ global $ibforums;
 return <<<EOF
 <!DOCTYPE html>
 <html>
- <head>
-  <title>Private Message Archive</title>
- <style type='text/css'>
+<head>
+<title>Private Message Archive</title>
+<style>
 	 BODY { font-family: Verdana, Tahoma, Arial, sans-serif;
 			font-size: 11px;
 			color: #000;
@@ -727,10 +727,11 @@ return <<<EOF
 	.signature   { font-size: 10px; color: #339; line-height:150% }
 	.postdetails { font-size: 10px }
 	.postcolor   { font-size: 12px; line-height: 160% }
- </style>
- </head>
- <body>
- <div id='ipbwrapper'>
+</style>
+</head>
+
+<body>
+<div id='ipbwrapper'>
 
 EOF;
 }
