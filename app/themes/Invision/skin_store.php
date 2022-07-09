@@ -8,7 +8,7 @@ function edit_users_points() {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 function check_edit(message) {
  if(document.edit.username.value == "") {
@@ -36,7 +36,7 @@ function do_edit_users_points($member) {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 function check_edit(message) {
  if(document.edit.points.value == "") {
@@ -129,7 +129,7 @@ function fine_users() {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 function check_fine(message) {
  if(document.fine.username.value == "" || document.fine.fine_amount.value == "" || document.fine.user_reson.value == "") {
@@ -260,7 +260,7 @@ function edit_users_inventory() {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 function check_edit(message) {
  if(document.edit.username.value == "") {
@@ -378,7 +378,7 @@ function check() {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 function check(type) {
  <!--IBS.SAFTY_ON-->
@@ -653,7 +653,7 @@ function quiz_q_a_header($settings) {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 if(document.quiz.timeout.value != 0) {
  int timeout = document.quiz.timeout.value;

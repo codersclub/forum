@@ -20,7 +20,7 @@
 
 <!-- Rating@Mail.ru counter -->
 <noindex>
-<script type="text/javascript">
+<script>
 var _tmr = window._tmr || (window._tmr = []);
 _tmr.push({id: "89876", type: "pageView", start: (new Date()).getTime()});
 (function (d, w, id) {
@@ -74,7 +74,7 @@ _tmr.push({id: "89876", type: "pageView", start: (new Date()).getTime()});
     </table>
 
 </div>
-<!-- <script type='text/javascript'>if(window.comboInit)setTimeout('comboInit()',10)</script> -->
+<!-- <script>if(window.comboInit)setTimeout('comboInit()',10)</script> -->
 <% JAVASCRIPT_BOTTOM %>
 </body>
 </html>

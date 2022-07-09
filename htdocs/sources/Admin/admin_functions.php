@@ -718,7 +718,7 @@ class admin_functions
 		global $IN, $std, $PAGES, $CATS, $SKIN, $DESC;
 		$ibforums = Ibf::app();
 
-		$html = "<script type='text/javascript'>
+		$html = "<script>
 				 function dojump()
 				 {
 				 	if ( document.jumpmenu.val.options[document.jumpmenu.val.selectedIndex].value != '' )

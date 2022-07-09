@@ -581,7 +581,7 @@ class ad_groups
 
 		//+-------------------------------
 
-		$ADMIN->html .= "<script language='javascript' type='text/javascript'>
+		$ADMIN->html .= "<script>
 						 <!--
 						  function pop_close_and_stop( id )
 						  {
@@ -1944,7 +1944,7 @@ class ad_groups
 		// Sort out default array
 		//+-------------------------------
 
-		$ADMIN->html .= "<script type='text/javascript'>
+		$ADMIN->html .= "<script>
 
 			var show   = '';
 		";

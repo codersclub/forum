@@ -149,7 +149,7 @@ class ad_prefs
 	.textinput { background-color: #DFE6EF;; color:К#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px; }
 
   </style>
-  <script type='text/javascript'>
+  <script>
     var msg = "{$this->msg}";
 
     if ( msg != "" )

@@ -5,7 +5,7 @@ class skin_poll {
 function poll_javascript($tid,$fid) {
 global $ibforums;
 return <<<EOF
-<script type="text/javascript">
+<script>
 function go_gadget_show()
 {
 	window.location = "{$ibforums->base_url}&act=ST&f=$fid&t=$tid&mode=show&st={$ibforums->input['start']}";
@@ -145,7 +145,7 @@ EOF;
 function weighted_js($count) {
 $output=<<<EOF
 
-<script language='JavaScript' type="text/javascript">
+<script>
 function doDropdown(myDropdown){
 if(myDropdown.selectedIndex != 0){
  for(x = 0; x < $count;x++){

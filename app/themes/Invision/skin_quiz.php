@@ -586,7 +586,7 @@ return <<<EOF
  </center>
  </div>
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 if(document.quiz.timeout.value != 0) {
  int timeout = document.quiz.timeout.value;
@@ -792,7 +792,7 @@ function check()
   global $ibforums;
   return <<<EOF
 
-<script language='Javascript' type='text/javascript'>
+<script>
 <!--
 function check(type) {
  <!--IBS.SAFTY_ON-->

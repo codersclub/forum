@@ -119,9 +119,9 @@ function encode_header($string, $charset = 'iso-8859-1')
         }
         //--></script>
     <link rel="stylesheet" href="html/calendar/calendar.css">
-    <script type="text/javascript" src="html/calendar/calendar.js"></script>
-    <script type="text/javascript" src="html/calendar/calendar-ru.js"></script>
-    <script type="text/javascript" src="html/calendar/calendar-setup.js"></script>
+    <script src="html/calendar/calendar.js"></script>
+    <script src="html/calendar/calendar-ru.js"></script>
+    <script src="html/calendar/calendar-setup.js"></script>
 
 </head>
 
@@ -442,7 +442,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                        id="date" name="date" value="<?php echo $date; ?>">
                 <img src='html/calendar/calendar.gif' id='calendar_start_time' style='cursor: pointer; border: 0px;'
                      title='Календарь'>
-                <script type='text/javascript'><!--
+                <script><!--
                     Calendar.setup({
                         inputField: 'date', // id of the input field
                         ifFormat: '%d.%m.%Y', // format of the input field

@@ -283,7 +283,7 @@ class display
 
 			foreach ($this->syntax as $row => $highlight)
 			{
-				$this->js->addRaw("<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>", \JS\JS::HEAD);
+				$this->js->addRaw("<script src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>", \JS\JS::HEAD);
 				$count++;
 			}
 
@@ -819,7 +819,7 @@ class display
 
 			foreach ($this->syntax as $row => $highlight)
 			{
-				$this->js->addRaw("<script type='text/javascript' src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n", \JS\JS::HEAD);
+				$this->js->addRaw("<script src='{$ibforums->vars['board_url']}/highlight/h_{$row}_{$highlight}.js'></script>\n", \JS\JS::HEAD);
 				$count++;
 			}
 

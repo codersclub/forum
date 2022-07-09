@@ -2897,7 +2897,7 @@ class ad_forums
 		// Sort out perm id stuff
 		//+-------------------------------
 
-		$ADMIN->html .= "<script type='text/javascript'>
+		$ADMIN->html .= "<script>
 
 			var show   = '';
 		";

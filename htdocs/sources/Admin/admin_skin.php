@@ -1064,7 +1064,7 @@ class admin_skin
 			  <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
 			  <meta HTTP-EQUIV=\"Expires\" CONTENT=\"Mon, 06 May 1996 04:57:00 GMT\">
 		          $css
-		          <script type='text/javascript'>
+		          <script>
 					function ShowHide(id1, id2) {
 					  if (id1 != '') expMenu(id1);
 					  if (id2 != '') expMenu(id2);

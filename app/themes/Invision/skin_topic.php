@@ -230,7 +230,7 @@ $print->js->addLocal('video.js');
 $print->js->addLocal('topics.js');
 return <<<EOF
 
-<script language="javascript" type="text/javascript">
+<script>
 var
 tid		    = "{$ibforums->input["t"]}",
 error_no_url        = "{$ibforums->lang["error_no_url"]}",

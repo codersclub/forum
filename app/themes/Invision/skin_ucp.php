@@ -1246,7 +1246,7 @@ function email_change($txt="", $msg="") {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type="text/javascript">
+<script>
   do_msg('{$msg}');
 </script>
 <form action='{$ibforums->base_url}' method='post' name='form1'>
@@ -1278,7 +1278,7 @@ function openid_change($txt="", $msg="") {
 global $ibforums;
 return <<<EOF
 
-<script language='Javascript' type="text/javascript">
+<script>
   do_msg('{$msg}');
 </script>
 <form action='{$ibforums->base_url}' method='post' name='form1'>

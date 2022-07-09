@@ -583,7 +583,7 @@ class ad_task_manager
 		                                                      4 => array('task_cronkey', $this_task['task_cronkey']),
 		                                                 ));
 
-		$ibforums->html .= "<script type='text/javascript' language='javascript'>
+		$ibforums->html .= "<script>
 							function updatepreview()
 							{
 								var formobj  = document.theAdminForm;

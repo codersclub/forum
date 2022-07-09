@@ -25,7 +25,7 @@ class JS
 
     public function AddInline($code, $position = self::TOP)
     {
-        $this->addRaw("<script type='text/javascript'>" . $code . "</script>", $position);
+        $this->addRaw("<script>" . $code . "</script>", $position);
     }
 
     public function addLocal($file, $prepend = false)
@@ -36,7 +36,7 @@ class JS
         }
         $src = \Ibf::app()->vars['board_url'] . '/html/' . $file;
         $this->addRaw(
-            "<script type='text/javascript' src='{$src}?" . \Ibf::app()->vars['client_script_version'] . "'></script>",
+            "<script src='{$src}?" . \Ibf::app()->vars['client_script_version'] . "'></script>",
             self::HEAD,
             $prepend
         );
@@ -74,7 +74,7 @@ class JS
 
     protected function renderConfig()
     {
-        $output = "<script type='text/javascript'>";
+        $output = "<script>";
         foreach ($this->config as $name => $data) {
             $output .= sprintf(
                 "var %s = %s;\n",

@@ -153,7 +153,7 @@ $print->js->addLocal('topics.js');
 $print->js->addVariable('MessageMax', Ibf::app()->lang['the_max_length']);
 return <<<EOF
 
-<script language='javascript' type='text/javascript'>
+<script>
 var
 tid		    = "{$ibforums->input['t']}",
 list_prompt         = "{$ibforums->lang['js_tag_list']}",
