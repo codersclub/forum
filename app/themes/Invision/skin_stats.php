@@ -7,7 +7,7 @@ function who_header($fid, $tid, $title) {
 global $ibforums;
 return <<<EOF
 
-<script language='javascript'>
+<script>
 <!--
 function bog_off() {
  	var tid = '$tid';

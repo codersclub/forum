@@ -171,7 +171,7 @@ class item
 			  <tr>
 				<td class='pformstrip' width='100%' colspan='4'>{$type} Name Effect</td>
 			</tr>
-			<script language="JavaScript">
+			<script>
 			<!-- Original:  Luis Romero (luisromero7987@aol.com) -->
 			<!-- Web Site:  https://www.geocities.com/lr7987 -->
 			<!-- This script and many more are available free online at -->

@@ -857,7 +857,7 @@ class ad_mysql
 		$tbl_size = 0;
 
 		$ADMIN->html .= "
-				     <script language='Javascript'>
+				     <script>
                      <!--
                      function CheckAll(cb) {
                          var fmobj = document.theForm;

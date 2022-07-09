@@ -59,7 +59,7 @@ class admin_skin
 	{
 
 		return "
-				<script language='javascript'>
+				<script>
 				<!--
 					function pop_win(theUrl, winName, theWidth, theHeight)
 					{
@@ -86,7 +86,7 @@ class admin_skin
 	{
 
 		return "
-				<script language='javascript'>
+				<script>
 				<!--
 
 					var baseUrl = \"{$this->base_url}\";
@@ -149,7 +149,7 @@ class admin_skin
 	{
 
 		return "
-				<script language='javascript'>
+				<script>
 				<!--
 				function checkdelete(theURL) {
 
@@ -172,7 +172,7 @@ class admin_skin
 	function js_no_specialchars()
 	{
 		return "
-				<script language='javascript'>
+				<script>
 				<!--
 				function no_specialchars(type) {
 
@@ -515,7 +515,7 @@ class admin_skin
 
 		$html = "
 
-				<script language='Javascript1.1'>
+				<script>
 				<!--
 
 				function check_all(str_part) {

@@ -1856,7 +1856,7 @@ class ad_store
 			$image    = $random_image[mt_rand(0, count($random_image) - 1)];
 			$icons[0] = array($image, 'Select A Icon');
 		}
-		$ADMIN->html .= "<script language='javascript'>
+		$ADMIN->html .= "<script>
 				 <!--
 			 	function show_icon() {
 		 			var icon_url = '{$INFO['html_url']}/store/icons/' + document.theAdminForm.item_icon.value;

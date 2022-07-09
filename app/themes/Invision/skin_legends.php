@@ -116,7 +116,7 @@ function find_user_final($names="",$entry="", $name="", $sep="line") {
 global $ibforums;
 return <<<EOF
 
-<script language='javascript'>
+<script>
 <!--
 	function add_to_form()
 	{

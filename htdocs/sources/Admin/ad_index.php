@@ -172,7 +172,7 @@ class index_page
 
 		$ADMIN->html .= "
 
-					<script language='javascript'>
+					<script>
 					<!--
 					  function delete_members() {
 

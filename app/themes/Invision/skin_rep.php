@@ -122,7 +122,7 @@ function ShowForm($i) {
 global $ibforums;
 return <<<EOF
 
-<script language="javascript">
+<script>
 <!--
 	function Validate() {
 		var Max = {$ibforums->vars['rep_msg_length']};

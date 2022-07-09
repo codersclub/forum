@@ -1876,7 +1876,7 @@ class ad_groups
 
 		//+-------------------------------
 
-		$ADMIN->html .= "<script language='javascript'>
+		$ADMIN->html .= "<script>
 				<!--
 				function checkform() {
 				  	isAdmin = document.forms[0].g_access_cp;

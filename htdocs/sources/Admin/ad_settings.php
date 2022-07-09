@@ -1501,7 +1501,7 @@ class ad_settings
 
 		$ADMIN->html .= $SKIN->start_table("Edit an Emoticon");
 
-		$ADMIN->html .= "<script language='javascript'>
+		$ADMIN->html .= "<script>
 						 <!--
 						 	function show_emo() {
 
@@ -1755,7 +1755,7 @@ class ad_settings
 
 		//+-------------------------------
 
-		$ADMIN->html .= "<script language='javascript'>
+		$ADMIN->html .= "<script>
 						 <!--
 						 	function show_emo() {
 

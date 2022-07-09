@@ -52,7 +52,7 @@ function encode_header($string, $charset = 'iso-8859-1')
 <head>
     <title>Помощь проекту Исходники.RU</title>
     <?=Assets::make('assets/stylesheets/donate.scss')?>
-    <script language="JavaScript"><!--
+    <script><!--
         function gourl(s) {
             window.top.location.href = s;
         }
@@ -138,9 +138,9 @@ function encode_header($string, $charset = 'iso-8859-1')
             <H1>Помощь проекту</H1>
             <br>
 
-            <!--TopList COUNTER--><a target=_top
-                                     href="https://top.list.ru/jump?from=89876">
-                <script language="JavaScript"><!--
+            <!--TopList COUNTER-->
+	    <a target=_top href="https://top.list.ru/jump?from=89876">
+                <script><!--
                     d = document;
                     a = '';
                     a += ';r=' + escape(d.referrer)
@@ -166,15 +166,17 @@ js=13//-->
                         src="https://top.list.ru/counter?js=na;id=89876;t=57"
                         border=0 height=1 width=1
                         alt="TopList"></noscript>
-                <script language="JavaScript"><!--
+                <script><!--
                     if (js > 11)d.write('--' + '>')//--></script>
             </a><!--TopList COUNTER-->
 
-            <!--Rambler--><a href="https://counter.rambler.ru/top100/"><img
-                    src="https://counter.rambler.ru/top100.cnt?163871" alt="Rambler's Top100" width=1 height=1 border=0></a>
+            <!--Rambler-->
+	    <a href="https://counter.rambler.ru/top100/">
+		<img src="https://counter.rambler.ru/top100.cnt?163871" alt="Rambler's Top100" width=1 height=1 border=0>
+	    </a>
 
             <!-- SpyLOG f:0211 -->
-            <script language="javascript">
+            <script>
                 u = "u1624.10.spylog.com";
                 d = document;
                 nv = navigator;
@@ -204,7 +206,7 @@ js=13//-->
             <!-- SpyLOG -->
 
             <!-- HotLog -->
-            <script language="javascript">
+            <script>
                 hotlog_js = "1.0";
                 hotlog_d = document;
                 hotlog_n = navigator;
@@ -224,7 +226,7 @@ hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")
                 hotlog_r += "&wh=" + hotlog_s.width + 'x' + hotlog_s.height + "&px=" + ((hotlog_n_n == 0) ?
                     hotlog_s.colorDepth : hotlog_s.pixelDepth)</script>
             <script language="javascript1.3">hotlog_js="1.3"</script>
-            <script language="javascript">hotlog_r += "&js=" + hotlog_js;
+            <script>hotlog_r += "&js=" + hotlog_js;
                 hotlog_d.write("<img src='https://hit2.hotlog.ru/cgi-bin/hotlog/count?'+hotlog_r+'&' border=0 width=1 height=1>")</script>
             <noscript><img src="https://hit2.hotlog.ru/cgi-bin/hotlog/count?s=14399" border=0
                            width=1 height=1></noscript>

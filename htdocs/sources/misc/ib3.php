@@ -84,7 +84,7 @@ class Login
 
 		$html = <<<EOF
 
-    <script language='JavaScript'>
+    <script>
     <!--
     function ValidateForm() {
         var Check = 0;
