@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<HTML>
+<HTML lang="en">
 <HEAD>
   <TITLE>Check for Upload MIME type</TITLE>
 </HEAD>

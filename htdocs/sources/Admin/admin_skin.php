@@ -40,14 +40,14 @@ class admin_skin
 		$this->theme = 'admin';
 	}
 
-    /**
-     * Возвращает имя темы
-     * @return string
-     */
-    public function getThemeName()
-    {
-        return $this->theme;
-    }
+	/**
+	 * Возвращает имя темы
+	 * @return string
+	 */
+	public function getThemeName()
+	{
+		return $this->theme;
+	}
 
 	//+--------------------------------------------------------------------
 	//+--------------------------------------------------------------------
@@ -176,35 +176,35 @@ class admin_skin
 				<!--
 				function no_specialchars(type) {
 
-			      var name;
+			      var name, field;
 
 				  if (type == 'sets')
 				  {
-				  	var field = document.theAdminForm.sname;
+				  	field = document.theAdminForm.sname;
 				  	name = 'Skin Set Title';
 				  }
 
 				  if (type == 'wrapper')
 				  {
-				  	var field = document.theAdminForm.name;
+				  	field = document.theAdminForm.name;
 				  	name = 'Wrapper Title';
 				  }
 
 				  if (type == 'csssheet')
 				  {
-				  	var field = document.theAdminForm.name;
+				  	field = document.theAdminForm.name;
 				  	name = 'StyleSheet Title';
 				  }
 
 				  if (type == 'templates')
 				  {
-				  	var field = document.theAdminForm.skname;
+				  	field = document.theAdminForm.skname;
 				  	name = 'Template Set Name';
 				  }
 
 				  if (type == 'images')
 				  {
-				  	var field = document.theAdminForm.setname;
+				  	field = document.theAdminForm.setname;
 				  	name = 'Image & Macro Set Title';
 				  }
 
@@ -234,286 +234,279 @@ class admin_skin
 
 	function make_page_jump($tp = "", $pp = "", $ub = "")
 	{
-		global $IN, $INFO;
-		$ibforums = Ibf::app();
-		return "<a href='#' title=\"Jump to a page...\" onclick=\"multi_page_jump('$ub',$tp,$pp);\">Pages:</a>";
+		return "<a href='#' title=\"Jump to a page...\" onclick=\"multi_page_jump('$ub',$tp,$pp)\">Pages:</a>";
 	}
 
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
-	// FORM ELEMENTS
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    // FORM ELEMENTS
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function start_form($hiddens = "", $name = 'theAdminForm', $js = "")
-	{
-		global $IN, $INFO;
-		$ibforums = Ibf::app();
+    function start_form($hiddens = "", $name = 'theAdminForm', $js = "")
+    {
+        global $IN;
+//        $ibforums = Ibf::app();
 
-		$form = "<form action='{$this->base_url}' method='post' name='$name' $js>
-				 <input type='hidden' name='adsess' value='{$IN['AD_SESS']}'>";
+        $form = "<form action='{$this->base_url}' method='post' name='$name' $js>
+			<input type='hidden' name='adsess' value='{$IN['AD_SESS']}'>";
 
-		if (is_array($hiddens))
-		{
-			foreach ($hiddens as $k => $v)
-			{
-				$form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
-			}
-		}
+        if (is_array($hiddens))
+        {
+            foreach ($hiddens as $k => $v)
+            {
+                $form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
+            }
+        }
 
-		return $form;
+        return $form;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_hidden($hiddens = "")
-	{
+    function form_hidden($hiddens = "")
+    {
 
-		if (is_array($hiddens))
-		{
-			foreach ($hiddens as $k => $v)
-			{
-				$form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
-			}
-		}
+        if (is_array($hiddens))
+        {
+            foreach ($hiddens as $k => $v)
+            {
+                $form .= "\n<input type='hidden' name='{$v[0]}' value='{$v[1]}'>";
+            }
+        }
 
-		return $form;
-	}
+        return $form;
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function end_form($text = "", $js = "")
-	{
-		// If we have text, we print another row of TD elements with a submit button
+    function end_form($text = "", $js = "")
+    {
+        // If we have text, we print another row of TD elements with a submit button
 
-		$html    = "";
-		$colspan = "";
+        $html    = "";
+        $colspan = "";
 
-		if ($text != "")
-		{
-			if ($this->td_colspan > 0)
-			{
-				$colspan = " colspan='" . $this->td_colspan . "' ";
-			}
+        if ($text != "")
+        {
+            if ($this->td_colspan > 0)
+            {
+                $colspan = " colspan='" . $this->td_colspan . "' ";
+            }
 
-			$html .= "<tr><td align='center' class='pformstrip'" . $colspan . "><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></td></tr>\n";
-		}
+            $html .= "<tr><td class='pformstrip center'" . $colspan . "><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></td></tr>\n";
+        }
 
-		$html .= "</form>";
+        $html .= "</form>";
 
-		return $html;
+        return $html;
 
-	}
+    }
 
-	function end_form_line($text = "", $js = "")
-	{
-		// If we have text, we print another row of TD elements with a submit button
+    function end_form_line($text = "", $js = "")
+    {
+        // If we have text, we print another row of TD elements with a submit button
 
-		$html    = "";
-		$colspan = "";
+        $html    = "";
+        $colspan = "";
 
-		if ($text != "")
-		{
-			if ($this->td_colspan > 0)
-			{
-				$colspan = " colspan='" . $this->td_colspan . "' ";
-			}
+        if ($text != "")
+        {
+            if ($this->td_colspan > 0)
+            {
+                $colspan = " colspan='" . $this->td_colspan . "' ";
+            }
 
-			$html .= "<input type='submit' value='$text'" . $js . " id='button' accesskey='s'>\n";
-		}
+            $html .= "<input type='submit' value='$text'" . $js . " id='button' accesskey='s'>\n";
+        }
 
-		$html .= "</form>";
+        $html .= "</form>";
 
-		return $html;
+        return $html;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function end_form_standalone($text = "", $js = "")
-	{
+    function end_form_standalone($text = "", $js = "")
+    {
 
-		$html    = "";
-		$colspan = "";
+        $html    = "";
+        $colspan = "";
 
-		if ($text != "")
-		{
-			$html .= "<div class='tableborder'><div align='center' class='pformstrip'><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></div></div>\n";
-		}
+        if ($text != "")
+        {
+            $html .= "<div class='tableborder'><div class='pformstrip center'><input type='submit' value='$text'" . $js . " id='button' accesskey='s'></div></div>\n";
+        }
 
-		$html .= "</form>";
+        $html .= "</form>";
 
-		return $html;
+        return $html;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_upload($name = "FILE_UPLOAD", $js = "")
-	{
+    function form_upload($name = "FILE_UPLOAD", $js = "")
+    {
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+        if ($js != "")
+        {
+            $js = ' ' . $js . ' ';
+        }
 
-		return "<input class='textinput' type='file' $js size='30' name='$name'>";
+        return "<input class='textinput' type='file' $js size='30' name='$name'>";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_input($name, $value = "", $type = 'text', $js = "", $size = "30")
-	{
+    function form_input($name, $value = "", $type = 'text', $js = "", $size = "30")
+    {
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+        if ($js != "")
+        {
+            $js = ' ' . $js . ' ';
+        }
 
-		return "<input type='$type' name='$name' value='$value' size='$size'" . $js . " class='textinput'>";
+        return "<input type='$type' name='$name' value='$value' size='$size'" . $js . " class='textinput'>";
 
-	}
+    }
 
-	function form_simple_input($name, $value = "", $size = '5')
-	{
+    function form_simple_input($name, $value = "", $size = '5')
+    {
 
-		return "<input type='text' name='$name' value='$value' size='$size' class='textinput'>";
+        return "<input type='text' name='$name' value='$value' size='$size' class='textinput'>";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_textarea($name, $value = "", $cols = '60', $rows = '5', $wrap = 'soft')
-	{
+    function form_textarea($name, $value = "", $cols = '60', $rows = '5', $wrap = 'soft')
+    {
 
-		return "<textarea name='$name' cols='$cols' rows='$rows' wrap='$wrap' class='multitext'>" . htmlspecialchars($value) . "</textarea>";
+        return "<textarea name='$name' cols='$cols' rows='$rows' wrap='$wrap' class='multitext'>" . htmlspecialchars($value) . "</textarea>";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_dropdown($name, $list = array(), $default_val = "", $js = "")
-	{
+    function form_dropdown($name, $list = array(), $default_val = "", $js = "")
+    {
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+        if ($js != "")
+        {
+            $js = ' ' . $js . ' ';
+        }
 
-		$html = "<select name='$name'" . $js . " class='dropdown'>\n";
+        $html = "<select name='$name'" . $js . " class='dropdown'>\n";
 
-		foreach ($list as $k => $v)
-		{
+        foreach ($list as $k => $v)
+        {
 
-			$selected = "";
+            $selected = "";
 
-			if (($default_val != "") and ($v[0] == $default_val))
-			{
-				$selected = ' selected';
-			}
+            if (($default_val != "") and ($v[0] == $default_val))
+            {
+                $selected = ' selected';
+            }
 
-			$html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
-		}
+            $html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
+        }
 
-		$html .= "</select>\n\n";
+        $html .= "</select>\n\n";
 
-		return $html;
+        return $html;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_multiselect($name, $list = array(), $default = array(), $size = 5, $js = "")
-	{
+    function form_multiselect($name, $list = array(), $default = array(), $size = 5, $js = "")
+    {
 
-		if ($js != "")
-		{
-			$js = ' ' . $js . ' ';
-		}
+        if ($js != "")
+        {
+            $js = ' ' . $js . ' ';
+        }
 
-		//$html = "<select name='$name".'[]'."'".$js." id='dropdown' multiple='multiple' size='$size'>\n";
-		$html = "<select name='$name" . "'" . $js . " class='dropdown' multiple='multiple' size='$size'>\n";
-		foreach ($list as $k => $v)
-		{
+        //$html = "<select name='$name".'[]'."'".$js." id='dropdown' multiple='multiple' size='$size'>\n";
+        $html = "<select name='$name" . "'" . $js . " class='dropdown' multiple='multiple' size='$size'>\n";
+        foreach ($list as $k => $v)
+        {
 
-			$selected = "";
+            $selected = "";
 
-			if (count($default) > 0)
-			{
-				if (in_array($v[0], $default))
-				{
-					$selected = ' selected="selected"';
-				}
-			}
+            if (count($default) > 0)
+            {
+                if (in_array($v[0], $default))
+                {
+                    $selected = ' selected="selected"';
+                }
+            }
 
-			$html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
-		}
+            $html .= "<option value='" . $v[0] . "'" . $selected . ">" . $v[1] . "</option>\n";
+        }
 
-		$html .= "</select>\n\n";
+        $html .= "</select>\n\n";
 
-		return $html;
+        return $html;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_yes_no($name, $default_val = "", $js = array())
-	{
+    function form_yes_no($name, $default_val = "", $js = array())
+    {
 
-		$y_js = "";
-		$n_js = "";
+        $y_js = "";
+        $n_js = "";
 
-		if ($js['yes'] != "")
-		{
-			$y_js = $js['yes'];
-		}
+        if ($js['yes'] != "")
+        {
+            $y_js = $js['yes'];
+        }
 
-		if ($js['no'] != "")
-		{
-			$n_js = $js['no'];
-		}
+        if ($js['no'] != "")
+        {
+            $n_js = $js['no'];
+        }
 
-		$yes = "Yes &nbsp; <input type='radio' name='$name' value='1' $y_js id='green'>";
-		$no  = "<input type='radio' name='$name' value='0' $n_js id='red'> &nbsp; No";
+        $yes = "Yes &nbsp; <input type='radio' name='$name' value='1' $y_js id='green'>";
+        $no  = "<input type='radio' name='$name' value='0' $n_js id='red'> &nbsp; No";
 
-		if ($default_val == 1)
-		{
+        if ($default_val == 1)
+        {
 
-			$yes = "Yes &nbsp; <input type='radio' name='$name' value='1'$y_js checked id='green'>";
-		} else
-		{
-			$no = "<input type='radio' name='$name' value='0' checked $n_js id='red'> &nbsp; No";
-		}
+            $yes = "Yes &nbsp; <input type='radio' name='$name' value='1'$y_js checked='checked' id='green'>";
+        } else
+        {
+            $no = "<input type='radio' name='$name' value='0' checked='checked' $n_js id='red'> &nbsp; No";
+        }
 
-		return $yes . '&nbsp;&nbsp;&nbsp;' . $no;
+        return $yes . '&nbsp;&nbsp;&nbsp;' . $no;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function form_checkbox($name, $checked = 0, $val = 1, $js = array())
-	{
+    function form_checkbox($name, $checked = 0, $val = 1, $js = array())
+    {
 
-		if ($checked == 1)
-		{
+        $checked = ($checked == 1) ? "checked='checked'" : '';
 
-			return "<input type='checkbox' name='$name' value='$val' checked='checked'>";
-		} else
-		{
-			return "<input type='checkbox' name='$name' value='$val'>";
-		}
+        return "<input type='checkbox' name='$name' value='$val' $checked>";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function build_group_perms($read = '*', $write = '*', $reply = '*', $upload = '*')
-	{
-		$ibforums = Ibf::app();
+    function build_group_perms($read = '*', $write = '*', $reply = '*', $upload = '*')
+    {
+        $ibforums = Ibf::app();
 
-		$html = "
+        $html = "
 
 				<script>
 				<!--
@@ -597,469 +590,677 @@ class admin_skin
 
 				";
 
-		$html .= $this->add_td_basic("GLOBAL: All current and future permission masks", "left", "pformstrip");
+        $html .= $this->add_td_basic("GLOBAL: All current and future permission masks", "left", "pformstrip");
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		if ($read == '*')
-		{
-			$html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1'>\n";
-		}
+        if ($read == '*')
+        {
+            $html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1' checked='checked'>\n";
+        } else
+        {
+            $html_read = "<input type='checkbox' onClick='check_all(\"READ\")' name='READ_ALL' value='1'>\n";
+        }
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		if ($reply == '*')
-		{
-			$html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1'>\n";
-		}
+        if ($reply == '*')
+        {
+            $html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1' checked='checked'>\n";
+        } else
+        {
+            $html_reply = "<input type='checkbox' onClick='check_all(\"REPL\")' name='REPLY_ALL' value='1'>\n";
+        }
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		if ($write == '*')
-		{
-			$html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1'>\n";
-		}
+        if ($write == '*')
+        {
+            $html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1' checked='checked'>\n";
+        } else
+        {
+            $html_start = "<input type='checkbox' onClick='check_all(\"STAR\")' name='START_ALL' value='1'>\n";
+        }
 
-		if ($upload == '*')
-		{
-			$html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1' checked>\n";
-		} else
-		{
-			$html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1'>\n";
-		}
+        if ($upload == '*')
+        {
+            $html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1' checked='checked'>\n";
+        } else
+        {
+            $html_upload = "<input type='checkbox' onClick='check_all(\"UPLO\")' name='UPLOAD_ALL' value='1'>\n";
+        }
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		$html .= $this->add_td_row(array(
-		                                "<b>All current and future permission masks</b>",
-		                                "<center id='mgblue'>$html_read</center>",
-		                                "<center id='mggreen'>$html_reply</center>",
-		                                "<center id='mgred'>$html_start</center>",
-		                                "<center id='memgroup'>$html_upload</center>",
-		                           ));
+        $html .= $this->add_td_row(array(
+            "<b>All current and future permission masks</b>",
+            "<span class='center' id='mgblue'>$html_read</span>",
+            "<span class='center' id='mggreen'>$html_reply</span>",
+            "<span class='center' id='mgred'>$html_start</span>",
+            "<span class='center' id='memgroup'>$html_upload</span>",
+        ));
 
-		//+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
 
-		$html .= $this->add_td_basic("OR: Adjust permissions per mask below", "left", "pformstrip");
+        $html .= $this->add_td_basic("OR: Adjust permissions per mask below", "left", "pformstrip");
 
-		$stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms ORDER BY perm_name ASC");
+        $stmt = $ibforums->db->query("SELECT * FROM ibf_forum_perms ORDER BY perm_name ASC");
 
-		while ($data = $stmt->fetch())
-		{
-			if ($read == '*')
-			{
-				$html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(1)\">";
-			} else
-			{
-				if (preg_match("/(^|,)" . $data['perm_id'] . "(,|$)/", $read))
-				{
-					$html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(1)\">";
-				} else
-				{
-					$html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' onclick=\"obj_checked(1)\">";
-				}
-			}
+        while ($data = $stmt->fetch())
+        {
+            if ($read == '*')
+            {
+                $html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(1)\">";
+            } else
+            {
+                if (preg_match("/(^|,)" . $data['perm_id'] . "(,|$)/", $read))
+                {
+                    $html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(1)\">";
+                } else
+                {
+                    $html_read = "<input type='checkbox' name='READ_{$data['perm_id']}' value='1' onclick=\"obj_checked(1)\">";
+                }
+            }
 
-			//+----------------------------------------------------------------------------------------
+            //+----------------------------------------------------------------------------------------
 
-			if ($reply == '*')
-			{
-				$html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(2)\">";
-			} else
-			{
-				if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $reply))
-				{
-					$html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' onclick=\"obj_checked(2)\" checked>";
-				} else
-				{
-					$html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' onclick=\"obj_checked(2)\">";
-				}
-			}
+            if ($reply == '*')
+            {
+                $html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(2)\">";
+            } else
+            {
+                if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $reply))
+                {
+                    $html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(2)\">";
+                } else
+                {
+                    $html_reply = "<input type='checkbox' name='REPLY_{$data['perm_id']}' value='1' onclick=\"obj_checked(2)\">";
+                }
+            }
 
-			//+----------------------------------------------------------------------------------------
+            //+----------------------------------------------------------------------------------------
 
-			if ($write == '*')
-			{
-				$html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(3)\">";
-			} else
-			{
-				if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $write))
-				{
-					$html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(3)\">";
-				} else
-				{
-					$html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' onclick=\"obj_checked(3)\">";
-				}
-			}
+            if ($write == '*')
+            {
+                $html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(3)\">";
+            } else
+            {
+                if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $write))
+                {
+                    $html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(3)\">";
+                } else
+                {
+                    $html_start = "<input type='checkbox' name='START_{$data['perm_id']}' value='1' onclick=\"obj_checked(3)\">";
+                }
+            }
 
-			//+----------------------------------------------------------------------------------------
+            //+----------------------------------------------------------------------------------------
 
-			if ($upload == '*')
-			{
-				$html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(4)\">";
-			} else
-			{
-				if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $upload))
-				{
-					$html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked onclick=\"obj_checked(4)\">";
-				} else
-				{
-					$html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' onclick=\"obj_checked(4)\">";
-				}
-			}
+            if ($upload == '*')
+            {
+                $html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(4)\">";
+            } else
+            {
+                if (preg_match("/(?:^|,)" . $data['perm_id'] . "(?:,|$)/", $upload))
+                {
+                    $html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' checked='checked' onclick=\"obj_checked(4)\">";
+                } else
+                {
+                    $html_upload = "<input type='checkbox' name='UPLOAD_{$data['perm_id']}' value='1' onclick=\"obj_checked(4)\">";
+                }
+            }
 
-			$html .= $this->add_td_row(array(
-			                                "<div align='right' style='font-weight:bold'>{$data['perm_name']}</div>",
-			                                "<center id='mgblue'>$html_read</center>",
-			                                "<center id='mggreen'>$html_reply</center>",
-			                                "<center id='mgred'>$html_start</center>",
-			                                "<center id='memgroup'>$html_upload</center>",
-			                           ));
-		}
+            $html .= $this->add_td_row(array(
+                "<div class='right'><b>{$data['perm_name']}</b></div>",
+                "<span class='center' id='mgblue'>$html_read</span>",
+                "<span class='center' id='mggreen'>$html_reply</span>",
+                "<span class='center' id='mgred'>$html_start</span>",
+                "<span class='center' id='memgroup'>$html_upload</span>",
+            ));
+        }
 
-		return $html;
+        return $html;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
-	// SCREEN ELEMENTS
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+    // SCREEN ELEMENTS
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function add_subtitle($title = "", $id = "subtitle", $colspan = "")
-	{
+    function add_subtitle($title = "", $id = "subtitle", $colspan = "")
+    {
 
-		if ($colspan != "")
-		{
-			$colspan = " colspan='$colspan' ";
-		}
+        if ($colspan != "")
+        {
+            $colspan = " colspan='$colspan' ";
+        }
 
-		return "\n<tr><td id='$id'" . $colspan . ">$title</td><tr>\n";
+        return "\n<tr><td id='$id'" . $colspan . ">$title</td><tr>\n";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function start_table($title = "", $desc = "")
-	{
-
-		if ($title != "")
-		{
-			$this->has_title = 1;
-			$html .= "<div class='tableborder'>
+    function start_table($title = "", $desc = "")
+    {
+        $html = '';
+        if ($title != "")
+        {
+            $this->has_title = 1;
+            $html .= "<div class='tableborder'>
 						<div class='maintitle'>$title</div>\n";
 
-			if ($desc != "")
-			{
-				$html .= "<div class='pformstrip'>$desc</div>\n";
-			}
-		}
+            if ($desc != "")
+            {
+                $html .= "<div class='pformstrip'>$desc</div>\n";
+            }
+        }
 
-		$html .= "\n<table width='100%' cellspacing='0' cellpadding='5' align='center' border='0'>";
+        $html .= "\n<table>";
 
-		if (isset($this->td_header[0]))
-		{
-			$html .= "<tr>\n";
+        if (isset($this->td_header[0]))
+        {
+            $html .= "<tr>\n";
 
-			// Auto remove two &nbsp; only headers..
+            // Auto remove two &nbsp; only headers..
 
-			if ($this->td_header[0][0] == '&nbsp;' && $this->td_header[1][0] == '&nbsp;' && (!isset($this->td_header[2][0])))
-			{
-				$this->td_header[0][0] = '{none}';
-				$this->td_header[1][0] = '{none}';
-			}
+            if ($this->td_header[0][0] == '&nbsp;' && $this->td_header[1][0] == '&nbsp;' && (!isset($this->td_header[2][0])))
+            {
+                $this->td_header[0][0] = '{none}';
+                $this->td_header[1][0] = '{none}';
+            }
 
-			foreach ($this->td_header as $td)
-			{
-				if ($td[1] != "")
-				{
-					$width = " width='{$td[1]}' ";
-				} else
-				{
-					$width = "";
-				}
+            foreach ($this->td_header as $td)
+            {
+                if ($td[1] != "")
+                {
+                    $width = " width='{$td[1]}' ";
+                } else
+                {
+                    $width = "";
+                }
 
-				if ($td[0] != '{none}')
-				{
-					$html .= "<td class='titlemedium'" . $width . "align='center'>{$td[0]}</td>\n";
-				}
+                if ($td[0] != '{none}')
+                {
+                    $html .= "<td class='titlemedium'" . $width . "align='center'>{$td[0]}</td>\n";
+                }
 
-				$this->td_colspan++;
-			}
+                $this->td_colspan++;
+            }
 
-			$html .= "</tr>\n";
-		}
+            $html .= "</tr>\n";
+        }
 
-		return $html;
+        return $html;
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function add_td_row($array, $css = "", $align = 'middle')
-	{
+    function add_td_row($array, $css = "", $align = 'middle')
+    {
 
-		if (is_array($array))
-		{
-			$html = "<tr>\n";
+        if (is_array($array))
+        {
+            $html = "<tr>\n";
 
-			$count = count($array);
+            $count = count($array);
 
-			$this->td_colspan = $count;
+            $this->td_colspan = $count;
 
-			for ($i = 0; $i < $count; $i++)
-			{
+            for ($i = 0; $i < $count; $i++)
+            {
 
-				$td_col = $i % 2
-					? 'tdrow2'
-					: 'tdrow1';
+                $td_col = $i % 2
+                    ? 'tdrow2'
+                    : 'tdrow1';
 
-				if ($css != "")
-				{
-					$td_col = $css;
-				}
+                if ($css != "")
+                {
+                    $td_col = $css;
+                }
 
-				if (is_array($array[$i]))
-				{
-					$text    = $array[$i][0];
-					$colspan = $array[$i][1];
+                if (is_array($array[$i]))
+                {
+                    $text    = $array[$i][0];
+                    $colspan = $array[$i][1];
 
-					$html .= "<td class='$td_col' colspan='$colspan' valign='$align' class='$css'>" . $text . "</td>\n";
-				} else
-				{
-					if ($this->td_header[$i][1] != "")
-					{
-						$width = " width='{$this->td_header[$i][1]}' ";
-					} else
-					{
-						$width = "";
-					}
+                    $html .= "<td class='$td_col' colspan='$colspan'>" . $text . "</td>\n";
+                } else
+                {
+                    if ($this->td_header[$i][1] != "")
+                    {
+                        $width = " width='{$this->td_header[$i][1]}' ";
+                    } else
+                    {
+                        $width = "";
+                    }
 
-					$html .= "<td class='$td_col' $width valign='$align'>" . $array[$i] . "</td>\n";
-				}
-			}
+                    $html .= "<td class='$td_col' $width>" . $array[$i] . "</td>\n";
+                }
+            }
 
-			$html .= "</tr>\n";
+            $html .= "</tr>\n";
 
-			return $html;
-		}
+            return $html;
+        }
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function add_td_basic($text = "", $align = "left", $id = "tdrow1")
-	{
+    function add_td_basic($text = "", $align = "left", $id = "tdrow1")
+    {
 
-		$html    = "";
-		$colspan = "";
+        $html    = "";
+        $colspan = "";
 
-		if ($text != "")
-		{
-			if ($this->td_colspan > 0)
-			{
-				$colspan = " colspan='" . $this->td_colspan . "' ";
-			}
+        if ($text != "")
+        {
+            if ($this->td_colspan > 0)
+            {
+                $colspan = " colspan='" . $this->td_colspan . "' ";
+            }
 
-			$html .= "<tr><td align='$align' class='$id'" . $colspan . ">$text</td></tr>\n";
-		}
-
-		return $html;
-
-	}
-
-	//+--------------------------------------------------------------------
-
-	function add_td_spacer()
-	{
-
-		if ($this->td_colspan > 0)
-		{
-			$colspan = " colspan='" . $this->td_colspan . "' ";
-		}
-
-		return "<tr><td" . $colspan . "><img src='html/sys-img/blank.gif' height='7' width='1'></td></tr>";
-
-	}
-
-	//+--------------------------------------------------------------------
-
-	function end_table()
-	{
-
-		$this->td_header = array(); // Reset TD headers
-
-		if ($this->has_title == 1)
-		{
-			$this->has_title = 0;
-
-			return "</table></div><br />\n\n";
-		} else
-		{
-			return "</table>\n\n";
-		}
-
-	}
-
-	//+--------------------------------------------------------------------
-
-	//+--------------------------------------------------------------------
-	//+--------------------------------------------------------------------
-
-	function get_css()
-	{
-		return "<style>
-					BODY {
-							font-size: 10px;
-							font-family: Verdana, Arial, Sans-Serif;
-							color:#000;
-							padding:0px;
-							margin:0px 5px 0px 5px;
-						  }
-
-				    TABLE, TD, TR {
-							font-family: Verdana,Arial, Sans-Serif;
-							color:#000;
-							font-size: 10px;
-						  }
-
-					a:link, a:visited, a:active  { color:#000055 }
-					a:hover                      { color:#333377;text-decoration:underline }
-
-					#maintop { font-size:18px;
-					           color:#FFF;
-					           font-weight:bold;
-					           letter-spacing:-1px;
-					           padding:9px 5px 9px 5px;
-					           border:1px solid #345487;
-					           background-image: url({$this->img_url}/tile_back.gif);
-					         }
-
-
-					#nav { font-size:11px;margin:8px 0px 8px 0px;color:#3A4F6C;font-weight:bold;}
-					#nav a:link, #nav  a:visited, #nav a:active { font-weight:bold;font-size:11px; }
-
-					#submenu   { border:1px solid #BCD0ED;background-color: #DFE6EF;font-size:10px;margin:3px 0px 3px 0px;color:#3A4F6C;font-weight:bold;}
-					#submenu a:link, #submenu  a:visited, #submenu a:active { font-weight:bold;font-size:10px;text-decoration: none; color: #3A4F6C; }
-
-
-					.tableborder { border:1px solid #345487;background-color:#FFF;width:100% }
-
-					.offdiv { font-size:12px;font-weight:bold }
-
-					form { display:inline }
-					input { vertical-align:middle }
-
-					img  { vertical-align:middle }
-
-					.titlemedium { border:1px solid #FFF; font-weight:bold; color:#3A4F6C; padding:7px 0px 7px 2px; background-image: url({$this->img_url}/tile_sub.gif) }
-					.titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active  { text-decoration: underline; color: #3A4F6C }
-
-					.maintitle { font-size:12px; vertical-align:middle;font-weight:bold; color:#FFF; letter-spacing:1px; padding:8px 0px 8px 5px; background-image: url({$this->img_url}/tile_back.gif) }
-					.maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none; color: #FFF }
-					.maintitle a:hover { text-decoration: underline }
-
-					.pformstrip { background-color: #D1DCEB; color:#3A4F6C;font-weight:bold;padding:5px;margin-top:1px }
-
-					#normal      { font: 10px Verdana; color:#333333 }
-
-					#detail { font-family: Arial; font-size:11px; color: #333333 }
-
-					#subtitle { font-family: Arial,Verdana; font-size:16px; color:#FF9900; font-weight:bold }
-					#smalltitle { font-family: Arial,Verdana; font-size:11px; color:#FF9900; font-weight:bold }
-
-					#table1 {  background-color:#FFFFFF; width:100%; align:center; border:1px solid black }
-
-					.tdrow1 { background-color:#EEF2F7;
-					          border-bottom:1px solid #D1DCEB;
-					          border-right:1px solid #D1DCEB ;
-					          border-top:1px solid #FFF;
-					          border-left:1px solid #FFF;
-					        }
-
-					.subforum { background-color:#DFE6EF }
-
-					.tdrow2 { background-color:#F5F9FD;
-							  border-bottom:1px solid #D1DCEB;
-					          border-right:1px solid #D1DCEB;
-					          border-top:1px solid #FFF;
-					          border-left:1px solid #FFF;
-					        }
-
-					.catrow { font-weight:bold; height:24px; line-height:150%; color:#4C77B6; background-image: url({$this->img_url}/tile_sub.gif); }
-					.catrow2 { font-size:11px; font-weight:bold; line-height:150%; color:#4C77B6; background-color:#D3DFEF; }
-
-					.copy { color:#000; font-size:10px; border-top:1px solid #000; margin-bottom:10px; padding:6px;  margin-left:auto;margin-right:auto; text-align:center; }
-
-					#nav { color:#000000; font-size:9px }
-
-					#description { color:#000000; font-size:10px }
-
-					#memgroup { border:1px solid #777777 }
-
-					#mgred   { border:1px solid #777777; background-color: #f5cdcd }
-					#mggreen { border:1px solid #777777; background-color: #caf2d9 }
-					#mgblue  { border:1px solid #777777; background-color: #DFE6EF }
-
-					#green    { background-color: #caf2d9 }
-					#red      { background-color: #f5cdcd }
-
-					#button   { border:1px solid #4C77B6;background-color: #DFE6EF; font-family:Verdana, Arial; font-size:11px }
-
-					#editbutton   { background-color: #DDDDDD; color: #000; font-family:Verdana, Arial; font-size:9px }
-
-					.fauxbutton   { border:1px solid #4C77B6;
-								    background-color: #DFE6EF;
-								    font-family:Verdana, Arial;
-								    font-size:10px;
-								    font-weight:bold;
-								    padding:3px;
-								    margin:6px;
-								  }
-
-					.darksep { background-color: #B1BECE; color:#4C77B6; height:5px }
-
-					.fauxbutton a:link, .fauxbutton  a:visited, .fauxbutton  a:active { font-size:10px;font-weight:bold; }
-
-					.textinput { background-color: #FFF; color:К#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px; border:2px inset #BCD0ED; }
-
-					.dropdown { background-color: #FFF; color:К#000; font-size:10px; font-family: Verdana,Arial, Sans-Serif; padding:2px;  border:2px inset #BCD0ED; }
-
-					.multitext { background-color: #FFF; color:К#000; font-size:10px;font-family: Verdana,Arial, Sans-Serif; padding:2px;  border:2px inset #BCD0ED; }
-
-					.jmenu, .jmenubutton { vertical-align:middle;
-										  background-color: #FFF;
-										  border:1px solid #345487;
-										  font-size:11px;
-										 }
-
-					#jwrap { border:1px solid #BCD0ED;background-color: #DFE6EF;font-size:10px;margin:3px 0px 3px 0px;color:#3A4F6C;font-weight:bold;padding:8px }
-
-				  </style>";
-	}
-
-	function print_top($title = "", $desc = "")
-	{
-		global $INFO;
-		$ibforums = Ibf::app();
-
-		$css = $this->get_css();
-
-		return "<!DOCTYPE html>
+            $html .= "<tr><td align='$align' class='$id'" . $colspan . ">$text</td></tr>\n";
+        }
+
+        return $html;
+
+    }
+
+    //+--------------------------------------------------------------------
+
+    function add_td_spacer()
+    {
+
+        if ($this->td_colspan > 0)
+        {
+            $colspan = " colspan='" . $this->td_colspan . "' ";
+        }
+
+        return "<tr><td" . $colspan . "><img src='html/sys-img/blank.gif' height='7' width='1'></td></tr>";
+
+    }
+
+    //+--------------------------------------------------------------------
+
+    function end_table()
+    {
+
+        $this->td_header = array(); // Reset TD headers
+
+        if ($this->has_title == 1)
+        {
+            $this->has_title = 0;
+
+            return "</table></div><br />\n\n";
+        } else
+        {
+            return "</table>\n\n";
+        }
+
+    }
+
+    //+--------------------------------------------------------------------
+
+    //+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
+
+    function get_css()
+    {
+        return "<style>
+html, BODY {
+    font-size: 10px;
+    font-family: Verdana, Arial, sans-serif;
+    color: #000;
+    padding: 0;
+    margin: 0 5px 0 5px;
+}
+
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+TABLE {
+    width: 100%;
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+TR {
+    vertical-align: top;
+    text-align: left;
+}
+
+TD, TH {
+    padding: 5px;
+    color: #000;
+    font-size: 10px;
+}
+
+a:link, a:visited, a:active {
+    color: #000055;
+}
+
+a:hover {
+    color: #333377;
+    text-decoration: underline;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+#maintop {
+    font-size: 18px;
+    color: #FFF;
+    font-weight: bold;
+    letter-spacing: -1px;
+    padding: 9px 5px 9px 5px;
+    border: 1px solid #345487;
+    background-image: url({$this->img_url}/tile_back.gif);
+}
+
+#nav {
+    font-size: 11px;
+    margin: 8px 0 8px 0;
+    color: #3A4F6C;
+    font-weight: bold;
+}
+
+#nav a:link, #nav a:visited, #nav a:active {
+    font-weight: bold;
+    font-size: 11px;
+}
+
+#submenu {
+    border: 1px solid #BCD0ED;
+    background-color: #DFE6EF;
+    font-size: 10px;
+    margin: 3px 0 3px 0;
+    color: #3A4F6C;
+    font-weight: bold;
+}
+
+#submenu a:link, #submenu a:visited, #submenu a:active {
+    font-weight: bold;
+    font-size: 10px;
+    text-decoration: none;
+    color: #3A4F6C;
+}
+
+
+.tableborder {
+    border: 1px solid #345487;
+    background-color: #FFF;
+    width: 100%;
+}
+
+.offdiv {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+form {
+    display: inline;
+}
+
+input {
+    vertical-align: middle;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.titlemedium {
+    border: 1px solid #FFF;
+    font-weight: bold;
+    color: #3A4F6C;
+    padding: 7px 0 7px 2px;
+    background-image: url({$this->img_url}/tile_sub.gif);
+}
+
+.titlemedium a:link, .titlemedium a:visited, .titlemedium a:active {
+    text-decoration: underline;
+    color: #3A4F6C;
+}
+
+.maintitle {
+    font-size: 12px;
+    vertical-align: middle;
+    font-weight: bold;
+    color: #FFF;
+    letter-spacing: 1px;
+    padding: 8px 0 8px 5px;
+    background-image: url({$this->img_url}/tile_back.gif);
+}
+
+.maintitle a:link, .maintitle a:visited, .maintitle a:active {
+    text-decoration: none;
+    color: #FFF;
+}
+
+.maintitle a:hover {
+    text-decoration: underline;
+}
+
+.pformstrip {
+    background-color: #D1DCEB;
+    color: #3A4F6C;
+    font-weight: bold;
+    padding: 5px;
+    margin-top: 1px;
+}
+
+#normal {
+    font: 10px Verdana;
+    color: #333333;
+}
+
+#detail {
+    font-size: 11px;
+    color: #333333;
+}
+
+#subtitle {
+    font-size: 16px;
+    color: #FF9900;
+    font-weight: bold;
+}
+
+#smalltitle {
+    font-size: 11px;
+    color: #FF9900;
+    font-weight: bold;
+}
+
+#table1 {
+    background-color: #FFFFFF;
+    width: 100%;
+    border: 1px solid black;
+}
+
+.tdrow1 {
+    background-color: #EEF2F7;
+    border-bottom: 1px solid #D1DCEB;
+    border-right: 1px solid #D1DCEB;
+    border-top: 1px solid #FFF;
+    border-left: 1px solid #FFF;
+}
+
+.subforum {
+    background-color: #DFE6EF;
+}
+
+.tdrow2 {
+    background-color: #F5F9FD;
+    border-bottom: 1px solid #D1DCEB;
+    border-right: 1px solid #D1DCEB;
+    border-top: 1px solid #FFF;
+    border-left: 1px solid #FFF;
+}
+
+.catrow {
+    font-weight: bold;
+    height: 24px;
+    line-height: 150%;
+    color: #4C77B6;
+    background-image: url({$this->img_url}/tile_sub.gif);
+}
+
+.catrow2 {
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 150%;
+    color: #4C77B6;
+    background-color: #D3DFEF;
+}
+
+.copy {
+    color: #000;
+    font-size: 10px;
+    border-top: 1px solid #000;
+    margin-bottom: 10px;
+    padding: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#nav {
+    color: #000000;
+    font-size: 9px;
+}
+
+#description {
+    color: #000000;
+    font-size: 10px;
+}
+
+#memgroup {
+    border: 1px solid #777777;
+}
+
+#mgred {
+    border: 1px solid #777777;
+    background-color: #f5cdcd;
+}
+
+#mggreen {
+    border: 1px solid #777777;
+    background-color: #caf2d9;
+}
+
+#mgblue {
+    border: 1px solid #777777;
+    background-color: #DFE6EF;
+}
+
+#green {
+    background-color: #caf2d9;
+}
+
+#red {
+    background-color: #f5cdcd;
+}
+
+#button {
+    border: 1px solid #4C77B6;
+    background-color: #DFE6EF;
+    font-size: 11px;
+}
+
+#editbutton {
+    background-color: #DDDDDD;
+    color: #000;
+    font-size: 9px;
+}
+
+.fauxbutton {
+    border: 1px solid #4C77B6;
+    background-color: #DFE6EF;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px;
+    margin: 6px;
+}
+
+.darksep {
+    background-color: #B1BECE;
+    color: #4C77B6;
+    height: 5px;
+}
+
+.fauxbutton a:link, .fauxbutton a:visited, .fauxbutton a:active {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.textinput {
+    background-color: #FFF;
+    color: #000;
+    font-size: 10px;
+    padding: 2px;
+    border: 2px inset #BCD0ED;
+}
+
+.dropdown {
+    background-color: #FFF;
+    color: #000;
+    font-size: 10px;
+    padding: 2px;
+    border: 2px inset #BCD0ED;
+}
+
+.multitext {
+    background-color: #FFF;
+    color: #000;
+    font-size: 10px;
+    padding: 2px;
+    border: 2px inset #BCD0ED;
+}
+
+.jmenu, .jmenubutton {
+    vertical-align: middle;
+    background-color: #FFF;
+    border: 1px solid #345487;
+    font-size: 11px;
+}
+
+#jwrap {
+    border: 1px solid #BCD0ED;
+    background-color: #DFE6EF;
+    font-size: 10px;
+    margin: 3px 0px 3px 0px;
+    color: #3A4F6C;
+    font-weight: bold;
+    padding: 8px;
+}
+</style>";
+    }
+
+    function print_top($title = "", $desc = "")
+    {
+        global $INFO;
+        $ibforums = Ibf::app();
+
+        $css = $this->get_css();
+
+        return "<!DOCTYPE html>
 			<html lang=\"en\">
 		          <head>
 			  <title>Menu</title>
-		          <meta charset="utf-8">
+		          <meta charset=\"utf-8\">
 		          <meta HTTP-EQUIV=\"Pragma\"  CONTENT=\"no-cache\">
 			  <meta HTTP-EQUIV=\"Cache-Control\" CONTENT=\"no-cache\">
 			  <meta HTTP-EQUIV=\"Expires\" CONTENT=\"Mon, 06 May 1996 04:57:00 GMT\">
@@ -1119,7 +1320,7 @@ class admin_skin
 				  </head>
 				 <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#FFFFFF' {$this->top_extra}>
 				 <div id='maintop'>$title</div>
-				 <table width='100%' cellspacing='6' id='submenu'>
+				 <table id='submenu'>
 				 <tr>
 				  <td><a href='{$this->base_url}&act=menu&show=all' target='menu'>Expand Menu</a> &middot; <a href='{$this->base_url}&act=menu&show=none' target='menu'>Reduce Menu</a></td>
 				  <td align='right'><a href='{$this->base_url}&act=index' target='body'>ACP Home</a> &middot; <a href='{$INFO['board_url']}/index.{$INFO['php_ext']}' target='_blank'>Board Home</a></td>
@@ -1131,41 +1332,42 @@ class admin_skin
 
 	}
 
-	function wrap_nav($links)
-	{
-		return "\n<div id='nav'><img src='" . $this->img_url . "/nav.gif' border='0' title='ACP Navigation'>&nbsp;$links</div>\n";
-		//	return "\n<div id='nav'><img src='html/sys-img/nav.gif' border='0' title='ACP Navigation'>&nbsp;$links</div>\n";
-	}
+    function wrap_nav($links)
+    {
+        return "\n<div id='nav'><img src='" . $this->img_url . "/nav.gif' title='ACP Navigation'>&nbsp;$links</div>\n";
+        //	return "\n<div id='nav'><img src='html/sys-img/nav.gif' title='ACP Navigation'>&nbsp;$links</div>\n";
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function print_foot()
-	{
+    function print_foot()
+    {
 
-		return "<br />
+        return "<br />
 				<div align='right' id='jwrap'><strong>Quick Jump</strong> <!--JUMP--></div>
 				<div class='copy' align='center'>Invision Power Board &copy 2003 <a href='https://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>
 				 </body>
 				 </html>";
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	//{ background-color:#C2CFDF; font-weight:bold; font-size:12px; color:#000055 }
+    //{ background-color:#C2CFDF; font-weight:bold; font-size:12px; color:#000055 }
 
-	function menu_top()
-	{
-		global $INFO;
-		$ibforums = Ibf::app();
+    function menu_top()
+    {
+        global $INFO;
+//        $ibforums = Ibf::app();
 
-		$pop_win = $this->js_pop_win();
+        $pop_win = $this->js_pop_win();
 
-		return "<!DOCTYPE html>
-			<html lang-\"en\">
+        return "<!DOCTYPE html>
+			<html lang=\"en\">
 		          <head>
+		          <meta charset=\"utf-8\">
 			  <title>Menu</title>
 		          <style>
-		          	TABLE, TR, TD     { font-family:Verdana, Arial;font-size: 9px; color:#000 }
+		          	BODY, TABLE, TR, TD     { font-family:Verdana, Arial;font-size: 9px; color:#000 }
 					BODY      {
 								 font: 9px Verdana;
 								 color:#000;
@@ -1214,95 +1416,96 @@ class admin_skin
 				  $pop_win
 				  </head>
 				 <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#FFF'>
-				 <div align='center'><img src='{$this->img_url}/ad-logo.jpg' border='0' style='width:100%'></div>
+				 <div align='center'><img src='{$this->img_url}/ad-logo.jpg' style='width:100%'></div>
 				 <div class='tableborder'>
 				  <div class='plain'>
-				   <img src='{$this->img_url}/item.gif' border='0' alt='' valign='absmiddle'>&nbsp;<a href='{$this->base_url}&act=menu&show=all' target='menu'>Expand</a> &middot; <a href='{$this->base_url}&act=menu&show=none' target='menu'>Reduce</a> Menu
-				   <br /><img src='{$this->img_url}/item.gif' border='0' alt='' valign='absmiddle'>&nbsp;<a href='{$this->base_url}&act=index' target='body'>ACP</a> &middot; <a href='{$INFO['board_url']}/index.{$INFO['php_ext']}' target='body'>Board</a> Home
-				   <br /><img src='{$this->img_url}/item.gif' border='0' alt='' valign='absmiddle'>&nbsp;<a href='{$this->base_url}&act=ips&code=docs' target='body' style='text-decoration:none'>IPB Documentation</a>
-				   <br /><img src='{$this->img_url}/item.gif' border='0' alt='' valign='absmiddle'>&nbsp;<a href=\"javascript:pop_win('&act=prefs', 'prefs', 400, 200 )\"  style='text-decoration:none'>Your ACP prefs</a>
+				   <img src='{$this->img_url}/item.gif' alt=''>&nbsp;<a href='{$this->base_url}&act=menu&show=all' target='menu'>Expand</a> &middot; <a href='{$this->base_url}&act=menu&show=none' target='menu'>Reduce</a> Menu
+				   <br /><img src='{$this->img_url}/item.gif' alt=''>&nbsp;<a href='{$this->base_url}&act=index' target='body'>ACP</a> &middot; <a href='{$INFO['board_url']}/index.{$INFO['php_ext']}' target='body'>Board</a> Home
+				   <br /><img src='{$this->img_url}/item.gif' alt=''>&nbsp;<a href='{$this->base_url}&act=ips&code=docs' target='body' style='text-decoration:none'>IPB Documentation</a>
+				   <br /><img src='{$this->img_url}/item.gif' alt=''>&nbsp;<a href=\"javascript:pop_win('&act=prefs', 'prefs', 400, 200 )\"  style='text-decoration:none'>Your ACP prefs</a>
 				  </div>
 				 </div>
 				 <br />
 				";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function menu_foot()
-	{
+    function menu_foot()
+    {
 
-		return "
+        return "
 				</body>
 				 </html>";
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function menu_cat_expanded($name = "", $links = "", $id = "")
-	{
-		global $IN;
-		$ibforums = Ibf::app();
+    function menu_cat_expanded($name = "", $links = "", $id = "")
+    {
+        global $IN;
+//        $ibforums = Ibf::app();
 
-		return "<a name='cat$id'></a>
+        return "<a name='cat$id'></a>
 				<div class='tableborder'>
 				  <div class='cattitle'>
-				    <a href='{$this->base_url}&act=menu&show={$IN['show']}&out=$id' target='menu'><img src='{$this->img_url}/minus.gif' border='0' alt='Collapse Category' title='Collapse Category'></a>
+				    <a href='{$this->base_url}&act=menu&show={$IN['show']}&out=$id' target='menu'><img src='{$this->img_url}/minus.gif' alt='Collapse Category' title='Collapse Category'></a>
 				    <a href='{$this->base_url}&act=menu&show={$IN['show']}&out=$id' target='menu'>$name</a>
 				  </div>
 				  <div class='plain'>$links</div>
 				</div>
 				<br />\n";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function menu_cat_collapsed($name = "", $id = "", $desc = "")
-	{
-		global $IN;
-		$ibforums = Ibf::app();
+    function menu_cat_collapsed($name = "", $id = "", $desc = "")
+    {
+        global $IN;
+//        $ibforums = Ibf::app();
 
-		return "<div class='tableborder'>
+        return "<div class='tableborder'>
 				  <div class='cattitle'>
-				    <a href='{$this->base_url}&act=menu&show=,{$IN['show']},$id#cat$id' target='menu'><img src='{$this->img_url}/plus.gif' border='0' alt='Collapse Category' title='Collapse Category'></a>
+				    <a href='{$this->base_url}&act=menu&show=,{$IN['show']},$id#cat$id' target='menu'><img src='{$this->img_url}/plus.gif' alt='Collapse Category' title='Collapse Category'></a>
 				    <a href='{$this->base_url}&act=menu&show=,{$IN['show']},$id#cat$id' target='menu'>$name</a>
 				  </div>
 				  <div class='desc'>$desc</div>
 				</div>
 				<br />\n";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function menu_cat_link($url = "", $name = "", $urltype = 0)
-	{
-		global $INFO;
-		$ibforums = Ibf::app();
+    function menu_cat_link($url = "", $name = "", $urltype = 0)
+    {
+        global $INFO;
+//        $ibforums = Ibf::app();
 
-		if ($urltype == 1)
-		{
-			$theurl = $INFO['board_url'] . '/index.' . $INFO['php_ext'] . '?';
-		} else
-		{
-			$theurl = $this->base_url;
-		}
+        if ($urltype == 1)
+        {
+            $theurl = $INFO['board_url'] . '/index.' . $INFO['php_ext'] . '?';
+        } else
+        {
+            $theurl = $this->base_url;
+        }
 
-		return "<img src='{$this->img_url}/item.gif' border='0' alt='' valign='absmiddle'>&nbsp;<a href='{$theurl}&$url' target='body' style='text-decoration:none'>$name</a><br />";
+        return "<img src='{$this->img_url}/item.gif' alt=''>&nbsp;<a href='{$theurl}&$url' target='body' style='text-decoration:none'>$name</a><br />";
 
-	}
+    }
 
-	//+--------------------------------------------------------------------
+    //+--------------------------------------------------------------------
 
-	function frame_set()
-	{
-		global $IN, $ibforums;
+    function frame_set()
+    {
+//        global $IN, $ibforums;
 
-		$frames = "<!DOCTYPE html>
+        $frames = "<!DOCTYPE html>
 			<html>
 		   		<head>
+		   		  <meta charset=\"utf-8\">
 					<title>Invision Power Board Administration Center</title>
 				</head>
 					<frameset cols='185, *' frameborder='no' border='0' framespacing='0'>
@@ -1311,10 +1514,8 @@ class admin_skin
 					</frameset>
 			</html>";
 
-		return $frames;
+        return $frames;
 
-	}
+    }
 
 }
-
-?>

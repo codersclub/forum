@@ -53,9 +53,7 @@ class functions
 			return 1;
 		}
 
-		$visible  = $visible
-			? 1
-			: 0;
+		$visible  = empty($visible) ? 0 : 1;
 		$is_forum = $is_forum
 			? 1
 			: 0;
@@ -414,13 +412,13 @@ class functions
 		$stmt = $ibforums->db->prepare("SELECT
 			COUNT(r.msg_id) AS cnt
 		    FROM
-			ibf_reputation r,
-			ibf_forums f
+			    ibf_reputation r,
+			    ibf_forums f
 		    WHERE
-			r.forum_id=f.id and
-			f.inc_postcount=:counter and
-			r.member_id=:mid AND
-			r.code=:code");
+			    r.forum_id=f.id AND
+			    f.inc_postcount=:counter AND
+			    r.member_id=:mid AND
+			    r.code=:code");
 		//first reputation
 		$stmt->execute([
 		               ':counter' => 1,
@@ -644,16 +642,16 @@ class functions
 
 	function menu_row($value, $current, $label, $mode = "")
 	{
-
+        $selected = '';
 		if ($value == $current and ($mode == "" or $mode == 0))
 		{
-			$selected = " selected='selected'";
+			$selected = 'selected="selected"';
 		}
 
-		return "<option value='$value'$selected>{$label}</option>\n";
+		return "<option value='$value' $selected>{$label}</option>\n";
 	}
 
-	function forum_filter($forum = array(), $forums_id = array(), $mode = 0, $pid)
+	function forum_filter($forum = array(), $forums_id = array(), $mode = 0, $pid=0)
 	{
 		global $ibforums;
 
@@ -1648,7 +1646,7 @@ class functions
 		{
 			@flush();
 			//			echo("<html><head><meta http-equiv='refresh' content='0; url=$url'></head><body></body></html>");
-			echo("<!DOCTYPE html><html><head><meta http-equiv='refresh' content='0; url=" . htmlspecialchars($url) . "'></head><body></body></html>");
+			echo("<!DOCTYPE html><html lang=\"en\"><head><meta http-equiv='refresh' content='0; url=" . htmlspecialchars($url) . "'></head><body></body></html>");
 			exit();
 		} else
 		{
@@ -2152,7 +2150,7 @@ EOF;
 			{
 				if ($ibforums->input['f'] and $ibforums->input['f'] == $i['forum_id'])
 				{
-					$selected = ' selected="selected"';
+					$selected = 'selected="selected"';
 				}
 			}
 
@@ -2168,7 +2166,7 @@ EOF;
 
 			if ($i['subwrap'] == 1 and $i['sub_can_post'] != 1)
 			{
-				$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']}</option>\n";
+				$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\" $selected>&nbsp;&nbsp;- {$i['forum_name']}</option>\n";
 			} else
 			{
 				if ($this->check_perms($i['read_perms']) == TRUE)
@@ -2177,11 +2175,11 @@ EOF;
 					{
 						$children[$i['parent_id']][] = array(
 							$i['forum_id'],
-							"<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
+							"<option value=\"{$i['forum_id']}\" $selected>&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
 						);
 					} else
 					{
-						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
+						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\" $selected>&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
 					}
 				} else
 				{
@@ -2342,7 +2340,7 @@ EOF;
 			{
 				if ($ibforums->input['f'] and $ibforums->input['f'] == $i['forum_id'])
 				{
-					$selected = ' selected="selected"';
+					$selected = 'selected="selected"';
 				}
 			}
 
@@ -2358,7 +2356,7 @@ EOF;
 
 			if ($i['subwrap'] == 1 and $i['sub_can_post'] != 1)
 			{
-				$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']}</option>\n";
+				$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\" $selected>&nbsp;&nbsp;- {$i['forum_name']}</option>\n";
 			} else
 			{
 				if ($this->check_perms($i['read_perms']) == TRUE)
@@ -2367,11 +2365,11 @@ EOF;
 					{
 						$children[$i['parent_id']][] = array(
 							$i['forum_id'],
-							"<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
+							"<option value=\"{$i['forum_id']}\" $selected>&nbsp;&nbsp;<IBF_SONG_DEPTH>---- {$i['forum_name']} $redirect</option>\n"
 						);
 					} else
 					{
-						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\"" . $selected . ">&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
+						$forum_keys[$i['cat_id']][$i['forum_id']] = "<option value=\"{$i['forum_id']}\" $selected>&nbsp;&nbsp;- {$i['forum_name']} $redirect</option><!--fx:{$i['forum_id']}-->\n";
 					}
 				} else
 				{
@@ -2997,7 +2995,7 @@ EOF;
 				return "<OBJECT CLASSID=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" WIDTH={$this_dims[0]} HEIGHT={$this_dims[1]}><PARAM NAME=MOVIE VALUE={$member_avatar}><PARAM NAME=PLAY VALUE=TRUE><PARAM NAME=LOOP VALUE=TRUE><PARAM NAME=QUALITY VALUE=HIGH><EMBED SRC={$member_avatar} WIDTH={$this_dims[0]} HEIGHT={$this_dims[1]} PLAY=TRUE LOOP=TRUE QUALITY=HIGH></EMBED></OBJECT>";
 			} else
 			{
-				return "<img src='{$member_avatar}' border='0' width='{$this_dims[0]}' height='{$this_dims[1]}' alt=''>";
+				return "<img src='{$member_avatar}' width='{$this_dims[0]}' height='{$this_dims[1]}' alt=''>";
 			}
 
 			//---------------------------------------
@@ -3013,7 +3011,7 @@ EOF;
 					return "<OBJECT CLASSID=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" WIDTH={$this_dims[0]} HEIGHT={$this_dims[1]}><PARAM NAME=MOVIE VALUE=\"{$ibforums->vars['upload_url']}/$member_avatar\"><PARAM NAME=PLAY VALUE=TRUE><PARAM NAME=LOOP VALUE=TRUE><PARAM NAME=QUALITY VALUE=HIGH><EMBED SRC=\"{$ibforums->vars['upload_url']}/$member_avatar\" WIDTH={$this_dims[0]} HEIGHT={$this_dims[1]} PLAY=TRUE LOOP=TRUE QUALITY=HIGH></EMBED></OBJECT>";
 				} else
 				{
-					return "<img src='{$ibforums->vars['upload_url']}/$member_avatar' border='0' width='{$this_dims[0]}' height='{$this_dims[1]}' alt=''>";
+					return "<img src='{$ibforums->vars['upload_url']}/$member_avatar' width='{$this_dims[0]}' height='{$this_dims[1]}' alt=''>";
 				}
 			} //---------------------------------------
 			// No, it's not a URL or an upload, must
@@ -3027,7 +3025,7 @@ EOF;
 					// Do we have an avatar still ?
 					//---------------------------------------
 
-					return "<img src='{$ibforums->vars['AVATARS_URL']}/{$member_avatar}' border='0' alt=''>";
+					return "<img src='{$ibforums->vars['AVATARS_URL']}/{$member_avatar}' alt=''>";
 					//---------------------------------------
 					// No, ok - return blank
 					//---------------------------------------
@@ -3476,7 +3474,7 @@ EOF;
 	//-----------------------------------------------
 	// Reindex the Topic Title
 	//-----------------------------------------------
-	function index_reindex_title($tid = 0, $fid = 0, $title)
+	function index_reindex_title($tid = 0, $fid = 0, $title='')
 	{
 		global $ibforums;
 
@@ -3589,7 +3587,7 @@ EOF;
 	function index_move_topics($tids, $movetoforum)
 	{
 		$ibforums = Ibf::app();
-		$tidlist  = trim($tidlist);
+		$tids  = trim($tids);
 		if ($tids)
 		{
 			if ($ibforums->vars['search_sql_method'] == 'index')

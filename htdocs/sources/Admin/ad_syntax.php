@@ -522,10 +522,10 @@ class ad_syntax
 
 			if ($row['member_id'] == $member_id)
 			{
-				$checkbox = "<center><input type='checkbox' name='syntax_{$row['syntax']}' value='1' checked></center>";
+				$checkbox = "<span class='center'><input type='checkbox' name='syntax_{$row['syntax']}' value='1' checked='checked'></span>";
 			} else
 			{
-				$checkbox = "<center><input type='checkbox' name='syntax_{$row['syntax']}' value='1'></center>";
+				$checkbox = "<span class='center'><input type='checkbox' name='syntax_{$row['syntax']}' value='1'></span>";
 			}
 
 			$ADMIN->html .= $SKIN->add_td_row(array($code, $description, $checkbox), $css);

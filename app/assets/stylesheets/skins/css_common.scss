@@ -9,6 +9,10 @@ table {
     width: 100%;
 }
 
+img {
+  border: 0;
+}
+
 img.icon_off{
 	opacity: 0.5;
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
@@ -102,6 +106,14 @@ pre	{
 
 .closed .body {
   display: none;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
 }
 
 .spoiler_header {

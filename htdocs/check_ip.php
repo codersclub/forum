@@ -36,12 +36,12 @@ if ( $DB->connect() )
 
 ?>
 <form>
-IP: <input type=text name=ip>
+IP: <input type="text" name="ip">
 
-<input type=submit value=GO>
+<input type="submit" value="GO">
 </form>
 
-<?
+<?php
 $ip = $ibforums->input['ip'];
 if($sess->is_ip_banned($ip)) {
   echo "IP ".$ip." banned.";
