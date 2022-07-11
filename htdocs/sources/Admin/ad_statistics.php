@@ -203,15 +203,15 @@ class ad_stats
 
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       $data['result_name'],
-				                                       "<img src='{$SKIN->img_url}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''><img src='{$SKIN->img_url}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt=''><img src='{$SKIN->img_url}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>",
-				                                       "<center>" . $data['result_count'] . "</center>",
+				                                       "<img src='{$SKIN->img_url}/bar_left.gif' width='4' height='11' alt=''><img src='{$SKIN->img_url}/bar.gif' width='$img_width' height='11' alt=''><img src='{$SKIN->img_url}/bar_right.gif' width='4' height='11' alt=''>",
+				                                       "<span class='center'>{$data['result_count']}</span>",
 				                                  ));
 			}
 
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       '&nbsp;',
-			                                       "<div align='right'><b>Total</b></div>",
-			                                       "<center><b>" . $running_total . "</b></center>",
+			                                       "<div class='right'><b>Total</b></div>",
+			                                       "<span class='center'><b>$running_total</b></span>",
 			                                  ));
 
 		} else
@@ -387,15 +387,15 @@ class ad_stats
 
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       $date,
-				                                       "<img src='{$SKIN->img_url}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''><img src='{$SKIN->img_url}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt=''><img src='{$SKIN->img_url}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>",
-				                                       "<center>" . $data['result_count'] . "</center>",
+				                                       "<img src='{$SKIN->img_url}/bar_left.gif' width='4' height='11' alt=''><img src='{$SKIN->img_url}/bar.gif' width='$img_width' height='11' alt=''><img src='{$SKIN->img_url}/bar_right.gif' width='4' height='11' alt=''>",
+				                                       "<span class='center'>{$data['result_count']}</span>",
 				                                  ));
 			}
 
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       '&nbsp;',
-			                                       "<div align='right'><b>Total</b></div>",
-			                                       "<center><b>" . $running_total . "</b></center>",
+			                                       "<div class='right'><b>Total</b></div>",
+			                                       "<span class='center'><b>" . $running_total . "</b></span>",
 			                                  ));
 
 		} else

@@ -203,7 +203,7 @@ class Att
 
 		$this->html .= "<div class='tableborder'>";
 
-		$this->html .= "<div class='maintitle'><img src='style_images/1/nav_m.gif' alt='&gt;' border='0'>&nbsp;".sprintf($ibforums->lang['title'], ("<a href='".$base_link.$view_vars."'>".$ibforums->lang['attachments']."</a>"), ("<a href='{$ibforums->base_url}showuser={$mid}'>".$username."</a>"))."</div>";
+		$this->html .= "<div class='maintitle'><img src='style_images/1/nav_m.gif' alt='&gt;'>&nbsp;".sprintf($ibforums->lang['title'], ("<a href='".$base_link.$view_vars."'>".$ibforums->lang['attachments']."</a>"), ("<a href='{$ibforums->base_url}showuser={$mid}'>".$username."</a>"))."</div>";
 
 		$this->html .= "<table width='100%' cellpadding='2' cellspacing='1' class='tablebasic'>
 			<tr>

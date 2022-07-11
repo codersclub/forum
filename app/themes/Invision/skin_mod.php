@@ -387,7 +387,7 @@ function poll_edit_top() {
 global $ibforums;
 return <<<EOF
 
-<table width='100%' cellpadding='6' border='0' cellspacing='0'>
+<table>
 
 EOF;
 }
@@ -544,7 +544,7 @@ return <<<EOF
 <div class='tableborder'>
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['w_warnfor']} <a href='{$ibforums->base_url}showuser=$mid'>$name</a> ( $min &lt; $cur &gt; $max )</div>
  <div class='pformstrip'>{$ibforums->lang['w_complete']}</div>
- <table width='100%' cellpadding='0' border='0' cellspacing='0'>
+ <table>
  <tr>
   <td class='pformleftw'><strong>{$ibforums->lang['w_adjust_level']}</strong></td>
   <td class='pformright'>
@@ -753,7 +753,7 @@ function warn_view_header($id, $name, $links) {
 global $ibforums;
 return <<<EOF
 
-<table cellspacing='0' cellpadding='0' width='100%' border='0'>
+<tablecellpadding='0'>
 <tr>
  <td align='left'><span id='phototitle'>$name</span></td>
  <td align='right'>$links</td>

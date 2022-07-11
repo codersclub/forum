@@ -3818,8 +3818,7 @@ class Moderate
 				show_rules=" . intval($ibforums->input['style']) . ",
 				red_border=" . intval($ibforums->input['border']) . "
 			WHERE id=" . intval($ibforums->input['f']);
-dump($sql);
-        $ibforums->db->exec($sql);
+	        $ibforums->db->exec($sql);
 
 		$print->redirect_screen($ibforums->lang['cp_redirect_mod_topics'], "act=modcp&CODE=rules_select&f=" . $ibforums->input['f']);
 

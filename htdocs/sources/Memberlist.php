@@ -362,7 +362,7 @@ class Memberlist
 
 			if ($this->mem_groups[$member['mgroup']]['ICON'])
 			{
-				$member['gicon'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$this->mem_groups[ $member['mgroup'] ]['ICON']}' border='0'> ";
+				$member['gicon'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$this->mem_groups[ $member['mgroup'] ]['ICON']}'> ";
 			}
 
 			if ($pips)
@@ -375,13 +375,13 @@ class Memberlist
 					}
 
 				} else {
-					$member['pips'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/$pips' border='0'>";
+					$member['pips'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/$pips'>";
 				}
 			}
 
 			if ($member['gender'] == 'f')
 			{
-				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' border='0'> ";
+				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif'> ";
 
 			} else {
 				$member['sex'] = "";
@@ -401,7 +401,7 @@ class Memberlist
 
 			if ($member['icq_number'])
 			{
-				$member['icq_status'] = "<a href=\"https://icq.im/{$member['icq_number']}\" target=\"_blank\" title=\"ICQ {$member['icq_number']}\"><img src=\"https://status.icq.com/online.gif?icq={$member['icq_number']}\" alt=\"ICQ\" width=18 height=18 border=0 align=top></a>";
+				$member['icq_status'] = "<a href=\"https://icq.im/{$member['icq_number']}\" target=\"_blank\" title=\"ICQ {$member['icq_number']}\"><img src=\"https://status.icq.com/online.gif?icq={$member['icq_number']}\" alt=\"ICQ\" width=18 height=18 align=top></a>";
 				$member['icq_icon']   = "<a href='https://wwp.icq.com/scripts/search.dll?to={$member['icq_number']}'><{P_ICQ}></a>";
 			} else
 			{

@@ -11,7 +11,7 @@ return <<<EOF
 
 <table width=100%><TR><TD width=50%>
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -27,7 +27,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -62,7 +62,7 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -78,7 +78,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -112,7 +112,7 @@ return <<<EOF
 <table width=100%><TR><TD width=50%>
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -128,7 +128,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -158,7 +158,7 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -174,7 +174,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -205,7 +205,7 @@ return <<<EOF
 
 
 
-<table width="70%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="70%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -221,7 +221,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -265,7 +265,7 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -281,7 +281,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -319,7 +319,7 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -335,7 +335,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -382,7 +382,7 @@ return <<<EOF
 
 
 
-<table width="70%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="70%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -398,7 +398,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table>
 
         <tr> 
 
@@ -430,7 +430,7 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -446,7 +446,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table cellspacing="1">
 
         <tr> 
 
@@ -466,69 +466,51 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
-
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
   <tr> 
-
     <td class='maintitle' > 
-
       &nbsp; Top 10 Posters In Past Month
-
     </td>
-
   </tr>
-
   <tr> 
-
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
-
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
-
-        <tr> 
-
-
+      <table cellspacing="1">
 	<tr> 
 		<td nowrap  class='pformstrip' align="center">Member Name</td>
 		<td nowrap  class='pformstrip' align="center"># of Posts</td>
 	</tr>
 	{$data['month_posters']}
-</table>
+      </table>
 
-
+    </TD>
+  </TR>
+</Table>
 </TD></TR></Table>
 </TD></TR></Table>
-</TD></TR></Table>
 
 
 
-<Table width=90% div align=center><TR><TD width=50%>
+<table width=90%>
+  <TR>
+    <TD width=50%>
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
-
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
   <tr> 
-
     <td class='maintitle' > 
-
       &nbsp; Top Used Instant Messengers
-
     </td>
-
   </tr>
 
   <tr> 
+    <td bgcolor=eeeeee> 
 
-    <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
-
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
-
-        <tr> 
-
-
+      <table cellspacing="1">
 	<tr> 
 		<td nowrap  class='pformstrip' align="center" width="90%">&nbsp;&nbsp;Instant Messenger</td>
 		<td nowrap  class='pformstrip' align="center" width="10%"># of Members</td>
+	</tr>
 	<tr>
 		<td class='row2'><span style='color:#888888'>&nbsp;&nbsp;AIM</td>
 		<td class="row2" align=center><span style='color:#888888'>{$data['aim']}</td>
@@ -558,7 +540,7 @@ return <<<EOF
 </TD><TD width=50%>
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -574,21 +556,17 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
-
+      <table cellspacing="1">
         <tr> 
-
           <td nowrap  class='pformstrip' align="center" width="50%">Member Name</td>
-
-            <td nowrap  class='pformstrip' align="center" width="30%">Date/Time</td>
-
-
-
+          <td nowrap  class='pformstrip' align="center" width="30%">Date/Time</td>
         </tr>
 
 	{$data['last_active']}
 
-</TD></TR></table>
+    </TD>
+  </TR>
+</table>
 </TD></TR></Table>
 </TD></TR></Table>
 
@@ -596,11 +574,13 @@ return <<<EOF
 
 
 
-<table width=90% align=center><TR><TD width=33%>
+<table width=90%>
+  <TR>
+    <TD width=33%>
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -614,13 +594,13 @@ return <<<EOF
 
   <tr> 
 
-    <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
+    <td bgcolor=eeeeee> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table>
 
         <tr> 
 
-          <td nowrap  class='pformstrip' align="center" width="50%">Month</td>
+          <td nowrap class='pformstrip' align="center" width="50%">Month</td>
 
             <td nowrap  class='pformstrip' align="center" width="30%"># Posts</td>
 
@@ -645,7 +625,7 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -661,16 +641,10 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
-
+      <table cellspacing="1">
         <tr> 
-
           <td nowrap  class='pformstrip' align="center" width="50%">Month</td>
-
-            <td nowrap  class='pformstrip' align="center" width="30%"># Topics</td>
-
-
-
+          <td nowrap  class='pformstrip' align="center" width="30%"># Topics</td>
         </tr>
 
 	{$data['topics_by_month']}
@@ -684,7 +658,7 @@ return <<<EOF
 
 
 
-<table width="95%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="95%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -700,7 +674,7 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
+      <table>
 
         <tr> 
 
@@ -730,7 +704,7 @@ return <<<EOF
 
 
 
-<table width="70%" border="0" align='center' cellspacing="1" cellpadding="1"  style="border: 1px solid #eeeeee;">
+<table width="70%" cellspacing="1" cellpadding="1" style="border: 1px solid #eeeeee;">
 
   <tr> 
 
@@ -746,21 +720,17 @@ return <<<EOF
 
     <td bgcolor=eeeeee cellspacing="1" cellpadding="1"> 
 
-      <table width="100%" border="0" cellspacing="1" cellpadding="4">
-
+      <table>
         <tr> 
-
           <td nowrap  class='pformstrip' align="center" width="50%">Member Name</td>
-
-            <td nowrap  class='pformstrip' align="center" width="30%">Posts Per Day</td>
-
-
-
+          <td nowrap  class='pformstrip' align="center" width="30%">Posts Per Day</td>
         </tr>
 
 	{$data['fastest_users']}
 
-</TD></TR></table>
+    </TD>
+  </TR>
+</table>
 </TD></TR></Table>
 </TD></TR></Table>
 

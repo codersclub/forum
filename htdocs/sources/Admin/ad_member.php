@@ -1394,7 +1394,7 @@ class ad_forums
 				}
 			} else
 			{
-				$img = "<img src='html/team_icons/{$r['pips']}' border='0'>";
+				$img = "<img src='html/team_icons/{$r['pips']}'>";
 			}
 
 			$ADMIN->html .= $SKIN->add_td_row(array(
@@ -2605,7 +2605,7 @@ class ad_forums
 				$tban = '&nbsp;&nbsp;<span style="font-size:10px">(Suspended until ' . $ADMIN->get_date($s_ban['date_end'], 'LONG') . $sus_link . ')</span>';
 			}
 
-			$ADMIN->html .= $SKIN->add_td_basic("<img src='{$this->img_url}/item.gif' border='0' alt='-'>&nbsp;<a style='font-size:12px' title='View this members profile' href='{$INFO['board_url']}/index.{$INFO['php_ext']}?act=Profile&MID={$r['id']}' target='blank'>{$r['name']}</a> $tban", "left", "pformstrip");
+			$ADMIN->html .= $SKIN->add_td_basic("<img src='{$this->img_url}/item.gif' alt='-'>&nbsp;<a style='font-size:12px' title='View this members profile' href='{$INFO['board_url']}/index.{$INFO['php_ext']}?act=Profile&MID={$r['id']}' target='blank'>{$r['name']}</a> $tban", "left", "pformstrip");
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       "{$r['ip_address']}",
 			                                       $r['g_title'],

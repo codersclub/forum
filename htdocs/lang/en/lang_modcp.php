@@ -89,7 +89,7 @@ $lang = array (
 'cp_find_submit' => "Find user",
 'cp_find_2_user' => "Please select a member from the matches",
 'cp_find_2_submit' => "Edit users profile",
-'cp_no_matches'    => "There was no data returned from your search input, please try again",
+'cp_no_matches'    => "No matching results were found, please go back and review the search criteria",
 'cp_admin_user'    => "You cannot edit an administrators profile from this control panel",
 'cp_no_perms'      => "You do not have permission for this action.",
 
@@ -142,7 +142,6 @@ $lang = array (
 
 'cp_safe_fail' => "This operation failed or no data was returned. If you are running PHP in safe mode, you may not be able to use all the tools provided",
 
-'cp_no_matches' => "No matching results were found, please go back and review the search criteria",
 
 'ipm_title'  => "IP Address Member Search Results",
 'ipm_name'   => "Name",

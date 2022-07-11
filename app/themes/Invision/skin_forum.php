@@ -237,7 +237,8 @@ EOF;
 function PageTop($data) {
 global $ibforums;
 return <<<EOF
-<table style="b-moderators-row" border=0 width="100%"><tr>
+<table style="b-moderators-row">
+<tr>
 <td class="moderators" align="left"><span class="moderators-title title">Модераторы:</span> <span class="moderators-list">{$data["moderators"]}</span></td>
 <td class="quick-search" align="right">{$data["quick_search"]}</td></tr></table>
 <!--IBF.SUBFORUMS-->
@@ -447,7 +448,7 @@ EOF;
 
 function attachImageFull($text, $alt, $url) {
 	return <<<EOF
-		<img class="b-embedded-image" src="{$url}" border="0" alt="{$alt}" title="{$text}">
+		<img class="b-embedded-image" src="{$url}" alt="{$alt}" title="{$text}">
 EOF;
 }
 

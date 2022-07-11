@@ -457,7 +457,7 @@ class calendar
 
 			if ($sskin)
 			{
-				$smile = "<!-- --><img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}' border='0'>";
+				$smile = "<!-- --><img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}'>";
 			} else {
 				$smile = $elmo['typed'];
 			}
@@ -466,7 +466,7 @@ class calendar
 			/*
 						if ( $sskin )
 						{
-							$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/".$elmo['image']."' alt='{$elmo['typed']}' border='0'>";
+							$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/".$elmo['image']."' alt='{$elmo['typed']}'>";
 
 						} else $smile = $elmo['typed'];
 
@@ -1417,13 +1417,13 @@ class calendar
 			}
 			if ($sskin)
 			{
-				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}' border='0'>";
+				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}'>";
 			} else {
 				$smile = $elmo['typed'];
 			}
 			$smilies .= "<td><a href={$out_delim}javascript:emoticon($in_delim" . $elmo['typed'] . "$in_delim){$out_delim}>{$smile}</a>&nbsp;</td>\n";
 
-			//			$smilies .= "<td><a href={$out_delim}javascript:emoticon($in_delim".$elmo['typed']."$in_delim){$out_delim}><img src=\"".$ibforums->vars['EMOTICONS_URL']."/".$elmo['image']."\" alt='smilie' border='0'></a>&nbsp;</td>\n";
+			//			$smilies .= "<td><a href={$out_delim}javascript:emoticon($in_delim".$elmo['typed']."$in_delim){$out_delim}><img src=\"".$ibforums->vars['EMOTICONS_URL']."/".$elmo['image']."\" alt='smilie'></a>&nbsp;</td>\n";
 
 			if ($count == $ibforums->vars['emo_per_row'])
 			{

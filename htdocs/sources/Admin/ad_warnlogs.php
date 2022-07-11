@@ -461,7 +461,7 @@ class ad_warnlogs
 					? '<span style="color:green;font-weight:bold">-</span>'
 					: '<span style="color:red;font-weight:bold">+</span>';
 				$cont = ($row['wlog_contact'] != 'none')
-					? "<center><img src='{$SKIN->img_url}/acp_check.gif' border='0' alt='X'></center>"
+					? "<center><img src='{$SKIN->img_url}/acp_check.gif' alt='X'></center>"
 					: '&nbsp;';
 
 				$ADMIN->html .= $SKIN->add_td_row(array(

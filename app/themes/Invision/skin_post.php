@@ -178,7 +178,7 @@ return <<<EOF
 <br>
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['last_posts']}</div>
-  <table cellpadding='6' cellspacing='1' border='0' width='100%'>
+  <table cellspacing='1'>
 
 EOF;
 }
@@ -235,7 +235,7 @@ if (count($data)){
 foreach ($data as $history_item) {
   $class = $classes[++$i % 2];
   $res .= <<<EOF
-  <table width="100%" border="0" cellspacing="1" cellpadding="3">
+  <table cellspacing="1">
   <tr>
   <th class="row4">{$history_item['time']} by {$history_item['member']}<br>Было (<a href="{$ibforums->base_url}act=Post&amp;CODE=08&amp;f={$forum_id}&amp;t={$topic_id}&amp;p={$post_id}&amp;restore_id={$history_item['id']}&amp;preview=1">восстановить</a>)
   </td>
@@ -252,7 +252,7 @@ EOF;
 }
 }else{
   $res .= <<<EOF
-  <table width="100%" border="0" cellspacing="1" cellpadding="3">
+  <table cellspacing="1">
 	<tr>
 	<td width="100%" valign="top" class="row4">{$ibforums->lang['post_history_empty']}</td>
 	</tr>
@@ -393,7 +393,7 @@ $res = <<<EOF
         <tr>
           <td class='pformleft'>{$ibforums->lang['upload_text']} $data</td>
           <td class='pformright'>
-		<table cellpadding='4' cellspacing='0' width='100%' border='0'>
+		<table>
 EOF;
 foreach($files as $attach) {
 	$res .=  <<<EOF

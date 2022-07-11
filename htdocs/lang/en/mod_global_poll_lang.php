@@ -13,4 +13,3 @@ $lang = array (
 'pv_total_votes' => "Total Votes",
 
 );
-?>

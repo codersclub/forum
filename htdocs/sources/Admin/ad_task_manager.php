@@ -695,7 +695,7 @@ class ad_task_manager
 		$ibforums->adskin->td_header[] = array("&nbsp;", "60%");
 		$ibforums->adskin->td_header[] = array("&nbsp;", "40%");
 
-		$ibforums->html .= $ibforums->adskin->start_table("<table width='100%' border='0'><tr><td width='100%' style='color:white;font-size:11px'><b>$title</b></td><td width='1%' nowrap='nowrap'>$input</td></tr></table>");
+		$ibforums->html .= $ibforums->adskin->start_table("<table><tr><td width='100%' style='color:white;font-size:11px'><b>$title</b></td><td width='1%' nowrap='nowrap'>$input</td></tr></table>");
 
 		$ibforums->html .= $ibforums->adskin->add_td_row(array(
 		                                                      "<strong>Task Title</strong>",
@@ -779,7 +779,7 @@ class ad_task_manager
 
 		$ibforums->html .= $ibforums->adskin->end_table();
 
-		$ibforums->html .= "<div style='tableborder'><div align='center' class='pformstrip'><input type='submit' value='$button' class='realdarkbutton' /></div>
+		$ibforums->html .= "<div style='tableborder'><div class='pformstrip center'><input type='submit' value='$button' class='realdarkbutton' /></div>
 						  </form>";
 
 		//-----------------------------------------
@@ -868,17 +868,17 @@ class ad_task_manager
 			}
 
 			$ibforums->html .= $ibforums->adskin->add_td_row(array(
-			                                                      "<table cellpadding='0' cellspacing='0' border='0' width='100%'>
+			                                                      "<table>
 																	<tr>
-																	 <td width='99%'>
+																	 <td>
 																	  <strong{$class}>{$row['task_title']}{$title}</strong><div style='color:gray'><em>{$row['task_description']}</em></div>
-																	  <div align='center' style='position:absolute;width:auto;display:none;text-align:center;background:#EEE;border:2px outset #555;padding:4px' id='pop{$row['task_id']}'>
+																	  <div style='position:absolute;width:auto;display:none;text-align:center;background:#EEE;border:2px outset #555;padding:4px' id='pop{$row['task_id']}'>
 																	    curl -s -o /dev/null {$ibforums->vars['board_url']}/index.{$ibforums->vars['php_ext']}?act=task&amp;ck={$row['task_cronkey']}
 																	  </div>
 																	 </td>
 																	 <td width='1%' nowrap='nowrap'>
-																	   <a href='#' onclick=\"toggleview('pop{$row['task_id']}')\" title='Show CURL to use in a cron'><img src='{$ibforums->skin_url}/task_cron.gif' border='0' alt='Cron' /></a>
-																	   <a href='{$ibforums->base_url}&act=task&code=run&id={$row['task_id']}' title='Run task now (id: {$row['task_id']})'><img src='{$ibforums->skin_url}/$image'  border='0' alt='Run' /></a>
+																	   <a href='#' onclick=\"toggleview('pop{$row['task_id']}')\" title='Show CURL to use in a cron'><img src='{$ibforums->skin_url}/task_cron.gif' alt='Cron' /></a>
+																	   <a href='{$ibforums->base_url}&act=task&code=run&id={$row['task_id']}' title='Run task now (id: {$row['task_id']})'><img src='{$ibforums->skin_url}/$image' alt='Run' /></a>
 																	 </td>
 																	</tr>
 																	</table>",
@@ -897,7 +897,7 @@ class ad_task_manager
 
 		$std->offset_set = 0;
 
-		$ibforums->html .= "<div align='center'><em>All times GMT. GMT time now is: " . gmdate('jS F Y - h:i A') . "</em></div>";
+		$ibforums->html .= "<div class='center'><em>All times GMT. GMT time now is: " . gmdate('jS F Y - h:i A') . "</em></div>";
 
 		//-----------------------------------------
 		//-------------------------------

@@ -51,7 +51,7 @@ _tmr.push({id: "89876", type: "pageView", start: (new Date()).getTime()});
             target="_blank"
             style="text-decoration:none; padding-right:1em;"
             title="Yandex: Site Quality Index">
-          <img width="88" height="31" alt="" border="0" src="https://yandex.ru/cycounter?https://forum.sources.ru&theme=light&lang=en"/>
+          <img width="88" height="31" alt="" src="https://yandex.ru/cycounter?https://forum.sources.ru&theme=light&lang=en"/>
         </a>
 
         <!-- Rating@Mail.ru logo -->

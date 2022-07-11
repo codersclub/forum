@@ -273,7 +273,7 @@ return <<<EOF
 <input type="hidden" name="act" value="Search">
 <input type="hidden" name="CODE" value="01">
 <div class="tableborder">
-<table cellpadding="4" cellspacing="0" border="0" width="100%">
+<table>
 <tr>
 	<td colspan="2" class="maintitle"  align="center">{$ibforums->lang["keywords_title"]}</td>
 </tr>
@@ -289,7 +289,7 @@ return <<<EOF
 
 	</td>
 	<td class="row1" valign="top">
-	<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center">
+	<table>
 	<tr>
 	 <td><input type="text" maxlength="100" size="50" name="namesearch" class="forminput"></td>
 	</tr>
@@ -303,7 +303,7 @@ return <<<EOF
 </div>
 <br>
 <div class="tableborder">
-<table cellpadding="4" cellspacing="0" border="0" width="100%">
+<table>
 <tr>
 	<td colspan="2" class="maintitle"  align="center">{$ibforums->lang["search_options"]}</td>
 </tr>
@@ -318,7 +318,7 @@ return <<<EOF
 	  <input type="checkbox" name="searchsubs" value="1" id="searchsubs" checked="checked">&nbsp;<label for="searchsubs">{$ibforums->lang["search_in_subs"]}</label>
 	</td>
 	<td class="row1" valign="top">
-		<table cellspacing="4" cellpadding="0" width="100%" align="center" border="0">
+		<table cellspacing="4" cellpadding="0">
 		<tr>
 		 <td valign="top">
 		   <fieldset class="search">
@@ -539,13 +539,13 @@ return <<<EOF
 <table class="pformstrip" cellspacing=0 cellpadding=8 width="100%">
   <tr align="center">
    <td>
-   <a href="https://www.yandex.ru" target="_blank" title="Яndex: Найдется ВСЁ!"><img src="/img/yandex.gif" border=0 width=76 height=48></a>
+   <a href="https://www.yandex.ru" target="_blank" title="Яndex: Найдется ВСЁ!"><img src="/img/yandex.gif" width=76 height=48></a>
    </td>
 
    <td class=tableborder width=1><img src=/html/sys-img/blank.gif></td>
 
    <td width="50%">
-   <a href="https://www.google.ru/webhp?hl=ru" target=_blank title="Google: а ничего и не терялось!"><img src="/img/google.gif" width=150 height=55 border=0 vspace=12></a>
+   <a href="https://www.google.ru/webhp?hl=ru" target=_blank title="Google: а ничего и не терялось!"><img src="/img/google.gif" width=150 height=55 vspace=12></a>
    </td>
   </tr>
   <tr align="center">

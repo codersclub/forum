@@ -188,7 +188,12 @@ function avatar_gallery_cell_row($img, $txt, $form) {
 global $ibforums;
 return <<<EOF
 
-<td align="center"><img src="html/avatars{$img}" border="0" alt="txt"><br><input type="radio" class="radiobutton" name="avatar" value="$form" id="$form">&nbsp;<strong><label for="$form">$txt</label></strong></td>
+<td align="center">
+  <img src="html/avatars{$img}" alt="txt">
+  <br>
+  <input type="radio" class="radiobutton" name="avatar" value="$form" id="$form">
+  <strong><label for="$form">$txt</label></strong>
+</td>
 
 EOF;
 }
@@ -251,7 +256,7 @@ global $ibforums;
 return <<<EOF
 
      <h3>{$ibforums->lang['stats_header']}</h3>
-	  <table width='100%' border="0" cellspacing="0" cellpadding="4">
+	  <table>
 		<tr>
 		  <td width="40%">{$ibforums->lang['email_address']}</td>
 		  <td width="60%">{$member['MEMBER_EMAIL']}</td>
@@ -269,8 +274,9 @@ return <<<EOF
 		  <td width="60%">{$member['DAILY_AVERAGE']}</td>
 		</tr>
 	  </table>
+
 	  <h3>{$ibforums->lang['messenger_summary']}</h3>
-	  <table width="100%" border="0" cellspacing="0" cellpadding="4">
+	  <table>
 		<tr>
 		  <td width="40%">{$ibforums->lang['total_messages']}</td>
 		  <td width="60%">{$member['total_messages']} {$member['full_percent']}</td>
@@ -806,7 +812,7 @@ return <<<EOF
   <td width='40%'>{$ibforums->lang['ras_numbers']}</td>
   <td>
 	 <input type='hidden' name='regid' value='$regid'>
-	 <img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}' border='0' alt='Code Bit'>
+	 <img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}' alt='Code Bit'>
   </td>
 </tr>
 <tr>
@@ -829,12 +835,12 @@ return <<<EOF
   <td width='40%'>{$ibforums->lang['ras_numbers']}</td>
   <td>
 	 <input type='hidden' name='regid' value='$regid'>
-	 <img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=1' border='0' alt='Code Bit'>
-	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=2' border='0' alt='Code Bit'>
-	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=3' border='0' alt='Code Bit'>
-	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=4' border='0' alt='Code Bit'>
-	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=5' border='0' alt='Code Bit'>
-	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=6' border='0' alt='Code Bit'>
+	 <img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=1' alt='Code Bit'>
+	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=2' alt='Code Bit'>
+	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=3' alt='Code Bit'>
+	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=4' alt='Code Bit'>
+	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=5' alt='Code Bit'>
+	 &nbsp;<img src='{$ibforums->base_url}act=UserCP&amp;CODE=show_image&amp;rc={$regid}&amp;p=6' alt='Code Bit'>
   </td>
 </tr>
 <tr>
@@ -1216,7 +1222,7 @@ return <<<EOF
 
 <h3>{$ibforums->lang['m_delete_warning']}</h3>{$ibforums->lang['m_delete_self']}
 <br> <br> <br>
-<table border='1' border='black' cellpadding='1' cellspacing='1' align='center'  width='10%'>
+<table style='border:1px solid black;' cellpadding='1' cellspacing='1'>
 <tr>
 <td class='pformstrip'><u><a href="{$ibforums->vars['board_url']}/index.php?act=UserCP&CODE=32&check={$check}">{$ibforums->lang['m_delete_submit']}</a></u></td>
 </tr>

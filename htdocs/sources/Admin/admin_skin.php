@@ -784,7 +784,7 @@ class admin_skin
 
                 if ($td[0] != '{none}')
                 {
-                    $html .= "<td class='titlemedium'" . $width . "align='center'>{$td[0]}</td>\n";
+                    $html .= "<td class='titlemedium center' $width>{$td[0]}</td>\n";
                 }
 
                 $this->td_colspan++;
@@ -864,7 +864,7 @@ class admin_skin
                 $colspan = " colspan='" . $this->td_colspan . "' ";
             }
 
-            $html .= "<tr><td align='$align' class='$id'" . $colspan . ">$text</td></tr>\n";
+            $html .= "<tr><td class='$align $id' $colspan>$text</td></tr>\n";
         }
 
         return $html;
@@ -1323,7 +1323,7 @@ img {
 				 <table id='submenu'>
 				 <tr>
 				  <td><a href='{$this->base_url}&act=menu&show=all' target='menu'>Expand Menu</a> &middot; <a href='{$this->base_url}&act=menu&show=none' target='menu'>Reduce Menu</a></td>
-				  <td align='right'><a href='{$this->base_url}&act=index' target='body'>ACP Home</a> &middot; <a href='{$INFO['board_url']}/index.{$INFO['php_ext']}' target='_blank'>Board Home</a></td>
+				  <td class='right'><a href='{$this->base_url}&act=index' target='body'>ACP Home</a> &middot; <a href='{$INFO['board_url']}/index.{$INFO['php_ext']}' target='_blank'>Board Home</a></td>
 				 </tr>
 				 </table>
 				 <!--NAV-->
@@ -1344,8 +1344,8 @@ img {
     {
 
         return "<br />
-				<div align='right' id='jwrap'><strong>Quick Jump</strong> <!--JUMP--></div>
-				<div class='copy' align='center'>Invision Power Board &copy 2003 <a href='https://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>
+				<div class='right' id='jwrap'><strong>Quick Jump</strong> <!--JUMP--></div>
+				<div class='copy center'>Invision Power Board &copy 2003 <a href='https://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>
 				 </body>
 				 </html>";
     }
@@ -1416,7 +1416,7 @@ img {
 				  $pop_win
 				  </head>
 				 <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#FFF'>
-				 <div align='center'><img src='{$this->img_url}/ad-logo.jpg' style='width:100%'></div>
+				 <div class='center'><img src='{$this->img_url}/ad-logo.jpg' style='width:100%'></div>
 				 <div class='tableborder'>
 				  <div class='plain'>
 				   <img src='{$this->img_url}/item.gif' alt=''>&nbsp;<a href='{$this->base_url}&act=menu&show=all' target='menu'>Expand</a> &middot; <a href='{$this->base_url}&act=menu&show=none' target='menu'>Reduce</a> Menu

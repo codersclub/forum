@@ -426,9 +426,9 @@ class ad_emaillogs
 
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       "<center><input type='checkbox' class='checkbox' name='id_{$row['email_id']}' value='1' /></center>",
-				                                       "<a href='{$ADMIN->base_url}&act=emaillog&code=list&type=fromid&id={$row['id']}' title='Show all from this member'><img src='{$SKIN->img_url}/acp_search.gif' border='0' alt='..by id'></a>&nbsp;<b><a href='{$INFO['board_url']}/index.{$INFO['php_ext']}?act=Profile&MID={$row['id']}' title='Members profile (new window)' target='blank'>{$row['name']}</a></b>",
+				                                       "<a href='{$ADMIN->base_url}&act=emaillog&code=list&type=fromid&id={$row['id']}' title='Show all from this member'><img src='{$SKIN->img_url}/acp_search.gif' alt='..by id'></a>&nbsp;<b><a href='{$INFO['board_url']}/index.{$INFO['php_ext']}?act=Profile&MID={$row['id']}' title='Members profile (new window)' target='blank'>{$row['name']}</a></b>",
 				                                       "<a href='javascript:pop_win(\"&act=emaillog&code=viewemail&id={$row['email_id']}\",400,400)' title='Read email'>{$row['email_subject']}</a>",
-				                                       "<a href='{$ADMIN->base_url}&act=emaillog&code=list&type=toid&id={$row['to_id']}' title='Show all sent to this member'><img src='{$SKIN->img_url}/acp_search.gif' border='0' alt='..by id'></a>&nbsp;<a href='{$INFO['board_url']}/index.{$INFO['php_ext']}?act=Profile&MID={$row['to_id']}'  title='Members profile (new window)' target='blank'>{$row['to_name']}</a>",
+				                                       "<a href='{$ADMIN->base_url}&act=emaillog&code=list&type=toid&id={$row['to_id']}' title='Show all sent to this member'><img src='{$SKIN->img_url}/acp_search.gif' alt='..by id'></a>&nbsp;<a href='{$INFO['board_url']}/index.{$INFO['php_ext']}?act=Profile&MID={$row['to_id']}'  title='Members profile (new window)' target='blank'>{$row['to_name']}</a>",
 				                                       "{$row['email_date']}",
 				                                  ));
 
@@ -438,7 +438,7 @@ class ad_emaillogs
 			$ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
 		}
 
-		$ADMIN->html .= $SKIN->add_td_basic('<div style="float:left;width:auto"><input type="submit" value="Remove Checked" id="button" />&nbsp;<input type="checkbox" id="checkbox" name="type" value="all" />&nbsp;Remove all?</div><div align="right">' . $links . '</div></form>', 'left', 'pformstrip');
+		$ADMIN->html .= $SKIN->add_td_basic('<div style="float:left;width:auto"><input type="submit" value="Remove Checked" id="button" />&nbsp;<input type="checkbox" id="checkbox" name="type" value="all" />&nbsp;Remove all?</div><div class="right">' . $links . '</div></form>', 'left', 'pformstrip');
 
 		$ADMIN->html .= $SKIN->end_table();
 

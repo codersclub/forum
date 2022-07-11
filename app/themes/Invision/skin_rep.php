@@ -28,7 +28,7 @@ return <<<EOF
  {$ibforums->lang['rep_name']} {$ibforums->lang['user']} <b>{$i['name']}</b>: {$i['rep']} [ +{$i['ups']} | -{$i['downs']} ]
  </div>
 
- <table width='100%' cellpadding='4' cellspacing='1' border='0'>
+ <table cellspacing='1'>
   <tr>
 
 EOF;
@@ -151,7 +151,7 @@ return <<<EOF
      <div class='tableborder'>
       <div class="maintitle">{$ibforums->lang['fill']}</div>
 
-      <table cellpadding='4' cellspacing='1' border='0' width='100%' align='center'>
+      <table cellspacing='1'>
 	<tr>
 		<td class='row4' width='30%'>{$ibforums->lang['yourname']}</td> 
 		<td class='row4'>{$ibforums->member['name']} {$i['anon']}</td>
@@ -191,7 +191,7 @@ return <<<EOF
  <b>{$i['name']}</b> {$ibforums->lang['has_changed']} {$i['times']} {$ibforums->lang['has_times']} [ +{$i['ups']} | -{$i['downs']} ]
  </div>
 
- <table width='100%' cellpadding='4' cellspacing='1' border='0'>
+ <table cellspacing='1'>
   <tr>
 
 EOF;
@@ -220,7 +220,7 @@ return <<<EOF
  <div class="maintitle" align='center'>
  {$ibforums->lang['rep_name']}, {$ibforums->lang['btitle']}
  </div>
- <table width="100%" border="0" cellspacing="1" cellpadding="4">
+ <table cellspacing="1">
   <tr>
    <th align='center' class='pformstrip' width='50%'>{$ibforums->lang['member']}</th>
    <th align='center' class='pformstrip' width='25%'>{$ibforums->lang['rep_name']}</th>

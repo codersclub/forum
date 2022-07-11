@@ -478,9 +478,9 @@ class ad_cat
 		$ibforums = Ibf::app();
 
 		$ADMIN->page_title  = "Category and Forums Overview";
-		$ADMIN->page_detail = "<img src='{$SKIN->img_url}/acp_rules.gif' border='0'> <b>Forum Rules</b> This allows you to add/edit or remove rules for this forum
-							   <br /><img src='{$SKIN->img_url}/acp_edit.gif' border='0'> <b>Skin Options</b> This allows you to add/edit or remove a skin for this forum
-							   <br /><img src='{$SKIN->img_url}/acp_resync.gif' border='0'> <b>Resynchronise</b> This allows you to recount the forum posts, topics and last post information";
+		$ADMIN->page_detail = "<img src='{$SKIN->img_url}/acp_rules.gif'> <b>Forum Rules</b> This allows you to add/edit or remove rules for this forum
+							   <br /><img src='{$SKIN->img_url}/acp_edit.gif'> <b>Skin Options</b> This allows you to add/edit or remove a skin for this forum
+							   <br /><img src='{$SKIN->img_url}/acp_resync.gif'> <b>Resynchronise</b> This allows you to recount the forum posts, topics and last post information";
 
 		$cats        = array();
 		$forums      = array();
@@ -565,7 +565,7 @@ class ad_cat
 						$ADMIN->html .= $SKIN->add_td_row(array(
 						                                       " - <b>" . $r['name'] . "</b>$redirect $skin_stuff",
 						                                       "<center><b><a href='{$ADMIN->base_url}&act=forum&code=subedit&f={$r['id']}'>Settings</a></b>" . " | <a href='{$ADMIN->base_url}&act=forum&code=pedit&f={$r['id']}'>Permissions</a></center>",
-						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=frules&f={$r['id']}'><img src='{$SKIN->img_url}/acp_rules.gif' border='0' title='Forum Rules'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$r['id']}'><img src='{$SKIN->img_url}/acp_edit.gif' border='0' title='Skin Options'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=recount&f={$r['id']}'><img src='{$SKIN->img_url}/acp_resync.gif' border='0' title='Resynchronise'></a></center>",
+						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=frules&f={$r['id']}'><img src='{$SKIN->img_url}/acp_rules.gif' title='Forum Rules'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$r['id']}'><img src='{$SKIN->img_url}/acp_edit.gif' title='Skin Options'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=recount&f={$r['id']}'><img src='{$SKIN->img_url}/acp_resync.gif' title='Resynchronise'></a></center>",
 						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=subdelete&f={$r['id']}'>Delete</a>" . " | <b><a href='{$ADMIN->base_url}&act=forum&code=empty&f={$r['id']}'>Empty Forum</a></b></center>",
 						                                  ), 'subforum');
 					} else
@@ -573,7 +573,7 @@ class ad_cat
 						$ADMIN->html .= $SKIN->add_td_row(array(
 						                                       "<b>" . $r['name'] . "</b>$redirect $skin_stuff<br>",
 						                                       "<center><b><a href='{$ADMIN->base_url}&act=forum&code=edit&f={$r['id']}'>Settings</a></b>" . " | <a href='{$ADMIN->base_url}&act=forum&code=pedit&f={$r['id']}'>Permissions</a></center>",
-						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=frules&f={$r['id']}'><img src='{$SKIN->img_url}/acp_rules.gif' border='0' title='Forum Rules'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$r['id']}'><img src='{$SKIN->img_url}/acp_edit.gif' border='0' title='Skin Options'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=recount&f={$r['id']}'><img src='{$SKIN->img_url}/acp_resync.gif' border='0' title='Resynchronise'></a></center>",
+						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=frules&f={$r['id']}'><img src='{$SKIN->img_url}/acp_rules.gif' title='Forum Rules'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$r['id']}'><img src='{$SKIN->img_url}/acp_edit.gif' title='Skin Options'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=recount&f={$r['id']}'><img src='{$SKIN->img_url}/acp_resync.gif' title='Resynchronise'></a></center>",
 						                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=delete&f={$r['id']}'>Delete</a>" . " | <b><a href='{$ADMIN->base_url}&act=forum&code=empty&f={$r['id']}'>Empty Forum</a></b></center>",
 						                                  ));
 					}
@@ -762,7 +762,7 @@ class ad_cat
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       " " . $t_level_char . " <b>" . $rd['name'] . "</b>$redirect $skin_stuff<br>",
 			                                       "<center><b><a href='{$ADMIN->base_url}&act=forum&code=edit&f={$rd['id']}'>Settings</a></b>" . " | <a href='{$ADMIN->base_url}&act=forum&code=pedit&f={$rd['id']}'>Permissions</a></center>",
-			                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=frules&f={$rd['id']}'><img src='{$SKIN->img_url}/acp_rules.gif' border='0' title='Forum Rules'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$rd['id']}'><img src='{$SKIN->img_url}/acp_edit.gif' border='0' title='Skin Options'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=recount&f={$rd['id']}'><img src='{$SKIN->img_url}/acp_resync.gif' border='0' title='Resynchronise'></a></center>",
+			                                       "<center><a href='{$ADMIN->base_url}&act=forum&code=frules&f={$rd['id']}'><img src='{$SKIN->img_url}/acp_rules.gif' title='Forum Rules'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=skinedit&f={$rd['id']}'><img src='{$SKIN->img_url}/acp_edit.gif' title='Skin Options'></a>&nbsp;&nbsp;" . "<a href='{$ADMIN->base_url}&act=forum&code=recount&f={$rd['id']}'><img src='{$SKIN->img_url}/acp_resync.gif' title='Resynchronise'></a></center>",
 			                                       $this->delete_forum_link($children, $rd) . "<b><a href='{$ADMIN->base_url}&act=forum&code=empty&f={$rd['id']}'>Empty Forum</a></b></center>",
 			                                  ), 'subforum');
 

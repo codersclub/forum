@@ -14,7 +14,7 @@ return <<<EOF
     <title>{$topic_title} -> {$ibforums->vars['board_name']} [Powered by Invision Power Board]</title>
     </head>
     <body bgcolor='#FFFFFF' alink='#000000' vlink='#000000' link='#000000'>
-     <table width='90%' border='0' align='center' cellpadding='6'>
+     <table width='90%'>
       <tr>
        <td><b><span style='font-family:arial; font-size:x-large; color:#4C77B6'><b>{$ibforums->lang['title']}</b></span>
        	   <br><span style='font-family:arial; font-size:small; color:#000000'><b><a href='{$ibforums->base_url}act=ST&amp;f=$fid&amp;t=$tid'>{$ibforums->lang['topic_here']}</a></b></span>
@@ -62,7 +62,7 @@ function pp_postentry($poster, $entry) {
 global $ibforums;
 return <<<EOF
 
-	<table width='90%' align='center' cellpadding='6' border='1'>
+	<table width='90%' border='1'>
 	<tr>
 	 <td bgcolor='#EEEEEE'><span style='font-family:arial; size:small; color:#000000'><b>{$ibforums->lang['by']}: {$entry['author_name']}</b> {$ibforums->lang['on']} {$entry['post_date']}</b></span></td>
 	</tr>

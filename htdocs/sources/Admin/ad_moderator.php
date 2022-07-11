@@ -976,7 +976,7 @@ class ad_mod
 
 					if ($mod_string != "")
 					{
-						$these_mods = "<table cellpadding='3' cellspacing='0' width='100%' align='center'>" . $mod_string . "</table>";
+						$these_mods = "<table>" . $mod_string . "</table>";
 					} else
 					{
 						$these_mods = "<center><i>Unmoderated</i></center>";
@@ -1070,10 +1070,10 @@ class ad_mod
 
 			if ($mod_string != "")
 			{
-				$these_mods = "<table cellpadding='3' cellspacing='0' width='100%' align='center'>" . $mod_string . "</table>";
+				$these_mods = "<table>" . $mod_string . "</table>";
 			} else
 			{
-				$these_mods = "<center><i>Unmoderated</i></center>";
+				$these_mods = "<span class='center'><i>Unmoderated</i></span>";
 			}
 
 			$t_level_char = "+--";

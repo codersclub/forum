@@ -128,9 +128,9 @@ function encode_header($string, $charset = 'iso-8859-1')
 
 <body>
 
-<table border=0 cellspacing=0 cellpadding=0 align=center>
+<table cellspacing=0 cellpadding=0>
     <tr>
-        <td width=220 valign=middle><a href="/index.html"><img border=0 hspace=12 src="/img/jassy.gif"></a><br>&nbsp;
+        <td width=220><a href="/index.html"><img hspace=12 src="/img/jassy.gif"></a><br>&nbsp;
         </td>
         <td align="center">
             <BR>
@@ -160,11 +160,11 @@ js=13//-->
                 <script language="JavaScript"><!--
                     d.write('<img src="https://top.list.ru/counter' +
                         '?id=89876;t=57;js=' + js + a + ';rand=' + Math.random() +
-                        '" alt="TopList" ' + 'border=0 height=1 width=1>')
+                        '" alt="TopList" ' + 'height=1 width=1>')
                     if (js > 11)d.write('<' + '!-- ')//--></script>
                 <noscript><img
                         src="https://top.list.ru/counter?js=na;id=89876;t=57"
-                        border=0 height=1 width=1
+                        height=1 width=1
                         alt="TopList"></noscript>
                 <script><!--
                     if (js > 11)d.write('--' + '>')//--></script>
@@ -172,7 +172,7 @@ js=13//-->
 
             <!--Rambler-->
 	    <a href="https://counter.rambler.ru/top100/">
-		<img src="https://counter.rambler.ru/top100.cnt?163871" alt="Rambler's Top100" width=1 height=1 border=0>
+		<img src="https://counter.rambler.ru/top100.cnt?163871" alt="Rambler's Top100" width=1 height=1>
 	    </a>
 
             <!-- SpyLOG f:0211 -->
@@ -189,7 +189,7 @@ js=13//-->
                 y = "";
                 y += "<a href='https://" + u + "/cnt?f=3&p=" + p + "&rn=" + rn + "' target=_blank>";
                 y += "<img src='https://" + u + "/cnt?" + z +
-                    "&r=" + escape(d.referrer) + "&pg=" + escape(window.location.href) + "' border=0 width=1 height=1 alt='SpyLOG'>";
+                    "&r=" + escape(d.referrer) + "&pg=" + escape(window.location.href) + "' width=1 height=1 alt='SpyLOG'>";
                 y += "</a>";
                 d.write(y);
                 if (!n) {
@@ -197,7 +197,7 @@ js=13//-->
                 }//--></script>
             <noscript>
                 <a href="https://u1624.10.spylog.com/cnt?f=3&p=1" target=_blank>
-                    <img src="https://u1624.10.spylog.com/cnt?p=1" alt='SpyLOG' border='0' width=1 height=1>
+                    <img src="https://u1624.10.spylog.com/cnt?p=1" alt='SpyLOG' width=1 height=1>
                 </a></noscript>
             <script language="javascript1.2"><!--
                 if (!n) {
@@ -227,8 +227,8 @@ hotlog_js="1.1";hotlog_r+="&j="+(navigator.javaEnabled()?"Y":"N")
                     hotlog_s.colorDepth : hotlog_s.pixelDepth)</script>
             <script language="javascript1.3">hotlog_js="1.3"</script>
             <script>hotlog_r += "&js=" + hotlog_js;
-                hotlog_d.write("<img src='https://hit2.hotlog.ru/cgi-bin/hotlog/count?'+hotlog_r+'&' border=0 width=1 height=1>")</script>
-            <noscript><img src="https://hit2.hotlog.ru/cgi-bin/hotlog/count?s=14399" border=0
+                hotlog_d.write("<img src='https://hit2.hotlog.ru/cgi-bin/hotlog/count?'+hotlog_r+'&' width=1 height=1>")</script>
+            <noscript><img src="https://hit2.hotlog.ru/cgi-bin/hotlog/count?s=14399"
                            width=1 height=1></noscript>
             <!-- /HotLog -->
 
@@ -388,7 +388,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     Если у Вас есть электронные кошельки, Вы можете перечислить
     любую необременительную для Вас сумму на один из наших электронных кошельков:
 
-<table border=0 cellpadding=8>
+<table cellpadding=8>
     <tr valign="top">
         <td>
             <a target="_blank" href="https://www.webmoney.ru"><b>WebMoney:</b></a>
@@ -428,7 +428,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <p>
 
 <FORM name="myform" method=POST onsubmit="return check(this);">
-    <table border="0" align="center" width=400 cellspacing="0" cellpadding=4 bgcolor="#eeeef0">
+    <table width=400 cellspacing="0" cellpadding=4 bgcolor="#eeeef0">
         <tr>
             <td align="center" colspan=2><span style='color:red'><?php echo $tMessage; ?></span></td>
         </tr>

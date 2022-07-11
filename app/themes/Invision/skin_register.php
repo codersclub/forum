@@ -192,7 +192,7 @@ return <<<EOF
 	 <td class='row1' width='40%'>{$ibforums->lang['las_numbers']}</td>
 	 <td class='row1'>
 	   <input type='hidden' name='regid' value='$regid'>
-	   <img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}' border='0' alt='Loading Image'>
+	   <img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}' alt='Loading Image'>
 	 </td>
 	 </tr>
 	 <tr>
@@ -226,12 +226,12 @@ return <<<EOF
      <td class='row1' width='40%'>{$ibforums->lang['las_numbers']}</td>
 	 <td class='row1'>
 	   <input type='hidden' name='regid' value='$regid'>
-	   <img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=1' border='0' alt='Code Bit'>
-	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=2' border='0' alt='Code Bit'>
-	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=3' border='0' alt='Code Bit'>
-	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=4' border='0' alt='Code Bit'>
-	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=5' border='0' alt='Code Bit'>
-	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=6' border='0' alt='Code Bit'>
+	   <img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=1' alt='Code Bit'>
+	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=2' alt='Code Bit'>
+	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=3' alt='Code Bit'>
+	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=4' alt='Code Bit'>
+	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=5' alt='Code Bit'>
+	   &nbsp;<img src='{$ibforums->base_url}act=Reg&amp;CODE=image&amp;rc={$regid}&amp;p=6' alt='Code Bit'>
 	 </td>
 	 </tr>
 	 <tr>
@@ -355,7 +355,7 @@ return <<<EOF
        <!--<link rel='stylesheet' href='style_sheets/stylesheet_<{css_id}>.css'>-->
       </head>
      <body bgcolor='white'>
-     <table cellpadding='0' cellspacing='4' border='0' width='95%' align='center'>
+     <table cellpadding='0' cellspacing='4' width='95%'>
      <tr>
         <td valign='middle' align='left'>
         	<span class='pagetitle'>{$ibforums->vars['board_name']}: {$ibforums->lang['cpf_title']}</span>
@@ -372,7 +372,7 @@ return <<<EOF
      </tr>
      </table>
      <br>
-     <table cellpadding='4' cellspacing='2' border='1' width='95%' align='center'>
+     <table cellspacing='2' border='1' width='95%'>
       <tr>
 		<td width='40%'>{$ibforums->lang['user_name']}</td>
 		<td>&nbsp;</td>
@@ -387,7 +387,7 @@ return <<<EOF
 	  </tr>
      </table>
      <br>
-     <table cellpadding='0' cellspacing='4' border='0' width='95%' align='center'>
+     <table cellpadding='0' cellspacing='4' width='95%'>
      <tr>
         <td valign='middle' align='left'>
         	<b><span style='font-size:12px'>{$ibforums->lang['cpf_sign']}</span></b>
@@ -395,7 +395,7 @@ return <<<EOF
      </tr>
      </table>
      <br>
-     <table cellpadding='10' cellspacing='2' border='1' width='95%' align='center'>
+     <table cellpadding='10' cellspacing='2' border='1' width='95%'>
       <tr>
 		<td width='40%'>{$ibforums->lang['cpf_name']}</td>
 		<td>&nbsp;</td>
@@ -532,7 +532,7 @@ return <<<EOF
 
 <div class='tableborder'>
   <div class='maintitle'>{$ibforums->lang['cp2_title']}</div>
-   <table cellpadding='3' cellspacing='1' border='0' width='100%'>
+   <table cellspacing='1'>
    <tr>
    <td class='row1' align='left'>
 	   {$ibforums->lang['cp2_text']}

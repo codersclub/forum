@@ -179,7 +179,7 @@ scroll_to	    = {$ibforums->member['show_wp']},
 <br>
 {$data['TOPIC']['why_close']}
 
-<!--table width='100%' cellpadding='0' cellspacing='0' border='0'>
+<!--table cellpadding='0'>
 <tr>
  <td align='left' width='20%' nowrap='nowrap'>{$data['TOPIC']['SHOW_PAGES']}&nbsp;{$data['TOPIC']['go_new']}&nbsp;{$data['TOPIC']['go_last']}</td>
  <td align='right' width='80%'>{$data['TOPIC']['REPLY_BUTTON']}{$data['TOPIC']['TOPIC_BUTTON']}{$data['TOPIC']['POLL_BUTTON']}{$data['TOPIC']['SOLVE_UPPER_BUTTON']}</td>
@@ -584,14 +584,14 @@ return <<<EOF
 <strong><a href='{$ibforums->base_url}showforum={$data['FORUM']['id']}'>{$data['FORUM']['name']}</a></strong> |
 <a href='{$ibforums->base_url}showtopic={$data['TOPIC']['tid']}&amp;view=new'>{$ibforums->lang['t_new']}</a> &raquo;
 </div></div><br>
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+<table cellpadding='0'>
 <tr>
 <td width='60%' valign='top'><!--IBF.NAVIGATION--><br><br>{$data['TOPIC']['why_close']}</td>
 <td width='40%' align='right' valign='top'>$report_link</td>
 </tr>
 <tr>
  <td colspan='2'>
-  <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+  <table cellpadding='0'>
    <tr>
     <td align='left' width='20%' nowrap='nowrap'>{$data['TOPIC']['SHOW_PAGES']}</td>
     <td align='right' width='80%'><!--IBF.QUICK_REPLY_CLOSED--> {$data['TOPIC']['REPLY_BUTTON']}{$data['TOPIC']['TOPIC_BUTTON]'}{$data['TOPIC']['POLL_BUTTON']}{$data['TOPIC']['SOLVE_DOWN_BUTTON']}

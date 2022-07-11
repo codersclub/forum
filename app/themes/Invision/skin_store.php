@@ -353,7 +353,7 @@ return <<<EOF
 <div class="tableborder">
 
   <div class="maintitle">{$ibforums->lang['problem']}</div>
-  <table width="100%" border="0" cellspacing="1" cellpadding="4">
+  <table cellspacing="1">
   <tr>
 	<td class="row4" align="center">{$ibforums->lang['error']}</td>
   </tr>
@@ -884,7 +884,7 @@ return <<<EOF
   </td>
   <td id="ucpcontent" valign="top">
   <div class="maintitle">{$ibforums->vars['store_name']}</div>
-  <table width="100%" border="0" cellspacing="1" cellpadding="4">
+  <table cellspacing="1">
 
 EOF;
 }
@@ -1087,7 +1087,7 @@ return <<<EOF
  <div class="maintitle" align='center'>
  {$ibforums->lang['rep_name']} {$ibforums->lang['user']} <b>{$i['name']}</b>: {$i['rep']} [ +{$i['ups']} | -{$i['downs']} ]
  </div>
- <table width='100%' cellpadding='4' cellspacing='1' border='0'>
+ <table cellspacing='1'>
   <tr>
 EOF;
 }
@@ -1122,7 +1122,7 @@ return <<<EOF
 				<td class='row2' width='15%' align='center'>{$i['name']}</td>
 				<td class='row2' width='25%'><a href={$i['url']}>{$i['title']}</a></td>
 				<td class='row4'>{$i['message']}</td>
-				<td align='center' class='row2' width='5%'><img src='{$i['img']}' border='0'></td>
+				<td align='center' class='row2' width='5%'><img src='{$i['img']}'></td>
 				<td align='center' class='row4' width='15%'>{$i['date']}{$i['admin_undo']}</td>
 				</tr>
 EOF;

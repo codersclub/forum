@@ -132,13 +132,13 @@ class quick_help
 				<head>
 				 <title>Quick Help</title>
 				</head>
-				<body leftmargin='0' topmargin='0' bgcolor='#F5F9FD'>
-				 <table width='95%' align='center' border='0' cellpadding='6'>
+				<body style='background-color:#F5F9FD;'>
+				 <table>
 				 <tr>
-				  <td style='font-family:verdana, arial, tahoma;color:#4C77B6;font-size:16px;letter-spacing:-1px;font-weight:bold'>{$this->help_text[$id]['title']}</td>
+				  <td style='color:#4C77B6;font-size:16px;letter-spacing:-1px;font-weight:bold'>{$this->help_text[$id]['title']}</td>
 				 </tr>
 				 <tr>
-				  <td style='font-family:verdana, arial, tahoma;color:black;font-size:9pt'>{$this->help_text[$id]['body']}</td>
+				  <td style='color:black;font-size:9pt'>{$this->help_text[$id]['body']}</td>
 				 </tr>
 				 </table>
 				</body>

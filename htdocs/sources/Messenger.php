@@ -2650,7 +2650,7 @@ class Messenger
 
 		if ($member['g_icon'])
 		{
-			$member['member_rank_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' />";
+			$member['member_rank_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}'>";
 		}
 
 		$member['member_joined'] = $ibforums->lang['m_joined'] . ' ' . $std->format_date_without_time($member['joined']);
@@ -2784,7 +2784,7 @@ class Messenger
 
 			if ($sskin)
 			{
-				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}' border='0'>";
+				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}'>";
 			} else
 			{
 				$smile = $elmo['typed'];

@@ -102,7 +102,7 @@ class Login
     //-->
     </script>
      <br>
-     <table cellpadding='3' cellspacing='1' border='0' align='center' width='95%'>
+     <table cellpadding='3' cellspacing='1' border='0' align='center' zzwidth='95%'>
      <tr>
      <td align='left'>{$ibforums->lang['login_text']}</td>
      </tr>

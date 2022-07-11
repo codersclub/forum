@@ -75,7 +75,7 @@ return <<<EOF
         {$data['member']['addresscard']}{$data['member']['message_icon']}{$data['member']['email_icon']}{$data['member']['website_icon']}{$data['member']['integ_icon']}{$data['member']['icq_icon']}{$data['member']['aol_icon']}{$data['member']['yahoo_icon']}{$data['member']['msn_icon']}
       </div>
 
-        <div align='right'><a href='javascript:scroll(0,0);'><img src='{$ibforums->skin['ImagesPath']}/p_up.gif' alt='Top' border='0'></a></div>
+        <div align='right'><a href='javascript:scroll(0,0);'><img src='{$ibforums->skin['ImagesPath']}/p_up.gif' alt='Top'></a></div>
       </td>
     </tr>
 </table>
@@ -261,7 +261,7 @@ return <<<EOF
 	<td class='row1' align='left' colspan='3'>{$info['full_messenger']}</td>
    </tr>
    <tr>
-	<td align='left' valign='middle' class='row2' colspan='3'><img src='{$ibforums->skin['ImagesPath']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar.gif' border='0' width='{$info['img_width']}' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''></td>
+	<td align='left' valign='middle' class='row2' colspan='3'><img src='{$ibforums->skin['ImagesPath']}/bar_left.gif' width='4' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar.gif' width='{$info['img_width']}' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' width='4' height='11' align='middle' alt=''></td>
    </tr>
    <tr>
 	 <td class='row1' width='33%' align='left' valign='middle'>0%</td>

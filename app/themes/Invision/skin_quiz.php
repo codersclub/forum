@@ -16,7 +16,7 @@ return <<<EOF
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$settings['quizname']}</div>
    {$settings['modform_open']}
 
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+  <table cellspacing='1'>
   <form action="{$ibforums->base_url}act=quiz&code=update_quiz" name="quiz" method="post">
   <input name="quiz_id" value="{$settings['q_id']}" type="hidden">
 
@@ -140,7 +140,7 @@ return <<<EOF
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$post['quizname']}</div>
    {$post['modform_open']}
 
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+  <table cellspacing='1'>
     <tr>
       <td valign='middle' class='row4' width='1%'>{$author['member_group_img']} <span class='postdata'>{$author['name']}</span>{$author['online']}</td>
       <td class='row4' valign='top' width="99%">
@@ -199,7 +199,7 @@ return <<<EOF
  </center>
  </div>
 
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+  <tablecellspacing='1'>
   <form action='{$ibforums->base_url}act=quiz' name='quiz' method='post'>
   <input name='quiz_id' value='{$settings['q_id']}' type='hidden'>
   <input name='code' value='update_questions' type='hidden'>
@@ -344,7 +344,7 @@ return <<<EOF
  </center>
  </div>
 
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+  <table cellspacing='1'>
     <tr>
       <td valign='middle' class='row4' width='1%'>{$member['member_group_img']} <span class='postdata'>{$member['name']}</span>{$member['online']}</td>
       <td class='row4' valign='top' width="99%">
@@ -385,7 +385,7 @@ return <<<EOF
   </table>
 
 
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+  <table cellspacing='1'>
   <form action="{$ibforums->base_url}act=quiz&code=do_take_quiz&quiz_id={$ibforums->input['quiz_id']}" name="quiz" method="post">
   <input type="hidden" name="timeout" value="{$settings['timeout']}">
   <input type="hidden" name="starttime" value="{$settings['time']}">
@@ -468,7 +468,7 @@ function quiz_header($data=array())
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$data['name']}</div>
    {$data['modform_open']}
-   <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+   <table cellspacing='1'>
     <tr class='darkrow2'>
      <td align='center' class='titlemedium'><img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='20' height='1'></td>
      <td align='center' class='titlemedium'><img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='20' height='1'></td>
@@ -518,7 +518,7 @@ return <<<EOF
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['results_nav']} &quot;<a href="{$ibforums->base_url}act=quiz&code=show&quiz_id={$id}">{$title}</a>&quot;</div>
    {$data['modform_open']}
 
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+  <table cellspacing='1'>
 
     <tr class='darkrow2'>
       <th class="titlemedium" width="5%">{$ibforums->lang['results_place']}</th>
@@ -599,7 +599,7 @@ function Dotimeout() {
 //-->
 </script>
 
-  <table width='100%' border='0' cellspacing='1' cellpadding='4'>
+  <table cellspacing='1'>
   <form action="{$ibforums->base_url}act=quiz&code=do_take_quiz&quiz_id={$ibforums->input['quiz_id']}" name="quiz" method="post">
   <input type="hidden" name="timeout" value="{$settings['timeout']}">
   <input type="hidden" name="starttime" value="{$settings['time']}">
@@ -765,7 +765,7 @@ function error()
 <div class="tableborder">
 
   <div class="maintitle">{$ibforums->lang['problem']}</div>
-  <table width="100%" border="0" cellspacing="1" cellpadding="4">
+  <table cellspacing="1">
   <tr>
 	<td class="row4" align="center">{$ibforums->lang['error']}</td>
   </tr>

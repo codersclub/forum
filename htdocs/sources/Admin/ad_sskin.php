@@ -453,7 +453,7 @@ class ad_sskins
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       $SKIN->form_input('before', stripslashes($r['typed'])),
-		                                       $SKIN->form_dropdown('after', $emos, $r['image'], "onChange='show_emo()'") . "&nbsp;&nbsp;<img src='$emo_url{$r['image']}' name='emopreview' border='0'>",
+		                                       $SKIN->form_dropdown('after', $emos, $r['image'], "onChange='show_emo()'") . "&nbsp;&nbsp;<img src='$emo_url{$r['image']}' name='emopreview'>",
 		                                       $SKIN->form_dropdown('click', array(
 		                                                                          0 => array(1, 'Yes'),
 		                                                                          1 => array(0, 'No')
@@ -689,7 +689,7 @@ class ad_sskins
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       $SKIN->form_input('before'),
-		                                       $SKIN->form_dropdown('after', $emos, "", "onChange='show_emo()'") . "&nbsp;&nbsp;<img src='{$emo_url}$start' name='emopreview' border='0'>",
+		                                       $SKIN->form_dropdown('after', $emos, "", "onChange='show_emo()'") . "&nbsp;&nbsp;<img src='{$emo_url}$start' name='emopreview'>",
 		                                       $SKIN->form_dropdown('click', array(
 		                                                                          0 => array(1, 'Yes'),
 		                                                                          1 => array(0, 'No')

@@ -23,7 +23,7 @@ return <<<EOF
    <tr>
 	  <td align='center' class='row1' valign='middle'><a href={$out}javascript:add_smilie({$in}$code{$in}){$out}>$code</a></td>
 	  <td align='center' class='row2' valign='middle'><a href={$out}javascript:add_smilie({$in}$code{$in}){$out}>
-          <img src='{$ibforums->vars['board_url']}/smiles/$sskin/$image' border='0' valign='absmiddle' alt='$code'></a></td>
+          <img src='{$ibforums->vars['board_url']}/smiles/$sskin/$image' alt='$code'></a></td>
    </tr>
 
 EOF;

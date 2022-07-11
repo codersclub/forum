@@ -155,12 +155,12 @@ class ad_plugins
 				   $css
 				  </head>
 				  <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#4C77B6'>
-				  <table cellpadding=4 cellspacing=0 border=0 align='center'>
+				  <table>
 				  <form action='{$SKIN->base_url}&act=pin&code=copysave' method='POST' target='body'>
 				  <tr>
-				   <td valign='middle' align='left'><b style='color:white'>Already paid for copyright removal?</b></td>
-				   <td valign='middle' align='left'><input type='text' size=50 name='ipb_copy_number' value='enter your IPB copyright removal key here...' onClick=\"this.value='';\"></td>
-				   <td valign='middle' align='left'><input type='submit' value='Continue...'></td>
+				   <td class='left'><b style='color:white'>Already paid for copyright removal?</b></td>
+				   <td class='left'><input type='text' size=50 name='ipb_copy_number' value='enter your IPB copyright removal key here...' onClick=\"this.value='';\"></td>
+				   <td class='left'><input type='submit' value='Continue...'></td>
 				  </tr>
 				  </table>
 				  </form>
@@ -347,12 +347,12 @@ class ad_plugins
 				   $css
 				  </head>
 				  <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#4C77B6'>
-				  <table cellpadding=4 cellspacing=0 border=0 align='center'>
+				  <table>
 				  <form action='{$SKIN->base_url}&act=pin&code=regsave' method='POST' target='body'>
 				  <tr>
-				   <td valign='middle' align='left'><b style='color:white'>Already Registered?</b></td>
-				   <td valign='middle' align='left'><input type='text' size=50 name='ipb_reg_number' value='enter your IPB registration key here...' onClick=\"this.value='';\"></td>
-				   <td valign='middle' align='left'><input type='submit' value='Continue...'></td>
+				   <td style='color:white'><b>Already Registered?</b></td>
+				   <td><input type='text' size=50 name='ipb_reg_number' value='enter your IPB registration key here...' onClick=\"this.value='';\"></td>
+				   <td><input type='submit' value='Continue...'></td>
 				  </tr>
 				  </table>
 				  </form>
@@ -550,12 +550,12 @@ class ad_plugins
 				   $css
 				  </head>
 				  <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#4C77B6'>
-				  <table cellpadding=4 cellspacing=0 border=0 align='center'>
+				  <table>
 				  <form action='{$SKIN->base_url}&act=pin&code=chatsave' method='POST' target='body'>
 				  <tr>
-				   <td valign='middle' align='left'><b style='color:white'>Ordered IP Chat?</b></td>
-				   <td valign='middle' align='left'><input type='text' size=35 name='account_no' value='enter your account number here...' onClick=\"this.value='';\"></td>
-				   <td valign='middle' align='left'><input type='submit' value='Continue...'></td>
+				   <td style='color:white'><b>Ordered IP Chat?</b></td>
+				   <td><input type='text' size=35 name='account_no' value='enter your account number here...' onClick=\"this.value='';\"></td>
+				   <td><input type='submit' value='Continue...'></td>
 				  </tr>
 				  </table>
 				  </form>

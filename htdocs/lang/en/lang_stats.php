@@ -39,4 +39,3 @@ $lang = array (
 'mod_number'  => "#"
 
 );
-?>

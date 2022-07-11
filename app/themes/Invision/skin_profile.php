@@ -195,7 +195,7 @@ return <<<EOF
 </tr>
 </table>
 <br>
-<table cellpadding='0' align='center' cellspacing='2' border='0' width='100%'>
+<table>
   <tr>
 	<td width='50%' valign='top' class="plainborder">
 	 <table cellspacing="1" cellpadding='6' width='100%'>
@@ -541,7 +541,7 @@ function get_photo($show_photo, $show_width, $show_height) {
 global $ibforums;
 return <<<EOF
 
-<img src="$show_photo" border="0" alt="User Photo" $show_width $show_height>
+<img src="$show_photo" alt="User Photo" $show_width $show_height>
 
 EOF;
 }

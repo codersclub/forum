@@ -49,7 +49,7 @@ return <<<EOF
     <br>
     <div class="tableborder">
       <div class='maintitle'>&nbsp;&nbsp;{$ibforums->lang['page_title']}</div>
-	  <table cellpadding='4' cellspacing='1' border='0' width='100%'>
+	  <table cellspacing='1'>
 		<tr>
 		   <th align='left' width='30%' class='titlemedium'>{$ibforums->lang['member_name']}</th>
 		   <th align='left' width='30%' class='titlemedium'>{$ibforums->lang['where']}</th>

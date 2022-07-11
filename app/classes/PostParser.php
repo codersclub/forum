@@ -2227,8 +2227,8 @@ class PostParser
 			$sskin = $ibforums->member['sskin_name'];
 		}
 
-		//		return "<img src='".( ( $ibforums->vars['plg_offline_client'] or $ibforums->vars['pre_board_url'] ) ? $ibforums->vars['board_url']."/" : "" )."smiles/$sskin/$image' border='0' alt='$code'>";
-		return "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/$image' border='0' alt='$code'>";
+		//		return "<img src='".( ( $ibforums->vars['plg_offline_client'] or $ibforums->vars['pre_board_url'] ) ? $ibforums->vars['board_url']."/" : "" )."smiles/$sskin/$image' alt='$code'>";
+		return "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/$image' alt='$code'>";
 
 	}
 
@@ -2722,7 +2722,7 @@ class PostParser
 			$alt   = $std->remove_tags($alt);
 			$title = " title='$alt'";
 		}
-		return "<img class='tag-img' src='$url' border='0' alt='$alt'$title>";
+		return "<img class='tag-img' src='$url' alt='$alt'$title>";
 
 	}
 

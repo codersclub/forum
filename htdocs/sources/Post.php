@@ -1693,7 +1693,7 @@ class Post
 
 			if ($sskin)
 			{
-				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}' border='0'>";
+				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}'>";
 			} else
 			{
 				$smile = $elmo['typed'];

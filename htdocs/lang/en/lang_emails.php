@@ -60,13 +60,11 @@ $lang = array (
 'subject'					=>	"Subject",
 'submit_send'					=>	"Send Email",
 'send_email_to'					=>	"Send an email to",
-'message'					=>	"Message",
 'show_address_text'					=>	"You can send this member an email by clicking on the link below. Invision Power Board does not show email addresses in the topic view to prevent email addresses being harvested by 'spam bots'.",
 'send_header'					=>	", please fill in this form fully to send an email to",
 'member_address_title'					=>	"Members Email Address",
 'send_title'					=>	"Email Form",
 'msg_txt'					=>	"Note: By using this form, the recipient will be able to view your email address",
-'subject'					=>	"Subject",
 'email_sent_txt'					=>	"Thanks, the email has been successfully sent to",
 'email_sent'					=>	"The email has been sent",
 

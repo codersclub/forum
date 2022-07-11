@@ -188,7 +188,7 @@ return <<<EOF
 
 <tr>
   <td colspan='2'>
-    <table cellpadding='2' cellspacing='1' border='0' width='100%' class='fancyborder' align='center'>
+    <table cellspacing='1' class='fancyborder'>
      <tr>
        <td><span class='pagetitle'>{$ibforums->lang['cp_results']}</span>
        </td>
@@ -550,7 +550,7 @@ return <<<EOF
  </tr>
  <tr>
   <td>
-    <table cellpadding='2' cellspacing='1' border='0' width='75%' class='fancyborder' align='center'>
+    <table cellpadding='2' cellspacing='1' width='75%' class='fancyborder'>
 	  <tr>
 	    <td><b>{$ibforums->lang['cp_mod_in']}</b></td>
 	    <td>$forum</td>

@@ -2176,7 +2176,7 @@ class Topics
 
 			if ($sskin)
 			{
-				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}' border='0'>";
+				$smile = "<img src='{$ibforums->vars['board_url']}/smiles/$sskin/" . $elmo['image'] . "' alt='{$elmo['typed']}'>";
 			} else
 				$smile = $elmo['typed'];
 
@@ -2388,7 +2388,7 @@ class Topics
 							$member['member_rank_img'] .= $pip;
 					} elseif (!$ibforums->member['id'] or ($ibforums->member['show_icons'] and $ibforums->member['view_img']))
 					{
-						$member['member_rank_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/$pips' border='0' alt='*'>";
+						$member['member_rank_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/$pips' alt='*'>";
 					}
 			}
 
@@ -2399,7 +2399,7 @@ class Topics
 			    (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons']))
 			)
 			{
-				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}' border='0'> ";
+				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}'> ";
 			}
 
 //			// add crlf
@@ -2412,7 +2412,7 @@ class Topics
 
 			if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 			{
-				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
+				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' alt='$rank' title='$rank'>";
 			}
 
 			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> &middot; <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a>";
@@ -2470,7 +2470,7 @@ class Topics
 			// group icon
 			if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 			{
-				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0'>";
+				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}'>";
 			}
 
 			$member['profile'] = "<a href='{$this->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> &middot; <a href='{$this->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
@@ -3458,9 +3458,9 @@ class Topics
 
 					if ($votes > 0)
 					{
-						$bar = "<img src='{$ibforums->skin['ImagesPath']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''>";
-						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar.gif' border='0' width='$width' height='11' align='middle' alt=''>";
-						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>&nbsp;[{$percent}%]</td>";
+						$bar = "<img src='{$ibforums->skin['ImagesPath']}/bar_left.gif' width='4' height='11' align='middle' alt=''>";
+						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar.gif' width='$width' height='11' align='middle' alt=''>";
+						$bar .= "<img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' width='4' height='11' align='middle' alt=''>&nbsp;[{$percent}%]</td>";
 					}
 
 					$html .= View::make(

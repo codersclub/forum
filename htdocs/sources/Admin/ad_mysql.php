@@ -941,11 +941,11 @@ class ad_mysql
 				$table = "<b><span style='font-size:12px'><a href='{$SKIN->base_url}&act=mysql&code=runsql&query=" . urlencode($query) . "'>{$r['Name']}</a></span></b>";
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       $table,
-				                                       "<center>{$r['Rows']}</center>",
-				                                       "<div align='right'><span style='color:blue;font-size:12px'>{$tbl[0]} {$tbl[1]}</span></div>",
-				                                       "<div align='right'>{$idx[0]} {$idx[1]}</div>",
-				                                       "<center><a href='{$SKIN->base_url}&act=mysql&code=export_tbl&tbl={$r['Name']}'>Export</a></center></b>",
-				                                       "<center><input name=\"tbl_{$r['Name']}\" value=1 type='checkbox' onClick=\"CheckCheckAll();\"></center>",
+				                                       "<span class='center'>{$r['Rows']}</span>",
+				                                       "<div class='right'><span style='color:blue;font-size:12px'>{$tbl[0]} {$tbl[1]}</span></div>",
+				                                       "<div class='right'>{$idx[0]} {$idx[1]}</div>",
+				                                       "<span class='center'><a href='{$SKIN->base_url}&act=mysql&code=export_tbl&tbl={$r['Name']}'>Export</a></span>",
+				                                       "<span class='center'><input name=\"tbl_{$r['Name']}\" value=1 type='checkbox' onClick=\"CheckCheckAll();\"></span>",
 				                                  ));
 			}
 
@@ -968,9 +968,9 @@ class ad_mysql
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       "&nbsp;",
 			                                       "&nbsp;",
-			                                       "<div align='right'><b>{$tbl[0]} {$tbl[1]}</b></div>",
-			                                       "<div align='right'><b>{$idx[0]} {$idx[1]}</b></div>",
-			                                       "<div align='right'>Totals (<b>{$tot[0]} {$tot[1]}</b>)</div>",
+			                                       "<div class='right'><b>{$tbl[0]} {$tbl[1]}</b></div>",
+			                                       "<div class='right'><b>{$idx[0]} {$idx[1]}</b></div>",
+			                                       "<div class='right'>Totals (<b>{$tot[0]} {$tot[1]}</b>)</div>",
 
 			                                  ));
 		} else

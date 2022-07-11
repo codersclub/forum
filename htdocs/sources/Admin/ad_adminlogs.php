@@ -185,7 +185,7 @@ class ad_adlogs
 			}
 		} else
 		{
-			$ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
+			$ADMIN->html .= $SKIN->add_td_basic('No results', 'center');
 		}
 
 		$ADMIN->html .= $SKIN->add_td_basic($links, 'center', 'pformstrip');
@@ -271,7 +271,7 @@ class ad_adlogs
 			}
 		} else
 		{
-			$ADMIN->html .= $SKIN->add_td_basic("<center>No results</center>");
+			$ADMIN->html .= $SKIN->add_td_basic('No results', 'center');
 		}
 
 		$ADMIN->html .= $SKIN->end_table();
@@ -297,9 +297,9 @@ class ad_adlogs
 
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       "<b>{$r['name']}</b>",
-			                                       "<center>{$r['act_count']}</center>",
-			                                       "<center><a href='" . $SKIN->base_url . "&act=adminlog&code=view&mid={$r['member_id']}'>View</a></center>",
-			                                       "<center><a href='" . $SKIN->base_url . "&act=adminlog&code=remove&mid={$r['member_id']}'>Remove</a></center>",
+			                                       "<span class='center'>{$r['act_count']}</span>",
+			                                       "<span class='center'><a href='" . $SKIN->base_url . "&act=adminlog&code=view&mid={$r['member_id']}'>View</a></span>",
+			                                       "<span class='center'><a href='" . $SKIN->base_url . "&act=adminlog&code=remove&mid={$r['member_id']}'>Remove</a></span>",
 			                                  ));
 		}
 

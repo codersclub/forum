@@ -49,7 +49,6 @@ $lang = array (
 'nav_search_results'	=> "Search Results",
 'nav_approve'		=> "Pending Approval",
 
-'never_updated'		=> "Never Updated",
 'edit_own_dlpage'		=> "Click here to edit your file",
 'pages'			=> "Pages",
 'first_page'		=> "First",

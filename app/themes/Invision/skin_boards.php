@@ -47,7 +47,7 @@ return <<<EOF
     <table class="b-forums-list">
         <thead>
 		<tr class="b-header-row">
-	        <th colspan="2" align="center" width="2%" class="b-column-icon"><img border="0" src="{$ibforums->skin['ImagesPath']}/spacer.gif" alt="" width="28" height="1"></th>
+	        <th colspan="2" align="center" width="2%" class="b-column-icon"><img src="{$ibforums->skin['ImagesPath']}/spacer.gif" alt="" width="28" height="1"></th>
 			<th width="59%" class="b-column b-column_title">{$ibforums->lang['cat_name']}</th>
 		    <th width="7%" class="b-column b-column_topics">{$ibforums->lang['topics']}</th>
 		    <th width="7%" class="b-column b-column_replies">{$ibforums->lang['replies']}</th>
@@ -139,7 +139,7 @@ return <<<EOF
 	</div>
 	<div class="tableborder board-stats">
 		<div class="maintitle">{$ibforums->lang['board_stats']}</div>
-		<table cellpadding="4" cellspacing="1" border="0" width="100%">
+		<table cellspacing="1">
 
 EOF;
 }
@@ -414,10 +414,10 @@ return <<<EOF
 
 {$fid}
  <div class="tableborder b-subforums-list-wrapper">
-   <table width="100%" border="0" cellspacing="1" cellpadding="4" class="b-subforums-list">
+   <table cellspacing="1" class="b-subforums-list">
    <thead>
    <tr class="b-header-row">
-  <th colspan="2" class="b-column b-column_icon"><img border="0" src="{$ibforums->skin["ImagesPath"]}/spacer.gif" alt="" width="28" height="1"></th>
+  <th colspan="2" class="b-column b-column_icon"><img src="{$ibforums->skin["ImagesPath"]}/spacer.gif" alt="" width="28" height="1"></th>
   <th width="59%" class="b-column b-column_title">{$ibforums->lang["cat_name"]}</th>
   <th width="7%" class="b-column b-column_topics">{$ibforums->lang["topics"]}</th>
   <th width="7%" class="b-column b-column_replies">{$ibforums->lang["replies"]}</th>

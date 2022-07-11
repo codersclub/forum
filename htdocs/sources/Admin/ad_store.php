@@ -547,7 +547,7 @@ class ad_store
 		$code = str_replace("{", "{<b></b>", $code);
 		$code = str_replace("}", "<b></b>}", $code);
 		$code = str_replace("$", "$<b></b>", $code);
-		return '<table border="0" cellspacing="0" cellpadding="1" width="100%" style="border:1px black solid;background-color:#ffffff"><tr><td>' . $code . '</td></tr></table>';
+		return '<table cellpadding="1" style="border:1px black solid;background-color:#ffffff"><tr><td>' . $code . '</td></tr></table>';
 	}
 
 	function update_page()
@@ -1867,7 +1867,7 @@ class ad_store
 				";
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Select a Item Icon:</b><br>",
-		                                       $SKIN->form_dropdown('item_icon', $icons, $item['icon'], "onChange='show_icon()'") . "&nbsp;&nbsp;<img src='{$image}' name='iconpreview' border='0'>",
+		                                       $SKIN->form_dropdown('item_icon', $icons, $item['icon'], "onChange='show_icon()'") . "&nbsp;&nbsp;<img src='{$image}' name='iconpreview'>",
 		                                  ));
 		$category[] = array('shop', 'Main Category');
 		$stmt       = $ibforums->db->query(

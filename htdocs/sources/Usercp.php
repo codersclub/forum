@@ -1257,7 +1257,7 @@ class UserCP
 				$topic['folder_icon'] = $std->folder_icon($topic, "", $last_time, $read_mark);
 
 				$topic['topic_icon'] = $topic['icon_id']
-					? '<img src="' . $ibforums->vars['html_url'] . '/icon' . $topic['icon_id'] . '.gif" border="0" alt="">'
+					? '<img src="' . $ibforums->vars['html_url'] . '/icon' . $topic['icon_id'] . '.gif" alt="">'
 					: '&nbsp;';
 
 				if ($topic['pinned'])

@@ -151,7 +151,7 @@ global $ibforums;
 
 return <<<HTML
   <div class='pformstrip'>{$event['title']} ($event_type)</div>
-  <table width="100%" border="0" cellspacing="1" cellpadding="3">
+  <table cellspacing="1" cellpadding="3">
   <tr>
    <td class='row4' width='1%' valign='middle' nowrap='nowrap'><span class='normalname'><a href='{$ibforums->base_url}showuser={$member['id']}'>{$member['name']}</a></span></td>
    <td class='row4' width='99%'><div align='left' style='float:left;width:auto;padding-top:4px;padding-bottom:4px;'><strong>{$ibforums->lang['event_date']} {$event['mday']} {$event['month_text']} {$event['year']}</strong> $date_ends ($type)</div>$edit_button</td>
@@ -228,7 +228,7 @@ return <<<HTML
 	   <a href='{$ibforums->base_url}act=calendar&amp;m={$next['month_id']}&amp;y={$next['year_id']}'>{$next['month_name']} {$next['year_id']}</a> &gt;
 	</div>
   </div>
-  <table width="100%" border="0" cellspacing="1" cellpadding="0">
+  <table cellspacing="1" cellpadding="0">
    <tr>
 	 <!--IBF.DAYS_TITLE_ROW-->
 

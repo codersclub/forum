@@ -10,7 +10,7 @@ return <<<EOF
     <tr>
     <td class='row1'>$answer</td>
     <td class='row1'>[&nbsp;<b>$votes</b>&nbsp;]</td>
-    <td class='row1'><img src='{$ibforums->skin['imagesPath']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar.gif' border='0' width='$width' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''>&nbsp;[$percentage%]</td>
+    <td class='row1'><img src='{$ibforums->skin['imagesPath']}/bar_left.gif' width='4' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar.gif' width='$width' height='11' align='middle' alt=''><img src='{$ibforums->skin['ImagesPath']}/bar_right.gif' width='4' height='11' align='middle' alt=''>&nbsp;[$percentage%]</td>
 EOF;
 }
 
@@ -33,7 +33,7 @@ return <<<EOF
     <form action="{$data['form_url']}" method="post">
 	<div class="tableborder">
 	<div class="maintitle"><{CAT_IMG}>&nbsp;{$data['global_poll']} - {$data['poll_question']}</div>
-	<table cellpadding='4' cellspacing='1' border='0' width='100%'>
+	<table>
 	<tr>
            <td class='pformstrip' colspan='3'>{$data['header_text']}</td>
     	</tr>

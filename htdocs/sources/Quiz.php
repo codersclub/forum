@@ -2400,7 +2400,7 @@ class quiz
 							$member['member_rank_img'] .= $pip;
 					} elseif (!$ibforums->member['id'] or ($ibforums->member['show_icons'] and $ibforums->member['view_img']))
 					{
-						$member['member_rank_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/$pips' border='0' alt='*'>";
+						$member['member_rank_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/$pips' alt='*'>";
 					}
 			}
 
@@ -2412,7 +2412,7 @@ class quiz
 			                                  $ibforums->member['show_icons']))
 			)
 			{
-				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}' border='0'> ";
+				$member['sex'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/fem.gif' alt='{$member['field_2']}' title='{$member['field_2']}'> ";
 			}
 
 			// add crlf
@@ -2425,7 +2425,7 @@ class quiz
 
 			if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 			{
-				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0' alt='{$rank}' title='{$rank}'>";
+				$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' alt='{$rank}' title='{$rank}'>";
 			}
 
 			$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";
@@ -2485,7 +2485,7 @@ class quiz
 				// group icon
 				if ($member['g_icon'] and (!$ibforums->member['id'] or ($ibforums->member['view_img'] and $ibforums->member['show_icons'])))
 				{
-					$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}' border='0'>";
+					$member['member_group_img'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$member['g_icon']}'>";
 				}
 
 				$member['profile'] = "<a href='{$ibforums->base_url}showuser={$member['id']}' target='_blank'>{$ibforums->lang['link_profile']}</a> · <a href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$member['id']}' target='_blank'>PM</a><br>";

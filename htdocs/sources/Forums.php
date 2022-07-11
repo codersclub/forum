@@ -1286,7 +1286,7 @@ class Forums
 		}
 
 		$topic['topic_icon'] = $topic['icon_id']
-			? '<img src="' . $ibforums->skin->getImagesPath() . '/icon' . $topic['icon_id'] . '.gif" border="0" alt="">'
+			? '<img src="' . $ibforums->skin->getImagesPath() . '/icon' . $topic['icon_id'] . '.gif" alt="">'
 			: '&nbsp;';
 
 		$topic['start_date'] = $ibforums->functions->get_date($topic['start_date']);

@@ -412,7 +412,7 @@ class display
 
 				if ($ibforums->member['new_msg'])
 				{
-					$msg_data['TEXT'] .= " <img border=0 src='{$ibforums->vars['board_url']}/html/sys-img/bat.gif'>";
+					$msg_data['TEXT'] .= " <img src='{$ibforums->vars['board_url']}/html/sys-img/bat.gif'>";
 				}
 			}
 

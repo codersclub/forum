@@ -20,7 +20,7 @@ function bog_off() {
 </script>
 <div class="tableborder">
   <div class="titlemedium" align="center">{$ibforums->lang['who_farted']} $title</div>
-  <table cellpadding='5' cellspacing='1' border='0' width='100%'>
+  <table cellspacing='1'>
   <tr>
 	 <td width='70%' align='left'   class='pformstrip'   valign='middle'>{$ibforums->lang['who_poster']}</td>
 	 <td width='30%' align='center' class='pformstrip' valign='middle'>{$ibforums->lang['who_posts']}</td>
@@ -61,11 +61,11 @@ EOF;
 function page_title($title) {
 global $ibforums;
 return <<<EOF
-    <table cellpadding='0' cellspacing='0' border='0' width='95%' align='center'>
+    <table cellpadding='0' width='95%'>
       <tr>
          <td valign='middle' align='left'><span class='pagetitle'>{$title}</td>
       </tr>
-     </table>
+    </table>
 EOF;
 }
 
@@ -134,7 +134,7 @@ global $ibforums;
 return <<<EOF
 <div class='tableborder'>
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['todays_posters']}</div>
- <table cellpadding='5' cellspacing='1' border='0' width='100%'>
+ <table cellspacing='1'>
  <tr>
 	<th width='30%' align='left' class='pformstrip'   valign='middle'>{$ibforums->lang['member']}</th>
 	<th width='20%' align='center' class='pformstrip' valign='middle'>{$ibforums->lang['member_joined']}</th>

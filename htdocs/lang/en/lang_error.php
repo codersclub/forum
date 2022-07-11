@@ -249,7 +249,6 @@ $lang = array (
 'already_logged_in'				=>	"That user is already logged in!",
 'no_guests'					=>	"Sorry, but this function isn't available to guests",
 'no_permission'					=>	"Sorry, but you do not have permission to use this feature. If you are not logged in, you may do so using the form below if available.",
-'pass_no_match'					=>	"The Two New Passwords do not match",
 'server_too_busy'					=>	"Sorry, the server is too busy to handle your request, please try again in a moment",
 'loc_too_long'					=>	"Your Location entry is too long.",
 'poll_you_created'				=>	"You created this poll",

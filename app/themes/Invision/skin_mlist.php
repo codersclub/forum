@@ -97,7 +97,7 @@ return <<<EOF
 <br>
 <div class='tableborder'>
  <div class="maintitle">{$ibforums->lang['page_title']}</div>
- <table width="100%" border="0" cellspacing="1" cellpadding="4">
+ <table cellspacing="1">
   <tr>
 	<th class='pformstrip' width="20%">{$ibforums->lang['member_name']}</th>
 	<th class='pformstrip' align="center" width="12%">{$ibforums->lang['member_level']}</th>

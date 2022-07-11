@@ -347,7 +347,7 @@ EOF;
 function show_chat_link_popup() {
 global $ibforums;
 return <<<EOF
-<a href="javascript:chat_pop({$ibforums->vars['chat_width']}, {$ibforums->vars['chat_height']});"><img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" border="0" alt=""> {$ibforums->lang['live_chat']}</a>
+<a href="javascript:chat_pop({$ibforums->vars['chat_width']}, {$ibforums->vars['chat_height']});"><img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" alt=""> {$ibforums->lang['live_chat']}</a>
 EOF;
 }
 
@@ -397,7 +397,7 @@ function show_chat_link_inline() {
 global $ibforums;
 return <<<EOF
 
-&nbsp; &nbsp;&nbsp;<img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" border="0" alt="">&nbsp;<a href='{$ibforums->base_url}act=chat'>{$ibforums->lang['live_chat']}</a>
+&nbsp; &nbsp;&nbsp;<img src="{$ibforums->skin['ImagesPath']}/atb_chat.gif" alt="">&nbsp;<a href='{$ibforums->base_url}act=chat'>{$ibforums->lang['live_chat']}</a>
 
 EOF;
 }
@@ -415,7 +415,7 @@ global $ibforums;
 return <<<EOF
 <table id='b-header'>
 <tr id='logostrip'>
-<td class='b-logo-wrapper'><a class='b-logo_link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='b-logo_img' src='{$ibforums->skin['ImagesPath']}/logo4.gif' alt='На главную' border='0'></a></td>
+<td class='b-logo-wrapper'><a class='b-logo_link' href='{$ibforums->vars['home_url']}' title='На главную'><img class='b-logo_img' src='{$ibforums->skin['ImagesPath']}/logo4.gif' alt='На главную'></a></td>
 
 <td align='center' class='b-slogan-wrapper' colspan=2>
 Наши проекты:
@@ -491,7 +491,7 @@ function topBreadcrumbs($items){
 function start_nav($NEW="") {
 global $ibforums;
 return <<<EOF
-<table id='top-navigation' class='b-top-navigation-row' border=0 width="100%" cellspacing=0 cellpadding=0>
+<table id='top-navigation' class='b-top-navigation-row' cellpadding=0>
 <tr>
 <td class='b-navigation-wrapper'>
 EOF;

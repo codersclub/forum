@@ -20,7 +20,7 @@ EOF;
 function forum_jump($data) {
 global $ibforums;
 return <<<EOF
-      <table cellpadding='0' cellspacing='1' border='0' width='95%' align='center'>
+      <table width='95%' cellpadding='0' cellspacing='1'>
         <tr>
             <td align='right'>$data</td>
         </tr>
@@ -34,10 +34,10 @@ function pager_header($data) {
 global $ibforums;
 return <<<EOF
 
-       <table cellpadding='0' cellspacing='0' border='0' width='100%' bgcolor='#999999' align='center'>
+       <table cellpadding='0' cellspacing='0' bgcolor='#999999'>
         <tr>
             <td>
-              <table cellpadding='4' cellspacing='0' border='0' width='100%'>
+              <table>
                 <tr>
                    <td colspan='2' align='center' class='titlemedium'>{$data['TITLE']}</td>
 
@@ -134,7 +134,7 @@ return <<<EOF
 <div class='tableborder'>
   <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['report_title']}</div>
   <div class='pformstrip'>&nbsp;</div>
-  <table cellpadding='4' cellspacing='1' border='0' width='100%'>
+  <table cellspacing='1'>
    <tr>
    <td class='row1' align='left'  width='30%' valign='top'><b>{$ibforums->lang['report_topic']}</b></td>
    <td class='row1' width='80%'><a href='{$ibforums->base_url}showtopic=$tid&amp;st=$st&amp;&#35;entry$pid'>$topic_title</a>
@@ -191,7 +191,7 @@ return <<<EOF
               </tr>
                <tr>
                 <td class='row2' align='left'><b>{$ibforums->lang['yahoo_status']}</b></td>
-                <td class='row2' align='left'><img border=0 src="https://opi.yahoo.com/online?u=$yahoo&amp;m=g&amp;t=2"></td>
+                <td class='row2' align='left'><img src="https://opi.yahoo.com/online?u=$yahoo&amp;m=g&amp;t=2"></td>
               </tr>
               <tr>
                 <td class='row2' align='center' colspan='2'><a href="https://edit.yahoo.com/config/send_webmesg?.target=$yahoo&amp;.src=pg">{$ibforums->lang['yahoo_send_msg']}</a></td>
@@ -269,7 +269,7 @@ global $ibforums;
 return <<<EOF
 
 <table width='140' align='center'>
-<tr align='right'><td><a href="https://www.aol.co.uk/aim/index.html"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_man.gif" width=44 height=55 border=0 alt="Download AIM"></a><img src="https://www.aol.co.uk/aim/remote/gr/aimver_topsm.gif" width=73 height=55 border=0 alt="AIM Remote"><br><a href="aim:goim?screenname={$data['AOLNAME']}&amp;message=Hi.+Are+you+there?"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_im.gif" width=117 height=39 border=0 alt="Send me an Instant Message"></a><br><a href="aim:addbuddy?screenname={$data['AOLNAME']}"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_bud.gif" width=117 height=39 border=0 alt="Add me to Your Buddy List"></a><br><a href="https://www.aol.co.uk/aim/remote.html"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_botadd.gif" width=117 height=23 border=0 alt="Add Remote to Your Page"></a><br><a href="https://www.aol.co.uk/aim/index.html"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_botdow.gif" width=117 height=29 border=0 alt="Download AOL Instant Messenger"></a><br><br></td></tr></table>
+<tr align='right'><td><a href="https://www.aol.co.uk/aim/index.html"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_man.gif" width=44 height=55 alt="Download AIM"></a><img src="https://www.aol.co.uk/aim/remote/gr/aimver_topsm.gif" width=73 height=55 alt="AIM Remote"><br><a href="aim:goim?screenname={$data['AOLNAME']}&amp;message=Hi.+Are+you+there?"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_im.gif" width=117 height=39 alt="Send me an Instant Message"></a><br><a href="aim:addbuddy?screenname={$data['AOLNAME']}"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_bud.gif" width=117 height=39 alt="Add me to Your Buddy List"></a><br><a href="https://www.aol.co.uk/aim/remote.html"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_botadd.gif" width=117 height=23 alt="Add Remote to Your Page"></a><br><a href="https://www.aol.co.uk/aim/index.html"><img src="https://www.aol.co.uk/aim/remote/gr/aimver_botdow.gif" width=117 height=29 alt="Download AOL Instant Messenger"></a><br><br></td></tr></table>
 EOF;
 }
 
@@ -287,7 +287,7 @@ return <<<EOF
 <input type='hidden' name='t'    value='{$ibforums->input['t']}'>
 <div class='tableborder'>
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['title']}</div>
- <table cellpadding='4' cellspacing='0' border='0' width='100%'>
+ <table>
    <tr>
    <td class='row1' align='left'  width='30%' valign='top'><b>{$ibforums->lang['send_lang']}</b></td>
    <td class='row1' width='80%'>$lang</td>

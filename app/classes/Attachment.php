@@ -396,7 +396,7 @@ if (!class_exists('Attachment'))
 			require public_path() . '/conf_mime_types.php';
 
 			return ($ibforums->member['view_img'])
-				? "<img src='{$ibforums->vars['mime_img']}/{$mime_types[ $this->type() ][1]}' border='0' alt='{$ibforums->lang['attached_file']}'>"
+				? "<img src='{$ibforums->vars['mime_img']}/{$mime_types[ $this->type() ][1]}' alt='{$ibforums->lang['attached_file']}'>"
 				: "";
 
 		}

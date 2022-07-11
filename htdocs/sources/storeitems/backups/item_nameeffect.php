@@ -421,7 +421,7 @@ class item
 			</map>
 			  <tr>
 				<td class='pformleft' width='50%' colspan='2'><strong>Color Table:</strong></td>
-				<td class='pformleft' width='50%' colspan='1'><a><img usemap="#colmap" src="{$ibforums->vars['html_url']}/store/coltable.gif" border=0 width=289 height=67></a></td>
+				<td class='pformleft' width='50%' colspan='1'><a><img usemap="#colmap" src="{$ibforums->vars['html_url']}/store/coltable.gif" width=289 height=67></a></td>
 			 </tr>
 			</form>
 			<form action='{$ibforums->base_url}act=store&code=useitem&itemid={$itemid}' name='item' method='post'>
