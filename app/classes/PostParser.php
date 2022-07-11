@@ -2151,7 +2151,7 @@ class PostParser
 		$name = $matches[1];
 		$text = $matches[2];
 
-		$text = preg_replace("#<span class='ME'><center>(.+?)</center></span>#", "\\1", $text);
+		$text = preg_replace("#<span class='ME center'>(.+?)</span>#", "\\1", $text);
 		$text = preg_replace("#$name#", "", $text);
 
 		return '[ME=' . $name . ']' . $text . '[/ME]';

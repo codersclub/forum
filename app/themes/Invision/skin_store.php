@@ -25,7 +25,7 @@ function check_edit(message) {
 	<td class="pformleft" width="20%"><input type="text" name="username"></td>
   </tr>
   <tr>
-	<td class="pformleft" width="10%" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></center></td>
+	<td class="pformleft center" width="10%" colspan="2"><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></td>
 </form>
 
 EOF;
@@ -61,7 +61,7 @@ function check_edit(message) {
 	<td class="pformleft" width="20%"><textarea name="user_reson" width="30" height="10" cols="40" rows="5"></textarea></td>
   </tr>
   <tr>
-	<td class="pformleft" width="10%" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></center></td>
+	<td class="pformleft center" width="10%" colspan="2"><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></td>
   </tr>
 </form>
 
@@ -74,7 +74,7 @@ global $ibforums;
 return <<<EOF
 
   <tr>
-	<td class="pformleft" width="100%" colspan="6"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_inventory_submit']}"></center></td>
+	<td class="pformleft center" width="100%" colspan="6"><input type="submit" name="submit" value="{$ibforums->lang['edit_inventory_submit']}"></td>
   </tr>
 </form>
 
@@ -152,7 +152,7 @@ function check_fine(message) {
 	<td class="pformleft" width="10%"><b>{$ibforums->lang['fine_reson']}</b></td>
 	<td class="pformleft" width="20%"><textarea name="user_reson" width="30" height="10" cols="40" rows="5"></textarea></td>
   <tr>
-	<td class="pformleft" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['fine_member']}"></center></td>
+	<td class="pformleft center" colspan="2"><input type="submit" name="submit" value="{$ibforums->lang['fine_member']}"></td>
    </tr>
   </tr>
 </form>
@@ -281,7 +281,7 @@ function check_edit(message) {
 	<td class="pformleft" width="20%"><textarea name="reson" width="30" height="10" cols="40" rows="5"></textarea></td>
   </tr>
   <tr>
-	<td class="pformleft" width="10%" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></center></td>
+	<td class="pformleft center" width="10%" colspan="2"><input type="submit" name="submit" value="{$ibforums->lang['edit_member']}"></td>
 	</tr>
 </form>
 
@@ -623,7 +623,7 @@ return <<<EOF
 	<td class="pformleft" width="10%">{$ibforums->lang['message_to']}</td>
 	<td class="pformleft" width="20%"><textarea name="message" width="30" height="10" cols="40" rows="5"></textarea></td>
   <tr>
-	<td class="pformleft" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['submit']}" $disable></center></td>
+	<td class="pformleft center" colspan="2"><input type="submit" name="submit" value="{$ibforums->lang['submit']}" $disable></td>
   </tr>
 </form>
 
@@ -775,7 +775,7 @@ return <<<EOF
 	<td class="pformleft" width="20%"><textarea name="message" width="30" height="10" cols="40" rows="5"></textarea></td>
   </tr>
   <tr>
-	<td class="pformleft" colspan="2"><center><input type="submit" name="submit" value="{$ibforums->lang['submit']}" $disable></center></td>
+	<td class="pformleft center" colspan="2"><input type="submit" name="submit" value="{$ibforums->lang['submit']}" $disable></td>
   </tr>
 </form>
 

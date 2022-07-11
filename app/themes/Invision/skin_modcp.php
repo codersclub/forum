@@ -186,18 +186,20 @@ function results($text) {
 global $ibforums;
 return <<<EOF
 
-<tr>
-  <td colspan='2'>
-    <table cellspacing='1' class='fancyborder'>
-     <tr>
-       <td><span class='pagetitle'>{$ibforums->lang['cp_results']}</span>
-       </td>
-     </tr>
-	  <tr>
-	    <td colspan='2'><b>$text</b></td>
-	  </tr>
-	 </table>
-   </td>
+  <tr>
+    <td colspan='2'>
+
+      <table cellspacing='1' class='fancyborder'>
+        <tr>
+          <td>
+            <span class='pagetitle'>{$ibforums->lang['cp_results']}</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan='2'><b>$text</b></td>
+        </tr>
+      </table>
+    </td>
   </tr>
 
 EOF;
@@ -611,10 +613,22 @@ global $ibforums;
 return <<<EOF
   <tr>
 	<td class='row4' align='center' width='5%'>{$info['folder_icon']}</td>
-	<td class="row4" colspan=2><b><a href="{$ibforums->base_url}act=modcp&amp;CODE=showtopics&amp;f={$info['id']}">{$info['name']}</a></b><br><span class='desc'>{$info['description']}</span><br>{$info['moderator']}</td>
+	<td class="row4" colspan=2>
+	  <b><a href="{$ibforums->base_url}act=modcp&amp;CODE=showtopics&amp;f={$info['id']}">{$info['name']}</a></b>
+	  <br>
+	  <span class='desc'>{$info['description']}</span>
+	  <br>
+	  {$info['moderator']}
+	</td>
 	<td class="row2" align="center">{$info['q_topics']}</td>
 	<td class="row2" align="center">{$info['q_posts']}</td>
-	<td class="row2">{$info['last_post']}<br>{$ibforums->lang['in']}: {$info['last_topic']}<br>{$ibforums->lang['by']}: {$info['last_poster']}</td>
+	<td class="row2">
+	  {$info['last_post']}
+	  <br>
+	  {$ibforums->lang['in']}: {$info['last_topic']}
+	  <br>
+	  {$ibforums->lang['by']}: {$info['last_poster']}
+	</td>
 	<td class="row2" align="center">{$info['select_button']}</td>
   </tr>
 EOF;
@@ -626,10 +640,22 @@ return <<<EOF
   <tr>
 	<td class='row4' align='center' width='5%'>&nbsp;</td>
 	<td class='row4' align='center' width='5%'>{$info['folder_icon']}</td>
-	<td class="row2"><b><a href="{$ibforums->base_url}act=modcp&amp;CODE=showtopics&amp;f={$info['id']}">{$info['name']}</a></b><br><span class='desc'>{$info['description']}</span><br>{$info['moderator']}</td>
+	<td class="row2">
+	  <b><a href="{$ibforums->base_url}act=modcp&amp;CODE=showtopics&amp;f={$info['id']}">{$info['name']}</a></b>
+	  <br>
+	  <span class='desc'>{$info['description']}</span>
+	  <br>
+	  {$info['moderator']}
+	</td>
 	<td class="row2" align="center">{$info['q_topics']}</td>
 	<td class="row2" align="center">{$info['q_posts']}</td>
-	<td class="row2">{$info['last_post']}<br>{$ibforums->lang['in']}: {$info['last_topic']}<br>{$ibforums->lang['by']}: {$info['last_poster']}</td>
+	<td class="row2">
+	  {$info['last_post']}
+	  <br>
+	  {$ibforums->lang['in']}: {$info['last_topic']}
+	  <br>
+	  {$ibforums->lang['by']}: {$info['last_poster']}
+	</td>
 	<td class="row2" align="center"><input type='radio' name='f' value='{$info['id']}'></td>
   </tr>
 EOF;
@@ -718,16 +744,27 @@ EOF;
 function topic_row($data) {
 global $ibforums;
 return <<<EOF
-    <tr>
-	  <td align='center' class='row4'>{$data['folder_img']}</td>
-      <td align='center' class='row2'>{$data['topic_icon']}</td>
-      <td class='row4'>{$data['prefix']} <a target='_blank' href='{$ibforums->base_url}showtopic={$data['tid']}' title='{$ibforums->lang['topic_started_on']} {$data['start_date']}'>{$data['title']}</a><br><span class='desc'>{$data['description']}</span></td>
-      <td align='center' class='row2'>{$data['starter']}</td>
-      <td align='center' class='row4'>{$data['posts']}</td>
-      <td align='center' class='row2'>{$data['views']}</td>
-      <td class='row2'>{$data['last_post']}<br>{$data['last_text']} <b>{$data['last_poster']}</b></td>
-      <td align='center' class='row2'><input type='checkbox' name='TID_{$data['real_tid']}' value='1'></td>
-    </tr>
+  <tr>
+    <td align='center' class='row4'>{$data['folder_img']}</td>
+    <td align='center' class='row2'>{$data['topic_icon']}</td>
+    <td class='row4'>
+      {$data['prefix']}
+      <a target='_blank' href='{$ibforums->base_url}showtopic={$data['tid']}' title='{$ibforums->lang['topic_started_on']} {$data['start_date']}'>{$data['title']}</a>
+      <br>
+      <span class='desc'>{$data['description']}</span>
+    </td>
+    <td align='center' class='row2'>{$data['starter']}</td>
+    <td align='center' class='row4'>{$data['posts']}</td>
+    <td align='center' class='row2'>{$data['views']}</td>
+    <td class='row2'>
+      {$data['last_post']}
+      <br>
+      {$data['last_text']} <b>{$data['last_poster']}</b>
+    </td>
+    <td align='center' class='row2'>
+      <input type='checkbox' name='TID_{$data['real_tid']}' value='1'>
+    </td>
+  </tr>
 EOF;
 }
 

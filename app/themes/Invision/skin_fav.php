@@ -58,9 +58,8 @@ function error($e) {
 global $ibforums;
 return <<<EOF
 
-	<center>
-    <div class="tableborder" style="width: 75%;">
-    	<table width="100%" cellpadding="0" cellspacing="1">
+    <div class="tableborder center" style="width: 75%;">
+    	<table cellpadding="0" cellspacing="1">
         	<tr align="center">
         		<td class="maintitle">Error</td>
         	</tr>
@@ -69,7 +68,7 @@ return <<<EOF
         	</tr>
         </table>
     </div>
-    </center><br>
+<br>
 
 EOF;
 }

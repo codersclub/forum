@@ -12,7 +12,7 @@ return <<<EOF
 
 <br>
 <br>
-<strong><span class='edit'>{$ibforums->lang['pic_attach']}</span></strong>
+<span class='edit'><strong>{$ibforums->lang['pic_attach']}</strong></span>
 <br>
 <img src='{$ibforums->base_url}act=Attach&amp;type=post&amp;id=$aid' class='attach' alt='{$ibforums->lang['pic_attach']}'>
 
@@ -49,7 +49,7 @@ return <<<EOF
 
 <br>
 <br>
-<strong><span class='edit'>{$ibforums->lang['pic_attach_thumb']}</span></strong>
+<span class='edit'><strong>{$ibforums->lang['pic_attach_thumb']}</strong></span>
 <br>
 <a href='{$ibforums->base_url}act=Attach&amp;type=post&amp;id=$aid' title='{$ibforums->lang['pic_attach_thumb']}' target='_blank'><img src='{$ibforums->vars['upload_url']}/$file_name' width='$width' height='$height' class='attach' alt='{$ibforums->lang['pic_attach']}'></a>
 
@@ -222,10 +222,20 @@ global $ibforums;
 return <<<EOF
 
     {$post['checkbox']}
-      {$post['post_icon']}<span class='postdetails'><b>{$post['pinned_title']}</b> <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline"><b>{$ibforums->lang['entry_num']}</b>{$author['postcount']}</a>{$post['post_date']}</span>
+    {$post['post_icon']}
+    <span class='postdetails'>
+      <b>{$post['pinned_title']}</b>
+      <a title="{$ibforums->lang['tt_link']}" href="#" onclick="link_to_post({$post['pid']}); return false;" style="text-decoration:underline">
+        <b>{$ibforums->lang['entry_num']}</b>
+        {$author['postcount']}
+      </a>
+      {$post['post_date']}
+    </span>
     <br>
     {$author['avatar']}
-    {$author['member_group_img']} <a name='entry{$post["pid"]}'></a> <span class='{$post["name_css"]}'>{$author['name']}</span> {$author['online']}
+    {$author['member_group_img']} <a name='entry{$post["pid"]}'></a>
+    <span class='{$post["name_css"]}'>{$author['name']}</span>
+    {$author['online']}
 
     <b>{$author['sex']}{$author['title']}</b>
     {$author['member_rank_img']}
@@ -237,23 +247,22 @@ return <<<EOF
     <br>
 
     <div align='right'>
-    {$post['queued_link']}{$post['quick_quote']} {$post['add_to_faq']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['quote']} {$post['delete_delayed']}
+      {$post['queued_link']}{$post['quick_quote']} {$post['add_to_faq']} {$post['restore_decline']}{$post['report_link']} {$post['delete_button']} {$post['edit_button']} {$post['quote']} {$post['delete_delayed']}
     </div>
+
     <br>
 
-
 <div class='tableborder'>
-    <div class='{$post['post_css']}'>
-      <div class='postcolor' style='padding:8px'>
-
-        {$post['post']}
-        {$post['attachment']}
-      </div>
-      {$post['signature']}
+  <div class='{$post['post_css']}'>
+    <div class='postcolor' style='padding:8px'>
+      {$post['post']}
+      {$post['attachment']}
     </div>
+    {$post['signature']}
+  </div>
 
 
-    <div class='darkrow1' style='height:5px'><!-- --></div>
+  <div class='darkrow1' style='height:5px'><!-- --></div>
 
 
 EOF;
@@ -265,7 +274,9 @@ global $ibforums;
 return <<<EOF
 
 
-<span class='desc'><br>{$ibforums->lang['ip']}: $data</span>
+<span class='desc'>
+  <br>{$ibforums->lang['ip']}: $data
+</span>
 
 
 EOF;
@@ -439,7 +450,7 @@ return <<<EOF
 
 <br>
 <br>
-<strong><span class='edit'>{$ibforums->lang['attached_file']} ( {$ibforums->lang['attach_hits']}: {$data['hits']} )</span></strong>
+<span class='edit'><strong>{$ibforums->lang['attached_file']} ( {$ibforums->lang['attach_hits']}: {$data['hits']} )</strong></span>
 <br>
 <a href='{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$data['pid']}' title='{$ibforums->lang['attach_dl']}' target='_blank'>{$data['image']}</a>
 &nbsp;<a href='{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$data['pid']}' title='{$ibforums->lang['attach_dl']}' target='_blank'>{$data['name']}</a>

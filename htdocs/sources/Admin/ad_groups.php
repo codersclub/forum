@@ -985,10 +985,10 @@ class ad_groups
 					{
 						if (preg_match("/(^|,)" . $gid . "(,|$)/", $r['read_perms']))
 						{
-							$read = "<span class='center' id='mgblue'><input type='checkbox' name='read_" . $r['id'] . "' value='1' checked='checked'></span>";
+							$read = "<div class='center' id='mgblue'><input type='checkbox' name='read_" . $r['id'] . "' value='1' checked='checked'></div>";
 						} else
 						{
-							$read = "<span class='center' id='mgblue'><input type='checkbox' name='read_" . $r['id'] . "' value='1'></span>";
+							$read = "<div class='center' id='mgblue'><input type='checkbox' name='read_" . $r['id'] . "' value='1'></div>";
 						}
 					}
 
@@ -1003,10 +1003,10 @@ class ad_groups
 					{
 						if (preg_match("/(^|,)" . $gid . "(,|$)/", $r['start_perms']))
 						{
-							$start = "<span class='center' id='mgred'><input type='checkbox' name='start_" . $r['id'] . "' value='1' checked='checked'></span>";
+							$start = "<div class='center' id='mgred'><input type='checkbox' name='start_" . $r['id'] . "' value='1' checked='checked'></div>";
 						} else
 						{
-							$start = "<span class='center' id='mgred'><input type='checkbox' name='start_" . $r['id'] . "' value='1'></span>";
+							$start = "<div class='center' id='mgred'><input type='checkbox' name='start_" . $r['id'] . "' value='1'></div>";
 						}
 					}
 
@@ -1021,10 +1021,10 @@ class ad_groups
 					{
 						if (preg_match("/(^|,)" . $gid . "(,|$)/", $r['reply_perms']))
 						{
-							$reply = "<span class='center' id='mggreen'><input type='checkbox' name='reply_" . $r['id'] . "' value='1' checked='checked'></span>";
+							$reply = "<div class='center' id='mggreen'><input type='checkbox' name='reply_" . $r['id'] . "' value='1' checked='checked'></div>";
 						} else
 						{
-							$reply = "<span class='center' id='mggreen'><input type='checkbox' name='reply_" . $r['id'] . "' value='1'></span>";
+							$reply = "<div class='center' id='mggreen'><input type='checkbox' name='reply_" . $r['id'] . "' value='1'></div>";
 						}
 					}
 
@@ -1039,10 +1039,10 @@ class ad_groups
 					{
 						if (preg_match("/(^|,)" . $gid . "(,|$)/", $r['upload_perms']))
 						{
-							$upload = "<span class='center' id='memgroup'><input type='checkbox' name='upload_" . $r['id'] . "' value='1' checked='checked'></span>";
+							$upload = "<div class='center' id='memgroup'><input type='checkbox' name='upload_" . $r['id'] . "' value='1' checked='checked'></div>";
 						} else
 						{
-							$upload = "<span class='center' id='memgroup'><input type='checkbox' name='upload_" . $r['id'] . "' value='1'></span>";
+							$upload = "<div class='center' id='memgroup'><input type='checkbox' name='upload_" . $r['id'] . "' value='1'></div>";
 						}
 					}
 
@@ -1084,10 +1084,10 @@ class ad_groups
 							{
 								if (preg_match("/(^|,)" . $gid . "(,|$)/", $rd['read_perms']))
 								{
-									$read = "<span class='center' id='mgblue'><input type='checkbox' name='read_" . $rd['id'] . "' value='1' checked='checked'></span>";
+									$read = "<div class='center' id='mgblue'><input type='checkbox' name='read_" . $rd['id'] . "' value='1' checked='checked'></div>";
 								} else
 								{
-									$read = "<span class='center' id='mgblue'><input type='checkbox' name='read_" . $rd['id'] . "' value='1'></span>";
+									$read = "<div class='center' id='mgblue'><input type='checkbox' name='read_" . $rd['id'] . "' value='1'></div>";
 								}
 							}
 
@@ -1102,10 +1102,10 @@ class ad_groups
 							{
 								if (preg_match("/(^|,)" . $gid . "(,|$)/", $rd['start_perms']))
 								{
-									$start = "<span class='center' id='mgred'><input type='checkbox' name='start_" . $rd['id'] . "' value='1' checked='checked'></span>";
+									$start = "<div class='center' id='mgred'><input type='checkbox' name='start_" . $rd['id'] . "' value='1' checked='checked'></div>";
 								} else
 								{
-									$start = "<span class='center' id='mgred'><input type='checkbox' name='start_" . $rd['id'] . "' value='1'></span>";
+									$start = "<div class='center' id='mgred'><input type='checkbox' name='start_" . $rd['id'] . "' value='1'></div>";
 								}
 							}
 
@@ -1120,10 +1120,10 @@ class ad_groups
 							{
 								if (preg_match("/(^|,)" . $gid . "(,|$)/", $rd['reply_perms']))
 								{
-									$reply = "<span class='center' id='mggreen'><input type='checkbox' name='reply_" . $rd['id'] . "' value='1' checked='checked'></span>";
+									$reply = "<div class='center' id='mggreen'><input type='checkbox' name='reply_" . $rd['id'] . "' value='1' checked='checked'></div>";
 								} else
 								{
-									$reply = "<span class='center' id='mggreen'><input type='checkbox' name='reply_" . $rd['id'] . "' value='1'></span>";
+									$reply = "<div class='center' id='mggreen'><input type='checkbox' name='reply_" . $rd['id'] . "' value='1'></div>";
 								}
 							}
 
@@ -1138,10 +1138,10 @@ class ad_groups
 							{
 								if (preg_match("/(^|,)" . $gid . "(,|$)/", $rd['upload_perms']))
 								{
-									$upload = "<span class='center' id='memgroup'><input type='checkbox' name='upload_" . $rd['id'] . "' value='1' checked='checked'></span>";
+									$upload = "<div class='center' id='memgroup'><input type='checkbox' name='upload_" . $rd['id'] . "' value='1' checked='checked'></div>";
 								} else
 								{
-									$upload = "<span class='center' id='memgroup'><input type='checkbox' name='upload_" . $rd['id'] . "' value='1'></span>";
+									$upload = "<div class='center' id='memgroup'><input type='checkbox' name='upload_" . $rd['id'] . "' value='1'></div>";
 								}
 							}
 

@@ -63,7 +63,9 @@ global $ibforums;
 return <<<EOF
     <table cellpadding='0' width='95%'>
       <tr>
-         <td valign='middle' align='left'><span class='pagetitle'>{$title}</td>
+         <td valign='middle' align='left'>
+           <span class='pagetitle'>{$title}
+         </td>
       </tr>
     </table>
 EOF;

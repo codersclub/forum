@@ -142,7 +142,10 @@ return <<<EOF
 
   <table cellspacing='1'>
     <tr>
-      <td valign='middle' class='row4' width='1%'>{$author['member_group_img']} <span class='postdata'>{$author['name']}</span>{$author['online']}</td>
+      <td valign='middle' class='row4' width='1%'>
+        {$author['member_group_img']}
+        <span class='postdata'>{$author['name']}</span>{$author['online']}
+      </td>
       <td class='row4' valign='top' width="99%">
       <div style='width:20%;float:left'>{$post['status']}</div>
       <div align='right' style='width:80%;float:right'>{$post['actions']}</div>
@@ -150,7 +153,6 @@ return <<<EOF
     </tr>
     <tr>
       <td valign='top' class='post1'>
-
         <span class='postdetails'>{$author['avatar']}
         <b>{$author['sex']}{$author['title']}</b>
         {$author['member_rank_img']}
@@ -189,17 +191,15 @@ return <<<EOF
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$settings['quizname']}</div>
    {$settings['modform_open']}
- <div class="row2">
- <center>
+ <div class="row2 center">
   <div style="width:468px; text-align:left; padding: 8px 4px 8px 4px">
   {$settings['quizdesc']}
   <hr>
   {$settings['post']}
- </div>
- </center>
+  </div>
  </div>
 
-  <tablecellspacing='1'>
+  <table cellspacing='1'>
   <form action='{$ibforums->base_url}act=quiz' name='quiz' method='post'>
   <input name='quiz_id' value='{$settings['q_id']}' type='hidden'>
   <input name='code' value='update_questions' type='hidden'>
@@ -334,19 +334,20 @@ return <<<EOF
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$ibforums->lang['user_answers']} {$ibforums->lang['in_the_quiz']} "{$settings['quizname']}"</div>
    {$post['modform_open']}
 
- <div class="row2">
- <center>
+ <div class="row2 center">
   <div style="width:468px; text-align:left; padding: 8px 4px 8px 4px">
   {$settings['quizdesc']}
   <hr>
   {$settings['post']}
   </div>
- </center>
  </div>
 
   <table cellspacing='1'>
     <tr>
-      <td valign='middle' class='row4' width='1%'>{$member['member_group_img']} <span class='postdata'>{$member['name']}</span>{$member['online']}</td>
+      <td valign='middle' class='row4' width='1%'>
+        {$member['member_group_img']}
+        <span class='postdata'>{$member['name']}</span>{$member['online']}
+      </td>
       <td class='row4' valign='top' width="99%">
 <!-- date & others -->
       {$settings['quiz_status']}
@@ -494,9 +495,16 @@ function list_quiz($data) {
     <tr>
       <td align='center' class='row4'>{$data['img']}</td>
       <td align='center' class='row2'>{$data['icon']}</td>
-      <td class='row4'><a href='{$ibforums->base_url}act=quiz&code=show&quiz_id={$data['q_id']}'><b>{$data['quizname']}</b></a>
-      <br><span class='desc'>{$data['quizdesc']}</span>{$data['queued_link']}</td>
-      <td align='center' class='row2'><a href='{$ibforums->base_url}showuser={$data['starter_id']}'>{$data['starter_name']}</a></td>
+      <td class='row4'>
+        <a href='{$ibforums->base_url}act=quiz&code=show&quiz_id={$data['q_id']}'>
+          <b>{$data['quizname']}</b>
+        </a>
+        <br>
+        <span class='desc'>{$data['quizdesc']}</span>{$data['queued_link']}
+      </td>
+      <td align='center' class='row2'>
+        <a href='{$ibforums->base_url}showuser={$data['starter_id']}'>{$data['starter_name']}</a>
+      </td>
 
       <!--Plays Left Middle-->
 
@@ -576,14 +584,12 @@ return <<<EOF
 <div class="tableborder">
  <div class='maintitle'><{CAT_IMG}>&nbsp;{$settings['quizname']}</div>
    {$settings['modform_open']}
- <div class="row2">
- <center>
+ <div class="row2 center">
   <div style="width:468px; text-align:left; padding: 8px 4px 8px 4px">
   {$settings['quizdesc']}
   <hr>
   {$settings['post']}
- </div>
- </center>
+  </div>
  </div>
 
 <script>

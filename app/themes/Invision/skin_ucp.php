@@ -10,11 +10,23 @@ return <<<EOF
 
 <tr>
   <td class='row3' align='center' width='5%'>{$data['folder_icon']}</td>
-  <td class='row3' align='left'>{$data['go_new_post']} <a href='{$ibforums->base_url}act=ST&amp;f={$data['forum_id']}&amp;t={$data['tid']}'>{$data['title']}</a> ( <a href='{$ibforums->base_url}act=ST&amp;f={$data['forum_id']}&amp;t={$data['tid']}' target='_blank'>{$ibforums->lang['new_window']}</a> )<br><span class='desc'>{$data['description']}{$ibforums->lang['subs_start']} {$data['start_date']}</span></td>
+  <td class='row3' align='left'>
+    {$data['go_new_post']}
+    <a href='{$ibforums->base_url}act=ST&amp;f={$data['forum_id']}&amp;t={$data['tid']}'>{$data['title']}</a>
+    ( <a href='{$ibforums->base_url}act=ST&amp;f={$data['forum_id']}&amp;t={$data['tid']}' target='_blank'>{$ibforums->lang['new_window']}</a> )
+    <br>
+    <span class='desc'>{$data['description']}{$ibforums->lang['subs_start']} {$data['start_date']}</span>
+  </td>
   <td class='row3' align='center'>{$data['posts']}</td>
   <td class='row3' align='center'>{$data['views']}</td>
-  <td class='row3' align='left'>{$data['last_post_date']}<br>{$ibforums->lang['subs_by']} {$data['last_poster']}</td>
-  <td class='row2' align='center'><input type='checkbox' name='id-{$data['trid']}' value='yes' class='forminput'></td>
+  <td class='row3' align='left'>
+    {$data['last_post_date']}
+    <br>
+    {$ibforums->lang['subs_by']} {$data['last_poster']}
+  </td>
+  <td class='row2' align='center'>
+    <input type='checkbox' name='id-{$data['trid']}' value='yes' class='forminput'>
+  </td>
 </tr>
 
 EOF;
@@ -495,7 +507,8 @@ return <<<EOF
 	 <td class='row1' align='center' width='5%'>{$data['folder_icon']}</td>
 	 <td class='row1' align='left'>
 		 <b><a href='{$ibforums->base_url}act=SF&amp;f={$data['id']}'>{$data['name']}</a></b>
-		 <br><span class='desc'>{$data['description']}</span>
+		 <br>
+                 <span class='desc'>{$data['description']}</span>
 		 <br><br><b>[ <a href='{$ibforums->base_url}act=UserCP&amp;CODE=51&amp;f={$data['id']}'>{$ibforums->lang['ft_unsub']}</a> ]</b>
 	 </td>
 	 <td class='row1' align='center'>{$data['topics']}</td>
@@ -598,9 +611,15 @@ function delete_cancel($days = 0) {
 global $ibforums;
 return <<<EOF
 
-<li class="usercp-menu-item__delete_info" data-num-days="{$days}"><div class="usercp-menu-item__delete_info-text"><div class="delete_info__warning">{$ibforums->lang['m_delete_account_days']}</div>
-<span class="delete_info__description">{$ibforums->lang['subs_left']}: <span class="delete_info__num_days">{$days}</span></span></div></li>
-<li class="usercp-menu-item__cancel_delete_account"><a href='{$ibforums->base_url}act=UserCP&amp;CODE=33'>{$ibforums->lang['m_delete_cancel_account']}</a></li>
+<li class="usercp-menu-item__delete_info" data-num-days="{$days}">
+  <div class="usercp-menu-item__delete_info-text">
+    <div class="delete_info__warning">{$ibforums->lang['m_delete_account_days']}</div>
+    <span class="delete_info__description">{$ibforums->lang['subs_left']}: <span class="delete_info__num_days">{$days}</span>
+  </div>
+</li>
+<li class="usercp-menu-item__cancel_delete_account">
+  <a href='{$ibforums->base_url}act=UserCP&amp;CODE=33'>{$ibforums->lang['m_delete_cancel_account']}</a>
+</li>
 
 EOF;
 }

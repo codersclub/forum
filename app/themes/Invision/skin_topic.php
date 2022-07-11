@@ -11,7 +11,7 @@ return <<<EOF
 
 <br>
 <br>
-<strong><span class="edit">{$ibforums->lang["pic_attach"]}</span></strong>
+<span class="edit"><strong>{$ibforums->lang["pic_attach"]}</strong></span>
 <br>
 <img src="{$ibforums->base_url}act=Attach&amp;type=post&amp;id=$post_id&amp;attach_id=$attach_id" class="attach" alt="{$ibforums->lang["pic_attach"]}">
 
@@ -48,7 +48,7 @@ return <<<EOF
 
 <br>
 <br>
-<strong><span class="edit">{$ibforums->lang["pic_attach_thumb"]}</span></strong>
+<span class="edit"><strong>{$ibforums->lang["pic_attach_thumb"]}</strong></span>
 <br>
 <a href="{$ibforums->base_url}act=Attach&amp;type=post&amp;id=$post_id&amp;attach_id=$attach_id" title="{$ibforums->lang["pic_attach_thumb"]}" target="_blank"><img src="{$ibforums->vars["upload_url"]}/$file_name" width="$width" height="$height" class="attach" alt="{$ibforums->lang["pic_attach"]}"></a>
 
@@ -119,16 +119,25 @@ return <<<EOF
     <table class="b-post" id="post_{$post["pid"]}" data-post-id="{$post["pid"]}" data-post-author-id="{$post["author_id"]}" {$add_data_fields}>
     <tr class="b-post__headers-row">
        <td class="b-post__author-name">{$author["member_group_img"]} <a name="entry{$post["pid"]}"></a>
-        <span class="b-post__author {$post["name_css"]}" data-author-id="{$post['author_id']}">{$author["name"]}</span>{$author["online"]}
+        <span class="b-post__author {$post["name_css"]}" data-author-id="{$post['author_id']}">
+          {$author["name"]}</span>{$author["online"]}
        </td>
        <td class="b-post__header">
         <div class="b-post__info">{$post["checkbox"]}
-         {$post["post_icon"]}<span class="postdetails"><span class="b-post__title"><span class="b-post__title__prefix">{$post["pinned_title"]}</span> <a class="b-post__title__number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a></span><span class="b-post__date__prefix">{$ibforums->lang["posted_on"]}</span><time class="b-post__date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time></span>
-         </div>
-         {$post["html_actions"]}
-
+         {$post["post_icon"]}
+         <span class="postdetails">
+          <span class="b-post__title">
+           <span class="b-post__title__prefix">{$post["pinned_title"]}</span>
+           <a class="b-post__title__number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a>
+          </span>
+          <span class="b-post__date__prefix">{$ibforums->lang["posted_on"]}</span>
+          <time class="b-post__date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time>
+         </span>
+        </div>
+        {$post["html_actions"]}
       </td>
     </tr>
+
     <tr class="b-post__data-row">
       <td class="b-post__author-info {$post["post_css"]}">
         <div class="postdetails">
@@ -189,13 +198,23 @@ return <<<EOF
        </td>
        <td class="b-post__header">
         <div class="b-post__info">{$post["checkbox"]}
-         {$post["post_icon"]}<span class="postdetails"><span class="b-post__title"><span class="b-post__title__prefix">{$post["pinned_title"]}</span> <a class="b-post__title__number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a></span><span class="b-post__date__prefix">{$ibforums->lang["posted_on"]}</span><time class="b-post__date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time><span class="b-post__delete-text">$dtext</span></span>
-         </div>
-		{$post['html_actions']}
-
+         {$post["post_icon"]}
+         <span class="postdetails">
+           <span class="b-post__title">
+            <span class="b-post__title__prefix">{$post["pinned_title"]}</span>
+            <a class="b-post__title__number" title="{$ibforums->lang["tt_link"]}" href="#" onclick="link_to_post({$post["pid"]}); return false;">{$ibforums->lang["entry_num"]}{$author["postcount"]}</a>
+           </span>
+           <span class="b-post__date__prefix">{$ibforums->lang["posted_on"]}</span>
+           <time class="b-post__date" datetime="{$post["std_post_date"]}">{$post["post_date"]}</time>
+           <span class="b-post__delete-text">$dtext</span>
+         </span>
+        </div>
+	{$post['html_actions']}
       </td>
     </tr>
+
     $trpost
+
     </table>
 EOF;
 }
@@ -212,7 +231,10 @@ EOF;
 function ip_show($data) {
 global $ibforums;
 return <<<EOF
-<div class="b-post__author-ip"><span class="b-ip__title">{$ibforums->lang["ip"]}</span> <span class="b-ip__value">$data</span></div>
+<div class="b-post__author-ip">
+  <span class="b-ip__title">{$ibforums->lang["ip"]}</span>
+  <span class="b-ip__value">$data</span>
+</div>
 EOF;
 }
 
@@ -286,19 +308,22 @@ if ( MessageMax < 0 ) MessageMax = 0;
 </tr>
 </table>
 <div id="PostsWrapper" class="tableborder {$wrapper_classes}" data-topic-id="{$data["TOPIC"]["tid"]}" data-topic-author-id="{$data["TOPIC"]["starter_id"]}">
-  <div class="maintitle"><span class="topic-image"><{CAT_IMG}></span>&nbsp;<span class="b-posts__topic__title">{$data["TOPIC"]["title"]}</span><span class="b-posts__topic__description">{$data["TOPIC"]["description"]}{$data["TOPIC"]["club"]}</span></div>
+  <div class="maintitle">
+    <span class="topic-image"><{CAT_IMG}></span>
+    <span class="b-posts__topic__title">{$data["TOPIC"]["title"]}</span>
+    <span class="b-posts__topic__description">{$data["TOPIC"]["description"]}{$data["TOPIC"]["club"]}</span>
+  </div>
   <div class="b-poll-wrapper"><!--{IBF.POLL}--></div>
   {$data["TOPIC"]["modform_open"]}
   <div class="topic-links">
     <ul class="b-action-buttons b-action-buttons-vline b-topic-actions">
         <!--{IBF.START_NEW_POLL}-->
-		<li class="b-action-button b-subscribe-button">{$data["TOPIC"]["subscribe"]}</li>
+	<li class="b-action-button b-subscribe-button">{$data["TOPIC"]["subscribe"]}</li>
         <li class="b-action-button b-forward-button"><a class="forward-topic" href="{$ibforums->base_url}act=Forward&amp;f={$data["FORUM"]["id"]}&amp;t={$data["TOPIC"]["tid"]}">{$ibforums->lang["forward"]}</a></li>
         <li class="b-action-button b-print-button"><a class="print-topic" href="{$ibforums->base_url}act=Print&amp;client=choose&amp;f={$data["FORUM"]["id"]}&amp;t={$data["TOPIC"]["tid"]}">{$ibforums->lang["av_title"]}</a></li>
-		{$data["TOPIC"]["fav_text"]}
-	</ul>
-
-</div>
+	{$data["TOPIC"]["fav_text"]}
+    </ul>
+  </div>
 
 EOF;
 }
@@ -473,7 +498,7 @@ return <<<EOF
 
 <br>
 <br>
-<strong><span class="edit">{$ibforums->lang["attached_file"]} ( {$ibforums->lang["attach_hits"]}: {$data["hits"]} )</span></strong>
+<span class="edit"><strong>{$ibforums->lang["attached_file"]} ( {$ibforums->lang["attach_hits"]}: {$data["hits"]} )</strong></span>
 <br>
 <a href="{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$data["pid"]}&amp;attach_id={$data["attach_id"]}" title="{$ibforums->lang["attach_dl"]}" target="_blank">{$data["image"]}</a>
 &nbsp;<a href="{$ibforums->base_url}act=Attach&amp;type=post&amp;id={$data["pid"]}&amp;attach_id={$data["attach_id"]}" title="{$ibforums->lang["attach_dl"]}" target="_blank">{$data["name"]}</a>

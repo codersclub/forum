@@ -1073,7 +1073,7 @@ class ad_mod
 				$these_mods = "<table>" . $mod_string . "</table>";
 			} else
 			{
-				$these_mods = "<span class='center'><i>Unmoderated</i></span>";
+				$these_mods = "<div class='center'><i>Unmoderated</i></div>";
 			}
 
 			$t_level_char = "+--";

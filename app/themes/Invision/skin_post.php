@@ -308,7 +308,9 @@ return <<<EOF
   </tr>
   <tr>
     <td class='row1' valign='top' width='20%'>&nbsp;</td>
-    <td class='row1' valign='top' width='80%'><span class='postcolor'>{$data['post']}</span></td>
+    <td class='row1' valign='top' width='80%'>
+      <span class='postcolor'>{$data['post']}</span>
+    </td>
   </tr>
 
 EOF;

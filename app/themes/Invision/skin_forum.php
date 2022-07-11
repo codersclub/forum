@@ -47,7 +47,15 @@ return <<<EOF
       <td class="row2 b-column b-column_author">{$data["starter"]}</td>
       <td class="row4 b-column b-column_posts-num">{$data["posts"]}</td>
       <td class="row2 b-column b-column_views-num">{$data["views"]}</td>
-      <td class="row2 b-column b-column_last-post"{$data["colspan"]}><div class="b-last_post_date-wrapper"><time datetime="{$data["last_post_std"]}" class="last-post-date">{$data["last_post"]}</time></div><span class="last-post-text"><a href="{$ibforums->base_url}showtopic={$data["tid"]}&view=getlastpost">{$data["last_text"]}</a></span> <span class="last-post-author">{$data["last_poster"]}</span></td>
+      <td class="row2 b-column b-column_last-post"{$data["colspan"]}>
+        <div class="b-last_post_date-wrapper">
+          <time datetime="{$data["last_post_std"]}" class="last-post-date">{$data["last_post"]}</time>
+        </div>
+        <span class="last-post-text">
+          <a href="{$ibforums->base_url}showtopic={$data["tid"]}&view=getlastpost">{$data["last_text"]}</a>
+        </span>
+        <span class="last-post-author">{$data["last_poster"]}</span>
+      </td>
       {$data["mod_checkbox"]}
     </tr>
 
@@ -113,7 +121,9 @@ global $ibforums;
 return <<<EOF
 
 
-<div><span class="pagetitle">$title</span>$pages</div>
+<div>
+  <span class="pagetitle">$title</span>$pages
+</div>
 
 
 EOF;
@@ -238,23 +248,41 @@ function PageTop($data) {
 global $ibforums;
 return <<<EOF
 <table style="b-moderators-row">
-<tr>
-<td class="moderators" align="left"><span class="moderators-title title">Модераторы:</span> <span class="moderators-list">{$data["moderators"]}</span></td>
-<td class="quick-search" align="right">{$data["quick_search"]}</td></tr></table>
+  <tr>
+    <td class="moderators" align="left">
+      <span class="moderators-title title">Модераторы:</span>
+      <span class="moderators-list">{$data["moderators"]}</span>
+    </td>
+    <td class="quick-search" align="right">{$data["quick_search"]}</td>
+  </tr>
+</table>
+
 <!--IBF.SUBFORUMS-->
 <a name="List"></a>
 <table class="b-topics-list-actions-wrapper b-list-actions-row">
-<tr>
- <td class="b-list-pages-wrapper b-forum-list-pages b-forum-list-pages-top">{$data["SHOW_PAGES"]}{$data["show_all_topics"]}</td>
- <td class="b-list-actions-wrapper b-topics-list-actions-wrapper new-buttons-wrapper"><span class="new-topic-button">{$data['TOPIC_BUTTON']}</span><span class="new-poll-button">{$data['POLL_BUTTON']}</span></td>
-</tr>
+  <tr>
+    <td class="b-list-pages-wrapper b-forum-list-pages b-forum-list-pages-top">
+      {$data["SHOW_PAGES"]}{$data["show_all_topics"]}
+    </td>
+    <td class="b-list-actions-wrapper b-topics-list-actions-wrapper new-buttons-wrapper">
+      <span class="new-topic-button">{$data['TOPIC_BUTTON']}</span>
+      <span class="new-poll-button">{$data['POLL_BUTTON']}</span>
+    </td>
+  </tr>
 </table>
-<div id="forum-subscribtion-buttons" class="b-forum-subscribtion-buttons">{$data["mark_read"]} <!--IBF.SUB_FORUM_LINK--></div>
+
+<div id="forum-subscribtion-buttons" class="b-forum-subscribtion-buttons">
+  {$data["mark_read"]}
+  <!--IBF.SUB_FORUM_LINK-->
+</div>
+
 {$data["filter"]}
- <div class="tableborder b-topics-list-wrapper">
-  <h2 class="b-topics-list__title"><{CAT_IMG}><span class="b-topics-list__title__text">{$data["name"]}</span></h2>
+<div class="tableborder b-topics-list-wrapper">
+  <h2 class="b-topics-list__title">
+    <{CAT_IMG}><span class="b-topics-list__title__text">{$data["name"]}</span>
+  </h2>
    {$data["modform_open"]}
-   <table width="100%" class="topics b-topics-list">
+   <table class="topics b-topics-list">
     <thead>
     <tr class="b-header-row">
      <th class="b-column b-column_status"><img src="{$ibforums->skin["ImagesPath"]}/spacer.gif" alt="" width="20" height="1"></td>
@@ -265,7 +293,7 @@ return <<<EOF
      <th width="7%" class="b-column b-column_views-num">{$ibforums->lang["h_hits"]}</th>
      {$data["last_column"]}
     </tr>
-	</thead>
+    </thead>
 EOF;
 }
 
@@ -405,12 +433,12 @@ EOF;
 function queuedTopicButtons($fid, $tid){
 	$ibf = Ibf::app();
 	return <<<EOF
-			<div class="b-queued-topic-actions">
-			<span class="b-queued-topic-actions__title">{$ibf->lang["waiting_topics"]}</span>
-			<ul class="b-action-buttons b-queued_topic-actions">
+	<div class="b-queued-topic-actions">
+		<span class="b-queued-topic-actions__title">{$ibf->lang["waiting_topics"]}</span>
+		<ul class="b-action-buttons b-queued_topic-actions">
 			<li class="b-action-button b-queued_topic-approve-button"><a href="{$ibf->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$fid}&amp;TID_{$tid}=approve">{$ibf->lang["modcp_accept"]}</a></li>
 			<li class="b-action-button b-queued_topic-reject-button"><a href="{$ibf->base_url}act=modcp&amp;CODE=domodtopics&amp;f={$fid}&amp;TID_{$tid}=remove">{$ibf->lang["modcp_reject"]}</a></li>
-			</ul>
+		</ul>
 
 EOF;
 

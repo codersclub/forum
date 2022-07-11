@@ -71,7 +71,7 @@ return <<<EOF
  <div class='tablepad'>
   {$ibforums->lang['no_guests']}
   <br><br>
-  <center>
+  <div class='center'>
   <b>{$ibforums->lang['log_in']}</b>
   <br><br>
   {$ibforums->lang['lin_name']}<br><input type='text' name='UserName' class='forminput'>
@@ -79,12 +79,14 @@ return <<<EOF
   {$ibforums->lang['lin_pass']}<br><input type='password' name='PassWord' class='forminput'>
   <br>
   <input type='submit' value='{$ibforums->lang['log_in']}' class='forminput'>
-  </center>
+  </div>
+
   <br><br>
   {$ibforums->lang['reg_text']}
   <br><br>
-  <center><a href='javascript:redirect_to("&amp;act=Reg", 1);'>{$ibforums->lang['reg_link']}</a></center>
- </div>
+  <div class='center'>
+    <a href='javascript:redirect_to("&amp;act=Reg", 1);'>{$ibforums->lang['reg_link']}</a>
+  </div>
 </div>
 <!--CLOSE.LINK-->
 </form>

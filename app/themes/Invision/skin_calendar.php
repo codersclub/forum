@@ -153,12 +153,31 @@ return <<<HTML
   <div class='pformstrip'>{$event['title']} ($event_type)</div>
   <table cellspacing="1" cellpadding="3">
   <tr>
-   <td class='row4' width='1%' valign='middle' nowrap='nowrap'><span class='normalname'><a href='{$ibforums->base_url}showuser={$member['id']}'>{$member['name']}</a></span></td>
-   <td class='row4' width='99%'><div align='left' style='float:left;width:auto;padding-top:4px;padding-bottom:4px;'><strong>{$ibforums->lang['event_date']} {$event['mday']} {$event['month_text']} {$event['year']}</strong> $date_ends ($type)</div>$edit_button</td>
+   <td class='row4' width='1%' valign='middle' nowrap='nowrap'>
+    <span class='normalname'>
+     <a href='{$ibforums->base_url}showuser={$member['id']}'>{$member['name']}</a>
+    </span>
+   </td>
+   <td class='row4' width='99%'>
+    <div align='left' style='float:left;width:auto;padding-top:4px;padding-bottom:4px;'>
+     <strong>{$ibforums->lang['event_date']} {$event['mday']} {$event['month_text']} {$event['year']}</strong> $date_ends ($type)
+    </div>
+    $edit_button
+   </td>
   </tr>
   <tr>
-   <td valign='top' class='row1' nowrap='nowrap'>{$member['avatar']}<span class='postdetails'><br>{$ibforums->lang['group']} {$member['g_title']}<br>{$ibforums->lang['posts']} {$member['posts']}<br>{$ibforums->lang['joined']} {$member['joined']}</span></td>
-   <td valign='top' class='row1'><span class='postcolor'>{$event['event_text']}</span></td>
+   <td valign='top' class='row1' nowrap='nowrap'>
+    {$member['avatar']}
+    <br>
+    <span class='postdetails'>
+    {$ibforums->lang['group']} {$member['g_title']}
+    <br>{$ibforums->lang['posts']} {$member['posts']}
+    <br>{$ibforums->lang['joined']} {$member['joined']}
+    </span>
+   </td>
+   <td valign='top' class='row1'>
+    <span class='postcolor'>{$event['event_text']}</span>
+   </td>
   </tr>
   </table>
 HTML;

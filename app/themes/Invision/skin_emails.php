@@ -64,7 +64,9 @@ return <<<EOF
 
 <div class="tableborder">
   <div class="pformstrip">{$ibforums->lang['errors_found']}</div>
-  <div class="tablepad"><span class='postcolor'>$data</span></div>
+  <div class="tablepad">
+    <span class='postcolor'>$data</span>
+  </div>
 </div>
 <br>
 

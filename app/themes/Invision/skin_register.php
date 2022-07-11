@@ -537,10 +537,12 @@ return <<<EOF
    <td class='row1' align='left'>
 	   {$ibforums->lang['cp2_text']}
 	   <br><br>
-	   <center><span style='font-weight:bold;font-size:12px'>
+	   <div class='center'>
+             <span style='font-weight:bold;font-size:12px'>
 		&lt;&lt; <a href='{$ibforums->base_url}'>{$ibforums->lang['cp2_cancel']}</a>
 	   - <a href='{$ibforums->base_url}act=Reg&amp;coppa_pass=1&amp;coppa_user=1'>{$ibforums->lang['cp2_continue']}</a> &gt;&gt;
-	   </span></center>
+	     </span>
+           </div>
    </td>
    </tr>
    <tr>

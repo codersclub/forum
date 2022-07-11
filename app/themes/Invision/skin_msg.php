@@ -35,14 +35,17 @@ return <<<EOF
   [ <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MSID={$data['msg']['msg_id']}&amp;MID={$data['member']['id']}&amp;fwd=1'>{$ibforums->lang['vm_forward_pm']}</a> | <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MID={$data['member']['id']}&amp;MSID={$data['msg']['msg_id']}'>{$ibforums->lang['pm_reply_link']}</a> ]
 </div>
 <div class="tableborder">
- <div class="titlemedium">&nbsp;&nbsp;{$ibforums->lang['m_pmessage']}</div>
- <table width='100%' cellpadding='3' cellspacing='1'>
-  <tr>
-      <td valign='middle' class='row4'><span class='normalname'><a href="{$ibforums->base_url}showuser={$data['member']['id']}">{$data['member']['name']}</a></span> {$data['online']}</td>
-        <td class='row4' valign='top'>
-
+  <div class="titlemedium">&nbsp;&nbsp;{$ibforums->lang['m_pmessage']}</div>
+  <table width='100%' cellpadding='3' cellspacing='1'>
+    <tr>
+      <td valign='middle' class='row4'>
+        <span class='normalname'><a href="{$ibforums->base_url}showuser={$data['member']['id']}">{$data['member']['name']}</a></span>
+        {$data['online']}
+      </td>
+      <td class='row4' valign='top'>
         <div align='left' class='row4' style='float:left;padding-top:4px;padding-bottom:4px'>
-        {$data['POST']['post_icon']}<span class='postdetails'>{$data['msg']['msg_date']}</span>
+          {$data['POST']['post_icon']}
+          <span class='postdetails'>{$data['msg']['msg_date']}</span>
         </div>
 
         <div align='right'>
@@ -55,39 +58,50 @@ return <<<EOF
     <tr>
       <td valign='top' class='post1'>
         <span class='postdetails'>
-        {$data['member']['avatar']}
-        <br>{$data['member']['title']}
-        <br>{$data['member']['member_rank_img']}<br>
-        <br>{$data['member']['member_group']}
-        <br>{$data['member']['member_posts']}
-        <br>{$data['member']['member_joined']}
-        <br>
+          {$data['member']['avatar']}
+          <br>{$data['member']['title']}
+          <br>{$data['member']['member_rank_img']}<br>
+          <br>{$data['member']['member_group']}
+          <br>{$data['member']['member_posts']}
+          <br>{$data['member']['member_joined']}
+          <br>
         </span>
-        <img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='160' height='1'><br>
+        <img src='{$ibforums->skin['ImagesPath']}/spacer.gif' alt='' width='160' height='1'>
+        <br>
       </td>
-      <td width='100%' valign='top' class='post1'><span class='postcolor'>{$data['msg']['message']}</span><span class="signature">{$data['member']['signature']}</span></td>
+      <td width='100%' valign='top' class='post1'>
+        <span class='postcolor'>{$data['msg']['message']}</span>
+        <span class="signature">{$data['member']['signature']}</span>
+      </td>
     </tr>
     <tr>
-      <td class='darkrow3' align='left'>[ <a href='{$ibforums->base_url}CODE=02&amp;act=Msg&amp;MID={$data['member']['id']}'>{$ibforums->lang['add_to_book']}</a> ]</td>
+      <td class='darkrow3' align='left'>
+        [ <a href='{$ibforums->base_url}CODE=02&amp;act=Msg&amp;MID={$data['member']['id']}'>{$ibforums->lang['add_to_book']}</a> ]
+      </td>
       <td class='darkrow3' nowrap="nowrap" align='left'>
-
         <div align='left' class='darkrow3' style='float:left;'>
-        {$data['member']['addresscard']}{$data['member']['message_icon']}{$data['member']['email_icon']}{$data['member']['website_icon']}{$data['member']['integ_icon']}{$data['member']['icq_icon']}{$data['member']['aol_icon']}{$data['member']['yahoo_icon']}{$data['member']['msn_icon']}
-      </div>
+          {$data['member']['addresscard']}{$data['member']['message_icon']}{$data['member']['email_icon']}{$data['member']['website_icon']}{$data['member']['integ_icon']}{$data['member']['icq_icon']}{$data['member']['aol_icon']}{$data['member']['yahoo_icon']}{$data['member']['msn_icon']}
+        </div>
 
-        <div align='right'><a href='javascript:scroll(0,0);'><img src='{$ibforums->skin['ImagesPath']}/p_up.gif' alt='Top'></a></div>
+        <div align='right'>
+          <a href='javascript:scroll(0,0);'>
+            <img src='{$ibforums->skin['ImagesPath']}/p_up.gif' alt='Top'>
+          </a>
+        </div>
       </td>
     </tr>
-</table>
+  </table>
 </div>
+
 <div style="float:left;width:auto;padding:6px">
-<form action="{$ibforums->base_url}" name='jump' method="post">
-<input type='hidden' name='act' value='Msg'>
-<input type='hidden' name='CODE' value='01'>
-{$ibforums->lang['goto_folder']}:</b>&nbsp; {$data['jump']}
-<input type='submit' name='submit' value='{$ibforums->lang['goto_submit']}' class='forminput'>
-</form>
+  <form action="{$ibforums->base_url}" name='jump' method="post">
+    <input type='hidden' name='act' value='Msg'>
+    <input type='hidden' name='CODE' value='01'>
+    {$ibforums->lang['goto_folder']}:</b>&nbsp; {$data['jump']}
+    <input type='submit' name='submit' value='{$ibforums->lang['goto_submit']}' class='forminput'>
+  </form>
 </div>
+
 <div align="right" style="padding:6px;font-weight:bold">
   [ <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MSID={$data['msg']['msg_id']}&amp;MID={$data['member']['id']}&amp;fwd=1'>{$ibforums->lang['vm_forward_pm']}</a> | <a href='{$ibforums->base_url}CODE=04&amp;act=Msg&amp;MID={$data['member']['id']}&amp;MSID={$data['msg']['msg_id']}'>{$ibforums->lang['pm_reply_link']}</a> ]
 </div>
@@ -233,12 +247,15 @@ EOF;
 function unsent_end() {
 global $ibforums;
 return <<<EOF
-	</tbody>
-	<tfoot>
-		<tr class="b-footer-row">
-			<td class="b-column" colspan='6'><input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'> <span class="b-pm-list-footer-suffix">{$ibforums->lang['selected_msg']}</span></td>
-		</tr>
-	</tfoot>
+  </tbody>
+  <tfoot>
+    <tr class="b-footer-row">
+      <td class="b-column" colspan='6'>
+        <input type='submit' name='delete' value='{$ibforums->lang['delete_button']}' class='forminput'>
+        <span class="b-pm-list-footer-suffix">{$ibforums->lang['selected_msg']}</span>
+      </td>
+    </tr>
+  </tfoot>
 </table>
 </div>
 </form>
@@ -520,16 +537,18 @@ function render_address_row($entry) {
 global $ibforums;
 return <<<EOF
 
-<tr class="b-address-list__row">
-  <td class='b-address-list__column b-address-list__column_name row1'>
-    <a class="b-profile-link" href='{$ibforums->base_url}act=Profile&amp;CODE=03&amp;MID={$entry['contact_id']}'>{$entry['contact_name']}</a><span class="b-address-description">{$entry['contact_desc']}</span></td>
-  <td class='b-address-list__column b-address-list__column_options row1'>
+  <tr class="b-address-list__row">
+    <td class='b-address-list__column b-address-list__column_name row1'>
+      <a class="b-profile-link" href='{$ibforums->base_url}act=Profile&amp;CODE=03&amp;MID={$entry['contact_id']}'>{$entry['contact_name']}</a>
+      <span class="b-address-description">{$entry['contact_desc']}</span>
+    </td>
+    <td class='b-address-list__column b-address-list__column_options row1'>
 	[ <a class="b-address-list__action b-address-list__action_pm" href='{$ibforums->base_url}act=Msg&amp;CODE=4&amp;MID={$entry['contact_id']}'>PM</a> ] ::
 	[ <a class="b-address-list__action b-address-list__action_edit" href='{$ibforums->base_url}act=Msg&amp;CODE=11&amp;MID={$entry['contact_id']}'>{$ibforums->lang['edit']}</a> ] ::
 	[ <a class="b-address-list__action b-address-list__action_delete" href='{$ibforums->base_url}act=Msg&amp;CODE=10&amp;MID={$entry['contact_id']}'>{$ibforums->lang['delete']}</a> ]
 	<span class="b-address-list__options">( {$entry['text']} )</span>
-  </td>
-</tr>
+    </td>
+  </tr>
 
 EOF;
 }
@@ -645,7 +664,12 @@ global $ibforums;
 return <<<EOF
 
 <h3>{$ibforums->lang['err_errors']}</h3>
-<span class='postcolor'><p>$data<br><br>{$ibforums->lang['pme_none_sent']}</p></span>
+<span class='postcolor'>
+  <p>$data
+  <br><br>
+  {$ibforums->lang['pme_none_sent']}
+  </p>
+</span>
 
 EOF;
 }
@@ -654,7 +678,7 @@ EOF;
 function pm_popup($text, $mid) {
 global $ibforums;
 return <<<EOF
-<table cellspacing='1' cellpadding='10' width='100%' height='100%' align='center' class='row1'>
+<table cellspacing='1' cellpadding='10' height='100%' class='row1'>
 <tr>
    <td id='phototitle' align='center'>{$ibforums->lang['pmp_title']}</td>
 </tr>

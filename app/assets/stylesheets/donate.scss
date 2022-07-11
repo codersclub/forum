@@ -32,9 +32,10 @@ table {
   border: 0;
 }
 
-td {
+td, th {
   color: #000;
   text-align: left;
+  vertical-align: top;
   font-size: 12px;
 }
 

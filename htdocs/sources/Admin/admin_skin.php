@@ -634,10 +634,10 @@ class admin_skin
 
         $html .= $this->add_td_row(array(
             "<b>All current and future permission masks</b>",
-            "<span class='center' id='mgblue'>$html_read</span>",
-            "<span class='center' id='mggreen'>$html_reply</span>",
-            "<span class='center' id='mgred'>$html_start</span>",
-            "<span class='center' id='memgroup'>$html_upload</span>",
+            "<div class='center' id='mgblue'>$html_read</div>",
+            "<div class='center' id='mggreen'>$html_reply</div>",
+            "<div class='center' id='mgred'>$html_start</div>",
+            "<div class='center' id='memgroup'>$html_upload</div>",
         ));
 
         //+-------------------------------------------------------------------------
@@ -712,10 +712,10 @@ class admin_skin
 
             $html .= $this->add_td_row(array(
                 "<div class='right'><b>{$data['perm_name']}</b></div>",
-                "<span class='center' id='mgblue'>$html_read</span>",
-                "<span class='center' id='mggreen'>$html_reply</span>",
-                "<span class='center' id='mgred'>$html_start</span>",
-                "<span class='center' id='memgroup'>$html_upload</span>",
+                "<div class='center' id='mgblue'>$html_read</div>",
+                "<div class='center' id='mggreen'>$html_reply</div>",
+                "<div class='center' id='mgred'>$html_start</div>",
+                "<div class='center' id='memgroup'>$html_upload</div>",
             ));
         }
 

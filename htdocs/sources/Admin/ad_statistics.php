@@ -204,14 +204,14 @@ class ad_stats
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       $data['result_name'],
 				                                       "<img src='{$SKIN->img_url}/bar_left.gif' width='4' height='11' alt=''><img src='{$SKIN->img_url}/bar.gif' width='$img_width' height='11' alt=''><img src='{$SKIN->img_url}/bar_right.gif' width='4' height='11' alt=''>",
-				                                       "<span class='center'>{$data['result_count']}</span>",
+				                                       "<div class='center'>{$data['result_count']}</div>",
 				                                  ));
 			}
 
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       '&nbsp;',
 			                                       "<div class='right'><b>Total</b></div>",
-			                                       "<span class='center'><b>$running_total</b></span>",
+			                                       "<div class='center'><b>$running_total</b></div>",
 			                                  ));
 
 		} else
@@ -388,14 +388,14 @@ class ad_stats
 				$ADMIN->html .= $SKIN->add_td_row(array(
 				                                       $date,
 				                                       "<img src='{$SKIN->img_url}/bar_left.gif' width='4' height='11' alt=''><img src='{$SKIN->img_url}/bar.gif' width='$img_width' height='11' alt=''><img src='{$SKIN->img_url}/bar_right.gif' width='4' height='11' alt=''>",
-				                                       "<span class='center'>{$data['result_count']}</span>",
+				                                       "<div class='center'>{$data['result_count']}</div>",
 				                                  ));
 			}
 
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       '&nbsp;',
 			                                       "<div class='right'><b>Total</b></div>",
-			                                       "<span class='center'><b>" . $running_total . "</b></span>",
+			                                       "<div class='center'><b>$running_total</b></div>",
 			                                  ));
 
 		} else

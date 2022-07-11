@@ -79,13 +79,27 @@ return <<<EOF
     <tr class="b-topics-list-row">
       <td class="row4 b-topics-list-column-status">{$Data["folder_img"]}</td>
       <td class="row2 b-topics-list-column-icon">{$Data["topic_icon"]}</td>
-      <td class="row4 b-topics-list-column-title">{$Data["go_new_post"]}{$Data["prefix"]} <a class="topic-link" href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}">{$Data["title"]}</a><span class="b-topics-list-title-pages">{$Data['PAGES']}</span>
-      <div class="desc">{$Data["description"]}</span></td>
-      <td class="row4 b-topics-list-column-forum"><a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a></td>
+      <td class="row4 b-topics-list-column-title">
+        {$Data["go_new_post"]}{$Data["prefix"]}
+        <a class="topic-link" href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}">{$Data["title"]}</a>
+        <span class="b-topics-list-title-pages">{$Data['PAGES']}</span>
+        <div class="desc">{$Data["description"]}</div>
+      </td>
+      <td class="row4 b-topics-list-column-forum">
+        <a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a>
+      </td>
       <td class="row2 b-topics-list-column-author">{$Data["starter"]}</td>
       <td class="row4 b-topics-list-column-posts_num">{$Data["posts"]}</td>
       <td class="row2 b-topics-list-column-views_num">{$Data["views"]}</td>
-      <td class="row2 b-topics-list-column-last_post"><div class="b-last_post_date-wrapper"><time datetime="{$Data["last_post_std"]}" class="last-post-date">{$Data["last_post"]}</time></div><span class="last-post-text"><a href="{$ibforums->base_url}showtopic={$Data["tid"]}&view=getlastpost">{$Data["last_text"]}</a></span> <span class="last-post-author">{$Data["last_poster"]}</span></td>
+      <td class="row2 b-topics-list-column-last_post">
+        <div class="b-last_post_date-wrapper">
+          <time datetime="{$Data["last_post_std"]}" class="last-post-date">{$Data["last_post"]}</time>
+        </div>
+        <span class="last-post-text">
+          <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&view=getlastpost">{$Data["last_text"]}</a>
+        </span>
+        <span class="last-post-author">{$Data["last_poster"]}</span>
+      </td>
       {$Data["mod_checkbox"]}
     </tr>
 
@@ -111,23 +125,45 @@ return <<<EOF
   <div class="maintitle b-found-posts-post_topic-title">{$Data["folder_img"]}&nbsp;{$Data["prefix"]} <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}" class="linkthru e-found-posts-post_topic-title-link">{$Data["title"]}</a></span></b>  {$Data['PAGES']}</div>
   <table class="tablebasic b-post b-found-posts-post">
   <tr class="b-post__headers-row">
-	<td class="b-post__author-name row4"><span class="e-post-author normalname" data-author-id="{$Data["author_id"]}">{$Data["author_name"]}</span></td>
-	<td class="row4 b-post__header"><div class="b-post__info row4"><span class="e-post-date-prefix">{$ibforums->lang["rp_postedon"]}</span><time class="e-post-date" datetime="{$Data["std_post_date"]}">{$Data["post_date"]}</time></div></td>
+	<td class="b-post__author-name row4">
+          <span class="e-post-author normalname" data-author-id="{$Data["author_id"]}">{$Data["author_name"]}</span>
+        </td>
+	<td class="row4 b-post__header"><div class="b-post__info row4">
+          <span class="e-post-date-prefix">{$ibforums->lang["rp_postedon"]}</span>
+          <time class="e-post-date" datetime="{$Data["std_post_date"]}">{$Data["post_date"]}</time>
+        </td>
   </tr>
   <tr class="b-post__data-row">
 	<td class="post1 b-post__author-info">
 	  <div class="postdetails">
-		  <div class="b-post__topic-replies"><span class="e-post-topic_replies-title">{$ibforums->lang["rp_replies"]}</span><span class="e-post-topic_replies">{$Data["posts"]}</span></div>
-		  <div class="b-post__topic_hits"><span class="b-post__topic_hits-title">{$ibforums->lang["rp_hits"]}</span><span class="e-post-topic_hits">{$Data["views"]}</span></div>
-		  <div class="b-post__author-ip"><span class="e-ip-value">{$Data["ip_address"]}</span></div>
+		  <div class="b-post__topic-replies">
+                    <span class="e-post-topic_replies-title">{$ibforums->lang["rp_replies"]}</span>
+                    <span class="e-post-topic_replies">{$Data["posts"]}</span>
+                  </div>
+		  <div class="b-post__topic_hits">
+                    <span class="b-post__topic_hits-title">{$ibforums->lang["rp_hits"]}</span>
+                    <span class="e-post-topic_hits">{$Data["views"]}</span>
+                  </div>
+		  <div class="b-post__author-ip">
+                    <span class="e-ip-value">{$Data["ip_address"]}</span>
+                  </div>
 	  </div>
 	</td>
 	<td class="post1 b-post__body">{$Data["post"]}</td>
   </tr>
    <tr class="b-post__footer-row">
 	<td class="row4 b-post__footer-left_cell">&nbsp;</td>
-	<td class="row4 b-post-links"><span class="b-post-links__forum"><span class="b-post-links__forum-title">{$ibforums->lang["rp_forum"]}</span><a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a></span><span class="b-post-links__post"><span class="b-post-links__post-title">{$ibforums->lang["rp_post"]}</span><a href="{$ibforums->base_url}act=ST&amp;f={$Data["forum_id"]}&amp;t={$Data["tid"]}&amp;hl={$Data["keywords"]}&amp;view=findpost&amp;p={$Data["pid"]}" class="linkthru b-post-links__post">#{$Data["pid"]}</a></span></td>
-  </tr>
+	<td class="row4 b-post-links">
+          <span class="b-post-links__forum">
+            <span class="b-post-links__forum-title">{$ibforums->lang["rp_forum"]}</span>
+            <a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a>
+          </span>
+          <span class="b-post-links__post">
+            <span class="b-post-links__post-title">{$ibforums->lang["rp_post"]}</span>
+            <a href="{$ibforums->base_url}act=ST&amp;f={$Data["forum_id"]}&amp;t={$Data["tid"]}&amp;hl={$Data["keywords"]}&amp;view=findpost&amp;p={$Data["pid"]}" class="linkthru b-post-links__post">#{$Data["pid"]}</a>
+          </span>
+        </td>
+      </tr>
   </table>
 </div>
 
@@ -139,7 +175,11 @@ function result_simple_footer($data) {
 global $ibforums;
 return <<<EOF
 
-  <div class="pformstrip" align="left">{$ibforums->lang["search_pages"]} &nbsp;  &nbsp; &nbsp;<span class="googlepagelinks">{$data["links"]}</span></div>
+<div class="pformstrip" align="left">
+  {$ibforums->lang["search_pages"]}
+  &nbsp; &nbsp; &nbsp;
+  <span class="googlepagelinks">{$data["links"]}</span>
+</div>
 </div>
 
 EOF;
@@ -171,21 +211,25 @@ function result_simple_entry($data) {
 global $ibforums;
 return <<<EOF
 
-  <div class="{$data["css_class"]}">
-  <span class="googlish"><a href="{$ibforums->base_url}act=ST&amp;t={$data["tid"]}&amp;f={$data["id"]}&amp;view=findpost&amp;p={$data["pid"]}">{$data["title"]}</span></a>
+<div class="{$data["css_class"]}">
+  <span class="googlish">
+    <a href="{$ibforums->base_url}act=ST&amp;t={$data["tid"]}&amp;f={$data["id"]}&amp;view=findpost&amp;p={$data["pid"]}">{$data["title"]}</a>
+  </span>
   <br>
   {$data["post"]}
   <br>
   <span class="googlesmall">
-  {$ibforums->lang["location_g"]}: <a href="{$ibforums->base_url}act=idx">{$ibforums->lang["g_b_home"]}</a>
-  &gt; <a href="{$ibforums->base_url}act=SC&amp;c={$data["cat_id"]}">{$data["cat_name"]}</a>
-  &gt; <a href="{$ibforums->base_url}act=SF&amp;f={$data["id"]}">{$data["name"]}</a>
+    {$ibforums->lang["location_g"]}: <a href="{$ibforums->base_url}act=idx">{$ibforums->lang["g_b_home"]}</a>
+    &gt; <a href="{$ibforums->base_url}act=SC&amp;c={$data["cat_id"]}">{$data["cat_name"]}</a>
+    &gt; <a href="{$ibforums->base_url}act=SF&amp;f={$data["id"]}">{$data["name"]}</a>
   </span>
+
   <br>
   <span class="googlebottom"><strong>{$ibforums->lang["g_relevance"]}: {$data["relevance"]}% &middot; Author: {$data["author_name"]} &middot; Posted on: {$data["post_date"]}</strong></span>
   <span class="googlesmall"> - <a href="{$ibforums->base_url}act=ST&amp;t={$data["tid"]}&amp;f={$data["id"]}&amp;view=findpost&amp;p={$data["pid"]}" target="_blank">{$ibforums->lang["g_new_window"]}</a></span>
-  </div>
-  <br>
+</div>
+
+<br>
 
 EOF;
 }
@@ -217,13 +261,26 @@ return <<<EOF
     <tr>
       <td align="center" class="pinned_topic">{$Data["folder_img"]}</td>
       <td align="center" width="3%" class="pinned_topic">{$Data["topic_icon"]}</td>
-      <td class="pinned_topic">{$Data["go_new_post"]}{$Data["prefix"]}  <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}"><b>{$Data["title"]}</b></a> <span>{$Data['PAGES']}</span>
-        <span class="desc">{$Data["description"]}</span></td>
-      <td class="pinned_topic" width="20%" align="center"><a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a></td>
+      <td class="pinned_topic">
+        {$Data["go_new_post"]}{$Data["prefix"]}
+        <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;hl={$Data["keywords"]}">
+          <b>{$Data["title"]}</b>
+        </a>
+        <span>{$Data['PAGES']}</span>
+        <span class="desc">{$Data["description"]}</span>
+      </td>
+      <td class="pinned_topic" width="20%" align="center">
+        <a href="{$ibforums->base_url}showforum={$Data["forum_id"]}">{$Data["forum_name"]}</a>
+      </td>
       <td align="center" class="pinned_topic">{$Data["starter"]}</td>
       <td align="center" class="pinned_topic">{$Data["posts"]}</td>
       <td align="center" class="pinned_topic">{$Data["views"]}</td>
-      <td class="pinned_topic">{$Data["last_post"]}<br><a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;view=getlastpost">{$Data["last_text"]}</a> <b>{$Data["last_poster"]}</b></td>
+      <td class="pinned_topic">
+        {$Data["last_post"]}
+        <br>
+        <a href="{$ibforums->base_url}showtopic={$Data["tid"]}&amp;view=getlastpost">{$Data["last_text"]}</a>
+        <b>{$Data["last_poster"]}</b>
+      </td>
       {$Data["mod_checkbox"]}
     </tr>
 
@@ -465,7 +522,13 @@ return <<<EOF
 </tr>
 </table>
 <div class="tableborder topics-wrapper b-search_results-topics-wrapper">
-<div class="maintitle b-topics-list-title"><{CAT_IMG}><span class="e-topics-list-title-text">{$ibforums->lang["your_results"]}</span><span class="b-action-button"><a class="e-action-button-link" href="{$ibforums->base_url}act=Login&amp;CODE=05">{$ibforums->lang["mark_search_as_read"]}</a></span></div>
+<div class="maintitle b-topics-list-title">
+  <{CAT_IMG}>
+  <span class="e-topics-list-title-text">{$ibforums->lang["your_results"]}</span>
+  <span class="b-action-button">
+    <a class="e-action-button-link" href="{$ibforums->base_url}act=Login&amp;CODE=05">{$ibforums->lang["mark_search_as_read"]}</a>
+  </span>
+</div>
 {$Data["MOD_CONTROL"]["modform_open"]}
 <table class="tablebasic topics b-topics-list">
   <thead>
@@ -609,7 +672,7 @@ return <<<EOF
 			<td class="titlemedium" width="10%" align="center">{$ibforums->lang["boardlay_sh"]}</td>
 			<td class="titlemedium" width="90%" align="center">{$ibforums->lang["boardlay_catfor"]}</td>
 		</tr>
-		<tr><td colspan="2" id="submenu"><center>{$ibforums->lang["boardlay_note"]}</center></td></tr>
+		<tr><td colspan="2" id="submenu" class="center">{$ibforums->lang["boardlay_note"]}</td></tr>
 
 EOF;
 }
@@ -632,9 +695,11 @@ function boardlay_successful() {
 global $ibforums;
 return <<<EOF
 
-<div id="submenu"><center>{$ibforums->lang["boardlay_successful"]}</center></div>
-<center><a href="javascript:self.close();">Закрыть окно</a></center>
-
+<div id="submenu" class="center">
+  {$ibforums->lang["boardlay_successful"]}
+  <br>
+  <a href="javascript:self.close();">Закрыть окно</a>
+</div>
 
 EOF;
 }

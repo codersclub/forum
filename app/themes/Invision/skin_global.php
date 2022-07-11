@@ -111,7 +111,12 @@ return <<<EOF
 <table width="100%" id="userlinks" class='b-user-links' cellspacing="0">
   <tr>
     <td class='b-welcome-message__wrapper'>
-<span class='b-welcome-message'><span class='b-welcome-message__prefix'>{$ibforums->lang['hello']} </span><a href='{$ibforums->base_url}showuser={$ibforums->member['id']}'>{$ibforums->member['name']}</a><span class="b-welcome-message__suffix"> !</span></span> <span class='b-welcome-message__user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
+      <span class='b-welcome-message'>
+        <span class='b-welcome-message__prefix'>{$ibforums->lang['hello']}</span>
+        <a href='{$ibforums->base_url}showuser={$ibforums->member['id']}'>{$ibforums->member['name']}</a>
+        <span class="b-welcome-message__suffix"> !</span>
+      </span>
+      <span class='b-welcome-message__user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
     </td>
     <td class='b-user-action-buttons-wrapper'>
     <ul class="b-action-buttons b-action-buttons b-user-action-buttons">
@@ -148,7 +153,12 @@ return <<<EOF
 <table id="userlinks" class="b-user-links">
   <tr>
     <td>
-		<span class='b-welcome-message'><span class='b-welcome-prefix'>{$ibforums->lang['hello']} </span>{$ibforums->member['name']}<span class="b-welcome-suffix"> !</span></span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
+      <span class='b-welcome-message'>
+        <span class='b-welcome-prefix'>{$ibforums->lang['hello']}</span>
+        {$ibforums->member['name']}
+        <span class="b-welcome-suffix">!</span>
+      </span>
+      <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
     </td>
     <td>
     <ul class="b-action-buttons b-user-action-buttons">
@@ -197,12 +207,12 @@ return <<<EOF
         <span class='b-welcome-message'><span class='b-welcome-prefix'>{$ibforums->lang['hello']} </span>Гость<span class="b-welcome-suffix"> !</span></span> <span class='b-user-ip'>[{$ibforums->input['IP_ADDRESS']}]</span>
     </td>
     <td class='b-user-action-buttons-wrapper'>
-    <ul class="b-action-buttons b-user-action-buttons">
-      <li class="b-action-button b-login-button"><a class="b-action-button-link" href='{$ibforums->base_url}act=Login&amp;CODE=00'>{$ibforums->lang['log_in']}</a></li>
-      <li class="b-action-button b-register-button"><a class="b-action-button-link" href='{$ibforums->base_url}act=Reg&amp;CODE=00'>{$ibforums->lang['register']}</a></li>
-      <li class="b-action-button b-revalidate-button"><a class="b-action-button-link" href='{$ibforums->base_url}act=Reg&amp;CODE=reval'>{$ibforums->lang['ml_revalidate']}</a></li>
-      <li class="b-action-button b-why_register-button"><a class="b-action-button-link" href="{$ibforums->base_url}showtopic=50223">{$ibforums->lang['why_register']}</a></li>
-    </ul>
+      <ul class="b-action-buttons b-user-action-buttons">
+        <li class="b-action-button b-login-button"><a class="b-action-button-link" href='{$ibforums->base_url}act=Login&amp;CODE=00'>{$ibforums->lang['log_in']}</a></li>
+        <li class="b-action-button b-register-button"><a class="b-action-button-link" href='{$ibforums->base_url}act=Reg&amp;CODE=00'>{$ibforums->lang['register']}</a></li>
+        <li class="b-action-button b-revalidate-button"><a class="b-action-button-link" href='{$ibforums->base_url}act=Reg&amp;CODE=reval'>{$ibforums->lang['ml_revalidate']}</a></li>
+        <li class="b-action-button b-why_register-button"><a class="b-action-button-link" href="{$ibforums->base_url}showtopic=50223">{$ibforums->lang['why_register']}</a></li>
+      </ul>
     </td>
   </tr>
 </table>
@@ -313,7 +323,13 @@ function forum_show_rules_full($rules) {
 global $ibforums;
 return <<<EOF
 
-    <div class='rules-wrapper'><div class='rules-title'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<span class='rules-title-text'><b>{$rules['title']}</b></span></div><div class='rules-text'>{$rules['body']}</div></div>
+<div class='rules-wrapper'>
+  <div class='rules-title'>
+    <span class='rules-title-image'><{F_RULES}></span>
+    <span class='rules-title-text'><b>{$rules['title']}</b></span>
+  </div>
+  <div class='rules-text'>{$rules['body']}</div>
+</div>
 
 EOF;
 }
@@ -601,7 +617,12 @@ function forum_show_rules_link($rules) {
 global $ibforums;
 return <<<EOF
 
-    <div align='left' class='rules-link-wrapper'><span class='rules-title-image'><{F_RULES}></span>&nbsp;<b><a class='rules-link' href='{$ibforums->base_url}act=SR&amp;f={$rules['fid']}'><span class='rules-title-text'>{$rules['title']}</span></a></b></div>
+<div align='left' class='rules-link-wrapper'>
+  <span class='rules-title-image'><{F_RULES}></span>
+  <a class='rules-link' href='{$ibforums->base_url}act=SR&amp;f={$rules['fid']}'>
+    <span class='rules-title-text'><b>{$rules['title']}</b></span>
+  </a>
+</div>
 
 EOF;
 }
@@ -631,16 +652,16 @@ EOF;
 }
 
 function RenderDeletedRow($delete_level = 1 ) {
-global $ibforums;
-if ($delete_level == 2) {
-return <<<EOF
+  global $ibforums;
+  if ($delete_level == 2) {
+    return <<<EOF
 {$ibforums->lang['del_by_user']}
 EOF;
-} else {
-return <<<EOF
+  } else {
+    return <<<EOF
 <span class='movedprefix' style='font-size:10pt;line-height:100%'>{$ibforums->lang['mod_del']}</span>
 EOF;
-}
+  }
 }
 
 function RenderScriptStatsRow($ex_time, $query_cnt, $timestamp, $sload) {
@@ -683,6 +704,7 @@ function topicsListLegend(){
 	  <li class="b-legend-item"><span class="b-legend-item_image"><{B_MIRRORED_NO}></span><span class="b-legend-item_description">{$ibforums->lang["pm_mirror_no"]}</span></li>
   </ul>
 </div>
+
 <div class="b-legend-block-wrapper">
 	<ul class="b-legend-block">
 	  <li class="b-legend-item"><span class="b-legend-item_image"><{B_POLL}></span><span class="b-legend-item_description">{$ibforums->lang["pm_poll"]}</span></li>

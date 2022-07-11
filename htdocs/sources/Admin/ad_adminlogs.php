@@ -297,9 +297,9 @@ class ad_adlogs
 
 			$ADMIN->html .= $SKIN->add_td_row(array(
 			                                       "<b>{$r['name']}</b>",
-			                                       "<span class='center'>{$r['act_count']}</span>",
-			                                       "<span class='center'><a href='" . $SKIN->base_url . "&act=adminlog&code=view&mid={$r['member_id']}'>View</a></span>",
-			                                       "<span class='center'><a href='" . $SKIN->base_url . "&act=adminlog&code=remove&mid={$r['member_id']}'>Remove</a></span>",
+			                                       "<div class='center'>{$r['act_count']}</div>",
+			                                       "<div class='center'><a href='" . $SKIN->base_url . "&act=adminlog&code=view&mid={$r['member_id']}'>View</a></div>",
+			                                       "<div class='center'><a href='" . $SKIN->base_url . "&act=adminlog&code=remove&mid={$r['member_id']}'>Remove</a></div>",
 			                                  ));
 		}
 
