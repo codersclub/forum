@@ -6,6 +6,8 @@
 
 <BODY>
 <?php
+$mime_types = [];
+
 require __DIR__ . '/../app/bootstrap.php';
 
 $enable_log=false;

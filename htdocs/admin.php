@@ -74,6 +74,9 @@ if (function_exists("set_time_limit") == 1 and SAFE_MODE_ON == 0)
   @set_time_limit(0);
 }
 
+global $INFO;
+global $CATS;
+
 require __DIR__ . '/../app/bootstrap.php';
 
 
@@ -578,10 +581,10 @@ function do_login($message="") {
 
 	if ($message != "")
 	{
-		$ADMIN->page_detail .= "<br><br><span style='color:red;font-weight:bold'>$message</span>";
+		$ADMIN->page_detail .= "<br><br><span style='color:red;'><b>$message</b></span>";
 	}
 
-	$ADMIN->html .= "<script language='javascript'>
+	$ADMIN->html .= "<script>
 					  <!--
 					  	if (top.location != self.location) { top.location = self.location }
 					  //-->

@@ -35,6 +35,7 @@ define('USE_MODULES', 1);
 //-----------------------------------------------
 // NO USER EDITABLE SECTIONS BELOW
 //-----------------------------------------------
+global $INFO;
 
 require __DIR__ . '/../app/bootstrap.php';
 
@@ -42,7 +43,6 @@ require __DIR__ . '/../app/bootstrap.php';
 //--------------------------------
 // Import $INFO, now!
 //--------------------------------
-
 
 setlocale(LC_ALL, 'ru_RU.UTF-8');
 
@@ -75,8 +75,6 @@ $ibforums->init();
 
 //move to ibforums?
 $print = new display();
-
-unset($INFO);
 
 //-------------------------------
 // Call IBStores Funtion Libary
@@ -145,6 +143,8 @@ if ($INFO['session_hide'])
 {
 	$ibforums->session_id = "";
 }
+
+unset($INFO);
 
 //--------------------------------
 //	Set up the forum_read cookie

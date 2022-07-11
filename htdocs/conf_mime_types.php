@@ -27,7 +27,7 @@ $mime_types = array(
   "video/vivo"			=> array( 1, 'win_player.gif', 'VIVO Movie'     ),
   "video/mpeg"			=> array( 1, 'quicktime.gif' , 'MPEG Video'     ),
   "video/x-msvideo" 		=> array( 1, 'win_player.gif', 'MS Video'       ),
-  "audio/x-pn-realaudio"	=> array( 1, 'sound.gif'     , 'Real Media (Audio / Video)'),
+//  "audio/x-pn-realaudio"	=> array( 1, 'sound.gif'     , 'Real Media (Audio / Video)'),
   "audio/x-pn-realaudio"	=> array( 1, 'real_audio.gif', 'Real Audio File'),
   "audio/x-realaudio"		=> array( 1, 'realaudio.gif' , 'Real Audio'     ),
   "audio/x-wav" 		=> array( 1, 'sound.gif'     , 'WAV File'       ),
@@ -53,6 +53,5 @@ $mime_types = array(
   "application/x-rar-compressed" => array( 1, 'rar.gif'    , 'RAR File'       ),
 // patch
   'text/x-diff'				=> array( 1, 'text.gif'    , 'Patch File'       ),
-  'text/plain'				=> array( 1, 'text.gif'    , 'Text File'       ),
 );
 

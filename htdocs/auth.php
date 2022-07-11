@@ -1,4 +1,6 @@
 <?php
+global $ibforums;
+
 require __DIR__ . '/../app/bootstrap.php';
 
 $std   = new functions;

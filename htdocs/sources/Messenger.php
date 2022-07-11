@@ -1896,10 +1896,11 @@ class Messenger
 				{
 					$saved = 1;
 
-					$ibforums->db->updateRow('ibf_messages', array_map([
-					                                                   $ibforums->db,
-					                                                   'quote'
-					                                                   ], $raw), 'msg_id = ' . $ibforums->db->quote($ibforums->input['OID']));
+					$ibforums->db->updateRow(
+					    'ibf_messages',
+                        array_map([$ibforums->db, 'quote'], $raw),
+                        'msg_id = ' . $ibforums->db->quote($ibforums->input['OID'])
+                    );
 				}
 			}
 

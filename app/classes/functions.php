@@ -68,11 +68,9 @@ class functions
 		$result = $stmt->fetch();
 		if (!$result)
 		{
-			$result = $is_forum
-				? 0
-				: 1;
+            $result = $is_forum ? 0 : 1;
 			$query  = "INSERT INTO ibf_boards_visibility
-			VALUES ({$board_id},{$is_forum},{$result},{$sess->member['id']})";
+			VALUES ($board_id, $is_forum, $result, {$sess->member['id']})";
 			$ibforums->db->exec($query);
 		} else
 		{
@@ -85,12 +83,8 @@ class functions
 	{
 		global $sess;
 		$ibforums = Ibf::app();
-		$visible  = $visible
-			? 1
-			: 0;
-		$is_forum = $is_forum
-			? 1
-			: 0;
+        $visible = $visible ? 1 : 0;
+        $is_forum = $is_forum ? 1 : 0;
 
 		if (!$sess->member['id'])
 		{
@@ -2211,7 +2205,9 @@ EOF;
 						$the_html .= $forum_text;
 					} else
 					{
-						if (count($children[$idx]) > 0)
+                        $children[$idx] = $children[$idx] ?? [];
+
+                        if (count($children[$idx]) > 0)
 						{
 							$the_html .= $forum_text;
 
@@ -2238,21 +2234,22 @@ EOF;
 		return $the_html;
 	}
 
-	function subforums_addtoform($id, &$children, $level = '')
+	function subforums_addtoform($id, &$children, $level = 0)
 	{
 
 		$html = '';
+        $children[$id] = $children[$id] ?? [];
 
 		if (count($children[$id]) > 0)
 		{
-			foreach ($children[$id] as $ii => $tt)
+			foreach ($children[$id] as $tt)
 			{
-				$prefix = "";
+				$prefix = '';
 
 				// visuality depth
 				for ($i = 0; $i < $level; $i++)
 				{
-					$prefix .= "---";
+					$prefix .= '---';
 				}
 
 				$tt[1] = str_replace('<IBF_SONG_DEPTH>', $prefix, $tt[1]);
