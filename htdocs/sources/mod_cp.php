@@ -27,30 +27,30 @@ $idx = new Moderate;
 class Moderate
 {
 
-	var $output = "";
-	var $base_url = "";
+	var $output = '';
+	var $base_url = '';
 
-	var $moderator = array();
-	var $forum = array();
-	var $topic = array();
-	var $tids = array();
+	var $moderator = [];
+	var $forum = [];
+	var $topic = [];
+	var $tids = [];
 	//multisource: forums of $tids. Must be tid=>forum_id indexed array.
-	var $tids_forums = array();
+	var $tids_forums = [];
 
-	var $forums = array();
-	var $children = array();
-	var $cats = array();
+	var $forums = [];
+	var $children = [];
+	var $cats = [];
 
-	var $upload_dir = "";
+	var $upload_dir = '';
 
-	var $topic_id = "";
-	var $forum_id = "";
-	var $post_id = "";
+	var $topic_id = '';
+	var $forum_id = '';
+	var $post_id = '';
 	var $start_val = 0;
 	var $pass = 0;
 
-	var $modfunc = "";
-	var $mm_id = "";
+	var $modfunc = '';
+	var $mm_id = '';
 
 	/***********************************************************************************/
 	//
@@ -75,7 +75,7 @@ class Moderate
 
 		if (USE_MODULES == 1)
 		{
-			require ROOT_PATH . "modules/ipb_member_sync.php";
+			require ROOT_PATH . 'modules/ipb_member_sync.php';
 
 			$this->modules = new ipb_member_sync();
 		}
@@ -121,13 +121,13 @@ class Moderate
 					$qe = ' forum_id=' . $this->forum_id . ' AND ';
 				} else
 				{
-					$qe = "";
+					$qe = '';
 				}
 				$select = "SELECT *
 				   FROM ibf_moderators
 				   WHERE
-					$qe (member_id='" . $ibforums->member['id'] . "' OR
-					    (is_group=1 AND group_id='" . $ibforums->member['mgroup'] . "'))";
+					 $qe (member_id='" . $ibforums->member['id'] . "'
+					 OR (is_group=1 AND group_id='" . $ibforums->member['mgroup'] . "'))";
 				$stmt   = $ibforums->db->query($select);
 
 				//echo "mid:".$ibforums->member['id']." sup_mod:".$ibforums->member['g_is_supmod']." is_mod:".$ibforums->member['is_mod']." select:".$select."<br>";
@@ -141,17 +141,20 @@ class Moderate
 				$this->pass = 0;
 			}
 		}
-		if (!$this->pass and !($ibforums->member['id'] and (mb_strpos($ibforums->input['CODE'], "ip") !== FALSE or $ibforums->input['CODE'] == "topicchoice")))
+
+		if (!$this->pass
+            && !($ibforums->member['id']
+                && (mb_strpos($ibforums->input['CODE'], 'ip') !== FALSE || $ibforums->input['CODE'] == 'topicchoice')))
 		{
-			if (!$ibforums->member['is_mod'])
+            if (!($ibforums->member['g_is_supmod'] || $ibforums->member['is_mod']))
 			{
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 			} else
 			{
-				$this->forum_id           = "";
-				$ibforums->input['forum'] = "";
-				$ibforums->input['f']     = "";
-				$ibforums->input['CODE']  = "";
+				$this->forum_id           = '';
+				$ibforums->input['forum'] = '';
+				$ibforums->input['f']     = '';
+				$ibforums->input['CODE']  = '';
 			}
 		}
 
@@ -241,22 +244,22 @@ class Moderate
 						$this->alter_topics('open_topic', "state='open'");
 						break;
 					case 'pin':
-						$this->alter_topics('pin_topic', "pinned=1");
+						$this->alter_topics('pin_topic', 'pinned=1');
 						break;
 					case 'unpin':
-						$this->alter_topics('unpin_topic', "pinned=0");
+						$this->alter_topics('unpin_topic', 'pinned=0');
 						break;
 					case 'approve':
-						$this->alter_topics('topic_q', "approved=1");
+						$this->alter_topics('topic_q', 'approved=1');
 						break;
 					case 'decline':
-						$this->alter_topics('topic_q', "approved=0");
+						$this->alter_topics('topic_q', 'approved=0');
 						break;
 					case 'hide':
-						$this->alter_topics('hide_topic', "hidden=1");
+						$this->alter_topics('hide_topic', 'hidden=1');
 						break;
 					case 'show':
-						$this->alter_topics('hide_topic', "hidden=0");
+						$this->alter_topics('hide_topic', 'hidden=0');
 						break;
 					case 'delete':
 						$this->delete_topics();
@@ -323,6 +326,10 @@ class Moderate
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'no_permission'));
 				break;
 		}
+
+        if (empty($this->nav)) {
+            $this->nav = [];
+        }
 
 		if (count($this->nav) < 1)
 		{
@@ -3805,14 +3812,14 @@ class Moderate
 			}
 		}
 
-		$ibforums->db->exec(
-		    "UPDATE ibf_forums
+		$sql = "UPDATE ibf_forums
 			SET rules_title='" . addslashes($std->remove_tags($ibforums->input['title'])) . "',
 				rules_text='" . addslashes($std->remove_tags($ibforums->input['rules_txt'])) . "',
-				show_rules='" . $ibforums->input['style'] . "',
-				red_border='" . $ibforums->input['border'] . "'
-			WHERE id='" . $ibforums->input['f'] . "'"
-        );
+				show_rules=" . intval($ibforums->input['style']) . ",
+				red_border=" . intval($ibforums->input['border']) . "
+			WHERE id=" . intval($ibforums->input['f']);
+dump($sql);
+        $ibforums->db->exec($sql);
 
 		$print->redirect_screen($ibforums->lang['cp_redirect_mod_topics'], "act=modcp&CODE=rules_select&f=" . $ibforums->input['f']);
 
