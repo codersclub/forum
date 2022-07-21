@@ -1399,7 +1399,17 @@ class Moderate
 			$this->recount($old_topic['forum_id']);
 		}
 
-		$this->moderate_log("Merged topic '{$old_topic['title']}' with '{$this->topic['title']}'");
+		// Cut Topic titles
+		$old = $old_topic['title'];
+		if (mb_strlen($old) > 40) {
+            $old = mb_substr($old, 0, 40) . '...';
+        }
+        $new = $this->topic['title'];
+        if (mb_strlen($new) > 40) {
+            $new = mb_substr($new, 0, 40) . '...';
+        }
+
+		$this->moderate_log("Merged topic '$old' with '$new'");
 
 		$print->redirect_screen($ibforums->lang['mt_redirect'], "act=ST&f=" . $this->forum['id'] . "&t=" . $this->topic['tid']);
 	}
