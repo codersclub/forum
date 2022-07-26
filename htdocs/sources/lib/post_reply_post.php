@@ -293,7 +293,7 @@ class post_functions extends Post
 					queued,
 					delete_after
 				    FROM ibf_posts
-				    WHERE topic_id='" . $this->post['topic_id'] . "'
+				    WHERE topic_id=" . $this->post['topic_id'] . "
 				    ORDER BY post_date DESC
 				    LIMIT 1");
 
@@ -351,11 +351,12 @@ class post_functions extends Post
 
 						// update old post
 						$ibforums->db->exec("UPDATE ibf_posts
-						SET
-						  post='" . addslashes($this->post['post']) . "',
-						  edit_time='" . $class->forum['last_post'] . "'
-						WHERE
-						  pid='" . $lastpost['pid'] . "'");
+						    SET
+						        post='" . addslashes($this->post['post']) . "',
+						        edit_time=" . $class->forum['last_post'] . "
+						    WHERE
+						        pid=" . $lastpost['pid']
+                        );
 
 						//----------------------------------------------------
 						// Index the Post body for the Indexed Search Engine
@@ -367,42 +368,47 @@ class post_functions extends Post
 						{
 							// change forum
 							$ibforums->db->exec("UPDATE ibf_forums
-						  SET
-						    last_title='" . $class->forum['last_title'] . "',
-						    last_id='" . $class->forum['last_id'] . "',
-						    last_post='" . $class->forum['last_post'] . "',
-						    last_poster_name='" . $class->forum['last_poster_name'] . "',
-						    last_poster_id='" . $class->forum['last_poster_id'] . "'
-						  WHERE id='" . $class->forum['id'] . "'");
+						        SET
+						            last_title='" . $class->forum['last_title'] . "',
+						            last_id=" . $class->forum['last_id'] . ",
+						            last_post=" . $class->forum['last_post'] . ",
+						            last_poster_name='" . $class->forum['last_poster_name'] . "',
+						            last_poster_id=" . $class->forum['last_poster_id'] . "
+						        WHERE id=" . $class->forum['id']
+                            );
 						} else
 						{
 							$ibforums->db->exec("UPDATE ibf_forums
-						  SET
-						    last_post='" . $class->forum['last_post'] . "'
-						  WHERE id='" . $class->forum['id'] . "'");
+						        SET
+						            last_post=" . $class->forum['last_post'] . "
+						        WHERE id=" . $class->forum['id']
+                            );
 						}
 
 						// change topic
 						$ibforums->db->exec("UPDATE ibf_topics
 						SET
-						   decided='" . $this->topic['decided'] . "',
-						   last_poster_id='" . $class->forum['last_poster_id'] . "',
+						   decided=" . $this->topic['decided'] . ",
+						   last_poster_id=" . $class->forum['last_poster_id'] . ",
 						   last_poster_name='" . $class->forum['last_poster_name'] . "',
-						   last_post='" . $class->forum['last_post'] . "'
-						WHERE tid='" . $this->topic['tid'] . "'");
+						   last_post=" . $class->forum['last_post'] . "
+						WHERE tid=" . $this->topic['tid']
+                        );
 
 						// update member last post time
 						$ibforums->db->exec("UPDATE ibf_members
-						SET last_post='" . time() . "'
-						WHERE id='" . $ibforums->member['id'] . "'");
+						SET last_post=" . time() . "
+						WHERE id=" . $ibforums->member['id']
+                        );
 
 						if (!$ibforums->vars['plg_disable_redirect'])
 						{
 							if ($class->obj['moderate'] == 1 or $class->obj['moderate'] == 3)
 							{
 								$ibforums->db->exec("UPDATE ibf_forums
-						   SET has_mod_posts=1
-						   WHERE id='" . $class->forum['id'] . "'");
+						            SET has_mod_posts=1
+						            WHERE id=" . $class->forum['id']
+                                );
 
 								$page = floor(($this->topic['posts']) / $ibforums->vars['display_max_posts']);
 								$page = $page * $ibforums->vars['display_max_posts'];
@@ -446,7 +452,8 @@ class post_functions extends Post
 
 				$ibforums->db->exec("UPDATE ibf_posts
 					    SET attach_exists = 1
-					    WHERE pid='{$this->post['pid']}'");
+					    WHERE pid={$this->post['pid']}"
+                );
 
 			}
 			$draft->delete();
@@ -457,7 +464,9 @@ class post_functions extends Post
 
 			$class->replace_attachments_tags($this->post['post'], $this->upload, $this->post['pid']);
 
-			$ibforums->db->prepare('UPDATE ibf_posts SET post=:post WHERE pid=:pid')
+			$ibforums->db->prepare('UPDATE ibf_posts 
+                SET post=:post
+                WHERE pid=:pid')
 				->bindParam(':post', $this->post['post'], PDO::PARAM_STR)
 				->bindParam(':pid', $this->post['pid'], PDO::PARAM_INT)
 				->execute();
@@ -473,7 +482,8 @@ class post_functions extends Post
 		{
 			$ibforums->db->exec("UPDATE ibf_forums
 				    SET has_mod_posts=1
-				    WHERE id='" . $class->forum['id'] . "'");
+				    WHERE id=" . $class->forum['id']
+            );
 
 			$page = floor(($this->topic['posts'] + 1) / $ibforums->vars['display_max_posts']);
 			$page = $page * $ibforums->vars['display_max_posts'];
@@ -502,19 +512,21 @@ class post_functions extends Post
 			$ibforums->db->exec("UPDATE ibf_forums
 				    SET
 					last_title='" . $class->forum['last_title'] . "',
-					last_id='" . $class->forum['last_id'] . "',
-					last_post='" . $class->forum['last_post'] . "',
+					last_id=" . $class->forum['last_id'] . ",
+					last_post=" . $class->forum['last_post'] . ",
 					last_poster_name='" . $class->forum['last_poster_name'] . "',
-					last_poster_id='" . $class->forum['last_poster_id'] . "',
-					posts='" . $class->forum['posts'] . "'
-				    WHERE id='" . $class->forum['id'] . "'");
+					last_poster_id=" . $class->forum['last_poster_id'] . ",
+					posts=" . $class->forum['posts'] . "
+				    WHERE id=" . $class->forum['id']
+            );
 		} else
 		{
 			$ibforums->db->exec("UPDATE ibf_forums
 				    SET
-					posts='" . $class->forum['posts'] . "',
-					last_post='" . $class->forum['last_post'] . "'
-				    WHERE id='" . $class->forum['id'] . "'");
+					posts=" . $class->forum['posts'] . ",
+					last_post=" . $class->forum['last_post'] . "
+				    WHERE id=" . $class->forum['id']
+            );
 		}
 
 		//-------------------------------------------------
@@ -524,41 +536,46 @@ class post_functions extends Post
 		$stmt = $ibforums->db->query("SELECT COUNT(pid) as posts
 			    FROM ibf_posts
 			    WHERE
-				topic_id='" . $this->topic['tid'] . "'
-				AND queued != 1");
+				topic_id=" . $this->topic['tid'] . "
+				AND queued != 1"
+        );
 
 		$posts = $stmt->fetch();
 
-		$pcount = intval($posts['posts'] - 1);
+		$pcount = intval($posts['posts']) - 1;
 
 		//+------------------------------------------------------------------------------------------------------
 
 		// change topic
 		$ibforums->db->exec("UPDATE ibf_topics
 			    SET
-				decided='" . $this->topic['decided'] . "',
-				last_poster_id='" . $class->forum['last_poster_id'] . "',
+				decided=" . $this->topic['decided'] . ",
+				last_poster_id=" . $class->forum['last_poster_id'] . ",
 				last_poster_name='" . $class->forum['last_poster_name'] . "',
-				last_post='" . $class->forum['last_post'] . "',
-				pinned='" . $this->topic['pinned'] . "',
-				hidden='" . $this->topic['hidden'] . "',
+				last_post=" . $class->forum['last_post'] . ",
+				pinned=" . intval($this->topic['pinned']) . ",
+				hidden=" . $this->topic['hidden'] . ",
 				state='" . $this->topic['state'] . "',
 				posts=$pcount
-			    WHERE tid='" . $this->topic['tid'] . "'");
+			    WHERE tid=" . $this->topic['tid']
+        );
 
 		if ($this->topic['has_mirror'])
 		{
 
 			$ibforums->db->exec("UPDATE ibf_topics
 			    SET
-				decided='{$this->topic['decided']}',
-				last_poster_id='{$class->forum['last_poster_id']}',
+				decided={$this->topic['decided']},
+				last_poster_id={$class->forum['last_poster_id']},
 				last_poster_name='{$class->forum['last_poster_name']}',
-				last_post='{$class->forum['last_post']}',
+				last_post={$class->forum['last_post']},
 				posts=$pcount
-			    WHERE mirrored_topic_id='{$this->topic['tid']}'");
+			    WHERE mirrored_topic_id={$this->topic['tid']}"
+            );
 			// update forums
-			$q = "SELECT forum_id, tid, title FROM ibf_topics WHERE mirrored_topic_id='{$this->topic['tid']}' ";
+			$q = "SELECT forum_id, tid, title 
+                FROM ibf_topics 
+			    WHERE mirrored_topic_id={$this->topic['tid']}";
 
 			$stmt = $ibforums->db->query($q);
 			while ($row = $stmt->fetch())
@@ -566,18 +583,20 @@ class post_functions extends Post
 				$ibforums->db->exec($q = "UPDATE ibf_forums
 				    SET
 					last_title='{$row['title']}',
-					last_id='{$row['tid']}',
-					last_post='" . time() . "',
+					last_id={$row['tid']},
+					last_post=" . time() . ",
 					last_poster_name='" . $class->forum['last_poster_name'] . "',
-					last_poster_id='" . $class->forum['last_poster_id'] . "',
+					last_poster_id=" . $class->forum['last_poster_id'] . ",
 					posts=posts + 1
-				    WHERE id='{$row['forum_id']}'");
+				    WHERE id={$row['forum_id']}"
+                );
 			}
 		}
 		//+------------------------------------------------------------------------------------------------------
 
 		$ibforums->db->exec("UPDATE ibf_stats
-			    SET TOTAL_REPLIES=TOTAL_REPLIES+1");
+			    SET TOTAL_REPLIES=TOTAL_REPLIES + 1"
+        );
 
 		//-------------------------------------------------
 		// If we are a member, lets update thier last post
@@ -630,14 +649,16 @@ class post_functions extends Post
 				    SET
 					$pcount
 					$mgroup " . $module->post_points($ibforums->vars['pointsper_reply']) . "
-					last_post='{$ibforums->member['last_post']}'
-				    WHERE id='{$ibforums->member['id']}'");
+					last_post={$ibforums->member['last_post']}
+				    WHERE id={$ibforums->member['id']}"
+            );
 
 		} else
 		{
 			$ibforums->db->exec("UPDATE ibf_sessions
-				   SET last_post='" . time() . "'
-				   WHERE id='" . $sess->session_id . "'");
+				   SET last_post=" . time() . "
+				   WHERE id='" . $sess->session_id . "'"
+            );
 		}
 
 		//-------------------------------------------------
@@ -651,8 +672,9 @@ class post_functions extends Post
 			$stmt = $ibforums->db->query("SELECT trid
 				    FROM ibf_tracker
 				    WHERE
-					topic_id='" . $this->topic['tid'] . "'
-					AND member_id='" . $ibforums->member['id'] . "'");
+					topic_id=" . $this->topic['tid'] . "
+					AND member_id=" . $ibforums->member['id']
+            );
 
 			if (!$stmt->rowCount())
 			{
@@ -728,7 +750,7 @@ class post_functions extends Post
 		}
 		if ($class->obj['preview_post'])
 		{
-			$attach_exists = (is_array($this->upload) && (bool)(count($this->upload))) ? 1 : 0;
+			$attach_exists = (is_array($this->upload) && count($this->upload)) ? 1 : 0;
 
 			$draft = TopicDraft::createDraft($this->topic['tid'], $this->post['post']);
 
@@ -790,7 +812,8 @@ class post_functions extends Post
 		// START TABLE
 		//---------------------------------------
 
-		$warning = "";
+		$warning = '';
+        $upload_field = '';
 
 		if ($class->obj['moderate'] == 1 or $class->obj['moderate'] == 3 or $ibforums->member['mod_posts'])
 		{
