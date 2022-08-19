@@ -49,8 +49,8 @@ class Moderate
 		//-------------------------------------
 		// Make sure this is a POST request, not a naughty IMG redirect
 		//-------------------------------------
-
-		if ($ibforums->input['CODE'] != '04' && $ibforums->input['CODE'] != '02' && $ibforums->input['CODE'] != '20' && $ibforums->input['CODE'] != '22' && $ibforums->input['CODE'] != '70' && $ibforums->input['CODE'] != '72' && $ibforums->input['CODE'] != '82' && $ibforums->input['CODE'] != '18' && $ibforums->input['CODE'] != '19' && $ibforums->input['CODE'] != '24' && $ibforums->input['CODE'] != '25' && $ibforums->input['CODE'] != '28' && $ibforums->input['CODE'] != '29' && $ibforums->input['CODE'] != '33' && $ibforums->input['CODE'] != '34' && $ibforums->input['CODE'] != '35' && $ibforums->input['CODE'] != '36')
+		$valid_code =  ['02', '04', '18', '19', '20', '22', '24', '25', '28', '29', '33', '34', '35', '36', '70', '72', '82'];
+		if (!in_array($ibforums->input['CODE'], $valid_code))
 		{
 			if ($_POST['act'] == '')
 			{
