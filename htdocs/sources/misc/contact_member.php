@@ -304,6 +304,7 @@ class Contact
 
 		$ibforums->lang = $std->load_words($ibforums->lang, 'lang_emails', $ibforums->lang_id);
 
+		$pid = intval($ibforums->input['p']);
 		$fid = intval($ibforums->input['f']);
 		$tid = intval($ibforums->input['t']);
 		$st  = intval($ibforums->input['st']);
@@ -369,7 +370,7 @@ class Contact
 					'MOD_NAME'     => $moderator['name'],
 					'USERNAME'     => $ibforums->member['name'],
 					'TOPIC'        => $topic['title'],
-					'LINK_TO_POST' => "{$ibforums->vars['board_url']}/index.php?showtopic={$tid}&amp;st={$st}",
+					'LINK_TO_POST' => "{$ibforums->vars['board_url']}/index.php?showtopic={$tid}&amp;view=findpost&amp;p={$pid}",
 					'REPORT'       => $report,
 
 				]
