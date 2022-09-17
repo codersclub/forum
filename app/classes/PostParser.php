@@ -241,6 +241,10 @@ class PostParser
 
 	function prepare_code_tabs($code, $tab = 4)
 	{
+        if (empty($tab)) {
+            $tab = 4;
+        }
+
 		// catch special BOLD {b} tag inside CODE tag
 		$code = preg_replace("#\{b\}(.+?)\{/b\}#is", Chr(1050) . "\\1" . Chr(1051), $code);
 
