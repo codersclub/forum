@@ -102,7 +102,7 @@ class Reputation
 
 			if ($info = $stmt->fetch())
 			{
-				$ktime = date('Y-m-d H:i:s', $ibforums->vars['rep_time']);
+				$ktime = date('Y-m-d H:i:s', $info['msg_date']);
 
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_early', 'EXTRA' => $ktime));
 			}
