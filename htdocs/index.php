@@ -129,6 +129,7 @@ $ibforums->vars['display_max_posts']  = ($ppu > 0)
 //--------------------------------
 //	Set up the session ID stuff
 //--------------------------------
+$ibforums->session_type = 'cookie';
 
 if ($ibforums->session_type == 'cookie')
 {

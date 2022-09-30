@@ -13,7 +13,7 @@ $lang = array (
 'rep_full'				=> "This user's reputation is full",
 'rep_low'				=> "This user can not lose any more reputation",
 'rep_self'				=> "You cannot change your own reputation!",
-'rep_early'				=> "You have recently changed this user's reputation.<br><#EXTRA#> days should pass before you can do it again",
+'rep_early'				=> "You have already rated this post <#EXTRA#>",
 'rep_noposts'			=> "You do not have enough posts to change users' reputation. <#EXTRA#> posts required",
 //Reputation
 

@@ -53,9 +53,9 @@ class Reputation
 				}
 
 				$stmt = $ibforums->db->query(
-				    "SELECT name
-                    FROM ibf_members
-                    WHERE id='" . $ibforums->input['mid'] . "'"
+					"SELECT name
+					FROM ibf_members
+					WHERE id='" . $ibforums->input['mid'] . "'"
                 );
 
 				if (!$stmt->rowCount())
@@ -92,23 +92,19 @@ class Reputation
 				$std->Error(array('LEVEL' => 1, 'MSG' => 'missing_files'));
 			}
 
-			$stmt = $ibforums->db->query(
-			    "SELECT msg_date
-                FROM ibf_reputation
-                WHERE member_id='" . $ibforums->input['mid'] . "'
-                  AND from_id='" . $ibforums->member['id'] . "'
-                ORDER BY msg_date DESC
-                LIMIT 1"
-            );
+			$sql = "SELECT msg_date
+				FROM ibf_reputation
+				WHERE post=" . intval($ibforums->input['p']) . "
+				  AND from_id=" . intval($ibforums->member['id']) . "
+				ORDER BY msg_date DESC
+				LIMIT 1";
+			$stmt = $ibforums->db->query($sql);
 
 			if ($info = $stmt->fetch())
 			{
-				$ktime = $ibforums->vars['rep_time'];
+				$ktime = date('Y-m-d H:i:s', $ibforums->vars['rep_time']);
 
-				if (time() - $info['msg_date'] < 60 * 60 * 24 * $ktime)
-				{
-					$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_early', 'EXTRA' => $ktime));
-				}
+				$std->Error(array('LEVEL' => 1, 'MSG' => 'rep_early', 'EXTRA' => $ktime));
 			}
 		}
 
