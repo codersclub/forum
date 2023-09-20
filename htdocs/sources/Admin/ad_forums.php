@@ -547,10 +547,11 @@ class ad_forums
 		$stmt  = $ibforums->db->query(
 			"SELECT name
 			FROM ibf_forums
-			WHERE id='" . $IN['f'] . "'");
+			WHERE id=" . intval($IN['f'])
+		);
 		$forum = $stmt->fetch();
 
-		if ($IN['f'] == "")
+		if (empty($IN['f']))
 		{
 			$ADMIN->error("Could not determine the forum ID to resync.");
 		}
@@ -2077,10 +2078,12 @@ class ad_forums
 
 		if (($old_details['parent_id'] > 0) and ($old_details['parent_id'] != $parent))
 		{
+			$parent_id = intval($old_details['parent_id']);
+
 			$stmt = $ibforums->db->query(
 				"SELECT id
 				FROM ibf_forums
-				WHERE parent_id='{$old_details['parent_id']}'");
+				WHERE parent_id={$parent_id}");
 
 			if (!$stmt->rowCount())
 			{
@@ -2090,15 +2093,15 @@ class ad_forums
 				$ibforums->db->exec(
 					"UPDATE ibf_forums
 					SET subwrap=0
-					WHERE id='{$old_details['parent_id']}'");
+					WHERE id={$parent_id}");
 			}
 		}
 
 		$ibforums->db->exec(
 			"DELETE FROM ibf_forums_order
-			WHERE id='" . $IN['f'] . "'");
+			WHERE id=" . intval($IN['f']));
 
-		$std->update_forum_order_cache($IN['f'], $parent);
+		$std->update_forum_order_cache(intval($IN['f']), $parent);
 
 		$ADMIN->save_log("Forum '{$IN['name']}' edited");
 

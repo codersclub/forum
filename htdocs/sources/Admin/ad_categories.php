@@ -723,7 +723,7 @@ class ad_cat
 		global $ADMIN;
 		$ibforums = Ibf::app();
 
-		return (!count($children[$row['id']]) > 0)
+		return (!@count($children[$row['id']]) > 0)
 			? "<center><a href='{$ADMIN->base_url}&act=forum&code=delete&f={$row['id']}'>Delete</a> | "
 			: "<center>";
 	}

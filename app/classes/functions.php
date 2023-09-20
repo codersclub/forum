@@ -479,8 +479,9 @@ class functions
 	 */
 	function do_update($id, $pid)
 	{
-		$stmt = Ibf::app()->db->prepare("INSERT INTO ibf_forums_order
-		    VALUES (?, ?)");
+		$stmt = Ibf::app()->db->prepare(
+			"INSERT INTO ibf_forums_order
+			VALUES (?, ?)");
 		$stmt->execute([$id, $pid]);
 	}
 
