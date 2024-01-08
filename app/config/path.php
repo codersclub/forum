@@ -1,14 +1,14 @@
 <?php
 return [
-    'base' => __DIR__ . '/../..',
+    'base' => dirname(APP_DIR),
 
-    'public' => __DIR__ . '/../../htdocs',
+    'public' => dirname(APP_DIR) . '/htdocs',
 
-    'storage' => __DIR__ . '/../storage',
+    'storage' => APP_DIR . '/storage',
 
-    'app' => __DIR__ . '/..',
+    'app' => APP_DIR,
 
-    'templates' => __DIR__ . '/../themes',
+    'templates' => APP_DIR . '/themes',
 
-    'data' => __DIR__ . '/../data',
+    'data' => APP_DIR . '/data',
 ];

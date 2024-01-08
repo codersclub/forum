@@ -30,7 +30,7 @@ class Config
     protected static function getInstance()
     {
         if (!self::$instance) {
-            self::$instance =  new Registry(__DIR__ . '/../config');
+            self::$instance =  new Registry(APP_DIR . '/config');
             self::$instance->setEnvironment(self::$instance->get('app.environment'));
         }
         return self::$instance;
