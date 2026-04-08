@@ -364,8 +364,10 @@ $EMAIL['complete_reg'] = <<<EOF
 
 Success!
 
-An administrator has accepted your registration request or email address change at <#BOARD_NAME#>. You may now log in with
-your chosen details and access your full user account at <#BOARD_ADDRESS#>
+An administrator has accepted your registration request or email address change at <#BOARD_NAME#>.
+
+You may now log in with your chosen details and access your full user account at <#BOARD_ADDRESS#>
+
 
 EOF;
 

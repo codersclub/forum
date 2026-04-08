@@ -942,7 +942,11 @@ class ad_forums
 
 			$email->get_template("complete_reg");
 
-			$email->build_message("");
+			$email->build_message([
+                                'BOARD_NAME'    => $ibforums->vars['board_name'],
+                                'BOARD_ADDRESS' => $ibforums->vars['board_url'] . '/index.' . $ibforums->vars['php_ext'],
+                                //'WEB_ADDRESS'   => $ibforums->vars['home_url'],
+                        ]);
 
 			$email->subject = "Account validated at " . $INFO['board_name'];
 
