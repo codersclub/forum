@@ -1,8 +1,6 @@
-.gitignore
 .*
 *.bak
 /*.iml
-/composer.lock
 conf_global.php
 ip_table.php
 app/config/app.php
