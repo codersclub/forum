@@ -15,7 +15,7 @@ services:
       target: ${APP_ENV:-dev}
       args:
         BUILD_FPM_VERSION: ${BUILD_FPM_VERSION:-7.4-fpm}
-    container_name: forum
+    container_name: sources-forum
     restart: on-failure
     ports:
       - "${BUILD_FPM_PUBLIC_PORT:-9000}:9000"
@@ -29,7 +29,36 @@ services:
       - forum
     networks:
       - forum
-      #- database
+      - database
+
+  mysql:
+    <<: *environment
+    build:
+      context: .
+      dockerfile: docker/mysql/Dockerfile
+      args:
+        BUILD_MYSQL_VERSION: ${BUILD_MYSQL_VERSION:-9.6}
+    container_name: sources-mysql
+    volumes:
+      - mysql_data:/var/lib/mysql:rw
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-invision}
+      - MYSQL_USER=${DB_USERNAME:-user}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-password}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-password}
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    ports:
+      - "${BUILD_DB_PUBLIC_PORT:-3306}:3306"
+    profiles:
+      - ''
+      - backend
+      - infrastructure
+    networks:
+      - database
 
   server:
     <<: *environment
@@ -38,7 +67,7 @@ services:
       dockerfile: docker/angie/Dockerfile
       args:
         BUILD_SERVER_VERSION: ${BUILD_SERVER_VERSION:-1.10.3-minimal}
-    container_name: server
+    container_name: sources-server
     volumes:
       - ./:/home/sources/forum.sources.ru:ro
     ports:
@@ -55,10 +84,11 @@ networks:
   forum:
     name: forum.sources.ru
     driver: bridge
-  # database:
-  #   external: false
+  database:
+    external: false
 
 volumes:
+  mysql_data:
   composer:
     driver_opts:
       type: tmpfs

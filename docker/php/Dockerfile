@@ -1,6 +1,5 @@
 ARG BUILD_FPM_VERSION=7.4-fpm
 
-
 # ==============================================================================
 #   Common Layer
 # ==============================================================================
@@ -34,6 +33,7 @@ RUN apt-get update \
     && docker-php-ext-install sockets \
     && docker-php-ext-install gmp \
     && docker-php-ext-install zip \
+    && docker-php-ext-install pdo_mysql \
     # 3. Cleanup Dependencies
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
       && ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime \
