@@ -82,10 +82,7 @@ services:
 
 networks:
   forum:
-    name: forum.sources.ru
-    driver: bridge
   database:
-    external: false
 
 volumes:
   mysql_data:
