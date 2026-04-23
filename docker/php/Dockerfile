@@ -114,4 +114,6 @@ RUN APP_ENV=prod composer install --no-dev --no-interaction --optimize-autoloade
 
 USER sources
 
+EXPOSE 9000
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.prod.sh"]

@@ -8,7 +8,7 @@ x-environment: &environment
 services:
   forum:
     <<: *environment
-    # image: ghcr.io/xxx/yyy:${BUILD_VERSION:-1.0.0}
+    image: ghcr.io/codersclub/forum:${BUILD_VERSION:-0.0.1}
     build:
       context: .
       dockerfile: docker/php/Dockerfile
