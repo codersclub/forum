@@ -4,7 +4,7 @@
  */
 return [
 //    'environment' => 'local',
-    'debug' => false,
+    'debug' => (bool) ($_ENV['APP_DEBUG'] ?? $_SERVER['APP_DEBUG'] ?? false),
     'skins' => [
         'default' => 0,
         'hidden' => [
