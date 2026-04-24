@@ -103,10 +103,9 @@ RUN chmod +x /usr/local/bin/entrypoint.prod.sh
 
 COPY . /home/sources/forum.sources.ru
 
-RUN APP_ENV=prod composer install --no-dev --no-interaction --optimize-autoloader \
- && chown $UID:1000 /home/sources/forum.sources.ru -R \
- && mkdir -p /home/sources/.composer \
- && chown $UID:1000 /home/sources/.composer -R
+RUN mkdir -p /home/sources/.composer \
+  && chown $UID:1000 /home/sources/.composer -R \
+  && APP_ENV=prod composer install --no-dev --no-interaction --optimize-autoloader
 
 # ------------------------------------------------------------------------------
 #   Ready

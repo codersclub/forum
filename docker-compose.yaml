@@ -8,7 +8,6 @@ x-environment: &environment
 services:
   forum:
     <<: *environment
-    image: ghcr.io/codersclub/forum:${BUILD_VERSION:-0.0.1}
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -24,9 +23,7 @@ services:
       - ./:/home/sources/forum.sources.ru:rw
     profiles:
       - ''
-      - backend
-      - build
-      - forum
+      - prod
     networks:
       - forum
       - database
@@ -55,8 +52,7 @@ services:
       - "${BUILD_DB_PUBLIC_PORT:-3306}:3306"
     profiles:
       - ''
-      - backend
-      - infrastructure
+      - prod
     networks:
       - database
 
@@ -75,8 +71,6 @@ services:
       - "${BUILD_SERVER_HTTPS_PUBLIC_PORT:-443}:443"
     profiles:
       - ''
-      - backend
-      - infrastructure
     networks:
       - forum
 

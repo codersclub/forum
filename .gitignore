@@ -1,10 +1,9 @@
-.*
+.idea/
+.env
 *.bak
 /*.iml
 conf_global.php
 ip_table.php
-app/config/app.php
-app/config/database.php
 app/config/logs.php
 cron/bot_config.pl
 /htdocs/download/
