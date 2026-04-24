@@ -38,6 +38,7 @@ services:
     container_name: sources-mysql
     volumes:
       - mysql_data:/var/lib/mysql:rw
+      - docker/mysql/shared:/shared_data:rw
     environment:
       - MYSQL_DATABASE=${DB_DATABASE:-invision}
       - MYSQL_USER=${DB_USERNAME:-user}
