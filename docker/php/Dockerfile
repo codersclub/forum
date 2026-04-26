@@ -44,7 +44,7 @@ RUN apt-get update \
 #   Common Configuration
 # ------------------------------------------------------------------------------
 
-COPY --chown=root:root ./docker/php/conf.d/php.ini "$PHP_INI_DIR/98-php.ini"
+COPY --chown=root:root ./docker/php/conf.d/php.ini "$PHP_INI_DIR/conf.d/98-php.ini"
 
 # ------------------------------------------------------------------------------
 #   Common Entrypoint
@@ -65,8 +65,7 @@ FROM base AS dev
 #   Dev Configuration
 # ------------------------------------------------------------------------------
 
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-COPY --chown=root:root ./docker/php/conf.d/php.dev.ini "$PHP_INI_DIR/99-php.dev.ini"
+COPY --chown=root:root ./docker/php/conf.d/php.dev.ini "$PHP_INI_DIR/conf.d/99-php.dev.ini"
 
 # ------------------------------------------------------------------------------
 #   Dev Entrypoint
