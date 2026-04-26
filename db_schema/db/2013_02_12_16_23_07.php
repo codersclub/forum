@@ -7,14 +7,14 @@ class Migration_2013_02_12_16_23_07 extends MpmMigration
 	{
 		$pdo->query("
 		  ALTER TABLE `ibf_validating` ADD
-		  `data` TEXT NOT NULL DEFAULT '' AFTER `member_id`
+		  `data` TEXT NOT NULL AFTER `member_id`
 		");
 	}
 
 	public function down(PDO &$pdo)
 	{
 		$pdo->query("
-		  ALTER TABLE `ibf_validating` DROP `data`		
+		  ALTER TABLE `ibf_validating` DROP `data`
 		");
 	}
 

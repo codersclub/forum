@@ -1,14 +1,15 @@
 {
+    "name": "sources/forum",
+    "description": "Sources.RU Forum",
     "require": {
+        "php": "^7.4",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
         "openid/php-openid": "dev-master",
         "filp/whoops": "1.1.*@stable",
         "serafim/asset": "0.*",
         "monolog/monolog": "1.10.0",
         "leafo/scssphp": "0.0.12"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.1.*",
-        "phpunit/dbunit": ">=1.2"
     },
     "autoload": {
         "classmap": [
@@ -22,5 +23,15 @@
             ]
         }
     },
-    "minimum-stability": "stable"
+    "require-dev": {
+        "phpunit/phpunit": "^4.1",
+        "phpunit/dbunit": ">=1.2"
+    },
+    "config": {
+        "audit": {
+            "block-insecure": false
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

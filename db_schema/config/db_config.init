@@ -1,13 +1,11 @@
 <?php
 
 $db_config = (object) array();
-$db_config->host = 'localhost';
+$db_config->host = (string) ($_ENV['DB_HOST'] ?? $_SERVER['DB_HOST'] ?? 'mysql');
 $db_config->port = '3306';
-$db_config->user = '#USER#';
-$db_config->pass = '#PASS#';
-$db_config->name = '#DB#';
-$db_config->db_path = '#PATH#';
+$db_config->user = (string) ($_ENV['DB_USERNAME'] ?? $_SERVER['DB_USERNAME'] ?? 'user');
+$db_config->pass = (string) ($_ENV['DB_PASSWORD'] ?? $_SERVER['DB_PASSWORD'] ?? 'password');
+$db_config->name = (string) ($_ENV['DB_DATABASE'] ?? $_SERVER['DB_DATABASE'] ?? 'invision');
+$db_config->db_path = __DIR__ . '/../db/';
 $db_config->method = 1;
 $db_config->migrations_table = 'mpm_migrations';
-
-?>

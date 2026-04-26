@@ -5,7 +5,7 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
 
     const UP    = 'utf8';
     const DOWN  = 'cp1251';
- 
+
     /**
     * Возвращает имя таблицы - оно реально нужно для SQL запроса.
     * Я хз, как работает система, но чисто теоретически оно должно вернуть что надо, судя по сырцам движка миграций.
@@ -24,7 +24,7 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
         $tableName = $GLOBALS['db_config']->name; // База данных реально нужна для хардкорных запросов
         return $tableName;
     }
- 
+
     /**
     * Сама конвертация. Магия.
     *
@@ -34,6 +34,18 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
     */
     protected function convert(\PDO $db, $from, $to)
     {
+        // mysql 8 fix
+        $db->query(<<<'SQL'
+            ALTER TABLE `client_members`
+            ALTER `date` SET DEFAULT '0001-01-01';
+            SQL);
+
+        // mysql 8 fix
+        $db->query(<<<'SQL'
+            ALTER TABLE `ibf_admin_foreign_visits`
+            ALTER `dt` SET DEFAULT '0001-01-01 00:00:00';
+            SQL);
+
         $tableName = $this->getTableName();
         $db->query('SET NAMES ' . $from);
         $tables = $db->query("SELECT
@@ -48,14 +60,13 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
         $queries = 0;
         foreach ($tables as $table) {
             $query = end($table);
- 
+
             $log = 'query [' . $queries++ . ']:';
             echo $log . str_repeat(' ', 16 - strlen($log)) . $query . "\n";
             $db->query($query);
         }
     }
- 
- 
+
     /**
     * @param PDO $db
     */
@@ -65,7 +76,7 @@ class Migration_2013_08_20_15_18_35 extends MpmMigration
 		$db->query('alter database ' . $this->getTableName() . ' default charset ' . self::UP);
 		$db->query("update ibf_templates SET template = REPLACE(template, 'windows-1251', 'UTF-8')");
     }
- 
+
     /**
     * @param PDO $db
     */
