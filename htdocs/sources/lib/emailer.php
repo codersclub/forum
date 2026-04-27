@@ -55,6 +55,7 @@ class emailer
 	var $smtp_user = "";
 	var $smtp_pass = "";
 	var $smtp_code = "";
+	var $smtp_secure = ""; // ssl, tls, or empty
 
 	var $mail_method = 'mail';
 
@@ -87,6 +88,9 @@ class emailer
 				: 'localhost';
 			$this->smtp_user   = $ibforums->vars['smtp_user'];
 			$this->smtp_pass   = $ibforums->vars['smtp_pass'];
+			$this->smtp_secure = isset($ibforums->vars['smtp_secure']) 
+				? $ibforums->vars['smtp_secure'] 
+				: '';
 		}
 
 		//---------------------------------------------------------
@@ -676,18 +680,37 @@ class emailer
 	//| send_mail
 	//|
 	//| Does the bulk of the email sending
+	//| UPDATED: Added SSL/TLS support for modern SMTP servers
 	//+------------------------------------
 
 	//$this->to, $this->subject, $this->message, $this->mail_headers
 
 	function smtp_send_mail($message)
 	{
-		$this->smtp_fp = fsockopen($this->smtp_host, intval($this->smtp_port), $errno, $errstr, 30);
+		// Build connection string with SSL/TLS support
+		$host_string = $this->smtp_host;
+		
+		// Add SSL/TLS prefix if needed
+		if ($this->smtp_secure == 'ssl')
+		{
+			$host_string = 'ssl://' . $this->smtp_host;
+		}
+		elseif ($this->smtp_secure == 'tls')
+		{
+			$host_string = 'tls://' . $this->smtp_host;
+		}
+		
+		// Connect with timeout
+		$this->smtp_fp = @fsockopen($host_string, intval($this->smtp_port), $errno, $errstr, 30);
 
 		if (!$this->smtp_fp)
 		{
-			$this->smtp_error("Could not open a socket to the SMTP server");
+			$this->smtp_error("Could not open a socket to the SMTP server (Error: $errno - $errstr)");
+			return FALSE;
 		}
+
+		// Set socket to blocking mode
+		stream_set_blocking($this->smtp_fp, 1);
 
 		$this->smtp_get_line();
 
@@ -698,18 +721,20 @@ class emailer
 			$data = $this->smtp_crlf_encode($this->mail_headers . "\n" . $message);
 
 			//---------------------
-			// HELO!, er... HELLO!
+			// HELO
 			//---------------------
 
-			$this->smtp_send_cmd("HELO " . $this->smtp_host);
+			$this->smtp_send_cmd("HELO localhost");
 
 			if ($this->smtp_code != 250)
 			{
-				$this->smtp_error("HELO");
+				$this->smtp_error("HELO command failed");
+				@fclose($this->smtp_fp);
+				return FALSE;
 			}
 
 			//---------------------
-			// Do you like my user!
+			// Authentication
 			//---------------------
 
 			if ($this->smtp_user and $this->smtp_pass)
@@ -723,6 +748,8 @@ class emailer
 					if ($this->smtp_code != 334)
 					{
 						$this->smtp_error("Username not accepted from the server");
+						@fclose($this->smtp_fp);
+						return FALSE;
 					}
 
 					$this->smtp_send_cmd(base64_encode($this->smtp_pass));
@@ -730,22 +757,28 @@ class emailer
 					if ($this->smtp_code != 235)
 					{
 						$this->smtp_error("Password not accepted from the server");
+						@fclose($this->smtp_fp);
+						return FALSE;
 					}
 				} else
 				{
 					$this->smtp_error("This server does not support authorisation");
+					@fclose($this->smtp_fp);
+					return FALSE;
 				}
 			}
 
 			//---------------------
-			// We're from MARS!
+			// MAIL FROM
 			//---------------------
 
 			$this->smtp_send_cmd("MAIL FROM:<" . $this->from . ">");
 
 			if ($this->smtp_code != 250)
 			{
-				$this->smtp_error();
+				$this->smtp_error("MAIL FROM command failed");
+				@fclose($this->smtp_fp);
+				return FALSE;
 			}
 
 			$to_arry = array($this->to);
@@ -762,7 +795,7 @@ class emailer
 			}
 
 			//---------------------
-			// You are from VENUS!
+			// RCPT TO
 			//---------------------
 
 			foreach ($to_arry as $to_email)
@@ -771,57 +804,55 @@ class emailer
 
 				if ($this->smtp_code != 250)
 				{
-					$this->smtp_error();
-					return;
-					break;
+					$this->smtp_error("RCPT TO command failed for: " . $to_email);
+					@fclose($this->smtp_fp);
+					return FALSE;
 				}
 			}
 
 			//---------------------
-			// SEND MAIL!
+			// DATA
 			//---------------------
 
 			$this->smtp_send_cmd("DATA");
 
 			if ($this->smtp_code == 354)
 			{
-				//$this->smtp_send_cmd( $data );
-				fputs($this->smtp_fp, $data . "\r\n");
+				fputs($this->smtp_fp, $data . "\r\n.\r\n");
+				$this->smtp_get_line();
+				
+				if ($this->smtp_code != 250)
+				{
+					$this->smtp_error("Error sending message data to SMTP server");
+					@fclose($this->smtp_fp);
+					return FALSE;
+				}
 			} else
 			{
-				$this->smtp_error("Error on write to SMTP server");
+				$this->smtp_error("Error on DATA command from SMTP server");
+				@fclose($this->smtp_fp);
+				return FALSE;
 			}
 
 			//---------------------
-			// GO ON, NAFF OFF!
+			// QUIT
 			//---------------------
 
-			$this->smtp_send_cmd(".");
-
-			if ($this->smtp_code != 250)
-			{
-				$this->smtp_error();
-				return;
-			}
-
-			$this->smtp_send_cmd("quit");
+			$this->smtp_send_cmd("QUIT");
 
 			if ($this->smtp_code != 221)
 			{
-				$this->smtp_error();
-				return;
+				$this->smtp_error("Error on QUIT command from SMTP server");
 			}
 
-			//---------------------
-			// Tubby-bye-bye!
-			//---------------------
-
 			@fclose($this->smtp_fp);
+			return TRUE;
 		} else
 		{
-			$this->smtp_error();
+			$this->smtp_error("SMTP server did not respond with 220 code on connection");
+			@fclose($this->smtp_fp);
+			return FALSE;
 		}
 	}
 
 }
-
