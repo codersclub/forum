@@ -70,8 +70,8 @@ class emailer
 		// over-riden at any time.
 		//---------------------------------------------------------
 
-		$this->from      = $ibforums->vars['email_out'];
-		$this->temp_dump = $ibforums->vars['fake_mail'];
+		$this->from      = $ibforums->vars['email_out'] ?? null;
+		$this->temp_dump = $ibforums->vars['fake_mail'] ?? null;
 
 		//---------------------------------------------------------
 		// Set up SMTP if we're using it
@@ -88,8 +88,8 @@ class emailer
 				: 'localhost';
 			$this->smtp_user   = $ibforums->vars['smtp_user'];
 			$this->smtp_pass   = $ibforums->vars['smtp_pass'];
-			$this->smtp_secure = isset($ibforums->vars['smtp_secure']) 
-				? $ibforums->vars['smtp_secure'] 
+			$this->smtp_secure = isset($ibforums->vars['smtp_secure'])
+				? $ibforums->vars['smtp_secure']
 				: '';
 		}
 
@@ -323,8 +323,8 @@ class emailer
 		// Swop the words
 
 		$this->message = preg_replace_callback(
-		    "/<#(.+?)#>/", 
-		    function($m) use ($words) { return $words[$m[1]]; }, 
+		    "/<#(.+?)#>/",
+		    function($m) use ($words) { return $words[$m[1]]; },
 		    $this->message
 		);
 
@@ -358,7 +358,7 @@ class emailer
 		// Swap the words
 
 		$this->subject = preg_replace_callback("/<#(.+?)#>/",
-		    function($m) use ($subwords) { return $subwords[$m[1]];}, 
+		    function($m) use ($subwords) { return $subwords[$m[1]];},
 		    $this->subject
 		);
 
@@ -689,7 +689,7 @@ class emailer
 	{
 		// Build connection string with SSL/TLS support
 		$host_string = $this->smtp_host;
-		
+
 		// Add SSL/TLS prefix if needed
 		if ($this->smtp_secure == 'ssl')
 		{
@@ -699,7 +699,7 @@ class emailer
 		{
 			$host_string = 'tls://' . $this->smtp_host;
 		}
-		
+
 		// Connect with timeout
 		$this->smtp_fp = @fsockopen($host_string, intval($this->smtp_port), $errno, $errstr, 30);
 
@@ -820,7 +820,7 @@ class emailer
 			{
 				fputs($this->smtp_fp, $data . "\r\n.\r\n");
 				$this->smtp_get_line();
-				
+
 				if ($this->smtp_code != 250)
 				{
 					$this->smtp_error("Error sending message data to SMTP server");

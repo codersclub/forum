@@ -109,7 +109,7 @@ class Reputation
 		}
 
 		// enter reason
-		if (!$ibforums->input['process'])
+		if (!($ibforums->input['process'] ?? null))
 		{
 			$this->show_form(intval($ibforums->input['mid']));
 		} else
@@ -465,7 +465,7 @@ class Reputation
 
 				$stmt->closeCursor();
 
-				if (!$ibforums->input['st'])
+				if (!($ibforums->input['st'] ?? null))
 				{
 					$ibforums->input['st'] = 0;
 				}

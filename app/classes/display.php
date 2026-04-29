@@ -146,7 +146,7 @@ class display
 	{
 		global $Debug, $ibforums, $std;
 
-		if ($ibforums->input['show_cp_order_number'] == 1)
+		if (($ibforums->input['show_cp_order_number'] ?? null) == 1)
 		{
 			// Show the IPS Copyright Removal order number.
 			// Note, this is designed to allow IPS validate boards
@@ -267,7 +267,7 @@ class display
 		$extra = "";
 		$ur    = '(U)';
 
-		if ($ibforums->vars['ipb_reg_number'])
+		if ($ibforums->vars['ipb_reg_number'] ?? null)
 		{
 			$ur = '(R)';
 
@@ -296,7 +296,7 @@ class display
         $this->js->addLocal('prism.js');
         $this->js->addLocal('prism-bcb-cmake.js');
 
-		if ($output_array['JS'])
+		if ($output_array['JS'] ?? null)
 		{
 			$this->js->addLocal($output_array['JS']);
 		}
@@ -312,7 +312,7 @@ class display
 
 		$copyright = "<!-- Copyright Information -->\n\n<div align='center' class='copyright'>Powered by <a rel='nofollow' href=\"https://www.invisionboard.com\" target='_blank'>Invision Power Board</a>{$ur} {$ibforums->version} &copy; 2003 &nbsp;<a rel='nofollow' href='https://www.invisionpower.com' target='_blank'>IPS, Inc.</a></div>\n";
 
-		if ($ibforums->vars['ips_cp_purchase'])
+		if ($ibforums->vars['ips_cp_purchase'] ?? null)
 		{
 			$copyright = "";
 		}
@@ -329,7 +329,7 @@ class display
 		// Build the board header
 		$this->js->addLocal('global.js', true);
 		$this->js->addLocal('jqcd/jqcd.js');
-		
+
 		$this->add_js_variables();
 
 		$this->exportJSLang([
@@ -504,7 +504,7 @@ class display
 
 		$replace[] = "<% RSS %>";
 
-		if (!$output_array['RSS'])
+		if (!($output_array['RSS'] ?? null))
 		{
 			$output_array['RSS'] = View::make("global.rss");
 		}
@@ -520,7 +520,7 @@ class display
 		$change[]  = $this->to_print;
 
 		$replace[] = "<% STATS %>";
-		$change[]  = $stats;
+		$change[]  = ($stats ?? '');
 
 		$replace[] = "<% GENERATOR %>";
 		$change[]  = "";
@@ -541,7 +541,7 @@ class display
 		$change[]  = $this->bottomNav($output_array);
 
 		$replace[] = "<% MEMBER BAR %>";
-		$change[] = $output_array['MEMBER_BAR'] . $valid_warning;
+		$change[] = $output_array['MEMBER_BAR'] . ($valid_warning ?? '');
 
         //tags
         $tags = [
@@ -594,13 +594,13 @@ class display
 		$this->js->addVariable('base_url', Ibf::app()->base_url);
 		$this->js->addVariable('session_id', Ibf::app()->session->session_id);
 		$this->js->addVariable('max_attach_size', $ibforums->member['g_attach_max']);
-		$this->js->addVariable('st', $ibforums->input['st']);
+		$this->js->addVariable('st', $ibforums->input['st'] ?? null);
 		$this->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler']);
-		$this->js->addVariable('text_cancel', Ibf::app()->lang['js_cancel']);
-		$this->js->addVariable('upload_attach_too_big', Ibf::app()->lang['upload_to_big']);
-		$this->js->addVariable('js_base_url', Ibf::app()->vars['board_url'] . '/index.' . Ibf::app()->vars['php_ext'] . '?s=' . Ibf::app()->session->session_id . '&');	
+		$this->js->addVariable('text_cancel', Ibf::app()->lang['js_cancel'] ?? null);
+		$this->js->addVariable('upload_attach_too_big', Ibf::app()->lang['upload_to_big'] ?? null);
+		$this->js->addVariable('js_base_url', Ibf::app()->vars['board_url'] . '/index.' . Ibf::app()->vars['php_ext'] . '?s=' . Ibf::app()->session->session_id . '&');
 	}
-	
+
 	function prepare_output($template)
 	{
 		global $Debug, $std;
@@ -652,7 +652,7 @@ class display
 		// Stick in banner?
 		//+--------------------------------------------
 
-		if ($ibforums->vars['ipshosting_credit'])
+		if ($ibforums->vars['ipshosting_credit'] ?? null)
 		{
 			$replace[] = "<!--IBF.BANNER-->";
 			$change[]  = View::make("global.ibf_banner");
@@ -662,7 +662,7 @@ class display
 		// Stick in chat link?
 		//+--------------------------------------------
 
-		if ($ibforums->vars['chat_account_no'])
+		if ($ibforums->vars['chat_account_no'] ?? null)
 		{
 			$ibforums->vars['chat_height'] += 50;
 			$ibforums->vars['chat_width'] += 50;

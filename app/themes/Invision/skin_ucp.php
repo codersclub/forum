@@ -639,10 +639,10 @@ global $ibforums, $print;
         'js_max_length',
         'js_current',
       ]);
-  $print->js->addVariable('max_location_length', (int)$ibforums->vars['max_location_length']);
-  $print->js->addVariable('max_interest_length', (int)$ibforums->vars['max_interest_length']);
-  $print->js->addVariable('MessageMax', (int)$ibforums->lang['the_max_length']);
-  $print->js->addVariable('Override', $ibforums->lang['override']);
+  $print->js->addVariable('max_location_length', (int)($ibforums->vars['max_location_length'] ?? 0));
+  $print->js->addVariable('max_interest_length', (int)($ibforums->vars['max_interest_length'] ?? 0));
+  $print->js->addVariable('MessageMax', (int)($ibforums->lang['the_max_length'] ?? 0));
+  $print->js->addVariable('Override', $ibforums->lang['override'] ?? null);
   $print->js->addLocal('usercp.js');
 return <<<EOF
 
@@ -909,11 +909,14 @@ EOF;
 
 function boardlay_between($data,$checkbox = "") {
 global $ibforums;
+
+$sub = $data['sub'] ?? null;
+
 return <<<EOF
 
 <tr>
  <td class='{$data['css']}'>{$checkbox}</td>
- <td class='{$data['css']}'>{$data['sub']}{$data['name']}</td>
+ <td class='{$data['css']}'>{$sub}{$data['name']}</td>
 </tr>
 
 EOF;
@@ -1092,6 +1095,10 @@ EOF;
 
 function email($Profile) {
 global $ibforums;
+
+$allowAdminEmails = $Profile['allow_admin_mails'] ?? null;
+$autoTrack = $Profile['auto_track'] ?? null;
+
 return <<<EOF
 
 <form action="{$ibforums->base_url}auth_key={$Profile['key']}" method="post">
@@ -1105,7 +1112,7 @@ return <<<EOF
   <td align='left' width='100%'>{$ibforums->lang['hide_email']}</td>
 </tr>
 <tr>
-  <td align='right' valign='top'><input type='checkbox' name='admin_send' value='1' {$Profile['allow_admin_mails']}></td>
+  <td align='right' valign='top'><input type='checkbox' name='admin_send' value='1' {$allowAdminEmails}></td>
   <td align='left'  width='100%'>{$ibforums->lang['admin_send']}</td>
 </tr>
 </table>
@@ -1122,7 +1129,7 @@ return <<<EOF
   <td align='left'  width='100%'>{$ibforums->lang['pm_reminder']}</td>
 </tr>
 <tr>
-  <td align='right' valign='top'><input type='checkbox' name='auto_track' value='1' {$Profile['auto_track']}></td>
+  <td align='right' valign='top'><input type='checkbox' name='auto_track' value='1' {$autoTrack}></td>
   <td align='left'  width='100%'>{$ibforums->lang['auto_track']}</td>
 </tr>
 </table>

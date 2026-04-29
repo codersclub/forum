@@ -267,6 +267,9 @@ EOF;
 
 function inbox_table_header($dirname, $info, $vdi_html="", $pages="") {
 global $ibforums;
+
+$st = $ibforums->input['st'] ?? null;
+
 return <<<EOF
 
 <h3>$dirname</h3>
@@ -301,9 +304,9 @@ return <<<EOF
   <thead>
   <tr class="b-header-row">
 	<th width='5%'  class='b-column_icon'>&nbsp;</th>
-	<th width='35%' class='b-column_title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_title']}</b></a></th>
-	<th width='30%' class='b-column_sender'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_from']}</b></a></th>
-	<th width='25%' class='b-column_date'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$ibforums->input['st']}'><b>{$ibforums->lang['message_date']}</b></a></th>
+	<th width='35%' class='b-column_title'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=title&amp;st={$st}'><b>{$ibforums->lang['message_title']}</b></a></th>
+	<th width='30%' class='b-column_sender'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort=name&amp;st={$st}'><b>{$ibforums->lang['message_from']}</b></a></th>
+	<th width='25%' class='b-column_date'><a href='{$ibforums->base_url}act=Msg&amp;CODE=01&amp;VID={$info['vid']}&amp;sort={$info['date_order']}&amp;st={$st}'><b>{$ibforums->lang['message_date']}</b></a></th>
 	<th width='5%'  class='b-column_checkbox'><input name="allbox" type="checkbox" value="Check All"></th>
   </tr>
   </thead>

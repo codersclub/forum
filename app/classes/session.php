@@ -352,8 +352,7 @@ class session
 			// we have some in the member profile
 			//-------------------------------------------------
 
-			if (!$ibforums->input['last_activity'])
-			{
+			if (!($ibforums->input['last_activity'] ?? null))			{
 				if ($this->member['last_activity'])
 				{
 					$ibforums->input['last_activity'] = $this->member['last_activity'];
@@ -363,7 +362,7 @@ class session
 				}
 			}
 
-			if (!$ibforums->input['last_visit'])
+			if (!($ibforums->input['last_visit'] ?? null))
 			{
 				if ($this->member['last_visit'])
 				{

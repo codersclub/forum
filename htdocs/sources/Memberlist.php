@@ -147,7 +147,7 @@ class Memberlist
 		// Fix up the search box
 		//------------------------------------------
 
-		$ibforums->input['name'] = $std->clean_value(trim(urldecode(stripslashes($ibforums->input['name']))));
+		$ibforums->input['name'] = $std->clean_value(trim(urldecode(stripslashes($ibforums->input['name'] ?? ''))));
 
 		if (!$ibforums->input['name'])
 		{
@@ -296,7 +296,8 @@ class Memberlist
 			}
 		}
 
-		if ($ibforums->input['photoonly'])
+        $photoOnly = $ibforums->input['photoonly'] ?? null;
+		if ($photoOnly)
 		{
 			$stmt = $ibforums->db->query("SELECT COUNT(m.id) as total_members
 			    FROM ibf_members m
@@ -312,13 +313,14 @@ class Memberlist
 
 		$max = $stmt->fetch();
 
+
 		$links = $std->build_pagelinks(array(
 		                                    'TOTAL_POSS' => $max['total_members'],
 		                                    'PER_PAGE'   => $this->max_results,
 		                                    'CUR_ST_VAL' => $this->first,
 		                                    'L_SINGLE'   => "",
 		                                    'L_MULTI'    => $ibforums->lang['pages'],
-		                                    'BASE_URL'   => $this->base_url . "&amp;act=Members&amp;photoonly={$ibforums->input['photoonly']}&amp;name=" . urlencode($ibforums->input['name']) . "&amp;name_box={$ibforums->input['name_box']}&amp;max_results={$this->max_results}&amp;filter={$this->filter}&amp;sort_order={$this->sort_order}&amp;sort_key={$this->sort_key}"
+		                                    'BASE_URL'   => $this->base_url . "&amp;act=Members&amp;photoonly={$photoOnly}&amp;name=" . urlencode($ibforums->input['name']) . "&amp;name_box={$ibforums->input['name_box']}&amp;max_results={$this->max_results}&amp;filter={$this->filter}&amp;sort_order={$this->sort_order}&amp;sort_key={$this->sort_key}"
 		                               ));
 
 		$this->output = View::make("mlist.start");
@@ -365,6 +367,7 @@ class Memberlist
 				$member['gicon'] = "<img src='{$ibforums->vars['TEAM_ICON_URL']}/{$this->mem_groups[ $member['mgroup'] ]['ICON']}'> ";
 			}
 
+            $member['pips'] ??= '';
 			if ($pips)
 			{
 				if (preg_match("/^\d+$/", $pips))
@@ -441,7 +444,7 @@ class Memberlist
 			$this->output .= View::make("mlist.show_row", ['member' => $member]);
 		}
 
-		$checked = $ibforums->input['photoonly'] == 1
+		$checked = ($ibforums->input['photoonly'] ?? null) == 1
 			? 'checked="checked"'
 			: "";
 

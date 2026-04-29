@@ -65,7 +65,7 @@ class Boards {
 		if (!$ibf->member['id'])
 			$ibf->input['last_visit'] = time();
 
-		$show_all_link = ( $ibf->member['id'] and !$ibf->input['show'] )
+		$show_all_link = ( $ibf->member['id'] and !($ibf->input['show'] ?? null) )
 			? View::make("boards.ShowAllLink")
 			: "";
 
@@ -98,10 +98,11 @@ class Boards {
 
 
 
-		if ($ibf->input['c'])
-			$ibf->input['c'] = intval($ibf->input['c']);
+		if ($ibf->input['c'] ?? null) {
+            $ibf->input['c'] = (int) $ibf->input['c'];
+        }
 
-		$cat = ( $ibf->input['c'] )
+		$cat = ( $ibf->input['c'] ?? null )
 			? " and c.id=:cat"
 			: "";
 
@@ -126,7 +127,7 @@ class Boards {
 		    WHERE c.id=f.category
 			{$cat}
 		    ORDER BY c.position,f.position");
-		if ($ibf->input['c']){
+		if ($ibf->input['c'] ?? null){
 			$stmt->bindParam(':cat', $ibf->input['c']);
 		}
 		$stmt->execute();
@@ -138,7 +139,7 @@ class Boards {
 			if ($last_c_id != $r['cat_id'])
 			{
 				// state visibility of cat
-				$visible = $cats_visibility[$r['cat_id']];
+				$visible = $cats_visibility[$r['cat_id']] ?? null;
 
 				if (!isset($visible))
 					$visible = 1;
@@ -148,7 +149,7 @@ class Boards {
 					'position'	=> $r['cat_position'],
 					'state'		=> $r['cat_state'],
 					'name'		=> $r['cat_name'],
-					'icon'		=> $r['cat_icon'],
+					'icon'		=> $r['cat_icon'] ?? null,
 					'description'	=> $r['cat_desc'],
 					'image'		=> $r['image'],
 					'url'		=> $r['url'],
@@ -158,7 +159,7 @@ class Boards {
 			}
 
 			// state visibility of forum
-			$visible = $forums_visibility[$r['id']];
+			$visible = $forums_visibility[$r['id']] ?? null;
 			if (!isset($visible))
 				$visible = 1;
 			if (!$ibf->member['id'])
@@ -188,7 +189,7 @@ class Boards {
 		// What are we doing?
 		//-----------------------------------
 
-		if ($ibf->input['c'])
+		if ($ibf->input['c'] ?? null)
 		{
 			$this->show_single_cat();
 
@@ -247,7 +248,8 @@ class Boards {
 
 				$friends = array();
 
-				if ($ibf->member['id'])
+                $memberId = $ibf->member['id'] ?? null;
+				if ($memberId)
 				{
 					$stmt = $ibf->db->prepare("SELECT contact_id
 					    FROM ibf_contacts
@@ -255,7 +257,7 @@ class Boards {
 							member_id = :member_id
 						AND
 							show_online = :online")
-						->bindParam(':member_id', $ibf->member['id'])
+						->bindParam(':member_id', $memberId)
 						->bindValue(':online', 1)
 						->execute();
 
@@ -730,8 +732,9 @@ class Boards {
 
 		$cp = " (Powered by Invision Power Board)";
 
-		if ($ibf->vars['ips_cp_purchase'])
-			$cp = "";
+		if ($ibf->vars['ips_cp_purchase'] ?? null) {
+            $cp = "";
+        }
 
 		$rss = ( $cat )
 			? View::make("global.rss", ['param' => "?c=" . $ibf->input['c']])
@@ -810,8 +813,8 @@ class Boards {
 			// if category is hidden
 			if ($cat_data['state'] != 1 or
 				!(!$ibforums->member['id'] or
-				$this->cs[$cat_data['id']] == 1 or
-				$this->cs[$cat_data['id']] == "" or
+                ($this->cs[$cat_data['id']] ?? null) == 1 or
+                ($this->cs[$cat_data['id']] ?? null) == "" or
 				$ibforums->input['show']
 				)
 			)
@@ -1359,7 +1362,7 @@ class Boards {
 				return "";
 		} else
 		{
-			if ($ibforums->member['id'] and !$ibforums->input['show'])
+			if ($ibforums->member['id'] and !($ibforums->input['show'] ?? null))
 			{
 				if (isset($this->fs[$forum_data['id']]) and $this->fs[$forum_data['id']] == 0)
 				{

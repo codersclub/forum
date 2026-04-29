@@ -1751,7 +1751,7 @@ class functions
 
 		$rtime = $forum_data['last_post'];
 
-		$fid = $forum_data['fid'] == ""
+		$fid = ($forum_data['fid'] ?? null) == ""
 			? $forum_data['id']
 			: $forum_data['fid'];
 
@@ -1975,7 +1975,7 @@ class functions
 
 		$work = array();
 
-		$section = ($data['leave_out'] == "")
+		$section = (($data['leave_out'] ?? null) == "")
 			? 2
 			: $data['leave_out']; // Number of pages to show per section( either side of current), IE: 1 ... 4 5 [6] 7 8 ... 10
 
@@ -2201,7 +2201,7 @@ EOF;
 
 				foreach ($forum_keys[$cat_id] as $idx => $forum_text)
 				{
-					if ($subwrap[$idx] != 1)
+					if (($subwrap[$idx] ?? null) != 1)
 					{
 						$the_html .= $forum_text;
 					} else
@@ -2394,7 +2394,7 @@ EOF;
 
 				foreach ($forum_keys[$cat_id] as $idx => $forum_text)
 				{
-					if ($subwrap[$idx] != 1)
+					if (($subwrap[$idx] ?? null) != 1)
 					{
 						$the_html .= $forum_text;
 					} else
@@ -3062,7 +3062,7 @@ EOF;
 			exit();
 		}
 
-		if ($error['INIT'] == 1)
+		if (($error['INIT'] ?? null) == 1)
 		{
 			$ibforums->skin = Skins\Factory::createDefaultSkin();
 
@@ -3100,7 +3100,7 @@ EOF;
 			$msg = $ibforums->lang['missing_files'];
 		}
 
-		if (!$error['EXTRA'])
+		if (!($error['EXTRA'] ?? null))
 		{
 			$error['EXTRA'] = "";
 		}
@@ -3117,7 +3117,7 @@ EOF;
 		//b) searching bots engines
 		//c) plugins
 
-		if ($ibforums->vars['plg_catch_err'])
+		if ($ibforums->vars['plg_catch_err'] ?? null)
 		{
 			$ibforums->vars['plg_catch_err']->Error($msg);
 		}

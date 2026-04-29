@@ -88,7 +88,7 @@ class Forums
 		//+------------------------------------------
 		$ibforums->input['view'] = ($ibforums->member['show_new'] and $ibforums->input['view'] != "all")
 			? "new"
-			: $ibforums->input['view'];
+			: ($ibforums->input['view'] ?? null);
 
 		switch ($ibforums->input['f'])
 		{
@@ -116,7 +116,7 @@ class Forums
 		$ibforums->input['f'] = intval($ibforums->input['f']);
 
 		// parent forum id
-		$pid = intval($ibforums->input['pid']);
+		$pid = intval($ibforums->input['pid'] ?? 0);
 
 		// for filter mode
 		if ($ibforums->member['show_filter'])
@@ -786,7 +786,7 @@ class Forums
 		// are we checking for user authentication via the log in form
 		// for a private forum w/password protection?
 
-		Ibf::app()->input['L'] == 1
+        (Ibf::app()->input['L'] ?? null) == 1
 			? $this->authenticate_user()
 			: $this->render_forum();
 	}
@@ -823,27 +823,27 @@ class Forums
 		}
 
 		$prune_value = $ibforums->functions->select_var(array(
-		                                                     1 => $ibforums->input['prune_day'],
-		                                                     2 => $this->forum['prune'],
-		                                                     3 => '100'
-		                                                ));
+             1 => $ibforums->input['prune_day'] ?? null,
+             2 => $this->forum['prune'] ?? null,
+             3 => '100'
+        ));
 
 		$sort_key = $ibforums->functions->select_var(array(
-		                                                  1 => $ibforums->input['sort_key'],
-		                                                  2 => $this->forum['sort_key'],
-		                                                  3 => 'last_post'
-		                                             ));
+            1 => $ibforums->input['sort_key'] ?? null,
+            2 => $this->forum['sort_key'] ?? null,
+            3 => 'last_post'
+        ));
 
 		$sort_by = $ibforums->functions->select_var(array(
-		                                                 1 => $ibforums->input['sort_by'],
-		                                                 2 => $this->forum['sort_order'],
-		                                                 3 => 'Z-A'
-		                                            ));
+            1 => $ibforums->input['sort_by'] ?? null,
+            2 => $this->forum['sort_order'] ?? null,
+            3 => 'Z-A'
+        ));
 
 		$First = $ibforums->functions->select_var(array(
-		                                               1 => intval($ibforums->input['st']),
-		                                               2 => 0
-		                                          ));
+            1 => intval($ibforums->input['st'] ?? 0),
+            2 => 0
+        ));
 
 		// Figure out sort order, day cut off, etc
 
@@ -907,20 +907,21 @@ class Forums
 		//+----------------------------------------------------------------
 
 		$this->forum['SHOW_PAGES'] = $ibforums->functions->build_pagelinks(array(
-		                                                                        'TOTAL_POSS' => $total_possible['max'],
-		                                                                        'PER_PAGE'   => $ibforums->vars['display_max_topics'],
-		                                                                        'CUR_ST_VAL' => $ibforums->input['st'],
-		                                                                        'L_SINGLE'   => $ibforums->lang['single_page_forum'],
-		                                                                        'BASE_URL'   => $this->base_url . "showforum=" . $this->forum['id'] . "&amp;view={$ibforums->input['view']}&amp;prune_day=$prune_value&amp;sort_by=$sort_by&amp;sort_key=$sort_key",
-		                                                                   ));
+            'TOTAL_POSS' => $total_possible['max'] ?? null,
+            'PER_PAGE'   => $ibforums->vars['display_max_topics'] ?? null,
+            'CUR_ST_VAL' => $ibforums->input['st'] ?? null,
+            'L_SINGLE'   => $ibforums->lang['single_page_forum'] ?? null,
+            'BASE_URL'   => $this->base_url . "showforum=" . $this->forum['id'] . "&amp;view={$ibforums->input['view']}&amp;prune_day=$prune_value&amp;sort_by=$sort_by&amp;sort_key=$sort_key",
+        ));
 		if ($ibforums->member['id'])
 		{
+            $st = $ibforums->input['st'] ?? null;
 			if ($ibforums->input['view'] == 'new')
 			{
-				$this->forum['show_all_topics'] = " (<a href='{$this->base_url}showforum={$this->forum['id']}&amp;view=all&amp;prune_day=$prune_value&amp;sort_by=$sort_by&amp;sort_key=$sort_key&amp;st={$ibforums->input['st']}'>{$ibforums->lang['show_all_topics']}</a>)";
+				$this->forum['show_all_topics'] = " (<a href='{$this->base_url}showforum={$this->forum['id']}&amp;view=all&amp;prune_day=$prune_value&amp;sort_by=$sort_by&amp;sort_key=$sort_key&amp;st={$st}'>{$ibforums->lang['show_all_topics']}</a>)";
 			} else
 			{
-				$this->forum['show_all_topics'] = " (<a href='{$this->base_url}showforum={$this->forum['id']}&amp;view=new&amp;prune_day=$prune_value&amp;sort_by=$sort_by&amp;sort_key=$sort_key&amp;st={$ibforums->input['st']}'>{$ibforums->lang['show_only_new']}</a>)";
+				$this->forum['show_all_topics'] = " (<a href='{$this->base_url}showforum={$this->forum['id']}&amp;view=new&amp;prune_day=$prune_value&amp;sort_by=$sort_by&amp;sort_key=$sort_key&amp;st={$st}'>{$ibforums->lang['show_only_new']}</a>)";
 			}
 		}
 

@@ -54,7 +54,7 @@ abstract class AuthBasic
 
 		if (!$type)
 		{
-			$type = $ibforums->input["auth_method"];
+			$type = $ibforums->input["auth_method"] ?? null;
 		}
 
 		if (!$type)
