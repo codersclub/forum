@@ -4,6 +4,7 @@
     "require": {
         "php": "^7.4",
         "ext-pdo": "*",
+        "ext-mbstring": "*",
         "ext-pdo_mysql": "*",
         "openid/php-openid": "dev-master",
         "filp/whoops": "1.1.*@stable",
