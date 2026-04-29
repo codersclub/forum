@@ -291,6 +291,7 @@ class ad_settings
 				                        'mail_method',
 				                        'smtp_host',
 				                        'smtp_port',
+				                        'smtp_secure',
 				                        'smtp_user',
 				                        'smtp_pass'
 				                   ));
@@ -2180,6 +2181,18 @@ class ad_settings
 		$ADMIN->html .= $SKIN->add_td_row(array(
 		                                       "<b>Over-ride SMTP Port?</b><br>Default is 25",
 		                                       $SKIN->form_input("smtp_port", $INFO['smtp_port'])
+		                                  ));
+
+		$ADMIN->html .= $SKIN->add_td_row(array(
+		                                       "<b>SMTP Security</b><br>Use SSL or TLS if your SMTP server requires encrypted connection",
+		                                       $SKIN->form_dropdown("smtp_secure", array(
+		                                                                                0 => array(
+			                                                                                '',
+			                                                                                'None'
+		                                                                                ),
+		                                                                                1 => array('ssl', 'SSL'),
+		                                                                                2 => array('tls', 'TLS'),
+		                                                                           ), $INFO['smtp_secure'])
 		                                  ));
 
 		$ADMIN->html .= $SKIN->add_td_row(array(
