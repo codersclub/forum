@@ -7,7 +7,7 @@
         "ext-mbstring": "*",
         "ext-pdo_mysql": "*",
         "openid/php-openid": "dev-master",
-        "filp/whoops": "1.1.*@stable",
+        "filp/whoops": "^1.1",
         "serafim/asset": "0.*",
         "monolog/monolog": "1.10.0",
         "leafo/scssphp": "0.0.12"

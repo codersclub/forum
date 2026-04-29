@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ae74ab5220d7422c550954bb31b2f0c",
+    "content-hash": "61ccbcafa80862431b98899bfa662037",
     "packages": [
         {
             "name": "filp/whoops",
@@ -1754,7 +1754,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.36.0",
+            "version": "v1.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -1813,7 +1813,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.36.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.37.0"
             },
             "funding": [
                 {
@@ -1968,12 +1968,16 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "filp/whoops": 0,
         "openid/php-openid": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {},
+    "platform": {
+        "php": "^7.4",
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-pdo_mysql": "*"
+    },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
 }
