@@ -100,7 +100,7 @@ class Messenger
 		// Do we have VID?
 		// No, it's just the way we walk! Haha, etc.
 
-		if ($ibforums->input['VID'])
+		if ($ibforums->input['VID'] ?? null)
 		{
 			$this->vid = $ibforums->input['VID'];
 		}
@@ -1018,7 +1018,7 @@ class Messenger
 
 		$name_to_enter = "";
 
-		if ($ibforums->input['MID'])
+		if ($ibforums->input['MID'] ?? null)
 		{
 			if (preg_match("/^(\d+)$/", $ibforums->input['MID']))
 			{
@@ -1518,7 +1518,7 @@ class Messenger
 
 		$this->parser = new PostParser(1);
 
-		if ($ibforums->input['MODE'])
+		if ($ibforums->input['MODE'] ?? null)
 		{
 			$this->pm_flood_begin();
 			$this->send_msg();
@@ -1644,7 +1644,7 @@ class Messenger
 					'MEMBER'   => $this->member,
 					'N_ENTER'  => $name_to_enter,
 					'O_TITLE'  => $old_title,
-					'OID'      => $ibforums->input['OID'],
+					'OID'      => $ibforums->input['OID'] ?? null,
 					// Old unsent msg id for restoring saved msg - used to delete saved when sent
 				)
 			]
@@ -1681,7 +1681,7 @@ class Messenger
 			}
 
 			$this->output = str_replace("<!--IBF.MASS_PM_BOX-->",
-				View::make("msg.mass_pm_box", ['names' => $cc_box]), $this->output);
+				View::make("msg.mass_pm_box", ['names' => $cc_box ?? null]), $this->output);
 		}
 	}
 
@@ -2291,7 +2291,7 @@ class Messenger
 
 		$sort_key = "";
 
-		switch ($ibforums->input['sort'])
+		switch ($ibforums->input['sort'] ?? null)
 		{
 			case 'rdate':
 				$sort_key = 'm.msg_date ASC';
@@ -2389,10 +2389,10 @@ class Messenger
 		// Generate Pagination
 		//---------------------------------------------
 
-		$start = intval($ibforums->input['st']) > 0
+		$start = intval($ibforums->input['st'] ?? 0) > 0
 			? intval($ibforums->input['st'])
 			: 0;
-		$p_end = $ibforums->vars['show_max_msg_list'] > 0
+		$p_end = ($ibforums->vars['show_max_msg_list'] ?? null) > 0
 			? $ibforums->vars['show_max_msg_list']
 			: 50;
 
@@ -2402,7 +2402,9 @@ class Messenger
 		                                    'CUR_ST_VAL' => $start,
 		                                    'L_SINGLE'   => "",
 		                                    'L_MULTI'    => $ibforums->lang['msg_pages'],
-		                                    'BASE_URL'   => $this->base_url . "act=Msg&amp;CODE=1&amp;VID=" . $this->vid . "&amp;sort=" . $ibforums->input['sort'],
+		                                    'BASE_URL'   => $this->base_url . "act=Msg&amp;CODE=1&amp;VID="
+                                                . $this->vid . "&amp;sort="
+                                                . ($ibforums->input['sort'] ?? null),
 		                               ));
 
 		//---------------------------------------------

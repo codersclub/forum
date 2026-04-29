@@ -393,6 +393,7 @@ class store
 			$this->temp_output = View::make("store.nocharges");
 		}
 
+        $value = [];
 		while ($charges = $stmt->fetch())
 		{
 
@@ -411,9 +412,7 @@ class store
 		}
 
 		// More number formating!
-		$value['total_value'] = $value['total_value']
-			? $value['total_value']
-			: 0;
+		$value['total_value'] ??= 0;
 		$value['total_value'] = $std->do_number_format($value['total_value']);
 
 		// In order to cut down on a query we add them all in a odd way, dont complain it cuts down on a query
@@ -1050,6 +1049,7 @@ class store
 	function compile_links()
 	{
 		global $ibforums;
+        $link = ['stat' => '', 'shop' => '', 'points' => ''];
 		// Make all categorys
 		$stmt = $ibforums->db->query("SELECT * FROM ibf_store_category WHERE catid>'0' ORDER BY catid DESC");
 		if ($ibforums->vars['show_shopcat'])

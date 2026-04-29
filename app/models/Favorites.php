@@ -148,9 +148,10 @@ class Favorites
 	 */
 	public function getTopicIds(){
 		// Get Favs from ibf_favorites
+        $ownerId = $this->owner['id'];
 		$stmt = Ibf::app()->db
 			->prepare("SELECT tid FROM ibf_favorites WHERE mid=:mid")
-			->bindParam(':mid', $this->owner['id'])
+			->bindParam(':mid', $ownerId)
 			->execute();
 		//something like fetchAllColumn
 		$f = [];

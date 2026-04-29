@@ -469,10 +469,10 @@ global $print;
             'text_enter_image',
             'text_enter_spoiler',
         ]);
-    $print->js->addVariable('prompt_start', Ibf::app()->lang['js_to_format']);
-    $print->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler']);
-    $print->js->addVariable('MessageMax', max(0, (int)Ibf::app()->lang['the_max_length']));
-    $print->js->addVariable('Override', Ibf::app()->lang['override']);
+    $print->js->addVariable('prompt_start', Ibf::app()->lang['js_to_format'] ?? null);
+    $print->js->addVariable('text_spoiler_hidden_text', Ibf::app()->lang['spoiler'] ?? null);
+    $print->js->addVariable('MessageMax', max(0, (int)(Ibf::app()->lang['the_max_length'] ?? 0)));
+    $print->js->addVariable('Override', Ibf::app()->lang['override'] ?? null);
     $print->js->addLocal('keyb.js');
     $print->js->addLocal('topics.js');
     $print->js->addLocal('video.js');

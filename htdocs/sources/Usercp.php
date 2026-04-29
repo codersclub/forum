@@ -119,10 +119,10 @@ class UserCP
 
 		$this->member = $stmt->fetch();
 
-		$this->bio   = $this->member['bio'];
-		$this->links = $this->member['links'];
-		$this->notes = $this->member['notes'];
-		$this->size  = $this->member['ta_size']
+		$this->bio   = $this->member['bio'] ?? null;
+		$this->links = $this->member['links'] ?? null;
+		$this->notes = $this->member['notes'] ?? null;
+		$this->size  = ($this->member['ta_size'] ?? null)
 			? $this->member['ta_size']
 			: $this->size;
 
@@ -341,7 +341,7 @@ class UserCP
 
 		$this->output .= View::make("ucp.CP_end");
 
-		$this->output .= View::make("ucp.forum_jump", ['data' => $fj, 'menu_extra' => $links]);
+		$this->output .= View::make("ucp.forum_jump", ['data' => $fj, 'menu_extra' => $links ?? null]);
 
 		$print->add_output("$this->output");
 		$print->do_output(array('TITLE' => $this->page_title, 'NAV' => $this->nav));
@@ -377,7 +377,9 @@ class UserCP
 
 		$ibforums->lang['pph_max'] = sprintf($ibforums->lang['pph_max'], $p_max, $p_width, $p_height);
 
-		list($p_w, $p_h) = explode(",", $this->member['photo_dimensions']);
+		$photoDimensions = explode(",", $this->member['photo_dimensions']);
+        $p_w = $photoDimensions[0] ?? '';
+        $p_h = $photoDimensions[1] ?? '';
 
 		$cur_photo = $ibforums->lang['pph_none'];
 		$cur_type  = "";
@@ -722,7 +724,7 @@ class UserCP
 			$ibforums->db->insertRow("ibf_reg_antispam", $data);
 		}
 
-		$this->output .= View::make("ucp.email_change", ['txt' => $txt, 'msg' => $ibforums->lang[$msg]]);
+		$this->output .= View::make("ucp.email_change", ['txt' => $txt, 'msg' => $ibforums->lang[$msg] ?? null]);
 
 		if ($ibforums->vars['bot_antispam'])
 		{
@@ -992,7 +994,7 @@ class UserCP
 			$ibforums->db->insertRow("ibf_reg_antispam", $data);
 		}
 
-		$this->output .= View::make("ucp.openid_change", ['txt' => $txt, 'msg' => $ibforums->lang[$msg]]);
+		$this->output .= View::make("ucp.openid_change", ['txt' => $txt, 'msg' => $ibforums->lang[$msg] ?? null]);
 
 		if ($ibforums->vars['bot_antispam'])
 		{
@@ -1166,7 +1168,7 @@ class UserCP
 		// Do we have an incoming date cut?
 		//----------------------------------------------------------
 
-		$date_cut = intval($ibforums->input['datecut']) != ""
+		$date_cut = intval($ibforums->input['datecut'] ?? null) != ""
 			? intval($ibforums->input['datecut'])
 			: 30;
 
@@ -2117,7 +2119,9 @@ class UserCP
 		// Organise the dimensions
 		//------------------------------------------
 
-		list($this->member['AVATAR_WIDTH'], $this->member['AVATAR_HEIGHT']) = explode("x", $this->member['avatar_size']);
+		$avatarSize = explode("x", $this->member['avatar_size']);
+        $this->member['AVATAR_WIDTH'] = $avatarSize[0] ?? 0;
+        $this->member['AVATAR_HEIGHT'] = $avatarSize[1] ?? 0;
 		list($ibforums->vars['av_width'], $ibforums->vars['av_height']) = explode("x", $ibforums->vars['avatar_dims']);
 		list($w, $h) = explode("x", $ibforums->vars['avatar_def']);
 
@@ -2150,7 +2154,7 @@ class UserCP
 			{
 				if ($file != "." && $file != "..")
 				{
-					if ($file == $av_cat_selected)
+					if ($file == ($av_cat_selected ?? null))
 					{
 						$av_cat_found = TRUE;
 					}
@@ -2471,7 +2475,7 @@ class UserCP
 
 					if ($ov != "" and $td != "")
 					{
-						$d_content .= ($field_data[$row['fid']] == $ov)
+						$d_content .= (($field_data[$row['fid']] ?? null) == $ov)
 							? "<option value='$ov' selected>$td</option>\n"
 							: "<option value='$ov'>$td</option>\n";
 					}
@@ -2489,13 +2493,13 @@ class UserCP
 				{
 					$form_element = View::make(
 						"ucp.field_textarea",
-						['name' => 'field_' . $row['fid'], 'value' => $field_data[$row['fid']]]
+						['name' => 'field_' . $row['fid'], 'value' => $field_data[$row['fid']] ?? null]
 					);
 				} else
 				{
 					$form_element = View::make(
 						"ucp.field_textinput",
-						['name' => 'field_' . $row['fid'], 'value' => $field_data[$row['fid']]]
+						['name' => 'field_' . $row['fid'], 'value' => $field_data[$row['fid']] ?? null]
 					);
 				}
 			}
@@ -2900,6 +2904,7 @@ class UserCP
 		$last_cat_id = -1;
 
 		$this->output .= View::make("ucp.boardlay_start");
+        $temp_html = '';
 
 		foreach ($cats as $c)
 		{
@@ -2936,7 +2941,7 @@ class UserCP
 			if ($temp_html)
 			{
 				$c['qid'] = "c,";
-				$c['sh']  = ($cs[$c['id']] or !count($cs))
+				$c['sh']  = (($cs[$c['id']] ?? null) or !count($cs))
 					? "checked='checked'"
 					: "";
 

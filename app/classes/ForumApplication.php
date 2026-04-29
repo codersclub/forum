@@ -62,7 +62,7 @@ class ForumApplication extends CoreApplication
 		//	Short tags...
 		//--------------------------------
 		// If Show Topic selected
-		if ($data['showtopic'])
+		if ($data['showtopic'] ?? null)
 		{
 			$data['act'] = "ST";
 			$data['t']   = intval($data['showtopic']);
@@ -113,11 +113,11 @@ class ForumApplication extends CoreApplication
 			$data['f']         = $this->topic_cache['forum_id'];
 		} else
 		{
-			if ($data['showforum'])
+			if ($data['showforum'] ?? null)
 			{
 				$data['act'] = "SF";
 				$data['f']   = intval($data['showforum']);
-			} elseif ($data['showuser'])
+			} elseif ($data['showuser'] ?? null)
 			{
 				$data['act'] = "Profile";
 				$data['MID'] = intval($data['showuser']);
@@ -229,7 +229,7 @@ class ForumApplication extends CoreApplication
         // Setting the skin?
         //-------------------------------------------
 
-        if (($this->input['setskin']) and ($this->member['id']))
+        if (($this->input['setskin'] ?? null) and ($this->member['id'] ?? null))
         {
             $this->db->prepare("UPDATE ibf_members SET skin=:sid WHERE id=:id")
                 ->execute(

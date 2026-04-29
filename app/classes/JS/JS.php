@@ -69,7 +69,7 @@ class JS
             ? $this->renderConfig()
             : '';
 
-        return $pre . implode('', (array)$this->raw[$what]);
+        return $pre . implode('', (array)($this->raw[$what] ?? []));
     }
 
     protected function renderConfig()

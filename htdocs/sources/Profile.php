@@ -156,7 +156,7 @@ class Profile
 			                 'MSG'   => 'incorrect_use'
 			            ));
 		}
-		
+
 		$stmt = $ibforums->db->query (
 		    "SELECT m.*, s.id as s_id, g.g_id, g.g_title AS group_title
             FROM (ibf_members m, ibf_groups g )
@@ -165,7 +165,7 @@ class Profile
 	        WHERE m.id='$id'
 	          AND m.mgroup=g.g_id"
         );
-		
+
 		$member = $stmt->fetch ();
 
 		if (empty($member['id']))
@@ -183,9 +183,9 @@ class Profile
 		//--------------------------------------------
 
 		if ($ibforums->vars['search_sql_method'] == 'sphinx') {
-			$sql = "SELECT forum_id, _sph_count as counter, f.name AS forum_name, f.inc_postcount 
-					FROM ibf_sph_search_posts t1 
-					INNER JOIN ibf_forums f ON (t1.forum_id = f.id) 
+			$sql = "SELECT forum_id, _sph_count as counter, f.name AS forum_name, f.inc_postcount
+					FROM ibf_sph_search_posts t1
+					INNER JOIN ibf_forums f ON (t1.forum_id = f.id)
 					WHERE t1.query='filter=author_id,$id;limit=10000;groupby=attr:forum_id;groupsort=@count desc;mode=extended'";
 		} else {
 			$sql = "SELECT
@@ -204,7 +204,7 @@ class Profile
 				GROUP BY p.forum_id
 				ORDER BY counter DESC";
 		}
-	
+
 		$stmt = $ibforums->db->query($sql);
 
 		/*-----------------------------
@@ -447,9 +447,10 @@ class Profile
     		WHERE m.id=$id"
         );
 
-		$this->photo_member = $stmt->fetch();
+		$this->photo_member = ($stmt->fetch() ?: []);
 
-		if ($this->photo_member['photo_type'] and $this->photo_member['photo_location'])
+		if (($this->photo_member['photo_type'] ?? null)
+            and ($this->photo_member['photo_location'] ?? null))
 		{
 			$this->has_photo = TRUE;
 
@@ -517,7 +518,7 @@ class Profile
 			}
 
 		} else {
-			$member[$rep] .= " " . $ibforums->vars['rep_postfix'];
+			$member[$rep] .= " " . ($ibforums->vars['rep_postfix'] ?? null);
 		}
 
 		$info[$rep] = $member[$rep];
@@ -604,10 +605,10 @@ class Profile
 		$percent = 0;
 
 		$stmt = \Ibf::app()->db->query(
-				'SELECT forum_id, f.name, _sph_count as f_posts 
+				'SELECT forum_id, f.name, _sph_count as f_posts
 				FROM ibf_sph_search_posts t1
 				INNER JOIN ibf_forums f
-				   ON (t1.forum_id = f.id) 
+				   ON (t1.forum_id = f.id)
 				WHERE t1.query=\'filter=forum_id,' . $forum_id_str .';filter=author_id,'.$member['id'].';limit=1;groupby=attr:forum_id;groupsort=@count desc;mode=extended\''
 			);
 
@@ -651,9 +652,9 @@ class Profile
 			: 0;
 		$info['name']        = $member['name'];
 		$info['mid']         = $member['id'];
-		$info['fav_forum']   = $favourite['name'];
-		$info['fav_id']      = $favourite['forum_id'];
-		$info['fav_posts']   = $favourite['f_posts'];
+		$info['fav_forum']   = $favourite['name'] ?? null;
+		$info['fav_id']      = $favourite['forum_id'] ?? null;
+		$info['fav_posts']   = $favourite['f_posts'] ?? null;
 		$info['percent']     = $percent;
 		$info['group_title'] = $member['group_title'];
 		$mod_forums_count    = $this->Mod_Forums_Count($member['id']);
@@ -934,21 +935,21 @@ class Profile
 					$ov = trim($value[0]);
 					$td = trim($value[1]);
 
-					if ($field_data[$row['fid']] == $ov)
+					if (($field_data[$row['fid']] ?? null) == $ov)
 					{
 						$field_data[$row['fid']] = $td;
 					}
 				}
 
 			} else {
-				$field_data[$row['fid']] = ($field_data[$row['fid']] == "")
+				$field_data[$row['fid']] = (($field_data[$row['fid']] ?? null) == "")
 					? $ibforums->lang['no_info']
 					: nl2br($field_data[$row['fid']]);
 			}
 
 			$custom_out .= View::make(
 				"profile.custom_field",
-				['title' => $row['ftitle'], 'value' => $field_data[$row['fid']]]
+				['title' => $row['ftitle'], 'value' => ($field_data[$row['fid']] ?? null)]
 			);
 		}
 

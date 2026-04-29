@@ -285,7 +285,7 @@ class Search
 
 		// Check for valid forum ID
 
-		$fid = intval($ibforums->input['fid']);
+		$fid = intval($ibforums->input['fid'] ?? 0);
 
 		if ($fid)
 		{
@@ -2324,7 +2324,7 @@ class Search
 		// Check for an array
 		//------------------------------------------------
 
-		if (is_array($_POST['forums']))
+		if (is_array($_POST['forums'] ?? null))
 		{
 
 			if (in_array('all', $_POST['forums']))

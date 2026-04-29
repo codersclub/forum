@@ -16,6 +16,9 @@ EOF;
 
 function show_row($member) {
 global $ibforums;
+
+$memberCamera = $member['camera'] ?? null;
+
 return <<<EOF
   <tr>
 	 <td class='row4'><strong><a href="{$ibforums->base_url}showuser={$member['id']}">{$member['name']}</a></strong></td>
@@ -27,7 +30,7 @@ return <<<EOF
 	 <td class='row4' align="center" width="10%">{$member['fined']}</td>
 	 <td class='row4' align="center" width="10%">{$member['posts']}</td>
 	 <td class='row2' align="center">{$member['icq_status']}<br>{$member['icq_number']}</td>
-	 <td class='row2' align="center">{$member['camera']}</td>
+	 <td class='row2' align="center">{$memberCamera}</td>
   </tr>
 
 EOF;

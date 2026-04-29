@@ -246,6 +246,9 @@ EOF;
 
 function PageTop($data) {
 global $ibforums;
+
+$filter = $data["filter"] ?? null;
+
 return <<<EOF
 <table style="b-moderators-row">
   <tr>
@@ -276,7 +279,7 @@ return <<<EOF
   <!--IBF.SUB_FORUM_LINK-->
 </div>
 
-{$data["filter"]}
+{$filter}
 <div class="tableborder b-topics-list-wrapper">
   <h2 class="b-topics-list__title">
     <{CAT_IMG}><span class="b-topics-list__title__text">{$data["name"]}</span>
@@ -310,9 +313,14 @@ EOF;
 
 function modform_open($data) {
 global $ibforums;
+$pruneDay = $ibforums->input["prune_day"] ?? null;
+$sortBy = $ibforums->input["sort_by"] ?? null;
+$sortKey = $ibforums->input["sort_key"] ?? null;
+$st = $ibforums->input["st"] ?? null;
+
 return <<<EOF
 
-<form name="topic" action="{$ibforums->base_url}act=modcp&f={$data["id"]}&view={$ibforums->input["view"]}&prune_day={$ibforums->input["prune_day"]}&sort_by={$ibforums->input["sort_by"]}&sort_key={$ibforums->input["sort_key"]}&st={$ibforums->input["st"]}&CODE=topicchoice" method="post" onsubmit="return checkdelete("{$ibforums->lang["cp_js_delete"]}");">
+<form name="topic" action="{$ibforums->base_url}act=modcp&f={$data["id"]}&view={$ibforums->input["view"]}&prune_day={$pruneDay}&sort_by={$sortBy}&sort_key={$sortKey}&st={$st}&CODE=topicchoice" method="post" onsubmit="return checkdelete("{$ibforums->lang["cp_js_delete"]}");">
 
 EOF;
 }

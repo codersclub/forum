@@ -90,10 +90,10 @@ $lib = new lib();
 
 
 //echo "colfor=$colfor, expfor=$expfor, colcat=$colcat, expcat=$expcat<br>\n";
-$colcat = intval($ibforums->input['colcat']);
-$expcat = intval($ibforums->input['expcat']);
-$colfor = intval($ibforums->input['colfor']);
-$expfor = intval($ibforums->input['expfor']);
+$colcat = intval($ibforums->input['colcat'] ?? 0);
+$expcat = intval($ibforums->input['expcat'] ?? 0);
+$colfor = intval($ibforums->input['colfor'] ?? 0);
+$expfor = intval($ibforums->input['expfor'] ?? 0);
 
 if (!empty($colcat))
 {
@@ -210,25 +210,25 @@ if ($ibforums->input['act'] != 'Login' and $ibforums->input['act'] != 'Reg' and 
 // Check if parameters are valid
 //
 $str_params = [
-	's'		=> $ibforums->input['s'],	// Session
-	'act'		=> $ibforums->input['act'],	// Action
-	'code'		=> $ibforums->input['code'],	// Code
-	'CODE'		=> $ibforums->input['CODE'],	// Code
-	'type'		=> $ibforums->input['type'],	// Type
-	'view'		=> $ibforums->input['view'],	// View
-	'client'	=> $ibforums->input['client'],	// Client
+	's'		=> $ibforums->input['s'] ?? null,	// Session
+	'act'		=> $ibforums->input['act'] ?? null,	// Action
+	'code'		=> $ibforums->input['code'] ?? null,	// Code
+	'CODE'		=> $ibforums->input['CODE'] ?? null,	// Code
+	'type'		=> $ibforums->input['type'] ?? null,	// Type
+	'view'		=> $ibforums->input['view'] ?? null,	// View
+	'client'	=> $ibforums->input['client'] ?? null,	// Client
 ];
 
 $int_params = [
-	'c'		=> $ibforums->input['c'], // Category
-	'f'		=> $ibforums->input['f'], // Forum
-	't'		=> $ibforums->input['t'], // Topic
-	'p'		=> $ibforums->input['p'], // Post
-	'st'		=> $ibforums->input['st'], // Start Post
-	'showforum'	=> $ibforums->input['showforum'],	// Forum ID
-	'showtopic'	=> $ibforums->input['showtopic'],	// Topic ID
-	'showuser'	=> $ibforums->input['showuser'],	// User ID
-	'MID'		=> $ibforums->input['MID'],		// User ID
+	'c'		=> $ibforums->input['c'] ?? null, // Category
+	'f'		=> $ibforums->input['f'] ?? null, // Forum
+	't'		=> $ibforums->input['t'] ?? null, // Topic
+	'p'		=> $ibforums->input['p'] ?? null, // Post
+	'st'		=> $ibforums->input['st'] ?? null, // Start Post
+	'showforum'	=> $ibforums->input['showforum'] ?? null,	// Forum ID
+	'showtopic'	=> $ibforums->input['showtopic'] ?? null,	// Topic ID
+	'showuser'	=> $ibforums->input['showuser'] ?? null,	// User ID
+	'MID'		=> $ibforums->input['MID'] ?? null,		// User ID
 ];
 
 foreach ($str_params as $k=>$v) {
