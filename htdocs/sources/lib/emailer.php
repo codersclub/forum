@@ -120,7 +120,7 @@ class emailer
 	{
 		global $ibforums;
 
-		$this->mail_headers = "From: \"" . $this->encode_header($ibforums->vars['board_name'], $ibforums->vars['charset']) . "\" <" . $this->from . ">\n";
+		$this->mail_headers = "From: \"" . $this->encode_header($ibforums->vars['board_name'], $ibforums->vars['charset']) . "\" <" . $this->smtp_user . ">\n";
 
 		$this->subject = $this->encode_header($this->subject, $ibforums->vars['charset']);
 
@@ -655,7 +655,13 @@ class emailer
 			return;
 		} else
 		{
-			$this->fatal_error("SMTP protocol failure!</b><br>Host: " . $this->smtp_host . "<br>Return Code: " . $this->smtp_code . "<br>Return Msg: " . $this->smtp_msg . "<br>Invision Power Board Error: $err", "Check your SMTP settings from the admin control panel");
+			$this->fatal_error("SMTP protocol failure!</b>" .
+                                           "<br>Host: " . $this->smtp_host .
+                                           "<br>Return Code: " . $this->smtp_code .
+                                           "<br>Return Msg: " . $this->smtp_msg .
+                                           "<br>Invision Power Board Error: $err",
+                               "Check your SMTP settings from the admin control panel"
+                        );
 		}
 	}
 
@@ -724,7 +730,7 @@ class emailer
 			// HELO
 			//---------------------
 
-			$this->smtp_send_cmd("HELO localhost");
+			$this->smtp_send_cmd("HELO sources.ru");
 
 			if ($this->smtp_code != 250)
 			{
@@ -772,7 +778,7 @@ class emailer
 			// MAIL FROM
 			//---------------------
 
-			$this->smtp_send_cmd("MAIL FROM:<" . $this->from . ">");
+			$this->smtp_send_cmd("MAIL FROM:<" . $this->smtp_user . ">");
 
 			if ($this->smtp_code != 250)
 			{
@@ -820,6 +826,8 @@ class emailer
 			{
 				fputs($this->smtp_fp, $data . "\r\n.\r\n");
 				$this->smtp_get_line();
+
+				$this->smtp_code = mb_substr($this->smtp_msg, 0, 3);
 
 				if ($this->smtp_code != 250)
 				{
