@@ -740,6 +740,84 @@ class Register
 	// routine while you're waiting.
 	/*	 * ************************************************** */
 
+	function get_registration_real_name($custom_fields)
+	{
+		global $ibforums;
+
+		if (isset($custom_fields['field_2']))
+		{
+			return $custom_fields['field_2'];
+		}
+
+		return isset($ibforums->input['field_2']) ? $ibforums->input['field_2'] : '';
+	}
+
+	function can_lookup_registration_country($ip_address)
+	{
+		return $ip_address != ''
+			and filter_var($ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+	}
+
+	function get_registration_country_code($ip_address)
+	{
+		$ip_address = trim($ip_address);
+
+		if (!$this->can_lookup_registration_country($ip_address))
+		{
+			return '';
+		}
+
+		foreach (array('GEOIP_COUNTRY_CODE', 'MM_COUNTRY_CODE', 'HTTP_CF_IPCOUNTRY', 'HTTP_GEOIP_COUNTRY_CODE') as $server_key)
+		{
+			if (!empty($_SERVER[$server_key]) and $_SERVER[$server_key] != 'XX')
+			{
+				return mb_substr($_SERVER[$server_key], 0, 2);
+			}
+		}
+
+		if (function_exists('geoip_country_code_by_name'))
+		{
+			$country = @geoip_country_code_by_name($ip_address);
+
+			if ($country)
+			{
+				return mb_substr($country, 0, 2);
+			}
+		}
+
+		return '';
+	}
+
+	function get_registration_country($ip_address)
+	{
+		$ip_address = trim($ip_address);
+
+		if (!$this->can_lookup_registration_country($ip_address))
+		{
+			return '';
+		}
+
+		foreach (array('GEOIP_COUNTRY_NAME', 'MM_COUNTRY_NAME', 'HTTP_GEOIP_COUNTRY_NAME') as $server_key)
+		{
+			if (!empty($_SERVER[$server_key]))
+			{
+				return $_SERVER[$server_key];
+			}
+		}
+
+		if (function_exists('geoip_country_name_by_name'))
+		{
+			$country = @geoip_country_name_by_name($ip_address);
+
+			if ($country)
+			{
+				return $country;
+			}
+		}
+
+		return $this->get_registration_country_code($ip_address);
+	}
+
 	function create_account()
 	{
 		global $ibforums, $std, $print;
@@ -1112,10 +1190,14 @@ class Register
 			$std->sendpm($member_id, $pm_message, $pm_subject, $ibforums->vars['auto_pm_from']);
 		}
 
-		$ibforums->db->exec(
-		    "INSERT INTO ibf_member_extra
-			(id) VALUES ($member_id)"
-        );
+		$real_name = $this->get_registration_real_name($custom_fields);
+		$country   = $this->get_registration_country($member['ip_address']);
+
+		$ibforums->db->insertRow('ibf_member_extra', array(
+			'id'        => $member_id,
+			'real_name' => $real_name,
+			'country'   => $this->get_registration_country_code($member['ip_address']),
+		));
 
 		//+--------------------------------------------
 		//| Insert into the custom profile fields DB
@@ -1210,7 +1292,9 @@ class Register
 					                                 'ID'    => $member['id'],
 					                                 'NAME'  => $member['name'],
 					                                 'EMAIL' => $member['email'],
+					                                 'REAL_NAME' => $real_name,
 					                                 'IP_ADDRESS' => $member['ip_address'],
+					                                 'COUNTRY'    => $country,
 					                                 'WEBSITE'    => $ibforums->input['WebSite'],
 					                                 'LOCATION'   => $ibforums->input['Location'],
 					                                 'REFERER'    => $_SERVER['HTTP_REFERER'],

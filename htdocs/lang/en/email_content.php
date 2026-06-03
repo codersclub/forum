@@ -132,8 +132,10 @@ On <#DATE#> a new user has registered at your forum:
 
 ID:       <#ID#>
 Login:    <#NAME#>
+RealName: <#REAL_NAME#>
 E-mail:   <#EMAIL#>
 IP:       <#IP_ADDRESS#>
+Country:  <#COUNTRY#>
 Referer:  <#REFERER#>
 WebSite:  <#WEBSITE#>
 Location: <#LOCATION#>
