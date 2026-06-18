@@ -216,16 +216,20 @@ class emailer
 		if (($this->from) and ($this->subject))
 		{
 			$this->subject .= " ( " . $ibforums->vars['board_name'] . " )";
+			$raw_subject = $this->subject;
 
 			$this->build_headers();
 			//$this->temp_dump = 1;
 			if ($this->temp_dump == 1)
 			{
-				$blah = $this->subject . "\n------------\n" . $this->mail_headers . "\n\n" . $message;
+				$blah = 'RawSubject: ' . $raw_subject . "\n" .
+                                        "------------\n" .
+                                        $this->mail_headers . "\n\n" .
+                                        $message . "\n\n";
 
 				//echo $blah;
-				//				$pathy = '/Library/WebServer/Documents/mail/'.date("F.Y.h:i.A").".txt"; // OS X rules!
-				$pathy = '/tmp/!sendmail/' . date("F.Y.h:i.A") . ".txt"; // OS X rules!
+				//$pathy = '/Library/WebServer/Documents/mail/'.date("F.Y.h:i.A").".txt"; // OS X rules!
+				$pathy = '/tmp/!sendmail/' . date("Y-m-d_H-i-s") . ".txt"; // OS X rules!
 				$fh    = fopen($pathy, 'w');
 				fputs($fh, $blah);
 				fclose($fh);
